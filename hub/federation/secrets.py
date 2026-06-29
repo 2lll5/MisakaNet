@@ -67,6 +67,10 @@ def generate_shared_secret(node_id: str, *, rotate: bool = False) -> str:
 
     record = {"secret": hex_secret, **meta}
     key_path.write_text(json.dumps(record, indent=2))
+    try:
+        key_path.chmod(0o600)  # owner read/write only (Unix)
+    except OSError:
+        pass  # Windows: NTFS permissions inherited from directory
     return hex_secret
 
 
