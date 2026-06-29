@@ -1,0 +1,59 @@
+name: Thank Merged PR Contributor
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  thank:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Thank contributor
+        env:
+          GH_TOKEN: ${{ secrets.SHELDON_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUM="${{ github.event.pull_request.number }}"
+          AUTHOR="${{ github.event.pull_request.user.login }}"
+          TITLE="${{ github.event.pull_request.title }}"
+          ADDITIONS="${{ github.event.pull_request.additions }}"
+          FILES="${{ github.event.pull_request.changed_files }}"
+
+          # Skip bot accounts
+          if echo "$AUTHOR" | grep -qiE "bot|dependabot|actions|github"; then
+            echo "Skipping bot account: $AUTHOR"
+            exit 0
+          fi
+
+          # Check if this is the author's first merged PR
+          PREVIOUS=$(gh pr list --repo Ikalus1988/MisakaNet --author "$AUTHOR" --state merged --limit 10 --json number --jq 'length')
+
+          # Choose message based on first-time vs returning
+          if [ "$PREVIOUS" -le 1 ]; then
+            # First-time contributor
+            BODY="🎉 **Welcome to the MisakaNet Hall of Fame, @${AUTHOR}!**
+
+          Your first PR has been merged — thank you for contributing to the Swarm Knowledge Network.
+
+          **What you just built:** ${TITLE} (+${ADDITIONS} lines across ${FILES} files)
+
+          ### What's next?
+          - 🏷️ Your name is now on the [Contributor Leaderboard](https://ikalus1988.github.io)
+          - 🔍 Browse [open bounties](https://github.com/Ikalus1988/MisakaNet/issues?q=is%3Aissue+is%3Aopen+label%3A%22status%3Acompetition%22) for your next contribution
+          - 📖 Read the [Agent Guide](https://github.com/Ikalus1988/MisakaNet/blob/main/AGENT_GUIDE.md) to learn the Ring system
+
+          One node learns, all nodes benefit. Welcome aboard. ⚡"
+          else
+            # Returning contributor
+            BODY="✅ **Merged!** Thanks again, @${AUTHOR}.
+
+          **${TITLE}** (+${ADDITIONS} lines, ${FILES} files)
+
+          Your contributions are making MisakaNet's knowledge base stronger. Every lesson helps another agent skip a failure path. ⚡"
+          fi
+
+          gh pr comment "$PR_NUM" --repo Ikalus1988/MisakaNet --body "$BODY"
+          echo "Thanked @$AUTHOR on PR #$PR_NUM"
