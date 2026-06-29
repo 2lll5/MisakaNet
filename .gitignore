@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 .cache/
+node_modules/
 misakanet/profile.json
 misakanet/.quota.json
 *.pyo
@@ -39,3 +40,8 @@ workers/wrangler.api.jsonc
 .dev.vars*
 !.dev.vars.example
 !.env.example
+
+# Local agent/workflow runtime artifacts
+.coverage
+.hydra/
+.worktrees/

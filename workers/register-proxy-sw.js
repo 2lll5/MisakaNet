@@ -5,6 +5,12 @@
 
 const REPO = "Ikalus1988/MisakaNet";
 const GITHUB_API = "https://api.github.com";
+const KEEPALIVE_ENDPOINTS = [
+  { name: "health", url: "https://misakanet.org/api/health", json: true },
+  { name: "counter", url: "https://misakanet.org/api/counter", json: true },
+  { name: "lessons", url: "https://misakanet.org/api/lessons", json: true, metadataOnly: true },
+  { name: "journey", url: "https://misakanet.org/journey/", json: false, metadataOnly: true },
+];
 
 // IP 限流: 每个 IP 每 30 秒最多 1 次
 const RATE_LIMIT_WINDOW = 30_000;
@@ -47,10 +53,71 @@ function sanitizeIdentifier(val, maxLen) {
   return val.replace(/[^\w\u4e00-\u9fa5\-]/g, "");
 }
 
+async function probeKeepaliveEndpoint(endpoint) {
+  const resp = await fetch(endpoint.url, {
+    headers: { "User-Agent": "MisakaNet-Register-Proxy-Keepalive/1.0" },
+  });
+  if (!resp.ok) {
+    throw new Error(`${endpoint.name} returned HTTP ${resp.status}`);
+  }
+
+  const contentType = resp.headers.get("content-type") || "";
+  if (endpoint.json && !contentType.includes("application/json")) {
+    throw new Error(`${endpoint.name} returned non-JSON content-type: ${contentType || "unknown"}`);
+  }
+
+  // Only parse the tiny control-plane responses. For larger pages/feeds, headers
+  // are enough to prove the route is alive without buffering an unbounded body.
+  if (endpoint.json && !endpoint.metadataOnly) {
+    await resp.json();
+  } else if (resp.body) {
+    await resp.body.cancel();
+  }
+
+  return {
+    name: endpoint.name,
+    status: resp.status,
+    contentType,
+  };
+}
+
+async function runKeepaliveSweep(cron = "manual") {
+  const results = await Promise.allSettled(KEEPALIVE_ENDPOINTS.map(probeKeepaliveEndpoint));
+  const failures = results
+    .filter((item) => item.status === "rejected")
+    .map((item) => item.reason?.message || String(item.reason));
+
+  if (failures.length) {
+    console.error("[keepalive] failed", JSON.stringify({ cron, failures }));
+    throw new Error(`[keepalive] failed: ${failures.join("; ")}`);
+  }
+
+  console.log("[keepalive] ok", JSON.stringify({ cron, endpoints: KEEPALIVE_ENDPOINTS.length }));
+  return { ok: true, failures: [] };
+}
+
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+
     if (request.method === "OPTIONS") {
       return new Response(null, { headers: CORS_HEADERS });
+    }
+
+    if (request.method === "GET" && url.pathname === "/api/health") {
+      return jsonResponse({
+        status: "ok",
+        worker: "misakanet-register-proxy",
+        scheduled_keepalive: true,
+        timestamp: new Date().toISOString(),
+      });
+    }
+
+    if (request.method === "GET" && url.pathname === "/ping") {
+      return new Response("pong", {
+        status: 200,
+        headers: { "content-type": "text/plain;charset=utf-8", ...CORS_HEADERS },
+      });
     }
 
     if (request.method === "GET") {
@@ -173,5 +240,9 @@ export default {
       issue_number: data.number,
       message: "Registration issue created. Counter, avatar, and welcome will be handled by the registration workflow.",
     });
+  },
+
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(runKeepaliveSweep(controller.cron));
   },
 };
