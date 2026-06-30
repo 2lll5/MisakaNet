@@ -33,6 +33,7 @@ audit_reports/
 # Large files
 *.rar
 *.zip
+*.7z
 *.exe
 scripts/_*.py
 workers/wrangler.api.jsonc
