@@ -15,7 +15,7 @@
 | **Governance** | Define trust tiers in machine-readable config (misaka-protocol.json) | P0 | [#211](https://github.com/Ikalus1988/MisakaNet/issues/211) |
 | **Contributor wall** | Fix time-decay formula — cap per-PR weight, remove contributor disappearance | P0 | [#212](https://github.com/Ikalus1988/MisakaNet/issues/212) |
 | **Trust system** | Formalize GitHub-verified vs mail-verified vs web-verified tiers | P1 | [#213](https://github.com/Ikalus1988/MisakaNet/issues/213) |
-| **Log Harvester CLI** | `misaka harvest` — stdin/bash-history → auto-generate SKP lesson (prototype in search_knowledge.py) | P1 | [#214](https://github.com/Ikalus1988/MisakaNet/issues/214) |
+| **Log Harvester CLI** | `misaka harvest` — stdin/bash-history → auto-generate SKP lesson | ✅ Done | ~~[#214](https://github.com/Ikalus1988/MisakaNet/issues/214)~~ |
 | **Ecosystem config** | Harvest tool interface declared in misaka-protocol.json | P1 | [#215](https://github.com/Ikalus1988/MisakaNet/issues/215) |
 | **Asset isolation** | Move docs/frontend assets to sidecar repository or `/web` | P1 | [#216](https://github.com/Ikalus1988/MisakaNet/issues/216) |
 
