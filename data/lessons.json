@@ -554,12 +554,16 @@
   },
   {
     "id": "bge-embedding-fallback-crash",
-    "title": "bge embedding fallback crash",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "HermesHub 启动时如果 BGE-m3 模型未下载到本地路径，SkillIndexer 直接崩溃。",
+    "title": "BGE Embedding Fallback Crash",
+    "domain": "rag",
+    "tags": [
+      "project:agent-medici",
+      "severity:high",
+      "node:hermes_wsl"
+    ],
+    "summary": "When HermesHub starts, if the BGE-m3 model has not been downloaded to the local path, SkillIndexer crashes immediately.",
     "url": "lessons/contrib/bge-embedding-fallback-crash.md",
-    "updated": ""
+    "updated": "2026-05-03"
   },
   {
     "id": "browser-harness-cdp-browser-automation",
@@ -1022,12 +1026,16 @@
   },
   {
     "id": "kb-4sigma-quality-audit-pipeline",
-    "title": "kb 4sigma quality audit pipeline",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "RAG 知识库在持续导入文档后出现数据污染、版本混乱、来源不一致等问题，",
+    "title": "Knowledge Base 4-Sigma Quality Audit Pipeline",
+    "domain": "rag",
+    "tags": [
+      "project:self-grow-wiki",
+      "severity:medium",
+      "node:hermes_wsl"
+    ],
+    "summary": "After continuous document imports, the RAG knowledge base developed data contamination, version confusion, inconsistent ...",
     "url": "lessons/contrib/kb-4sigma-quality-audit-pipeline.md",
-    "updated": ""
+    "updated": "2026-05-03"
   },
   {
     "id": "knowledge-graph-ux-patterns-from-high-star-projects",
@@ -1265,12 +1273,16 @@
   },
   {
     "id": "rag-alarm-code-mandatory-recall",
-    "title": "rag alarm code mandatory recall",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "查询 \"SRVO-023 机器人报警\" 时 RAG 返回了不相关结果，没有返回正确的 FANUC 报警文档。",
+    "title": "RAG Alarm Code Retrieval Needs Mandatory Keyword Recall",
+    "domain": "rag",
+    "tags": [
+      "project:self-grow-wiki",
+      "severity:high",
+      "node:hermes_wsl"
+    ],
+    "summary": "When querying \"SRVO-023 robot alarm\", RAG returned unrelated results instead of the correct FANUC alarm documentation.",
     "url": "lessons/contrib/rag-alarm-code-mandatory-recall.md",
-    "updated": ""
+    "updated": "2026-05-03"
   },
   {
     "id": "rag-brand-contamination-detection-and-fix",
@@ -1283,66 +1295,97 @@
   },
   {
     "id": "rag-brand-filter-three-pitfalls",
-    "title": "RAG 品牌Filter三坑：条件触发、文件正则、BM25 Cache",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "---{\"title\": \"RAG 品牌Filter三坑：条件触发、文件正则、BM25 Cache\", \"domain\": \"rag\", \"tags\": [\"rag\", \"brand-filter\", \"architecture\", \"ch...",
+    "title": "RAG Brand Filter Three Pitfalls",
+    "domain": "rag",
+    "tags": [
+      "project:self-grow-wiki",
+      "severity:medium",
+      "node:hermes-wsl"
+    ],
+    "summary": "During a quality inspection of a FANUC robot RAG knowledge base, the team found three design flaws in the brand-filterin...",
     "url": "lessons/contrib/rag-brand-filter-three-pitfalls.md",
     "updated": ""
   },
   {
     "id": "rag-build-strategy-batch",
-    "title": "rag build strategy batch",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "建库（chunks_v3, 34,100 docs）时一次性把所有数据加载到显存/WSL 内存，导致 LM Studio context overflow，后续引发 Summarization 超时 ×4 → LLM timeout → 驱...",
+    "title": "RAG Build Strategy Batch",
+    "domain": "rag",
+    "tags": [
+      "project:self-grow-wiki",
+      "severity:medium",
+      "node:hermes-wsl"
+    ],
+    "summary": "During knowledge-base construction (chunks_v3, 34,100 docs), all data was loaded into VRAM/WSL memory at once. This caus...",
     "url": "lessons/contrib/rag-build-strategy-batch.md",
-    "updated": ""
+    "updated": "2026-04-13"
   },
   {
     "id": "rag-chinese-encoding-pymupdf",
-    "title": "RAG 检索中文乱码 — pymupdf4llm 默认编码Issue",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "---{\"title\": \"RAG 检索中文乱码 — pymupdf4llm 默认编码Issue\", \"domain\": \"rag\", \"source\": \"bootstrap\", \"status\": \"published\", \"confi...",
+    "title": "RAG Chinese Encoding with PyMuPDF",
+    "domain": "rag",
+    "tags": [
+      "project:self-grow-wiki",
+      "severity:medium",
+      "node:hermes-wsl"
+    ],
+    "summary": "When building a FANUC knowledge-base RAG system, retrieved Chinese alarm codes appeared garbled.",
     "url": "lessons/contrib/rag-chinese-encoding-pymupdf.md",
     "updated": ""
   },
   {
     "id": "rag-chunk-params-800-100",
-    "title": "rag chunk params 800 100",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "FANUC PDF 文档导入 RAG 后，检索质量不稳定，长文档召回率低。",
+    "title": "RAG Chunk Parameters 800 Characters and 100 Overlap",
+    "domain": "rag",
+    "tags": [
+      "project:self-grow-wiki",
+      "severity:medium",
+      "node:hermes_wsl"
+    ],
+    "summary": "After importing FANUC PDF documents into RAG, retrieval quality was unstable and recall was low for long documents.",
     "url": "lessons/contrib/rag-chunk-params-800-100.md",
-    "updated": ""
+    "updated": "2026-05-03"
   },
   {
     "id": "rag-cross-encoder-cpu-bottleneck",
-    "title": "RAG Cross-Encoder Reranker CPU Bottleneck与 LLM 确定性调优",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "---{\"title\": \"RAG Cross-Encoder Reranker CPU Bottleneck与 LLM 确定性调优\", \"domain\": \"rag\", \"subdomain\": \"performance\", \"sourc...",
+    "title": "RAG Cross Encoder CPU Bottleneck",
+    "domain": "rag",
+    "tags": [
+      "project:self-grow-wiki",
+      "severity:medium",
+      "node:hermes-wsl"
+    ],
+    "summary": "RAG knowledge-base answers were too slow (113s cold start, 44s warm query), and the same question produced different ans...",
     "url": "lessons/contrib/rag-cross-encoder-cpu-bottleneck.md",
     "updated": ""
   },
   {
     "id": "rag-kb-quality-flywheel-self-loop",
-    "title": "rag kb quality flywheel self loop",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "某个垂直领域 RAG 知识库（190+ PDF，200K+ 向量）已上线运行，支持自然语言问答和每日自动巡检。但巡检发现的问题只能手动处理，整个闭环缺乏自动化：",
+    "title": "RAG Knowledge Base Quality Flywheel Self Loop",
+    "domain": "rag",
+    "tags": [
+      "rag",
+      "flywheel",
+      "quality",
+      "audit",
+      "feedback",
+      "self-learning"
+    ],
+    "summary": "A vertical-domain RAG knowledge base (190+ PDFs, 200K+ vectors) was already online, supporting natural-language Q&A and ...",
     "url": "lessons/contrib/rag-kb-quality-flywheel-self-loop.md",
-    "updated": ""
+    "updated": "2026-05-21"
   },
   {
     "id": "rag-three-channel-llm-disaster-recovery",
-    "title": "rag three channel llm disaster recovery",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "RAG 知识库对外服务（Gradio Web UI / 微信机器人）时，单路 LLM API 可能因网络、配额、服务端故障而不可用，导致整个服务不可用。",
+    "title": "RAG Three-Channel LLM Disaster Recovery",
+    "domain": "rag",
+    "tags": [
+      "project:self-grow-wiki",
+      "node:hermes_wsl",
+      "scope:broad"
+    ],
+    "summary": "When serving a RAG knowledge base externally (Gradio Web UI / WeChat bot), a single LLM API path may become unavailable ...",
     "url": "lessons/contrib/rag-three-channel-llm-disaster-recovery.md",
-    "updated": ""
+    "updated": "2026-05-03"
   },
   {
     "id": "readme-seven-traps-fix-checklist",
