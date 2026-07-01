@@ -7,6 +7,7 @@ Connect MisakaNet to your AI coding tool. Search 192+ lessons directly from your
 | Tool | Status | Setup |
 |------|--------|-------|
 | **Continue.dev** | ✅ Ready | [Setup Guide](continue/README.md) |
+| **Claude Code** | ✅ Ready | MCP server — see below |
 | **Cursor** | Planned | — |
 | **Aider** | Planned | — |
 | **VS Code** | Planned | — |
@@ -39,9 +40,47 @@ tool = MisakaNetSearchTool()
 results = tool._run("database locked")
 ```
 
-## MCP Server (Coming Soon)
+## MCP Server
 
-MisakaNet will ship as an MCP server for Claude Code, Cursor, and other MCP-compatible tools.
+MisakaNet ships as an MCP server for Claude Code, Cursor, Continue.dev, and any MCP-compatible tool.
+
+### Claude Code Setup
+
+Add to `~/.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "misakanet": {
+      "command": "python3",
+      "args": ["C:/Users/hp/MisakaNet/scripts/mcp_server.py"]
+    }
+  }
+}
+```
+
+### Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `misakanet_search` | Search lessons by query, domain, and top-N |
+| `misakanet_get_lesson` | Get full lesson content by path or ID |
+| `misakanet_submit_usage` | Report lesson usage (solved/partial/not-helpful) |
+
+### Prerequisites
+
+```bash
+# Build SAG-Lite index (one-time)
+python3 scripts/export_okf.py
+python3 scripts/build_sag_index.py
+```
+
+### Usage
+
+Once configured, your AI tool can search MisakaNet directly:
+- Claude Code: "search MisakaNet for database locked errors"
+- Cursor: `@misaka database locked`
+- Any MCP client: call `misakanet_search` tool
 
 ---
 
