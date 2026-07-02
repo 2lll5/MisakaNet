@@ -1,6 +1,6 @@
 # Integrations
 
-Connect MisakaNet to your AI coding tool. Search 192+ lessons directly from your workflow.
+Connect MisakaNet to your AI coding tool. Search 207+ lessons directly from your workflow.
 
 ## Available Integrations
 
