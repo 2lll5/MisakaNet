@@ -539,6 +539,20 @@
     "status": "active"
   },
   {
+    "id": "codeql-alert-dismissal-false-positive",
+    "title": "codeql-alert-dismissal-false-positive",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "\"title\": \"Dismiss CodeQL False Positive Alerts\",",
+    "url": "lessons/contrib/codeql-alert-dismissal-false-positive.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
     "id": "codewhale-git-push-yolo-task",
     "title": "codewhale-git-push-yolo-task",
     "domain": "contrib",
@@ -1099,6 +1113,20 @@
     "status": "active"
   },
   {
+    "id": "github-api-pr-issue-management",
+    "title": "github-api-pr-issue-management",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "\"title\": \"GitHub API for PR and Issue Management\",",
+    "url": "lessons/contrib/github-api-pr-issue-management.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
     "id": "github-dns-443-block-hosts-workaround",
     "title": "github-dns-443-block-hosts-workaround",
     "domain": "contrib",
@@ -1417,6 +1445,20 @@
     "tags": [],
     "summary": "Over 180 lessons accumulated in the MisakaNet knowledge base with significant quality and consistency issues:",
     "url": "lessons/contrib/lesson-management-standardization.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
+    "id": "lesson-quality-requirements",
+    "title": "lesson-quality-requirements",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "\"title\": \"Lesson Quality Requirements: SKP Format\",",
+    "url": "lessons/contrib/lesson-quality-requirements.md",
     "created": "",
     "updated": "",
     "validity_period_days": 365,
@@ -2118,6 +2160,20 @@
     "status": "active"
   },
   {
+    "id": "sag-lite-data-quality-cleaning",
+    "title": "sag-lite-data-quality-cleaning",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "\"title\": \"SAG-Lite Data Quality: Clean Search Results\",",
+    "url": "lessons/contrib/sag-lite-data-quality-cleaning.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
     "id": "scrapling-installation-and-usage",
     "title": "scrapling-installation-and-usage",
     "domain": "contrib",
@@ -2453,6 +2509,20 @@
     "tags": [],
     "summary": "中文文本通过 PowerShell 脚本内联传给 mmx CLI，TTS 返回空音频（\"嗯嗯\"声）。",
     "url": "lessons/contrib/tts-chinese-encoding-powershell.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
+    "id": "version-management-multiple-files",
+    "title": "version-management-multiple-files",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "\"title\": \"Version Management Across Multiple Files\",",
+    "url": "lessons/contrib/version-management-multiple-files.md",
     "created": "",
     "updated": "",
     "validity_period_days": 365,
