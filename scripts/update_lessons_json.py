@@ -1,43 +1,43 @@
 #!/usr/bin/env python3
-"""扫描 lessons/ 目录，自动生成 lessons.json（含 frontmatter 元数据）。"""
+"""Regenerate data/lessons.json from indexed lesson directories.
+
+The public index intentionally keeps a stable, lightweight shape used by the
+website and GitHub workflows. It indexes curated/core lessons and contrib
+lessons, while excluding archives, drafts, templates, locale docs, and the
+top-level lessons/index.md.
+"""
 import json
 import re
-import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 LESSONS_DIR = REPO / "lessons"
 OUTPUT = REPO / "data" / "lessons.json"
+INDEXED_DIRS = ("core", "contrib")
 
 
 def parse_frontmatter(text: str) -> dict:
-    """Parse JSON or YAML frontmatter from a .md file."""
-    meta = {}
-    m = re.match(r'^---\s*\n?(\{.*?\})\n?---', text, re.DOTALL)
-    if m:
-        try:
-            return json.loads(m.group(1))
-        except json.JSONDecodeError:
-            pass
-    m = re.match(r'^---\s*\n(.*?)\n---', text, re.DOTALL)
-    if m:
-        for line in m.group(1).split('\n'):
-            if ':' not in line:
-                continue
-            key, _, val = line.partition(':')
-            key = key.strip()
-            val = val.strip().strip('"').strip("'")
-            if val.startswith('[') and val.endswith(']'):
-                try:
-                    meta[key] = json.loads(val.replace("'", '"'))
-                except json.JSONDecodeError:
-                    meta[key] = [v.strip().strip('"').strip("'") for v in val[1:-1].split(',')]
-            else:
-                meta[key] = val
-    return meta
+    """Parse only the standard JSON frontmatter form.
+
+    Historical contrib files contain YAML-ish wrappers, bare JSON metadata, and
+    inline `---{"title": ...}---` blocks. The current public index treats those
+    as legacy content instead of trusted metadata, so keep parsing strict here.
+    """
+    if not text.startswith("---\n"):
+        return {}
+    end = text.find("\n---", 4)
+    if end == -1:
+        return {}
+    raw = text[4:end].strip()
+    if not raw.startswith("{"):
+        return {}
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        return {}
 
 
-def get_summary(content: str, max_chars: int = 120) -> str:
+def get_summary(content: str, max_chars: int = 160) -> str:
     """Extract first meaningful sentence after frontmatter."""
     lines = content.split('\n')
     start = 0
@@ -48,40 +48,61 @@ def get_summary(content: str, max_chars: int = 120) -> str:
                 break
     for line in lines[start:]:
         line = line.strip()
-        if line and not line.startswith('#') and not line.startswith('- **'):
-            return line[:max_chars] + ('...' if len(line) > max_chars else '')
+        if not line:
+            continue
+        if line == "---":
+            continue
+        if line.startswith("---{") and line.endswith("}---"):
+            continue
+        if line == "{":
+            continue
+        if line.startswith("{") and line.endswith("}"):
+            continue
+        if line.startswith('#') or line.startswith('- **'):
+            continue
+        if line.startswith("domain:") or line.startswith("title:") or line.startswith("verification:"):
+            continue
+        if line:
+            return line[:max_chars] + ('…' if len(line) > max_chars else '')
     return ''
 
 
 def main():
     entries = []
-    for f in sorted(LESSONS_DIR.glob("**/*.md")):
-        if f.name == "index.md" or f.name.startswith('.'):
-            continue
-        content = f.read_text(encoding="utf-8", errors="replace")
-        meta = parse_frontmatter(content)
-        title = meta.get("title", f.stem)
-        domain = meta.get("domain", "uncategorized")
-        if isinstance(domain, list):
-            domain = domain[0] if domain else "uncategorized"
-        tags = meta.get("tags", [])
-        if not isinstance(tags, list):
-            tags = [tags] if tags else []
-        summary = meta.get("summary", "") or get_summary(content)
-        updated = meta.get("updated", meta.get("created", ""))
-        rel_path = f.relative_to(LESSONS_DIR)
-        entries.append({
-            "id": f.stem,
-            "title": title,
-            "domain": domain,
-            "tags": tags,
-            "summary": summary,
-            "url": f"lessons/{rel_path}",
-            "updated": updated,
-        })
+    for lesson_dir in INDEXED_DIRS:
+        files = sorted((LESSONS_DIR / lesson_dir).glob("*.md"))
+        for f in files:
+            if f.name.startswith("."):
+                continue
+            content = f.read_text(encoding="utf-8", errors="replace")
+            meta = parse_frontmatter(content)
+            title = meta.get("title", f.stem)
+            domain = meta.get("domain", lesson_dir)
+            if isinstance(domain, list):
+                domain = domain[0] if domain else lesson_dir
+            tags = meta.get("tags", [])
+            if not isinstance(tags, list):
+                tags = [tags] if tags else []
+            status = meta.get("status", "active")
+            summary = meta.get("summary", "") or get_summary(content)
+            rel_path = f.relative_to(LESSONS_DIR).as_posix()
+            entries.append({
+                "id": f.stem,
+                "title": title,
+                "domain": domain,
+                "tags": tags,
+                "summary": summary,
+                "url": f"lessons/{rel_path}",
+                "created": meta.get("created", ""),
+                "updated": meta.get("updated", ""),
+                "validity_period_days": 365,
+                "environment_version": "",
+                "confidence": 0.5,
+                "status": status,
+            })
 
     OUTPUT.write_text(json.dumps(entries, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"✅ lessons.json 已更新: {len(entries)} 条")
+    print(f"OK lessons.json updated: {len(entries)} entries")
 
 
 if __name__ == "__main__":
