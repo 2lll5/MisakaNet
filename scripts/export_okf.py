@@ -64,19 +64,31 @@ def extract_frontmatter(path: Path) -> dict | None:
 def extract_description(text: str, max_len: int = 200) -> str:
     """Extract a short description from the lesson body."""
     import re
-    # Remove frontmatter
+    # Remove frontmatter (both ---{json}--- and ---\nyaml\n--- formats)
     m = re.match(r"^---.*?---\s*", text, re.DOTALL)
     if m:
         text = text[m.end():]
 
-    # Find first non-heading, non-empty line
+    # Also remove any remaining frontmatter-like patterns
+    text = re.sub(r'^\s*\{.*?\}\s*$', '', text, flags=re.MULTILINE)
+
+    # Find first non-heading, non-empty, non-metadata line
     for line in text.split("\n"):
         line = line.strip()
-        if line and not line.startswith("#") and not line.startswith("```"):
-            # Truncate
-            if len(line) > max_len:
-                return line[:max_len] + "..."
-            return line
+        if not line:
+            continue
+        if line.startswith("#"):
+            continue
+        if line.startswith("```"):
+            continue
+        if line.startswith("---"):
+            continue
+        if line.startswith("{") and line.endswith("}"):
+            continue
+        # Truncate
+        if len(line) > max_len:
+            return line[:max_len] + "..."
+        return line
     return ""
 
 
@@ -86,7 +98,18 @@ def lesson_to_okf(path: Path, domain_filter: str | None = None) -> dict | None:
     if not meta:
         return None
 
-    domain = meta.get("domain", "general")
+    # Domain: use frontmatter domain, fallback to folder name
+    domain = meta.get("domain", "")
+    if not domain or domain == "contrib":
+        # Try to infer from folder
+        parts = str(path.relative_to(REPO_ROOT)).split("\\")
+        if len(parts) >= 2:
+            folder = parts[1]  # e.g., "core", "contrib"
+            if folder in ("core", "contrib"):
+                domain = meta.get("subdomain", "general")
+            else:
+                domain = folder
+
     if domain_filter and domain != domain_filter:
         return None
 
@@ -103,7 +126,14 @@ def lesson_to_okf(path: Path, domain_filter: str | None = None) -> dict | None:
     # Normalize tags
     tags = meta.get("tags", [])
     if isinstance(tags, str):
-        tags = [t.strip() for t in tags.split(",")]
+        # Handle comma-separated string
+        if tags.startswith("["):
+            try:
+                tags = json.loads(tags)
+            except json.JSONDecodeError:
+                tags = [t.strip() for t in tags.strip("[]").split(",")]
+        else:
+            tags = [t.strip() for t in tags.split(",") if t.strip()]
 
     # Build OKF record
     okf = {
@@ -115,7 +145,7 @@ def lesson_to_okf(path: Path, domain_filter: str | None = None) -> dict | None:
         "domain": domain,
         "source": meta.get("source", ""),
         "status": meta.get("status", "published"),
-        "path": str(path.relative_to(REPO_ROOT)),
+        "path": str(path.relative_to(REPO_ROOT)).replace("\\", "/"),
     }
 
     # Optional fields

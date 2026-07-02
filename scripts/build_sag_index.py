@@ -135,9 +135,14 @@ def search(db_path: Path, query: str, domain: str | None = None, top: int = 5) -
 
     results = []
     for r in rows:
+        # Clean description: remove any remaining frontmatter patterns
+        desc = r["description"] or ""
+        if desc.startswith("---") or desc.startswith("{"):
+            desc = ""
+
         results.append({
             "title": r["title"],
-            "description": r["description"],
+            "description": desc,
             "domain": r["domain"],
             "tags": r["tags"],
             "source": r["source"],

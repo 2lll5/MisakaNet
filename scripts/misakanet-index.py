@@ -34,6 +34,12 @@ def parse_frontmatter(text: str) -> dict | None:
 
 def extract_summary(content: str, max_length: int = 160) -> str:
     """从内容中提取第一段有效文本作为摘要"""
+    import re
+    # Remove frontmatter (both ---{json}--- and ---\nyaml\n--- formats)
+    m = re.match(r"^---.*?---\s*", content, re.DOTALL)
+    if m:
+        content = content[m.end():]
+
     lines = content.split("\n")
     for line in lines:
         stripped = line.strip()
@@ -42,6 +48,8 @@ def extract_summary(content: str, max_length: int = 160) -> str:
         if stripped.startswith("---") or stripped.startswith("{"):
             continue
         if stripped.startswith("#") or stripped.startswith("##"):
+            continue
+        if stripped.startswith("```"):
             continue
         if len(stripped) > max_length:
             return stripped[:max_length] + "…"
@@ -57,31 +65,38 @@ def build_index(lessons_dir: str | Path) -> list[dict]:
         return []
 
     index = []
-    for f in sorted(lessons_dir.glob("*.md")):
-        if f.name == "index.md" or f.name.startswith("."):
+    # Scan both core and contrib subdirectories
+    for subdir in ["core", "contrib"]:
+        subdir_path = lessons_dir / subdir
+        if not subdir_path.exists():
             continue
+        for f in sorted(subdir_path.glob("*.md")):
+            if f.name == "index.md" or f.name.startswith("."):
+                continue
 
-        content = f.read_text(encoding="utf-8")
-        fm = parse_frontmatter(content)
+            content = f.read_text(encoding="utf-8")
+            fm = parse_frontmatter(content)
 
-        entry = {
-            "id": f.stem,
-            "title": fm.get("title", f.stem) if fm else f.stem,
-            "domain": fm.get("domain", "uncategorized") if fm else "uncategorized",
-            "tags": fm.get("tags", []) if fm else [],
-            "summary": extract_summary(content),
-            "url": f"lessons/{f.name}",
-            "created": fm.get("created", "") if fm else "",
-            "updated": fm.get("updated", "") if fm else "",
-            # 置信度衰减：环境变化后旧知识可能失效
-            "validity_period_days": fm.get("validity_period_days", 365) if fm else 365,
-            # 本 lesson 适用的环境版本（如 python=3.12, ubuntu=24.04）
-            "environment_version": fm.get("environment_version", "") if fm else "",
-            # 置信度 0-1：基于验证次数/用户反馈自动调整
-            "confidence": fm.get("confidence", 0.5) if fm else 0.5,
-            "status": fm.get("status", "active") if fm else "active",
-        }
-        index.append(entry)
+            # Domain: use frontmatter domain, fallback to subdirectory
+            domain = fm.get("domain", "") if fm else ""
+            if not domain or domain == "contrib":
+                domain = fm.get("subdomain", subdir) if fm else subdir
+
+            entry = {
+                "id": f.stem,
+                "title": fm.get("title", f.stem) if fm else f.stem,
+                "domain": domain,
+                "tags": fm.get("tags", []) if fm else [],
+                "summary": extract_summary(content),
+                "url": f"lessons/{subdir}/{f.name}",
+                "created": fm.get("created", "") if fm else "",
+                "updated": fm.get("updated", "") if fm else "",
+                "validity_period_days": fm.get("validity_period_days", 365) if fm else 365,
+                "environment_version": fm.get("environment_version", "") if fm else "",
+                "confidence": fm.get("confidence", 0.5) if fm else 0.5,
+                "status": fm.get("status", "active") if fm else "active",
+            }
+            index.append(entry)
 
     return index
 
