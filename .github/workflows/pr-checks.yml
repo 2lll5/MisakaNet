@@ -86,7 +86,7 @@ jobs:
         with:
           pr-number: ${{ github.event.pull_request.number || github.event.inputs.pr_number }}
           repo: "Ikalus1988/MisakaNet"
-          threshold: "40"
+          threshold: "50"
           gh-token: ${{ secrets.SHELDON_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Reject Low-Quality PR
@@ -100,7 +100,7 @@ jobs:
           gh pr close "$PR_NUM" --repo Ikalus1988/MisakaNet \
             --comment "### Quality Score Failed
 
-          Your PR scored ${{ steps.score.outputs.score }}/100 (minimum: 40).
+          Your PR scored ${{ steps.score.outputs.score }}/100 (minimum: 50).
 
           Issues detected:
           ${{ steps.score.outputs.reasons }}

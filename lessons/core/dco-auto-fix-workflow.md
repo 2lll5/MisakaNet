@@ -22,9 +22,16 @@
 ---
 
 
-## 背景
+## Root Cause
 
 贡献者提交 PR 后 DCO（Signed-off-by）检查失败是最常见的阻塞原因之一。尤其是 AI Agent 自动提交的 PR，经常缺签。需要在 PR 评论区提供一键自动修复能力。
+
+**Error message** from DCO check:
+```
+Commit sha: abc1234, Author: user, Committer: user; Expected "Signed-off-by: user <user@example.com>", but got ""
+```
+
+**Root cause**: GitHub 的 DCO 检查要求每个 commit 都包含 `Signed-off-by:` 行。当贡献者使用 `git commit` 时忘记加 `-s` 标志，或者 AI Agent 自动生成的 commit 缺少签名，DCO 检查就会失败。手动修复需要 `git rebase --signoff`，这对新手贡献者来说门槛较高。
 
 ## 上游 PR 被拒后的 Plan B 独立部署
 
@@ -116,6 +123,19 @@ jobs:
 2. Run the workflow on a same-repo PR — confirm it auto-amends and force-pushes with sign-off
 3. Run the workflow on a fork PR — confirm it posts manual instructions instead of force-pushing
 4. Verify the `pr-welcome.yml` output includes the copy-paste `git rebase --signoff` commands
+
+```bash
+# Test: Create a PR without Signed-off-by
+git commit -m "test: missing signoff"  # no -s flag
+git push origin test-branch
+gh pr create --title "Test DCO" --body "Testing DCO fix"
+
+# Trigger the fix
+gh pr comment <PR_NUM> --body "/fix-dco"
+
+# Verify: Check if signoff was added
+gh api repos/OWNER/REPO/pulls/<PR_NUM>/commits --jq '.[].commit.message' | grep "Signed-off-by"
+```
 
 ## 关联
 

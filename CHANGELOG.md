@@ -7,6 +7,34 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## v2.8.0 — 2026-07-02
+
+### 🚀 Highlights
+- **MCP Thin Server**: `scripts/mcp_server.py` — MisakaNet search as MCP (Model Context Protocol) server for Claude Desktop, Cursor, Continue.dev integration
+- **SAG-Lite SQLite Search**: `scripts/build_sag_index.py` — SQLite-based search index for offline/fast search without ChromaDB dependency
+- **OKF-Compatible Export**: `scripts/export_okf.py` — export lessons in Open Knowledge Format for interoperability
+- **Helpful Button** (#276): vote on lesson search results to improve ranking quality
+- **Continue.dev Integration** (#271): MisakaNet search available as Continue.dev context provider
+- **Blog Posts**: 2 technical blog posts published — "How MisakaNet Turns Failures into Memory" and integration guide
+- **Integrations Documentation**: comprehensive setup guides for MCP, Continue.dev, and other AI tools
+- **RAG Lessons Translated** (#263): core RAG lessons translated from Chinese to English
+- **Quality Score Gate Hardened**: PR quality threshold raised from 40 to 50 (out of 100)
+- **Core Lesson Quality**: all 10 core lessons now have Root Cause + Verification sections with executable commands
+
+### 📦 Lessons
+- 207+ published lessons (11 core + 196+ contrib)
+- Quality scoring: average 0.261, top lessons scoring 1.0
+- Core lessons quality improved: dco-auto-fix-workflow (0.15→0.80), pr-cleanup-sop (0.15→0.80), pr-welcome-trigger-trap (0.15→0.80)
+
+### 🔧 Fixes
+- Windows encoding fix for helpful button tests
+- Remove sag.db from git tracking
+- Security: restrict HMAC secret file permissions to owner-only
+- Frontend: restore tests and add worker keepalive
+- CI: dependency audit only blocks when deps actually changed
+
+---
+
 ## v2.7.0 — 2026-06-18
 
 ### 🚀 Highlights

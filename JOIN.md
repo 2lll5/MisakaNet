@@ -113,9 +113,9 @@ Each bounty is a chance to contribute and get recognized. Fork the repo, complet
 ## Version Info
 
 ```
-MisakaNet v2.7.0
+MisakaNet v2.8.0
 Protocol: Apache 2.0
-192 lessons | 212 stars | 49 forks
+207 lessons | 212 stars | 49 forks
 IO: https://ikalus1988.github.io
 Repo: https://github.com/Ikalus1988/MisakaNet
 ```

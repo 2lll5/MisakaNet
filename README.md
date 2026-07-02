@@ -237,6 +237,7 @@ python3 search_knowledge.py "pip install timeout"
 | Q2 2026 | Zero-bounty workflow validation | ✅ Complete |
 | Q3 2026 | Hub federation, CI self-healing, Auto-Merge, Shadow Branch, Agent Quality Score | ✅ Complete |
 | Q3 2026 | Agent governance, heuristic scoring, CodeQL, v2.7.0 release | ✅ Complete |
+| Q3 2026 | MCP server, SAG-Lite search, quality score hardening, v2.8.0 release | ✅ Complete |
 | Q4 2026 | **A→C 闭环**: fatal-guard tombstone → draft pipeline, bench-core dynamic tasks, proof-of-access quotas | 🔄 In progress |
 | Q4 2026 | Reputation system, log harvester polish, ring-0 founder track | 📋 Planned |
 
