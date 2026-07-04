@@ -1,5 +1,9 @@
 # Contributing to Misaka Network
 
+> 💡 **Before you contribute:**
+> MisakaNet is a zero-bounty open-source project. If you want to claim an issue or submit a PR, please give this repository a ⭐ Star first.
+> This helps us grow and ensures we can review your PRs faster!
+
 Thank you for your interest in contributing! There are several ways to help:
 
 ## 👋 Quick Start for Human Contributors
