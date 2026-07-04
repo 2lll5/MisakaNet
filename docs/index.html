@@ -2382,10 +2382,7 @@ function getHelpfulUrl() {
 }
 
 async function loadStats() {
-  const [counter, lessons] = await Promise.all([
-    fetchWithCache(getCounterUrl(), 'counter').catch(() => null),
-    fetchWithCache(getLessonsUrl(), 'lessons').catch(() => null),
-  ]);
+  const counter = await fetchWithCache(getCounterUrl(), 'counter').catch(() => null);
 
   if (counter) {
     const current = counter.current;
@@ -2399,9 +2396,14 @@ async function loadStats() {
     document.getElementById("latest-time").textContent = (LANG === "en" ? `updated ${counter.updated.slice(0, 10)}` : `更新 ${counter.updated.slice(0, 10)}`);
   }
 
-  if (lessons) {
+  // SSOT: use _allLessons (from safeFetchLessons) instead of /api/lessons
+  // Wait for loadLessons() to finish if it hasn't yet
+  if (!_allLessons) {
+    await loadLessons();
+  }
+  if (_allLessons && _allLessons.length > 0) {
     const countEl = document.getElementById("knowledge-count");
-    animateCounter(countEl, lessons.length);
+    animateCounter(countEl, _allLessons.length);
   }
 
   showCacheLabels();
