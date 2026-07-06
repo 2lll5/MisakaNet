@@ -9,6 +9,9 @@ All notable changes to the Misaka Network project are documented here.
 
 ## v2.8.0 — 2026-07-02
 
+### 🔗 Federation
+- **pr-genius peer declaration** (experimental): query-only federation peer for external PR intelligence. No auto-sync, no shared credentials. See `docs/federation/pr-genius.md` and `misaka-protocol.json` → `ecosystem.federation.peers`.
+
 ### 🚀 Highlights
 - **MCP Thin Server**: `scripts/mcp_server.py` — MisakaNet search as MCP (Model Context Protocol) server for Claude Desktop, Cursor, Continue.dev integration
 - **SAG-Lite SQLite Search**: `scripts/build_sag_index.py` — SQLite-based search index for offline/fast search without ChromaDB dependency
