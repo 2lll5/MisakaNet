@@ -30,6 +30,54 @@ curl -v --max-time 5 "https://target.com/" 2>&1 | grep -E "Connected|TLS|timeout
 #   Connection timed out
 ```
 
+## ⚠️ Whitelist: Sites Accessible from China (Do NOT Misdiagnose)
+
+The following sites are **directly accessible** from mainland China. Agents must NOT report "GFW blocked" for these domains — scrape them directly.
+
+| Site | Access | Method |
+|------|--------|--------|
+| robot-forum.com | ✅ Direct | Playwright (WoltLab) |
+| bbs.gongkong.com | ✅ Direct | Playwright |
+| GitHub | ✅ Direct | gh CLI / REST API |
+| Dev.to | ✅ Direct | REST API |
+| Juejin 掘金 | ✅ Direct | Playwright |
+| SegmentFault | ✅ Direct | Playwright |
+
+**Check flow (two-layer validation)**:
+
+```
+receive URL
+  → Layer 1: Network reachability (whitelist / curl TLS test)
+  → Layer 2: Environment readiness (tool dependencies satisfied?)
+  → Both pass → scrape directly
+  → Network OK but env missing → use fallback ladder
+  → Network blocked → proxy or skip
+```
+
+### Layer 2: Environment Prerequisites
+
+Whitelist means "network accessible", NOT "can scrape on this machine". Playwright needs system libraries:
+
+```bash
+# Check headless Chrome availability
+npx playwright install --dry-run 2>&1 | grep -i "missing\|error"
+# Or direct test
+node -e "const {chromium}=require('playwright');chromium.launch().then(b=>b.close()).catch(e=>console.error(e.message))"
+# Common missing: libnspr4, libnss3, libnssutil3 (Linux apt)
+```
+
+### Fallback Ladder (When Environment Not Ready)
+
+| Priority | Method | Prerequisite | Best For |
+|----------|--------|-------------|----------|
+| 1 | Site REST API | None | HN/Dev.to/GitHub |
+| 2 | curl + CSS selectors | None | Static pages |
+| 3 | r.jina.ai mirror | None | General, but thread pages often fail |
+| 4 | Safari MCP | macOS | Has browser env |
+| 5 | Remote Chrome CDP | Chrome --remote-debugging-port | Has desktop Chrome |
+| 6 | Browser Use API | API key | Paid solution |
+| 7 | Fix local env | sudo | Most thorough |
+
 ## Solution
 
 ### Tool-Layer (Won't Work)
