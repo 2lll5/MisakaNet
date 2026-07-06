@@ -447,6 +447,20 @@
     "status": "published"
   },
   {
+    "id": "browser-automation-csp-bypass",
+    "title": "browser-automation-csp-bypass",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "\"title\": \"CSP blocks JavaScript injection in browser automation of authenticated pages\",",
+    "url": "lessons/contrib/browser-automation-csp-bypass.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
     "id": "browser-harness-cdp-browser-automation",
     "title": "browser-harness-cdp-browser-automation",
     "domain": "contrib",
@@ -2753,28 +2767,5 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active"
-  },
-  {
-    "id": "browser-automation-csp-bypass",
-    "title": "CSP blocks JavaScript injection in browser automation of authenticated pages",
-    "domain": "mcp",
-    "tags": [
-      "browser-automation",
-      "csp",
-      "content-security-policy",
-      "cdp",
-      "puppeteer",
-      "playwright",
-      "eval",
-      "injection"
-    ],
-    "summary": "Strict CSP headers block eval() and inline script injection. Solution: use Page.addScriptToEvaluateOnNewDocument to bypass CSP.",
-    "url": "lessons/contrib/browser-automation-csp-bypass.md",
-    "created": "2026-07-06",
-    "updated": "2026-07-06",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.8,
-    "status": "published"
   }
 ]
