@@ -2015,7 +2015,7 @@ let _allLessons = null;
  * @returns {Promise<Lesson[]>}
  */
 async function safeFetchLessons() {
-   const DATA_URL = "https://raw.githubusercontent.com/Ikalus1988/MisakaNet/main/data/lessons.json";
+  const DATA_URL = getLessonsUrl();
   try {
     const response = await fetch(DATA_URL);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
