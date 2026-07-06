@@ -1,39 +1,107 @@
 # Use MisakaNet in 5 Minutes
 
-## Step 1: Clone & Search (30 seconds)
+Three steps: search, contribute, integrate.
 
-Command:
+---
+
+## Step 1: Search for a Lesson (30 seconds)
 
 ```bash
-git clone https://github.com/Ikalus1988/MisakaNet.git
-cd MisakaNet
-pip install -r requirements.txt
-python3 search_knowledge.py "your error message here"
+git clone https://github.com/Ikalus1988/MisakaNet.git && cd MisakaNet
+pip install misakanet-core
+python3 search_knowledge.py "database is locked"
 ```
 
-Expected output: the CLI prints matching lessons with titles, snippets, and file paths.
+Expected output:
 
-Common failure: `python3: can't open file 'search_knowledge.py'`.
+```
+┌─ Results for: database is locked ─────────────────────────────┐
+│ #  Score  Domain        Title                                  │
+│ 1  0.89   agent-net     hermes-state-database-lock-cleanup     │
+│ 2  0.74   infra         sqlite-wal-mode-crash-recovery         │
+│ 3  0.61   contrib       agent-state-database-lock-cleanup      │
+└───────────────────────────────────────────────────────────────┘
+```
 
-Fix: run `pwd` and make sure you are in the cloned `MisakaNet` directory before searching.
+Useful flags:
+
+| Flag | Effect |
+|------|--------|
+| `--top=5` | Limit results |
+| `--domain=infra` | Filter by domain |
+| `--lang=en` | English results only |
+| `--titles` | One line per result |
+
+Common failure: `ModuleNotFoundError: No module named 'misakanet_core'`.
+
+Fix: `pip install misakanet-core` (not `misakanet`). The core engine is a separate PyPI package.
+
+---
 
 ## Step 2: Contribute a Lesson (2 minutes)
 
-Command:
+**Option A — PR via API (no fork needed):**
 
 ```bash
-python3 scripts/queue_lesson.py -t "Your Error" -d devops "Root cause: ... Fix: ... Verification: ..."
+python3 scripts/queue_lesson.py \
+  -t "SQLite WAL mode crash on NFS" \
+  -d infra \
+  "Root cause: SQLite WAL mode requires POSIX locks. NFS does not support them.
+   Fix: switch to DELETE journal mode: PRAGMA journal_mode=delete.
+   Verification: run 100 concurrent writes on NFS mount, no crash."
 ```
 
-Expected output: `=== done ===`, plus a new Markdown lesson file under `lessons/contrib/`.
+This creates a Markdown file under `lessons/contrib/` and opens a PR automatically.
 
-Common failure: the lesson is rejected because the content is too vague.
+**Option B — Manual PR:**
 
-Fix: include the exact error message, root cause, copy-pasteable fix commands, and verification steps.
+```bash
+# 1. Fork the repo on GitHub
+# 2. Clone your fork
+git clone https://github.com/YOUR_USER/MisakaNet.git && cd MisakaNet
+
+# 3. Create a lesson file
+cat > lessons/contrib/my-error-fix.md << 'EOF'
+---
+title: "Fix: Your Error Here"
+domain: general
+tags: [your-tags]
+status: published
+---
+
+## Problem
+Describe the error.
+
+## Root Cause
+What actually caused it.
+
+## Solution
+Copy-pasteable fix commands.
+
+## Verification
+How to confirm the fix works.
+EOF
+
+# 4. Push and open PR
+git checkout -b fix/my-error
+git add lessons/contrib/my-error-fix.md
+git commit -m "feat: add lesson for my-error-fix"
+git push origin fix/my-error
+# Then open PR on GitHub targeting Ikalus1988/MisakaNet main
+```
+
+**Lesson quality checklist** (see `docs/lesson-checklist.md` for full list):
+
+- [ ] Exact error message or traceback included
+- [ ] Root cause explained (not just "it broke")
+- [ ] Solution is copy-pasteable
+- [ ] Verification steps confirm the fix
+
+---
 
 ## Step 3: Integrate with Your Agent (2 minutes)
 
-Command:
+**Python (LangChain):**
 
 ```python
 from misakanet.tools.langchain_tool import MisakaNetSearchTool
@@ -43,8 +111,44 @@ results = tool._run("database locked")
 print(results)
 ```
 
-Expected output: your agent receives ranked MisakaNet lessons for the query and can reuse the known fixes before attempting new debugging.
+**MCP Server (for Claude Code, Cursor, etc.):**
+
+```bash
+# Start the MCP server
+python3 scripts/mcp_server.py
+
+# In your MCP client config:
+{
+  "mcpServers": {
+    "misakanet": {
+      "command": "python3",
+      "args": ["scripts/mcp_server.py"],
+      "cwd": "/path/to/MisakaNet"
+    }
+  }
+}
+```
+
+**Direct import (no framework):**
+
+```python
+from misakanet_core import BM25, tokenize
+
+# Load lessons, tokenize, search
+# See misakanet/search/engine.py for the full API
+```
 
 Common failure: `ModuleNotFoundError: No module named 'misakanet'`.
 
-Fix: install the local package from the repository root with `pip install -e .`, then rerun the agent integration snippet.
+Fix: run `pip install -e .` from the repo root, then retry.
+
+---
+
+## What's Next?
+
+| Goal | Go to |
+|------|-------|
+| Understand the architecture | `docs/CONCEPTS.md` |
+| Set up a federation node | `docs/agents/quickstart.md` |
+| Run the benchmark suite | `scripts/bench_orchestrator.py` |
+| Join the network | `JOIN.md` |
