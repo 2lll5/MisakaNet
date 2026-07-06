@@ -24,10 +24,13 @@ jobs:
         run: |
           set -euo pipefail
 
+          # Modules format: multipart upload with metadata
+          printf '{"main_module":"register-proxy-sw.js","compatibility_date":"2024-01-01"}' > /tmp/metadata.json
+
           curl -fsS -X PUT \
             -H "Authorization: Bearer $CF_API_TOKEN" \
-            -H "Content-Type: application/javascript" \
-            --data-binary "@workers/register-proxy-sw.js" \
+            -F "metadata=@/tmp/metadata.json;type=application/json" \
+            -F "register-proxy-sw.js=@workers/register-proxy-sw.js;type=application/javascript" \
             "https://api.cloudflare.com/client/v4/accounts/6b92325b505f2b76aec49e9fe4195d31/workers/scripts/misakanet-register-proxy"
 
           curl -fsS -X PUT \
