@@ -162,10 +162,47 @@ def main():
     parser.add_argument("--output", type=str, default=str(DEFAULT_OUTPUT), help="Output directory")
     parser.add_argument("--domain", type=str, default=None, help="Filter by domain")
     parser.add_argument("--format", choices=["jsonl", "json"], default="jsonl", help="Output format")
+    parser.add_argument("--from-index", action="store_true", help="Read from data/lessons.json instead of raw files")
     args = parser.parse_args()
 
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Fast path: read from pre-built lessons.json index
+    if args.from_index:
+        index_path = REPO_ROOT / "data" / "lessons.json"
+        if not index_path.exists():
+            print(f"Error: {index_path} not found. Run misakanet-index.py first.", file=sys.stderr)
+            sys.exit(1)
+        lessons = json.loads(index_path.read_text(encoding="utf-8"))
+        okf_records = []
+        for lesson in lessons:
+            if args.domain and lesson.get("domain") != args.domain:
+                continue
+            okf_records.append({
+                "type": "lesson",
+                "title": lesson.get("title", ""),
+                "description": lesson.get("summary", lesson.get("description", "")),
+                "tags": lesson.get("tags", []),
+                "timestamp": lesson.get("created", lesson.get("updated", "")),
+                "domain": lesson.get("domain", ""),
+                "source": lesson.get("source", ""),
+                "status": lesson.get("status", "published"),
+                "path": lesson.get("url", lesson.get("path", "")),
+            })
+        # Write output
+        if args.format == "jsonl":
+            output_file = output_dir / "lessons.jsonl"
+            with open(output_file, "w", encoding="utf-8") as f:
+                for record in okf_records:
+                    f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        else:
+            output_file = output_dir / "lessons.json"
+            with open(output_file, "w", encoding="utf-8") as f:
+                json.dump(okf_records, f, ensure_ascii=False, indent=2)
+        print(f"Exported {len(okf_records)} lessons from index to {output_file}")
+        print(f"Domains: {len(set(r['domain'] for r in okf_records))}")
+        return
 
     # Collect all lesson files
     lesson_files = []
