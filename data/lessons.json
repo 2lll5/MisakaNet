@@ -444,7 +444,7 @@
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "draft"
+    "status": "published"
   },
   {
     "id": "browser-harness-cdp-browser-automation",
@@ -1302,7 +1302,7 @@
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "draft"
+    "status": "published"
   },
   {
     "id": "knowledge-graph-ux-patterns-from-high-star-projects",
@@ -2048,7 +2048,7 @@
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "draft"
+    "status": "published"
   },
   {
     "id": "rag-brand-contamination-detection-and-fix",
@@ -2080,7 +2080,7 @@
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "draft"
+    "status": "published"
   },
   {
     "id": "rag-build-strategy-batch",
@@ -2116,7 +2116,7 @@
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "draft"
+    "status": "published"
   },
   {
     "id": "rag-chunk-params-800-100",
@@ -2134,7 +2134,7 @@
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "draft"
+    "status": "published"
   },
   {
     "id": "rag-cross-encoder-cpu-bottleneck",
@@ -2152,7 +2152,7 @@
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "draft"
+    "status": "published"
   },
   {
     "id": "rag-kb-quality-flywheel-self-loop",
@@ -2173,7 +2173,7 @@
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "draft"
+    "status": "published"
   },
   {
     "id": "rag-three-channel-llm-disaster-recovery",
@@ -2191,7 +2191,7 @@
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "draft"
+    "status": "published"
   },
   {
     "id": "rdt-cli-reddit-terminal",
@@ -2354,48 +2354,6 @@
     "tags": [],
     "summary": "Shell 脚本报错但不显示问题行，或变量展开后不是预期值。",
     "url": "lessons/contrib/shell-script-debugging.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active"
-  },
-  {
-    "id": "skill-dogfood",
-    "title": "skill-dogfood",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Exploratory QA of web apps: find bugs, evidence, reports.",
-    "url": "lessons/contrib/skill-dogfood.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active"
-  },
-  {
-    "id": "skill-edoc-pipeline-retrospective",
-    "title": "skill-edoc-pipeline-retrospective",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "使用 edoc-pipeline-retrospective 的实践经验和踩坑记录。",
-    "url": "lessons/contrib/skill-edoc-pipeline-retrospective.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active"
-  },
-  {
-    "id": "skill-edoc-rag",
-    "title": "skill-edoc-rag",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "FANUC 机器人知识库 RAG 检索 — 向量库 34,100 chunks，BGE-m3 1024维，L2 距离，支持飞书 Bot 自动调用",
-    "url": "lessons/contrib/skill-edoc-rag.md",
     "created": "",
     "updated": "",
     "validity_period_days": 365,
