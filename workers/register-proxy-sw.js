@@ -5,6 +5,7 @@
 
 const REPO = "Ikalus1988/MisakaNet";
 const GITHUB_API = "https://api.github.com";
+const PROXY_CACHE_TTL = 30_000;
 const KEEPALIVE_ENDPOINTS = [
   { name: "health", url: "https://misakanet.org/api/health", json: true },
   { name: "counter", url: "https://misakanet.org/api/counter", json: true },
@@ -44,6 +45,33 @@ function jsonResponse(body, status = 200) {
       "Expires": "0",
     },
   });
+}
+
+// ── GitHub API fetch with token ──
+async function fetchFromGitHub(token, path, ref = "data") {
+  const url = `${GITHUB_API}/repos/${REPO}/contents/${path}?ref=${encodeURIComponent(ref)}`;
+  const resp = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}`, "User-Agent": "MisakaNet-Worker", Accept: "application/vnd.github.v3+json" },
+  });
+  if (!resp.ok) throw new Error(`GitHub API ${resp.status}`);
+  const data = await resp.json();
+  if (!data.content || data.encoding !== "base64") throw new Error("Unexpected GitHub response");
+  return JSON.parse(atob(data.content));
+}
+
+// ── KV cache wrapper ──
+async function getWithCache(env, cacheKey, fetchFn) {
+  if (env.MISAKANET_KV) {
+    try {
+      const cached = await env.MISAKANET_KV.get(cacheKey, "json");
+      if (cached && cached.ts && Date.now() - cached.ts < PROXY_CACHE_TTL) return cached.data;
+    } catch {}
+  }
+  const data = await fetchFn();
+  if (env.MISAKANET_KV) {
+    try { await env.MISAKANET_KV.put(cacheKey, JSON.stringify({ ts: Date.now(), data }), { expirationTtl: Math.ceil(PROXY_CACHE_TTL / 1000) + 30 }); } catch {}
+  }
+  return data;
 }
 
 function sanitizeIdentifier(val, maxLen) {
@@ -109,8 +137,36 @@ export default {
         status: "ok",
         worker: "misakanet-register-proxy",
         scheduled_keepalive: true,
+        hasToken: !!env.REGISTER_TOKEN,
+        hasKV: !!env.MISAKANET_KV,
         timestamp: new Date().toISOString(),
       });
+    }
+
+    // GET /api/counter — node registration counter (KV or GitHub)
+    if (request.method === "GET" && (url.pathname === "/api/counter" || url.pathname === "/api/counter.json")) {
+      const token = env.REGISTER_TOKEN;
+      if (!token) return jsonResponse({ error: "REGISTER_TOKEN not configured" }, 500);
+      try {
+        const data = await getWithCache(env, "proxy:counter", async () => {
+          if (env.MISAKANET_KV) {
+            const kvCounter = await env.MISAKANET_KV.get("node_counter", "text");
+            if (kvCounter) return { current: parseInt(kvCounter), updated: new Date().toISOString().slice(0, 10) };
+          }
+          return fetchFromGitHub(token, "data/counter.json");
+        });
+        return jsonResponse(data);
+      } catch (e) { return jsonResponse({ error: e.message }, 502); }
+    }
+
+    // GET /api/lessons — lessons index (GitHub with KV cache)
+    if (request.method === "GET" && (url.pathname === "/api/lessons" || url.pathname === "/api/lessons.json")) {
+      const token = env.REGISTER_TOKEN;
+      if (!token) return jsonResponse({ error: "REGISTER_TOKEN not configured" }, 500);
+      try {
+        const data = await getWithCache(env, "proxy:lessons", () => fetchFromGitHub(token, "lessons.json", "data"));
+        return jsonResponse(data);
+      } catch (e) { return jsonResponse({ error: e.message }, 502); }
     }
 
     if (request.method === "GET" && url.pathname === "/ping") {
