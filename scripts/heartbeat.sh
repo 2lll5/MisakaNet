@@ -36,14 +36,14 @@ echo "── PR Queue ──"
 check_pr() {
   local num="$1"
   local label="$2"
-  local data=$(gh pr view "$num" --repo "$REPO" --json state,merged,reviewDecision,mergeable,updatedAt,title 2>/dev/null)
+  local data=$(gh pr view "$num" --repo "$REPO" --json state,mergedAt,reviewDecision,mergeable,updatedAt,title 2>/dev/null)
   if [ -z "$data" ]; then
     echo "  #$num ($label): FETCH FAILED"
     return
   fi
   local state=$(echo "$data" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['state'])" 2>/dev/null)
-  local merged=$(echo "$data" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('merged',False))" 2>/dev/null)
-  local review=$(echo "$data" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('reviewDecision','none'))" 2>/dev/null)
+  local merged=$(echo "$data" | python3 -c "import json,sys; d=json.load(sys.stdin); print('True' if d.get('mergedAt') else 'False')" 2>/dev/null)
+  local review=$(echo "$data" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('reviewDecision') or 'none')" 2>/dev/null)
   local updated=$(echo "$data" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['updatedAt'][:10])" 2>/dev/null)
 
   if [ "$merged" = "True" ]; then
