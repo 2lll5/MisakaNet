@@ -9,8 +9,8 @@ python3 search_knowledge.py <query> [options]
 | Argument | Target | Description | Example |
 |----------|--------|-------------|---------|
 | `query` | (positional) | Search keywords | `python3 search_knowledge.py "pip install timeout"` |
-| `--lessons` | Filter | Search only `lessons/` | `--lessons` |
-| `--ref` | Filter | Search only `reference/` | `--ref` |
+| `--lessons` | Mode | Switch to lesson search mode (not a path/id filter) | `--lessons` |
+| `--ref` | Mode | Switch to reference search mode (not a path/id filter) | `--ref` |
 | `--top=<N>` | Pagination | Show top N results (default: 10) | `--top=3` |
 | `--titles` | Display | Show titles only | `--titles` |
 | `--broad` | Matching | Broader keyword matching | `--broad` |
