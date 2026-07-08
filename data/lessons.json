@@ -573,6 +573,20 @@
     "status": "active"
   },
   {
+    "id": "ci-lambda-module-level-side-effects",
+    "title": "ci-lambda-module-level-side-effects",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Python 测试文件尝试 `importlib.import_module()` 导入 Lambda 函数模块，CI 报错：",
+    "url": "lessons/contrib/ci-lambda-module-level-side-effects.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
     "id": "cloudflare-email-worker-registration-trap",
     "title": "Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、MIME 与 SPF",
     "domain": "contrib",
@@ -1795,6 +1809,20 @@
     "status": "active"
   },
   {
+    "id": "mcp-server-direct-handler-testing",
+    "title": "mcp-server-direct-handler-testing",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "MCP Server 使用 stdio 传输（stdin/stdout JSON-RPC），测试时需要启动子进程、写入 stdin、解析 stdout。这种方式：",
+    "url": "lessons/contrib/mcp-server-direct-handler-testing.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
     "id": "misakanet-heal-engine-bootstrap-workflow",
     "title": "MisakaNet --heal Engine Bootstrap Workflow",
     "domain": "contrib",
@@ -2337,6 +2365,20 @@
     "summary": "开源项目 README 是潜在用户和贡献者的第一触点。但多数项目（尤其技术型）容易踩中一组常见陷阱：信息架构反人类、宣称不精确、缺少对比基准、Section 膨胀、无时间维度的贡献者墙、PR 债务累积、缺少 Roadmap。",
     "url": "lessons/contrib/readme-seven-traps-fix-checklist.md",
     "created": "2026-07-06",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
+    "id": "regex-escaped-quotes-source-parsing",
+    "title": "regex-escaped-quotes-source-parsing",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "用正则从 Python 源码中提取 `os.environ.get(\"KEY\", \"default_value\")` 的默认值时，提取结果被截断：",
+    "url": "lessons/contrib/regex-escaped-quotes-source-parsing.md",
+    "created": "",
     "updated": "",
     "validity_period_days": 365,
     "environment_version": "",
