@@ -2379,9 +2379,9 @@ function refreshStats() {
 function getCounterUrl() {
   return WORKER_BASE ? `${WORKER_BASE}/api/counter` : `/api/counter`;
 }
-/** 返回 lessons 数据 URL：同域 /api/lessons（WORKER_BASE 已切换为同域模式） */
+/** 返回 lessons 数据 URL：静态 /data/lessons.json（避开 Worker 污染数据源） */
 function getLessonsUrl() {
-  return WORKER_BASE ? `${WORKER_BASE}/api/lessons` : `/api/lessons`;
+  return "/data/lessons.json";
 }
 /** 返回 helpful vote API URL：同域 /api/helpful */
 function getHelpfulUrl() {
