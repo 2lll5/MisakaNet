@@ -1,9 +1,40 @@
 {
-  "generated_at": "2026-07-09T15:38:48.468807+00:00",
+  "generated_at": "2026-07-09T20:12:08.356417+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "challenge",
+      "title": "[agent competition][zero-bounty] Compare homepage SAG search with CLI search_knowledge results",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/436",
+      "labels": [
+        "good first issue",
+        "area:tests",
+        "ready",
+        "agent-friendly",
+        "no-credentials",
+        "zero-bounty",
+        "has-test",
+        "status:competition"
+      ],
+      "timestamp": "2026-07-09T19:03:23Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "docs: sync zh queue lesson command",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/404",
+      "timestamp": "2026-07-09T18:58:32Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "fix: avoid emoji encode errors in lesson validator",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/403",
+      "timestamp": "2026-07-09T18:58:26Z",
+      "source": "github"
+    },
     {
       "type": "challenge",
       "title": "[agent competition][zero-bounty] Build dedicated /search page for curated lesson search",
@@ -90,38 +121,6 @@
         "status:competition"
       ],
       "timestamp": "2026-07-08T13:32:20Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[agent competition][zero-bounty] Add smoke test for queue_lesson.py --dry-run",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/416",
-      "labels": [
-        "good first issue",
-        "area:tests",
-        "ready",
-        "agent-friendly",
-        "one-file",
-        "no-credentials",
-        "zero-bounty",
-        "has-test",
-        "status:competition"
-      ],
-      "timestamp": "2026-07-08T13:32:17Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: reputation system with reuse signals and anti-gaming (#356)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/413",
-      "timestamp": "2026-07-08T09:10:14Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "fix(lessons): convert bare JSON frontmatter to YAML (#380 #379 #378)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/414",
-      "timestamp": "2026-07-08T09:09:06Z",
       "source": "github"
     },
     {
