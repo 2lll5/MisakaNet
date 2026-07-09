@@ -42,7 +42,12 @@
   .btn-secondary { font-family: var(--font-ui); font-size: 12px; color: var(--text-soft); background: transparent; border: 1px solid #30363d; border-radius: 6px; padding: 6px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
   .btn-secondary:hover { border-color: #58a6ff; color: #58a6ff; }
   .lesson-preview { margin-top: 12px; padding: 12px; border: 1px solid #30363d; border-radius: 8px; background: #0d1117; cursor: default; }
-  .lesson-preview pre { white-space: pre-wrap; word-break: break-word; font-family: var(--font-mono); font-size: 12px; line-height: 1.65; color: #c9d1d9; }
+  .lesson-preview h2 { font-family: var(--font-ui); font-size: 15px; font-weight: 700; color: var(--text-main); margin: 18px 0 8px; }
+  .lesson-preview h3 { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--text-main); margin: 14px 0 6px; }
+  .lesson-preview pre { background: #0b0f14; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; overflow-x: auto; white-space: pre-wrap; word-break: break-word; font-family: var(--font-mono); font-size: 12px; line-height: 1.65; color: #c9d1d9; }
+  .lesson-preview code { font-family: var(--font-mono); }
+  .lesson-preview p code { background: rgba(255,255,255,0.08); padding: 2px 5px; border-radius: 4px; }
+  .lesson-preview p { margin: 6px 0; line-height: 1.65; }
   .preview-status { font-size: 12px; color: var(--text-soft); }
   .fallback { padding: 24px; text-align: center; color: var(--text-soft); }
   .fallback a { color: #58a6ff; text-decoration: none; }
@@ -203,19 +208,52 @@ function render(results, q) {
   el.innerHTML = html;
 }
 
+function renderMarkdown(text) {
+  // Minimal markdown renderer: h2, h3, code blocks, inline code, paragraphs
+  let html = escapeHTML(text);
+  // Code blocks: ```...```
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+  // Inline code: `...`
+  html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+  // H2: ## ...
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  // H3: ### ...
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  // Paragraphs: double newline
+  html = html.replace(/\n\n/g, '</p><p>');
+  // Single newline within paragraphs
+  html = html.replace(/\n/g, '<br>');
+  return '<p>' + html + '</p>';
+}
+
 async function togglePreview(index) {
   const lesson = _lastResults[index];
   const card = document.querySelector('.result[data-index="' + index + '"]');
   const panel = card && card.querySelector('.lesson-preview');
   if (!lesson || !panel) return;
+
+  // Auto-collapse: close any other open preview first
+  const openPanels = document.querySelectorAll('.lesson-preview:not([hidden])');
+  openPanels.forEach(p => {
+    if (p !== panel) {
+      p.hidden = true;
+      const otherBtn = p.closest('.result').querySelector('[data-action="preview"]');
+      if (otherBtn) otherBtn.textContent = 'Read lesson';
+    }
+  });
+
   if (panel.dataset.loaded === 'true') {
     panel.hidden = !panel.hidden;
+    const btn = card.querySelector('[data-action="preview"]');
+    if (btn) btn.textContent = panel.hidden ? 'Read lesson' : 'Collapse';
     updateUrl(document.getElementById('q').value.trim(), panel.hidden ? null : (lesson.id || ''));
     return;
   }
 
   panel.hidden = false;
   panel.innerHTML = '<div class="preview-status">Loading lesson preview...</div>';
+  const btn = card.querySelector('[data-action="preview"]');
+  if (btn) btn.textContent = 'Collapse';
   const rawUrl = getRawLessonUrl(lesson);
   try {
     let text = _previewCache.get(rawUrl);
@@ -228,7 +266,7 @@ async function togglePreview(index) {
     const body = stripFrontmatter(text);
     const clipped = body.length > 2400 ? body.slice(0, 2400) + '\n\n... (open on GitHub for full lesson)' : body;
     panel.dataset.loaded = 'true';
-    panel.innerHTML = '<pre>' + escapeHTML(clipped || 'No preview body found. Open on GitHub for the full lesson.') + '</pre>';
+    panel.innerHTML = renderMarkdown(clipped || 'No preview body found. Open on GitHub for the full lesson.');
     updateUrl(document.getElementById('q').value.trim(), lesson.id || '');
   } catch (e) {
     panel.innerHTML = '<div class="preview-status">Preview unavailable. Use "Open on GitHub" for the full lesson.</div>';
