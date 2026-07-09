@@ -138,6 +138,14 @@ function updateUrl(q, lessonId) {
   history.replaceState(null, '', url);
 }
 
+function getTakeaway(r) {
+  // First complete sentence from summary, fallback to title
+  const s = r.summary || '';
+  const match = s.match(/^[^.!?。！？]+[.!?。！？]/);
+  const takeaway = match ? match[0].trim() : s.slice(0, 120);
+  return takeaway || r.title || '';
+}
+
 function inferBadge(r) {
   const text = ((r.title||'') + ' ' + (r.summary||'') + ' ' + (r.tags||[]).join(' ')).toLowerCase();
   if (/delete|drop|clear|overwrite|corrupt|destroy|清空|覆盖|丢数据/.test(text)) return { label: 'Fatal Pitfall', cls: 'badge-fatal' };
@@ -159,6 +167,7 @@ function render(results, q) {
   let html = '<div class="results-header">Found ' + results.length + ' lessons for "' + escapeHTML(q) + '"</div>';
   html += '<div class="stats">' + searchable + ' curated lessons · static JSON · GitHub-audited · no database</div>';
   html += results.map((r, index) => {
+    const takeaway = escapeHTML(getTakeaway(r));
     const title = escapeHTML(r.title);
     const summary = escapeHTML((r.summary||'').slice(0,200));
     const domain = escapeHTML(r.domain||'general');
@@ -166,13 +175,15 @@ function render(results, q) {
     const url = getLessonUrl(r);
     const id = escapeHTML(r.id || '');
     const badge = inferBadge(r);
+    const showTitle = takeaway !== title; // show title as meta only if different
     return '<div class="result" tabindex="0" data-index="' + index + '" data-id="' + id + '">' +
       '<div class="result-meta">' +
         '<span class="badge ' + badge.cls + '">' + badge.label + '</span>' +
         '<span class="badge badge-domain">' + domain + '</span>' +
+        '<span class="badge badge-status">GitHub-audited</span>' +
       '</div>' +
-      '<div class="result-title">' + title + '</div>' +
-      '<div class="result-id">' + id + '</div>' +
+      '<div class="result-title">' + takeaway + '</div>' +
+      (showTitle ? '<div class="result-id">' + id + '</div>' : '') +
       '<div class="result-summary">' + summary + '</div>' +
       (tags ? '<div class="result-tags">' + tags + '</div>' : '') +
       '<div class="result-actions">' +
