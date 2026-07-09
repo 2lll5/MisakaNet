@@ -1,0 +1,45 @@
+name: Build Live Feed
+
+on:
+  schedule:
+    - cron: "23 */3 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "data/lessons.json"
+      - "scripts/build_feed.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: read
+  pull-requests: read
+
+jobs:
+  build-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build feed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 scripts/build_feed.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "misakanet-bot"
+          git config user.email "bot@misakanet.org"
+          git add docs/data/feed.json
+          if git diff --cached --quiet; then
+            echo "No changes to feed.json"
+          else
+            git commit -m "chore(feed): refresh live feed"
+            git push
+          fi
