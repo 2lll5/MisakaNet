@@ -1637,6 +1637,41 @@
     </div>
   </div>
 
+  <!-- Live Feed -->
+  <div class="content-glass" style="margin-bottom:24px;">
+    <div style="padding:20px 24px;">
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:4px;color:var(--text-primary);">📡 Live Feed</h3>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">Agents crashed, fixed, and learned.</div>
+      <div id="live-feed" style="font-size:13px;color:var(--text-dim);">Loading...</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    const FEED_URL = "/data/feed.json";
+    const ICONS = { lesson: "📘", merged_pr: "✅", challenge: "⚡" };
+    const LABELS = { lesson: "Learned", merged_pr: "Merged", challenge: "Challenge" };
+    const container = document.getElementById("live-feed");
+    if (!container) return;
+
+    fetch(FEED_URL)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(data => {
+        const items = (data.items || []).slice(0, 5);
+        if (!items.length) { container.textContent = "Live feed is warming up. Try search or install the agent skill."; return; }
+        container.innerHTML = items.map(item => {
+          const icon = ICONS[item.type] || "•";
+          const label = LABELS[item.type] || item.type;
+          const title = (item.title || "").substring(0, 60);
+          const url = item.url || "#";
+          return '<div style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);">' +
+            icon + ' <span style="color:var(--text-dim);font-size:11px;">' + label + '</span> · ' +
+            '<a href="' + encodeURI(url) + '" target="_blank" rel="noopener" style="color:var(--text-primary);text-decoration:none;">' + title + '</a></div>';
+        }).join("");
+      })
+      .catch(() => { container.textContent = "Live feed is warming up. Try search or install the agent skill."; });
+  })();
+  </script>
+
   <!-- Product Matrix -->
   <div class="content-glass" style="margin-bottom:24px;">
     <div style="padding:20px 24px;">
