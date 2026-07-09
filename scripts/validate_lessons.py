@@ -11,6 +11,17 @@ import re
 import sys
 from pathlib import Path
 
+
+def configure_console_output() -> None:
+    """Avoid UnicodeEncodeError for emoji output on legacy Windows consoles."""
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            reconfigure(errors="replace")
+
+
+configure_console_output()
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_PATH = REPO_ROOT / "schemas" / "lesson.json"
 LESSONS_DIR = REPO_ROOT / "lessons"
@@ -27,9 +38,20 @@ def load_schema() -> dict:
         return json.load(f)
 
 
+def read_lesson_text(path: Path) -> str:
+    """Read lesson text without crashing on legacy/non-UTF-8 files."""
+    data = path.read_bytes()
+    for encoding in ("utf-8", "utf-8-sig", "utf-16"):
+        try:
+            return data.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return data.decode("utf-8", errors="replace")
+
+
 def extract_frontmatter(path: Path) -> tuple[dict | None, str | None]:
     """Extract JSON frontmatter from a lesson markdown file."""
-    content = path.read_text(encoding="utf-8")
+    content = read_lesson_text(path)
     m = re.match(r"^---\s*\n(.*?)\n---", content, re.DOTALL)
     if not m:
         return None, "No frontmatter block found (must start with ---)"
@@ -105,7 +127,7 @@ def extract_frontmatter(path: Path) -> tuple[dict | None, str | None]:
 
 def validate_body(path: Path) -> list[str]:
     """Check lesson body has required sections."""
-    content = path.read_text(encoding="utf-8")
+    content = read_lesson_text(path)
     # Strip frontmatter
     body = re.sub(r"^---\s*\n.*?\n---\s*\n", "", content, count=1, flags=re.DOTALL)
     errors = []
