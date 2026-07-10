@@ -196,6 +196,121 @@ def heal(raw_log: str):
     print()
 
 
+def _find_closest_matches(query: str, docs: list, top_n: int = 3) -> list:
+    """Find closest matches by keyword overlap scoring."""
+    query_words = set(re.findall(r'\w+', query.lower()))
+    if not query_words:
+        return []
+
+    scored = []
+    for doc in docs:
+        doc_words = set(re.findall(r'\w+', (doc.title + " " + doc.content[:500]).lower()))
+        if not doc_words:
+            continue
+        overlap = len(query_words & doc_words)
+        if overlap > 0:
+            score = overlap / len(query_words)
+            scored.append((score, doc))
+
+    scored.sort(key=lambda x: -x[0])
+    return scored[:top_n]
+
+
+def _suggest_relaxed_query(query: str) -> list:
+    """Suggest relaxed queries by dropping stop words."""
+    stop_words = {"the", "a", "an", "is", "are", "was", "were", "be", "been",
+                  "being", "have", "has", "had", "do", "does", "did", "will",
+                  "would", "could", "should", "may", "might", "can", "shall",
+                  "of", "in", "on", "at", "to", "for", "with", "by", "from",
+                  "as", "into", "through", "during", "before", "after", "and",
+                  "but", "or", "not", "so", "very", "just", "than", "too"}
+    words = query.lower().split()
+    meaningful = [w for w in words if w not in stop_words]
+    if len(meaningful) >= 2:
+        # Suggest dropping last word
+        return [" ".join(meaningful[:-1])]
+    if len(meaningful) == 1:
+        return [meaningful[0]]
+    return []
+
+
+def _log_zero_result(query: str):
+    """Log zero-result query for gap analysis."""
+    import datetime
+    log_dir = Path.home() / ".misakanet"
+    log_dir.mkdir(exist_ok=True)
+    log_file = log_dir / "search_telemetry.jsonl"
+
+    entry = {
+        "query": query,
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "result": "zero",
+    }
+
+    try:
+        with open(log_file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(entry) + "\n")
+    except Exception:
+        pass  # Non-critical, don't fail search
+
+    # Check if same query failed >3 times → suggest creating issue
+    try:
+        if log_file.exists():
+            lines = log_file.read_text(encoding="utf-8").strip().split("\n")
+            count = sum(1 for l in lines if f'"query": "{query}"' in l)
+            if count >= 3:
+                print(f"  ⚠️  This query has returned 0 results {count} times.")
+                print(f"     Consider creating an issue for a missing lesson:")
+                print(f"     https://github.com/Ikalus1988/MisakaNet/issues/new?title=Missing+lesson:+{query.replace(' ', '+')}")
+                print()
+    except Exception:
+        pass
+
+
+def _smart_fallback(query: str, docs: list):
+    """Smart fallback when search returns 0 results."""
+    print(f"\n  ❌ No exact match for '{query}'")
+    print()
+
+    # 1. Top-3 closest matches by keyword overlap
+    closest = _find_closest_matches(query, docs, top_n=3)
+    if closest:
+        print(f"  📋 Closest matches:")
+        for score, doc in closest:
+            title = doc.title[:60] or doc.filename
+            print(f"     [{score:.0%}] {title}")
+        print()
+
+    # 2. "Did you mean: ..." with relaxed query
+    suggestions = _suggest_relaxed_query(query)
+    if suggestions:
+        print(f"  💡 Did you mean: \"{suggestions[0]}\"?")
+        print()
+
+    # 3. Domain suggestions
+    all_domains = {d.domain.lower() for d in docs if d.domain}
+    q = query.lower()
+    domain_matches = [d for d in all_domains if d in q or q in d]
+    if domain_matches:
+        print(f"  💡 Try domain filter:")
+        for dm in domain_matches[:3]:
+            print(f"     --domain {dm}")
+
+    # 4. Broad mode hint
+    print(f"  💡 Try broader search: --broad or --ref")
+
+    # 5. Contribution link
+    print(f"  💡 Add new knowledge:")
+    print(f"     python3 scripts/queue_lesson.py -t \"{query}\" ...")
+
+    # 6. Available domains
+    if all_domains:
+        top_domains = sorted(all_domains)[:8]
+        print(f"  💡 Available domains: {', '.join(top_domains)}")
+
+    print()
+
+
 def main():
     _ensure_utf8_stdout()
     args = sys.argv[1:]
@@ -401,37 +516,11 @@ def main():
         found_any = found_any or found
     total_docs = len(lessons_docs) + len(ref_docs)
     if not found_any:
-        # Feature #229: Smart fallback when no results
-        print(f"\\n  ❌ No exact match for '{query}'")
-        print()
-        
-        # Collect all domains for suggestions
-        all_domains = set()
-        for d in lessons_docs + ref_docs:
-            if d.domain:
-                all_domains.add(d.domain.lower())
-        
-        # 1. Domain suggestions
-        q = query.lower()
-        domain_matches = [d for d in all_domains if d in q or q in d]
-        if domain_matches:
-            print(f"  💡 Try domain filter:")
-            for dm in domain_matches[:3]:
-                print(f"     --domain {dm}")
-        
-        # 2. Broad mode hint
-        print(f"  💡 Try broader search: --broad or --ref")
-        
-        # 3. Quick contribution link
-        print(f"  💡 Add new knowledge:")
-        print(f"     python3 scripts/queue_lesson.py -t \"{query}\" ...")
-        
-        # 4. Show top domains as examples
-        if all_domains:
-            top_domains = sorted(all_domains)[:8]
-            print(f"  💡 Available domains: {', '.join(top_domains)}")
-        
-        print()
+        # Feature #301: Smart fallback with closest matches
+        _smart_fallback(query, lessons_docs + ref_docs)
+
+        # Log zero-result query for gap analysis
+        _log_zero_result(query)
     _show_timing(time.time() - t0, total_docs)
     if found_any and not suggest:
         from misakanet.profile import increment_search, consume_quota
