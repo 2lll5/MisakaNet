@@ -13,18 +13,18 @@
     --text-muted: rgba(255,255,255,0.48);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: var(--font-ui); background: #0d1117; color: var(--text-main); min-height: 100vh; }
+  body { font-family: var(--font-ui); background: radial-gradient(circle at 50% -20%, rgba(88,166,255,0.09), transparent 38%), #0a0f1d; color: var(--text-main); min-height: 100vh; }
   .container { max-width: 720px; margin: 0 auto; padding: 40px 20px; }
   h1 { font-family: var(--font-ui); font-size: 24px; font-weight: 700; margin-bottom: 4px; }
   .subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
-  .search-box { position: relative; margin-bottom: 16px; }
-  .search-box input { width: 100%; padding: 14px 16px; background: #161b22; border: 1px solid #30363d; border-radius: 10px; color: var(--text-main); font-size: 15px; font-family: var(--font-ui); outline: none; }
-  .search-box input:focus { border-color: #58a6ff; }
-  .search-box input::placeholder { color: #484f58; }
+  .search-box { position: relative; margin-bottom: 16px; background: rgba(255,255,255,0.035); border: 1px solid rgba(88,166,255,0.24); border-radius: 14px; box-shadow: 0 0 0 1px rgba(88,166,255,0.04); transition: border-color 0.2s, box-shadow 0.2s; }
+  .search-box:focus-within { border-color: rgba(88,166,255,0.62); background: rgba(88,166,255,0.06); box-shadow: 0 0 18px rgba(88,166,255,0.12); }
+  .search-box input { width: 100%; padding: 15px 16px; background: transparent; border: 0; color: var(--text-main); font-size: 15px; font-family: var(--font-ui); outline: none; }
+  .search-box input::placeholder { color: rgba(255,255,255,0.35); }
   .stats { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
   .results-header { font-size: 13px; color: var(--text-soft); margin-bottom: 12px; }
-  .result { padding: 16px; background: #161b22; border: 1px solid #21262d; border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
-  .result:hover { border-color: #30363d; }
+  .result { padding: 16px; background: rgba(255,255,255,0.025); border: 1px solid rgba(88,166,255,0.12); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; box-shadow: 0 8px 28px rgba(0,0,0,0.22); }
+  .result:hover { border-color: rgba(88,166,255,0.35); }
   .result-title { font-family: var(--font-ui); font-size: 16px; line-height: 1.35; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
   .result-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
   .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600; font-family: var(--font-ui); }
@@ -41,7 +41,7 @@
   .btn-primary:hover { opacity: 0.9; }
   .btn-secondary { font-family: var(--font-ui); font-size: 12px; color: var(--text-soft); background: transparent; border: 1px solid #30363d; border-radius: 6px; padding: 6px 14px; cursor: pointer; text-decoration: none; display: inline-block; }
   .btn-secondary:hover { border-color: #58a6ff; color: #58a6ff; }
-  .lesson-preview { margin-top: 12px; padding: 12px; border: 1px solid #30363d; border-radius: 8px; background: #0d1117; cursor: default; }
+  .lesson-preview { margin-top: 12px; padding: 12px; border: 1px solid rgba(88,166,255,0.16); border-radius: 8px; background: #0b1020; cursor: default; }
   .lesson-preview h2 { font-family: var(--font-ui); font-size: 15px; font-weight: 700; color: var(--text-main); margin: 18px 0 8px; }
   .lesson-preview h3 { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--text-main); margin: 14px 0 6px; }
   .lesson-preview pre { background: #0b0f14; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; overflow-x: auto; white-space: pre-wrap; word-break: break-word; font-family: var(--font-mono); font-size: 12px; line-height: 1.65; color: #c9d1d9; }
