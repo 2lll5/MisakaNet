@@ -985,6 +985,12 @@
   }
   .help-btn:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 12px rgba(0, 229, 255, 0.1); }
 
+  /* ── Home search panel ── */
+  .home-search-box:focus-within {
+    border-color: rgba(0,229,255,0.72) !important;
+    box-shadow: 0 0 0 3px rgba(0,229,255,0.08), 0 0 24px rgba(0,229,255,0.13) !important;
+  }
+
   /* ── Keyboard shortcut hint ── */
   .search-hint {
     font-size: 10px;
@@ -1513,23 +1519,27 @@
   <div class="content-glass">
 
   <!-- Search Section -->
-  <div style="margin:16px auto 0;text-align:center;">
-    <div style="font-size:13px;color:var(--cyan);font-weight:600;margin-bottom:8px;letter-spacing:0.5px;">
-      <svg viewBox="0 0 24 24" width="14" height="14" style="vertical-align:-2px;margin-right:4px;"><circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="m21 21-4.35-4.35" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-      SAG-Lite Search
+  <div class="home-search-panel" style="max-width:760px;margin:20px auto 0;padding:18px;border:1px solid rgba(0,229,255,0.18);border-radius:18px;background:linear-gradient(180deg, rgba(0,229,255,0.055), rgba(255,255,255,0.025));box-shadow:0 16px 48px rgba(0,0,0,0.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color 0.25s ease,box-shadow 0.25s ease;">
+    <div style="text-align:center;margin-bottom:12px;">
+      <div style="font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px;">Search verified failure lessons</div>
+      <div style="font-size:12px;color:var(--text-dim);">Find fixes from real AI agent debugging sessions.</div>
+      <div id="lesson-count-search" style="font-size:11px;color:var(--text-dim);margin-top:4px;">198 curated lessons · GitHub-audited · no database</div>
     </div>
-    <div id="lesson-count-search" style="font-size:11px;color:var(--text-dim);margin-bottom:12px;">Search failure lessons. OKF-compatible. Zero-dep local fallback. MCP-ready.</div>
-  </div>
-  <div style="margin:0 auto;position:relative;max-width:600px;">
-    <input id="search-input" type="text" placeholder="Search failure lessons... (e.g., pip timeout, profinet, database locked)" style="width:100%;padding:12px 16px;border:1px solid rgba(0,229,255,0.15);border-radius:10px;background:rgba(0,0,0,0.4);color:#e2e8f0;font-size:14px;outline:none;box-sizing:border-box;transition:border-color 0.25s;font-family:'Inter','Noto Sans SC',sans-serif;" oninput="debounceSearch()" onkeydown="handleSearchKeydown(event)" onfocus="onSearchFocus(this)" onblur="setTimeout(()=>document.getElementById('search-results').style.display='none',200)"/>
-    <span class="search-hint" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);">⌘K</span>
-    <div id="search-results" style="display:none;margin-top:6px;max-height:400px;overflow-y:auto;background:var(--bg-card);border:1px solid rgba(0,229,255,0.1);border-radius:10px;backdrop-filter:blur(8px);"></div>
-  </div>
-  <!-- Quick search examples -->
-  <div style="margin:8px auto 0;text-align:center;font-size:11px;color:var(--text-dim);">
-    Quick: <a href="javascript:void(0)" onclick="document.getElementById('search-input').value='pip timeout';searchLessons()" style="color:var(--cyan);text-decoration:none;margin:0 4px;">pip timeout</a>
-    <a href="javascript:void(0)" onclick="document.getElementById('search-input').value='database locked';searchLessons()" style="color:var(--cyan);text-decoration:none;margin:0 4px;">database locked</a>
-    <a href="javascript:void(0)" onclick="document.getElementById('search-input').value='profinet';searchLessons()" style="color:var(--cyan);text-decoration:none;margin:0 4px;">profinet</a>
+    <div style="position:relative;max-width:680px;margin:0 auto;">
+      <div class="home-search-box" style="position:relative;background:rgba(4,10,24,0.86);border:1px solid rgba(0,229,255,0.30);border-radius:14px;transition:border-color 0.25s ease,box-shadow 0.25s ease;">
+        <input id="search-input" type="text" placeholder="Search DCO, token leak, pip timeout..." style="width:100%;padding:15px 52px 15px 16px;background:transparent;border:0;color:var(--text-main);font-size:15px;font-family:var(--font-ui);outline:none;" oninput="debounceSearch()" onkeydown="handleSearchKeydown(event)" onfocus="this.parentElement.style.borderColor='rgba(0,229,255,0.72)';this.parentElement.style.boxShadow='0 0 0 3px rgba(0,229,255,0.08),0 0 24px rgba(0,229,255,0.13)'" onblur="this.parentElement.style.borderColor='rgba(0,229,255,0.30)';this.parentElement.style.boxShadow='none';setTimeout(()=>document.getElementById('search-results').style.display='none',200)"/>
+        <span class="search-hint" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.42);background:rgba(255,255,255,0.055);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:3px 7px;font-size:11px;">⌘K</span>
+      </div>
+      <div id="search-results" style="display:none;margin-top:6px;max-height:400px;overflow-y:auto;background:var(--bg-card);border:1px solid rgba(0,229,255,0.1);border-radius:10px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);"></div>
+    </div>
+    <div style="margin:10px auto 0;text-align:center;">
+      <span style="font-size:11px;color:var(--text-dim);margin-right:6px;">Try:</span>
+      <a href="/search/?q=DCO" style="display:inline-block;font-size:11px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:3px 10px;margin:2px 3px;text-decoration:none;">DCO</a>
+      <a href="/search/?q=GitHub%20token" style="display:inline-block;font-size:11px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:3px 10px;margin:2px 3px;text-decoration:none;">GitHub token</a>
+      <a href="/search/?q=pip%20timeout" style="display:inline-block;font-size:11px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:3px 10px;margin:2px 3px;text-decoration:none;">pip timeout</a>
+      <a href="/search/?q=database%20locked" style="display:inline-block;font-size:11px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:3px 10px;margin:2px 3px;text-decoration:none;">database locked</a>
+    </div>
+    <div style="text-align:center;margin-top:8px;font-size:10px;color:var(--text-dim);">SAG-Lite · static JSON · zero-dep</div>
   </div>
 
   <!-- Agent Quick Register — AI agents POST to Worker (no token needed) -->
