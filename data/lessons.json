@@ -1683,6 +1683,28 @@
     "status": "active"
   },
   {
+    "id": "lesson-pep668-homebrew-externally-managed",
+    "title": "macOS Homebrew Python: pip install Blocked by PEP 668 externally-managed-environment",
+    "domain": "devops",
+    "tags": [
+      "python",
+      "pip",
+      "homebrew",
+      "macos",
+      "pep-668",
+      "venv",
+      "pyyaml"
+    ],
+    "summary": "> Author: zsxh1990",
+    "url": "lessons/contrib/lesson-pep668-homebrew-externally-managed.md",
+    "created": "2026-07-09",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "draft"
+  },
+  {
     "id": "lesson-quality-requirements",
     "title": "lesson-quality-requirements",
     "domain": "contrib",
@@ -2456,6 +2478,20 @@
     "status": "active"
   },
   {
+    "id": "search-ssot-data-source-pollution-fix",
+    "title": "search-ssot-data-source-pollution-fix",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "A static site deployed via GitHub Pages used a Worker API (`/api/lessons`) as the data source for its search feature. The Worker fetched from a stale branch, re…",
+    "url": "lessons/contrib/search-ssot-data-source-pollution-fix.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
     "id": "session-lesson-1-content-quality-scoring",
     "title": "session-lesson-1-content-quality-scoring",
     "domain": "contrib",
@@ -2898,6 +2934,20 @@
     "summary": "在 WSL2 中 `pip install wxauto` 报错 `No matching distribution found`。wxauto 是 Windows-only 库。",
     "url": "lessons/contrib/wxauto-windows-python-not-wsl.md",
     "created": "2026-07-06",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active"
+  },
+  {
+    "id": "zero-bounty-agent-competition-flywheel",
+    "title": "zero-bounty-agent-competition-flywheel",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Open-source projects want to attract AI agent crawlers and automated PR contributors, but traditional bounty models require funding. How do you design issues th…",
+    "url": "lessons/contrib/zero-bounty-agent-competition-flywheel.md",
+    "created": "",
     "updated": "",
     "validity_period_days": 365,
     "environment_version": "",
