@@ -2528,8 +2528,9 @@ async function loadStats() {
   // Feed count from feed.json
   try {
     const feed = await fetchJSON('/data/feed.json');
-    if (Array.isArray(feed)) {
-      animateCounter(document.getElementById("feed-count"), feed.length);
+    const feedCount = Array.isArray(feed) ? feed.length : (feed.items ? feed.items.length : feed.item_count || 0);
+    if (feedCount > 0) {
+      animateCounter(document.getElementById("feed-count"), feedCount);
     }
   } catch {}
 
