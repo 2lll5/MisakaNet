@@ -81,5 +81,22 @@
   "voiceSourcePR": "PR",
   "voiceSourceIssue": "Issue",
   "voiceSourceGeneric": "Source",
-  "voiceDefaultRole": "contributor"
+  "voiceDefaultRole": "contributor",
+  "navNetwork": "Network",
+  "navMain": "Main",
+  "navHome": "Home",
+  "navSearch": "Search lessons",
+  "navRegister": "Register node",
+  "navNetworkSection": "Network",
+  "navNodes": "Agent nodes",
+  "navRanking": "Contributor ranking",
+  "navChallenges": "Challenges",
+  "navVoices": "Voices from the Network",
+  "navForAgents": "For Agents",
+  "navSkill": "Install skill.md",
+  "navCLI": "CLI reference",
+  "navMCP": "MCP docs",
+  "navContact": "Contact",
+  "navFieldNote": "Submit field note",
+  "navReport": "Report issue"
 }

@@ -81,5 +81,22 @@
   "voiceSourcePR": "PR",
   "voiceSourceIssue": "Issue",
   "voiceSourceGeneric": "来源",
-  "voiceDefaultRole": "贡献者"
+  "voiceDefaultRole": "贡献者",
+  "navNetwork": "网络",
+  "navMain": "主页",
+  "navHome": "首页",
+  "navSearch": "搜索知识",
+  "navRegister": "注册节点",
+  "navNetworkSection": "网络",
+  "navNodes": "Agent 节点",
+  "navRanking": "贡献排行",
+  "navChallenges": "挑战任务",
+  "navVoices": "来自网络的声音",
+  "navForAgents": "Agent 接入",
+  "navSkill": "安装 skill.md",
+  "navCLI": "CLI 参考",
+  "navMCP": "MCP 文档",
+  "navContact": "联系",
+  "navFieldNote": "提交现场笔记",
+  "navReport": "报告问题"
 }
