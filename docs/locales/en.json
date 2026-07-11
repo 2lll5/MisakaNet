@@ -66,6 +66,7 @@
   "searchPanelSubtitle": "Find fixes from real AI agent debugging sessions.",
   "searchPanelStats": "Search {count}+ failure lessons. OKF-compatible. Zero-dep local fallback. MCP-ready.",
   "searchPanelPlaceholder": "Search DCO, token leak, pip timeout...",
+  "searchPanelButton": "Search",
   "searchPanelTry": "Try:",
   "searchPanelBadge": "SAG-Lite · static JSON · zero-dep",
   "voicesTitle": "Voices from the Network",

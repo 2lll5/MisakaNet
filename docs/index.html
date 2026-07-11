@@ -1527,8 +1527,9 @@
     </div>
     <div style="position:relative;max-width:680px;margin:0 auto;">
       <div class="home-search-box" style="position:relative;background:rgba(4,10,24,0.86);border:1px solid rgba(0,229,255,0.30);border-radius:14px;transition:border-color 0.25s ease,box-shadow 0.25s ease;">
-        <input id="search-input" type="text" data-i18n-placeholder="searchPanelPlaceholder" placeholder="Search DCO, token leak, pip timeout..." style="width:100%;padding:15px 52px 15px 16px;background:transparent;border:0;color:var(--text-main);font-size:15px;font-family:var(--font-ui);outline:none;" oninput="debounceSearch()" onkeydown="handleSearchKeydown(event)" onfocus="this.parentElement.style.borderColor='rgba(0,229,255,0.72)';this.parentElement.style.boxShadow='0 0 0 3px rgba(0,229,255,0.08),0 0 24px rgba(0,229,255,0.13)'" onblur="this.parentElement.style.borderColor='rgba(0,229,255,0.30)';this.parentElement.style.boxShadow='none';setTimeout(()=>document.getElementById('search-results').style.display='none',200)"/>
-        <span class="search-hint" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.42);background:rgba(255,255,255,0.055);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:3px 7px;font-size:11px;">⌘K</span>
+        <input id="search-input" type="text" data-i18n-placeholder="searchPanelPlaceholder" placeholder="Search DCO, token leak, pip timeout..." style="width:100%;padding:15px 142px 15px 16px;background:transparent;border:0;color:var(--text-main);font-size:15px;font-family:var(--font-ui);outline:none;" oninput="debounceSearch()" onkeydown="handleSearchKeydown(event)" onfocus="this.parentElement.style.borderColor='rgba(0,229,255,0.72)';this.parentElement.style.boxShadow='0 0 0 3px rgba(0,229,255,0.08),0 0 24px rgba(0,229,255,0.13)'" onblur="this.parentElement.style.borderColor='rgba(0,229,255,0.30)';this.parentElement.style.boxShadow='none';setTimeout(()=>document.getElementById('search-results').style.display='none',200)"/>
+        <span class="search-hint" style="position:absolute;right:88px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.42);background:rgba(255,255,255,0.055);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:3px 7px;font-size:11px;">⌘K</span>
+        <button type="button" onclick="goSearchPage()" data-i18n="searchPanelButton" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:var(--cyan);color:#07101f;border:0;border-radius:10px;padding:8px 13px;font-size:12px;font-weight:700;font-family:var(--font-ui);cursor:pointer;box-shadow:0 0 14px rgba(0,229,255,0.16);">Search</button>
       </div>
       <div id="search-results" style="display:none;margin-top:6px;max-height:400px;overflow-y:auto;background:var(--bg-card);border:1px solid rgba(0,229,255,0.1);border-radius:10px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);"></div>
     </div>
@@ -2223,6 +2224,12 @@ function handleSearchKeydown(event) {
   if (!q) return;
   event.preventDefault();
   window.location.href = `/search/?q=${encodeURIComponent(q)}`;
+}
+
+function goSearchPage() {
+  const input = document.getElementById('search-input');
+  const q = input ? input.value.trim() : '';
+  window.location.href = q ? `/search/?q=${encodeURIComponent(q)}` : '/search/';
 }
 
 // Quality filter: exclude garbage lessons from search results
