@@ -1592,30 +1592,32 @@
     <span style="color:#2a3a4a;">|</span> <a href="https://github.com/Ikalus1988/MisakaNet/blob/main/workers/register-proxy.js" target="_blank" rel="noopener" style="color:#475569;">View Worker source</a>
   </div>
 
-  <!-- Stats Cards -->
+  <!-- Network Signals — compact single card -->
   <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 2a15 15 0 0 0-10.6 4.4M12 6a11 11 0 0 0-7.8 3.2M12 10a7 7 0 0 0-5 2.1M5 21l3.5-3.5M12 14a3 3 0 0 0-2.1.9"/><circle cx="12" cy="19" r="1.5"/><path d="M19 5l-3 3m0 0l-2-2m2 2l-2 2"/></svg></div>
-      <div class="stat-content">
-        <div class="stat-number" id="total-nodes">—</div>
-        <div class="stat-label" data-i18n="statNodes">已注册节点</div>
-        <div class="stat-sub" id="total-suffix"></div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8 7 6 11 6 14a6 6 0 1 0 12 0c0-3-2-7-6-12z"/><path d="M12 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" opacity="0.5"/></svg></div>
-      <div class="stat-content">
-        <div class="stat-number" id="latest-number">—</div>
-        <div class="stat-label" data-i18n="statLatest">最新节点编号</div>
-        <div class="stat-sub" id="latest-time"></div>
-      </div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M10 2v8l3-2 3 2V2"/></svg></div>
-      <div class="stat-content">
-        <div class="stat-number" id="knowledge-count">—</div>
-        <div class="stat-label" data-i18n="statLessons">网络知识数</div>
-        <div class="stat-sub" data-i18n="lessons">lessons</div>
+    <div class="stat-card" style="padding:20px 28px;">
+      <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;width:100%;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:14px;">🌐</span>
+          <span style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);" id="total-nodes">—</span>
+          <span style="font-size:12px;color:var(--text-dim);" data-i18n="statNodes">registered nodes</span>
+        </div>
+        <div style="width:1px;height:24px;background:rgba(0,229,255,0.1);"></div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:14px;">📖</span>
+          <span style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);" id="knowledge-count">—</span>
+          <span style="font-size:12px;color:var(--text-dim);">curated lessons</span>
+        </div>
+        <div style="width:1px;height:24px;background:rgba(0,229,255,0.1);"></div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:14px;">📡</span>
+          <span style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);" id="feed-count">—</span>
+          <span style="font-size:12px;color:var(--text-dim);">feed items</span>
+        </div>
+        <div style="width:1px;height:24px;background:rgba(0,229,255,0.1);"></div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="status-dot online"></span>
+          <span style="font-size:11px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;" id="last-updated">last updated —</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1692,7 +1694,7 @@
   </div>
 
   <!-- Recent Registrations Timeline -->
-  <div class="section-title">📋 <span data-i18n="recentSection">最新注册</span> <span id="recent-count"></span></div>
+  <div class="section-title">📋 <span data-i18n="recentSection">最新注册</span> <span id="recent-count"></span> <span id="recent-showing" style="font-size:11px;color:var(--text-dim);font-weight:400;font-family:'JetBrains Mono',monospace;"></span></div>
   <div class="timeline" id="recent-list">
     <div class="loading-item" data-i18n="loading">加载中...</div>
   </div>
@@ -2511,13 +2513,10 @@ async function loadStats() {
 
     animateCounter(document.getElementById("total-nodes"), totalNodes);
     document.getElementById("total-nodes").classList.remove("loading");
-    document.getElementById("total-suffix").textContent = (LANG === "en" ? `from 10000 · now ${current}` : `起始 10000 · 当前 ${current}`);
-    animateCounter(document.getElementById("latest-number"), current);
-    document.getElementById("latest-time").textContent = (LANG === "en" ? `updated ${counter.updated.slice(0, 10)}` : `更新 ${counter.updated.slice(0, 10)}`);
+    document.getElementById("last-updated").textContent = `last updated ${counter.updated.slice(0, 10)}`;
   }
 
   // SSOT: use _allLessons (from safeFetchLessons) instead of /api/lessons
-  // Wait for loadLessons() to finish if it hasn't yet
   if (!_allLessons) {
     await loadLessons();
   }
@@ -2525,6 +2524,14 @@ async function loadStats() {
     const countEl = document.getElementById("knowledge-count");
     animateCounter(countEl, _allLessons.length);
   }
+
+  // Feed count from feed.json
+  try {
+    const feed = await fetchJSON('/data/feed.json');
+    if (Array.isArray(feed)) {
+      animateCounter(document.getElementById("feed-count"), feed.length);
+    }
+  } catch {}
 
   showCacheLabels();
 
@@ -2582,7 +2589,14 @@ async function loadRecentRegistrations() {
 
     document.getElementById("recent-count").textContent = `(${registrations.length})`;
 
-    list.innerHTML = registrations.map((issue, idx) => {
+    // Show only latest 6 on homepage; full list via /nodes/ or expand
+    const DISPLAY_LIMIT = 6;
+    if (registrations.length > DISPLAY_LIMIT) {
+      document.getElementById("recent-showing").textContent = `· showing latest ${DISPLAY_LIMIT}`;
+    }
+    const displayed = registrations.slice(0, DISPLAY_LIMIT);
+
+    list.innerHTML = displayed.map((issue, idx) => {
       const nth = registrations.length - idx;
       const result = allResults.find(r => r.issue.number === issue.number);
       const number = result
@@ -2627,6 +2641,37 @@ async function loadRecentRegistrations() {
         </div>
       `;
     }).join("");
+
+    // Add "View all" expand if there are more than DISPLAY_LIMIT
+    if (registrations.length > DISPLAY_LIMIT) {
+      const remaining = registrations.slice(DISPLAY_LIMIT);
+      const remainingHtml = remaining.map((issue, idx) => {
+        const realIdx = DISPLAY_LIMIT + idx;
+        const result = allResults.find(r => r.issue.number === issue.number);
+        const number = result ? result.nodeNum : (CURRENT_COUNTER - realIdx);
+        const date = new Date(issue.created_at).toISOString().slice(0, 10);
+        const nth = registrations.length - realIdx;
+        const avatarSrc = AVATAR_URL(number);
+        const scarfColor = SCARF_COLOR(nth);
+        let agentType = 'hermes';
+        const body = issue.body || '';
+        const agentMatch = body.match(/Agent\s*类型[：:]\s*\*\*(\w+)\*\*/i);
+        if (agentMatch) agentType = agentMatch[1].toLowerCase();
+        else { const b = body.toLowerCase(); if (b.includes('[cc]') || b.includes('cc-haha')) agentType = 'cc'; else if (b.includes('codex')) agentType = 'codex'; }
+        const isPublicReg = body.includes('通过公开通道');
+        const accountLabel = isPublicReg ? t('publicUser') : `@${issue.user.login}`;
+        const agentBadge = `<span class="agent-badge ${getAgentBadgeClass(agentType)}">${getAgentLabel(agentType)}</span>`;
+        return `<div class="timeline-item"><div class="timeline-dot"></div><img class="timeline-avatar" src="${avatarSrc}" alt="Misaka${number}" loading="lazy" style="border-color:${scarfColor};box-shadow:0 0 0 1px ${scarfColor}40;" onerror="this.style.display='none'"><div class="timeline-order">#${nth}</div><div class="timeline-name">Misaka${String(number).padStart(5, "0")}</div><div class="timeline-account">${accountLabel}</div>${agentBadge}<div class="timeline-date">${date}</div></div>`;
+      }).join("");
+
+      list.innerHTML += `
+        <div style="text-align:center;padding:12px 0;border-top:1px solid rgba(0,229,255,0.06);">
+          <details>
+            <summary style="cursor:pointer;font-size:12px;color:var(--cyan);font-family:'JetBrains Mono',monospace;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">View all ${registrations.length} registered nodes →</summary>
+            <div style="margin-top:8px;">${remainingHtml}</div>
+          </details>
+        </div>`;
+    }
 
   } catch (err) {
     if (err.message.includes("403")) {
