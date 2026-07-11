@@ -2174,7 +2174,7 @@ function formatText(template, vars) {
 function updateLessonCountSearch() {
   const el = document.getElementById('lesson-count-search');
   if (!el) return;
-  const count = _allLessons && _allLessons.length ? _allLessons.length : 198;
+  const count = _allLessons && _allLessons.length ? _allLessons.length : 202;
   el.textContent = formatText(t('searchPanelStats'), { count });
 }
 
@@ -2371,11 +2371,11 @@ function onSearchFocus(el) {
       preview.map(l => {
         const safeTitle = DOMPurify.sanitize(l.title);
         const safeSummary = DOMPurify.sanitize((l.summary || '').slice(0, 60));
-        const safeUrl = DOMPurify.sanitize(getLessonBlobUrl(l.url));
+        const safeUrl = DOMPurify.sanitize(getLessonSearchUrl(l, l.title || l.id || ''));
         return `<div style="padding:8px 12px;border-bottom:1px solid rgba(0,229,255,0.05);cursor:pointer;transition:background 0.15s;"
                onmouseover="this.style.background='rgba(0,229,255,0.04)'"
                onmouseout="this.style.background=''"
-               onclick="window.open('${safeUrl}', '_blank')">
+               onclick="window.location.href='${safeUrl}'">
           <div style="font-size:12px;color:var(--cyan);">${safeTitle}</div>
           <div style="font-size:10px;color:var(--text-dim);margin-top:2px;">${safeSummary}</div>
         </div>`;
@@ -2390,10 +2390,13 @@ function debounceSearch() {
   _searchTimeout = setTimeout(searchLessons, 200);
 }
 
-function getLessonBlobUrl(path) {
-  if (!path) return 'https://github.com/Ikalus1988/MisakaNet/tree/main/lessons';
-  if (/^https?:\/\//i.test(path)) return path;
-  return 'https://github.com/Ikalus1988/MisakaNet/blob/main/' + encodeURI(String(path).replace(/^\/+/, ''));
+function getLessonSearchUrl(lesson, q) {
+  const params = new URLSearchParams();
+  const query = q || (lesson && (lesson.title || lesson.id)) || '';
+  if (query) params.set('q', String(query));
+  if (lesson && lesson.id) params.set('lesson', String(lesson.id));
+  const queryString = params.toString();
+  return '/search/' + (queryString ? `?${queryString}` : '');
 }
 
 function handleSearchKeydown(event) {
@@ -2420,7 +2423,8 @@ function isSearchableLesson(l) {
 }
 
 function searchLessons() {
-  const q = document.getElementById("search-input").value.trim().toLowerCase();
+  const rawQ = document.getElementById("search-input").value.trim();
+  const q = rawQ.toLowerCase();
   const container = document.getElementById("search-results");
   if (!q || !_allLessons) {
     container.style.display = "none";
@@ -2462,11 +2466,11 @@ function searchLessons() {
     const votedClass = hasVoted(safeId) ? ' voted' : '';
     const votedDisabled = hasVoted(safeId) ? 'disabled' : '';
     const domainColor = safeDomain === 'fanuc' ? '#ff6b35' : safeDomain === 'devops' ? '#7c3aed' : safeDomain === 'rag' ? '#059669' : 'var(--cyan)';
-    const safeUrl = DOMPurify.sanitize(getLessonBlobUrl(l.url));
+    const safeUrl = DOMPurify.sanitize(getLessonSearchUrl(l, rawQ || l.title || l.id || ''));
     return `<div style="padding:10px 14px;border-bottom:1px solid rgba(0,229,255,0.06);cursor:pointer;transition:background 0.15s;"
            onmouseover="this.style.background='rgba(0,229,255,0.03)'"
            onmouseout="this.style.background=''"
-           onclick="window.open('${safeUrl}', '_blank')">
+           onclick="window.location.href='${safeUrl}'">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
           <span style="font-size:13px;color:#58a6ff;font-weight:500;">${safeTitle}</span>
           <span style="font-size:9px;color:${domainColor};background:rgba(0,229,255,0.06);padding:1px 6px;border-radius:4px;">${safeDomain}</span>
