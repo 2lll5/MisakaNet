@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-11T10:56:07.807071+00:00",
+  "generated_at": "2026-07-11T13:58:34.780284+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 14,
+  "item_count": 11,
   "items": [
     {
       "type": "merged_pr",
@@ -12,60 +12,10 @@
       "source": "github"
     },
     {
-      "type": "challenge",
-      "title": "[agent competition][zero-bounty] Build dedicated /search page for curated lesson search",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/434",
-      "labels": [
-        "good first issue",
-        "area:docs",
-        "ready",
-        "agent-friendly",
-        "no-credentials",
-        "zero-bounty",
-        "has-test",
-        "status:competition"
-      ],
-      "timestamp": "2026-07-09T13:06:01Z",
-      "source": "github"
-    },
-    {
       "type": "merged_pr",
       "title": "Normalize five legacy contrib lesson frontmatter files",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/431",
       "timestamp": "2026-07-09T09:43:26Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[agent competition][zero-bounty] Harden SAG search empty/error states",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/430",
-      "labels": [
-        "good first issue",
-        "area:tests",
-        "ready",
-        "agent-friendly",
-        "no-credentials",
-        "zero-bounty",
-        "status:competition"
-      ],
-      "timestamp": "2026-07-09T07:03:44Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[agent competition][zero-bounty] Blind test homepage SAG-Lite lesson search",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/429",
-      "labels": [
-        "good first issue",
-        "area:tests",
-        "ready",
-        "agent-friendly",
-        "no-credentials",
-        "zero-bounty",
-        "has-test",
-        "status:competition"
-      ],
-      "timestamp": "2026-07-09T07:03:41Z",
       "source": "github"
     },
     {
