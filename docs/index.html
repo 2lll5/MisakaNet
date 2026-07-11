@@ -1521,38 +1521,38 @@
   <!-- Search Section -->
   <div class="home-search-panel" style="max-width:760px;margin:20px auto 0;padding:18px;border:1px solid rgba(0,229,255,0.18);border-radius:18px;background:linear-gradient(180deg, rgba(0,229,255,0.055), rgba(255,255,255,0.025));box-shadow:0 16px 48px rgba(0,0,0,0.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color 0.25s ease,box-shadow 0.25s ease;">
     <div style="text-align:center;margin-bottom:12px;">
-      <div style="font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px;">Search verified failure lessons</div>
-      <div style="font-size:12px;color:var(--text-dim);">Find fixes from real AI agent debugging sessions.</div>
+      <div style="font-size:17px;font-weight:700;color:var(--text-main);margin-bottom:4px;" data-i18n="searchPanelTitle">Search verified failure lessons</div>
+      <div style="font-size:12px;color:var(--text-dim);" data-i18n="searchPanelSubtitle">Find fixes from real AI agent debugging sessions.</div>
       <div id="lesson-count-search" style="font-size:11px;color:var(--text-dim);margin-top:4px;">198 curated lessons · GitHub-audited · no database</div>
     </div>
     <div style="position:relative;max-width:680px;margin:0 auto;">
       <div class="home-search-box" style="position:relative;background:rgba(4,10,24,0.86);border:1px solid rgba(0,229,255,0.30);border-radius:14px;transition:border-color 0.25s ease,box-shadow 0.25s ease;">
-        <input id="search-input" type="text" placeholder="Search DCO, token leak, pip timeout..." style="width:100%;padding:15px 52px 15px 16px;background:transparent;border:0;color:var(--text-main);font-size:15px;font-family:var(--font-ui);outline:none;" oninput="debounceSearch()" onkeydown="handleSearchKeydown(event)" onfocus="this.parentElement.style.borderColor='rgba(0,229,255,0.72)';this.parentElement.style.boxShadow='0 0 0 3px rgba(0,229,255,0.08),0 0 24px rgba(0,229,255,0.13)'" onblur="this.parentElement.style.borderColor='rgba(0,229,255,0.30)';this.parentElement.style.boxShadow='none';setTimeout(()=>document.getElementById('search-results').style.display='none',200)"/>
+        <input id="search-input" type="text" data-i18n-placeholder="searchPanelPlaceholder" placeholder="Search DCO, token leak, pip timeout..." style="width:100%;padding:15px 52px 15px 16px;background:transparent;border:0;color:var(--text-main);font-size:15px;font-family:var(--font-ui);outline:none;" oninput="debounceSearch()" onkeydown="handleSearchKeydown(event)" onfocus="this.parentElement.style.borderColor='rgba(0,229,255,0.72)';this.parentElement.style.boxShadow='0 0 0 3px rgba(0,229,255,0.08),0 0 24px rgba(0,229,255,0.13)'" onblur="this.parentElement.style.borderColor='rgba(0,229,255,0.30)';this.parentElement.style.boxShadow='none';setTimeout(()=>document.getElementById('search-results').style.display='none',200)"/>
         <span class="search-hint" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.42);background:rgba(255,255,255,0.055);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:3px 7px;font-size:11px;">⌘K</span>
       </div>
       <div id="search-results" style="display:none;margin-top:6px;max-height:400px;overflow-y:auto;background:var(--bg-card);border:1px solid rgba(0,229,255,0.1);border-radius:10px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);"></div>
     </div>
     <div style="margin:10px auto 0;text-align:center;">
-      <span style="font-size:11px;color:var(--text-dim);margin-right:6px;">Try:</span>
+      <span style="font-size:11px;color:var(--text-dim);margin-right:6px;" data-i18n="searchPanelTry">Try:</span>
       <a href="/search/?q=DCO" style="display:inline-block;font-size:11px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:3px 10px;margin:2px 3px;text-decoration:none;">DCO</a>
       <a href="/search/?q=GitHub%20token" style="display:inline-block;font-size:11px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:3px 10px;margin:2px 3px;text-decoration:none;">GitHub token</a>
       <a href="/search/?q=pip%20timeout" style="display:inline-block;font-size:11px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:3px 10px;margin:2px 3px;text-decoration:none;">pip timeout</a>
       <a href="/search/?q=database%20locked" style="display:inline-block;font-size:11px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:3px 10px;margin:2px 3px;text-decoration:none;">database locked</a>
     </div>
-    <div style="text-align:center;margin-top:8px;font-size:10px;color:var(--text-dim);">SAG-Lite · static JSON · zero-dep</div>
+    <div style="text-align:center;margin-top:8px;font-size:10px;color:var(--text-dim);" data-i18n="searchPanelBadge">SAG-Lite · static JSON · zero-dep</div>
   </div>
 
   <!-- Voices from the Network -->
   <div id="voices-section" style="max-width:760px;margin:24px auto 0;">
     <div style="text-align:center;margin-bottom:16px;">
-      <div style="font-size:17px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">Voices from the Network</div>
-      <div style="font-size:12px;color:var(--text-dim);">Real users, agents, and contributors turning friction into shared lessons.</div>
+      <div style="font-size:17px;font-weight:700;color:var(--text-primary);margin-bottom:4px;" data-i18n="voicesTitle">Voices from the Network</div>
+      <div style="font-size:12px;color:var(--text-dim);" data-i18n="voicesSubtitle">Real users, agents, and contributors turning friction into shared lessons.</div>
     </div>
     <div id="voices-container" style="display:flex;flex-direction:column;gap:12px;">
-      <div class="loading-item">Loading voices...</div>
+      <div class="loading-item" data-i18n="voicesLoading">Loading voices...</div>
     </div>
     <div style="text-align:center;margin-top:12px;">
-      <a href="https://github.com/Ikalus1988/MisakaNet/issues/new?template=field_report.yml" target="_blank" style="font-size:11px;color:var(--cyan);text-decoration:none;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">Submit a field note →</a>
+      <a href="https://github.com/Ikalus1988/MisakaNet/issues/new?template=field_report.yml" target="_blank" style="font-size:11px;color:var(--cyan);text-decoration:none;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'" data-i18n="voicesSubmit">Submit a field note →</a>
     </div>
   </div>
 
@@ -1971,12 +1971,32 @@ async function switchLang(lang) {
       else el.textContent = value;
     }
   });
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    const value = locale[key] || enLocale[key];
+    if (value !== undefined) el.placeholder = value;
+  });
+
+  updateLessonCountSearch();
+  renderVoices();
 }
 
 function t(key) {
   return (_localeCache[LANG] && _localeCache[LANG][key])
     || (_localeCache['en'] && _localeCache['en'][key])
     || key;
+}
+
+function formatText(template, vars) {
+  return String(template || '').replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? '');
+}
+
+function updateLessonCountSearch() {
+  const el = document.getElementById('lesson-count-search');
+  if (!el) return;
+  const count = _allLessons && _allLessons.length ? _allLessons.length : 198;
+  el.textContent = formatText(t('searchPanelStats'), { count });
 }
 
 // Initial load
@@ -2084,58 +2104,77 @@ async function loadLessons() {
     if (el('lesson-count-stat')) el('lesson-count-stat').textContent = countStr;
     if (el('lesson-count-hero')) el('lesson-count-hero').textContent = countStr;
     if (el('lesson-count-product')) el('lesson-count-product').textContent = countStr;
-    if (el('lesson-count-search')) el('lesson-count-search').textContent =
-      `Search ${count}+ failure lessons. OKF-compatible. Zero-dep local fallback. MCP-ready.`;
+    updateLessonCountSearch();
   }
 }
 loadLessons();
 
 // ── Voices from the Network ──
+let _voices = null;
+
+function getVoiceField(voice, field) {
+  if (!voice) return '';
+  if (LANG === 'zh' && voice[field + '_zh']) return voice[field + '_zh'];
+  return voice[field] || '';
+}
+
+function getVoiceSourceLabel(sourceType) {
+  if (sourceType === 'pull_request') return t('voiceSourcePR');
+  if (sourceType === 'issue') return t('voiceSourceIssue');
+  return t('voiceSourceGeneric');
+}
+
+function renderVoices() {
+  const container = document.getElementById('voices-container');
+  if (!container || !_voices) return;
+  if (!Array.isArray(_voices) || _voices.length === 0) {
+    container.innerHTML = `<div class="loading-item">${t('voicesEmpty')}</div>`;
+    return;
+  }
+  // Show up to 3 voices
+  const displayed = _voices.slice(0, 3);
+  container.innerHTML = displayed.map(v => {
+    const safeAuthor = DOMPurify.sanitize(v.author || 'Anonymous');
+    const safeRole = DOMPurify.sanitize(getVoiceField(v, 'role') || t('voiceDefaultRole'));
+    const safeQuote = DOMPurify.sanitize(getVoiceField(v, 'quote'));
+    const safePain = DOMPurify.sanitize(getVoiceField(v, 'pain'));
+    const safeHelped = DOMPurify.sanitize(getVoiceField(v, 'helped_by'));
+    const safeSource = DOMPurify.sanitize(v.source_url || '#');
+    const sourceLabel = DOMPurify.sanitize(getVoiceSourceLabel(v.source_type));
+    return `
+      <div style="background:var(--bg-card);border:1px solid var(--border-glow);border-radius:14px;padding:18px 22px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color 0.2s,box-shadow 0.2s;"
+           onmouseover="this.style.borderColor='rgba(0,229,255,0.3)';this.style.boxShadow='0 0 20px rgba(0,229,255,0.06)'"
+           onmouseout="this.style.borderColor='var(--border-glow)';this.style.boxShadow='none'">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--text-primary);">${safeAuthor}</span>
+          <span style="font-size:10px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);padding:1px 8px;border-radius:10px;font-family:'JetBrains Mono',monospace;">${safeRole}</span>
+        </div>
+        <div style="font-size:14px;color:var(--text-primary);line-height:1.6;margin-bottom:10px;font-style:italic;opacity:0.9;">
+          "${safeQuote}"
+        </div>
+        <div style="font-size:12px;color:var(--text-dim);line-height:1.5;margin-bottom:8px;">
+          <span style="color:#ef4444;opacity:0.7;">${t('voicePainLabel')}:</span> ${safePain}
+        </div>
+        <div style="font-size:12px;color:var(--text-dim);line-height:1.5;margin-bottom:10px;">
+          <span style="color:#22c55e;opacity:0.7;">${t('voiceHelpedLabel')}:</span> ${safeHelped}
+        </div>
+        <a href="${safeSource}" target="_blank" rel="noopener" style="font-size:11px;color:var(--cyan);text-decoration:none;font-family:'JetBrains Mono',monospace;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
+          ${t('voiceView')} ${sourceLabel} →
+        </a>
+      </div>`;
+  }).join('');
+}
+
 async function loadVoices() {
   const container = document.getElementById('voices-container');
   if (!container) return;
   try {
     const resp = await fetch('community/voices.json');
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const voices = await resp.json();
-    if (!Array.isArray(voices) || voices.length === 0) {
-      container.innerHTML = '<div class="loading-item">No voices yet.</div>';
-      return;
-    }
-    // Show up to 3 voices
-    const displayed = voices.slice(0, 3);
-    container.innerHTML = displayed.map(v => {
-      const safeAuthor = DOMPurify.sanitize(v.author || 'Anonymous');
-      const safeRole = DOMPurify.sanitize(v.role || 'contributor');
-      const safeQuote = DOMPurify.sanitize(v.quote || '');
-      const safePain = DOMPurify.sanitize(v.pain || '');
-      const safeHelped = DOMPurify.sanitize(v.helped_by || '');
-      const safeSource = DOMPurify.sanitize(v.source_url || '#');
-      const sourceLabel = v.source_type === 'pull_request' ? 'PR' : v.source_type === 'issue' ? 'Issue' : 'Source';
-      return `
-        <div style="background:var(--bg-card);border:1px solid var(--border-glow);border-radius:14px;padding:18px 22px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color 0.2s,box-shadow 0.2s;"
-             onmouseover="this.style.borderColor='rgba(0,229,255,0.3)';this.style.boxShadow='0 0 20px rgba(0,229,255,0.06)'"
-             onmouseout="this.style.borderColor='var(--border-glow)';this.style.boxShadow='none'">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--text-primary);">${safeAuthor}</span>
-            <span style="font-size:10px;color:var(--cyan);background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.15);padding:1px 8px;border-radius:10px;font-family:'JetBrains Mono',monospace;">${safeRole}</span>
-          </div>
-          <div style="font-size:14px;color:var(--text-primary);line-height:1.6;margin-bottom:10px;font-style:italic;opacity:0.9;">
-            "${safeQuote}"
-          </div>
-          <div style="font-size:12px;color:var(--text-dim);line-height:1.5;margin-bottom:8px;">
-            <span style="color:#ef4444;opacity:0.7;">Pain:</span> ${safePain}
-          </div>
-          <div style="font-size:12px;color:var(--text-dim);line-height:1.5;margin-bottom:10px;">
-            <span style="color:#22c55e;opacity:0.7;">Helped by:</span> ${safeHelped}
-          </div>
-          <a href="${safeSource}" target="_blank" rel="noopener" style="font-size:11px;color:var(--cyan);text-decoration:none;font-family:'JetBrains Mono',monospace;opacity:0.6;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-            View ${sourceLabel} →
-          </a>
-        </div>`;
-    }).join('');
+    _voices = await resp.json();
+    renderVoices();
   } catch (err) {
-    container.innerHTML = `<div class="loading-item">Could not load voices.</div>`;
+    container.innerHTML = `<div class="loading-item">${t('voicesLoadFailed')}</div>`;
     console.warn('[MisakaNet] voices load failed:', err.message);
   }
 }
@@ -2153,10 +2192,11 @@ function onSearchFocus(el) {
       preview.map(l => {
         const safeTitle = DOMPurify.sanitize(l.title);
         const safeSummary = DOMPurify.sanitize((l.summary || '').slice(0, 60));
+        const safeUrl = DOMPurify.sanitize(getLessonBlobUrl(l.url));
         return `<div style="padding:8px 12px;border-bottom:1px solid rgba(0,229,255,0.05);cursor:pointer;transition:background 0.15s;"
                onmouseover="this.style.background='rgba(0,229,255,0.04)'"
                onmouseout="this.style.background=''"
-               onclick="window.open(getLessonBlobUrl(l.url), '_blank')">
+               onclick="window.open('${safeUrl}', '_blank')">
           <div style="font-size:12px;color:var(--cyan);">${safeTitle}</div>
           <div style="font-size:10px;color:var(--text-dim);margin-top:2px;">${safeSummary}</div>
         </div>`;
@@ -2237,10 +2277,11 @@ function searchLessons() {
     const votedClass = hasVoted(safeId) ? ' voted' : '';
     const votedDisabled = hasVoted(safeId) ? 'disabled' : '';
     const domainColor = safeDomain === 'fanuc' ? '#ff6b35' : safeDomain === 'devops' ? '#7c3aed' : safeDomain === 'rag' ? '#059669' : 'var(--cyan)';
+    const safeUrl = DOMPurify.sanitize(getLessonBlobUrl(l.url));
     return `<div style="padding:10px 14px;border-bottom:1px solid rgba(0,229,255,0.06);cursor:pointer;transition:background 0.15s;"
            onmouseover="this.style.background='rgba(0,229,255,0.03)'"
            onmouseout="this.style.background=''"
-           onclick="window.open(getLessonBlobUrl(l.url), '_blank')">
+           onclick="window.open('${safeUrl}', '_blank')">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
           <span style="font-size:13px;color:#58a6ff;font-weight:500;">${safeTitle}</span>
           <span style="font-size:9px;color:${domainColor};background:rgba(0,229,255,0.06);padding:1px 6px;border-radius:4px;">${safeDomain}</span>
