@@ -7,6 +7,36 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## v2.9.0 — 2026-07-12
+
+### Highlights
+- **Search product chain**: Dedicated `/search/` page with URL query support, quality filter, scoring, inline preview, and auto-expand via `?lesson=` param. Homepage search button routes to search page.
+- **Search suggestions → search page**: Clicking a dropdown lesson navigates to `/search/?q=...&lesson=...` and auto-expands the lesson preview, instead of jumping directly to GitHub.
+- **Network Voices**: Curated contributor testimonials section on homepage — real pain points, real help, GitHub-audited sources. Bilingual (zh/EN).
+- **Nav drawer**: Left-top hamburger menu with Main / Network / For Agents / Contact sections. Esc and overlay click to close.
+- **Network Signals**: Compact stats bar showing registered nodes, curated lessons, feed items, and last updated timestamp.
+- **Node list collapse**: Recent registrations limited to 6 with "View all N registered nodes" expand.
+- **i18n**: zh/EN toggle for homepage search panel, Voices section, and `/search/` page. Shared `localStorage: misakanet-lang`.
+- **Lessons data guard**: CI checks in `build-feed.yml` and `sync-data.yml` prevent syncing empty/truncated `lessons.json`.
+- **Onboarding docs**: DCO sign-off quickstart for Windows (`docs/dco-windows.md`), secret-scan troubleshooting (`docs/secret-scan-windows.md`).
+- **PR merged-thank workflow fix**: Switched from fragile `SHELDON_PAT` to `GITHUB_TOKEN`.
+
+### Data
+- `data/lessons.json`: 202 lessons (restored from ae26b18 after f081eda truncation incident).
+- `docs/community/voices.json`: 5 curated voices with zh/EN fields.
+- `data/feed.json`: 11 feed items.
+
+### Fixes
+- README broken links: `docs/agents/quickstart.md` → `docs/quickstart.md`, `misaka-face.jpg` → `og-card.png`.
+- Nav drawer `skill.md` link: root → `docs/skill.md`.
+- Search click bug: `onclick` referenced out-of-scope `l` variable; fixed by embedding URL directly.
+- Lesson count fallback: hardcoded 198 → 202.
+
+### Closed Issues
+- #443, #444 (docs), #447 (PR), #416, #393, #379, #380, #378, #394, #388 (competition resolved), #429, #430, #434 (search/UX), #291, #353, #292 (stale docs), #450 (Network Voices).
+
+---
+
 ## v2.8.1 — 2026-07-07
 
 ### Highlights

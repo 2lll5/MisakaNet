@@ -1,16 +1,30 @@
 # 项目状态
 
-> 手动更新于 2026-06-30 | 自动脚本待重新生成
+> 更新于 2026-07-12 | v2.9.0
 
 ## 概览
 
 | 指标 | 数值 |
 |------|------|
-| 📚 Lessons | 192 篇 |
+| 📚 Lessons | 202 篇 |
 | 📖 References | 6 篇 |
 | 🏛️ 领域覆盖 | 18 个 |
-| ⭐ Stars | 212 |
-| 🍴 Forks | 49 |
+| 🎤 Network Voices | 5 条 |
+| 📡 Feed Items | 11 条 |
+| 🌐 Registered Nodes | 52+ |
+| ⭐ Stars | 212+ |
+| 🍴 Forks | 49+ |
+
+## 前端状态
+
+| 模块 | 状态 |
+|------|------|
+| Search 产品链路 | ✅ 首页 → /search/ → preview → GitHub |
+| Network Voices | ✅ 5 voices, zh/EN |
+| Nav Drawer | ✅ Main / Network / For Agents / Contact |
+| Network Signals | ✅ nodes / lessons / feed / last updated |
+| i18n | ✅ zh/EN toggle (home + search + voices) |
+| Data Guard | ✅ CI prevents empty lessons.json |
 
 ## 领域分布
 
