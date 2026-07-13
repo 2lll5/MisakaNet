@@ -1,64 +1,100 @@
 # Swarm Knowledge Protocol — Roadmap
 
-> This document tracks the **strategic vision** and **concrete milestones** for the SKP ecosystem.
-> Short-term items are actionable; medium/long-term items are directional and open for community discussion.
+Last updated: 2026-07-13
 
----
+This roadmap is intentionally biased toward **engineering convergence** and
+**content usefulness**. Search UX in v2.9.x is considered good enough; the next
+step is to make MisakaNet easier for agents, contributors, and crawlers to
+understand, verify, and reuse.
 
-## Short-term (0–3 months) — Now
+## Current baseline
 
-| Area | Item | Priority | Depends On |
-|------|------|----------|------------|
-| **Quality scoring** | ✅ Phase A complete — 141 lessons scored, CI integrated | P0 | ~~[#210](https://github.com/Ikalus1988/MisakaNet/issues/210)~~ |
-| **A→C 闭环** | fatal-guard tombstone → draft lesson pipeline, bench-core dynamic tasks | P0 | fatal-guard v0.2.0 |
-| **Proof of Access** | Lightweight quota system — 5 free searches, contribution refill | P1 | profile.py |
-| **Governance** | Define trust tiers in machine-readable config (misaka-protocol.json) | P0 | [#211](https://github.com/Ikalus1988/MisakaNet/issues/211) |
-| **Contributor wall** | Fix time-decay formula — cap per-PR weight, remove contributor disappearance | P0 | [#212](https://github.com/Ikalus1988/MisakaNet/issues/212) |
-| **Trust system** | Formalize GitHub-verified vs mail-verified vs web-verified tiers | P1 | [#213](https://github.com/Ikalus1988/MisakaNet/issues/213) |
-| **Log Harvester CLI** | `misaka harvest` — stdin/bash-history → auto-generate SKP lesson | ✅ Done | ~~[#214](https://github.com/Ikalus1988/MisakaNet/issues/214)~~ |
-| **Ecosystem config** | Harvest tool interface declared in misaka-protocol.json | P1 | [#215](https://github.com/Ikalus1988/MisakaNet/issues/215) |
-| **Asset isolation** | Move docs/frontend assets to sidecar repository or `/web` | P1 | [#216](https://github.com/Ikalus1988/MisakaNet/issues/216) |
+- Public site is online: homepage, `/search/`, journey page, Worker APIs.
+- Search product chain is shipped: homepage → `/search/` → preview → GitHub.
+- Dataset is synchronized at **205 lessons** in `data/lessons.json` and
+  `docs/data/lessons.json`.
+- Network Voices, nav drawer, i18n, Network Signals, and data guard are live.
+- Open PR count is expected to stay low; good first issues should remain open
+  for contributor onboarding.
 
-## Medium-term (3–9 months) — Next
+## v2.9.x — Stabilize, make discoverable, deepen content
 
-| Area | Item | Priority | Depends On |
-|------|------|----------|------------|
-| **Reputation system** | Reuse signal: count "👍 useful" clicks + cross-lesson references | P0 | [#217](https://github.com/Ikalus1988/MisakaNet/issues/217) |
-| **Reaction collection** | Frontend "👍 helpful" button → `data/reactions.json` (anonymous, git-backed) | P1 | [#218](https://github.com/Ikalus1988/MisakaNet/issues/218) |
-| **Cross-reference auto-detect** | CI scans lessons for `[[lesson-id]]` links, builds reference graph | P2 | Schema stable |
-| **Rank change notifications** | GitHub Issue auto-published when leaderboard #1 changes | P1 | [#219](https://github.com/Ikalus1988/MisakaNet/issues/219) |
-| **Personal rank alerts** | Notify individual contributors when they move up/down | P1 | [#220](https://github.com/Ikalus1988/MisakaNet/issues/220) |
-| **PR scoring** | Score PRs by complexity (files + lines + test coverage) | P2 | Quality gate stable |
-| **Seat belt mechanism** | Auto-cap contribution weight for very high-frequency contributors (sigmoid cap) | P2 | Leaderboard data >50 contributors |
+| Track | Priority | What to ship | Gate |
+|---|---:|---|---|
+| **Release hygiene** | P0 | v2.9.1 patch: bump version, CHANGELOG, STATUS, release note, and lesson counts | `python -m pytest` + `site-health` green |
+| **Crawler discoverability** | P0 | Add `sitemap.xml`, canonical URLs, OpenGraph metadata for `/` and `/search/`, and fix stale release text | `/sitemap.xml` returns 200 and links homepage/search/data/docs |
+| **README truth sync** | P0 | Sync README/STATUS counts, remove stale "active nodes" wording, fix `README.zh-CN.md` mojibake | #298 can be closed |
+| **Content depth** | P0 | Add/curate high-signal lessons from real incidents; translate top Chinese lessons; dedupe overlaps | New lessons are searchable and pass quality checks |
+| **Contributor docs** | P1 | Troubleshooting FAQ and glossary for SKP/MisakaNet terms | #300 and #299 can close |
+| **Trust semantics** | P1 | Decide `verified/` directory vs badge semantics and add `trust_tiers` to `misaka-protocol.json` | #352/#354 resolved with machine-readable config |
 
-## Long-term (9+ months) — Vision
+### Why this, not more search UI?
 
-| Area | Item | Priority | Depends On |
-|------|------|----------|------------|
-| **Retrieval weighting** | Search-hit rate → contribution bonus | P2 | Frontend analytics |
-| **Hub federation** | Cross-repo lesson sync via Hub nodes | P2 | Hub mode stable |
-| **Plugin system** | External tools read/write lessons via SKP protocol | P3 | API surface stable |
-| **Leaderboard prize pool** | Top monthly contributor gets a badge / early-access feature | P3 | Community >100 nodes |
-| **CLI dashboard** | `misaka dashboard` — local terminal leaderboard + notifications | P3 | Harvester CLI stable |
-| **SKP SDK** | TypeScript SDK for browser-agent interactions | P3 | Hub API stable |
-| **DALN whitepaper** | Formal paper on Decentralized Autonomous Learning Networks | P4 | All above stable |
+The search page now solves the 3-second decision problem well enough. More
+visual polish will have diminishing returns until the underlying public
+surfaces are more crawlable and the lesson corpus is richer. The next bottleneck
+is not "can users type a query"; it is "can humans, agents, and crawlers quickly
+understand what exists and why it is trustworthy".
 
----
+## Quality flywheel — borrow only the useful memory-system ideas
 
-## Design Principles
+MisakaNet should not become a private memory database. Keep **Git as the source
+of truth**. But the following ideas are worth adopting in static form:
 
-1. **Offline-first.** Everything must work in air-gapped environments. Features that require always-on servers get de-prioritized.
-2. **Zero-dep core.** The `misakanet-core` PyPI package stays dependency-free. All extras are optional.
-3. **Git as the source of truth.** No database. No daemon. No centralized API dependency.
-4. **Agent-native.** Configuration must be machine-readable first, human-readable second. Every human doc has a JSON equivalent.
-5. **Anti-hype.** We ship what we can verify. Every claimed capability must be demonstrable. Every limitation must be disclosed.
+```text
+search/query event or blind-test report
+  ↓
+risk_tags: low_confidence / no_result / duplicate / stale_count / unclear_trust
+  ↓
+weekly Top bad cases
+  ↓
+small fixes: lesson / synonym / FAQ / tag / trust metadata
+  ↓
+regression queries
+  ↓
+site-health + pytest before release
+```
 
----
+First version can be zero-dependency and file-backed:
 
-## How to Contribute
+- `data/regression_queries.json` — known queries such as DCO, GitHub token,
+  pip timeout, database locked, Feishu, industrial protocols.
+- `docs/reports/search-badcases-YYYY-MM-DD.md` — weekly top failure clusters.
+- Optional `risk_tags` in lesson/search telemetry JSON; no database required.
 
-- Open a [GitHub Issue](https://github.com/Ikalus1988/MisakaNet/issues/new) with the `roadmap` label
-- Propose changes via PR with rationale
-- Vote on priorities by reacting to pinned roadmap Issues
+## v3.0 candidates — only after v2.9.x is stable
 
-> [README →](README.md) · [Limitations →](docs/LIMITATIONS.md) · [Protocol Config →](misaka-protocol.json)
+| Candidate | Why | Defer until |
+|---|---|---|
+| **Lesson detail pages** | Crawlable, shareable lesson URLs; better than hiding all content behind JSON/JS | Sitemap + README sync done |
+| **Topic/domain pages** | Stronger content discovery for DCO, GitHub token, Feishu, FANUC, RAG | Enough curated lessons per domain |
+| **Agent profiles** | Helps contributor identity and ownership | Ranking/trust semantics are stable |
+| **Search API / plugin surfaces** | Useful for IDEs and agent tools | Static search and content quality remain stable |
+
+## Long-term vision
+
+| Area | Direction | Status |
+|---|---|---|
+| **Protocol governance** | Machine-readable trust tiers, verified semantics, lesson versioning | Discuss after #352/#354 |
+| **Reuse reputation** | Weight lessons by real reuse and regression success, not vanity traffic | Needs stable telemetry |
+| **Federation** | Cross-repo lesson sync through hub nodes | Keep experimental |
+| **DALN / whitepaper** | Formalize decentralized autonomous learning network ideas | Do not block product releases |
+
+## Design principles
+
+1. **Offline-first.** Everything important must work after `git clone`.
+2. **Zero-dep core.** Optional extras are allowed; the default path stays small.
+3. **Git as source of truth.** Static JSON and Markdown before databases.
+4. **Agent-native.** Human docs are useful, but machine-readable metadata wins.
+5. **Evidence over hype.** Every capability needs a command, test, page, or
+   GitHub artifact that proves it.
+6. **Content before chrome.** Product polish is valuable only when it exposes
+   trustworthy lessons and clear contribution paths.
+
+## How to contribute
+
+- Pick a ready issue: <https://github.com/Ikalus1988/MisakaNet/issues>
+- Prefer small PRs with one measurable outcome.
+- For lesson work, include problem → root cause → fix → verification.
+- For frontend changes, run `site-health` and keep the homepage/search path
+  fast, static, and dependency-light.
