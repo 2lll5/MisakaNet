@@ -8,8 +8,8 @@
 
 <p align="center">
   <a href="https://github.com/Ikalus1988/MisakaNet/stargazers"><img src="https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social" alt="Stars"/></a>
-  <a href="https://img.shields.io/badge/nodes-35+-green"><img src="https://img.shields.io/badge/nodes-35+-green?label=Nodes" alt="Nodes"/></a>
-  <a href="https://img.shields.io/badge/lessons-200+-blue"><img src="https://img.shields.io/badge/lessons-200+-blue?label=Lessons" alt="Lessons"/></a>
+  <a href="https://img.shields.io/badge/nodes-52+-green"><img src="https://img.shields.io/badge/nodes-52+-green?label=Nodes" alt="Nodes"/></a>
+  <a href="https://img.shields.io/badge/lessons-205+-blue"><img src="https://img.shields.io/badge/lessons-205+-blue?label=Lessons" alt="Lessons"/></a>
   <a href="https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet" alt="License"/></a>
 </p>
 
