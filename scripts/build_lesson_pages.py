@@ -99,6 +99,18 @@ def slugify(text: str) -> str:
     return text[:80].strip('-')
 
 
+def unique_slug(title: str, seen_slugs: dict) -> str:
+    """Generate unique slug, adding short hash on collision."""
+    import hashlib
+    base = slugify(title)
+    if base not in seen_slugs:
+        seen_slugs[base] = title
+        return base
+    # Collision: add short hash
+    short_hash = hashlib.md5(title.encode()).hexdigest()[:6]
+    return f"{base}-{short_hash}"
+
+
 def build_lesson_page(lesson: dict) -> str:
     """Generate HTML for a single lesson."""
     title = lesson.get("title", "Untitled")
@@ -107,7 +119,8 @@ def build_lesson_page(lesson: dict) -> str:
     tags = lesson.get("tags", [])
     url = lesson.get("url", "")
     source_url = f"https://github.com/Ikalus1988/MisakaNet/blob/main/{url}" if url else ""
-    canonical = f"{SITE_URL}/lessons/{slugify(title)}/"
+    slug = lesson.get("_slug", slugify(title))
+    canonical = f"{SITE_URL}/lessons/{slug}/"
 
     description = f"{summary[:150]}..." if len(summary) > 150 else summary
     if not description:
@@ -139,12 +152,12 @@ def build_topic_page(domain: str, lessons: list) -> str:
 
     lessons_html = ""
     for l in lessons[:20]:
-        slug = slugify(l.get("title", ""))
+        lesson_slug = l.get("_slug", slugify(l.get("title", "")))
         lesson_title = l.get("title", "Untitled")
         summary = l.get("summary", "")[:120]
         lessons_html += f"""
 <div class="lesson">
-  <a href="/lessons/{slug}/">{lesson_title}</a>
+  <a href="/lessons/{lesson_slug}/">{lesson_title}</a>
   <div class="summary">{summary}</div>
 </div>"""
 
@@ -157,24 +170,53 @@ def build_topic_page(domain: str, lessons: list) -> str:
     )
 
 
+def generate_sitemap(lesson_slugs: list, domains: list) -> str:
+    """Generate sitemap.xml with all pages."""
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+
+    # Static pages
+    static = [
+        ("https://misakanet.org/", "weekly", "1.0"),
+        ("https://misakanet.org/search/", "weekly", "0.9"),
+    ]
+    for url, freq, prio in static:
+        lines.append(f"  <url><loc>{url}</loc><changefreq>{freq}</changefreq><priority>{prio}</priority></url>")
+
+    # Topic pages
+    for domain in domains:
+        lines.append(f"  <url><loc>{SITE_URL}/topics/{domain}/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>")
+
+    # Lesson pages
+    for slug in lesson_slugs:
+        lines.append(f"  <url><loc>{SITE_URL}/lessons/{slug}/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>")
+
+    lines.append('</urlset>')
+    return '\n'.join(lines) + '\n'
+
+
 def main():
     lessons = json.loads(LESSONS_JSON.read_text(encoding="utf-8"))
     print(f"Loaded {len(lessons)} lessons")
 
-    # Build lesson pages
+    # Build lesson pages with unique slugs
     LESSONS_DIR.mkdir(parents=True, exist_ok=True)
+    seen_slugs = {}
+    lesson_slugs = []
     count = 0
     for lesson in lessons:
         title = lesson.get("title", "")
         if not title:
             continue
-        slug = slugify(title)
+        slug = unique_slug(title, seen_slugs)
+        lesson["_slug"] = slug
+        lesson_slugs.append(slug)
         out_dir = LESSONS_DIR / slug
         out_dir.mkdir(parents=True, exist_ok=True)
         html = build_lesson_page(lesson)
         (out_dir / "index.html").write_text(html, encoding="utf-8")
         count += 1
-    print(f"Generated {count} lesson pages")
+    print(f"Generated {count} lesson pages ({len(seen_slugs)} unique slugs)")
 
     # Build topic pages
     TOPICS_DIR.mkdir(parents=True, exist_ok=True)
@@ -183,14 +225,20 @@ def main():
         domain = l.get("domain", "general")
         by_domain.setdefault(domain, []).append(l)
 
-    for domain in TOP_DOMAINS:
-        if domain not in by_domain:
-            continue
+    generated_domains = []
+    for domain in by_domain:
         out_dir = TOPICS_DIR / domain
         out_dir.mkdir(parents=True, exist_ok=True)
         html = build_topic_page(domain, by_domain[domain])
         (out_dir / "index.html").write_text(html, encoding="utf-8")
-    print(f"Generated {len(by_domain)} topic pages")
+        generated_domains.append(domain)
+    print(f"Generated {len(generated_domains)} topic pages")
+
+    # Generate sitemap
+    sitemap = generate_sitemap(lesson_slugs, generated_domains)
+    sitemap_path = Path("docs") / "sitemap.xml"
+    sitemap_path.write_text(sitemap, encoding="utf-8")
+    print(f"Generated sitemap: {len(lesson_slugs)} lessons + {len(generated_domains)} topics + 2 static = {len(lesson_slugs) + len(generated_domains) + 2} URLs")
 
 
 if __name__ == "__main__":
