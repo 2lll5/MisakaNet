@@ -24,6 +24,17 @@ TOP_DOMAINS = [
     "agent-network", "general", "uncategorized"
 ]
 
+# User-intent topic pages: map topic slug to matching keywords
+INTENT_TOPICS = {
+    "dco": {"title": "DCO Sign-off Failures", "keywords": ["dco", "signoff", "signed-off-by"], "description": "Fix Developer Certificate of Origin failures in CI and local commits."},
+    "github-token": {"title": "GitHub Token & Authentication", "keywords": ["github token", "credential", "pat", "authentication", "401", "403"], "description": "Fix GitHub token, PAT, credential helper, and authentication issues."},
+    "pip-timeout": {"title": "pip Install Failures", "keywords": ["pip", "timeout", "ssl", "install"], "description": "Fix Python pip install timeout, SSL, and dependency issues."},
+    "feishu": {"title": "Feishu / Lark API Issues", "keywords": ["feishu", "lark"], "description": "Fix Feishu/Lark API integration, webhook, and bot issues."},
+    "fanuc": {"title": "FANUC Industrial Robot", "keywords": ["fanuc", "karel", "profinet"], "description": "Fix FANUC robot programming, Karel, and PROFINET communication issues."},
+    "wsl": {"title": "WSL & Windows Issues", "keywords": ["wsl", "windows", "ntfs", "gbk", "unicode", "encoding"], "description": "Fix WSL, Windows terminal, encoding, and permission issues."},
+    "feishu-mcp": {"title": "Feishu MCP Integration", "keywords": ["feishu mcp", "feishu-mcp"], "description": "Fix Feishu MCP server setup and configuration."},
+}
+
 HTML_TEMPLATE = """\
 <!DOCTYPE html>
 <html lang="en">
@@ -144,11 +155,13 @@ def build_lesson_page(lesson: dict) -> str:
     return HTML_TEMPLATE.format(title=title, description=description, canonical=canonical, body=body)
 
 
-def build_topic_page(domain: str, lessons: list) -> str:
+def build_topic_page(domain: str, lessons: list, description: str = "") -> str:
     """Generate HTML for a topic/domain page."""
-    title = f"{domain.title()} Lessons"
-    description = f"{len(lessons)} verified failure lessons about {domain}. From MisakaNet — Git-backed failure lesson network."
-    canonical = f"{SITE_URL}/topics/{domain}/"
+    title = domain if " " in domain else f"{domain.title()} Lessons"
+    if not description:
+        description = f"{len(lessons)} verified failure lessons about {domain}. From MisakaNet — Git-backed failure lesson network."
+    slug = domain.lower().replace(" ", "-").replace("/", "-")
+    canonical = f"{SITE_URL}/topics/{slug}/"
 
     lessons_html = ""
     for l in lessons[:20]:
@@ -232,10 +245,28 @@ def main():
         html = build_topic_page(domain, by_domain[domain])
         (out_dir / "index.html").write_text(html, encoding="utf-8")
         generated_domains.append(domain)
-    print(f"Generated {len(generated_domains)} topic pages")
+
+    # Build user-intent topic pages
+    intent_slugs = []
+    for topic_slug, config in INTENT_TOPICS.items():
+        keywords = config["keywords"]
+        matched = [l for l in lessons if any(
+            kw in (l.get("title", "") + " " + l.get("summary", "") + " " + " ".join(l.get("tags", []))).lower()
+            for kw in keywords
+        )]
+        if not matched:
+            continue
+        out_dir = TOPICS_DIR / topic_slug
+        out_dir.mkdir(parents=True, exist_ok=True)
+        html = build_topic_page(config["title"], matched, description=config["description"])
+        (out_dir / "index.html").write_text(html, encoding="utf-8")
+        intent_slugs.append(topic_slug)
+
+    all_topics = generated_domains + intent_slugs
+    print(f"Generated {len(generated_domains)} domain + {len(intent_slugs)} intent topic pages")
 
     # Generate sitemap
-    sitemap = generate_sitemap(lesson_slugs, generated_domains)
+    sitemap = generate_sitemap(lesson_slugs, all_topics)
     sitemap_path = Path("docs") / "sitemap.xml"
     sitemap_path.write_text(sitemap, encoding="utf-8")
     print(f"Generated sitemap: {len(lesson_slugs)} lessons + {len(generated_domains)} topics + 2 static = {len(lesson_slugs) + len(generated_domains) + 2} URLs")

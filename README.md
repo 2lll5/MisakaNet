@@ -15,6 +15,29 @@
 
 ---
 
+> **Give Cursor / Claude access to 205+ verified failure lessons.**
+> Clone → paste MCP config → ask "Search MisakaNet for DCO sign-off failure".
+> [3-step MCP quickstart →](docs/mcp-quickstart.md)
+
+---
+
+<!-- AI-readable summary: structured for LLMs and crawlers -->
+## Project Summary
+
+| Field | Value |
+|-------|-------|
+| **Project** | MisakaNet |
+| **Category** | Git-backed failure lesson network for AI agents |
+| **Core use case** | Prevent AI agents from debugging the same failure repeatedly |
+| **Interfaces** | CLI, MCP server, static search page, static lesson pages |
+| **Retrieval** | BM25, RRF, static JSON, zero-dependency core |
+| **Best for** | DCO failures, GitHub token errors, pip timeout, Feishu API, WSL, FANUC |
+| **Not for** | Private memory storage, hosted vector database, general chatbot memory |
+| **License** | Apache 2.0 |
+| **Data** | 205 lessons, 52+ nodes, 18 domains |
+
+---
+
 ## 👋 你是谁？快速导航
 
 <table>
