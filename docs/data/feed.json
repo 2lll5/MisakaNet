@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T12:33:25.148746+00:00",
+  "generated_at": "2026-07-14T14:18:36.462846+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
@@ -70,14 +70,6 @@
     },
     {
       "type": "lesson",
-      "title": "FANUC Backup Payload Extraction — .VR/.SV Binary Parsing and .LS Text Fallback",
-      "url": "lessons/contrib/fanuc-backup-payload-extraction.md",
-      "timestamp": "2026-07-14",
-      "domain": "fanuc",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
       "title": "Network Domain Lesson Template",
       "url": "lessons/contrib/lesson-template-network.md",
       "timestamp": "2026-07-13",
@@ -138,6 +130,14 @@
       "type": "lesson",
       "title": "aily feishu mcp pull only",
       "url": "lessons/contrib/aily-feishu-mcp-pull-only.md",
+      "timestamp": "2026-07-06",
+      "domain": "contrib",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Internal Gateway — Incompatible with Anthropic Format, Requires OpenAI Proxy",
+      "url": "lessons/contrib/anthropic-proxy-internal-gateway.md",
       "timestamp": "2026-07-06",
       "domain": "contrib",
       "source": "lessons"
