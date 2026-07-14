@@ -7,6 +7,39 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## v2.11.0 — 2026-07-14
+
+### Highlights
+- **LessonReuseBench MVP**: Evaluate whether AI agents reuse prior failure lessons. 3 A/B task pairs (DCO, secret-scan, db-lock). Runner script with dry-run/compare modes.
+- **Debug Pain Index**: `docs/debug-pain-index.md` — quick reference table for 9 common pain points.
+- **Troubleshooting**: `docs/troubleshooting.md` — 10 real error scenes with fixes and lesson links.
+- **llms.txt**: `docs/llms.txt` — structured metadata for LLM/agent consumption.
+- **Integration guides**: Cursor, Claude Code, Continue setup docs.
+- **Technical article**: "Can coding agents learn from previous failures?"
+- **Benchmark challenge**: `docs/benchmark-challenge.md` — invitation to run and share results.
+
+### Data
+- 205 lessons, 52+ nodes, 17 topic pages, 224 sitemap URLs
+
+---
+
+## v2.10.0 — 2026-07-13
+
+### Highlights
+- **MCP Consumption**: `docs/mcp-quickstart.md` for Cursor / Claude Desktop / Claude Code. README MCP first-fold entry.
+- **SEO Lesson Pages**: 205 static lesson pages + 10 domain topic pages + 7 intent topic pages (dco, github-token, pip-timeout, feishu, fanuc, wsl, feishu-mcp).
+- **AI-readable README**: Project summary table, structured for LLMs and crawlers.
+- **CITATION.cff**: Machine-readable citation metadata.
+- **Quality Flywheel v0**: `data/regression_queries.json` (10 high-signal queries) + `docs/reports/search-badcases-2026-07-13.md`.
+- **fatal-guard opt-in report**: `scripts/report_preview.py` — local preview with auto-redaction.
+- **Intent topic pages**: User-intent based topics (dco, github-token, pip-timeout, etc.) alongside domain topics.
+
+### Fixes
+- Sitemap: 224 URLs (205 lessons + 17 topics + 3 static)
+- MCP server version synced to 2.10.0
+
+---
+
 ## v2.9.2 — 2026-07-13
 
 ### Highlights
