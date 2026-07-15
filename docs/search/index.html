@@ -373,14 +373,18 @@ function submitFeedback(lessonId, query, feedback) {
     feedback,
     ts: new Date().toISOString(),
   });
-  // Update button state
+  restoreFeedbackState(lessonId, query);
+}
+
+function restoreFeedbackState(lessonId, query) {
   const bar = document.querySelector('[data-feedback-id="' + lessonId + '"]');
-  if (bar) {
-    bar.querySelectorAll('.feedback-btn').forEach(btn => {
-      if (btn.dataset.type === feedback) btn.classList.add('selected');
-      else btn.style.display = 'none';
-    });
-  }
+  if (!bar) return;
+  const existing = getFeedbackForLesson(lessonId, query);
+  if (!existing) return;
+  bar.querySelectorAll('.feedback-btn').forEach(btn => {
+    if (btn.dataset.type === existing.feedback) btn.classList.add('selected');
+    else btn.style.display = 'none';
+  });
 }
 
 function updateFeedbackSummary() {
@@ -392,6 +396,27 @@ function updateFeedbackSummary() {
   el.innerHTML = t('feedbackRecorded', { count }) +
     ' · <a href="#" onclick="copyFeedback();return false">' + t('feedbackCopy') + '</a>' +
     ' · <a href="#" onclick="openFeedbackIssue();return false">' + t('feedbackSubmit') + '</a>';
+}
+
+// Event delegation for feedback buttons (no inline onclick)
+document.getElementById('results').addEventListener('click', function(e) {
+  const btn = e.target.closest('.feedback-btn');
+  if (!btn) return;
+  const bar = btn.closest('.feedback-bar');
+  if (!bar) return;
+  const card = btn.closest('.result');
+  const lessonId = bar.dataset.feedbackId;
+  const query = document.getElementById('q').value.trim();
+  if (!lessonId || !query) return;
+  submitFeedback(lessonId, query, btn.dataset.type);
+});
+
+function restoreAllFeedbackStates() {
+  const query = document.getElementById('q').value.trim();
+  if (!query) return;
+  document.querySelectorAll('.feedback-bar').forEach(bar => {
+    restoreFeedbackState(bar.dataset.feedbackId, query);
+  });
 }
 
 function copyFeedback() {
@@ -455,10 +480,10 @@ function render(results, q) {
         '<button class="btn-primary" type="button" data-action="preview">' + t('readLesson') + '</button>' +
         '<a class="btn-secondary" href="' + escapeHTML(url) + '" target="_blank" rel="noopener">' + t('openGitHub') + '</a>' +
       '</div>' +
-      '<div class="feedback-bar" data-feedback-id="' + id + '" data-query="' + escapeHTML(q) + '">' +
-        '<button class="feedback-btn" data-type="irrelevant" onclick="submitFeedback(\'' + id + '\',\'' + escapeHTML(q) + '\',\'irrelevant\')">' + t('feedbackIrrelevant') + '</button>' +
-        '<button class="feedback-btn" data-type="too_basic" onclick="submitFeedback(\'' + id + '\',\'' + escapeHTML(q) + '\',\'too_basic\')">' + t('feedbackTooBasic') + '</button>' +
-        '<button class="feedback-btn" data-type="helpful" onclick="submitFeedback(\'' + id + '\',\'' + escapeHTML(q) + '\',\'helpful\')">' + t('feedbackHelpful') + '</button>' +
+      '<div class="feedback-bar" data-feedback-id="' + id + '">' +
+        '<button class="feedback-btn" data-type="irrelevant">' + t('feedbackIrrelevant') + '</button>' +
+        '<button class="feedback-btn" data-type="too_basic">' + t('feedbackTooBasic') + '</button>' +
+        '<button class="feedback-btn" data-type="helpful">' + t('feedbackHelpful') + '</button>' +
       '</div>' +
       '<div class="lesson-preview" hidden></div>' +
     '</div>';
@@ -491,6 +516,7 @@ function render(results, q) {
   }
 
   el.innerHTML = html;
+  restoreAllFeedbackStates();
 }
 
 function renderMarkdown(text) {
