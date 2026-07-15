@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-07-15T03:40:58.157684+00:00",
+  "generated_at": "2026-07-15T08:38:46.757394+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "feat: productionize email intake pipeline",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/478",
+      "timestamp": "2026-07-15T06:57:04Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "Add 7 FANUC robot lessons from internal training materials",
@@ -30,42 +37,6 @@
       "title": "feat: add trust_tiers to protocol, registration reads from protocol",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/473",
       "timestamp": "2026-07-14T14:24:51Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs: add glossary of SKP/MisakaNet terms (fixes #299)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/465",
-      "timestamp": "2026-07-14T11:32:59Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Bounty][$0] Productionize bot@misakanet.org email intake",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/470",
-      "labels": [
-        "enhancement",
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition"
-      ],
-      "timestamp": "2026-07-14T10:30:58Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Bounty][$0][Benchmark] Run LessonReuseBench and share your score",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/459",
-      "labels": [
-        "discussion",
-        "needs-ac",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "benchmark"
-      ],
-      "timestamp": "2026-07-14T01:52:07Z",
       "source": "github"
     },
     {
@@ -155,6 +126,36 @@
         "status:competition"
       ],
       "timestamp": "2026-07-02T16:01:28Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Quality] Detect and flag low-quality lesson submissions",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/315",
+      "labels": [
+        "enhancement",
+        "Ring-3",
+        "ready",
+        "bounty",
+        "agent-friendly",
+        "status:competition"
+      ],
+      "timestamp": "2026-07-02T16:01:23Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Search] Typo tolerance with edit distance matching",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/314",
+      "labels": [
+        "enhancement",
+        "Ring-3",
+        "ready",
+        "bounty",
+        "agent-friendly",
+        "status:competition"
+      ],
+      "timestamp": "2026-07-02T16:01:18Z",
       "source": "github"
     }
   ]
