@@ -53,12 +53,17 @@ def _json_result(score, doc, query: str = "", verbose: bool = False) -> dict:
         "preview": preview,
     }
     if query:
+        from misakanet.search.engine import _get_search_boost, _get_signal_level
         match_reason = _get_match_reason(query, doc, score)
         result["match_reason"] = match_reason
         result["preview_highlighted"] = _highlight_plain(preview, query)
         confidence = _classify_confidence(doc, query, match_reason, score)
+        result_type = _classify_result_type(doc, confidence)
+        signal_level = _get_signal_level(doc, confidence)
         result["confidence"] = confidence
-        result["result_type"] = _classify_result_type(doc, confidence)
+        result["result_type"] = result_type
+        result["signal_level"] = signal_level
+        result["search_boost"] = round(_get_search_boost(signal_level, confidence), 2)
         result["why_matched"] = _get_why_matched(match_reason)
     if verbose and query:
         result["score_breakdown"] = _score_breakdown(query, doc)
@@ -440,6 +445,7 @@ def main():
     suggest = False
     explain = False
     verbose = False
+    agent_mode = False
     env_filter: Optional[str] = None
     lang: Optional[str] = None
     domain: Optional[str] = None
@@ -480,6 +486,8 @@ def main():
         elif arg == "--verbose":
             verbose = True
             explain = True
+        elif arg == "--agent":
+            agent_mode = True
         elif arg.startswith("--env="):
             env_filter = arg.split("=", 1)[1].lower()
         elif arg == "--env" and i + 1 < len(search_args):
@@ -556,7 +564,11 @@ def main():
             _json_result(score, doc, query=query, verbose=verbose)
             for score, doc in ranked
             if score >= 0.1
-        ][:top_k]
+        ]
+        # Agent mode: only return actionable/high-confidence results
+        if agent_mode:
+            results = [r for r in results if r.get("result_type") == "actionable" and r.get("confidence") != "low"]
+        results = results[:top_k]
         if results:
             from misakanet.profile import increment_search, consume_quota
             increment_search()

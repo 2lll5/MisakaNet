@@ -364,16 +364,26 @@ function getFeedbackForLesson(lessonId, query) {
   return getFeedbackStore().find(f => f.lesson_id === lessonId && f.query === query);
 }
 
+const FEEDBACK_API = 'https://email-register.misakanet.workers.dev/api/feedback';
+
 function submitFeedback(lessonId, query, feedback) {
   const existing = getFeedbackForLesson(lessonId, query);
   if (existing) return;
-  saveFeedback({
+  const entry = {
     query,
     lesson_id: lessonId,
     feedback,
     ts: new Date().toISOString(),
-  });
+  };
+  saveFeedback(entry);
   restoreFeedbackState(lessonId, query);
+
+  // POST to backend (fire-and-forget, localStorage is primary)
+  fetch(FEEDBACK_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(entry),
+  }).catch(() => {}); // silent fail, localStorage is fallback
 }
 
 function restoreFeedbackState(lessonId, query) {

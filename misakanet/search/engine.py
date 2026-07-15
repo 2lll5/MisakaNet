@@ -561,6 +561,40 @@ def _classify_result_type(doc: CachedDoc, confidence: str) -> str:
     return "common"
 
 
+def _get_signal_level(doc: CachedDoc, confidence: str) -> str:
+    """Classify signal level: canonical | common.
+
+    - canonical: specific error codes, clear fix steps, verification, multi-case reuse
+    - common: generic content, basic guides, background knowledge
+    """
+    if confidence == "low":
+        return "common"
+
+    content_lower = doc.content[:2000].lower()
+    has_error_code = bool(_ERROR_CODE_PATTERN.search(doc.title + " " + doc.content[:500]))
+    has_verification = "## verification" in content_lower or "## verify" in content_lower
+    has_actionable = bool(_ACTIONABLE_SIGNALS.search(content_lower))
+
+    if has_error_code or (has_verification and has_actionable):
+        return "canonical"
+    if confidence == "high":
+        return "canonical"
+
+    return "common"
+
+
+def _get_search_boost(signal_level: str, confidence: str) -> float:
+    """Get search boost multiplier based on signal level and confidence.
+
+    Canonical results get boosted, common results get suppressed.
+    """
+    if signal_level == "canonical":
+        return 0.6
+    if signal_level == "common":
+        return -0.4
+    return 0.0
+
+
 def _get_why_matched(match_reasons: str) -> dict:
     """Parse match reasons into structured explanation.
 
@@ -657,12 +691,18 @@ def _format_output(
         # Feature #231: Match reason
         match_reason = _get_match_reason(query, doc, score)
 
+        # Confidence / result type / signal level
+        confidence = _classify_confidence(doc, query, match_reason, score)
+        result_type = _classify_result_type(doc, confidence)
+        signal_level = _get_signal_level(doc, confidence)
+        conf_icon = {"high": "🟢", "medium": "🟡", "low": "⚫"}.get(confidence, "⚪")
+
         # Build badge line
         badges = f"{core_tag} {verified_tag} {domain_tag}".strip()
         time_str = _relative_time(doc.mtime)
 
         print(f"  {badges:<25} {doc.title} {status_tag}")
-        print(f"  {'':>25} {_score_bar(score):>15}  {time_str}")
+        print(f"  {'':>25} {_score_bar(score):>15}  {time_str}  {conf_icon} {confidence}/{result_type}")
         if match_reason:
             print(f"  {'':>25} (matched: {match_reason})")
         # Feature: --explain score breakdown (#303)
