@@ -220,59 +220,6 @@ export default {
       });
     }
 
-    // ── POST /api/feedback — search result feedback intake ──
-    if (url.pathname === '/api/feedback' && request.method === 'POST') {
-      const corsHeaders = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      };
-
-      if (request.method === 'OPTIONS') {
-        return new Response(null, { status: 204, headers: corsHeaders });
-      }
-
-      try {
-        const body = await request.json();
-        const entries = Array.isArray(body) ? body : [body];
-        const accepted = [];
-
-        for (const entry of entries) {
-          const { query, lesson_id, feedback, ts } = entry || {};
-          if (!query || !lesson_id || !feedback) continue;
-          if (!['irrelevant', 'too_basic', 'helpful'].includes(feedback)) continue;
-
-          const feedbackId = crypto.randomUUID();
-          const record = {
-            feedbackId,
-            query: String(query).slice(0, 200),
-            lesson_id: String(lesson_id).slice(0, 200),
-            feedback,
-            ts: ts || new Date().toISOString(),
-            ip: clientIP,
-          };
-
-          await env.MISAKANET_KV.put(
-            `feedback:${feedbackId}`,
-            JSON.stringify(record),
-            { expirationTtl: 7776000 }, // 90 days
-          );
-          accepted.push(feedbackId);
-          console.log(`Feedback ${feedbackId}: ${feedback} on ${lesson_id} for "${query}"`);
-        }
-
-        return new Response(JSON.stringify({ accepted: accepted.length }), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json', ...corsHeaders },
-        });
-      } catch (err) {
-        return new Response(JSON.stringify({ error: 'Invalid request' }), {
-          status: 400,
-          headers: { 'Content-Type': 'application/json', ...corsHeaders },
-        });
-      }
-    }
-
     // ── GET / — registration form ──
     return new Response(renderPage('form'), {
       status: 200,

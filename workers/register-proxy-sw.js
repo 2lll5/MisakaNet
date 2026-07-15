@@ -199,6 +199,50 @@ export default {
       return jsonResponse({ lesson_id: lessonId, count: newCount });
     }
 
+    // POST /api/feedback — search result feedback intake
+    if (request.method === "POST" && url.pathname === "/api/feedback") {
+      if (!env.MISAKANET_KV) return jsonResponse({ error: "KV not configured" }, 503);
+
+      // IP rate limit: 10 feedbacks per IP per minute
+      const fbIp = request.headers.get("CF-Connecting-IP") || "unknown";
+      const fbRateKey = `rate:feedback:${fbIp}`;
+      const fbRateRaw = await env.MISAKANET_KV.get(fbRateKey, "text");
+      const fbRateCount = fbRateRaw ? parseInt(fbRateRaw, 10) || 0 : 0;
+      if (fbRateCount >= 10) return jsonResponse({ error: "Rate limited. Try again later." }, 429);
+      await env.MISAKANET_KV.put(fbRateKey, String(fbRateCount + 1), { expirationTtl: 60 });
+
+      let fbBody;
+      try { fbBody = await request.json(); } catch { return jsonResponse({ error: "Invalid JSON" }, 400); }
+      const entries = Array.isArray(fbBody) ? fbBody : [fbBody];
+      const accepted = [];
+
+      for (const entry of entries) {
+        const { query, lesson_id, feedback, ts } = entry || {};
+        if (!query || !lesson_id || !feedback) continue;
+        if (!["irrelevant", "too_basic", "helpful"].includes(feedback)) continue;
+
+        const feedbackId = crypto.randomUUID();
+        const record = {
+          feedbackId,
+          query: String(query).slice(0, 200),
+          lesson_id: String(lesson_id).slice(0, 200),
+          feedback,
+          ts: ts || new Date().toISOString(),
+          ip: fbIp,
+        };
+
+        await env.MISAKANET_KV.put(
+          `feedback:${feedbackId}`,
+          JSON.stringify(record),
+          { expirationTtl: 7776000 }, // 90 days
+        );
+        accepted.push(feedbackId);
+        console.log(`Feedback ${feedbackId}: ${feedback} on ${lesson_id} for "${query}"`);
+      }
+
+      return jsonResponse({ accepted: accepted.length });
+    }
+
     // GET /api/github/* - authenticated GitHub API proxy for the org frontend.
     // Keep this before the HTML landing page; otherwise the frontend receives
     // HTML and fails with: Unexpected token '<' while parsing JSON.
