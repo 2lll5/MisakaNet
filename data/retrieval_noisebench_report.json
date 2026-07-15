@@ -1,0 +1,207 @@
+{
+  "query_count": 14,
+  "skipped_queries": 1,
+  "precision_at_3": 0.952,
+  "precision_at_10": 0.952,
+  "mrr": 0.917,
+  "forbidden_hit_rate": 0.071,
+  "common_hit_rate": 0.0,
+  "per_query": [
+    {
+      "id": "dco-signoff",
+      "query": "DCO check failed missing Signed-off-by",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "dco-auto-fix-workflow",
+        "ci-dco-decouple-pythonpath-fork-pr",
+        "auto-merge-ci-pipeline",
+        "pr-cleanup-sop",
+        "pull-request-welcome-trigger-trap"
+      ]
+    },
+    {
+      "id": "database-locked",
+      "query": "database is locked SQLite",
+      "precision_at_3": 0.5,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "hermes-state-database-lock-issues-cleanup-protocol",
+        "hx-state-database-lock-issues-cleanup-protocol",
+        "agent-state-database-lock-cleanup",
+        "lesson-9-redis-postgresql-replacement",
+        "search-first-roadmap-loop"
+      ]
+    },
+    {
+      "id": "github-token-401",
+      "query": "GitHub API 401 token expired",
+      "precision_at_3": 1.0,
+      "mrr": 0.5,
+      "forbidden_hits": 0,
+      "top_results": [
+        "github-401-credential-lookup",
+        "github-api-pr-issue-management",
+        "github-actions-code-injection",
+        "auto-merge-ci-pipeline",
+        "auth-header-bug"
+      ]
+    },
+    {
+      "id": "pip-timeout",
+      "query": "pip install HTTPS timeout proxy",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "lesson-08-pip-https-proxy-clash",
+        "agent-web-access-toolchain-selection",
+        "pip-install-timeout-ssl",
+        "scrapling-installation-and-usage",
+        "auto-merge-ci-pipeline"
+      ]
+    },
+    {
+      "id": "secret-scan",
+      "query": "secret scanning token in commit",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "codeql-alert-dismissal-false-positive",
+        "lesson-11-github-commit-signing",
+        "dco-auto-fix-workflow",
+        "github-actions-code-injection",
+        "auto-merge-ci-pipeline"
+      ]
+    },
+    {
+      "id": "profinet-setup",
+      "query": "FANUC PROFINET S7-1200 configuration",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "fanuc-profinet-s7-1200-external-startup",
+        "fanuc-profinet-io-software-config",
+        "fanuc-profinet-32bit-real-value-transfer",
+        "fanuc-dcs-safety-configuration",
+        "fanuc-payload-estimation"
+      ]
+    },
+    {
+      "id": "karel-quaternion",
+      "query": "KAREL quaternion IK FK gimbal lock",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 1,
+      "top_results": [
+        "fanuc-karel-ik-fk-quaternion-guide",
+        "fanuc-karel-kl-pose-api-reference",
+        "hermes-state-database-lock-issues-cleanup-protocol",
+        "hx-state-database-lock-issues-cleanup-protocol",
+        "cronjob-one-shot-race-condition-duplicate-execution"
+      ]
+    },
+    {
+      "id": "github-443",
+      "query": "github.com port 443 connection refused",
+      "precision_at_3": 1.0,
+      "mrr": 0.333,
+      "forbidden_hits": 0,
+      "top_results": [
+        "gfw-tls-sni-block-pattern",
+        "lesson-08-pip-https-proxy-clash",
+        "github-dns-443-block-hosts-workaround",
+        "curl-request-troubleshoot",
+        "git-push-without-shell-agent"
+      ]
+    },
+    {
+      "id": "agent-web-scraping",
+      "query": "agent web scraping forum anti-bot",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "scrapling-installation-and-usage",
+        "multi-forum-scraping-architecture",
+        "agent-reach-multi-platform-scraper",
+        "agent-web-access-toolchain-selection",
+        "gfw-tls-sni-blocking-tool-layer-ineffective"
+      ]
+    },
+    {
+      "id": "ci-pipeline-auto-merge",
+      "query": "CI auto merge quality score DCO",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "auto-merge-ci-pipeline",
+        "dco-auto-fix-workflow",
+        "pr-cleanup-sop",
+        "lesson-quality-requirements",
+        "lesson-management-standardization"
+      ]
+    },
+    {
+      "id": "fanuc-backup",
+      "query": "FANUC robot backup restore mirror",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "fanuc-backup-restore-guide",
+        "fanuc-backup-payload-extraction",
+        "fanuc-dcs-safety-configuration",
+        "fanuc-mi-standard-software-instructions",
+        "fanuc-profinet-32bit-real-value-transfer"
+      ]
+    },
+    {
+      "id": "git-credential-helper",
+      "query": "git credential helper gh auth push failed",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 1,
+      "top_results": [
+        "git-credential-helper-gh-path-mismatch",
+        "lesson-06-git-push-credential-helper-403",
+        "git-credentials-and-node-id-setup",
+        "git-credentials-automation",
+        "dco-auto-fix-workflow"
+      ]
+    },
+    {
+      "id": "codeql-dismiss",
+      "query": "CodeQL alert dismiss false positive",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "codeql-alert-dismissal-false-positive",
+        "github-actions-code-injection",
+        "pull-request-welcome-trigger-trap",
+        "auto-merge-ci-pipeline",
+        "dco-auto-fix-workflow"
+      ]
+    },
+    {
+      "id": "rate-limit-429",
+      "query": "GitHub API rate limit 429",
+      "precision_at_3": 1.0,
+      "mrr": 1.0,
+      "forbidden_hits": 0,
+      "top_results": [
+        "api-rate-limit-handling",
+        "feishu-block-api-false-success",
+        "api-rate-limit-handling-best-practices",
+        "github-api-pr-issue-management",
+        "codeql-alert-dismissal-false-positive"
+      ]
+    }
+  ]
+}
