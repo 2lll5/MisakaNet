@@ -18,21 +18,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy Worker via Cloudflare API
+      - name: Deploy Worker with Wrangler
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          npx wrangler deploy workers/register-proxy-sw.js \
+            --name misakanet-register-proxy \
+            --compatibility-date 2024-01-01
+
+      - name: Ensure keepalive schedule
         env:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
         run: |
           set -euo pipefail
-
-          # Modules format: multipart upload with metadata
-          printf '{"main_module":"register-proxy-sw.js","compatibility_date":"2024-01-01"}' > /tmp/metadata.json
-
-          curl --fail-with-body -sS -X PUT \
-            -H "Authorization: Bearer $CF_API_TOKEN" \
-            -F "metadata=@/tmp/metadata.json;type=application/json" \
-            -F "register-proxy-sw.js=@workers/register-proxy-sw.js;type=application/javascript+module" \
-            "https://api.cloudflare.com/client/v4/accounts/6b92325b505f2b76aec49e9fe4195d31/workers/scripts/misakanet-register-proxy"
-
           curl -fsS -X PUT \
             -H "Authorization: Bearer $CF_API_TOKEN" \
             -H "Content-Type: application/json" \
