@@ -52,3 +52,15 @@ test('falls back from HTML to readable text', () => {
   assert.equal(parseEmailBody(raw), 'Bug report\nworker failed');
   assert.equal(detectIntakeType('', parseEmailBody(raw)), 'bug-report');
 });
+
+test('converts HTML without regex tag filtering or recursive entity decoding', () => {
+  const raw = [
+    'Content-Type: text/html; charset=UTF-8',
+    '',
+    '<style>.hidden{display:none}</style>',
+    '<p>Lesson &amp; notes</p>',
+    '<script>alert("ignore")</script>',
+    '<div>&amp;lt;not-a-tag&amp;gt;</div>',
+  ].join('\r\n');
+  assert.equal(parseEmailBody(raw), 'Lesson & notes\n&lt;not-a-tag&gt;');
+});
