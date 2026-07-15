@@ -30,7 +30,7 @@ jobs:
           curl --fail-with-body -sS -X PUT \
             -H "Authorization: Bearer $CF_API_TOKEN" \
             -F "metadata=@/tmp/metadata.json;type=application/json" \
-            -F "register-proxy-sw.js=@workers/register-proxy-sw.js;type=application/javascript" \
+            -F "register-proxy-sw.js=@workers/register-proxy-sw.js;type=application/javascript+module" \
             "https://api.cloudflare.com/client/v4/accounts/6b92325b505f2b76aec49e9fe4195d31/workers/scripts/misakanet-register-proxy"
 
           curl -fsS -X PUT \
