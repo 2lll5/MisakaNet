@@ -23,15 +23,17 @@ def search_lessons(query: str) -> list:
     """Search MisakaNet for relevant lessons."""
     env = os.environ.copy()
     env["PYTHONUTF8"] = "1"  # Windows compatibility
+    env["PYTHONIOENCODING"] = "utf-8"
     try:
         result = subprocess.run(
-            [sys.executable, "search_knowledge.py", query, "--json"],
+            [sys.executable, "search_knowledge.py", query, "--json", "--top=5"],
             cwd=str(REPO),
-            capture_output=True, text=True, timeout=30,
+            capture_output=True, timeout=30,
             env=env,
         )
         if result.returncode == 0:
-            return json.loads(result.stdout)
+            stdout = result.stdout.decode("utf-8", errors="replace")
+            return json.loads(stdout)
     except Exception:
         pass
     return []
@@ -100,9 +102,56 @@ def evaluate_task(task: dict, with_lessons: bool = True) -> dict:
         if expected.get("lesson_generated"):
             result["generated_reusable_lesson"] = True
 
-    # Simulate task pass (placeholder for real execution)
-    result["task_b_pass"] = True
-    result["ci_pr_compliance"] = True
+    # Validate task_b_pass using fixture's expected fix commands
+    # Checks if the retrieved lesson covers the fix concept (not exact command match)
+    fix_commands = expected.get("fix_commands", [])
+    if result.get("correct_lesson_retrieved") and lessons:
+        lesson_content = " ".join(
+            (l.get("title", "") + " " + l.get("summary", "") + " " + l.get("preview", ""))
+            for l in lessons
+        ).lower()
+        if fix_commands:
+            # Check if any fix command keyword appears in lesson
+            # Extract key terms from commands (not full strings)
+            fix_keywords = set()
+            for cmd in fix_commands:
+                # Extract meaningful words from command (skip flags)
+                for word in cmd.split():
+                    if len(word) > 3 and not word.startswith("-"):
+                        fix_keywords.add(word.lower())
+            matched_keywords = [kw for kw in fix_keywords if kw in lesson_content]
+            result["task_b_pass"] = len(matched_keywords) >= 1
+            if not result["task_b_pass"]:
+                result["note"] += " | fix keywords not found"
+        else:
+            # No fix commands — pass if lesson was retrieved
+            result["task_b_pass"] = True
+    elif result.get("correct_lesson_retrieved"):
+        result["task_b_pass"] = True
+    else:
+        result["task_b_pass"] = False
+
+    # Validate ci_pr_compliance using fixture's validation rules
+    # Checks if the retrieved lesson would lead to a compliant fix
+    validation = task.get("validation", {})
+    if validation:
+        checks_passed = 0
+        checks_total = 0
+        if validation.get("lesson_schema_valid"):
+            checks_total += 1
+            if result.get("correct_lesson_retrieved"):
+                checks_passed += 1
+        if validation.get("lesson_has_fix_command"):
+            checks_total += 1
+            if result.get("task_b_pass"):
+                checks_passed += 1
+        if validation.get("ci_passes"):
+            checks_total += 1
+            if result.get("task_b_pass"):
+                checks_passed += 1
+        result["ci_pr_compliance"] = (checks_passed == checks_total) if checks_total > 0 else False
+    else:
+        result["ci_pr_compliance"] = result.get("task_b_pass", False)
 
     # Calculate score
     weights = {

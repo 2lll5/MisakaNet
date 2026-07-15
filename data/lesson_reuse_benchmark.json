@@ -2,16 +2,16 @@
   "kind": "search_retrieval_probe",
   "simulated_execution": true,
   "agent": "pr-genius-search",
-  "with_lessons": 0.808,
-  "without_lessons": 0.5,
-  "delta": 0.30800000000000005,
+  "with_lessons": 0.6639999999999999,
+  "without_lessons": 0.0,
+  "delta": 0.6639999999999999,
   "note": "task_b_pass and ci_pr_compliance are simulated (placeholder)",
   "pairs": [
     {
       "pair": "anti-crawl",
-      "a_score": 0.85,
-      "b_score": 0.85,
-      "combined": 0.85,
+      "a_score": 0.75,
+      "b_score": 0.75,
+      "combined": 0.75,
       "with_lessons": true,
       "a_result": {
         "pair": "anti-crawl",
@@ -21,9 +21,9 @@
         "correct_lesson_retrieved": true,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": true,
-        "ci_pr_compliance": true,
-        "note": "Found 10 relevant lessons",
-        "score": 0.85
+        "ci_pr_compliance": false,
+        "note": "Found 5 relevant lessons",
+        "score": 0.75
       },
       "b_result": {
         "pair": "anti-crawl",
@@ -33,16 +33,16 @@
         "correct_lesson_retrieved": true,
         "avoided_known_bad_path": true,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
-        "note": "Found relevant lesson: GFW TLS SNI Block Pattern â€” Why Tool-Layer Solutions Fail",
-        "score": 0.85
+        "ci_pr_compliance": false,
+        "note": "Found relevant lesson: GFW TLS SNI Block Pattern ¡ª Why Tool-Layer Solutions Fail",
+        "score": 0.75
       }
     },
     {
       "pair": "db-lock",
       "a_score": 0.85,
-      "b_score": 0.85,
-      "combined": 0.85,
+      "b_score": 0.75,
+      "combined": 0.79,
       "with_lessons": true,
       "a_result": {
         "pair": "db-lock",
@@ -53,7 +53,7 @@
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": true,
         "ci_pr_compliance": true,
-        "note": "Found 10 relevant lessons",
+        "note": "Found 5 relevant lessons",
         "score": 0.85
       },
       "b_result": {
@@ -64,28 +64,28 @@
         "correct_lesson_retrieved": true,
         "avoided_known_bad_path": true,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
-        "note": "Found relevant lesson: Agent State Database Lock Issues â€” Cleanup Protocol",
-        "score": 0.85
+        "ci_pr_compliance": false,
+        "note": "Found relevant lesson: Agent State Database Lock Issues ¡ª Cleanup Protocol",
+        "score": 0.75
       }
     },
     {
       "pair": "dco",
-      "a_score": 0.85,
+      "a_score": 0.35,
       "b_score": 0.85,
-      "combined": 0.85,
+      "combined": 0.65,
       "with_lessons": true,
       "a_result": {
         "pair": "dco",
         "phase": "A",
         "with_lessons": true,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": true,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": true,
-        "ci_pr_compliance": true,
-        "note": "Found 10 relevant lessons",
-        "score": 0.85
+        "ci_pr_compliance": false,
+        "note": "Found 5 relevant lessons | fix keywords not found",
+        "score": 0.35
       },
       "b_result": {
         "pair": "dco",
@@ -96,15 +96,15 @@
         "avoided_known_bad_path": true,
         "generated_reusable_lesson": false,
         "ci_pr_compliance": true,
-        "note": "Found relevant lesson: DCO Auto-Fix Workflow â€” /fix-dco Command Design & Implementa",
+        "note": "Found relevant lesson: DCO Auto-Fix Workflow ¡ª /fix-dco Command Design & Implementa",
         "score": 0.85
       }
     },
     {
       "pair": "fanuc-payload",
       "a_score": 0.85,
-      "b_score": 0.85,
-      "combined": 0.85,
+      "b_score": 0.75,
+      "combined": 0.79,
       "with_lessons": true,
       "a_result": {
         "pair": "fanuc-payload",
@@ -115,7 +115,7 @@
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": true,
         "ci_pr_compliance": true,
-        "note": "Found 10 relevant lessons",
+        "note": "Found 5 relevant lessons",
         "score": 0.85
       },
       "b_result": {
@@ -126,16 +126,16 @@
         "correct_lesson_retrieved": true,
         "avoided_known_bad_path": true,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
-        "note": "Found relevant lesson: FANUC Backup Payload Extraction â€” .VR/.SV Binary Parsing and",
-        "score": 0.85
+        "ci_pr_compliance": false,
+        "note": "Found relevant lesson: FANUC Backup Payload Extraction ¡ª .VR/.SV Binary Parsing and",
+        "score": 0.75
       }
     },
     {
       "pair": "secret-scan",
       "a_score": 0.85,
-      "b_score": 0.5,
-      "combined": 0.64,
+      "b_score": 0,
+      "combined": 0.34,
       "with_lessons": true,
       "a_result": {
         "pair": "secret-scan",
@@ -146,177 +146,177 @@
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": true,
         "ci_pr_compliance": true,
-        "note": "Found 10 relevant lessons",
+        "note": "Found 5 relevant lessons",
         "score": 0.85
       },
       "b_result": {
         "pair": "secret-scan",
         "phase": "B",
         "with_lessons": true,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       }
     }
   ],
   "without_lessons_details": [
     {
       "pair": "anti-crawl",
-      "a_score": 0.5,
-      "b_score": 0.5,
-      "combined": 0.5,
+      "a_score": 0,
+      "b_score": 0,
+      "combined": 0.0,
       "with_lessons": false,
       "a_result": {
         "pair": "anti-crawl",
         "phase": "A",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       },
       "b_result": {
         "pair": "anti-crawl",
         "phase": "B",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       }
     },
     {
       "pair": "db-lock",
-      "a_score": 0.5,
-      "b_score": 0.5,
-      "combined": 0.5,
+      "a_score": 0,
+      "b_score": 0,
+      "combined": 0.0,
       "with_lessons": false,
       "a_result": {
         "pair": "db-lock",
         "phase": "A",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       },
       "b_result": {
         "pair": "db-lock",
         "phase": "B",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       }
     },
     {
       "pair": "dco",
-      "a_score": 0.5,
-      "b_score": 0.5,
-      "combined": 0.5,
+      "a_score": 0,
+      "b_score": 0,
+      "combined": 0.0,
       "with_lessons": false,
       "a_result": {
         "pair": "dco",
         "phase": "A",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       },
       "b_result": {
         "pair": "dco",
         "phase": "B",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       }
     },
     {
       "pair": "fanuc-payload",
-      "a_score": 0.5,
-      "b_score": 0.5,
-      "combined": 0.5,
+      "a_score": 0,
+      "b_score": 0,
+      "combined": 0.0,
       "with_lessons": false,
       "a_result": {
         "pair": "fanuc-payload",
         "phase": "A",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       },
       "b_result": {
         "pair": "fanuc-payload",
         "phase": "B",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       }
     },
     {
       "pair": "secret-scan",
-      "a_score": 0.5,
-      "b_score": 0.5,
-      "combined": 0.5,
+      "a_score": 0,
+      "b_score": 0,
+      "combined": 0.0,
       "with_lessons": false,
       "a_result": {
         "pair": "secret-scan",
         "phase": "A",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       },
       "b_result": {
         "pair": "secret-scan",
         "phase": "B",
         "with_lessons": false,
-        "task_b_pass": true,
+        "task_b_pass": false,
         "correct_lesson_retrieved": false,
         "avoided_known_bad_path": false,
         "generated_reusable_lesson": false,
-        "ci_pr_compliance": true,
+        "ci_pr_compliance": false,
         "note": "",
-        "score": 0.5
+        "score": 0
       }
     }
   ]
