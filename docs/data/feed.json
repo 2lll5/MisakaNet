@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-07-15T11:04:12.479924+00:00",
+  "generated_at": "2026-07-15T14:15:38.953389+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "feat: add lesson search retrieval probe (addresses #459)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/479",
+      "timestamp": "2026-07-15T11:31:51Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "feat: productionize email intake pipeline",
@@ -33,11 +40,28 @@
       "source": "github"
     },
     {
-      "type": "merged_pr",
-      "title": "feat: add trust_tiers to protocol, registration reads from protocol",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/473",
-      "timestamp": "2026-07-14T14:24:51Z",
-      "source": "github"
+      "type": "lesson",
+      "title": "Benchmark Honesty — Distinguishing Simulated vs Real Results",
+      "url": "lessons/contrib/benchmark-honesty-simulated-vs-real.md",
+      "timestamp": "2026-07-15",
+      "domain": "contrib",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Cross-Repo Contribution Strategy — Finding and Contributing to New Repos",
+      "url": "lessons/contrib/cross-repo-contribution-strategy.md",
+      "timestamp": "2026-07-15",
+      "domain": "contrib",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Maintainer Feedback Iteration — Address Blockers, Not Just Comments",
+      "url": "lessons/contrib/maintainer-feedback-iteration.md",
+      "timestamp": "2026-07-15",
+      "domain": "contrib",
+      "source": "lessons"
     },
     {
       "type": "lesson",
@@ -72,30 +96,6 @@
       "url": "lessons/contrib/lesson-pep668-homebrew-externally-managed.md",
       "timestamp": "2026-07-09",
       "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "AI Agent Project Outreach Guide",
-      "url": "lessons/contrib/ai-agent-project-outreach-guide.md",
-      "timestamp": "2026-07-06",
-      "domain": "contrib",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "aily feishu mcp pull only",
-      "url": "lessons/contrib/aily-feishu-mcp-pull-only.md",
-      "timestamp": "2026-07-06",
-      "domain": "contrib",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Internal Gateway — Incompatible with Anthropic Format, Requires OpenAI Proxy",
-      "url": "lessons/contrib/anthropic-proxy-internal-gateway.md",
-      "timestamp": "2026-07-06",
-      "domain": "contrib",
       "source": "lessons"
     },
     {
