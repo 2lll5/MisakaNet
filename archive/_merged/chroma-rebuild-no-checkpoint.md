@@ -1,3 +1,4 @@
+> **⚠️ Merged:** This lesson has been consolidated into [chroma-rebuild-no-checkpoint-cn](../lessons/contrib/chroma-rebuild-no-checkpoint-cn.md). See Issue #310.
 ---
 {
   "domain": "contrib",

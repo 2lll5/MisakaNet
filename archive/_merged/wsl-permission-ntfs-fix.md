@@ -1,3 +1,4 @@
+> **⚠️ Merged:** This lesson has been consolidated into [permission-denied-fix](../lessons/contrib/permission-denied-fix.md). See Issue #310.
 ---
 {
   "domain": "contrib",

@@ -1,3 +1,4 @@
+> **⚠️ Merged:** This lesson has been consolidated into [deepseek-tui-write-file-sandbox-worktree-git-path](../lessons/contrib/deepseek-tui-write-file-sandbox-worktree-git-path.md). See Issue #310.
 ---
 {
   "domain": "contrib",

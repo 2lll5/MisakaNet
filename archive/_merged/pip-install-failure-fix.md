@@ -1,3 +1,4 @@
+> **⚠️ Merged:** This lesson has been consolidated into [pip-install-timeout-ssl](../lessons/contrib/pip-install-timeout-ssl.md). See Issue #310.
 ---
 {
   "domain": "contrib",
