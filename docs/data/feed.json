@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-07-16T03:44:06.606443+00:00",
+  "generated_at": "2026-07-16T08:37:22.086135+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
     {
       "type": "merged_pr",
+      "title": "feat(benchmark): add Retrieval NoiseBench (fixes #481)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/486",
+      "timestamp": "2026-07-16T04:20:49Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(search): add typo tolerance with edit distance ≤2 (fixes #314)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/483",
+      "timestamp": "2026-07-16T04:20:41Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(search): optimize BM25 field weights (fixes #311)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/484",
+      "timestamp": "2026-07-16T04:20:34Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "fix(lessons): merge 6 duplicate lesson pairs (fixes #310)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/485",
+      "timestamp": "2026-07-16T04:20:26Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
       "title": "feat: add lesson search retrieval probe (addresses #459)",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/479",
       "timestamp": "2026-07-15T11:31:51Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: productionize email intake pipeline",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/478",
-      "timestamp": "2026-07-15T06:57:04Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "Add 7 FANUC robot lessons from internal training materials",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/474",
-      "timestamp": "2026-07-15T02:16:28Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "fix: sync lesson count across STATUS.md, README, and frontend (#298)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/476",
-      "timestamp": "2026-07-15T02:14:56Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: dynamically load trust level in registration worker",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/477",
-      "timestamp": "2026-07-15T02:14:28Z",
       "source": "github"
     },
     {
@@ -145,8 +145,8 @@
     },
     {
       "type": "challenge",
-      "title": "[Search] Typo tolerance with edit distance matching",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/314",
+      "title": "[Search] Query expansion with domain-specific synonyms",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/313",
       "labels": [
         "enhancement",
         "Ring-3",
@@ -155,7 +155,7 @@
         "agent-friendly",
         "status:competition"
       ],
-      "timestamp": "2026-07-02T16:01:18Z",
+      "timestamp": "2026-07-02T16:01:16Z",
       "source": "github"
     }
   ]
