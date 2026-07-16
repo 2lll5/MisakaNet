@@ -1,20 +1,5 @@
 [
   {
-    "id": "README",
-    "title": "README",
-    "domain": "core",
-    "tags": [],
-    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
-    "url": "lessons/core/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
     "id": "auto-merge-ci-pipeline",
     "title": "Auto-Merge CI Pipeline — DCO, Quality Score, Shadow Branch, Dynamic Deps, Auto-Merge",
     "domain": "devops",
@@ -205,6 +190,21 @@
     "verified": true
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "core",
+    "tags": [],
+    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
+    "url": "lessons/core/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": false
+  },
+  {
     "id": "search-first-roadmap-loop",
     "title": "Search-first roadmap loop for agent knowledge projects",
     "domain": "development",
@@ -223,21 +223,6 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "published",
-    "verified": true
-  },
-  {
-    "id": "README",
-    "title": "README",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
-    "url": "lessons/contrib/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
     "verified": true
   },
   {
@@ -483,6 +468,27 @@
     "summary": "When HermesHub starts, if the BGE-m3 model has not been downloaded to the local path, SkillIndexer crashes immediately.",
     "url": "lessons/contrib/bge-embedding-fallback-crash.md",
     "created": "2026-05-03",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
+    "id": "bounty-contributors-are-not-always-users",
+    "title": "Bounty Contributors Are Not Always Users",
+    "domain": "growth",
+    "tags": [
+      "bounty",
+      "contributors",
+      "growth",
+      "feedback",
+      "community"
+    ],
+    "summary": "Bounty or task labels can attract contributors who submit valid pull requests but never become users of the product, readers of the knowledge base, or members o…",
+    "url": "lessons/contrib/bounty-contributors-are-not-always-users.md",
+    "created": "2026-07-17",
     "updated": "",
     "validity_period_days": 365,
     "environment_version": "",
@@ -2413,6 +2419,27 @@
     "verified": true
   },
   {
+    "id": "mcp-registry-readiness-requires-qa-before-promotion",
+    "title": "MCP Registry Readiness Requires QA Before Promotion",
+    "domain": "mcp",
+    "tags": [
+      "mcp",
+      "registry",
+      "qa",
+      "glama",
+      "tooling"
+    ],
+    "summary": "Submitting an MCP server to a public registry before its smoke tests, tool descriptions, and user-facing install path are ready can waste the first discovery wa…",
+    "url": "lessons/contrib/mcp-registry-readiness-requires-qa-before-promotion.md",
+    "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "mcp-server-direct-handler-testing",
     "title": "mcp-server-direct-handler-testing",
     "domain": "contrib",
@@ -2999,6 +3026,21 @@
     "verified": false
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
+    "url": "lessons/contrib/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "regex-escaped-quotes-source-parsing",
     "title": "regex-escaped-quotes-source-parsing",
     "domain": "contrib",
@@ -3042,6 +3084,48 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
+  },
+  {
+    "id": "repository-traffic-is-not-lesson-use",
+    "title": "Repository Traffic Is Not Lesson Use",
+    "domain": "growth",
+    "tags": [
+      "analytics",
+      "growth",
+      "feedback",
+      "lessons",
+      "metrics"
+    ],
+    "summary": "A repository can show strong clone, star, fork, issue, and pull-request activity while still having no evidence that users are reading or applying the knowledge…",
+    "url": "lessons/contrib/repository-traffic-is-not-lesson-use.md",
+    "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
+    "id": "rescue-cards-for-non-github-users",
+    "title": "When Lessons Are Too Heavy, Use Rescue Cards",
+    "domain": "ux",
+    "tags": [
+      "ux",
+      "support",
+      "lessons",
+      "rescue",
+      "feedback"
+    ],
+    "summary": "Not every real user can read a full technical lesson, open a GitHub issue, or write a structured report. Some users only know that a zip file will not open, a P…",
+    "url": "lessons/contrib/rescue-cards-for-non-github-users.md",
+    "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
   },
   {
     "id": "sag-lite-data-quality-cleaning",
@@ -3349,6 +3433,27 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
+  },
+  {
+    "id": "two-evidence-loops-for-failure-lessons",
+    "title": "Two Evidence Loops for Failure Lessons",
+    "domain": "growth",
+    "tags": [
+      "evidence",
+      "lessons",
+      "reuse",
+      "growth",
+      "feedback"
+    ],
+    "summary": "A failure-lesson project can undercount real value if it only treats public feedback signals as proof of reuse. Helpful votes, feedback issues, and usage report…",
+    "url": "lessons/contrib/two-evidence-loops-for-failure-lessons.md",
+    "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
   },
   {
     "id": "version-management-multiple-files",

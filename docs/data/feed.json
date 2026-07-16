@@ -1,39 +1,55 @@
 {
-  "generated_at": "2026-07-16T16:45:52.866945+00:00",
+  "generated_at": "2026-07-16T17:07:36.373146+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "lesson",
+      "title": "Bounty Contributors Are Not Always Users",
+      "url": "lessons/contrib/bounty-contributors-are-not-always-users.md",
+      "timestamp": "2026-07-17",
+      "domain": "growth",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "MCP Registry Readiness Requires QA Before Promotion",
+      "url": "lessons/contrib/mcp-registry-readiness-requires-qa-before-promotion.md",
+      "timestamp": "2026-07-17",
+      "domain": "mcp",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Repository Traffic Is Not Lesson Use",
+      "url": "lessons/contrib/repository-traffic-is-not-lesson-use.md",
+      "timestamp": "2026-07-17",
+      "domain": "growth",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "When Lessons Are Too Heavy, Use Rescue Cards",
+      "url": "lessons/contrib/rescue-cards-for-non-github-users.md",
+      "timestamp": "2026-07-17",
+      "domain": "ux",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Two Evidence Loops for Failure Lessons",
+      "url": "lessons/contrib/two-evidence-loops-for-failure-lessons.md",
+      "timestamp": "2026-07-17",
+      "domain": "growth",
+      "source": "lessons"
+    },
     {
       "type": "merged_pr",
       "title": "feat: dynamically load trust level in registration worker",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/477",
       "timestamp": "2026-07-15T02:14:28Z",
       "source": "github"
-    },
-    {
-      "type": "lesson",
-      "title": "Benchmark Honesty — Distinguishing Simulated vs Real Results",
-      "url": "lessons/contrib/benchmark-honesty-simulated-vs-real.md",
-      "timestamp": "2026-07-15",
-      "domain": "contrib",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Cross-Repo Contribution Strategy — Finding and Contributing to New Repos",
-      "url": "lessons/contrib/cross-repo-contribution-strategy.md",
-      "timestamp": "2026-07-15",
-      "domain": "contrib",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Maintainer Feedback Iteration — Address Blockers, Not Just Comments",
-      "url": "lessons/contrib/maintainer-feedback-iteration.md",
-      "timestamp": "2026-07-15",
-      "domain": "contrib",
-      "source": "lessons"
     },
     {
       "type": "merged_pr",
@@ -48,14 +64,6 @@
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/468",
       "timestamp": "2026-07-14T10:42:19Z",
       "source": "github"
-    },
-    {
-      "type": "lesson",
-      "title": "Network Domain Lesson Template",
-      "url": "lessons/contrib/lesson-template-network.md",
-      "timestamp": "2026-07-13",
-      "domain": "network",
-      "source": "lessons"
     },
     {
       "type": "merged_pr",
@@ -82,14 +90,6 @@
       ],
       "timestamp": "2026-07-09T07:03:41Z",
       "source": "github"
-    },
-    {
-      "type": "lesson",
-      "title": "macOS Homebrew Python: pip install Blocked by PEP 668 externally-managed-environment",
-      "url": "lessons/contrib/lesson-pep668-homebrew-externally-managed.md",
-      "timestamp": "2026-07-09",
-      "domain": "devops",
-      "source": "lessons"
     },
     {
       "type": "merged_pr",

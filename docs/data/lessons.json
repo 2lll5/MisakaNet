@@ -1,20 +1,5 @@
 [
   {
-    "id": "README",
-    "title": "README",
-    "domain": "core",
-    "tags": [],
-    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
-    "url": "lessons/core/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
     "id": "auto-merge-ci-pipeline",
     "title": "Auto-Merge CI Pipeline — DCO, Quality Score, Shadow Branch, Dynamic Deps, Auto-Merge",
     "domain": "devops",
@@ -162,25 +147,6 @@
     "verified": true
   },
   {
-    "id": "hx-state-database-lock-issues-cleanup-protocol",
-    "title": "Hermes State Database Lock Issues - Cleanup Protocol",
-    "domain": "agent-network",
-    "tags": [
-      "node:zka",
-      "project:hermes-agent",
-      "severity:high"
-    ],
-    "summary": "Hermes agent shows 'database is locked' error on SQLite state.db. Cronjobs stop firing.",
-    "url": "lessons/core/hx-state-database-lock-issues-cleanup-protocol.md",
-    "created": "2026-06-05 00:49:07 UTC",
-    "updated": "2026-06-05 00:49:07 UTC",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "published",
-    "verified": true
-  },
-  {
     "id": "pr-cleanup-sop",
     "title": "PR Cleanup SOP — Stale/Duplicate/Resolved PR Disposition",
     "domain": "devops",
@@ -224,6 +190,21 @@
     "verified": true
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "core",
+    "tags": [],
+    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
+    "url": "lessons/core/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": false
+  },
+  {
     "id": "search-first-roadmap-loop",
     "title": "Search-first roadmap loop for agent knowledge projects",
     "domain": "development",
@@ -242,21 +223,6 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "published",
-    "verified": true
-  },
-  {
-    "id": "README",
-    "title": "README",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
-    "url": "lessons/contrib/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
     "verified": true
   },
   {
@@ -348,21 +314,6 @@
     "confidence": 0.5,
     "status": "active",
     "verified": true
-  },
-  {
-    "id": "agent-write-file-sandbox-worktree-path-breakage",
-    "title": "agent-write-file-sandbox-worktree-path-breakage",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "在对项目进行代码修改的过程中，使用 Agent 模式操作。操作环境为 WSL (Windows Subsystem for Linux)，仓库使用 worktree 管理。",
-    "url": "lessons/contrib/agent-write-file-sandbox-worktree-path-breakage.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
   },
   {
     "id": "ai-agent-project-outreach-guide",
@@ -525,6 +476,27 @@
     "verified": true
   },
   {
+    "id": "bounty-contributors-are-not-always-users",
+    "title": "Bounty Contributors Are Not Always Users",
+    "domain": "growth",
+    "tags": [
+      "bounty",
+      "contributors",
+      "growth",
+      "feedback",
+      "community"
+    ],
+    "summary": "Bounty or task labels can attract contributors who submit valid pull requests but never become users of the product, readers of the knowledge base, or members o…",
+    "url": "lessons/contrib/bounty-contributors-are-not-always-users.md",
+    "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "browser-automation-csp-bypass",
     "title": "browser-automation-csp-bypass",
     "domain": "contrib",
@@ -606,21 +578,6 @@
     "tags": [],
     "summary": "Agent 内跑 BGE-large-zh 建库（约30分钟），Gateway 重启后整个数据库为空，0条向量入库。",
     "url": "lessons/contrib/chroma-rebuild-no-checkpoint-cn.md",
-    "created": "2026-07-06",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
-    "id": "chroma-rebuild-no-checkpoint",
-    "title": "Chroma 建库无 Checkpoint — 进程一死全部丢失",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Agent 内跑 BGE-large-zh 建库（约30分钟），Gateway 重启后整个数据库为空，0条向量入库。",
-    "url": "lessons/contrib/chroma-rebuild-no-checkpoint.md",
     "created": "2026-07-06",
     "updated": "",
     "validity_period_days": 365,
@@ -2462,6 +2419,27 @@
     "verified": true
   },
   {
+    "id": "mcp-registry-readiness-requires-qa-before-promotion",
+    "title": "MCP Registry Readiness Requires QA Before Promotion",
+    "domain": "mcp",
+    "tags": [
+      "mcp",
+      "registry",
+      "qa",
+      "glama",
+      "tooling"
+    ],
+    "summary": "Submitting an MCP server to a public registry before its smoke tests, tool descriptions, and user-facing install path are ready can waste the first discovery wa…",
+    "url": "lessons/contrib/mcp-registry-readiness-requires-qa-before-promotion.md",
+    "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "mcp-server-direct-handler-testing",
     "title": "mcp-server-direct-handler-testing",
     "domain": "contrib",
@@ -2693,21 +2671,6 @@
     "tags": [],
     "summary": "Agent 在 context 中看到了知识但不一定会用。即使指令写了\"不可跳过\"，Agent 的惯性行为是直接执行任务、跳过检索。",
     "url": "lessons/contrib/phase-0-output-gate.md",
-    "created": "2026-07-06",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
-    "id": "pip-install-failure-fix",
-    "title": "pip install Network Timeout / SSL / 依赖ConflictFix",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "pip install 或 conda install 失败，常见场景：",
-    "url": "lessons/contrib/pip-install-failure-fix.md",
     "created": "2026-07-06",
     "updated": "",
     "validity_period_days": 365,
@@ -3063,6 +3026,21 @@
     "verified": false
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
+    "url": "lessons/contrib/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "regex-escaped-quotes-source-parsing",
     "title": "regex-escaped-quotes-source-parsing",
     "domain": "contrib",
@@ -3106,6 +3084,48 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
+  },
+  {
+    "id": "repository-traffic-is-not-lesson-use",
+    "title": "Repository Traffic Is Not Lesson Use",
+    "domain": "growth",
+    "tags": [
+      "analytics",
+      "growth",
+      "feedback",
+      "lessons",
+      "metrics"
+    ],
+    "summary": "A repository can show strong clone, star, fork, issue, and pull-request activity while still having no evidence that users are reading or applying the knowledge…",
+    "url": "lessons/contrib/repository-traffic-is-not-lesson-use.md",
+    "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
+    "id": "rescue-cards-for-non-github-users",
+    "title": "When Lessons Are Too Heavy, Use Rescue Cards",
+    "domain": "ux",
+    "tags": [
+      "ux",
+      "support",
+      "lessons",
+      "rescue",
+      "feedback"
+    ],
+    "summary": "Not every real user can read a full technical lesson, open a GitHub issue, or write a structured report. Some users only know that a zip file will not open, a P…",
+    "url": "lessons/contrib/rescue-cards-for-non-github-users.md",
+    "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
   },
   {
     "id": "sag-lite-data-quality-cleaning",
@@ -3415,6 +3435,27 @@
     "verified": false
   },
   {
+    "id": "two-evidence-loops-for-failure-lessons",
+    "title": "Two Evidence Loops for Failure Lessons",
+    "domain": "growth",
+    "tags": [
+      "evidence",
+      "lessons",
+      "reuse",
+      "growth",
+      "feedback"
+    ],
+    "summary": "A failure-lesson project can undercount real value if it only treats public feedback signals as proof of reuse. Helpful votes, feedback issues, and usage report…",
+    "url": "lessons/contrib/two-evidence-loops-for-failure-lessons.md",
+    "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "version-management-multiple-files",
     "title": "Version Management Across Multiple Files",
     "domain": "devops",
@@ -3504,36 +3545,6 @@
     "tags": [],
     "summary": "配置企业微信机器人回调时，传统方案需要 ngrok/frp 做内网穿透，增加复杂度、暴露端口、需要 HTTPS 证书。",
     "url": "lessons/contrib/wecom-robot-long-connect-no-ngrok.md",
-    "created": "2026-07-06",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": true
-  },
-  {
-    "id": "write-file-sandbox-worktree-git-path",
-    "title": "write file sandbox worktree git path",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "在对项目进行代码修改的过程中，使用 Agent 模式操作。操作环境为 WSL (Windows Subsystem for Linux)，仓库使用 worktree 管理。",
-    "url": "lessons/contrib/write-file-sandbox-worktree-git-path.md",
-    "created": "2026-07-06",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
-    "id": "wsl-permission-ntfs-fix",
-    "title": "Permission Denied / WSL NTFS 跨文件系统PermissionFix",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "操作 `/mnt/c/` 下的文件时报 `Permission denied` 或 `EACCES`；或 `git` 在 `/mnt/c/` 下报错。",
-    "url": "lessons/contrib/wsl-permission-ntfs-fix.md",
     "created": "2026-07-06",
     "updated": "",
     "validity_period_days": 365,
