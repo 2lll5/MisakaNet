@@ -19,6 +19,17 @@
 > Clone → paste MCP config → ask "Search MisakaNet for DCO sign-off failure".
 > [3-step MCP quickstart →](docs/mcp-quickstart.md)
 
+**Stuck on a failure?** Search 235+ verified fix lessons before opening a PR:
+
+| Problem | Lesson |
+|---|---|
+| 🔴 DCO sign-off fails on Windows | [→ dco-auto-fix-workflow](lessons/core/dco-auto-fix-workflow.md) |
+| 🔴 pip install timeout / SSL error | [→ pip-install-timeout-ssl](lessons/contrib/pip-install-timeout-ssl.md) |
+| 🔴 Secret scan / token in commit | [→ codeql-alert-dismissal-false-positive](lessons/core/codeql-alert-dismissal-false-positive.md) |
+| 🔴 GitHub API 401 / token expired | [→ github-401-credential-lookup](lessons/core/github-401-credential-lookup.md) |
+
+[🔍 Search all lessons →](https://ikalus1988.github.io/MisakaNet/search/)
+
 ---
 
 <!-- AI-readable summary: structured for LLMs and crawlers -->
