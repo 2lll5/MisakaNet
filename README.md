@@ -201,6 +201,7 @@ MisakaNet lessons are **not** skills.
 **One line:** Skill teaches an agent *how to do something*. Lesson teaches an agent *what went wrong before and how not to fail again*.
 
 > **MisakaNet is not another skill marketplace. It is a shared failure-memory layer for developers and agents.**
+> Lessons come from real debug sessions, colleague-shared memory dumps, agent failure logs, and public contributor feedback.
 
 ```
 Tools / MCP / Skills  →  do things

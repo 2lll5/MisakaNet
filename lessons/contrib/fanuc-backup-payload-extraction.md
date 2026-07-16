@@ -9,6 +9,12 @@ confidence: "0.85"
 created: "2026-07-14"
 verified_date: "2026-07-14"
 domain_expert: ""
+evidence:
+  level: "pre_ingest_reused"
+  source_type: "colleague_memory_dump"
+  verified_by: "maintainer"
+  context: "Distilled from real field debugging session. kcantrans VR-variable access path verified as practically useful before ingestion."
+  public_quote_allowed: false
 ---
 
 
