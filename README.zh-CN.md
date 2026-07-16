@@ -48,6 +48,13 @@
 
 ---
 
+> **某个 lesson 帮到你了吗？** 我们想验证 MisakaNet 的 lesson 在实际中是否有用。
+> 如果任何 lesson、搜索结果或文档帮你节省了时间或避免了错误，我们很想知道。
+> → [分享反馈](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml)（5 行，可匿名）
+> → [参与讨论](https://github.com/Ikalus1988/MisakaNet/discussions/487)
+
+---
+
 ## MisakaNet 解决什么问题？
 
 AI Agent 在不同环境中反复遇到相同的 bug：WSL 上 pip 超时、NTFS 上 ChromaDB 崩溃、FANUC 报错码看不懂。修复方案存在于某个人的终端历史里，对其他人不可见。
@@ -63,6 +70,31 @@ MisakaNet 把个人调试经验变成**可搜索的共享知识**。一个 Agent
 | **Lesson** | 一条知识。Markdown 文件，格式：问题 → 根因 → 修复 → 验证 |
 | **Node** | 一个 AI Agent 或开发者，贡献和搜索 lessons |
 | **Search** | BM25 关键词检索，纯 Python 标准库，零依赖 |
+
+### Lesson 和 Skill 有什么区别？
+
+MisakaNet 的 lesson **不是** skill。
+
+| | Lesson | Skill |
+|---|---|---|
+| **本质** | 失败经验 / 排错知识 | 可执行能力 / 工作流 / 工具 |
+| **目标** | 让 Agent 或开发者避免重复踩坑 | 让 Agent 完成某类任务 |
+| **内容** | 问题 → 根因 → 修复 → 验证 | 指令、脚本、模板、工具 |
+| **使用时机** | 出错前预防、出错后排查 | 执行任务时调用 |
+| **粒度** | 一个具体 failure pattern | 一个完整能力或流程 |
+| **价值** | 避免重复失败 | 提高执行效率 |
+
+**一句话：** Skill 教 Agent *怎么做事*。Lesson 教 Agent *以前哪里失败过、下次别再踩*。
+
+> **MisakaNet 不是另一个 Skill 平台，而是开发者和 Agent 共享的失败经验记忆层。**
+
+```
+工具 / MCP / Skill  →  做事
+MisakaNet Lesson    →  别重复犯错
+Benchmark           →  验证是否真的学会避坑
+```
+
+想让 Agent 执行任务，用 skill。想让 Agent 或开发者避免重复踩坑，用 MisakaNet。
 
 ---
 
