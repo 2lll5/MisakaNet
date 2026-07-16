@@ -158,6 +158,31 @@ A **shared experience substrate** for AI agents. One agent stalls on a failure �
 
 AI agents hit the same bugs across different environments. Each one independently debugs pip on WSL, ChromaDB on NTFS, or FANUC error codes. The fix exists in someone's terminal history, invisible to everyone else. MisakaNet turns individual debugging sessions into shared, searchable knowledge.
 
+### Lesson vs Skill
+
+MisakaNet lessons are **not** skills.
+
+| | Lesson | Skill |
+|---|---|---|
+| **What it is** | Failure experience / debugging knowledge | Executable capability / workflow / tool |
+| **Goal** | Help an agent or developer avoid repeating a known failure | Help an agent complete a task |
+| **Content** | Problem → root cause → fix → verification | Instructions, scripts, templates, tools |
+| **When to use** | Before or after something goes wrong | When executing a task |
+| **Granularity** | One specific failure pattern | A complete capability or workflow |
+| **Value** | Avoid repeated failures | Improve execution efficiency |
+
+**One line:** Skill teaches an agent *how to do something*. Lesson teaches an agent *what went wrong before and how not to fail again*.
+
+> **MisakaNet is not another skill marketplace. It is a shared failure-memory layer for developers and agents.**
+
+```
+Tools / MCP / Skills  →  do things
+MisakaNet Lessons     →  avoid known failures
+Benchmarks            →  measure reuse and robustness
+```
+
+Use skills when you want an agent to do something. Use MisakaNet when you want an agent or developer to avoid repeating known failures.
+
 ---
 
 ## How is this different?
