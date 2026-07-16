@@ -1,3 +1,4 @@
+> **⚠️ Merged:** This lesson has been consolidated into [deepseek-tui-write-file-sandbox-worktree-git-path](../lessons/contrib/deepseek-tui-write-file-sandbox-worktree-git-path.md). See Issue #310.
 ---
 title: Agent Write File 写入不落地 + Worktree Git 链接路径断裂
 domain: devops

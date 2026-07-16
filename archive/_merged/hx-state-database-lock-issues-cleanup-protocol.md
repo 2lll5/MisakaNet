@@ -1,3 +1,4 @@
+> **⚠️ Merged:** This lesson has been consolidated into [hermes-state-database-lock-issues-cleanup-protocol](../lessons/core/hermes-state-database-lock-issues-cleanup-protocol.md). See Issue #310.
 ---
 {
   "title": "Hermes State Database Lock Issues - Cleanup Protocol",
