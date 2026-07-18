@@ -1,6 +1,17 @@
-# MisakaNet Email Registration Worker
+# MisakaNet Email Register Worker
 
-Handles node registration via email for users without a GitHub account.
+> **Status:** Experimental / Public Intake Gateway
+>
+> This worker is the **public-facing intake channel** for MisakaNet.
+> It validates, rate-limits, and normalizes inbound email before forwarding
+> to the maintainer's private Agent Mail for processing.
+>
+> - **Public feedback** (this worker): Cloudflare Worker → validation → bot mailbox / GitHub Issue
+> - **Private feedback** (Agent Mail): bot mailbox → agent reads → rescue card / lesson draft
+>
+> See [private-feedback-intake.md](../../docs/private-feedback-intake.md) for the full intake architecture.
+
+Handles node registration, lesson submission, and bug reports via email.
 
 ## Architecture
 
