@@ -68,9 +68,27 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
 
 | Tool | Description | Parameters |
 |------|-------------|------------|
-| `misakanet.search` | Search lessons by query | `query` (required), `domain?`, `top?` (default 5) |
-| `misakanet.get_lesson` | Get a specific lesson | `path_or_id` (required) |
-| `misakanet.submit_usage` | Report lesson usage | `lesson_id` (required), `tool?`, `outcome?` |
+| `misakanet_search` | Search lessons by query | `query` (required), `domain?`, `top?` (default 5) |
+| `misakanet_get_lesson` | Get a specific lesson | `path` or `id` (required) |
+| `misakanet_submit_usage` | **[Experimental]** Report lesson usage (local log only) | `lesson_id` (required), `tool?`, `outcome?` |
+
+## Resources
+
+| URI | Description |
+|-----|-------------|
+| `misaka://lessons/index` | Browse all published lessons (core + contrib) |
+| `misaka://protocol/overview` | Swarm Knowledge Protocol config (trust tiers, rings, scoring) |
+| `misaka://docs/readme` | Project overview and quickstart |
+| `misaka://docs/faq` | Troubleshooting FAQ |
+| `misaka://docs/changelog` | Latest release notes |
+
+## Prompts
+
+| Name | Description | Arguments |
+|------|-------------|-----------|
+| `search_lesson` | Guided lesson search | `query` (required), `domain?` |
+| `triage_failure` | Structured failure triage | `error` (required), `context?` |
+| `release_audit` | Release readiness check | `version` (required) |
 
 ## Search Scopes
 
@@ -101,3 +119,15 @@ This tests:
 - `search` returns results with `path`, `status`, and `badge` fields
 - `get_lesson` returns lesson content
 - Default scope excludes drafts
+
+## Security & Boundaries
+
+- **Not a skill marketplace.** MisakaNet is a failure memory network — lessons come from real debugging sessions, not curated skill packs.
+- **Read-only by default.** Tools like `misakanet_search` and `misakanet_get_lesson` are read-only. `misakanet_submit_usage` is **experimental** and currently logs locally only — no data is sent externally.
+- **No raw sensitive content uploaded.** Search queries stay local. Lesson content is public (open-source repo). Usage reports contain only lesson ID + outcome, not source code or error logs.
+- **Write operations require explicit confirmation.** If `submit_usage` is extended to create GitHub Issues in the future, it will require user confirmation before submission.
+
+## Glama
+
+MisakaNet is listed on [Glama.ai](https://glama.ai/mcp/servers) for MCP server discovery.
+

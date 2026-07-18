@@ -112,7 +112,192 @@ def handle_submit_usage(args: dict) -> dict:
     return report
 
 
-# MCP Protocol handler
+# ── MCP Resources ──
+RESOURCES = [
+    {
+        "uri": "misaka://lessons/index",
+        "name": "Lessons Index",
+        "description": "Browse all published lessons (core + contrib) with metadata",
+        "mimeType": "application/json",
+    },
+    {
+        "uri": "misaka://protocol/overview",
+        "name": "Protocol Overview",
+        "description": "Swarm Knowledge Protocol configuration (trust tiers, rings, scoring)",
+        "mimeType": "application/json",
+    },
+    {
+        "uri": "misaka://docs/readme",
+        "name": "README",
+        "description": "Project overview, quickstart, and integration guide",
+        "mimeType": "text/markdown",
+    },
+    {
+        "uri": "misaka://docs/faq",
+        "name": "Troubleshooting FAQ",
+        "description": "Common issues and solutions for MisakaNet users",
+        "mimeType": "text/markdown",
+    },
+    {
+        "uri": "misaka://docs/changelog",
+        "name": "Changelog",
+        "description": "Latest release notes and version history",
+        "mimeType": "text/markdown",
+    },
+]
+
+
+def handle_resources_list() -> list:
+    """Return available resources."""
+    return RESOURCES
+
+
+def handle_resources_read(uri: str) -> dict:
+    """Read a resource by URI."""
+    if uri == "misaka://lessons/index":
+        lessons = []
+        for subdir in ["core", "contrib"]:
+            d = REPO_ROOT / "lessons" / subdir
+            if d.exists():
+                for f in sorted(d.glob("*.md")):
+                    lessons.append({
+                        "id": f.stem,
+                        "path": str(f.relative_to(REPO_ROOT)),
+                        "category": subdir,
+                    })
+        return {"lessons": lessons, "count": len(lessons)}
+
+    elif uri == "misaka://protocol/overview":
+        p = REPO_ROOT / "misaka-protocol.json"
+        if p.exists():
+            return json.loads(p.read_text(encoding="utf-8"))
+        return {"error": "misaka-protocol.json not found"}
+
+    elif uri == "misaka://docs/readme":
+        p = REPO_ROOT / "README.md"
+        if p.exists():
+            return {"content": p.read_text(encoding="utf-8", errors="replace")[:8000]}
+        return {"error": "README.md not found"}
+
+    elif uri == "misaka://docs/faq":
+        p = REPO_ROOT / "docs" / "troubleshooting.md"
+        if p.exists():
+            return {"content": p.read_text(encoding="utf-8", errors="replace")[:8000]}
+        return {"error": "troubleshooting.md not found"}
+
+    elif uri == "misaka://docs/changelog":
+        p = REPO_ROOT / "STATUS.md"
+        if p.exists():
+            return {"content": p.read_text(encoding="utf-8", errors="replace")[:4000]}
+        return {"error": "STATUS.md not found"}
+
+    return {"error": f"Unknown resource: {uri}"}
+
+
+# ── MCP Prompts ──
+PROMPTS = [
+    {
+        "name": "search_lesson",
+        "title": "Search Lessons",
+        "description": "Search MisakaNet for lessons matching an error or topic",
+        "arguments": [
+            {"name": "query", "description": "Error message or topic to search for", "required": True},
+            {"name": "domain", "description": "Optional domain filter (devops, python, rag, etc.)", "required": False},
+        ],
+    },
+    {
+        "name": "triage_failure",
+        "title": "Triage Failure",
+        "description": "Structured failure triage — find root cause and matching rescue cards",
+        "arguments": [
+            {"name": "error", "description": "The error message or stack trace", "required": True},
+            {"name": "context", "description": "What were you doing when the error occurred", "required": False},
+        ],
+    },
+    {
+        "name": "release_audit",
+        "title": "Release Audit",
+        "description": "Check release readiness against MisakaNet quality gates",
+        "arguments": [
+            {"name": "version", "description": "Version to audit (e.g., v2.12.0)", "required": True},
+        ],
+    },
+]
+
+
+def handle_prompts_get(name: str, arguments: dict) -> dict:
+    """Return a prompt with arguments filled in."""
+    if name == "search_lesson":
+        query = arguments.get("query", "")
+        domain = arguments.get("domain", "")
+        domain_hint = f" in the '{domain}' domain" if domain else ""
+        return {
+            "description": f"Search for lessons about: {query}",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": {
+                        "type": "text",
+                        "text": (
+                            f"Search MisakaNet lessons for solutions to: \"{query}\"{domain_hint}.\n\n"
+                            f"Use the misakanet_search tool with query=\"{query}\""
+                            + (f" and domain=\"{domain}\"" if domain else "")
+                            + ".\n\nReport the top 3 matches with their relevance score and actionable summary."
+                        ),
+                    },
+                }
+            ],
+        }
+
+    elif name == "triage_failure":
+        error = arguments.get("error", "")
+        context = arguments.get("context", "unknown context")
+        return {
+            "description": f"Triage failure: {error[:80]}",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": {
+                        "type": "text",
+                        "text": (
+                            f"I encountered this error while {context}:\n\n"
+                            f"```\n{error}\n```\n\n"
+                            "Please:\n"
+                            "1. Search MisakaNet for matching lessons using misakanet_search\n"
+                            "2. If a rescue card exists, apply its fix\n"
+                            "3. If no match, suggest the root cause and next diagnostic steps"
+                        ),
+                    },
+                }
+            ],
+        }
+
+    elif name == "release_audit":
+        version = arguments.get("version", "latest")
+        return {
+            "description": f"Audit release {version}",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": {
+                        "type": "text",
+                        "text": (
+                            f"Audit MisakaNet release {version} for readiness.\n\n"
+                            "Check:\n"
+                            "1. Read misaka://docs/changelog for this version's changes\n"
+                            "2. Verify all lessons in misaka://lessons/index have valid frontmatter\n"
+                            "3. Check protocol version matches in misaka://protocol/overview\n"
+                            "4. Report any gaps or blockers for release"
+                        ),
+                    },
+                }
+            ],
+        }
+
+    return {"error": f"Unknown prompt: {name}"}
+
+
+# ── MCP Tools ──
 TOOLS = [
     {
         "name": "misakanet_search",
@@ -165,11 +350,15 @@ def handle_request(request: dict) -> dict:
             "jsonrpc": "2.0",
             "id": req_id,
             "result": {
-                "protocolVersion": "2024-11-05",
-                "capabilities": {"tools": {}},
+                "protocolVersion": "2025-06-18",
+                "capabilities": {
+                    "tools": {},
+                    "resources": {},
+                    "prompts": {},
+                },
                 "serverInfo": {
                     "name": "misakanet",
-                    "version": "2.9.2",
+                    "version": "2.12.0",
                 },
             },
         }
@@ -209,8 +398,48 @@ def handle_request(request: dict) -> dict:
         }
 
     elif method == "notifications/initialized":
-        # Client notification, no response needed
         return None
+
+    # ── Resources ──
+    elif method == "resources/list":
+        return {
+            "jsonrpc": "2.0",
+            "id": req_id,
+            "result": {"resources": handle_resources_list()},
+        }
+
+    elif method == "resources/read":
+        uri = params.get("uri", "")
+        content = handle_resources_read(uri)
+        return {
+            "jsonrpc": "2.0",
+            "id": req_id,
+            "result": {
+                "contents": [
+                    {"uri": uri, "mimeType": "application/json", "text": json.dumps(content, ensure_ascii=False)}
+                ]
+            },
+        }
+
+    # ── Prompts ──
+    elif method == "prompts/list":
+        return {
+            "jsonrpc": "2.0",
+            "id": req_id,
+            "result": {"prompts": PROMPTS},
+        }
+
+    elif method == "prompts/get":
+        name = params.get("name", "")
+        arguments = params.get("arguments", {})
+        result = handle_prompts_get(name, arguments)
+        if "error" in result:
+            return {
+                "jsonrpc": "2.0",
+                "id": req_id,
+                "error": {"code": -32602, "message": result["error"]},
+            }
+        return {"jsonrpc": "2.0", "id": req_id, "result": result}
 
     else:
         return {
