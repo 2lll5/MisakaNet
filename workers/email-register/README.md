@@ -62,19 +62,6 @@ npx wrangler deploy
 
 The Worker is an **experimental / future public intake gateway**. It activates when intake volume or spam risk requires automated routing.
 
-## Optional Future Cloudflare Email Routing
-
-When public intake volume grows, these aliases can be routed to the Worker:
-
-| Address | Purpose | Output |
-|---------|---------|--------|
-| `rescue@misakanet.org` | "I'm stuck, help!" | Rescue card candidate |
-| `lessons@misakanet.org` | "I fixed something" | Lesson draft |
-| `join@misakanet.org` | "I want to be a node" | Node registration |
-| `bot@misakanet.org` | Legacy / auto-detect | Classify by content |
-
-> **Note:** These routes are optional. The current catch-all setup works fine for low-to-medium volume. Only enable Worker routing when you need automated filtering, rate limiting, or spam blocking at scale.
-
 ## Email Format
 
 ```

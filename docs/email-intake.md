@@ -18,13 +18,9 @@ Agent anonymizes and processes your submission
 If you consent, it becomes a public lesson or rescue card
 ```
 
-**Addresses:** Any `*@misakanet.org` works. We recommend:
-- `bot@misakanet.org` — general intake (current)
-- `rescue@misakanet.org` — emergency help (future)
-- `lessons@misakanet.org` — share a fix (future)
-- `join@misakanet.org` — register as a node (future)
+**Address:** `bot@misakanet.org` — all intake goes here.
 
-> **Note:** The dedicated addresses (`rescue@`, `lessons@`, `join@`) are documented for future use when intake volume requires automated Worker routing. Currently, all email goes through the agent mailbox catch-all.
+> Catch-all `*@misakanet.org` is active — if you write to any address @misakanet.org, we'll receive it. But `bot@` is the recommended address.
 
 ## How It Works
 If you consent, it becomes a public lesson or rescue card
