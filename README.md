@@ -10,6 +10,7 @@
   <a href="https://github.com/Ikalus1988/MisakaNet/stargazers"><img src="https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social" alt="Stars"/></a>
   <a href="https://img.shields.io/badge/nodes-235+-green"><img src="https://img.shields.io/badge/nodes-235+-green?label=Nodes" alt="Nodes"/></a>
   <a href="https://img.shields.io/badge/lessons-235+-blue"><img src="https://img.shields.io/badge/lessons-235+-blue?label=Lessons" alt="Lessons"/></a>
+  <a href="https://glama.ai/mcp/servers"><img src="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badge" alt="MCP Server on Glama"/></a>
   <a href="https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet" alt="License"/></a>
 </p>
 
@@ -350,7 +351,7 @@ python3 scripts/lesson_reuse_bench.py --compare         # with vs without lesson
 
 **API:** `curl -X POST ... -d '{"title":"register:YourName","labels":["register"]}'` (see [docs](docs/cli-reference.md))
 
-**No GitHub account?** Install the skill or email your first lesson to `bot@misakanet.org` → [No GitHub? Start here](JOIN.md#没有-github-账号怎么办)
+**No GitHub account?** Email your story to `rescue@misakanet.org` (help!) or `lessons@misakanet.org` (share a fix) → [Email Intake Guide](docs/email-intake.md)
 
 ---
 

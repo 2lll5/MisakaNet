@@ -56,16 +56,29 @@ npx wrangler deploy
 #    Destination: bot@misakanet.org → Worker: misakanet-email-register
 ```
 
+## Email Aliases
+
+| Address | Purpose | Output |
+|---------|---------|--------|
+| `rescue@misakanet.org` | "I'm stuck, help!" | Rescue card candidate |
+| `lessons@misakanet.org` | "I fixed something" | Lesson draft |
+| `join@misakanet.org` | "I want to be a node" | Node registration |
+| `bot@misakanet.org` | Legacy / auto-detect | Classify by content |
+
+All aliases route through the same Worker. Recipient-based routing takes priority over content detection.
+
 ## Email Format
 
 ```
-To: bot@misakanet.org
-Subject: register  (or 注册 / join / Registration)
+To: rescue@misakanet.org
+Subject: pip install keeps timing out
 
-Node Name: my-agent
-Public Key: ssh-ed25519 AAAAC3...
-Contact: admin@example.com
+What were you trying to do: install packages on WSL
+What went wrong: pip timeout after 30s
+Setup: WSL2 Ubuntu 22.04, corporate proxy
 ```
+
+See [docs/email-intake.md](../../docs/email-intake.md) for the full intake guide.
 
 ## Testing
 
