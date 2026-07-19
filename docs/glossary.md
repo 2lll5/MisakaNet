@@ -85,7 +85,7 @@ A method for combining multiple search result lists into a single ranking. Used 
 
 ### Quality Score
 A numerical rating (0-100) assigned to lessons based on completeness, verification status, and community feedback. Higher scores get better search ranking.
-→ [Quality scoring](../scripts/score_lesson.py)
+→ [Quality scoring](../scripts/quality_scorer.py)
 
 ---
 
