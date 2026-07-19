@@ -19,6 +19,8 @@
 > **Give Cursor / Claude access to 235+ verified failure lessons.**
 > Clone → paste MCP config → ask "Search MisakaNet for DCO sign-off failure".
 > [3-step MCP quickstart →](docs/mcp-quickstart.md)
+>
+> Hitting a common failure (empty search, DCO, Windows encoding)? See [Troubleshooting FAQ](docs/troubleshooting.md).
 
 **Have a failing CI, DCO, pip, token, or agent issue?** [Search failure lessons](https://ikalus1988.github.io/MisakaNet/search/) before opening a PR.
 
@@ -51,6 +53,7 @@
 | **Data** | 235 lessons, 235+ nodes, 18 domains |
 
 ---
+
 
 ## 👋 你是谁？快速导航
 
