@@ -1,7 +1,7 @@
 name: Thank Merged PR Contributor
 
 on:
-  pull_request:
+  pull_request_target:
     types: [closed]
 
 permissions:
@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Thank contributor
         env:
-          GH_TOKEN: ${{ secrets.SHELDON_PAT || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           PR_NUM="${{ github.event.pull_request.number }}"
           AUTHOR="${{ github.event.pull_request.user.login }}"
