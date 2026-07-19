@@ -176,7 +176,7 @@ test('strips multiple levels of > quoting', () => {
   assert.equal(extractLessonContent(body), 'Lesson: original lesson text');
 });
 
-test('Gmail-style forwarded message headers are not yet stripped (known gap)', () => {
+test('strips Gmail-style forwarded message headers', () => {
   const raw = [
     'From: agent@example.com',
     'Content-Type: text/plain; charset=UTF-8',
@@ -189,8 +189,7 @@ test('Gmail-style forwarded message headers are not yet stripped (known gap)', (
   ].join('\r\n');
   const body = parseEmailBody(raw);
   const extracted = extractLessonContent(body);
-  assert.ok(extracted.includes('Lesson: forwarded lesson content'), 'preserves new lesson text');
-  assert.ok(extracted.includes('Forwarded message'), 'does not yet strip Gmail forwarding headers');
+  assert.equal(extracted, 'Lesson: forwarded lesson content');
 });
 
 // --- Intake type detection edge cases ---
