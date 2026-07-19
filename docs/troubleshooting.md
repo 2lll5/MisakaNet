@@ -196,3 +196,77 @@ See [MCP Quickstart](mcp-quickstart.md).
 **Fix:** Connect MisakaNet via MCP so agent can search before retrying.
 
 See [MCP Quickstart](mcp-quickstart.md).
+
+
+---
+
+## FAQ for new contributors
+
+Common onboarding failures, written as symptom → cause → fix.
+
+### Search returns nothing
+
+- **Symptom:** `python3 search_knowledge.py "something"` exits with no useful hits, or only low-confidence noise.
+- **Cause:** Query is too vague, wrong language filter, missing local index deps, or the lesson corpus was not pulled.
+- **Fix:**
+  1. `git pull --ff-only`
+  2. Install the engine: `pip install misakanet-core`
+  3. Retry with a concrete error string, e.g. `python3 search_knowledge.py "DCO sign-off" --top=5`
+  4. If still empty, try broader matching: `python3 search_knowledge.py "timeout" --broad --top=10`
+  5. Confirm you are in the repo root (the CLI searches relative to the MisakaNet checkout)
+
+### Lesson not found after adding
+
+- **Symptom:** You added a markdown lesson under `lessons/`, but search still cannot find it.
+- **Cause:** Search only indexes published lesson content in the current checkout; drafts, wrong path, missing frontmatter, or uncommitted files may not surface as expected.
+- **Fix:**
+  1. Put contributor lessons under `lessons/contrib/`
+  2. Ensure frontmatter includes at least `title`, `domain`, `tags`, and a clear problem/solution body
+  3. Commit the file in your working tree (or open the PR that contains it)
+  4. Re-run search from repo root: `python3 search_knowledge.py "<unique phrase from your title>" --top=5`
+  5. If contributing via API helper, re-check the generated path from `scripts/queue_lesson.py`
+
+### DCO check fails
+
+- **Symptom:** PR is blocked with `DCO check failed` / missing `Signed-off-by`.
+- **Cause:** One or more commits lack a `Signed-off-by: Name <email>` trailer.
+- **Fix:**
+  ```bash
+  # single commit
+  git commit --amend --signoff --no-edit
+  git push --force-with-lease
+
+  # multiple commits on your branch
+  git rebase HEAD~N --signoff   # replace N with commit count
+  git push --force-with-lease
+  ```
+  On Windows, also see [docs/dco-windows.md](dco-windows.md).
+
+### Quality score too low
+
+- **Symptom:** Lesson is flagged `needs-review`, or quality tooling reports a low score.
+- **Cause:** Missing root-cause detail, weak verification steps, or thin environment coverage.
+- **Fix:** Improve the three weighted dimensions in [docs/quality-score.md](quality-score.md):
+  1. **Root cause clarity** — state the exact error + why it happened
+  2. **Verification completeness** — add executable commands and expected output under `## Verification`
+  3. **Domain coverage** — note OS/runtime variants or edge cases
+  4. Re-score with `python3 search_knowledge.py --score --top=5` if telemetry is available
+
+### Windows encoding errors
+
+- **Symptom:** `UnicodeEncodeError: 'charmap' codec can't encode character ...` when printing search results or emoji.
+- **Cause:** Windows console defaults to a legacy code page (often GBK/cp936) instead of UTF-8.
+- **Fix:**
+  ```bash
+  # PowerShell
+  $env:PYTHONUTF8=1
+  python3 search_knowledge.py "DCO"
+
+  # cmd
+  set PYTHONUTF8=1
+  python3 search_knowledge.py "DCO"
+
+  # or force UTF-8 mode
+  python3 -X utf8 search_knowledge.py "DCO"
+  ```
+  Related detail: [docs/dco-windows.md](dco-windows.md) and the Windows Unicode section above.
