@@ -1,5 +1,21 @@
 [
   {
+    "id": "README",
+    "title": "README",
+    "domain": "core",
+    "tags": [],
+    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
+    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
+    "url": "lessons/core/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": false
+  },
+  {
     "id": "auto-merge-ci-pipeline",
     "title": "Auto-Merge CI Pipeline — DCO, Quality Score, Shadow Branch, Dynamic Deps, Auto-Merge",
     "domain": "devops",
@@ -199,22 +215,6 @@
     "verified": true
   },
   {
-    "id": "README",
-    "title": "README",
-    "domain": "core",
-    "tags": [],
-    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
-    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
-    "url": "lessons/core/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
     "id": "search-first-roadmap-loop",
     "title": "Search-first roadmap loop for agent knowledge projects",
     "domain": "development",
@@ -234,6 +234,22 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "published",
+    "verified": true
+  },
+  {
+    "id": "README",
+    "title": "README",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
+    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
+    "url": "lessons/contrib/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
     "verified": true
   },
   {
@@ -3239,22 +3255,6 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
-  },
-  {
-    "id": "README",
-    "title": "README",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
-    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
-    "url": "lessons/contrib/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": true
   },
   {
     "id": "regex-escaped-quotes-source-parsing",
