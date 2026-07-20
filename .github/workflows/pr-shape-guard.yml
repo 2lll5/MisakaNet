@@ -132,7 +132,7 @@ jobs:
 
             core.setFailed('PR Shape Guard failed.');
 
-      - name: Auto-label PR scope
+      - name: Auto-label PR scope and quality gate
         uses: actions/github-script@v7
         with:
           script: |
@@ -142,49 +142,68 @@ jobs:
               { owner: context.repo.owner, repo: context.repo.repo, pull_number: pr.number, per_page: 100 }
             );
 
-            const labels = [];
+            const toAdd = [];
+            const toRemove = [];
             const names = files.map(f => f.filename);
-            const exts = names.map(n => n.split('.').pop());
 
-            // Scope labels
+            // ── Gate 1: Scope ──
             const isDocs = names.every(n => /\.(md|txt|rst)$/.test(n) || n.startsWith('docs/'));
             const isTests = names.every(n => /test|spec|fixture/.test(n));
             const isLessons = names.every(n => n.startsWith('lessons/'));
 
-            if (isDocs && names.length > 0) labels.push('docs-only');
-            if (isTests && names.length > 0) labels.push('tests-only');
-            if (isLessons && names.length > 0) labels.push('lessons-only');
+            if (isDocs && names.length > 0) toAdd.push('docs-only');
+            else if (isTests && names.length > 0) toAdd.push('tests-only');
+            else if (isLessons && names.length > 0) toAdd.push('lessons-only');
 
-            // Risk labels
+            // ── Gate 2: Risk ──
             const touchesWorkflow = names.some(n => n.startsWith('.github/workflows/'));
             const touchesCore = names.some(n => ['search_knowledge.py', 'misaka-protocol.json'].includes(n));
             const largeDeletion = files.some(f => f.deletions > 100);
 
-            if (touchesCore || largeDeletion) labels.push('risk:high');
-            if (touchesWorkflow) labels.push('workflow-change');
+            if (touchesCore || largeDeletion) toAdd.push('risk:high');
+            if (touchesWorkflow) toAdd.push('workflow-change');
 
-            // Generated file detection
+            // ── Gate 3: Shape (mutual exclusion, highest priority wins) ──
             const isGenerated = names.some(n => n.includes(' ---') || n.endsWith('---'));
-            if (isGenerated) labels.push('generated-file');
-
-            // Destructive rewrite detection
             const isDestructive = files.some(f => f.filename === 'README.md' && f.deletions > 120);
-            if (isDestructive) labels.push('destructive-rewrite');
+            const hasShapeRisk = typeof failures !== 'undefined' && failures.length > 0;
 
-            // Shape risk
-            if (failures && failures.length > 0) labels.push('shape-risk');
-            else labels.push('shape-safe');
+            // Priority: destructive-rewrite > generated-file > shape-risk > shape-safe
+            if (isDestructive) {
+              toAdd.push('destructive-rewrite');
+              toRemove.push('shape-safe', 'shape-risk', 'generated-file');
+            } else if (isGenerated) {
+              toAdd.push('generated-file');
+              toRemove.push('shape-safe', 'shape-risk', 'destructive-rewrite');
+            } else if (hasShapeRisk) {
+              toAdd.push('shape-risk');
+              toRemove.push('shape-safe', 'generated-file', 'destructive-rewrite');
+            } else {
+              toAdd.push('shape-safe');
+              toRemove.push('shape-risk', 'generated-file', 'destructive-rewrite');
+            }
 
-            // Apply labels (only add, never remove)
-            if (labels.length > 0) {
-              const existing = pr.labels.map(l => l.name);
-              const toAdd = labels.filter(l => !existing.includes(l));
-              if (toAdd.length > 0) {
-                await github.rest.issues.addLabels({
+            // ── Apply labels ──
+            const existing = pr.labels.map(l => l.name);
+            const uniqueAdd = [...new Set(toAdd)].filter(l => !existing.includes(l));
+            const uniqueRemove = [...new Set(toRemove)].filter(l => existing.includes(l));
+
+            if (uniqueAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: uniqueAdd,
+              });
+            }
+
+            for (const label of uniqueRemove) {
+              try {
+                await github.rest.issues.removeLabel({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: pr.number,
-                  labels: toAdd,
+                  name: label,
                 });
-              }
+              } catch (e) { /* label may not exist on this PR */ }
             }
