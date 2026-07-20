@@ -17,6 +17,7 @@ import argparse
 import json
 import subprocess
 import sys
+from pathlib import Path
 
 
 def read_counter_file(repo_root: Path) -> dict:
