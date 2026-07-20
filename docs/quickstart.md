@@ -12,6 +12,12 @@ pip install misakanet-core
 python3 search_knowledge.py "database is locked"
 ```
 
+> **Windows user?** Run this once to avoid vim popping up on `git pull`:
+> ```powershell
+> git config --global pull.rebase true
+> git config --global core.editor "notepad"
+> ```
+
 Expected output:
 
 ```
