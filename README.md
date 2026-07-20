@@ -24,6 +24,24 @@
 
 **Have a failing CI, DCO, pip, token, or agent issue?** [Search failure lessons](https://ikalus1988.github.io/MisakaNet/search/) before opening a PR.
 
+### See it in 8 seconds
+
+![Search lesson demo](promotional/search%20lesson.gif)
+
+### Try it locally
+
+```
+$ python3 search_knowledge.py "GitHub token 401"
+
+📋 lessons/  (2 matches)
+──────────────────────────────────────────────────
+  [core]    github-401-credential-lookup       0.89   🟢 high/actionable
+            Fix: check ~/.git-credentials and ~/.netrc before asking for a new PAT.
+
+  [contrib] github-api-rate-limit-handling     0.71   🟢 high/actionable
+            Fix: use conditional requests with ETag/Last-Modified headers.
+```
+
 **Stuck on a failure?** Search 235+ verified fix lessons before opening a PR:
 
 | Problem | Lesson |
@@ -221,22 +239,6 @@ MisakaNet is useful in different ways depending on what you are trying to do:
 > No GitHub account? Email `bot@misakanet.org` → [Email intake guide](docs/email-intake.md)
 >
 > Understanding the system → [Label system](docs/label-system.md) · [Troubleshooting](docs/troubleshooting.md)
-
-**See it in action:**
-
-```
-$ python3 search_knowledge.py "GitHub token 401"
-
-📋 lessons/  (2 matches)
-──────────────────────────────────────────────────
-  [core]    github-401-credential-lookup       0.89   🟢 high/actionable
-            Fix: check ~/.git-credentials and ~/.netrc before asking for a new PAT.
-
-  [contrib] github-api-rate-limit-handling     0.71   🟢 high/actionable
-            Fix: use conditional requests with ETag/Last-Modified headers.
-```
-
-![Search lesson demo](promotional/search%20lesson.gif)
 
 ### Lesson vs Skill
 
