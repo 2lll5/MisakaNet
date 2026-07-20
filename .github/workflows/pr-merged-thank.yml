@@ -16,13 +16,13 @@ jobs:
       - name: Thank contributor
         env:
           GH_TOKEN: ${{ github.token }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          TITLE: ${{ github.event.pull_request.title }}
+          ADDITIONS: ${{ github.event.pull_request.additions }}
+          FILES: ${{ github.event.pull_request.changed_files }}
+          REPO: ${{ github.repository }}
         run: |
-          PR_NUM="${{ github.event.pull_request.number }}"
-          AUTHOR="${{ github.event.pull_request.user.login }}"
-          TITLE="${{ github.event.pull_request.title }}"
-          ADDITIONS="${{ github.event.pull_request.additions }}"
-          FILES="${{ github.event.pull_request.changed_files }}"
-
           # Skip bot accounts
           if echo "$AUTHOR" | grep -qiE "bot|dependabot|actions|github"; then
             echo "Skipping bot account: $AUTHOR"
@@ -30,7 +30,7 @@ jobs:
           fi
 
           # Check if this is the author's first merged PR
-          PREVIOUS=$(gh pr list --repo ${{ github.repository }} --author "$AUTHOR" --state merged --limit 10 --json number --jq 'length' 2>/dev/null || echo "0")
+          PREVIOUS=$(gh pr list --repo "$REPO" --author "$AUTHOR" --state merged --limit 10 --json number --jq 'length' 2>/dev/null || echo "0")
 
           # Choose message based on first-time vs returning
           if [ "$PREVIOUS" -le 1 ]; then
@@ -58,5 +58,5 @@ jobs:
           No need to reply if nothing comes to mind. ⚡"
           fi
 
-          gh pr comment "$PR_NUM" --repo ${{ github.repository }} --body "$BODY"
+          gh pr comment "$PR_NUM" --repo "$REPO" --body "$BODY"
           echo "Thanked @$AUTHOR on PR #$PR_NUM"
