@@ -37,12 +37,27 @@ jobs:
 
       - name: Generate Draft Lesson
         id: draft
+        env:
+          TOMBSTONE: ${{ github.event.inputs.tombstone_json }}
+          TOMBSTONE_FILE: ${{ github.event.inputs.tombstone_file }}
         run: |
-          TOMBSTONE="${{ github.event.inputs.tombstone_json }}"
-          TOMBSTONE_FILE="${{ github.event.inputs.tombstone_file }}"
+          # Validate tombstone_json length (max 64KB)
+          if [ -n "$TOMBSTONE" ] && [ "${#TOMBSTONE}" -gt 65536 ]; then
+            echo "ERROR: tombstone_json exceeds 64KB limit"
+            exit 1
+          fi
+
+          # Validate tombstone_file path (no traversal)
+          if [ -n "$TOMBSTONE_FILE" ]; then
+            case "$TOMBSTONE_FILE" in
+              ../*|*/../*|*/..) echo "ERROR: path traversal not allowed"; exit 1 ;;
+            esac
+          fi
 
           # Determine input source
           if [ -n "$TOMBSTONE" ]; then
+            # Validate JSON format
+            echo "$TOMBSTONE" | python3 -m json.tool > /dev/null 2>&1 || { echo "ERROR: invalid JSON"; exit 1; }
             echo "$TOMBSTONE" > /tmp/tombstone.json
           elif [ -n "$TOMBSTONE_FILE" ] && [ -f "$TOMBSTONE_FILE" ]; then
             cp "$TOMBSTONE_FILE" /tmp/tombstone.json
