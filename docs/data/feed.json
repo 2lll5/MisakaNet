@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20T09:38:56.031475+00:00",
+  "generated_at": "2026-07-20T14:36:00.707057+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
@@ -52,7 +52,9 @@
         "agent-friendly",
         "status:competition",
         "user-research",
-        "journey-report"
+        "journey-report",
+        "pool:quick",
+        "priority:now"
       ],
       "timestamp": "2026-07-19T03:14:27Z",
       "source": "github"
@@ -106,12 +108,13 @@
         "area:tests",
         "needs-ac",
         "ready",
-        "bounty",
         "agent-friendly",
         "no-credentials",
         "zero-bounty",
         "has-test",
-        "status:competition"
+        "status:competition",
+        "pool:quick",
+        "priority:later"
       ],
       "timestamp": "2026-07-09T07:03:41Z",
       "source": "github"
@@ -123,10 +126,12 @@
       "labels": [
         "enhancement",
         "Ring-3",
-        "ready",
         "bounty",
         "agent-friendly",
-        "status:competition"
+        "status:competition",
+        "pool:deep",
+        "status:needs-design",
+        "priority:later"
       ],
       "timestamp": "2026-07-02T16:01:30Z",
       "source": "github"
@@ -138,27 +143,31 @@
       "labels": [
         "enhancement",
         "Ring-3",
-        "ready",
         "bounty",
         "agent-friendly",
-        "status:competition"
+        "status:competition",
+        "pool:deep",
+        "status:needs-design",
+        "priority:later"
       ],
       "timestamp": "2026-07-02T16:01:28Z",
       "source": "github"
     },
     {
       "type": "challenge",
-      "title": "[Search] Query expansion with domain-specific synonyms",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/313",
+      "title": "[API] Add GraphQL API for flexible lesson queries",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/316",
       "labels": [
         "enhancement",
         "Ring-3",
         "ready",
         "bounty",
         "agent-friendly",
-        "status:competition"
+        "status:competition",
+        "pool:deep",
+        "priority:later"
       ],
-      "timestamp": "2026-07-02T16:01:16Z",
+      "timestamp": "2026-07-02T16:01:25Z",
       "source": "github"
     }
   ]
