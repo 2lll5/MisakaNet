@@ -21,10 +21,10 @@ import sys
 
 def run_wrangler(command: str, kv_id: str = None) -> str:
     """Run a wrangler KV command and return stdout."""
-    cmd = ["npx", "wrangler", "kv:key"]
+    cmd = ["npx", "wrangler", "kv", "key"]
+    cmd.extend(command.split())
     if kv_id:
         cmd.extend(["--namespace-id", kv_id])
-    cmd.extend(command.split())
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
         if result.returncode != 0:
