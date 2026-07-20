@@ -1,5 +1,7 @@
 # Label System
 
+Labels are routing tools, not reward systems. They tell maintainers and contributors what review path to follow — not whether a contribution is good or bad.
+
 How MisakaNet organizes issues and PRs.
 
 ## Issue Labels
