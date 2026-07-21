@@ -53,3 +53,6 @@ print(f"剩余: {data['rate']['remaining']}/{data['rate']['limit']}")
 # GitHub 限流检查
 curl -s https://api.github.com/rate_limit | python3 -c "import sys,json;d=json.load(sys.stdin);print(f\"剩余: {d['rate']['remaining']}/{d['rate']['limit']}\")"
 ```
+
+
+> English: [`lessons/en/api-rate-limit-handling.md`](../../lessons/en/api-rate-limit-handling.md)
