@@ -526,14 +526,22 @@ def main():
 
     # Output
     if json_mode or ci_mode:
+        avg = round(sum(r.get("score", 0) for r in results) / len(results), 1)
+        # CI workflow (.github/workflows/lesson-quality.yml) reads total_score
+        # with threshold 0.5 — it expects a 0..1 value, not the 0..100 rubric.
         output = {
             "total": len(results),
             "passed": sum(1 for r in results if r.get("pass")),
             "failed": sum(1 for r in results if not r.get("pass")),
-            "avg_score": round(sum(r.get("score", 0) for r in results) / len(results), 1),
+            "avg_score": avg,
+            "total_score": round(avg / 100.0, 4),
             "threshold": threshold,
             "lessons": results,
         }
+        # also expose per-lesson total_score for single-file CI extraction
+        for r in results:
+            if isinstance(r, dict) and "score" in r:
+                r["total_score"] = round(float(r.get("score", 0)) / 100.0, 4)
         print(json.dumps(output, indent=2, ensure_ascii=False))
     else:
         # Human-readable report

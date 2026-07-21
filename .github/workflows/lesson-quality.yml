@@ -43,7 +43,7 @@ jobs:
 
           for file in ${{ steps.changed.outputs.all_changed_files }}; do
             if [[ "$file" == lessons/*.md ]]; then
-              SCORE=$(python3 scripts/quality_scorer.py "$file" --json 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('total_score', 0))" 2>/dev/null || echo "0")
+              SCORE=$(python3 scripts/quality_scorer.py "$file" --json 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('total_score') if d.get('total_score') is not None else (d.get('lessons') or [{}])[0].get('total_score') or (d.get('lessons') or [{}])[0].get('score',0)/100)" 2>/dev/null || echo "0")
               SCORES="$SCORES\n$file: $SCORE"
               if (( $(echo "$SCORE < $THRESHOLD" | bc -l) )); then
                 PASS=false
