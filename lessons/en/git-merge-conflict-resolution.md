@@ -67,3 +67,11 @@ When rate limits or merge conflicts hit an agent overnight job, prefer failing c
 
 For production earn loops, pair this lesson with TaskBounty sniper idle behavior and Superteam credit gates: empty inventory is not a code failure.
 
+### Agent checklist after conflict resolve
+
+1. `git diff --check` for leftover markers
+2. Run project tests / lint
+3. Push with lease if history rewrote: `git push --force-with-lease`
+4. Comment on the PR that conflicts were resolved against upstream/main
+
+This avoids silent half-merges where CI is green on the agent machine but the PR branch still contains conflict markers for reviewers.
