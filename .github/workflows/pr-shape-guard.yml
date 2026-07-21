@@ -144,16 +144,18 @@ jobs:
             const toAdd = [];
             const toRemove = [];
 
-            // ── Gate 1: Scope ──
-            const isDocs = names.every(n => /\.(md|txt|rst)$/.test(n) || n.startsWith('docs/'));
-            const isTests = names.every(n => /test|spec|fixture/.test(n));
+            // ── Gate 1: Scope (order matters: lessons > tests > docs) ──
             const isLessons = names.every(n => n.startsWith('lessons/'));
+            const isTests = names.every(n => /test|spec|fixture/.test(n));
+            const isDocs = names.every(n => n.startsWith('docs/') || n.endsWith('.md') && !n.startsWith('lessons/'));
 
-            if (isDocs && names.length > 0) toAdd.push('docs-only');
-            else if (isTests && names.length > 0) toAdd.push('tests-only');
-            else if (isLessons && names.length > 0) {
+            if (isLessons && names.length > 0) {
               toAdd.push('lessons-only');
-              toAdd.push('needs-human-review'); // content quality needs maintainer judgment
+              toAdd.push('needs-human-review');
+            } else if (isTests && names.length > 0) {
+              toAdd.push('tests-only');
+            } else if (isDocs && names.length > 0) {
+              toAdd.push('docs-only');
             }
 
             // ── Gate 2: Risk ──
