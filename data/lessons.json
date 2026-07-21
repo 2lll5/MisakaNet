@@ -317,6 +317,27 @@
     "verified": true
   },
   {
+    "id": "agent-readfile-silent-truncation",
+    "title": "Agent read_file Silent Truncation in Multi-Brain Meeting Recovery",
+    "domain": "agent",
+    "tags": [
+      "project:hermes-agent-cluster",
+      "severity:high",
+      "pattern:file-handling",
+      "tool:read-file"
+    ],
+    "summary": "A three-brain AI meeting system (大乔 proposals → 小乔 review → main fusion) writes meeting",
+    "preview": "## Problem\n\nA three-brain AI meeting system (大乔 proposals → 小乔 review → main fusion) writes meeting\nagenda files to disk. When an agenda file gets corrupted mid-meeting, a repair agent reads\nthe file to reconstruct it.\n\nThe repair agent called `read_file(\"path/to/agenda.md\")` and processed the result. It produced\na fused decision that looked correct — but was based on **incomplete data**. Content beyond\n~15,000 characters was silently missing. The agent never noticed.\n\n## Root Cause\n\n`read_file()` has a built-in character cap, adjustable via `char_limit`, that truncates files\nlarger than the limit. It returns a head+tail window with this footer:\n\n> ──────── [TRUNCATED] ────────\n> Showing 11,198 chars (head) + 3,500 chars (tail) of 86,825 total clean characters.\n> Full text saved to: /tmp/cache/...\n> To read the omitted middle: read_file offset=...\n> ─────────────────────────────\n\nThe repair agent's code read the result into a variable like `file_content = read_file(path).content`\nand began processing. It never checked for the TRUNCATED marker. The truncated result was still\nvalid Markdown with all required sections (Problem / Root Cause / Fix / Verification) —\njust incomplete. The agent had no reason to suspect data loss.\n\nThree contributing factors:\n\n1. **Silent success**: The truncation isn't an error. `read_file` returns `exit_code: 0` and\n   valid-looking content.\n2. **No size prefetch**: No one checked the file size before reading.\n3. **Cursor blindness**: The agent didn't scan the returned text for truncation markers before\n   using it for decision-making.\n\n## Fix\n\nThe fix has three layers:\n\n### Layer 1 — Paginated reading (repair agent)\n\nReplace a single `read_file(path)` call with paginated reading:\n\n```python\n# Before: reads truncated\ncontent = \"\"\npage = read_file(path, offset=1, limit=500)\ncontent += page.content\ntotal = page.total_lines\n\noffset = 501\nwhile offset <= total:\n    page = read_file(path, offset=offset, limit=500)\n    content += page.content\n    offset += 500\n```\n\n### Layer 2 — Size-aware prefetch\n\nBefore reading the file, check its size. If it exceeds the char_limit\nthreshold, paginate automatically.\n\n```python\nimport os\nsize = os.path.getsize(path)\n# read_file default budget is ~15K chars; if file is bigger, paginate\nif size > 14000:\n    # use paginated reading strategy\n```\n\n### Layer 3 — Agent instruction hardening\n\nAdd a system-leve\n\n[clipped]",
+    "url": "lessons/contrib/agent-readfile-silent-truncation.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "agent-state-database-lock-cleanup",
     "title": "agent-state-database-lock-cleanup",
     "domain": "contrib",
@@ -1667,6 +1688,29 @@
     "verified": true
   },
   {
+    "id": "fiverr-perimeterx-blocks-seller-automation",
+    "title": "Fiverr PerimeterX captcha blocks headless seller gig creation",
+    "domain": "web",
+    "tags": [
+      "fiverr",
+      "captcha",
+      "perimeterx",
+      "playwright",
+      "seller",
+      "automation"
+    ],
+    "summary": "Seller account exists and cookies from a real Firefox profile inject into Playwright. Navigation to:",
+    "preview": "# Fiverr PerimeterX captcha blocks headless seller gig creation\n\n## Problem\n\nSeller account exists and cookies from a real Firefox profile inject into Playwright. Navigation to:\n\n- `https://www.fiverr.com/manage_gigs`\n- `https://www.fiverr.com/manage_gigs/create`\n- sometimes mid-onboarding steps\n\nreturns page title/body:\n\n```text\nIt needs a human touch\nComplete the task and we'll get you right back into Fiverr.\nLoading challenge\n```\n\nSeller onboarding (`/seller_onboarding/0`) may still load; gig management is gated.\n\n## Root Cause\n\nFiverr fronts seller write paths with **PerimeterX / human challenge**. Cookie replay + headless Firefox is classified as automation even when:\n\n- Google SSO account is real\n- `User-Agent` is a desktop Firefox string\n- Cookies include full `fiverr.com` jar from an interactive session\n\nThis is intentional bot defense, not a missing “create gig” API field.\n\n## Fix\n\n1. **Do not loop** on manage_gigs/create in headless — you will not beat PX reliably.\n2. Use a **human-attended** browser (same profile) to pass the challenge once, then finish gig publish in that session.\n3. Keep gig copy offline (title, tags, packages, FAQ) so the human step is only challenge + paste.\n4. Parallelize other earn lanes while blocked (bounties, APIs without PX).\n5. Prefer official partner/API programs if available; scraping seller write endpoints is a dead end.\n\n## Verification\n\n- After human challenge: `manage_gigs` shows create UI without “human touch”\n- Headless with only cookies: challenge page still appears → confirms PX, not bad CSS selectors\n\n## Notes\n\n- xdotool against a real Firefox window can still hit PX on sensitive routes\n- Never store or share challenge tokens",
+    "url": "lessons/contrib/fiverr-perimeterx-blocks-seller-automation.md",
+    "created": "2026-07-20",
+    "updated": "2026-07-20",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "frontmatter-parsing-edge-cases",
     "title": "frontmatter-parsing-edge-cases",
     "domain": "contrib",
@@ -1800,7 +1844,7 @@
     "domain": "contrib",
     "tags": [],
     "summary": "执行 `git push` 时卡住或报错：",
-    "preview": "---{\"title\": \"gh credential helper 路径Error导致 git push 静默失败\", \"domain\": \"devops\", \"tags\": [\"git\", \"github\", \"credential\", \"gh\", \"auth\", \"push\"]}---\n\n## 背景\n\n执行 `git push` 时卡住或报错：\n\n```\n/home/hp/.local/bin/gh auth git-credential get: 1: /home/hp/.local/bin/gh: not found\n```\n\n或：\n\n```\nremote: Repository not found.\nfatal: repository 'https://github.com/...' not found\n```\n\n但其实仓库存在，token 也有效。\n\n## 根因\n\n`gh` 安装在 `/usr/bin/gh`，但 git 全局配置中的 credential helper 指向了一个不存在的路径：\n\n```\ncredential.https://github.com.helper=\ncredential.https://github.com.helper=!/home/hp/.local/bin/gh auth git-credential\n                                                   ^^^^^^^^^^^^^^^^^^\n                                                   这个路径没有 gh 二进制\n```\n\n这通常是安装 `gh` 后又通过 `git config --global credential.helper` 自动配置的遗留项。当 WSL Ubuntu 通过 `apt install gh` 安装时，gh 在 `/usr/bin/gh`，但 credential helper 可能指向其他位置。\n\n## 修复\n\n### 1. 查看当前 credential helper 配置\n\n```bash\ngit config --global --list | grep credential\n```\n\n### 2. 移除路径错误的 gh credential helper\n\n```bash\ngit config --global --unset-all credential.https://github.com.helper\ngit config --global --unset-all credential.https://gist.github.com.helper\n```\n\n### 3. 确保保留正确的 credential store\n\n```bash\n# gh credential helper 路径Error导致 git push 静默失败\ngit config --global credential.helper store\n# 确认 .git-credentials 里有有效 token\ncat ~/.git-credentials\n# 格式: https://username:TOKEN@github.com\n```\n\n### 4. 验证\n\n```bash\ngit ls-remote origin HEAD\n# 应正常返回 commit hash，不再报错\n```\n\n## 验证\n\n修复后用以下命令确认 credential 链干净：\n\n```bash\ngit config --global --list | grep helper\n# 预期输出: credential.helper=store\n# 不应出现 gh auth git-credential\n\n# 测试 push\ngit push\n# 应直接推送成功，不卡顿不报错\n```\n\n## 预防\n\n- 新装 `gh` 后用 `gh auth login` 登录后，检查 credential helper 是否引入了错误路径\n- 如果同时使用 `credential.helper store` 和 `gh auth git-credential`，确保 `gh auth git-credential` 的路径与二进制位置一致\n- 用 `which gh` 确认真实路径，与 git config 中的 credential helper 路径对比",
+    "preview": "---{\"title\": \"gh credential helper 路径Error导致 git push 静默失败\", \"domain\": \"devops\", \"tags\": [\"git\", \"github\", \"credential\", \"gh\", \"auth\", \"push\"]}---\n\n## 背景\n\n执行 `git push` 时卡住或报错：\n\n```\n/home/hp/.local/bin/gh auth git-credential get: 1: /home/hp/.local/bin/gh: not found\n```\n\n或：\n\n```\nremote: Repository not found.\nfatal: repository 'https://github.com/...' not found\n```\n\n但其实仓库存在，token 也有效。\n\n## 根因\n\n`gh` 安装在 `/usr/bin/gh`，但 git 全局配置中的 credential helper 指向了一个不存在的路径：\n\n```\ncredential.https://github.com.helper=\ncredential.https://github.com.helper=!/home/hp/.local/bin/gh auth git-credential\n                                                   ^^^^^^^^^^^^^^^^^^\n                                                   这个路径没有 gh 二进制\n```\n\n这通常是安装 `gh` 后又通过 `git config --global credential.helper` 自动配置的遗留项。当 WSL Ubuntu 通过 `apt install gh` 安装时，gh 在 `/usr/bin/gh`，但 credential helper 可能指向其他位置。\n\n## 修复\n\n### 1. 查看当前 credential helper 配置\n\n```bash\ngit config --global --list | grep credential\n```\n\n### 2. 移除路径错误的 gh credential helper\n\n```bash\ngit config --global --unset-all credential.https://github.com.helper\ngit config --global --unset-all credential.https://gist.github.com.helper\n```\n\n### 3. 确保保留正确的 credential store\n\n```bash\n# gh credential helper 路径Error导致 git push 静默失败\ngit config --global credential.helper store\n# 确认 .git-credentials 里有有效 token\ncat ~/.git-credentials\n# 格式: https://username:TOKEN@github.com\n```\n\n### 4. 验证\n\n```bash\ngit ls-remote origin HEAD\n# 应正常返回 commit hash，不再报错\n```\n\n## 验证\n\n修复后用以下命令确认 credential 链干净：\n\n```bash\ngit config --global --list | grep helper\n# 预期输出: credential.helper=store\n# 不应出现 gh auth git-credential\n\n# 测试 push\ngit push\n# 应直接推送成功，不卡顿不报错\n```\n\n## 预防\n\n- 新装 `gh` 后用 `gh auth login` 登录后，检查 credential helper 是否引入了错误路径\n- 如果同时使用 `credential.helper store` 和 `gh auth git-credential`，确保 `gh auth git-credential` 的路径与二进制位置一致\n- 用 `which gh` 确认真实路径，与 git config 中的 credential helper 路径对比\n\n> English: [`lessons/en/git-credential-helper-gh-path-mismatch.md`](../../lessons/en/git-credential-helper-gh-path-mismatch.md)",
     "url": "lessons/contrib/git-credential-helper-gh-path-mismatch.md",
     "created": "2026-07-06",
     "updated": "",
@@ -1903,7 +1947,7 @@
       "pat"
     ],
     "summary": "调用 GitHub API 时收到 `{\"message\": \"Bad credentials\"}` 或 HTTP 401/403，第一反应是 token 无效要去问用户要新的。但本地往往已经有可用凭证，跳过检查会让用户白跑一趟。",
-    "preview": "## 背景\n\n调用 GitHub API 时收到 `{\"message\": \"Bad credentials\"}` 或 HTTP 401/403，第一反应是 token 无效要去问用户要新的。但本地往往已经有可用凭证，跳过检查会让用户白跑一趟。\n\n## 根因\n\nAgent 倾向于在外部寻找新资源（问用户要 PAT），而不是先检查本地已有资产。这是\"资源获取\"思维 vs \"资源盘点\"思维的偏差。\n\n## 修复\n\n**强制查找顺序（GitHub API 认证失败后必查）：**\n\n```bash\n# GitHub API 401 后本地凭证查找顺序\ncat ~/.git-credentials\n# 格式: https://username:TOKEN@github.com\n\n# 2. netrc\ncat ~/.netrc\n\n# 3. GitHub CLI\ngh auth status\n\n# 4. 环境变量\necho $GITHUB_TOKEN\n\n# 5. git credential helper 配置\ngit config --global --list | grep credential\n```\n\n**只有以上全部失败才让用户提供新 token。**\n\n**从 git-credentials 提取 token：**\n```bash\ngrep -oP 'https://[^:]+:([^@]+)@' ~/.git-credentials | sed 's/https:\\/\\/[^:]\\+://;s/@$//'\n```\n\n## 验证\n\n```bash\n# 用找到的 token 测试\ncurl -s -H \"Authorization: Bearer $TOKEN\" https://api.github.com/user | jq .login\n```\n\n## 关联经验\n\n本教训与 `git-credentials-automation` 互补：后者解决 push/pull 时的交互式认证，本条解决 API 调用时的编程式认证。",
+    "preview": "## 背景\n\n调用 GitHub API 时收到 `{\"message\": \"Bad credentials\"}` 或 HTTP 401/403，第一反应是 token 无效要去问用户要新的。但本地往往已经有可用凭证，跳过检查会让用户白跑一趟。\n\n## 根因\n\nAgent 倾向于在外部寻找新资源（问用户要 PAT），而不是先检查本地已有资产。这是\"资源获取\"思维 vs \"资源盘点\"思维的偏差。\n\n## 修复\n\n**强制查找顺序（GitHub API 认证失败后必查）：**\n\n```bash\n# GitHub API 401 后本地凭证查找顺序\ncat ~/.git-credentials\n# 格式: https://username:TOKEN@github.com\n\n# 2. netrc\ncat ~/.netrc\n\n# 3. GitHub CLI\ngh auth status\n\n# 4. 环境变量\necho $GITHUB_TOKEN\n\n# 5. git credential helper 配置\ngit config --global --list | grep credential\n```\n\n**只有以上全部失败才让用户提供新 token。**\n\n**从 git-credentials 提取 token：**\n```bash\ngrep -oP 'https://[^:]+:([^@]+)@' ~/.git-credentials | sed 's/https:\\/\\/[^:]\\+://;s/@$//'\n```\n\n## 验证\n\n```bash\n# 用找到的 token 测试\ncurl -s -H \"Authorization: Bearer $TOKEN\" https://api.github.com/user | jq .login\n```\n\n## 关联经验\n\n本教训与 `git-credentials-automation` 互补：后者解决 push/pull 时的交互式认证，本条解决 API 调用时的编程式认证。\n\n> English: [`lessons/en/github-401-credential-lookup.md`](../../lessons/en/github-401-credential-lookup.md)",
     "url": "lessons/contrib/github-401-credential-lookup.md",
     "created": "2026-07-06",
     "updated": "",
@@ -1944,6 +1988,30 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
+  },
+  {
+    "id": "github-sudo-email-otp-wrong-input-field",
+    "title": "GitHub sudo email OTP fails when the wrong input is filled",
+    "domain": "github",
+    "tags": [
+      "github",
+      "sudo",
+      "otp",
+      "playwright",
+      "auth",
+      "pat",
+      "automation"
+    ],
+    "summary": "Automating GitHub **sudo mode** (sensitive actions like creating a classic PAT at `/settings/tokens/new`) via Playwright/browser automation:",
+    "preview": "# GitHub sudo email OTP fails when the wrong input is filled\n\n## Problem\n\nAutomating GitHub **sudo mode** (sensitive actions like creating a classic PAT at `/settings/tokens/new`) via Playwright/browser automation:\n\n1. Click **Verify via email**\n2. Read the 8-digit code from Gmail (`[GitHub] Sudo email verification code`)\n3. Fill \"an input\" and click **Verify**\n\nResult:\n\n```text\nSudo authentication failed.\n```\n\nThe code is correct and still within the 15-minute window. Retrying with the same code also fails (codes are single-use). Fresh codes keep failing the same way.\n\nSymptoms in the DOM: multiple `<input>` elements exist on the Confirm access page; a naive `page.locator('input').first.fill(code)` or `input[inputmode=numeric]` hit can target a non-OTP control.\n\n## Root Cause\n\nGitHub's sudo email challenge page includes **hidden CSRF / credential-type inputs** plus the visible OTP field. In one capture the inputs were:\n\n| # | name / id | type | visible |\n|---|-----------|------|---------|\n| 0 | sudo-credential-options-github-mobile-csrf | hidden | no |\n| 1 | sudo-credential-options-totp-email-csrf | hidden | no |\n| 2 | authenticity_token | hidden | no |\n| 3 | sudo_return_to | hidden | no |\n| 4 | credential_type | hidden | no |\n| 5 | **sudo_email_otp** | **text** | **yes** |\n\nAutomation that fills \"first text-like input\" or the first `inputmode=numeric` match can miss `#sudo_email_otp`. GitHub then posts without a valid OTP → **Sudo authentication failed.**\n\nAlso: sudo mode expires; long multi-step agent loops burn the 15-minute code lifetime.\n\n## Fix\n\n1. Prefer the explicit selector after the mailer is triggered:\n\n```js\n// Playwright\nawait page.locator('#sudo_email_otp').fill(code);\nawait page.get_by_role('button', name='Verify').click();\n```\n\n2. If you must discover fields, only fill **visible** inputs whose `id`/`name` contains `otp` or `sudo_email`:\n\n```js\nconst otp = page.locator('#sudo_email_otp, input[name=\"sudo_email_otp\"], input[autocomplete=\"one-time-code\"]');\nawait otp.first().fill(code);\n```\n\n3. Sequence with tight timing:\n   - Trigger **Verify via email**\n   - Immediately fetch the newest Gmail message from `noreply@github.com`\n   - Submit OTP within minutes (do not reuse a code after any failed attempt)\n\n4. Once sudo succeeds, complete the sensitive action in the **same session** (create PAT, authorize device, etc.) before sudo times out again.\n\n[clipped]",
+    "url": "lessons/contrib/github-sudo-email-otp-wrong-input-field.md",
+    "created": "2026-07-20",
+    "updated": "2026-07-20",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
   },
   {
     "id": "gpt-sovits-hubert-16khz",
@@ -3562,7 +3630,7 @@
     "domain": "contrib",
     "tags": [],
     "summary": "纯静态页面（无后端代理，HTML + JS 直接部署在 CDN/GitHub Pages 上）需要通过浏览器端 JavaScript 直接调用第三方 API。这种架构面临几个固有风险：",
-    "preview": "## 背景\n\n纯静态页面（无后端代理，HTML + JS 直接部署在 CDN/GitHub Pages 上）需要通过浏览器端 JavaScript 直接调用第三方 API。这种架构面临几个固有风险：\n\n- **限流硬限制**：未认证请求通常有严格的速率限制（如 GitHub REST API 60 req/hour）\n- **请求永久挂起**：没有超时控制的 fetch 在网络故障时永远不会 resolve\n- **错误扩散**：一个接口的失败通过 try/catch 或 Promise 链传播，连带阻断其他无关功能\n- **无中间层缓冲**：不能使用 API key、缓存代理或请求合并等后端手段\n\n## 核心设计原则\n\n### 1. 每个外部请求都必须有超时\n\n浏览器 fetch 默认没有超时。一个慢请求可以永久挂起页面功能。\n\n```js\nasync function fetchWithTimeout(url, timeoutMs = 8000) {\n  const ctrl = new AbortController();\n  const timer = setTimeout(() => ctrl.abort(), timeoutMs);\n  try {\n    const r = await fetch(url, { signal: ctrl.signal });\n    clearTimeout(timer);\n    if (!r.ok) throw new Error(`HTTP ${r.status}`);\n    return r.json();\n  } catch (e) {\n    clearTimeout(timer);\n    throw e;\n  }\n}\n```\n\n### 2. 并行请求各自独立容错\n\n使用 `Promise.all` 时，任何一个 promise reject 会导致整体失败。改为每个请求独立 catch：\n\n```js\nconst [dataA, dataB] = await Promise.all([\n  fetchWithTimeout(urlA).catch(() => null),\n  fetchWithTimeout(urlB).catch(() => null),\n]);\n// dataA 失败不影响 dataB 的结果\n```\n\n### 3. 子功能永远独立执行\n\n不要用一个大的 try/catch 包裹多个功能模块：\n\n```js\n// ❌ 错误：loadA 抛异常则 loadB、loadC 都不执行\ntry {\n  await loadA();\n  await loadB();\n  await loadC();\n} catch (e) { /* 只捕获一个，丢失两个 */ }\n\n// ✅ 正确：各自独立执行\nloadA().catch(() => {});\nloadB().catch(() => {});\nloadC().catch(() => {});\n```\n\n### 4. 用户友好的错误降级\n\n不要把原始错误信息（`TypeError: Failed to fetch`、`HTTP 403`）直接展示给用户：\n\n```js\n// 区分常见的错误类型\nif (e instanceof TypeError && e.message.includes('aborted')) {\n  return '请求超时，请检查网络后重试';\n}\nif (e.message?.includes('403')) {\n  return 'API 频率限制，请稍后刷新重试';\n}\nreturn '数据加载失败，已使用缓存显示';\n```\n\n## 验证标准\n\n- 单个接口超时不影响其他接口的展示\n- 触发限流时显示友好提示而非白屏或裸错误\n- 所有功能模块各自独立加载、独立容错\n- 网络恢复后刷新页面即可正常使用\n\n## 反思\n\n静态页面直接消费第三方 API 时，容错不是可选项而是**架构必选项**。因为没有后端中间层兜底，每个接口调用都直接暴露在浏览器环境下：\n\n1. **任何外部请求都可能失败**——网络断开、限流、服务端故障，不是 if 而是 when\n2. **不要用 try/catch 包裹多个逻辑块**——一个失败不应该连带其他功能一起失效\n3. **非关键数据失败不应阻断关键数据展示**——统计数字和主要内容应该互不影响\n4. **没有超时的 fetch 是永久挂起的隐患**——即使请求本地 JSON 文件也应有超时保护\n5. **如果项目频繁遇到限流**，考虑引入 GitHub Actions 定时缓存 + 静态 JSON 的 hybrid 架构，或使用代理后端",
+    "preview": "## 背景\n\n纯静态页面（无后端代理，HTML + JS 直接部署在 CDN/GitHub Pages 上）需要通过浏览器端 JavaScript 直接调用第三方 API。这种架构面临几个固有风险：\n\n- **限流硬限制**：未认证请求通常有严格的速率限制（如 GitHub REST API 60 req/hour）\n- **请求永久挂起**：没有超时控制的 fetch 在网络故障时永远不会 resolve\n- **错误扩散**：一个接口的失败通过 try/catch 或 Promise 链传播，连带阻断其他无关功能\n- **无中间层缓冲**：不能使用 API key、缓存代理或请求合并等后端手段\n\n## 核心设计原则\n\n### 1. 每个外部请求都必须有超时\n\n浏览器 fetch 默认没有超时。一个慢请求可以永久挂起页面功能。\n\n```js\nasync function fetchWithTimeout(url, timeoutMs = 8000) {\n  const ctrl = new AbortController();\n  const timer = setTimeout(() => ctrl.abort(), timeoutMs);\n  try {\n    const r = await fetch(url, { signal: ctrl.signal });\n    clearTimeout(timer);\n    if (!r.ok) throw new Error(`HTTP ${r.status}`);\n    return r.json();\n  } catch (e) {\n    clearTimeout(timer);\n    throw e;\n  }\n}\n```\n\n### 2. 并行请求各自独立容错\n\n使用 `Promise.all` 时，任何一个 promise reject 会导致整体失败。改为每个请求独立 catch：\n\n```js\nconst [dataA, dataB] = await Promise.all([\n  fetchWithTimeout(urlA).catch(() => null),\n  fetchWithTimeout(urlB).catch(() => null),\n]);\n// dataA 失败不影响 dataB 的结果\n```\n\n### 3. 子功能永远独立执行\n\n不要用一个大的 try/catch 包裹多个功能模块：\n\n```js\n// ❌ 错误：loadA 抛异常则 loadB、loadC 都不执行\ntry {\n  await loadA();\n  await loadB();\n  await loadC();\n} catch (e) { /* 只捕获一个，丢失两个 */ }\n\n// ✅ 正确：各自独立执行\nloadA().catch(() => {});\nloadB().catch(() => {});\nloadC().catch(() => {});\n```\n\n### 4. 用户友好的错误降级\n\n不要把原始错误信息（`TypeError: Failed to fetch`、`HTTP 403`）直接展示给用户：\n\n```js\n// 区分常见的错误类型\nif (e instanceof TypeError && e.message.includes('aborted')) {\n  return '请求超时，请检查网络后重试';\n}\nif (e.message?.includes('403')) {\n  return 'API 频率限制，请稍后刷新重试';\n}\nreturn '数据加载失败，已使用缓存显示';\n```\n\n## 验证标准\n\n- 单个接口超时不影响其他接口的展示\n- 触发限流时显示友好提示而非白屏或裸错误\n- 所有功能模块各自独立加载、独立容错\n- 网络恢复后刷新页面即可正常使用\n\n## 反思\n\n静态页面直接消费第三方 API 时，容错不是可选项而是**架构必选项**。因为没有后端中间层兜底，每个接口调用都直接暴露在浏览器环境下：\n\n1. **任何外部请求都可能失败**——网络断开、限流、服务端故障，不是 if 而是 when\n2. **不要用 try/catch 包裹多个逻辑块**——一个失败不应该连带其他功能一起失效\n3. **非关键数据失败不应阻断关键数据展示**——统计数字和主要内容应该互不影响\n4. **没有超时的 fetch 是永久挂起的隐患**——即使请求本地 JSON 文件也应有超时保护\n5. **如果项目频繁遇到限流**，考虑引入 GitHub Actions 定时缓存 + 静态 JSON 的 hybrid 架构，或使用代理后端\n\n> English: [`lessons/en/static-page-github-api-fault-tolerance.md`](../../lessons/en/static-page-github-api-fault-tolerance.md)",
     "url": "lessons/contrib/static-page-github-api-403-rate-limit.md",
     "created": "2026-07-06",
     "updated": "",
@@ -3612,6 +3680,29 @@
     "verified": true
   },
   {
+    "id": "superteam-earn-api-insufficient-credits",
+    "title": "Superteam Earn API returns Insufficient credits on submission create",
+    "domain": "web3",
+    "tags": [
+      "superteam",
+      "earn",
+      "api",
+      "credits",
+      "bounty",
+      "http-403"
+    ],
+    "summary": "Authenticated to Superteam Earn (`isTalentFilled: true`, valid session cookies). Built deliverables and hosted public links. Posted:",
+    "preview": "# Superteam Earn API returns Insufficient credits on submission create\n\n## Problem\n\nAuthenticated to Superteam Earn (`isTalentFilled: true`, valid session cookies). Built deliverables and hosted public links. Posted:\n\n```http\nPOST https://superteam.fun/api/submission/create\nContent-Type: application/json\nCookie: <session>\n```\n\nBody shape:\n\n```json\n{\n  \"listingId\": \"<uuid>\",\n  \"link\": \"https://...\",\n  \"tweet\": \"https://...\",\n  \"otherInfo\": \"...\"\n}\n```\n\nResponse:\n\n```json\n{\n  \"error\": \"Insufficient credits\",\n  \"message\": \"You need at least 1 credit to make a submission.\"\n}\n```\n\nHTTP **403**. Earlier the same account successfully created submissions (email: \"Submission Received\").\n\nAlso: `POST https://earn.superteam.fun/api/submission/create` may return **308** redirect to `https://superteam.fun/api/submission/create` — clients that do not follow redirects look like random failures.\n\n## Root Cause\n\n1. Superteam Earn gates **new** submissions on an internal **credit balance**, separate from profile completion (`isTalentFilled`).\n2. Credits are consumed by submissions and can hit zero while the profile remains \"complete\".\n3. Host mismatch (`earn.superteam.fun` vs `superteam.fun`) adds a redirect footgun for naive HTTP clients.\n\n## Fix\n\n1. Prefer the canonical host after redirect discovery:\n\n```bash\n# Follow redirects\ncurl -sS -L -X POST 'https://superteam.fun/api/submission/create' \\\n  -H \"Content-Type: application/json\" \\\n  -H \"Cookie: $COOKIE\" \\\n  -d '{\"listingId\":\"...\",\"link\":\"...\",\"tweet\":\"...\",\"otherInfo\":\"...\"}'\n```\n\n2. On `Insufficient credits`:\n   - Stop spamming create (wastes nothing but burns rate limits and agent loops)\n   - Check the Earn dashboard UI for credit balance / how credits refill (quests, time, sponsor actions — product-dependent)\n   - Keep deliverables + public links ready; retry when credits > 0\n\n3. Track submission success via inbox (`Submission Received`) and listing slug, not only HTTP 200.\n\n4. Do not treat profile completion as \"can submit unlimited\".\n\n## Verification\n\n- With credits > 0: `POST /api/submission/create` returns 200 and creates a pending submission id\n- With credits = 0: stable 403 JSON as above (not a cookie/auth failure — `/api/user` still 200)\n- Confirm host: no unexpected 308 when posting to `superteam.fun`\n\n## Notes\n\n- Session cookies expire; a 401 on `/api/user` is a different class of failure from 403 credits\n- R\n\n[clipped]",
+    "url": "lessons/contrib/superteam-earn-api-insufficient-credits.md",
+    "created": "2026-07-20",
+    "updated": "2026-07-20",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "swarm-pr-battle-playbook",
     "title": "Swarm PR Battle Playbook — Shipping env-var error hooks through AI-reviewed upstreams",
     "domain": "contrib",
@@ -3625,6 +3716,29 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
+    "verified": true
+  },
+  {
+    "id": "taskbounty-payout-api-ok-readiness-still-fail",
+    "title": "TaskBounty payout POST succeeds but solver_readiness still fails",
+    "domain": "web3",
+    "tags": [
+      "taskbounty",
+      "payout",
+      "api",
+      "readiness",
+      "solana",
+      "usdc"
+    ],
+    "summary": "Register Solana USDC payout:",
+    "preview": "# TaskBounty payout POST succeeds but solver_readiness still fails\n\n## Problem\n\nRegister Solana USDC payout:\n\n```http\nPOST /api/v1/solver/payout-method\nAuthorization: Bearer <api_key>\n{\"method\":\"solana_usdc\",\"address\":\"<base58>\"}\n```\n\nResponse 200:\n\n```json\n{\n  \"data\": {\n    \"method\": \"solana_usdc\",\n    \"address\": \"...\",\n    \"message\": \"Payout method saved. Your first verified payout is released right away...\"\n  }\n}\n```\n\nBut on an **already AWARDED** task, `solver_readiness.checks` still includes:\n\n```text\npayout=fail: No payout method on file. Awarded payments cannot be sent.\n```\n\nBoard may also show `open=0` while only AWARDED/CLOSED tasks exist — agent snipers idle with no work.\n\n## Root Cause\n\n1. **Readiness is evaluated in the context of a task** (often an awarded historical task). Payout “on file” for new claims may not rewrite checks on old awarded rows.\n2. **OPEN inventory can be empty** for long stretches; a healthy agent still looks “broken” if you only watch awarded-task readiness.\n3. Separate warnings (`github=warn: Add your GitHub login`) are independent of payout POST success.\n\n## Fix\n\n1. Treat payout POST 200 as success for **future** claims; do not block the sniper on readiness of already-awarded tasks.\n2. Monitor `open` count / status filters, not only readiness on the first task in the list.\n3. Link GitHub on the TaskBounty dashboard/settings (browser OAuth) — may not expose a documented public API field for `github_username`.\n4. Keep Solana address backed up offline; first verified payout policy is product-side.\n\n## Verification\n\n- Repeated `POST /solver/payout-method` returns saved address\n- Sniper logic: `if open_tasks: claim else: sleep` regardless of awarded-task payout check text\n- When an OPEN task appears, claim path is exercised end-to-end\n\n## Notes\n\n- Empty board is a market condition, not necessarily misconfiguration",
+    "url": "lessons/contrib/taskbounty-payout-api-ok-readiness-still-fail.md",
+    "created": "2026-07-20",
+    "updated": "2026-07-20",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
     "verified": true
   },
   {
