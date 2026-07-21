@@ -64,6 +64,3 @@ git pull --rebase
 
 # 频繁提交 + 频繁推送，减少差异量
 ```
-
-
-> English: [`lessons/en/git-merge-conflict-resolution.md`](../../lessons/en/git-merge-conflict-resolution.md)

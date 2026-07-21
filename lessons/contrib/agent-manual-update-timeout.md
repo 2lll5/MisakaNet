@@ -62,6 +62,3 @@ rm -rf ~/.<agent>/cache/*
 ## Root Cause
 
 See problem description above for technical details.
-
-
-> English: [`lessons/en/agent-manual-update-timeout.md`](../../lessons/en/agent-manual-update-timeout.md)
