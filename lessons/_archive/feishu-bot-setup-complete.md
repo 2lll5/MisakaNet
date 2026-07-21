@@ -1,5 +1,20 @@
 ---
 {
+  "title": "ARCHIVED generic feishu bot setup (see cc-connect)",
+  "domain": "feishu",
+  "tags": ["archived", "feishu", "duplicate"],
+  "status": "archived",
+  "quality_skip": true,
+  "source": "archive",
+  "created": "2026-05-19",
+  "updated": "2026-07-21"
+}
+---
+
+> **ARCHIVED** — use `lessons/contrib/cc-connect-feishu-setup-complete.md`.
+
+---
+{
   "domain": "contrib",
   "title": "feishu bot setup complete",
   "verification": "metadata-normalized",
