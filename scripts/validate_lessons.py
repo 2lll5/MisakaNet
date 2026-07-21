@@ -149,18 +149,35 @@ def validate_body(path: Path) -> list[str]:
         if ph.lower() in body.lower():
             errors.append(f"Contains placeholder '{ph}'")
 
+    # Sensitive info detection
+    sensitive_patterns = [
+        (r'(?i)(api[_-]?key|apikey)\s*[:=]\s*["\']?[A-Za-z0-9_\-]{16,}', "Possible API key"),
+        (r'(?i)(token|secret|password)\s*[:=]\s*["\']?[A-Za-z0-9_\-]{16,}', "Possible token/secret"),
+        (r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', "Email address (anonymize if internal)"),
+        (r'(?i)(10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+|192\.168\.\d+\.\d+)', "Internal IP address"),
+        (r'(?i)(xiaomi|mify|mi\.feishu|内部域名|内部API|公司内部)', "Internal company reference"),
+    ]
+    for pattern, label in sensitive_patterns:
+        if re.search(pattern, body):
+            errors.append(f"WARNING: {label} detected — verify anonymization")
+
+    # Fix actionability: should have at least one code block
+    if not re.search(r"```[\s\S]*?```", body):
+        errors.append("WARNING: No code block found — fix may not be actionable")
+
     return errors
 
 
-def validate_lesson(path: Path, schema: dict) -> tuple[int, list[str]]:
-    """Validate a single lesson. Returns (exit_code, [errors])."""
+def validate_lesson(path: Path, schema: dict) -> tuple[int, list[str], list[str]]:
+    """Validate a single lesson. Returns (exit_code, [errors], [warnings])."""
     errors = []
+    warnings = []
 
     # 1. Frontmatter extraction
     fm, fm_err = extract_frontmatter(path)
     if fm_err:
         errors.append(fm_err)
-        return 1, errors
+        return 1, errors, warnings
 
     # 2. JSON Schema validation
     try:
@@ -169,13 +186,17 @@ def validate_lesson(path: Path, schema: dict) -> tuple[int, list[str]]:
         errors.append(f"Schema violation: {e.message}")
         if e.path:
             errors.append(f"  Path: {' -> '.join(str(p) for p in e.path)}")
-        return 1, errors
+        return 1, errors, warnings
 
     # 3. Body structure validation
-    body_errs = validate_body(path)
-    errors.extend(body_errs)
+    body_msgs = validate_body(path)
+    for msg in body_msgs:
+        if msg.startswith("WARNING:"):
+            warnings.append(msg)
+        else:
+            errors.append(msg)
 
-    return 0 if not errors else 1, errors
+    return 0 if not errors else 1, errors, warnings
 
 
 def main():
@@ -199,7 +220,7 @@ def main():
 
         total += 1
         is_core = "contrib" not in path.parts
-        code, errs = validate_lesson(path, schema)
+        code, errs, warns = validate_lesson(path, schema)
         if code == 0:
             passed += 1
         else:
@@ -212,6 +233,9 @@ def main():
                 print(f"⚠️  {rel} (contrib — legacy, not blocking)")
             for e in errs:
                 print(f"   - {e}")
+        for w in warns:
+            rel = path.relative_to(REPO_ROOT)
+            print(f"   ⚠️  {w} ({rel})")
 
     print(f"\n{'='*40}")
     print(f"Total: {total}  Passed: {passed}  Failed: {failed}")
