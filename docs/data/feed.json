@@ -1,9 +1,30 @@
 {
-  "generated_at": "2026-07-21T22:14:56.552387+00:00",
+  "generated_at": "2026-07-22T03:52:12.971878+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "docs(lessons): EN batch (rate-limit, git conflict, agent update)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/556",
+      "timestamp": "2026-07-22T02:21:30Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "docs(lessons): EN batch3 (pip SSL, cron, DCO forks)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/558",
+      "timestamp": "2026-07-22T02:21:05Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "fix(ci): quality-check continue-on-error when fork cannot comment",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/559",
+      "timestamp": "2026-07-22T02:21:01Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "docs(lessons): archive duplicate Feishu bot setup (#552)",
@@ -16,27 +37,6 @@
       "title": "fix(ci): lesson quality total_score 0-1 for CI threshold",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/557",
       "timestamp": "2026-07-21T17:50:11Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs: #257 RAG batch already English (audit)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/555",
-      "timestamp": "2026-07-21T17:50:01Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "chore(deps): bump tj-actions/changed-files from 44 to 46 in /.github/workflows",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/553",
-      "timestamp": "2026-07-21T04:53:04Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat(ci): add lesson quality scoring pipeline (fixes #305)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/536",
-      "timestamp": "2026-07-21T02:58:52Z",
       "source": "github"
     },
     {
