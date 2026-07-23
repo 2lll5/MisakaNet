@@ -1,9 +1,23 @@
 {
-  "generated_at": "2026-07-23T16:51:15.893921+00:00",
+  "generated_at": "2026-07-23T19:50:40.308679+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "docs(lessons): EN batch15 (cron streams, JSONL ledger, cookie export)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/573",
+      "timestamp": "2026-07-23T16:58:31Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "docs(lessons): EN batch14 (PR checklist, idle exit, multi-lane)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/572",
+      "timestamp": "2026-07-23T16:58:27Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "docs(lessons): EN batch13 (flock, backoff cap, scout/worker modes)",
@@ -23,20 +37,6 @@
       "title": "docs(lessons): EN batch11 (curl fail-fast, mkdir -p, timeout)",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/569",
       "timestamp": "2026-07-23T08:17:16Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs(lessons): EN batch10 (mode 600, healthz, idempotent claims)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/568",
-      "timestamp": "2026-07-23T08:17:12Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs(lessons): EN batch9 (JSON validate, jitter, proof folders)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/567",
-      "timestamp": "2026-07-23T08:17:09Z",
       "source": "github"
     },
     {
