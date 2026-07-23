@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-07-23T03:50:13.623079+00:00",
+  "generated_at": "2026-07-23T09:03:31.748838+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
     {
       "type": "merged_pr",
-      "title": "docs(lessons): EN batch6 (WSL proxy, sandbox paths, git+node id)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/563",
-      "timestamp": "2026-07-22T09:19:33Z",
+      "title": "docs(lessons): EN batch13 (flock, backoff cap, scout/worker modes)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/571",
+      "timestamp": "2026-07-23T08:17:23Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "docs(journey): agent onboarding friction v2 (CI quality false reds)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/562",
-      "timestamp": "2026-07-22T09:19:29Z",
+      "title": "docs(lessons): EN batch12 (SAST logs, atomic write, User-Agent)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/570",
+      "timestamp": "2026-07-23T08:17:19Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "docs(lessons): EN batch5 (shell debug, tiktoken, Feishu webhook env)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/561",
-      "timestamp": "2026-07-22T09:19:25Z",
+      "title": "docs(lessons): EN batch11 (curl fail-fast, mkdir -p, timeout)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/569",
+      "timestamp": "2026-07-23T08:17:16Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "docs(lessons): EN batch4 (venv, git creds, OpenAI-compatible API)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/560",
-      "timestamp": "2026-07-22T09:19:21Z",
+      "title": "docs(lessons): EN batch10 (mode 600, healthz, idempotent claims)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/568",
+      "timestamp": "2026-07-23T08:17:12Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "docs(lessons): EN batch (rate-limit, git conflict, agent update)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/556",
-      "timestamp": "2026-07-22T02:21:30Z",
+      "title": "docs(lessons): EN batch9 (JSON validate, jitter, proof folders)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/567",
+      "timestamp": "2026-07-23T08:17:09Z",
       "source": "github"
     },
     {
