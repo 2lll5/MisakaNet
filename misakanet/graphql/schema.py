@@ -5,6 +5,8 @@ Provides GraphQL API for lesson queries:
 - lesson(id): get single lesson by ID
 - lessons(limit, offset): paginated listing
 
+Requires: pip install graphql-core (optional dependency)
+
 Usage:
     from misakanet.graphql.schema import execute_query
     result = execute_query('{ lessons(limit: 5) { title domain } }')
@@ -17,17 +19,21 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
-from graphql import (
-    GraphQLArgument,
-    GraphQLField,
-    GraphQLInt,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLObjectType,
-    GraphQLSchema,
-    GraphQLString,
-    graphql_sync,
-)
+# Lazy import: graphql-core is optional
+_graphql = None
+
+def _get_graphql():
+    global _graphql
+    if _graphql is None:
+        try:
+            import graphql as _g
+            _graphql = _g
+        except ImportError:
+            raise ImportError(
+                "graphql-core is required for GraphQL API. "
+                "Install with: pip install graphql-core"
+            )
+    return _graphql
 
 from misakanet.search.engine import (
     LESSONS,
@@ -46,26 +52,63 @@ def _get_lessons() -> list[CachedDoc]:
 
 # ── GraphQL Types ──
 
-LessonType = GraphQLObjectType(
-    "Lesson",
-    lambda: {
-        "title": GraphQLField(GraphQLString),
-        "domain": GraphQLField(GraphQLString),
-        "tags": GraphQLField(GraphQLList(GraphQLString)),
-        "status": GraphQLField(GraphQLString),
-        "language": GraphQLField(GraphQLString),
-        "path": GraphQLField(GraphQLString),
-        "preview": GraphQLField(GraphQLString),
-    },
-)
+def _build_schema():
+    """Build GraphQL schema (lazy, only called when --graphql is used)."""
+    g = _get_graphql()
 
-SearchResultType = GraphQLObjectType(
-    "SearchResult",
-    lambda: {
-        "score": GraphQLField(GraphQLString),
-        "lesson": GraphQLField(LessonType),
-    },
-)
+    LessonType = g.GraphQLObjectType(
+        "Lesson",
+        lambda: {
+            "title": g.GraphQLField(g.GraphQLString),
+            "domain": g.GraphQLField(g.GraphQLString),
+            "tags": g.GraphQLField(g.GraphQLList(g.GraphQLString)),
+            "status": g.GraphQLField(g.GraphQLString),
+            "language": g.GraphQLField(g.GraphQLString),
+            "path": g.GraphQLField(g.GraphQLString),
+            "preview": g.GraphQLField(g.GraphQLString),
+        },
+    )
+
+    SearchResultType = g.GraphQLObjectType(
+        "SearchResult",
+        lambda: {
+            "score": g.GraphQLField(g.GraphQLString),
+            "lesson": g.GraphQLField(LessonType),
+        },
+    )
+
+    QueryType = g.GraphQLObjectType(
+        "Query",
+        {
+            "lessons": g.GraphQLField(
+                g.GraphQLList(LessonType),
+                args={
+                    "limit": g.GraphQLArgument(g.GraphQLInt, default_value=10),
+                    "offset": g.GraphQLArgument(g.GraphQLInt, default_value=0),
+                },
+                resolve=_resolve_lessons,
+            ),
+            "lesson": g.GraphQLField(
+                LessonType,
+                args={
+                    "id": g.GraphQLArgument(g.GraphQLNonNull(g.GraphQLString)),
+                },
+                resolve=_resolve_lesson,
+            ),
+            "search": g.GraphQLField(
+                g.GraphQLList(SearchResultType),
+                args={
+                    "q": g.GraphQLArgument(g.GraphQLNonNull(g.GraphQLString)),
+                    "domain": g.GraphQLArgument(g.GraphQLString),
+                    "tags": g.GraphQLArgument(g.GraphQLString),
+                    "limit": g.GraphQLArgument(g.GraphQLInt, default_value=10),
+                },
+                resolve=_resolve_search,
+            ),
+        },
+    )
+
+    return g.GraphQLSchema(query=QueryType)
 
 
 # ── Resolvers ──
@@ -130,47 +173,13 @@ def _doc_to_dict(doc: CachedDoc) -> dict:
     }
 
 
-# ── Schema ──
-
-QueryType = GraphQLObjectType(
-    "Query",
-    {
-        "lessons": GraphQLField(
-            GraphQLList(LessonType),
-            args={
-                "limit": GraphQLArgument(GraphQLInt, default_value=10),
-                "offset": GraphQLArgument(GraphQLInt, default_value=0),
-            },
-            resolve=_resolve_lessons,
-        ),
-        "lesson": GraphQLField(
-            LessonType,
-            args={
-                "id": GraphQLArgument(GraphQLNonNull(GraphQLString)),
-            },
-            resolve=_resolve_lesson,
-        ),
-        "search": GraphQLField(
-            GraphQLList(SearchResultType),
-            args={
-                "q": GraphQLArgument(GraphQLNonNull(GraphQLString)),
-                "domain": GraphQLArgument(GraphQLString),
-                "tags": GraphQLArgument(GraphQLString),
-                "limit": GraphQLArgument(GraphQLInt, default_value=10),
-            },
-            resolve=_resolve_search,
-        ),
-    },
-)
-
-schema = GraphQLSchema(query=QueryType)
-
-
-# ── Execution ──
+# ── Schema + Execution ──
 
 def execute_query(query: str, variables: Optional[dict] = None) -> dict:
     """Execute a GraphQL query and return the result."""
-    result = graphql_sync(schema, query, variable_values=variables)
+    g = _get_graphql()
+    schema = _build_schema()
+    result = g.graphql_sync(schema, query, variable_values=variables)
     return {
         "data": result.data,
         "errors": [{"message": str(e)} for e in result.errors] if result.errors else None,
