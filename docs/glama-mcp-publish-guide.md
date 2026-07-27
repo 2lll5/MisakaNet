@@ -132,6 +132,8 @@ PyPI package README must contain: `mcp-name: io.github.YourName/your-server`
 | License conflict | `License classifiers have been superseded` | Remove license classifier, keep SPDX expression |
 | mcp-name casing | `ownership validation failed` | Match GitHub username casing exactly |
 | Description too long | `expected length <= 100` | Shorten server.json description |
+| glama.json ignored | `No glama.json` despite file existing | Keep glama.json minimal: only `$schema` + `maintainers`. Tool definitions come from MCP introspection, not glama.json |
+| Tools not showing | Build succeeds but `tools: []` | Introspection is async — wait, then Sync Server / Rebuild to trigger fresh introspection |
 
 ## Auto-Rescan
 
