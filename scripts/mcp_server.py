@@ -301,35 +301,52 @@ def handle_prompts_get(name: str, arguments: dict) -> dict:
 TOOLS = [
     {
         "name": "misakanet_search",
-        "description": "Search MisakaNet lessons for solutions to errors, bugs, and technical problems.",
+        "description": (
+            "Search MisakaNet failure lessons by query. Returns ranked results with title, domain, "
+            "relevance score, and match explanation. Use this for discovery when you have an error message "
+            "or topic but don't know the lesson ID. Read-only, no side effects, no auth required. "
+            "Returns JSON array of matches or empty array if nothing found. "
+            "Use misakanet_get_lesson to fetch full content of a specific result."
+        ),
         "inputSchema": {
             "type": "object",
             "properties": {
-                "query": {"type": "string", "description": "Search query (error message, keyword, or topic)"},
-                "domain": {"type": "string", "description": "Filter by domain (devops, python, network, feishu, rag, etc.)"},
-                "top": {"type": "integer", "description": "Number of results (default 5)"},
+                "query": {"type": "string", "description": "Search query — error message, keyword, or topic (e.g. 'pip install timeout', 'DCO sign-off failed')"},
+                "domain": {"type": "string", "description": "Optional domain filter (devops, python, network, feishu, rag, fanuc, etc.)"},
+                "top": {"type": "integer", "description": "Max results to return (default 5)"},
             },
             "required": ["query"],
         },
     },
     {
         "name": "misakanet_get_lesson",
-        "description": "Get the full content of a specific lesson by path or ID.",
+        "description": (
+            "Fetch a single lesson by path or lesson ID. Use this when you already know the lesson "
+            "from search results or a reference — not for discovery. Read-only, no side effects, "
+            "no auth required for public lessons. Returns lesson metadata (title, domain, tags) "
+            "and markdown content, or a not-found error if the lesson does not exist. "
+            "Use misakanet_search first if you only have a query."
+        ),
         "inputSchema": {
             "type": "object",
             "properties": {
                 "path": {"type": "string", "description": "Lesson path (e.g., lessons/core/auto-merge-ci-pipeline.md)"},
-                "id": {"type": "string", "description": "Lesson ID (filename without .md)"},
+                "id": {"type": "string", "description": "Lesson ID (filename without .md, e.g., auto-merge-ci-pipeline)"},
             },
         },
     },
     {
         "name": "misakanet_submit_usage",
-        "description": "[Experimental] Report that a lesson was used to solve a problem. Currently logs locally only.",
+        "description": (
+            "[Experimental] Report that a lesson was used to solve a problem. Currently logs locally only — "
+            "no data is sent externally. Use after a lesson helped you fix an issue. "
+            "Read the lesson first with misakanet_get_lesson, then report the outcome here. "
+            "Side effect: writes to local usage log. Auth: none required."
+        ),
         "inputSchema": {
             "type": "object",
             "properties": {
-                "lesson_id": {"type": "string", "description": "ID of the lesson that helped"},
+                "lesson_id": {"type": "string", "description": "ID of the lesson that helped (e.g., auto-merge-ci-pipeline)"},
                 "tool": {"type": "string", "description": "Your tool name (e.g., claude-code, cursor, aider)"},
                 "outcome": {"type": "string", "description": "Outcome: solved, partial, not-helpful"},
             },
