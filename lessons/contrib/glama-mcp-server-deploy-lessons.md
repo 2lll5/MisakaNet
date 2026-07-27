@@ -81,6 +81,30 @@ Glama's build system:
 4. **Use `.venv/bin/python` in CMD** — not system `python`
 5. **Test locally first** — simulate the build before submitting to Glama
 
-## Key Takeaway
+## Failure 8: glama.json too complex
 
-Glama's build environment is different from standard Docker Python images. The `uv` toolchain requires explicit venv creation and package installation paths. Always verify the full build chain locally before submitting.
+**Symptom:** Glama shows "No glama.json" despite file existing in repo
+**Cause:** Glama only reads `$schema` and `maintainers` from glama.json. Complex tool definitions in glama.json are ignored — Glama discovers tools via MCP introspection, not glama.json.
+**Fix:** Simplify glama.json to minimal format:
+```json
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["username"]
+}
+```
+
+## Failure 9: Tools not showing after build
+
+**Symptom:** Build succeeds but Glama API shows `tools: []`
+**Cause:** Glama's introspection is async — build success ≠ introspection complete. Tools are discovered by running the MCP server and calling `tools/list`, not from glama.json.
+**Fix:**
+1. Wait for introspection to complete (may take minutes to hours)
+2. Sync Server to pick up latest commit
+3. Rebuild to trigger fresh introspection
+
+## Key Takeaways
+
+1. Glama's build environment is different from standard Docker Python images — `uv` toolchain requires explicit venv creation
+2. glama.json is minimal (maintainers only) — tool definitions come from MCP introspection
+3. Build success ≠ tools registered — introspection is a separate async step
+4. Always verify the full build chain locally before submitting
