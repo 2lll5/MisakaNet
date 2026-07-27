@@ -24,7 +24,8 @@ mcp-name: io.github.Ikalus1988/misakanet
 >
 > Hitting a common failure (empty search, DCO, Windows encoding)? See [Troubleshooting FAQ](docs/troubleshooting.md).
 >
-> Try it. If it fails, [send the friction back](docs/email-intake.md) — no GitHub account needed.
+> Try it. If it fails, send the friction back — no GitHub account needed.
+> Email: `bot@misakanet.org` · Docs: [Email Intake Guide](docs/email-intake.md)
 
 **Have a failing CI, DCO, pip, token, or agent issue?** [Search failure lessons](https://ikalus1988.github.io/MisakaNet/search/) before opening a PR.
 
