@@ -302,18 +302,22 @@ TOOLS = [
     {
         "name": "misakanet_search",
         "description": (
-            "Search MisakaNet failure lessons by query. Returns ranked results with title, domain, "
-            "relevance score, and match explanation. Use this for discovery when you have an error message "
-            "or topic but don't know the lesson ID. Read-only, no side effects, no auth required. "
-            "Returns JSON array of matches or empty array if nothing found. "
-            "Use misakanet_get_lesson to fetch full content of a specific result."
+            "Search MisakaNet's public failure-lesson index by error text, keyword, or topic. "
+            "Use when you need to discover relevant lessons and do not already know a lesson ID. "
+            "Input semantics: query is required; domain optionally filters by lesson domain; top limits "
+            "ranked results and defaults to 5. Output schema: JSON with results[] and source; each "
+            "result is a ranked lesson summary that may include path, title, domain/status, score/rank, "
+            "and match details depending on the active index. Error cases: missing query, unavailable "
+            "search index, or no matches (empty results). Side effects: none. Auth: none. Rate limits: "
+            "local stdio process only; callers should keep result counts small. Do not use for private "
+            "log collection; search only with redacted snippets. Use misakanet_get_lesson for full content."
         ),
         "inputSchema": {
             "type": "object",
             "properties": {
-                "query": {"type": "string", "description": "Search query — error message, keyword, or topic (e.g. 'pip install timeout', 'DCO sign-off failed')"},
-                "domain": {"type": "string", "description": "Optional domain filter (devops, python, network, feishu, rag, fanuc, etc.)"},
-                "top": {"type": "integer", "description": "Max results to return (default 5)"},
+                "query": {"type": "string", "description": "Required redacted error message, keyword, or topic (for example: 'pip install timeout' or 'DCO sign-off failed')."},
+                "domain": {"type": "string", "description": "Optional domain filter such as devops, python, network, feishu, rag, fanuc, or mcp."},
+                "top": {"type": "integer", "description": "Maximum ranked results to return. Defaults to 5; keep small for MCP context and latency."},
             },
             "required": ["query"],
         },
@@ -321,34 +325,40 @@ TOOLS = [
     {
         "name": "misakanet_get_lesson",
         "description": (
-            "Fetch a single lesson by path or lesson ID. Use this when you already know the lesson "
-            "from search results or a reference — not for discovery. Read-only, no side effects, "
-            "no auth required for public lessons. Returns lesson metadata (title, domain, tags) "
-            "and markdown content, or a not-found error if the lesson does not exist. "
-            "Use misakanet_search first if you only have a query."
+            "Fetch one public MisakaNet lesson by repository path or lesson ID. Use after "
+            "misakanet_search returns a promising result, or when a lesson is explicitly referenced; "
+            "do not use it for broad discovery. Input semantics: provide either path or id. Output "
+            "schema: JSON with path and markdown content, truncated to 5000 characters for MCP context. "
+            "Error cases: missing path/id or lesson not found. Side effects: none. Auth: none. Rate "
+            "limits: local stdio process only; fetch one lesson per call when possible. Do not send "
+            "private logs or prompts to this tool; it only reads repository lessons."
         ),
         "inputSchema": {
             "type": "object",
             "properties": {
-                "path": {"type": "string", "description": "Lesson path (e.g., lessons/core/auto-merge-ci-pipeline.md)"},
-                "id": {"type": "string", "description": "Lesson ID (filename without .md, e.g., auto-merge-ci-pipeline)"},
+                "path": {"type": "string", "description": "Lesson path relative to the repository, for example lessons/core/auto-merge-ci-pipeline.md."},
+                "id": {"type": "string", "description": "Lesson ID, usually the filename without .md, for example auto-merge-ci-pipeline."},
             },
         },
     },
     {
         "name": "misakanet_submit_usage",
         "description": (
-            "[Experimental] Report that a lesson was used to solve a problem. Currently logs locally only — "
-            "no data is sent externally. Use after a lesson helped you fix an issue. "
-            "Read the lesson first with misakanet_get_lesson, then report the outcome here. "
-            "Side effect: writes to local usage log. Auth: none required."
+            "[Experimental] Record that a public lesson helped with a problem. Use only after the "
+            "user or calling agent explicitly chooses to submit usage feedback for a specific lesson. "
+            "Input semantics: lesson_id is required; tool names the calling client; outcome should be "
+            "solved, partial, not-helpful, or another short status. Output schema: JSON with lesson_id, "
+            "tool, outcome, and status. Error cases: missing lesson_id. Side effects: currently returns "
+            "a local placeholder report only; it does not send data externally, open GitHub issues, or "
+            "publish lessons. Auth: none. Rate limits: local stdio process only; submit at most once per "
+            "resolved incident. Do not include raw logs, prompts, file contents, or secrets."
         ),
         "inputSchema": {
             "type": "object",
             "properties": {
-                "lesson_id": {"type": "string", "description": "ID of the lesson that helped (e.g., auto-merge-ci-pipeline)"},
-                "tool": {"type": "string", "description": "Your tool name (e.g., claude-code, cursor, aider)"},
-                "outcome": {"type": "string", "description": "Outcome: solved, partial, not-helpful"},
+                "lesson_id": {"type": "string", "description": "Required ID of the lesson that helped, for example auto-merge-ci-pipeline."},
+                "tool": {"type": "string", "description": "Calling tool or client name, for example claude-code, cursor, codex, or aider."},
+                "outcome": {"type": "string", "description": "Short result label such as solved, partial, or not-helpful."},
             },
             "required": ["lesson_id"],
         },
