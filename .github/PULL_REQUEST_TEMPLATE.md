@@ -19,7 +19,7 @@
 
 - [ ] My commit has `Signed-off-by:` (DCO required)
 - [ ] I have tested that the changes work correctly
-- [ ] lessons.json has been updated if lessons were added/modified
+- [ ] I have NOT modified generated files (data/lessons.json, docs/data/*, feeds) — maintainer will regenerate after merge
 
 ## Before submitting — check related lessons
 

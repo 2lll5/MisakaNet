@@ -168,9 +168,14 @@ jobs:
             const touchesWorkflow = names.some(n => n.startsWith('.github/workflows/'));
             const touchesCore = names.some(n => ['search_knowledge.py', 'misaka-protocol.json'].includes(n));
             const largeDeletion = files.some(f => f.deletions > 100);
+            const touchesGenerated = names.some(n =>
+              n.startsWith('data/') || n.startsWith('docs/data/') ||
+              n === 'lessons/_index.json' || n === 'lessons.json'
+            );
 
             if (touchesCore || largeDeletion) toAdd.push('risk:high');
             if (touchesWorkflow) toAdd.push('workflow-change');
+            if (touchesGenerated) toAdd.push('generated-file');
 
             // ── Gate 3: Shape (mutual exclusion, highest priority wins) ──
             const isGenerated = names.some(n => n.includes(' ---') || n.endsWith('---'));
