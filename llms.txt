@@ -1,7 +1,7 @@
 # MisakaNet — Agent Onboarding
 
 MisakaNet is a shared failure-memory network for developers and agents.
-Search 235+ verified debugging lessons before re-debugging known problems.
+Search 244 verified debugging lessons before re-debugging known problems.
 
 ## Quick Start
 
