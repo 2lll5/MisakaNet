@@ -11,7 +11,7 @@ mcp-name: io.github.Ikalus1988/misakanet
 <p align="center">
   <a href="https://github.com/Ikalus1988/MisakaNet/stargazers"><img src="https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social" alt="Stars"/></a>
   <a href="https://img.shields.io/badge/nodes-235+-green"><img src="https://img.shields.io/badge/nodes-235+-green?label=Nodes" alt="Nodes"/></a>
-  <a href="https://img.shields.io/badge/lessons-235+-blue"><img src="https://img.shields.io/badge/lessons-235+-blue?label=Lessons" alt="Lessons"/></a>
+  <a href="https://img.shields.io/badge/lessons-244-blue"><img src="https://img.shields.io/badge/lessons-244-blue?label=Lessons" alt="Lessons"/></a>
   <a href="https://glama.ai/mcp/servers"><img src="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badge" alt="MCP Server on Glama"/></a>
   <a href="https://mcptoplist.com/server/io.github.Ikalus1988%2Fmisakanet"><img src="https://mcptoplist.com/badge/io.github.Ikalus1988%2Fmisakanet.svg" alt="MCP Toplist"/></a>
   <a href="https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet" alt="License"/></a>
@@ -19,7 +19,7 @@ mcp-name: io.github.Ikalus1988/misakanet
 
 ---
 
-> **Give Cursor / Claude access to 235+ verified failure lessons.**
+> **Give Cursor / Claude access to 244 indexed failure lessons.**
 > Clone → paste MCP config → ask "Search MisakaNet for DCO sign-off failure".
 > [3-step MCP quickstart →](docs/mcp-quickstart.md)
 >
@@ -48,7 +48,7 @@ $ python3 search_knowledge.py "GitHub token 401"
             Fix: use conditional requests with ETag/Last-Modified headers.
 ```
 
-**Stuck on a failure?** Search 235+ verified fix lessons before opening a PR:
+**Stuck on a failure?** Search 244 indexed fix lessons before opening a PR:
 
 | Problem | Lesson |
 |---|---|
@@ -76,7 +76,7 @@ Didn't find a fix? [📮 Share your failure lesson →](https://github.com/Ikalu
 | **Best for** | DCO failures, GitHub token errors, pip timeout, Feishu API, WSL, FANUC |
 | **Not for** | Private memory storage, hosted vector database, general chatbot memory |
 | **License** | Apache 2.0 |
-| **Data** | 235 lessons, 235+ nodes, 18 domains |
+| **Data** | 244 lessons, 235+ nodes, 18 domains |
 
 ---
 
@@ -162,7 +162,7 @@ The MisakaNet ecosystem is built as a **layered defense & knowledge stack**:
 │  (npm, zero-config)          │  → feeds draft lesson pipeline     │
 ├──────────────────────────────────────────────────────────────────┤
 │  🧠 MisakaNet (this repo)    │  Swarm Knowledge Protocol (SKP)    │
-│  $ python3 search_know-      │  235+ lessons, BM25 + RRF          │
+│  $ python3 search_know-      │  244+ lessons, BM25 + RRF          │
 │     ledge.py "<error>"       │  git clone → search → contribute   │
 │  (zero-dep core engine)      │  Zero server, zero database        │
 ├──────────────────────────────────────────────────────────────────┤
@@ -335,7 +335,7 @@ python3 search_knowledge.py "pip install timeout"
 
 ### Live Search Demo
 
-See MisakaNet in action — search 235+ verified failure lessons:
+See MisakaNet in action — search 244 indexed failure lessons:
 
 ```bash
 python3 search_knowledge.py "pip timeout"
@@ -362,7 +362,7 @@ Output:
 
 ### Use in Cursor / Claude Desktop / Claude Code
 
-Give your AI assistant access to 235+ verified failure lessons via MCP:
+Give your AI assistant access to 244 indexed failure lessons via MCP:
 
 ```json
 {
@@ -423,7 +423,7 @@ python3 scripts/lesson_reuse_bench.py --compare         # with vs without lesson
 
 | Metric | Value |
 |--------|-------|
-| Shared Lessons | 235+ |
+| Shared Lessons | 244 |
 | Registered Nodes | 235+ |
 | Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
 | npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
