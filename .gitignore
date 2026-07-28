@@ -50,3 +50,7 @@ data/sag.db
 
 # Crawler flywheel metrics (local tracking)
 data/crawler_flywheel.jsonl
+
+# Hub runtime/generated artifacts (regenerable, not source-of-truth)
+hub/storage/audit.jsonl
+hub/storage/skill_index.json
