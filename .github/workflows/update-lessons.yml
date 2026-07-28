@@ -1,10 +1,9 @@
 name: Update lessons.json
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "lessons/**"
+  schedule:
+    - cron: "0 0 * * *"  # Daily at 08:00 Beijing time
+  workflow_dispatch:  # Manual trigger for release prep
 
 permissions:
   contents: read
