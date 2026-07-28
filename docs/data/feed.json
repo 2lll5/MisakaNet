@@ -1,9 +1,30 @@
 {
-  "generated_at": "2026-07-27T22:30:10.209984+00:00",
+  "generated_at": "2026-07-28T03:42:20.941808+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "feat: add VS Code extension for lesson search (fixes #317)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/618",
+      "timestamp": "2026-07-28T02:48:36Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(lessons): 4 fact-checked community lessons",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/620",
+      "timestamp": "2026-07-28T02:48:32Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "Build demand board: aggregate unsolved failure families into public task-family counts",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/612",
+      "timestamp": "2026-07-28T01:36:04Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "[Journey Report] Complete MisakaNet Onboarding Path & Friction Analysis (#510)",
@@ -34,50 +55,12 @@
       "source": "github"
     },
     {
-      "type": "merged_pr",
-      "title": "docs: update Glama lesson — add glama.json + introspection pitfalls",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/594",
-      "timestamp": "2026-07-27T01:57:04Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "Build demand board: aggregate unsolved failure families into public task-family counts",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/591",
-      "labels": [
-        "enhancement",
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:deep",
-        "status:needs-design",
-        "priority:next"
-      ],
-      "timestamp": "2026-07-26T16:51:21Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs: add Glama MCP server deployment lesson",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/590",
-      "timestamp": "2026-07-26T13:57:12Z",
-      "source": "github"
-    },
-    {
       "type": "lesson",
       "title": "Glama MCP Server Deployment — 7 Build Failures and Fixes",
       "url": "lessons/contrib/glama-mcp-server-deploy-lessons.md",
       "timestamp": "2026-07-26",
       "domain": "devops",
       "source": "lessons"
-    },
-    {
-      "type": "merged_pr",
-      "title": "chore(deps-dev): bump postcss from 8.5.15 to 8.5.23 in /web",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/586",
-      "timestamp": "2026-07-25T16:02:51Z",
-      "source": "github"
     },
     {
       "type": "challenge",
@@ -163,6 +146,23 @@
         "priority:later"
       ],
       "timestamp": "2026-07-09T07:03:41Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Ecosystem] Build Cursor integration for MisakaNet lessons",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/318",
+      "labels": [
+        "enhancement",
+        "Ring-3",
+        "bounty",
+        "agent-friendly",
+        "status:competition",
+        "pool:deep",
+        "status:needs-design",
+        "priority:later"
+      ],
+      "timestamp": "2026-07-02T16:01:30Z",
       "source": "github"
     }
   ]
