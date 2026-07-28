@@ -13,6 +13,7 @@ mcp-name: io.github.Ikalus1988/misakanet
   <a href="https://img.shields.io/badge/nodes-235+-green"><img src="https://img.shields.io/badge/nodes-235+-green?label=Nodes" alt="Nodes"/></a>
   <a href="https://img.shields.io/badge/lessons-235+-blue"><img src="https://img.shields.io/badge/lessons-235+-blue?label=Lessons" alt="Lessons"/></a>
   <a href="https://glama.ai/mcp/servers"><img src="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badge" alt="MCP Server on Glama"/></a>
+  <a href="https://mcptoplist.com/server/io.github.Ikalus1988%2Fmisakanet"><img src="https://mcptoplist.com/badge/io.github.Ikalus1988%2Fmisakanet.svg" alt="MCP Toplist"/></a>
   <a href="https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet" alt="License"/></a>
 </p>
 
