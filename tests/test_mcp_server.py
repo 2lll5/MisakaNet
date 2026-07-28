@@ -13,7 +13,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
-from scripts.mcp_server import handle_request
+from scripts.mcp_server import TOOLS, handle_request
 
 PASS = 0
 FAIL = 0
@@ -33,14 +33,14 @@ def check(name: str, condition: bool, detail: str = ""):
     global PASS, FAIL
     if condition:
         PASS += 1
-        print(f"  ✅ {name}")
+        print(f"  PASS {name}")
     else:
         FAIL += 1
-        print(f"  ❌ {name}{': ' + detail if detail else ''}")
+        print(f"  FAIL {name}{': ' + detail if detail else ''}")
 
 
 def test_initialize():
-    print("\n── initialize ──")
+    print("\n-- initialize --")
     resp = rpc("initialize")
     result = resp.get("result", {})
     check("has protocolVersion", "protocolVersion" in result)
@@ -49,7 +49,7 @@ def test_initialize():
 
 
 def test_tools_list():
-    print("\n── tools/list ──")
+    print("\n-- tools/list --")
     resp = rpc("tools/list")
     tools = resp.get("result", {}).get("tools", [])
     tool_names = {t["name"] for t in tools}
@@ -59,8 +59,24 @@ def test_tools_list():
     check("search requires query", "query" in tools[0]["inputSchema"]["required"])
 
 
+def test_tool_descriptions_are_agent_friendly():
+    print("\n-- tool descriptions --")
+    required_terms = [
+        "Input semantics",
+        "Output schema",
+        "Error cases",
+        "Side effects",
+        "Auth",
+        "Rate limits",
+    ]
+    for tool in TOOLS:
+        desc = tool.get("description", "")
+        missing = [term for term in required_terms if term not in desc]
+        check(f"{tool['name']} describes operating contract", not missing, f"missing: {missing}")
+
+
 def test_search():
-    print("\n── tools/call: misakanet_search ──")
+    print("\n-- tools/call: misakanet_search --")
     resp = rpc("tools/call", {
         "name": "misakanet_search",
         "arguments": {"query": "CI pipeline", "top": 3},
@@ -69,7 +85,7 @@ def test_search():
     result = json.loads(result_text)
 
     if "error" in result:
-        print(f"  ⚠️  Search unavailable: {result['error']}")
+        print(f"  WARN Search unavailable: {result['error']}")
         print("     (Run: python3 scripts/build_sag_index.py)")
         return
 
@@ -82,11 +98,11 @@ def test_search():
         check("result has score/rank", "score" in first or "rank" in first)
         check("no draft results", first.get("status") != "draft")
     else:
-        print("  ⚠️  No results returned (index may be empty)")
+        print("  WARN No results returned (index may be empty)")
 
 
 def test_get_lesson():
-    print("\n── tools/call: misakanet_get_lesson ──")
+    print("\n-- tools/call: misakanet_get_lesson --")
     # Find a real lesson file
     lessons_dir = REPO_ROOT / "lessons"
     sample = None
@@ -97,7 +113,7 @@ def test_get_lesson():
             break
 
     if not sample:
-        print("  ⚠️  No lesson files found, skipping")
+        print("  WARN No lesson files found, skipping")
         return
 
     lesson_id = sample.stem
@@ -114,7 +130,7 @@ def test_get_lesson():
 
 
 def test_submit_usage():
-    print("\n── tools/call: misakanet_submit_usage ──")
+    print("\n-- tools/call: misakanet_submit_usage --")
     resp = rpc("tools/call", {
         "name": "misakanet_submit_usage",
         "arguments": {"lesson_id": "test-lesson", "tool": "smoke-test", "outcome": "solved"},
@@ -126,7 +142,7 @@ def test_submit_usage():
 
 
 def test_unknown_tool():
-    print("\n── error handling ──")
+    print("\n-- error handling --")
     resp = rpc("tools/call", {
         "name": "nonexistent_tool",
         "arguments": {},
@@ -136,7 +152,7 @@ def test_unknown_tool():
 
 
 def test_no_drafts_in_search():
-    print("\n── search scope: no drafts ──")
+    print("\n-- search scope: no drafts --")
     resp = rpc("tools/call", {
         "name": "misakanet_search",
         "arguments": {"query": "draft test lesson", "top": 10},
@@ -145,7 +161,7 @@ def test_no_drafts_in_search():
     result = json.loads(result_text)
 
     if "error" in result:
-        print("  ⚠️  Search unavailable, skipping draft check")
+        print("  WARN Search unavailable, skipping draft check")
         return
 
     results = result.get("results", [])
@@ -154,9 +170,10 @@ def test_no_drafts_in_search():
 
 
 if __name__ == "__main__":
-    print("MisakaNet MCP Server — smoke test")
+    print("MisakaNet MCP Server smoke test")
     test_initialize()
     test_tools_list()
+    test_tool_descriptions_are_agent_friendly()
     test_search()
     test_get_lesson()
     test_submit_usage()
