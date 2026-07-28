@@ -26,6 +26,7 @@
 | 变量名 | 值 | 说明 |
 |--------|-----|------|
 | `REGISTER_TOKEN` | `github_pat_xxxxxxxx` | GitHub PAT，需 `contents:write` + `issues:write` |
+| `MAINTAINER_KEY` | 任意高强度随机字符串 | 可选，保护 `/api/insights/demand-map`（未设置时该端点返回 503） |
 
 ### 3. （可选）创建 KV Namespace
 
@@ -82,7 +83,24 @@ jobs:
 | GET | `/api/lessons` | 返回 lessons.json（JSON 数组） |
 | GET | `/api/lessons.json` | 同上，兼容 `.json` 后缀 |
 | GET | `/api/health` | 健康检查，返回 Token / KV 配置状态 |
+| GET | `/api/helpful?lesson_id=<id>` | 返回该 lesson 的 "helped me" 投票数 |
 | POST | `/` | 节点注册（IP 限流 1 次/30s） |
+
+### Insights endpoints (Issue #591)
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/api/insights/demand-board` | 公开、仅聚合的需求看板：按 task family 统计 7d/30d 未解决次数，不含原始查询/日志/个人信息 |
+| GET | `/api/insights/demand-map` | 维护者视图：按 `taskFamily` × `bucketDay` × `unsolvedReason` 展开的桶，需 `X-Maintainer-Key` 头匹配 `MAINTAINER_KEY` |
+
+两个端点都不依赖 `REGISTER_TOKEN`，只依赖 `MISAKANET_KV`（数据源）与可选的 `MAINTAINER_KEY`（保护 demand-map）。数据来自 `recordUnsolvedSignal()`，供 intake 端点（#589）与分类器（#575）在报告/反馈/MCP 搜索未命中时调用写入；在这两个上游合并之前，看板会返回 `available: true, summary: []`（KV 已配置但暂无数据）。
+
+### Testing
+
+```bash
+# Unit-test task-family normalization, bucketing, windowing, and the maintainer-key gate
+node --test workers/register-proxy.test.mjs
+```
 
 ## 限流说明
 

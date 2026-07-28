@@ -1,7 +1,8 @@
 // MisakaNet Register + Data Proxy — Cloudflare Worker
 // 部署方式: https://dash.cloudflare.com/ → Workers & Pages
 // 环境变量: REGISTER_TOKEN (GitHub PAT, 需 contents+issues write)
-// KV Namespace: MISAKANET_KV (可选，用于缓存数据代理响应)
+//          MAINTAINER_KEY (可选, 保护 /api/insights/demand-map)
+// KV Namespace: MISAKANET_KV (可选，用于缓存数据代理响应 + 需求看板聚合)
 
 const REPO = "Ikalus1988/MisakaNet";
 const GITHUB_API = "https://api.github.com";
@@ -43,6 +44,149 @@ function sanitizeIdentifier(val, maxLen) {
   if (!val) return "";
   if (val.length > maxLen) val = val.slice(0, maxLen);
   return val.replace(/[^\w\u4e00-\u9fa5\-]/g, "");
+}
+
+// -- Demand board (Issue #591) --
+// Aggregate-only view of repeatedly-unsolved failure families. Data is written by
+// recordUnsolvedSignal(), which the intake endpoint (#589) and classifier (#575)
+// call once a report/feedback/MCP-miss can't be matched to an existing lesson.
+const TASK_FAMILY_WHITELIST = [
+  "github-auth", "npm-publish", "cloudflare-worker", "mcp-registry",
+  "glama-release", "python-env", "database-lock", "crawler-block",
+  "agent-tooling", "unclassified",
+];
+const DEMAND_WINDOW_DAYS = 30;
+const DEMAND_KV_PREFIX = "demand:family:";
+const DEMAND_ACTION_URL = "https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml";
+const DEMAND_MAX_SOURCES_PER_BUCKET = 50;
+
+function normalizeTaskFamily(taskFamily) {
+  return TASK_FAMILY_WHITELIST.includes(taskFamily) ? taskFamily : "unclassified";
+}
+
+function isoDay(date = new Date()) {
+  return date.toISOString().slice(0, 10);
+}
+
+// Never store the raw source identifier -- only a truncated one-way hash, so
+// distinct-source counts stay possible without keeping anything re-identifiable.
+async function hashSourceId(sourceId) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(String(sourceId)));
+  return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, "0")).join("").slice(0, 16);
+}
+
+function timingSafeEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string" || a.length !== b.length || a.length === 0) return false;
+  let mismatch = 0;
+  for (let i = 0; i < a.length; i++) mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return mismatch === 0;
+}
+
+// Records one unsolved signal (no matching lesson / irrelevant / too_basic / MCP miss /
+// journey friction, ...) into a per-family KV bucket. Aggregate-only by construction:
+// callers must not pass raw query text, prompts, or personal identifiers as `reason`.
+async function recordUnsolvedSignal(env, { taskFamily, reason, sourceId, day } = {}) {
+  if (!env.MISAKANET_KV) return;
+  const family = normalizeTaskFamily(taskFamily);
+  const bucketDay = day || isoDay();
+  const reasonKey = String(reason || "unspecified").slice(0, 64);
+  const kvKey = `${DEMAND_KV_PREFIX}${family}`;
+
+  const stored = await env.MISAKANET_KV.get(kvKey, "json");
+  const record = stored && typeof stored === "object" ? stored : { days: {} };
+  record.days ||= {};
+
+  const cutoff = Date.now() - DEMAND_WINDOW_DAYS * 86_400_000;
+  for (const existingDay of Object.keys(record.days)) {
+    if (new Date(`${existingDay}T00:00:00Z`).getTime() < cutoff) delete record.days[existingDay];
+  }
+
+  const dayBucket = record.days[bucketDay] || (record.days[bucketDay] = { reasons: {} });
+  const reasonBucket = dayBucket.reasons[reasonKey] || (dayBucket.reasons[reasonKey] = { count: 0, sources: [] });
+  reasonBucket.count += 1;
+  if (sourceId) {
+    const hashed = await hashSourceId(sourceId);
+    if (reasonBucket.sources.length < DEMAND_MAX_SOURCES_PER_BUCKET && !reasonBucket.sources.includes(hashed)) {
+      reasonBucket.sources.push(hashed);
+    }
+  }
+
+  await env.MISAKANET_KV.put(kvKey, JSON.stringify(record));
+}
+
+function sumUnsolvedWindow(days, windowDays) {
+  const cutoff = Date.now() - windowDays * 86_400_000;
+  let total = 0;
+  let lastSeen = null;
+  for (const [day, bucket] of Object.entries(days || {})) {
+    const dayCount = Object.values(bucket.reasons || {}).reduce((sum, r) => sum + (r.count || 0), 0);
+    if (dayCount > 0 && (lastSeen === null || day > lastSeen)) lastSeen = day;
+    if (new Date(`${day}T00:00:00Z`).getTime() >= cutoff) total += dayCount;
+  }
+  return { total, lastSeen };
+}
+
+async function buildDemandBoardSummary(env) {
+  const summary = [];
+  for (const family of TASK_FAMILY_WHITELIST) {
+    const record = await env.MISAKANET_KV.get(`${DEMAND_KV_PREFIX}${family}`, "json");
+    if (!record || !record.days) continue;
+    const { total: unsolved30d, lastSeen } = sumUnsolvedWindow(record.days, DEMAND_WINDOW_DAYS);
+    if (unsolved30d <= 0) continue;
+    const { total: unsolved7d } = sumUnsolvedWindow(record.days, 7);
+    summary.push({ taskFamily: family, unsolved7d, unsolved30d, lastSeen, actionUrl: DEMAND_ACTION_URL });
+  }
+  summary.sort((a, b) => b.unsolved30d - a.unsolved30d);
+  return summary;
+}
+
+async function buildDemandMapBuckets(env) {
+  const buckets = [];
+  for (const family of TASK_FAMILY_WHITELIST) {
+    const record = await env.MISAKANET_KV.get(`${DEMAND_KV_PREFIX}${family}`, "json");
+    if (!record || !record.days) continue;
+    for (const [bucketDay, dayBucket] of Object.entries(record.days)) {
+      for (const [unsolvedReason, reasonBucket] of Object.entries(dayBucket.reasons || {})) {
+        buckets.push({
+          taskFamily: family,
+          bucketDay,
+          unsolvedReason,
+          unsolvedCount: reasonBucket.count || 0,
+          distinctSourceCount: (reasonBucket.sources || []).length,
+        });
+      }
+    }
+  }
+  buckets.sort((a, b) => (a.bucketDay === b.bucketDay ? 0 : a.bucketDay < b.bucketDay ? 1 : -1));
+  return buckets;
+}
+
+// GET /api/insights/demand-board -- public, aggregate-only. No raw query, prompt, log,
+// file path, or personal identifier may ever appear in this response.
+async function handleDemandBoard(env) {
+  const available = !!env.MISAKANET_KV;
+  return jsonResponse({
+    success: true,
+    available,
+    windowDays: DEMAND_WINDOW_DAYS,
+    summary: available ? await buildDemandBoardSummary(env) : [],
+    meta: { r_level: "R1_descriptive", privacy: "aggregate-only", raw_query: false, pii: false },
+  });
+}
+
+// GET /api/insights/demand-map -- maintainer-only bucket breakdown, gated on MAINTAINER_KEY.
+async function handleDemandMap(request, env) {
+  if (!env.MAINTAINER_KEY) {
+    return jsonResponse({ error: "Maintainer map not configured" }, 503);
+  }
+  const providedKey = request.headers.get("X-Maintainer-Key") || "";
+  if (!timingSafeEqual(providedKey, env.MAINTAINER_KEY)) {
+    return jsonResponse({ error: "Unauthorized" }, 401);
+  }
+  if (!env.MISAKANET_KV) {
+    return jsonResponse({ buckets: [] });
+  }
+  return jsonResponse({ buckets: await buildDemandMapBuckets(env) });
 }
 
 // ── 从 GitHub API (带 Token) 获取文件内容 ──
@@ -103,16 +247,24 @@ async function getWithCache(env, cacheKey, fetchFn) {
 }
 
 // ── API 路由处理 ──
-async function handleApiRequest(pathWithQuery, env) {
-  const token = env.REGISTER_TOKEN;
-  if (!token) {
-    return jsonResponse({ error: "REGISTER_TOKEN not configured on server" }, 500);
-  }
-
+async function handleApiRequest(pathWithQuery, env, request) {
   // 分离路径与查询参数
   const qIdx = pathWithQuery.indexOf("?");
   const pathname = qIdx >= 0 ? pathWithQuery.slice(0, qIdx) : pathWithQuery;
   const search = qIdx >= 0 ? pathWithQuery.slice(qIdx) : "";
+
+  // 需求看板端点不依赖 REGISTER_TOKEN（GitHub 代理专用），单独处理
+  if (pathname === "/api/insights/demand-board") {
+    return handleDemandBoard(env);
+  }
+  if (pathname === "/api/insights/demand-map") {
+    return handleDemandMap(request, env);
+  }
+
+  const token = env.REGISTER_TOKEN;
+  if (!token) {
+    return jsonResponse({ error: "REGISTER_TOKEN not configured on server" }, 500);
+  }
 
   switch (pathname) {
     case "/api/counter":
@@ -406,7 +558,7 @@ export default {
     // API 路由 (GET) — 传入完整 URL（含 query params）支持 GitHub API 代理
     if (request.method === "GET" && url.pathname.startsWith("/api/")) {
       try {
-        return await handleApiRequest(url.pathname + url.search, env);
+        return await handleApiRequest(url.pathname + url.search, env, request);
       } catch (err) {
         console.error("API error:", err.message);
         return jsonResponse({ error: err.message }, 502);
@@ -437,4 +589,18 @@ export default {
     // 轻量自 ping，不产生业务副作用
     console.log(`[Keep Warm] Cron fired at ${new Date().toISOString()}`);
   },
+};
+
+// Named exports for unit tests only (workers/register-proxy.test.mjs). This file has no
+// `import`s, so it still works when pasted directly into the dashboard editor per the
+// deploy instructions in workers/README.md — these exports are simply unused there.
+export {
+  TASK_FAMILY_WHITELIST,
+  normalizeTaskFamily,
+  timingSafeEqual,
+  recordUnsolvedSignal,
+  buildDemandBoardSummary,
+  buildDemandMapBuckets,
+  handleDemandBoard,
+  handleDemandMap,
 };
