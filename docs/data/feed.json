@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-07-28T14:45:27.012729+00:00",
+  "generated_at": "2026-07-28T16:54:10.652720+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "chore: clean stale generated/runtime artifacts",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/626",
+      "timestamp": "2026-07-28T16:47:07Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "feat: add VS Code extension for lesson search (fixes #317)",
@@ -23,13 +30,6 @@
       "title": "Build demand board: aggregate unsolved failure families into public task-family counts",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/612",
       "timestamp": "2026-07-28T01:36:04Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "[Journey Report] Complete MisakaNet Onboarding Path & Friction Analysis (#510)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/603",
-      "timestamp": "2026-07-27T15:54:46Z",
       "source": "github"
     },
     {
