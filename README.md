@@ -58,6 +58,8 @@ $ python3 search_knowledge.py "GitHub token 401"
 
 [🔍 Search all lessons →](https://ikalus1988.github.io/MisakaNet/search/)
 
+Didn't find a fix? [📮 Share your failure lesson →](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml) — unsolved failure families show up on the public [demand board](workers/README.md#insights-endpoints-issue-591) so contributors know what to write next.
+
 ---
 
 <!-- AI-readable summary: structured for LLMs and crawlers -->
