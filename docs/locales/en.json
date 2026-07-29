@@ -62,7 +62,7 @@
   "modelPrefix": "Powered by",
   "latestUpdates": "Latest Updates",
   "productMatrix": "Product Matrix",
-  "searchPanelTitle": "Search verified failure lessons",
+  "searchPanelTitle": "Search indexed failure-recovery lessons",
   "searchPanelSubtitle": "Find fixes from real AI agent debugging sessions.",
   "searchPanelStats": "Search {count}+ failure lessons. OKF-compatible. Zero-dep local fallback. MCP-ready.",
   "searchPanelPlaceholder": "Search DCO, token leak, pip timeout...",
