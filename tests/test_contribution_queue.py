@@ -59,6 +59,17 @@ class TestSubmit:
         result = submit_contribution(contrib_type="intake", message="")
         assert "error" in result
 
+    def test_quality_score_returned(self):
+        result = submit_contribution(
+            contrib_type="lesson",
+            title="Fix DCO sign-off failure",
+            problem="DCO check fails after squash merge because commit is not signed",
+            fix="Use git commit --amend --signoff to add Signed-off-by trailer",
+            verification="Run git log --show-signature to confirm",
+        )
+        assert result["quality_score"] >= 70
+        assert isinstance(result["quality_notes"], list)
+
 
 # ── Dedup ──
 

@@ -57,6 +57,58 @@ def _dedup_key(item: dict) -> str:
     return hashlib.sha256(text.lower().strip().encode()).hexdigest()[:16]
 
 
+QUALITY_THRESHOLD = 75
+
+
+def _quick_quality_check(item: dict) -> tuple[int, list[str]]:
+    """Quick text-based quality check on contribution content. Returns (score, notes)."""
+    score = 0
+    notes = []
+
+    # Has title (10 pts)
+    title = item.get("title", "")
+    if title and len(title) > 5:
+        score += 10
+    else:
+        notes.append("Missing or short title")
+
+    # Has problem description (20 pts)
+    problem = item.get("problem", "") or item.get("message", "")
+    if problem and len(problem) > 20:
+        score += 20
+    else:
+        notes.append("Missing or short problem description")
+
+    # Has root cause or fix (20 pts)
+    fix = item.get("fix", "") or item.get("root_cause", "")
+    if fix and len(fix) > 20:
+        score += 20
+    else:
+        notes.append("Missing or short fix/root_cause")
+
+    # Has verification (10 pts)
+    verification = item.get("verification", "")
+    if verification and len(verification) > 10:
+        score += 10
+    else:
+        notes.append("Missing verification")
+
+    # Content length bonus (10 pts)
+    total_text = " ".join(str(v) for v in item.values() if isinstance(v, str))
+    if len(total_text) > 200:
+        score += 10
+
+    # Structure bonus (10 pts)
+    has_sections = any(
+        item.get(f, "")
+        for f in ("problem", "root_cause", "fix", "verification")
+    )
+    if has_sections:
+        score += 10
+
+    return min(score, 100), notes
+
+
 def submit_contribution(
     contrib_type: str,
     user: str = "anonymous",
@@ -124,6 +176,11 @@ def submit_contribution(
         "review_history": [],
     }
 
+    # Quality check
+    quality_score, quality_notes = _quick_quality_check(item)
+    item["quality_score"] = quality_score
+    item["quality_notes"] = quality_notes
+
     queue.append(item)
     _save_queue(queue)
 
@@ -132,6 +189,8 @@ def submit_contribution(
         "id": item["id"],
         "status": "pending",
         "dedup_key": dk,
+        "quality_score": quality_score,
+        "quality_notes": quality_notes,
         "redactions_applied": redact_sum.get("total", 0),
     }
 
