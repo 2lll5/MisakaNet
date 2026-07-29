@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-07-29T16:41:47.791379+00:00",
+  "generated_at": "2026-07-29T19:49:25.285830+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
     {
       "type": "merged_pr",
-      "title": "feat: add maintainer review CLI with credit grants",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/650",
-      "timestamp": "2026-07-29T15:14:06Z",
+      "title": "docs: add Arabic failure-recovery lesson for PostgreSQL connection pool exhaustion (#658)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/669",
+      "timestamp": "2026-07-29T16:58:16Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat: add contribution queue with redaction and dedup",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/649",
-      "timestamp": "2026-07-29T15:12:37Z",
+      "title": "docs: add Portuguese lesson for GitHub automation without gh",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/661",
+      "timestamp": "2026-07-29T16:49:23Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat: add misakanet_usage_status MCP tool",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/648",
-      "timestamp": "2026-07-29T15:02:14Z",
+      "title": "[Bounty] Leccion en espanol: Error de DCO sign-off en Windows",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/662",
+      "timestamp": "2026-07-29T16:49:19Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat: add usage meter for v2.14 quota model",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/647",
-      "timestamp": "2026-07-29T15:01:55Z",
+      "title": "feat: add French lesson for Docker permission denied error (#655)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/663",
+      "timestamp": "2026-07-29T16:49:17Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat: wire /api/intake to redaction and demand board",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/645",
-      "timestamp": "2026-07-29T12:32:53Z",
+      "title": "feat: add German lesson for Python ModuleNotFoundError (#654)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/664",
+      "timestamp": "2026-07-29T16:49:13Z",
       "source": "github"
     },
     {
