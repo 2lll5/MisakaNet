@@ -23,7 +23,7 @@ Glama's build system:
 4. `--system` fails on Debian's externally-managed Python
 5. `uv pip install -e .` requires `pyproject.toml` in the current directory
 
-## 7 Build Failures and Fixes
+## 10 Build Failures and Fixes
 
 ### Failure 1: `pip: not found`
 **Error:** `/bin/sh: 1: pip: not found`
@@ -119,6 +119,32 @@ Glama's build system:
 [![Glama score](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg)](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/score)
 ```
 **Rule:** Use `[![alt](img-url)](link-url)` for all badges. Avoid wrapping in HTML `<p>`/`<a>`/`<img>` — Glama, GitHub, and PyPI all render standard Markdown badges correctly.
+
+## Solution
+
+The working Glama deployment requires:
+1. Use `uv` toolchain with explicit venv creation (`uv venv && . .venv/bin/activate`)
+2. Install packages via `uv pip install` (not pip)
+3. Use `./subdir` path for nested `pyproject.toml`
+4. Simplify `glama.json` to `$schema` + `maintainers` only
+5. Use Markdown badge syntax `[![alt](img)](link)` instead of HTML `<img>` tags
+
+## Verification
+
+Each failure was verified by:
+- Reading Glama build logs for exact error messages
+- Applying the fix and triggering a rebuild
+- Confirming the build passes and tools appear in Glama API after introspection completes
+
+## Notes
+
+- Glama's introspection is async — build success does not mean tools are immediately available
+- Glama's Docker environment uses `debian:trixie-slim` which is externally managed (PEP 668)
+- The `glama.json` file is only used for `$schema` and `maintainers` — tool definitions come from MCP introspection at runtime
+
+## References
+
+https://glama.ai/mcp/servers
 
 ## Key Takeaways
 
