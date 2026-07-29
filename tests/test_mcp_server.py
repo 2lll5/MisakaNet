@@ -169,6 +169,22 @@ def test_no_drafts_in_search():
     check("no drafts in results", draft_count == 0, f"found {draft_count} drafts")
 
 
+def test_usage_status():
+    print("\n-- tools/call: misakanet_usage_status --")
+    resp = rpc("tools/call", {
+        "name": "misakanet_usage_status",
+        "arguments": {"user": "anon:test-mcp"},
+    })
+    result_text = resp.get("result", {}).get("content", [{}])[0].get("text", "{}")
+    result = json.loads(result_text)
+    check("returns user", "user" in result)
+    check("returns free_reads_used", "free_reads_used" in result)
+    check("returns free_reads_limit", "free_reads_limit" in result)
+    check("returns free_reads_remaining", "free_reads_remaining" in result)
+    check("returns credits", "credits" in result)
+    check("returns is_registered", "is_registered" in result)
+
+
 if __name__ == "__main__":
     print("MisakaNet MCP Server smoke test")
     test_initialize()
@@ -179,6 +195,7 @@ if __name__ == "__main__":
     test_submit_usage()
     test_unknown_tool()
     test_no_drafts_in_search()
+    test_usage_status()
 
     print(f"\n{'=' * 40}")
     print(f"Results: {PASS} passed, {FAIL} failed")

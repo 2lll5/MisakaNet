@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """MisakaNet MCP Server — thin adapter for Claude Code, Cursor, Continue, etc.
 
-Exposes 3 tools:
+Exposes 4 tools:
   misakanet.search(query, domain?, top?)
   misakanet.get_lesson(path_or_id)
   misakanet.submit_usage(lesson_id, tool, outcome)
+  misakanet.usage_status(user?)
 
 Usage:
     # As MCP server (stdio transport)
@@ -110,6 +111,25 @@ def handle_submit_usage(args: dict) -> dict:
 
     # TODO: POST to /api/usage or create GitHub Issue
     return report
+
+
+def handle_usage_status(args: dict) -> dict:
+    """Show current usage status and remaining quota."""
+    try:
+        from scripts.usage_meter import get_status, hash_ip
+        user = args.get("user", "anon:mcp-default")
+        status = get_status(user)
+        return {
+            "user": status["user"],
+            "free_reads_used": status["free_reads_used"],
+            "free_reads_limit": status["free_reads_limit"],
+            "free_reads_remaining": status["free_reads_remaining"],
+            "credits": status["credits"],
+            "is_registered": status["is_registered"],
+            "next": "Use misakanet_submit_intake or misakanet_contribute_lesson to request more credits."
+        }
+    except Exception as e:
+        return {"error": str(e), "user": "unknown", "free_reads_remaining": -1}
 
 
 # ── MCP Resources ──
@@ -363,6 +383,22 @@ TOOLS = [
             "required": ["lesson_id"],
         },
     },
+    {
+        "name": "misakanet_usage_status",
+        "description": (
+            "Check current usage status and remaining quota. Use to see how many free lesson reads "
+            "remain and how many credits are available. Input semantics: user is optional (defaults to "
+            "anonymous). Output schema: JSON with user, free_reads_used, free_reads_limit, "
+            "free_reads_remaining, credits, is_registered, and next steps. Error cases: none. Side "
+            "effects: none. Auth: none. Rate limits: none."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "user": {"type": "string", "description": "Optional user identifier (e.g. 'anon:iphash' or 'token:xxx'). Defaults to 'anon:mcp-default'."},
+            },
+        },
+    },
 ]
 
 
@@ -405,6 +441,7 @@ def handle_request(request: dict) -> dict:
             "misakanet_search": handle_search,
             "misakanet_get_lesson": handle_get_lesson,
             "misakanet_submit_usage": handle_submit_usage,
+            "misakanet_usage_status": handle_usage_status,
         }
 
         handler = handlers.get(tool_name)
