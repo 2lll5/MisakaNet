@@ -8,15 +8,13 @@ mcp-name: io.github.Ikalus1988/misakanet
   <img src="promotional/og-card.png" width="720" alt="MisakaNet — SKP Reference Implementation"/>
 </p>
 
-<p align="center">
-  <a href="https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml"><img src="https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml/badge.svg" alt="CI"/></a>
-  <a href="https://pypi.org/project/misakanet-core/"><img src="https://img.shields.io/pypi/v/misakanet-core" alt="PyPI"/></a>
-  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10+-blue" alt="Python"/></a>
-  <a href="https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet" alt="License"/></a>
-  <a href="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet"><img src="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg" alt="Glama score"/></a>
-  <a href="https://github.com/Ikalus1988/MisakaNet/stargazers"><img src="https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social" alt="Stars"/></a>
-  <a href="https://mcptoplist.com/server/io.github.Ikalus1988%2Fmisakanet"><img src="https://mcptoplist.com/badge/io.github.Ikalus1988%2Fmisakanet.svg" alt="MCP Toplist: Top 1% of 81,852"/></a>
-</p>
+[![CI](https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml/badge.svg)](https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml)
+[![PyPI](https://img.shields.io/pypi/v/misakanet-core)](https://pypi.org/project/misakanet-core/)
+[![Python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet)](https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE)
+[![Glama score](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg)](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/score)
+[![Stars](https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social)](https://github.com/Ikalus1988/MisakaNet/stargazers)
+[![MCP Toplist: Top 1% of 81,852](https://mcptoplist.com/badge/io.github.Ikalus1988%2Fmisakanet.svg)](https://mcptoplist.com/server/io.github.Ikalus1988%2Fmisakanet)
 
 ---
 
