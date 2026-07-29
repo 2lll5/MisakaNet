@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Ikalus1988/misakanet",
-  "description": "Agent failure memory network. Search 235+ verified debugging lessons from real engineering sessions.",
+  "description": "Agent failure memory network. Search 249 indexed failure-recovery lessons and route redacted feedback intake for maintainers.",
   "repository": {
     "url": "https://github.com/Ikalus1988/MisakaNet",
     "source": "github"
   },
-  "version": "2.12.2",
+  "version": "2.13.0",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "misakanet",
-      "version": "2.12.2",
+      "version": "2.13.0",
       "transport": {
         "type": "stdio"
       },

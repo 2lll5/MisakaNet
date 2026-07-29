@@ -5,7 +5,7 @@
 This directory contains an early private-LAN MisakaNet Hub prototype, designed for local knowledge reuse without relying on the public web.
 
 **Current recommended usage:**
-- [Lesson search](https://ikalus1988.github.io/MisakaNet/search/) — search 235+ failure lessons
+- [Lesson search](https://ikalus1988.github.io/MisakaNet/search/) — search 249 indexed failure-recovery lessons
 - [MCP server](../docs/mcp-quickstart.md) — integrate lessons into your AI agent
 - [Cloudflare Workers](../workers/) — bot@misakanet.org email intake, helpful votes
 - [GitHub workflow](../CONTRIBUTING.md) — contribute lessons via PR

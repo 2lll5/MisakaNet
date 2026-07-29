@@ -18,7 +18,7 @@ mcp-name: io.github.Ikalus1988/misakanet
 
 ---
 
-> **Give Cursor / Claude access to 244 indexed failure lessons.**
+> **Give Cursor / Claude access to 249 indexed failure-recovery lessons.**
 > Clone → paste MCP config → ask "Search MisakaNet for DCO sign-off failure".
 > [3-step MCP quickstart →](docs/mcp-quickstart.md)
 >
@@ -47,7 +47,7 @@ $ python3 search_knowledge.py "GitHub token 401"
             Fix: use conditional requests with ETag/Last-Modified headers.
 ```
 
-**Stuck on a failure?** Search 244 indexed fix lessons before opening a PR:
+**Stuck on a failure?** Search 249 indexed failure-recovery lessons before opening a PR:
 
 | Problem | Lesson |
 |---|---|
@@ -75,7 +75,7 @@ Didn't find a fix? [📮 Share your failure lesson →](https://github.com/Ikalu
 | **Best for** | DCO failures, GitHub token errors, pip timeout, Feishu API, WSL, FANUC |
 | **Not for** | Private memory storage, hosted vector database, general chatbot memory |
 | **License** | Apache 2.0 |
-| **Data** | 244 lessons, 235+ nodes, 18 domains |
+| **Data** | 249 lessons, 235+ nodes, 18 domains |
 
 ---
 
@@ -161,7 +161,7 @@ The MisakaNet ecosystem is built as a **layered defense & knowledge stack**:
 │  (npm, zero-config)          │  → feeds draft lesson pipeline     │
 ├──────────────────────────────────────────────────────────────────┤
 │  🧠 MisakaNet (this repo)    │  Swarm Knowledge Protocol (SKP)    │
-│  $ python3 search_know-      │  244+ lessons, BM25 + RRF          │
+│  $ python3 search_know-      │  249+ lessons, BM25 + RRF          │
 │     ledge.py "<error>"       │  git clone → search → contribute   │
 │  (zero-dep core engine)      │  Zero server, zero database        │
 ├──────────────────────────────────────────────────────────────────┤
@@ -334,7 +334,7 @@ python3 search_knowledge.py "pip install timeout"
 
 ### Live Search Demo
 
-See MisakaNet in action — search 244 indexed failure lessons:
+See MisakaNet in action — search 249 indexed failure-recovery lessons:
 
 ```bash
 python3 search_knowledge.py "pip timeout"
@@ -361,7 +361,7 @@ Output:
 
 ### Use in Cursor / Claude Desktop / Claude Code
 
-Give your AI assistant access to 244 indexed failure lessons via MCP:
+Give your AI assistant access to 249 indexed failure-recovery lessons via MCP:
 
 ```json
 {
@@ -422,7 +422,7 @@ python3 scripts/lesson_reuse_bench.py --compare         # with vs without lesson
 
 | Metric | Value |
 |--------|-------|
-| Shared Lessons | 244 |
+| Shared Lessons | 249 |
 | Registered Nodes | 235+ |
 | Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
 | npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
