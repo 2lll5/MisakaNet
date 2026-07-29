@@ -109,6 +109,33 @@ class TestCredits:
         status = get_status("anon:test")
         assert status["credits"] == 25
 
+    def test_credits_actually_consumed(self):
+        """grant 2 credits -> consume 2 credit reads -> third read quota_exceeded."""
+        user = "anon:credit-consume-test"
+        # Exhaust free reads
+        for i in range(FREE_READ_LIMIT):
+            record_read(user, f"free-{i}")
+        # Grant 2 credits
+        grant_credits(user, 2, "test")
+        # First credit read: allowed
+        result = check_lesson(user, "credit-1")
+        assert result["allowed"] is True
+        assert result["reason"] == "credit"
+        record_read(user, "credit-1")
+        # Second credit read: allowed
+        result = check_lesson(user, "credit-2")
+        assert result["allowed"] is True
+        record_read(user, "credit-2")
+        # Third credit read: quota exceeded (credits exhausted)
+        result = check_lesson(user, "credit-3")
+        assert result["allowed"] is False
+        assert result["reason"] == "quota_exceeded"
+
+    def test_grant_total_not_double_counted(self):
+        """grant 20 credits -> credits_total == 20, not 40."""
+        result = grant_credits("anon:double-test", 20, "test")
+        assert result["credits_total"] == 20
+
 
 # ── Registered vs anonymous ──
 
