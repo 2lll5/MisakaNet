@@ -14,8 +14,11 @@ MisakaNet should stay offline-first and Git-backed. External listings are useful
 
 ## Current baseline
 
-- Release/distribution: PyPI `misakanet 2.12.2`, GitHub release `v2.12.2`,
-  MCP Registry published, Glama indexed/scored, MCP Toplist badge live.
+- Release/distribution: PyPI `misakanet 2.14.0`, GitHub release `v2.14.0`,
+  Glama indexed/scored, MCP Toplist badge live.
+- **v2.14.0 done** (2026-07-29): contribution credits, usage quota, capture CLI,
+  contribution queue, maintainer review, runtime entry (Cursor/Claude Code), trust semantics.
+- Test suite: 432 passed, 10 pre-existing failures (unrelated to v2.14.0).
 - Public site is online: homepage, `/search/`, journey page, Worker APIs, and
   lesson data endpoints are healthy.
 - Corpus wording baseline: **244 indexed failure lessons**; avoid claiming
