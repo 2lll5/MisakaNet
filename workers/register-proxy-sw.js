@@ -325,6 +325,43 @@ export default {
       return jsonResponse({ accepted: true, intake_id: intakeId, consent: record.consent });
     }
 
+    // GET /api/insights/demand-board — public aggregate view of intake clusters
+    if (request.method === "GET" && url.pathname === "/api/insights/demand-board") {
+      if (!env.MISAKANET_KV) return jsonResponse({ success: true, available: false, summary: [] });
+
+      const DEMAND_PREFIX = "demand:family:";
+      const WINDOW_DAYS = 30;
+      const cutoff = Date.now() - WINDOW_DAYS * 86_400_000;
+      const summary = [];
+
+      const families = [
+        "github-auth", "npm-publish", "cloudflare-worker", "mcp-registry",
+        "glama-release", "python-env", "database-lock", "crawler-block",
+        "agent-tooling", "lesson-feedback", "bug-report", "unclassified",
+      ];
+
+      for (const family of families) {
+        const record = await env.MISAKANET_KV.get(`${DEMAND_PREFIX}${family}`, "json");
+        if (!record || !record.days) continue;
+
+        let total30d = 0, total7d = 0, lastSeen = null;
+        for (const [day, bucket] of Object.entries(record.days)) {
+          const dayTime = new Date(`${day}T00:00:00Z`).getTime();
+          const dayCount = Object.values(bucket.reasons || {}).reduce((s, r) => s + (r.count || 0), 0);
+          if (dayTime >= cutoff) total30d += dayCount;
+          if (dayTime >= Date.now() - 7 * 86_400_000) total7d += dayCount;
+          if (dayCount > 0 && (!lastSeen || day > lastSeen)) lastSeen = day;
+        }
+
+        if (total30d > 0) {
+          summary.push({ taskFamily: family, unsolved7d: total7d, unsolved30d: total30d, lastSeen });
+        }
+      }
+
+      summary.sort((a, b) => b.unsolved30d - a.unsolved30d);
+      return jsonResponse({ success: true, available: true, windowDays: WINDOW_DAYS, summary });
+    }
+
     // GET /api/github/* - authenticated GitHub API proxy for the org frontend.
     // Keep this before the HTML landing page; otherwise the frontend receives
     // HTML and fails with: Unexpected token '<' while parsing JSON.
