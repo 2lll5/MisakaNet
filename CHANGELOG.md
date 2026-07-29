@@ -7,6 +7,47 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## v2.13.0 — 2026-07-29
+
+### Highlights
+
+- **Feedback intake loop**: `POST /api/intake` — private, redacted feedback submission from curl, MCP, agents, or sandbox environments. No GitHub account or browser session required.
+- **Secret redaction**: All intake payloads are redacted before persistence. API keys, GitHub tokens, Slack tokens, AWS keys, PEM private keys, credit cards, credentials in URLs, and environment dumps are stripped. `scripts/intake_redact.py` provides reusable redaction module.
+- **Intake classifier**: `scripts/intake_classify.py` — routes intake entries to `lesson`, `bug`, `rescue`, or `noise` categories. Constrained output: no crashes on malformed input.
+- **Demand board**: `scripts/demand_board.py` — tracks intake clusters with states (new → reviewed → routed | rejected). Maintainer override with full history trail. Task family whitelist aligned with Worker endpoints.
+- **17 new community lessons**: Tailscale migration, Ghostty memory leak, K8s CrashLoopBackOff, Ruby memory debugging, MCP context mode, ML-DSA cryptography debugging, TypeScript tsconfig trap, agent reward hacking, and more (heartbeat v5/v6/v7).
+- **Roadmap**: 3-month roadmap (v2.13 → v2.15) with milestone requirements. RFC evaluation, lesson pipeline blog post.
+- **Glama badges**: Standard Markdown badge format for cross-platform rendering.
+
+### New files
+
+| File | Purpose |
+|------|---------|
+| `scripts/intake_redact.py` | Secret redaction module (API keys, tokens, PEM, AWS, credit cards, env dumps) |
+| `scripts/intake_classify.py` | Intake classifier — routes to demand board |
+| `scripts/demand_board.py` | Demand board data model + CLI (record, list, override, summary) |
+| `tests/test_intake_redaction.py` | 30 tests: empty body, oversized, secrets, env dumps, e2e |
+| `tests/test_demand_board_model.py` | 24 tests: states, override, aggregation, persistence |
+| `tests/test_intake_classify.py` | 17 tests: constrained output, malformed input safety |
+| `docs/rfc-280-90-day-roadmap.md` | 90-day roadmap RFC evaluation |
+| `docs/blog/2026-07-29-lesson-pipeline-from-curation-to-automation.md` | Lesson pipeline blog post |
+
+### Worker changes
+
+- `workers/register-proxy-sw.js` — new `POST /api/intake` endpoint with secret redaction, IP rate limiting (10/hour), body size limit (8KB), field whitelist validation, and demand signal recording.
+
+### Data
+
+- 380+ lessons, 10+ active contributors, MCP server functional
+
+### Non-blocking items (deferred)
+
+- `--feedback` flag (#622) — DCO blocked
+- Smithery, Registry bump, GitHub /mcp — deferred to v2.15
+- Auto-publish, auto-issue, auto-PR — out of scope
+
+---
+
 ## v2.11.0 — 2026-07-14
 
 ### Highlights
