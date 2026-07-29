@@ -95,6 +95,39 @@ class TestSummary:
         assert summary["rejected"] == 0
 
 
+# ── Convert ──
+
+class TestConvert:
+    def test_convert_to_draft(self, tmp_path):
+        from scripts.contribution_review import convert_to_draft
+        from unittest.mock import patch as mock_patch
+
+        result = submit_contribution(
+            contrib_type="lesson",
+            title="Fix DCO sign-off failure",
+            problem="DCO check fails after squash merge",
+            fix="Use git commit --amend --signoff",
+        )
+
+        drafts_dir = tmp_path / "lessons" / "drafts"
+        with mock_patch("scripts.contribution_review.REPO_ROOT", tmp_path):
+            converted = convert_to_draft(result["id"], "lesson", "devops")
+            assert converted["converted"] is True
+            assert "drafts" in converted["draft_path"]
+
+            # Check draft file exists and has content
+            draft_file = tmp_path / converted["draft_path"]
+            assert draft_file.exists()
+            content = draft_file.read_text()
+            assert "Fix DCO sign-off failure" in content
+            assert "DCO check fails" in content
+
+    def test_convert_nonexistent(self):
+        from scripts.contribution_review import convert_to_draft
+        result = convert_to_draft("contrib_nonexistent")
+        assert "error" in result
+
+
 # ── End-to-end: submit -> accept -> credits consumed ──
 
 class TestE2E:

@@ -19,6 +19,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from scripts.contribution_queue import get_contribution, list_contributions, update_status
 from scripts.usage_meter import grant_credits
 
+REPO_ROOT = Path(__file__).resolve().parent.parent
+
 CREDIT_REWARDS = {
     "intake": 5,       # accepted intake report
     "lesson": 20,      # accepted lesson draft
@@ -74,6 +76,80 @@ def reject_contribution(contrib_id: str, reason: str = "", reviewer: str = "main
     }
 
 
+def convert_to_draft(contrib_id: str, draft_type: str = "lesson", domain: str = "general") -> dict:
+    """Convert a contribution to a lesson draft file."""
+    contrib = get_contribution(contrib_id)
+    if not contrib:
+        return {"error": f"Not found: {contrib_id}"}
+
+    if contrib["status"] not in ("pending", "accepted"):
+        return {"error": f"Cannot convert: status is '{contrib['status']}'"}
+
+    from datetime import datetime, timezone
+    import re
+
+    now = datetime.now(timezone.utc)
+    title = contrib.get("title", "") or contrib.get("message", "")[:60]
+    slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')[:40] or contrib_id
+
+    # Build draft content
+    problem = contrib.get("problem", "") or contrib.get("message", "")
+    root_cause = contrib.get("root_cause", "")
+    fix = contrib.get("fix", "")
+    verification = contrib.get("verification", "")
+    source = contrib.get("source", "")
+
+    draft_content = f"""---
+title: "{title}"
+domain: "{domain}"
+tags: [contributed, {draft_type}]
+language: en
+status: draft
+source: "{source}"
+contrib_id: "{contrib_id}"
+created: "{now.strftime('%Y-%m-%d')}"
+confidence: 0.70
+---
+
+## Problem
+
+{problem}
+
+## Root Cause
+
+{root_cause if root_cause else '_Not specified in contribution._'}
+
+## Solution
+
+{fix if fix else '_Not specified in contribution._'}
+
+## Verification
+
+{verification if verification else '_Not specified in contribution._'}
+
+## Redaction Note
+
+This draft was auto-generated from a redacted contribution ({contrib_id}).
+Review before publishing. Original contribution had {contrib.get('redaction_summary', {}).get('total', 0)} redactions applied.
+"""
+
+    # Write draft
+    drafts_dir = REPO_ROOT / "lessons" / "drafts"
+    drafts_dir.mkdir(parents=True, exist_ok=True)
+    draft_path = drafts_dir / f"{slug}.md"
+    draft_path.write_text(draft_content, encoding="utf-8")
+
+    # Update status
+    update_status(contrib_id, "converted", note=f"Draft: {draft_path.name}")
+
+    return {
+        "converted": True,
+        "id": contrib_id,
+        "draft_path": str(draft_path.relative_to(REPO_ROOT)),
+        "draft_type": draft_type,
+    }
+
+
 def show_review_summary() -> dict:
     """Show summary of pending contributions for review."""
     pending = list_contributions(status="pending")
@@ -120,6 +196,12 @@ def main():
     # summary
     sub.add_parser("summary", help="Show review summary")
 
+    # convert
+    p_convert = sub.add_parser("convert", help="Convert contribution to lesson draft")
+    p_convert.add_argument("id")
+    p_convert.add_argument("--type", default="lesson", choices=["lesson", "rescue"])
+    p_convert.add_argument("--domain", default="general")
+
     args = parser.parse_args()
 
     if args.cmd == "list":
@@ -163,6 +245,14 @@ def main():
         print(f"  Rejected: {result['id']}")
         if result["reason"]:
             print(f"  Reason: {result['reason']}")
+
+    elif args.cmd == "convert":
+        result = convert_to_draft(args.id, args.type, args.domain)
+        if "error" in result:
+            print(f"  Error: {result['error']}", file=sys.stderr)
+            sys.exit(1)
+        print(f"  Converted: {result['id']}")
+        print(f"  Draft: {result['draft_path']}")
 
     elif args.cmd == "summary":
         summary = show_review_summary()
