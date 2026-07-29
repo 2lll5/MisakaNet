@@ -243,6 +243,88 @@ export default {
       return jsonResponse({ accepted: accepted.length });
     }
 
+    // POST /api/intake — general-purpose intake for MCP, agents, sandbox (#589)
+    // Redacts secrets before persistence. Records demand signals for unmatched items.
+    if (request.method === "POST" && url.pathname === "/api/intake") {
+      if (!env.MISAKANET_KV) return jsonResponse({ error: "KV not configured" }, 503);
+
+      // Max body 8KB
+      const contentLength = parseInt(request.headers.get("content-length") || "0");
+      if (contentLength > 8192) return jsonResponse({ error: "Request too large (max 8KB)" }, 413);
+
+      // IP rate limit: 10 per hour
+      const intakeIp = request.headers.get("CF-Connecting-IP") || "unknown";
+      const intakeRateKey = `rate:intake:${intakeIp}`;
+      const intakeRateRaw = await env.MISAKANET_KV.get(intakeRateKey, "text");
+      const intakeRateCount = intakeRateRaw ? parseInt(intakeRateRaw, 10) || 0 : 0;
+      if (intakeRateCount >= 10) return jsonResponse({ error: "Rate limited (10/hour). Try again later." }, 429);
+      await env.MISAKANET_KV.put(intakeRateKey, String(intakeRateCount + 1), { expirationTtl: 3600 });
+
+      let intakeBody;
+      try { intakeBody = await request.json(); } catch { return jsonResponse({ error: "Invalid JSON" }, 400); }
+
+      // Field whitelist + validation
+      const VALID_TYPES = ["diagnostic", "lesson_candidate", "friction", "bug", "node_join"];
+      const VALID_SOURCES = ["mcp", "curl", "frontend", "agent"];
+      const VALID_CONSENT = ["private_only", "allow_anonymous_publish"];
+
+      const { type, source, message, context, lesson_id, contact, consent, ts } = intakeBody || {};
+      if (!type || !VALID_TYPES.includes(type)) return jsonResponse({ error: "Invalid or missing 'type'. Must be one of: " + VALID_TYPES.join(", ") }, 400);
+      if (!source || !VALID_SOURCES.includes(source)) return jsonResponse({ error: "Invalid or missing 'source'. Must be one of: " + VALID_SOURCES.join(", ") }, 400);
+      if (!message || typeof message !== "string" || !message.trim()) return jsonResponse({ error: "Missing 'message'" }, 400);
+
+      // Secret redaction (inline — mirrors scripts/intake_redact.py patterns)
+      const REDACT_PATTERNS = [
+        [/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----[\s\S]*?-----END(?: RSA | EC | OPENSSH )?PRIVATE KEY-----/gi, "[REDACTED:private_key]"],
+        [/(?:ghp|gho|ghu|ghs|ghr|github_pat)_[a-zA-Z0-9]{10,}/g, "[REDACTED:github_token]"],
+        [/xox[bpras]-[a-zA-Z0-9\-]{10,}/g, "[REDACTED:slack_token]"],
+        [/(?:AKIA|ABIA|ACCA|ASIA)[A-Z0-9]{16}/g, "[REDACTED:aws_key]"],
+        [/(?:sk|pk|rk|ak)[_-][a-zA-Z0-9]{10,}/g, "[REDACTED:api_key]"],
+        [/(?:Bearer|Authorization)\s+[a-zA-Z0-9\-._~+/]+=*/gi, "[REDACTED:bearer_token]"],
+        [/(?:password|passwd|secret|token|api[_-]?key|apikey|database[_-]?url)\s*[:=]\s*\S+/gi, "[REDACTED:credential]"],
+        [/:[^:]+:[^@]+@[^\s]+/g, "://[REDACTED:url_credential]@host"],
+        [/\b(?:\d[ -]*?){13,19}\b/g, "[REDACTED:card_number]"],
+      ];
+      function redactSecrets(text) {
+        let result = String(text).slice(0, 2000);
+        for (const [pat, repl] of REDACT_PATTERNS) result = result.replace(pat, repl);
+        return result;
+      }
+
+      const intakeId = crypto.randomUUID();
+      const record = {
+        intakeId,
+        type,
+        source,
+        message: redactSecrets(message),
+        context: context ? JSON.parse(redactSecrets(JSON.stringify(context)).slice(0, 1000)) : {},
+        lesson_id: lesson_id ? String(lesson_id).slice(0, 200) : null,
+        contact: contact ? String(contact).slice(0, 200) : null,
+        consent: VALID_CONSENT.includes(consent) ? consent : "private_only",
+        ts: ts || new Date().toISOString(),
+        received_at: new Date().toISOString(),
+      };
+
+      // Store intake record
+      await env.MISAKANET_KV.put(`intake:${intakeId}`, JSON.stringify(record), { expirationTtl: 7776000 });
+
+      // Record demand signal for the task family (maps type to family)
+      const FAMILY_MAP = { diagnostic: "unclassified", lesson_candidate: "lesson-feedback", friction: "unclassified", bug: "bug-report", node_join: "unclassified" };
+      const family = FAMILY_MAP[type] || "unclassified";
+      const demandKey = `demand:family:${family}`;
+      const demandRaw = await env.MISAKANET_KV.get(demandKey, "json");
+      const demand = demandRaw && typeof demandRaw === "object" ? demandRaw : { days: {} };
+      const day = new Date().toISOString().slice(0, 10);
+      demand.days[day] = demand.days[day] || { reasons: {}, count: 0 };
+      demand.days[day].count++;
+      const reasonKey = String(message).slice(0, 64);
+      demand.days[day].reasons[reasonKey] = (demand.days[day].reasons[reasonKey] || 0) + 1;
+      await env.MISAKANET_KV.put(demandKey, JSON.stringify(demand), { expirationTtl: 2592000 });
+
+      console.log(`Intake ${intakeId}: type=${type} source=${source} family=${family}`);
+      return jsonResponse({ accepted: true, intake_id: intakeId, consent: record.consent });
+    }
+
     // GET /api/github/* - authenticated GitHub API proxy for the org frontend.
     // Keep this before the HTML landing page; otherwise the frontend receives
     // HTML and fails with: Unexpected token '<' while parsing JSON.
