@@ -433,6 +433,47 @@ def _smart_fallback(query: str, docs: list):
     print()
 
 
+def _collect_feedback(query: str, result_ids: list) -> None:
+    """Prompt user for feedback and submit to contribution queue."""
+    import datetime
+
+    print()
+    try:
+        answer = input("  Was this helpful? (y/n/comment): ").strip()
+    except (EOFError, KeyboardInterrupt):
+        print()
+        return
+
+    if not answer:
+        return
+
+    # Normalize
+    if answer.lower() in ("y", "yes"):
+        feedback = "helpful"
+    elif answer.lower() in ("n", "no"):
+        feedback = "not_helpful"
+    else:
+        feedback = answer[:200]
+
+    # Submit to contribution queue
+    try:
+        from scripts.contribution_queue import submit_contribution
+        result = submit_contribution(
+            contrib_type="intake",
+            user="search-feedback",
+            message=f"Search feedback for '{query}': {feedback}",
+            source="search-cli",
+        )
+        if result.get("submitted"):
+            print(f"  ✅ Feedback logged. Thank you!")
+        elif result.get("error") == "duplicate":
+            print(f"  ℹ️  Similar feedback already logged.")
+        else:
+            print(f"  ⚠️  Could not log feedback: {result.get('error', 'unknown')}")
+    except Exception as e:
+        print(f"  ⚠️  Could not log feedback: {e}", file=sys.stderr)
+
+
 def main():
     _ensure_utf8_stdout()
     args = sys.argv[1:]
@@ -553,6 +594,7 @@ def main():
     verbose = False
     agent_mode = False
     strict = False
+    use_feedback = False
     env_filter: Optional[str] = None
     lang: Optional[str] = None
     domain: Optional[str] = None
@@ -609,6 +651,8 @@ def main():
             agent_mode = True
         elif arg == "--strict":
             strict = True
+        elif arg == "--feedback":
+            use_feedback = True
         elif arg.startswith("--env="):
             env_filter = arg.split("=", 1)[1].lower()
         elif arg == "--env" and i + 1 < len(search_args):
@@ -789,6 +833,8 @@ def main():
     if found_any:
         print(f"  💡 View full content: cat lessons/<filename>.md")
         print(f"  💡 Contribute new knowledge: python3 scripts/queue_lesson.py -t 'title' -d domain 'content...'")
+        if use_feedback and not json_output:
+            _collect_feedback(query, result_ids if 'result_ids' in dir() else [])
         print()
 
 
