@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-07-29T09:16:47.598164+00:00",
+  "generated_at": "2026-07-29T14:35:31.601636+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
     {
       "type": "merged_pr",
-      "title": "fix: Glama lesson — section header 7→10, add standard sections",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/639",
-      "timestamp": "2026-07-29T06:50:28Z",
+      "title": "feat: wire /api/intake to redaction and demand board",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/645",
+      "timestamp": "2026-07-29T12:32:53Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "docs: add standard MCP listing badges (CI, PyPI, Python, Glama)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/636",
-      "timestamp": "2026-07-29T02:55:13Z",
+      "title": "feat: add demand board data model with maintainer override",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/644",
+      "timestamp": "2026-07-29T12:03:51Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat(lessons): 3 fact-checked community lessons — heartbeat v6",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/631",
-      "timestamp": "2026-07-29T02:55:09Z",
+      "title": "test: add intake redaction fixtures and module",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/643",
+      "timestamp": "2026-07-29T12:03:47Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat(lessons): 5 fact-checked community lessons — heartbeat v5",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/621",
-      "timestamp": "2026-07-29T02:55:06Z",
+      "title": "docs(blog): lesson pipeline — from manual curation to automation",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/641",
+      "timestamp": "2026-07-29T11:35:26Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "chore: clean stale generated/runtime artifacts",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/626",
-      "timestamp": "2026-07-28T16:47:07Z",
+      "title": "docs(rfc): 90-day roadmap evaluation (#280)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/642",
+      "timestamp": "2026-07-29T11:35:22Z",
       "source": "github"
     },
     {
@@ -69,23 +69,6 @@
       "timestamp": "2026-07-26",
       "domain": "devops",
       "source": "lessons"
-    },
-    {
-      "type": "challenge",
-      "title": "Add curl-first intake endpoint: POST /api/intake for MCP, agent, and sandbox feedback",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/589",
-      "labels": [
-        "enhancement",
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:deep",
-        "status:needs-design",
-        "priority:now"
-      ],
-      "timestamp": "2026-07-25T15:55:06Z",
-      "source": "github"
     },
     {
       "type": "challenge",
@@ -163,6 +146,23 @@
         "priority:later"
       ],
       "timestamp": "2026-07-09T07:03:41Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Ecosystem] Build Cursor integration for MisakaNet lessons",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/318",
+      "labels": [
+        "enhancement",
+        "Ring-3",
+        "bounty",
+        "agent-friendly",
+        "status:competition",
+        "pool:deep",
+        "status:needs-design",
+        "priority:later"
+      ],
+      "timestamp": "2026-07-02T16:01:30Z",
       "source": "github"
     }
   ]
