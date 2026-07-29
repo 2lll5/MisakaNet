@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-07-29T03:46:01.430561+00:00",
+  "generated_at": "2026-07-29T09:16:47.598164+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "fix: Glama lesson — section header 7→10, add standard sections",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/639",
+      "timestamp": "2026-07-29T06:50:28Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "docs: add standard MCP listing badges (CI, PyPI, Python, Glama)",
@@ -30,13 +37,6 @@
       "title": "chore: clean stale generated/runtime artifacts",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/626",
       "timestamp": "2026-07-28T16:47:07Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: add VS Code extension for lesson search (fixes #317)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/618",
-      "timestamp": "2026-07-28T02:48:36Z",
       "source": "github"
     },
     {
@@ -85,6 +85,23 @@
         "priority:now"
       ],
       "timestamp": "2026-07-25T15:55:06Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "Track MCP discovery and adoption: who searches, who installs, who gives feedback",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/588",
+      "labels": [
+        "enhancement",
+        "ready",
+        "bounty",
+        "agent-friendly",
+        "zero-bounty",
+        "status:competition",
+        "pool:deep",
+        "priority:next"
+      ],
+      "timestamp": "2026-07-25T15:32:10Z",
       "source": "github"
     },
     {
@@ -146,23 +163,6 @@
         "priority:later"
       ],
       "timestamp": "2026-07-09T07:03:41Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Ecosystem] Build Cursor integration for MisakaNet lessons",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/318",
-      "labels": [
-        "enhancement",
-        "Ring-3",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:deep",
-        "status:needs-design",
-        "priority:later"
-      ],
-      "timestamp": "2026-07-02T16:01:30Z",
       "source": "github"
     }
   ]
