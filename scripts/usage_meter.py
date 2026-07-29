@@ -63,24 +63,35 @@ def get_status(user: str) -> dict:
     records = _load_records()
     today = _today()
 
-    # Count today's reads
-    reads_today = sum(
-        1 for r in records
-        if r.get("user") == user
-        and r.get("action") == "get_lesson"
-        and r.get("ts", "").startswith(today)
-    )
+    # Count today's free reads (those consumed within free quota)
+    free_reads_today = 0
+    # Count today's credit-consuming reads
+    credit_reads_today = 0
 
-    # Count total credits (grants - consumption)
-    credits = 0
+    for r in records:
+        if r.get("user") != user:
+            continue
+        if r.get("action") != "get_lesson":
+            continue
+        if not r.get("ts", "").startswith(today):
+            continue
+        if r.get("action_source") == "credit":
+            credit_reads_today += 1
+        else:
+            free_reads_today += 1
+
+    # Count total credits (grants - credit-consuming reads)
+    credits_granted = 0
+    credits_consumed = 0
     for r in records:
         if r.get("user") != user:
             continue
         if r.get("action") == "grant":
-            credits += r.get("credits", 0)
-        elif r.get("action") == "get_lesson":
-            # Only deduct credits after free limit
-            pass  # credits deducted in check_lesson
+            credits_granted += r.get("credits", 0)
+        elif r.get("action") == "get_lesson" and r.get("action_source") == "credit":
+            credits_consumed += CREDIT_COST
+
+    credits = max(0, credits_granted - credits_consumed)
 
     # Determine if user is registered (has any grant or is not anon:)
     is_registered = not user.startswith("anon:")
@@ -88,10 +99,12 @@ def get_status(user: str) -> dict:
 
     return {
         "user": user,
-        "free_reads_used": reads_today,
+        "free_reads_used": free_reads_today,
         "free_reads_limit": limit,
-        "free_reads_remaining": max(0, limit - reads_today),
+        "free_reads_remaining": max(0, limit - free_reads_today),
         "credits": credits,
+        "credits_granted": credits_granted,
+        "credits_consumed": credits_consumed,
         "is_registered": is_registered,
     }
 
@@ -166,23 +179,28 @@ def grant_credits(user: str, credits: int, reason: str = "", contribution_id: st
     }
     _save_record(record)
 
+    # get_status() now includes this grant in credits_granted
     status = get_status(user)
     return {
         "granted": True,
         "credits_added": credits,
-        "credits_total": status["credits"] + credits,
+        "credits_total": status["credits"],
     }
 
 
-def reset_user(user: str) -> dict:
-    """Reset a user's daily reads (admin function)."""
+def record_reset_event(user: str) -> dict:
+    """Record an admin reset event (audit trail only — does not affect quota)."""
     record = {
         "user": user,
-        "action": "reset",
+        "action": "reset_event",
         "ts": datetime.now(timezone.utc).isoformat(),
     }
     _save_record(record)
-    return {"reset": True, "user": user}
+    return {"recorded": True, "user": user, "note": "This is an audit event only. To actually reset quota, clear usage_credits.jsonl."}
+
+
+# Alias for backward compatibility
+reset_user = record_reset_event
 
 
 def main():
