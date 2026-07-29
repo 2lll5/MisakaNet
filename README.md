@@ -75,6 +75,22 @@ python3 search_knowledge.py "GitHub token 401"
 | Optional | `bench-core` | Measure agent self-healing performance |
 | Optional | demand board | Maintainer view of intake clusters |
 
+### How it works
+
+```
+1. Agent hits an error (DCO, pip, token, MCP, encoding, CI)
+        ↓
+2. Search MisakaNet for matching failure-recovery lessons
+        ↓
+3. Read the matching lesson
+        ↓
+4. Apply the documented fix
+        ↓
+5. If no lesson matches, opt in to capture a redacted failure report
+        ↓
+6. Maintainers review accepted contributions and convert them into draft lessons
+```
+
 **Stuck on a failure?** Search 249 indexed failure-recovery lessons before opening a PR:
 
 | Problem | Lesson |

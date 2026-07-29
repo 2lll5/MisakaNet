@@ -7,6 +7,43 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## v2.14.0 — 2026-07-29
+
+### Highlights
+
+- **Contribution credits and usage quota**: `scripts/usage_meter.py` — track lesson reads, enforce free quota (5/day anonymous, 20/day registered), manage credits from accepted contributions.
+- **Contribution queue**: `scripts/contribution_queue.py` — submit intake/lesson drafts with automatic redaction, dedup, and quality scoring. No auto-accept.
+- **Maintainer review CLI**: `scripts/contribution_review.py` — accept/reject contributions, grant credits, convert to lesson drafts.
+- **Capture CLI**: `scripts/misaka_capture.py` — `misaka capture --summary "error" --context log.txt` for redacted failure reports.
+- **GitHub Action capture**: `.github/actions/misaka-capture/` — CI failure capture as artifacts (opt-in, no auto-publish).
+- **Feedback intake**: `search_knowledge.py --feedback` — post-search feedback routed to contribution queue.
+- **Demand board endpoint**: `GET /api/insights/demand-board` — public aggregate view of intake clusters.
+- **Trust semantics**: `docs/trust-semantics.md` — defines indexed/published/verified consistently.
+- **Runtime entry**: Cursor failure-memory rule + Claude Code failure playbook + `misaka run` wrapper.
+- **README rewrite**: Single use case focus — "redacted failure-memory layer for AI coding agents".
+
+### New files
+
+| File | Purpose |
+|------|---------|
+| `scripts/usage_meter.py` | Usage quota and credit management |
+| `scripts/contribution_queue.py` | Contribution queue with redaction and dedup |
+| `scripts/contribution_review.py` | Maintainer review CLI |
+| `scripts/misaka_capture.py` | CLI capture for redacted failure reports |
+| `scripts/misaka_run.py` | Command wrapper with MisakaNet search on failure |
+| `.github/actions/misaka-capture/` | GitHub Action for CI failure capture |
+| `.cursor/rules/misakanet-failure-memory.mdc` | Cursor failure-memory rule |
+| `docs/integrations/cursor-failure-memory.md` | Cursor integration guide |
+| `docs/integrations/claude-code-failure-memory.md` | Claude Code failure playbook |
+| `docs/trust-semantics.md` | Trust level definitions |
+| `docs/release-checklist.md` | Release process checklist |
+
+### Data
+
+- 260+ lessons, 22 regression queries, 4 MCP tools
+
+---
+
 ## v2.13.0 — 2026-07-29
 
 ### Highlights
