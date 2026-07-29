@@ -1,9 +1,30 @@
 {
-  "generated_at": "2026-07-28T22:28:42.918655+00:00",
+  "generated_at": "2026-07-29T03:46:01.430561+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "docs: add standard MCP listing badges (CI, PyPI, Python, Glama)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/636",
+      "timestamp": "2026-07-29T02:55:13Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(lessons): 3 fact-checked community lessons — heartbeat v6",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/631",
+      "timestamp": "2026-07-29T02:55:09Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(lessons): 5 fact-checked community lessons — heartbeat v5",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/621",
+      "timestamp": "2026-07-29T02:55:06Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "chore: clean stale generated/runtime artifacts",
@@ -16,27 +37,6 @@
       "title": "feat: add VS Code extension for lesson search (fixes #317)",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/618",
       "timestamp": "2026-07-28T02:48:36Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat(lessons): 4 fact-checked community lessons",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/620",
-      "timestamp": "2026-07-28T02:48:32Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "Build demand board: aggregate unsolved failure families into public task-family counts",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/612",
-      "timestamp": "2026-07-28T01:36:04Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat(lessons): 3 fact-checked community lessons",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/608",
-      "timestamp": "2026-07-27T15:54:42Z",
       "source": "github"
     },
     {
@@ -53,6 +53,14 @@
       ],
       "timestamp": "2026-07-27T13:49:01Z",
       "source": "github"
+    },
+    {
+      "type": "lesson",
+      "title": "Prompt Injection: What's the Worst That Can Happen?",
+      "url": "lessons/contrib/prompt-injection-what-s-the-worst-that-can-happen.md",
+      "timestamp": "2026-07-27",
+      "domain": "AI Security",
+      "source": "lessons"
     },
     {
       "type": "lesson",
@@ -118,14 +126,6 @@
       "url": "lessons/contrib/github-sudo-email-otp-wrong-input-field.md",
       "timestamp": "2026-07-20",
       "domain": "github",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Superteam Earn API returns Insufficient credits on submission create",
-      "url": "lessons/contrib/superteam-earn-api-insufficient-credits.md",
-      "timestamp": "2026-07-20",
-      "domain": "web3",
       "source": "lessons"
     },
     {
