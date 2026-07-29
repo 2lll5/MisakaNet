@@ -9,12 +9,13 @@ mcp-name: io.github.Ikalus1988/misakanet
 </p>
 
 <p align="center">
-  <a href="https://github.com/Ikalus1988/MisakaNet/stargazers"><img src="https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social" alt="Stars"/></a>
-  <a href="https://img.shields.io/badge/nodes-235+-green"><img src="https://img.shields.io/badge/nodes-235+-green?label=Nodes" alt="Nodes"/></a>
-  <a href="https://img.shields.io/badge/lessons-244-blue"><img src="https://img.shields.io/badge/lessons-244-blue?label=Lessons" alt="Lessons"/></a>
-  <a href="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/score"><img src="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg" alt="Glama score"/></a>
-  <a href="https://mcptoplist.com/server/io.github.Ikalus1988%2Fmisakanet"><img src="https://mcptoplist.com/badge/io.github.Ikalus1988%2Fmisakanet.svg" alt="MCP Toplist: Top 1% of 81,852"/></a>
+  <a href="https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml"><img src="https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml/badge.svg" alt="CI"/></a>
+  <a href="https://pypi.org/project/misakanet-core/"><img src="https://img.shields.io/pypi/v/misakanet-core" alt="PyPI"/></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.10+-blue" alt="Python"/></a>
   <a href="https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet" alt="License"/></a>
+  <a href="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet"><img src="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg" alt="Glama score"/></a>
+  <a href="https://github.com/Ikalus1988/MisakaNet/stargazers"><img src="https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social" alt="Stars"/></a>
+  <a href="https://mcptoplist.com/server/io.github.Ikalus1988%2Fmisakanet"><img src="https://mcptoplist.com/badge/io.github.Ikalus1988%2Fmisakanet.svg" alt="MCP Toplist: Top 1% of 81,852"/></a>
 </p>
 
 ---
