@@ -1,8 +1,8 @@
 ---
 {
-  "title": "Glama MCP Server Deployment — 7 Build Failures and Fixes",
+  "title": "Glama MCP Server Deployment — 10 Build Failures and Fixes",
   "domain": "devops",
-  "tags": ["glama", "mcp", "docker", "uv", "deployment", "ci-cd"],
+  "tags": ["glama", "mcp", "docker", "uv", "deployment", "ci-cd", "badges", "markdown"],
   "status": "published",
   "source": "agent_experience",
   "created": "2026-07-26",
@@ -102,9 +102,28 @@ Glama's build system:
 2. Sync Server to pick up latest commit
 3. Rebuild to trigger fresh introspection
 
+## Failure 10: Badges not rendering on Glama page
+
+**Symptom:** Badges visible on GitHub README but invisible on Glama's server page.
+**Cause:** Glama's frontend Markdown renderer does not preserve inline HTML `<p align="center"><a><img /></a></p>` blocks. The `<img>` tags inside `<a>` tags are stripped or not rendered.
+**Fix:** Convert all badges from HTML to standard Markdown badge format:
+```markdown
+<!-- Before (HTML — not rendered on Glama) -->
+<p align="center">
+  <a href="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/score">
+    <img src="https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg" alt="Glama score"/>
+  </a>
+</p>
+
+<!-- After (Markdown — renders everywhere) -->
+[![Glama score](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg)](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/score)
+```
+**Rule:** Use `[![alt](img-url)](link-url)` for all badges. Avoid wrapping in HTML `<p>`/`<a>`/`<img>` — Glama, GitHub, and PyPI all render standard Markdown badges correctly.
+
 ## Key Takeaways
 
 1. Glama's build environment is different from standard Docker Python images — `uv` toolchain requires explicit venv creation
 2. glama.json is minimal (maintainers only) — tool definitions come from MCP introspection
 3. Build success ≠ tools registered — introspection is a separate async step
 4. Always verify the full build chain locally before submitting
+5. **Use Markdown badge syntax `[![alt](img)](link)`** — HTML `<img>` tags may not render on Glama's frontend
