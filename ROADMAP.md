@@ -40,6 +40,32 @@ maintainers can classify and route it without exposing raw logs or prompts.
 | **MCP tool clarity** | P1 | Keep tool descriptions aligned with side effects, auth, rate limits, input/output schema | `tools/list` exposes all 3 tools with operating-contract descriptions |
 | **PR hygiene** | P1 | Work through DCO-clean intake PRs in order: #623 -> #624 -> #622 | No DCO, no merge; competing PRs use first clean + scoped + tested wins |
 
+### v2.13.0 milestone requirements
+
+**Release blocker requirements:**
+
+- `POST /api/intake` accepts a minimal payload from plain `curl` without any
+  GitHub account, browser session, or API client SDK.
+- Intake payloads are redacted before persistence; stored records must not keep
+  raw logs, prompts, file contents, tokens, or environment dumps.
+- Every accepted intake receives a stable id, timestamp, source type, redaction
+  summary, and initial routing category.
+- Classifier output is constrained to `lesson`, `rescue`, `bug`, or `noise`,
+  with an `unknown`/low-confidence path that does not crash the pipeline.
+- Demand board can show at least: new, reviewed, routed, and rejected items.
+- Maintainer can manually override the classifier category without editing raw
+  JSON by hand.
+- Tests cover: empty body, oversized body, secret-like strings, invalid JSON,
+  duplicate submission, and one valid end-to-end fixture.
+
+**Definition of done:**
+
+```text
+curl -> /api/intake -> redacted private record -> classifier category -> demand board row
+```
+
+A release is not ready until that chain is demonstrated in docs or CI evidence.
+
 Out of scope for v2.13.0:
 
 - Auto-publishing public lessons
@@ -62,6 +88,33 @@ lesson spam.
 | **Frontend health** | P1 | Keep search, registration, journey, and API health in every public UX change | `site-health` green before release notes |
 | **Docs cleanup** | P2 | Remove or archive stale generated/runtime artifacts and obsolete examples via separate small PRs | Each cleanup PR has one purpose and no generated data churn |
 
+### v2.14.0 milestone requirements
+
+**Release blocker requirements:**
+
+- Review queue has explicit states and a documented transition path:
+  `private -> accepted/rejected/needs-repro -> converted`.
+- Each converted intake links to exactly one public artifact type first:
+  lesson, rescue card, GitHub issue, docs fix, or duplicate/no-action note.
+- Trust wording is consistent across README, homepage, generated data, and
+  release notes: `indexed`, `published`, and `verified` do not mean the same
+  thing.
+- Regression query fixtures exist for the recurring failure classes that bring
+  users to MisakaNet: DCO, GitHub token/auth, pip timeout, MCP setup, Feishu,
+  FANUC/RAG, WSL/Windows encoding, and CI cache/build failures.
+- Duplicate governance gives maintainers a clear decision: merge, link,
+  supersede, reject, or ask for reproduction.
+- Search/demand-board changes include empty, loading, error, and no-result
+  states, not just the happy path.
+
+**Definition of done:**
+
+```text
+intake cluster -> maintainer review -> trusted public artifact or explicit rejection
+```
+
+A release is not ready if intake accumulates without a review path.
+
 ## October 2026 - v2.15/v3.0 readiness: distribution confidence
 
 Goal: make external discovery channels reflect a stable product, not a vanity
@@ -75,6 +128,33 @@ badge collection.
 | **GitHub `/mcp` candidacy** | P2 | Reconsider email nomination after v2.13 loop is live and metadata is clean | Official Registry active + Glama evaluated + concise use-case evidence + no version mismatch |
 | **Smithery** | P2 | Keep paused unless there is a real `.mcpb` or public MCP endpoint with no 403 scan blockers | No placeholder URLs; no duplicate-version publish attempts |
 | **Adoption evidence** | P2 | Separate traffic metrics from lesson-use evidence | Release notes say what was measured: views/clones/helpful/intake, without overclaiming adoption |
+
+### v2.15/v3.0 readiness milestone requirements
+
+**Release blocker requirements:**
+
+- Local MCP smoke test proves `tools/list` exposes all expected tools and each
+  tool has side effects, auth, rate-limit, input, output, and error semantics.
+- At least one external scanner/listing reflects the current runtime metadata;
+  stale Glama or Registry snapshots are documented rather than silently ignored.
+- `server.json`, README badges, PyPI package version, GitHub release, and Glama
+  wording do not contradict each other in a user-visible way.
+- Registry metadata refresh only happens with a real versioned release; duplicate
+  version publish attempts are explicitly avoided.
+- GitHub `/mcp` nomination remains optional and requires evidence: Official MCP
+  Registry active, Glama evaluated, working quickstart, clear one-sentence use
+  case, and at least one demonstrable intake-to-lesson loop.
+- Smithery remains paused unless there is either a valid `.mcpb` release artifact
+  or a public MCP endpoint that automated scanners can initialize without 403.
+
+**Definition of done:**
+
+```text
+local MCP contract -> external listing metadata -> user can install/search without version confusion
+```
+
+A release is not ready if it improves badges while making installation or
+runtime verification less clear.
 
 ## External channel policy (external amplifiers)
 
