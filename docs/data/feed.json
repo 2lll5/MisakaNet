@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-07-29T14:35:31.601636+00:00",
+  "generated_at": "2026-07-29T16:41:47.791379+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
     {
       "type": "merged_pr",
+      "title": "feat: add maintainer review CLI with credit grants",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/650",
+      "timestamp": "2026-07-29T15:14:06Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat: add contribution queue with redaction and dedup",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/649",
+      "timestamp": "2026-07-29T15:12:37Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat: add misakanet_usage_status MCP tool",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/648",
+      "timestamp": "2026-07-29T15:02:14Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat: add usage meter for v2.14 quota model",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/647",
+      "timestamp": "2026-07-29T15:01:55Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
       "title": "feat: wire /api/intake to redaction and demand board",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/645",
       "timestamp": "2026-07-29T12:32:53Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: add demand board data model with maintainer override",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/644",
-      "timestamp": "2026-07-29T12:03:51Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "test: add intake redaction fixtures and module",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/643",
-      "timestamp": "2026-07-29T12:03:47Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs(blog): lesson pipeline — from manual curation to automation",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/641",
-      "timestamp": "2026-07-29T11:35:26Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs(rfc): 90-day roadmap evaluation (#280)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/642",
-      "timestamp": "2026-07-29T11:35:22Z",
       "source": "github"
     },
     {
