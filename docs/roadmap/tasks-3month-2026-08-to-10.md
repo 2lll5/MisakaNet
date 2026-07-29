@@ -4,100 +4,108 @@
 
 ---
 
-## 8月 — v2.13 收尾 + v2.14 核心
+## P0：叙事收口（8月第1周）
 
-### Intake flywheel（收尾）
+| # | 任务 | 交付物 | 验收 |
+|---|---|---|---|
+| T1 | README 首屏只讲一个 use case | README.md 重写顶部 | 30秒内回答：这是什么？什么时候用？怎么试？ |
+| T2 | Core/Optional 项目矩阵 | README.md 新增 "What is core?" 节 | 新访客不会误解成"全栈框架" |
 
-| # | 任务 | 优先级 | 交付物 | 状态 |
-|---|---|---|---|---|
-| 1 | --feedback flag 接入 intake 通道 | P1 | search_knowledge.py --feedback 写入 contribution_queue | ⏳ #622 DCO |
-| 2 | demand board 接入 Worker KV | P1 | register-proxy-sw.js demand-board endpoint | ❌ |
-| 3 | intake digest 脚本 | P2 | scripts/intake_digest.py 读取 KV 导出并分类统计 | ❌ |
+**首屏文案：**
+> MisakaNet is a redacted failure-memory layer for AI coding agents.
+> Paste an error from Cursor, Claude Code, Codex, or CI.
+> MisakaNet searches real failure-recovery lessons and returns a fix path.
 
-### Trust & curation（v2.14 核心）
-
-| # | 任务 | 优先级 | 交付物 | 状态 |
-|---|---|---|---|---|
-| 4 | review queue 状态机 | P0 | contribution_queue.py 已实现，需接入 Worker | ✅ #649 |
-| 5 | trust semantics 统一 | P0 | README/docs/site 统一 indexed/published/verified | ❌ |
-| 6 | regression queries fixtures | P1 | data/regression_queries.json 补充到 20+ 条 | ❌ |
-| 7 | duplicate governance 决策规则 | P1 | docs/duplicate-policy.md | ❌ |
-| 8 | contribution quality scorer 集成 | P1 | 提交时自动跑 quality_scorer.py | ❌ |
-
-### Distribution（持续）
-
-| # | 任务 | 优先级 | 交付物 | 状态 |
-|---|---|---|---|---|
-| 9 | MCP Registry 发布 | P1 | 等网络通时手动 mcp-publisher publish | ⏸️ |
-| 10 | llms.txt 更新 | P2 | 反映 4 个 MCP tools + intake 能力 | ❌ |
+**Core vs Optional：**
+- Core: Search failure lessons, MCP access, Feedback intake
+- Optional: fatal-guard, bench-core, VS Code/Cursor integrations, demand board
 
 ---
 
-## 9月 — Runtime entry + i18n
+## P1：Intake 飞轮产品化（8月）
 
-### Runtime entry（新支线）
+| # | 任务 | 交付物 | 验收 | 状态 |
+|---|---|---|---|---|
+| T3 | `misakanet capture` CLI | `scripts/misaka_capture.py` | `misakanet capture --summary "DCO failed" --context error.txt` 返回 id + redaction_summary | ❌ |
+| T4 | GitHub Action capture 模板 | `.github/actions/misaka-capture/action.yml` | CI failure 时生成 redacted artifact，不自动发公网 | ❌ |
+| T5 | contribution → lesson draft 转换 | `contribution_review.py convert` 命令 | 生成 `lessons/drafts/<slug>.md` 含 Problem/Root Cause/Fix/Verification/Redaction note | ❌ |
+| T6 | --feedback 接入 intake | search_knowledge.py --feedback 写入 queue | 搜索后反馈进入 contribution_queue | ⏳ #622 |
+| T7 | demand board 接入 Worker KV | register-proxy-sw.js endpoint | demand-board API 可用 | ❌ |
+| T8 | trust semantics 统一 | README/docs/site | indexed/published/verified 含义一致 | ❌ |
+| T9 | regression queries 补充 | data/regression_queries.json 20+ 条 | 覆盖 DCO/token/pip/MCP/Feishu/FANUC/WSL/CI | ❌ |
+| T10 | contribution quality scorer 集成 | 提交时自动跑 quality_scorer.py | 低于 75 分的提交被拦截 | ❌ |
 
-| # | 任务 | 优先级 | 交付物 |
+---
+
+## P2：Runtime entry（9月）
+
+| # | 任务 | 交付物 | 验收 |
 |---|---|---|---|
-| 11 | Cursor wrapper 设计 | P0 | .cursorrules 增强：失败时自动建议 search MisakaNet |
-| 12 | Claude Code hook 设计 | P0 | 失败场景下触发 misakanet_search 的 hook/wrapper |
-| 13 | runtime middleware prototype | P1 | scripts/misaka_middleware.py — 捕获异常 → search → 返回建议 |
-| 14 | entry point 测试 | P1 | 至少 2 个真实失败场景验证 middleware 有效 |
+| T11 | Cursor 失败场景规则 | `.cursor/rules/misakanet-failure-memory.mdc` + `docs/integrations/cursor-failure-memory.md` | README 有一键复制说明；遇错误时先 search MisakaNet |
+| T12 | Claude Code failure playbook | `docs/integrations/claude-code-failure-memory.md` | 可直接粘进 CLAUDE.md；命令失败两次时触发 search |
+| T13 | `misakanet run` wrapper | `scripts/misaka_run.py` | `misakanet run -- python -m pytest` 失败时输出 top 3 lessons；不自动重试 |
+| T14 | entry point 验证 | 测试报告 | 至少 2 个真实失败场景下返回有用建议 |
 
 **关键约束：** 先做"失败后建议"，不做"无感自愈中枢"。不自动重试，不自动修复。
 
-### i18n（增长）
+---
 
-| # | 任务 | 优先级 | 交付物 |
+## P2：i18n（9月，与 Runtime 并行）
+
+| # | 任务 | 交付物 | 验收 |
 |---|---|---|---|
-| 15 | 韩语 lesson 入库 | P1 | 至少 1 篇高质量韩语 lesson（#651） |
-| 16 | 日语 lesson 入库 | P1 | 至少 1 篇高质量日语 lesson（#652） |
-| 17 | 语言元数据支持 | P2 | search_knowledge.py --lang 支持语言过滤 |
-
-### Trust（收尾）
-
-| # | 任务 | 优先级 | 交付物 |
-|---|---|---|---|
-| 18 | lesson trust badge | P2 | 每篇 lesson 显示 indexed/published/verified 状态 |
-| 19 | quality scorer 阈值校准 | P2 | 验证 75 分阈值是否合理（过高漏好 lesson，过低放垃圾） |
+| T15 | 韩语 lesson 入库 | 1 篇高质量韩语 lesson | quality_scorer ≥ 75（#651） |
+| T16 | 日语 lesson 入库 | 1 篇高质量日语 lesson | quality_scorer ≥ 75（#652） |
+| T17 | 语言元数据支持 | search_knowledge.py --lang | 按语言过滤搜索结果 |
 
 ---
 
-## 10月 — v2.15 readiness + benchmark
+## P3：Benchmark 背书（10月）
 
-### Distribution confidence（v2.15）
-
-| # | 任务 | 优先级 | 交付物 |
+| # | 任务 | 交付物 | 验收 |
 |---|---|---|---|
-| 20 | MCP runtime verification | P0 | 部署后 tools/list 验证所有 tool 可用 |
-| 21 | server.json 元数据刷新 | P1 | description + version + counts 对齐 |
-| 22 | Glama 质量跟进 | P1 | score 页面更新，不破坏安装路径 |
-| 23 | GitHub /mcp 候选 | P2 | 条件：Registry 活跃 + Glama 评估通过 + 元数据干净 |
+| T18 | agent self-healing mini benchmark | `bench/self-healing/` 10 个任务 | DCO/pip/token/MCP/encoding/pytest/deploy/schema/npm/stale-data |
+| T19 | benchmark 报告 | `docs/reports/agent-self-healing-2026-10.md` | with vs without MisakaNet 有结果表 + 改善率 |
+| T20 | bench-core 内部化 | benchmark 不绑主仓库 | 作为内部验证工具 |
 
-### Benchmark（品牌）
+---
 
-| # | 任务 | 优先级 | 交付物 |
+## P3：外部分发（10月）
+
+| # | 任务 | 交付物 | 验收 |
 |---|---|---|---|
-| 24 | bench-core 内部化 | P2 | benchmark 作为内部验证工具，不绑主仓库 |
-| 25 | 有/无 MisakaNet 修复率对比 | P2 | 数据：修复率差多少、复用率提升多少 |
-
-### Tiered access（如果 ready）
-
-| # | 任务 | 优先级 | 交付物 |
-|---|---|---|---|
-| 26 | Remote MCP auth 原型 | P2 | /api/mcp/* 端点 + token 验证 |
-| 27 | usage_status 端点 | P2 | 远程 quota 查询 |
-| 28 | private lesson tier 评估 | P3 | 决定哪些 lesson 进 private，不动代码 |
+| T21 | MCP runtime verification | 部署后 tools/list 验证 | 所有 4 个 tool 可用 |
+| T22 | server.json 元数据刷新 | description + version + counts 对齐 | 下一个真实 release 时做 |
+| T23 | Glama 质量跟进 | score 页面更新 | 不破坏安装路径 |
+| T24 | GitHub /mcp nomination packet | 准备材料 | Glama + PyPI + quickstart + benchmark 结果 |
+| T25 | llms.txt 更新 | 反映 4 个 MCP tools + intake 能力 | 搜索引擎可索引 |
 
 ---
 
 ## 里程碑总览
 
-| 月 | 版本 | 核心闭环 | 验收标准 |
+| 月 | 主题 | 核心闭环 | 验收标准 |
 |---|---|---|---|
-| 8月 | v2.14 | intake → review → trust | intake cluster → maintainer review → trusted artifact |
-| 9月 | v2.14.1 | runtime entry + i18n | 至少 1 个 entry point 在真实失败场景下返回有用建议 |
-| 10月 | v2.15 | distribution confidence | MCP runtime 验证通过 + 元数据一致 + Glama 评估 |
+| **8月** | 叙事收口 + Intake 产品化 | README 清晰 + capture CLI + queue→draft | 30秒理解 + `misakanet capture` 可用 + contribution 转 lesson draft |
+| **9月** | Runtime entry + i18n | 失败后自动建议 | 至少 1 个 entry point 在真实失败场景下返回有用建议 |
+| **10月** | Benchmark + Distribution | 有/无 MisakaNet 对比 | benchmark 报告 + MCP 验证通过 + 元数据一致 |
+
+---
+
+## 推荐执行顺序
+
+```
+Week 1:  T1 README首屏 → T2 项目矩阵
+Week 2:  T3 capture CLI → T5 contribution→draft
+Week 3:  T4 GitHub Action → T8 trust semantics → T9 regression queries
+Week 4:  T6 --feedback → T7 demand board KV → T10 quality scorer
+Week 5:  T11 Cursor rules → T12 Claude Code playbook
+Week 6:  T13 misakanet run wrapper → T14 entry point 测试
+Week 7:  T15 韩语 lesson → T16 日语 lesson → T17 语言过滤
+Week 8:  T18 mini benchmark → T19 benchmark 报告
+Week 9:  T21 MCP verification → T22 server.json → T23 Glama
+Week 10: T24 /mcp packet → T25 llms.txt → T20 bench-core 内部化
+```
 
 ---
 
@@ -111,3 +119,4 @@
 - ❌ "全栈防御体系"叙事
 - ❌ Smithery 恢复
 - ❌ GitHub /mcp 强推
+- ❌ 为了 listing polish 单独 bump 版本
