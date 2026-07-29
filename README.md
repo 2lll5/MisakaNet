@@ -1,11 +1,14 @@
-# Swarm Knowledge Protocol (SKP)
+# MisakaNet
 
-> **MisakaNet** is the flagship reference implementation of the Swarm Knowledge Protocol.
+> **A redacted failure-memory layer for AI coding agents.**
+>
+> Paste an error from Cursor, Claude Code, Codex, or CI.
+> MisakaNet searches real failure-recovery lessons and returns a fix path.
 
 mcp-name: io.github.Ikalus1988/misakanet
 
 <p align="center">
-  <img src="promotional/og-card.png" width="720" alt="MisakaNet — SKP Reference Implementation"/>
+  <img src="promotional/og-card.png" width="720" alt="MisakaNet — Failure Memory for AI Agents"/>
 </p>
 
 [![CI](https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml/badge.svg)](https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml)
@@ -18,34 +21,59 @@ mcp-name: io.github.Ikalus1988/misakanet
 
 ---
 
-> **Give Cursor / Claude access to 249 indexed failure-recovery lessons.**
-> Clone → paste MCP config → ask "Search MisakaNet for DCO sign-off failure".
-> [3-step MCP quickstart →](docs/mcp-quickstart.md)
->
-> Hitting a common failure (empty search, DCO, Windows encoding)? See [Troubleshooting FAQ](docs/troubleshooting.md).
->
-> Try it. If it fails, send the friction back — no GitHub account needed.
-> Email: `bot@misakanet.org` · Docs: [Email Intake Guide](docs/email-intake.md)
+### What is this?
 
-**Have a failing CI, DCO, pip, token, or agent issue?** [Search failure lessons](https://ikalus1988.github.io/MisakaNet/search/) before opening a PR.
+MisakaNet is a failure-memory layer for AI coding agents. When your agent hits an error — DCO failure, pip timeout, GitHub 401, MCP setup issue — MisakaNet searches 249 indexed failure-recovery lessons and returns a fix path. No prompt leaking, no raw logs stored.
+
+### When to use it
+
+- Cursor / Claude Code / Codex hits an error you haven't seen before
+- CI fails and you don't know why
+- DCO, token, pip, MCP, encoding issues repeat across projects
+
+### Try it in 30 seconds
+
+**Option A: MCP (Cursor / Claude Desktop / Claude Code)**
+
+```json
+{
+  "mcpServers": {
+    "misakanet": {
+      "command": "python3",
+      "args": ["scripts/mcp_server.py"]
+    }
+  }
+}
+```
+
+Then ask: *"Search MisakaNet for DCO sign-off failure"*
+
+**Option B: CLI**
+
+```bash
+pip install misakanet-core
+python3 search_knowledge.py "GitHub token 401"
+```
+
+**Option C: Web**
+
+[Search failure lessons →](https://ikalus1988.github.io/MisakaNet/search/)
 
 ### See it in 8 seconds
 
 ![Search lesson demo](promotional/search%20lesson.gif)
 
-### Try it locally
+### What is core?
 
-```
-$ python3 search_knowledge.py "GitHub token 401"
-
-📋 lessons/  (2 matches)
-──────────────────────────────────────────────────
-  [core]    github-401-credential-lookup       0.89   🟢 high/actionable
-            Fix: check ~/.git-credentials and ~/.netrc before asking for a new PAT.
-
-  [contrib] github-api-rate-limit-handling     0.71   🟢 high/actionable
-            Fix: use conditional requests with ETag/Last-Modified headers.
-```
+| | Component | Purpose |
+|---|---|---|
+| **Core** | `search_knowledge.py` | Search 249 indexed failure-recovery lessons |
+| **Core** | MCP server | Give Cursor / Claude Code access to lessons |
+| **Core** | `POST /api/intake` | Submit redacted failure reports |
+| Optional | `misakanet capture` | CLI capture from local failures |
+| Optional | `fatal-guard` | Collect redacted diagnostics for fatal errors |
+| Optional | `bench-core` | Measure agent self-healing performance |
+| Optional | demand board | Maintainer view of intake clusters |
 
 **Stuck on a failure?** Search 249 indexed failure-recovery lessons before opening a PR:
 
