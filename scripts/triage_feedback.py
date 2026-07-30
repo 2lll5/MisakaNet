@@ -35,8 +35,9 @@ def classify_feedback(text: str) -> Tuple[str, float, Dict[str, Any]]:
 
     # Keywords signaling an error or symptom
     problem_indicators = [
-        "error:", "exception:", "failed with", "traceback",
-        "cannot connect", "unable to", "issue:", "bug:", "problem:"
+        "error:", "error ", "exception:", "failed with", "traceback",
+        "cannot connect", "unable to", "issue:", "bug:", "problem:",
+        " 500 ", "500 error",
     ]
     has_problem = any(ind in text_lower for ind in problem_indicators)
 
