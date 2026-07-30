@@ -58,3 +58,6 @@ hub/storage/skill_index.json
 # Usage meter runtime data (local tracking)
 data/usage_credits.jsonl
 data/contribution_queue.jsonl
+
+# local search quality feedback (issue #604)
+data/search-feedback.jsonl

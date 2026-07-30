@@ -35,8 +35,9 @@ def classify_feedback(text: str) -> Tuple[str, float, Dict[str, Any]]:
 
     # Keywords signaling an error or symptom
     problem_indicators = [
-        "error:", "exception:", "failed with", "traceback",
-        "cannot connect", "unable to", "issue:", "bug:", "problem:"
+        "error:", "error ", "exception:", "failed with", "traceback",
+        "cannot connect", "unable to", "issue:", "bug:", "problem:",
+        " 500 ", "500 error",
     ]
     has_problem = any(ind in text_lower for ind in problem_indicators)
 
@@ -46,7 +47,8 @@ def classify_feedback(text: str) -> Tuple[str, float, Dict[str, Any]]:
     ]
     is_misaka_bug = any(ind in text_lower for ind in misaka_bug_indicators)
 
-    if is_misaka_bug and has_problem and not has_fix:
+    # Product-area signals alone are enough: users rarely write "Error:" prefixes
+    if is_misaka_bug and not has_fix:
         return "bug-report", 0.90, {"category": "bug-report"}
 
     if has_fix and (has_problem or len(words) >= 15):
