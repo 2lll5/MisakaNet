@@ -1,9 +1,23 @@
 {
-  "generated_at": "2026-07-29T22:16:54.578054+00:00",
+  "generated_at": "2026-07-30T03:38:00.073631+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 15,
+  "item_count": 13,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "docs: add Russian clean PR branch recovery lesson",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/670",
+      "timestamp": "2026-07-30T01:15:33Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "lesson(ru): USDC wrong chain and zero ETH gas recovery",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/672",
+      "timestamp": "2026-07-30T01:15:30Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "docs: add Arabic failure-recovery lesson for PostgreSQL connection pool exhaustion (#658)",
@@ -12,32 +26,44 @@
       "source": "github"
     },
     {
-      "type": "merged_pr",
-      "title": "docs: add Portuguese lesson for GitHub automation without gh",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/661",
-      "timestamp": "2026-07-29T16:49:23Z",
-      "source": "github"
+      "type": "lesson",
+      "title": "Claude Code can debug low-level cryptography — ML-DSA signature verification failure",
+      "url": "lessons/contrib/claude-code-debugging-ml-dsa-cryptography.md",
+      "timestamp": "2026-07-29",
+      "domain": "debugging",
+      "source": "lessons"
     },
     {
-      "type": "merged_pr",
-      "title": "[Bounty] Leccion en espanol: Error de DCO sign-off en Windows",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/662",
-      "timestamp": "2026-07-29T16:49:19Z",
-      "source": "github"
+      "type": "lesson",
+      "title": "MCP tool ERROR convention — inconsistency between failure paths causes silent data corruption",
+      "url": "lessons/contrib/mcp-tool-error-convention-inconsistency.md",
+      "timestamp": "2026-07-29",
+      "domain": "mcp",
+      "source": "lessons"
     },
     {
-      "type": "merged_pr",
-      "title": "feat: add French lesson for Docker permission denied error (#655)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/663",
-      "timestamp": "2026-07-29T16:49:17Z",
-      "source": "github"
+      "type": "lesson",
+      "title": "TypeScript solution-style tsconfig — tsc --noEmit checks nothing silently",
+      "url": "lessons/contrib/typescript-solution-tsconfig-silent-nocheck.md",
+      "timestamp": "2026-07-29",
+      "domain": "typescript",
+      "source": "lessons"
     },
     {
-      "type": "merged_pr",
-      "title": "feat: add German lesson for Python ModuleNotFoundError (#654)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/664",
-      "timestamp": "2026-07-29T16:49:13Z",
-      "source": "github"
+      "type": "lesson",
+      "title": "Finding and fixing Ghostty's largest memory leak",
+      "url": "lessons/contrib/finding-and-fixing-ghostty-s-largest-memory-leak.md",
+      "timestamp": "2026-07-28",
+      "domain": "memory_management",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Context Mode: Reducing Claude Code Context Consumption by 98%",
+      "url": "lessons/contrib/mcp-server-that-reduces-claude-code-context-consumption-by-9.md",
+      "timestamp": "2026-07-28",
+      "domain": "ai-agents",
+      "source": "lessons"
     },
     {
       "type": "challenge",
@@ -53,22 +79,6 @@
       ],
       "timestamp": "2026-07-27T13:49:01Z",
       "source": "github"
-    },
-    {
-      "type": "lesson",
-      "title": "Prompt Injection: What's the Worst That Can Happen?",
-      "url": "lessons/contrib/prompt-injection-what-s-the-worst-that-can-happen.md",
-      "timestamp": "2026-07-27",
-      "domain": "AI Security",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Glama MCP Server Deployment — 7 Build Failures and Fixes",
-      "url": "lessons/contrib/glama-mcp-server-deploy-lessons.md",
-      "timestamp": "2026-07-26",
-      "domain": "devops",
-      "source": "lessons"
     },
     {
       "type": "challenge",
@@ -103,30 +113,6 @@
       ],
       "timestamp": "2026-07-23T10:27:25Z",
       "source": "github"
-    },
-    {
-      "type": "lesson",
-      "title": "Near-duplicate Feishu bot lessons: keep cc-connect, archive generic stub",
-      "url": "lessons/contrib/feishu-bot-setup-complete.md",
-      "timestamp": "2026-07-21",
-      "domain": "feishu",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Fiverr PerimeterX captcha blocks headless seller gig creation",
-      "url": "lessons/contrib/fiverr-perimeterx-blocks-seller-automation.md",
-      "timestamp": "2026-07-20",
-      "domain": "web",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "GitHub sudo email OTP fails when the wrong input is filled",
-      "url": "lessons/contrib/github-sudo-email-otp-wrong-input-field.md",
-      "timestamp": "2026-07-20",
-      "domain": "github",
-      "source": "lessons"
     },
     {
       "type": "challenge",
