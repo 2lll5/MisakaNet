@@ -8,6 +8,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+graphql = pytest.importorskip("graphql")  # optional dep; not in core requirements.txt
 from misakanet.graphql.schema import execute_query
 
 
