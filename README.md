@@ -93,7 +93,7 @@ python3 search_knowledge.py "GitHub token 401"
 6. Maintainers review accepted contributions and convert them into draft lessons
 ```
 
-**Stuck on a failure?** Search 249 indexed failure-recovery lessons before opening a PR:
+**Stuck on a failure?** Search the lessons before opening a PR:
 
 | Problem | Lesson |
 |---|---|
@@ -178,7 +178,7 @@ The MisakaNet ecosystem is built as a **layered defense & knowledge stack**:
 │  (npm, zero-config)          │  → feeds draft lesson pipeline     │
 ├──────────────────────────────────────────────────────────────────┤
 │  🧠 MisakaNet (this repo)    │  Swarm Knowledge Protocol (SKP)    │
-│  $ python3 search_know-      │  249+ lessons, BM25 + RRF          │
+│  $ python3 search_know-      │  Failure-memory, BM25 + RRF        │
 │     ledge.py "<error>"       │  git clone → search → contribute   │
 │  (zero-dep core engine)      │  Zero server, zero database        │
 ├──────────────────────────────────────────────────────────────────┤
@@ -341,7 +341,7 @@ LessonReuseBench tests: *Can the agent fix this bug using prior experience?*
 
 ### Use in Cursor / Claude Desktop / Claude Code
 
-Give your AI assistant access to 249 indexed failure-recovery lessons via MCP:
+Give your AI assistant access to failure-recovery lessons via MCP:
 
 ```json
 {
