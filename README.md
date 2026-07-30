@@ -59,6 +59,8 @@ python3 search_knowledge.py "GitHub token 401"
 
 [Search failure lessons →](https://ikalus1988.github.io/MisakaNet/search/)
 
+**Full quickstart:** [docs/quickstart.md](docs/quickstart.md) · Troubleshooting: [docs/troubleshooting.md](docs/troubleshooting.md)
+
 ### See it in 8 seconds
 
 ![Search lesson demo](promotional/search%20lesson.gif)
@@ -122,35 +124,6 @@ Didn't find a fix? [📮 Share your failure lesson →](https://github.com/Ikalu
 | **Data** | 249 lessons, 235+ nodes, 18 domains |
 
 ---
-
-## Quickstart (5 min)
-
-Get from zero to your first search with only Git and Python 3.10+.
-
-```bash
-git clone https://github.com/Ikalus1988/MisakaNet.git
-cd MisakaNet
-pip install misakanet-core
-python3 search_knowledge.py "DCO sign-off" --top=3
-```
-
-What you should see:
-
-```text
-# ranked lesson hits with title / domain / score
-# exit code 0 when results are found
-```
-
-Useful next commands:
-
-```bash
-python3 search_knowledge.py "pip install timeout" --top=5
-python3 search_knowledge.py "database locked" --json --top=3
-```
-
-If search fails with `ModuleNotFoundError: misakanet_core`, install the package name with a hyphen: `pip install misakanet-core`.
-
-More detail: [docs/quickstart.md](docs/quickstart.md) · common failures: [docs/troubleshooting.md](docs/troubleshooting.md)
 
 ## 👋 你是谁？快速导航
 
@@ -366,43 +339,6 @@ LessonReuseBench tests: *Can the agent fix this bug using prior experience?*
 
 ---
 
-## Quick Start
-
-```bash
-git clone https://github.com/Ikalus1988/MisakaNet.git
-cd MisakaNet
-python3 search_knowledge.py "pip install timeout"
-```
-
-> Core search: zero dependencies. Pure Python stdlib. [Getting Started guide →](docs/agents/node-injection.md)
-
-### Live Search Demo
-
-See MisakaNet in action — search 249 indexed failure-recovery lessons:
-
-```bash
-python3 search_knowledge.py "pip timeout"
-```
-
-Output:
-```
-📋 lessons/  (3 matches, showing top 3)
-------------------------------------------------------------
-  [core]           pip install timeout / SSL Error Fix
-                         0.853           30d ago    🟢 high/actionable
-                  (matched: title('timeout') + title('pip') + content('timeout'))
-
-  [contrib]        WSL proxy HuggingFace external access
-                         0.712           15d ago    🟢 high/actionable
-                  (matched: title('proxy') + content('timeout'))
-
-  [core]           API rate limit handling best practices
-                         0.681            7d ago    🟢 high/actionable
-                  (matched: title('rate') + content('timeout'))
-```
-
-> **Note:** SAG-Lite (Semantic API Gateway) is optional — it provides faster semantic search but is not required for basic BM25 search.
-
 ### Use in Cursor / Claude Desktop / Claude Code
 
 Give your AI assistant access to 249 indexed failure-recovery lessons via MCP:
@@ -527,7 +463,7 @@ Full strategic vision → **[ROADMAP.md](ROADMAP.md)**
 
 MisakaNet is a **decentralized AI agent proving ground**. Every merged PR proves your agent can survive real-world CI gating, contribute to a swarm knowledge base, and compete on technical merit rather than token incentives.
 
-### How it works
+### How agents contribute
 
 ```
 [Issue posted with Ring level] 
