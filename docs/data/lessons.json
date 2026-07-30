@@ -402,6 +402,22 @@
     "verified": true
   },
   {
+    "id": "an-unlikely-database-migration",
+    "title": "an-unlikely-database-migration",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Tailscale's control plane (CONTROL) began using a JSON file-based persistence layer that became a significant bottleneck as the service scaled. The database fil…",
+    "preview": "## Problem\n\nTailscale's control plane (CONTROL) began using a JSON file-based persistence layer that became a significant bottleneck as the service scaled. The database file reached a peak size of 150MB, with the entire file being rewritten on every data change. Even with optimizations like NVMe drives and splitting data into two halves (important data vs. ephemeral data on tmpfs), performance degraded as the file I/O became the limiting factor.\n\n## Root Cause\n\nThe original persistence mechanism was implemented as a shortcut during early development: a Go in-memory data model wrapped in `sync.Mutex` that would serialize the entire data structure to JSON and write it to disk on every edit. The data model structure followed this pattern:\n\n```go\ntype AllTheData struct {\n    BigLock sync.Mutex\n    Somethings map[string]Something\n    Widgets map[string]Widget\n    Gadgets map[string]Gadget\n}\n```\n\nThis approach was intended to be temporary but persisted because the team prioritized other work. The fundamental issue was that every write operation required serializing and writing the entire state, not just the changed data.\n\n## Solution\n\nTailscale migrated to etcd as a \"minimally-viable database\" for the following reasons:\n\n1. **KV-store alignment**: The core data model mapped naturally onto a key-value store pattern\n2. **Lock granularity**: Migration broke the `BigLock` into something more akin to `sync.RWMutex`\n3. **Selective writes**: Only changed data is written, not the entire structure\n4. **Testing benefits**: Being written in Go, etcd can be linked directly into tests without Docker or mocks, allowing tests to run against the same codebase used in production\n5. **Positive validation**: A Jepsen report showed positive results for etcd, and the team had positive experiences from previous use\n\nThe team also evaluated but rejected alternatives:\n- **SQLite**: Could work but difficult to justify for a growing service\n- **MySQL/PostgreSQL**: High availability story was concerning; required Docker for testing\n- **CockroachDB**: Promising but relatively new with risk of vendor lock-in\n\n## Verification\n\nnot specified in source\n\n## Notes\n\n- The Tailscale team is intentionally careful not to use etcd features that would be hard to map onto CockroachDB, keeping migration options open for the future\n- Tailscale maintains an open source etcd client wrapper at `github.com/tai\n\n[clipped]",
+    "url": "lessons/contrib/an-unlikely-database-migration.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "anthropic-proxy-internal-gateway",
     "title": "Internal Gateway — Incompatible with Anthropic Format, Requires OpenAI Proxy",
     "domain": "contrib",
@@ -714,6 +730,29 @@
     "verified": true
   },
   {
+    "id": "claude-code-debugging-ml-dsa-cryptography",
+    "title": "Claude Code can debug low-level cryptography — ML-DSA signature verification failure",
+    "domain": "debugging",
+    "tags": [
+      "claude_code",
+      "cryptography",
+      "post_quantum",
+      "ml_dsa",
+      "debugging",
+      "go"
+    ],
+    "summary": "An ML-DSA (post-quantum signature algorithm) implementation in Go always rejected valid signatures. All test vectors failed with \"invalid signature\" errors duri…",
+    "preview": "## Problem\n\nAn ML-DSA (post-quantum signature algorithm) implementation in Go always rejected valid signatures. All test vectors failed with \"invalid signature\" errors during verification, despite Sign working correctly.\n\n## Root Cause\n\nDuring earlier refactoring, `HighBits` and `w1Encode` were merged into a single function for the Sign path, then reused in Verify. However, in Verify, `UseHint` already produces the high bits — meaning the combined function effectively takes the high bits of w1 twice during verification.\n\nThe bug manifests as a subtle semantic error where the same data flows through different transformations in Sign vs Verify:\n\n```go\n// Sign path: w1Encode(highBits(w)) — correct\n// Verify path: w1Encode(highBits(UseHint(...))) — double high bits!\n```\n\n## Solution\n\nThe fix was to refactor `w1Encode` to accept high bits as input and change the type of the high bits:\n\n```go\n// Before: w1Encode computes high bits internally\nfunc w1Encode(w []poly) []poly { ... }\n\n// After: w1Encode takes pre-computed high bits\nfunc w1Encode(w1 []poly) []poly { ... }\n```\n\nSteps taken:\n- Claude Code identified the non-obvious error by analyzing the mathematical flow of the algorithm\n- Rather than reverting the merge, the fix refactored `w1Encode` to accept pre-computed high bits\n- This eliminated a round-trip through Montgomery representation and made the code clearer\n- Claude Code wrote a hypothesis test reimplementing half of verification to confirm before applying the fix\n\n## Verification\n\n- Existing test suite confirmed: `go test crypto/internal/fips140/mldsa` passes\n- Claude Code wrote a hypothesis test that reimplemented partial verification to confirm the root cause\n- Two other bugs (wrong Montgomery constants, 32-bit vs 32-byte encoding) were also found one-shot by fresh Claude Code sessions with no prior context\n\n## Notes\n\nThis demonstrates that LLMs can debug novel cryptographic implementations by reasoning about mathematical invariants, not just pattern matching. The key insight was that the same function behaved differently depending on its call context (Sign vs Verify), which a pure code-review approach might miss. Fresh sessions with no context can still find these bugs by analyzing the algorithm's mathematical structure.\n\n## References\n\nhttps://words.filippo.io/claude-debugging/",
+    "url": "lessons/contrib/claude-code-debugging-ml-dsa-cryptography.md",
+    "created": "2026-07-29",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "cloudflare-email-worker-registration-trap",
     "title": "Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、MIME 与 SPF",
     "domain": "contrib",
@@ -864,6 +903,22 @@
     "verified": true
   },
   {
+    "id": "debugging-memory-leaks-in-ruby",
+    "title": "debugging-memory-leaks-in-ruby",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Ruby applications can experience memory leaks ranging from tiny constant memory growth to sudden spurts during job queue processing. Simply restarting processes…",
+    "preview": "## Problem\n\nRuby applications can experience memory leaks ranging from tiny constant memory growth to sudden spurts during job queue processing. Simply restarting processes via monitoring tools (monit, inspeqtor, unicorn worker killers) masks the underlying problem and leads to performance degradation, instability, larger memory requirements, and reduced confidence in Ruby.\n\n## Root Cause\n\nMemory leaks fall into two categories:\n\n1. **Unmanaged memory leaks**: Issues in C-extensions requiring valgrind and custom Ruby builds to debug\n2. **Managed memory leaks**: Objects retained in Ruby's garbage collected heap (easier to debug with Ruby 2.1+)\n\nLeaks often correlate with specific events, such as job queue execution or dependency upgrades.\n\n## Solution\n\n### Step 1: Graph Memory Over Time\n\nThe first critical step is monitoring RSS (Resident Set Size) for key Ruby processes (e.g., Unicorn web servers, Sidekiq job queues) over extended periods using tools like:\n\n- Graphite, statsd, and Grafana\n- New Relic\n- Datadog\n- Custom Docker container monitoring\n\nLong-term graphs reveal when issues started, growth rate, growth pattern shape, and correlation to job execution.\n\n### Step 2: Enable Heap Dumping with Allocation Tracing (Ruby 2.1+)\n\nTurn on allocation tracing to collect rich debugging information:\n\n```ruby\nrequire 'objspace'\nObjectSpace.trace_object_allocations_start\n```\n\n**Warning**: This significantly slows the process and increases memory consumption. Run directly after boot or on a spare server to avoid SLA impact.\n\n### Step 3: Collect Heap Dump\n\nAfter memory has clearly leaked (verify via GC.stat or RSS monitoring), run:\n\n```ruby\nio=File.open(\"/tmp/my_dump\", \"w\")\nObjectSpace.dump_all(output: io); \nio.close\n```\n\n### Step 4: Run Ruby in Already-Started Processes\n\nUse the rbtrace gem to inject Ruby commands into running processes safely in production:\n\n```bash\nbundle exec rbtrace -p $SIDEKIQ_PID -e 'Thread.new{GC.start;require \"objspace\";io=File.open(\"/tmp/ruby-heap.dump\", \"w\"); ObjectSpace.dump_all(output: io); io.close}'\n```\n\n**Note**: rbtrace runs in a restricted context; use `Thread.new` to break out of trap context.\n\nQuery live statistics:\n\n```bash\nbundle exec rbtrace -p 6744 -e 'GC.stat'\n```\n\n### Step 5: Analyze Heap Dump\n\nThe heap dump is JSON-formatted, containing per-object metadata:\n\n```json\n{\"address\":\"0x7ffc567fbf98\", \"type\":\"STRING\", \"class\":\"0x7ffc\n\n[clipped]",
+    "url": "lessons/contrib/debugging-memory-leaks-in-ruby.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "deepseek-tui-write-file-sandbox-worktree-git-path",
     "title": "deepseek tui write file sandbox worktree git path",
     "domain": "contrib",
@@ -894,6 +949,54 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
+  },
+  {
+    "id": "erreur-permission-docker-linux",
+    "title": "erreur-permission-docker-linux",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "This error occurs when a non-root user tries to run Docker commands on Linux without proper group membership. Every `docker` command fails with:",
+    "preview": "## Problem\n\nThis error occurs when a non-root user tries to run Docker commands on Linux without proper group membership. Every `docker` command fails with:\n\n```\ndocker: permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock\nGot permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock\n```\n\nThe failure happens even though Docker is installed correctly and the service is running (`sudo systemctl status docker` shows `active (running)`).\n\n## Root Cause\n\nDocker creates the socket `/var/run/docker.sock` with `root:root` ownership by default. The current user is not in the `docker` group and therefore lacks read/write permissions on the socket.\n\nTwo approaches exist: prefix every command with `sudo` (not recommended) or add the user to the `docker` group (recommended).\n\n## Solution\n\n**1. Check if the docker group exists**\n```bash\ngrep docker /etc/group\n```\nIf the group does not exist, create it:\n```bash\nsudo groupadd docker\n```\n\n**2. Add your user to the docker group**\n```bash\nsudo usermod -aG docker $USER\n```\n\n**3. Activate the group change**\nLog out and log back in, or run:\n```bash\nnewgrp docker\n```\n\n**4. Verify the fix**\n```bash\ndocker ps\n```\n\n**5. (Optional) Restart the Docker service**\nIf the error persists after the steps above:\n```bash\nsudo systemctl restart docker\n```\n\n## Verification\n\n- Run `id -nG` and confirm `docker` appears in the group list\n- Execute `docker run hello-world` as a complete integration test\n- Confirm the container runs without `sudo`\n- Run `docker info` to verify the daemon responds\n\n## Notes\n\n- Adding a user to the `docker` group grants equivalent to `root` access on the Docker socket — be aware of this security implication\n- In production environments, use registry authentication and avoid granting Docker access to untrusted users\n- On WSL2, Docker Desktop manages permissions automatically; this error typically appears with a native Docker Engine installation\n- The `newgrp` command only affects the current terminal session — a full logout/login is required for persistence\n- Reference: [Docker post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)",
+    "url": "lessons/contrib/erreur-permission-docker-linux.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
+    "id": "erro-push-git-rejeitado-divergente",
+    "title": "erro-push-git-rejeitado-divergente",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "This error occurs when Git refuses to push local commits because the remote branch has commits that the local branch does not. The push fails with:",
+    "preview": "## Problem\n\nThis error occurs when Git refuses to push local commits because the remote branch has commits that the local branch does not. The push fails with:\n\n```\n! [rejected]        main -> main (non-fast-forward)\nerror: failed to push some refs to 'https://github.com/usuario/repo.git'\nhint: Updates were rejected because the remote contains work that you do not\nhint: have locally.\n```\n\nThis happens when you and another collaborator modified the same files and the Git history diverged.\n\n## Root Cause\n\nGit requires the local history to be a linear superset of the remote history to accept a `push`. When someone pushes commits to the remote while you are also working locally, the two timelines diverge. Git rejects the push to prevent overwriting someone else's work.\n\nTwo approaches exist to resolve this: **merge** (creates a merge commit) or **rebase** (rewrites history linearly).\n\n## Solution\n\n**Approach 1: Merge (recommended for beginners)**\n```bash\ngit pull origin main\ngit push origin main\n```\n\nIf conflicts occur during merge:\n```bash\ngit pull origin main\n# Git shows: CONFLICT in arquivo.txt\n# Edit the conflicting files manually\ngit add arquivo.txt\ngit commit -m \"Resolve merge conflicts with origin/main\"\ngit push origin main\n```\n\n**Approach 2: Rebase (linear history, more advanced)**\n```bash\ngit pull --rebase origin main\ngit push origin main\n```\n\nIf conflicts occur during rebase:\n```bash\ngit pull --rebase origin main\n# Resolve conflicts in the affected files\ngit add arquivo.txt\ngit rebase --continue\ngit push origin main\n```\n\nTo abort the rebase if something goes wrong:\n```bash\ngit rebase --abort\n```\n\n**Approach 3: Force push (ONLY if you are certain)**\n```bash\ngit push --force-with-lease\n```\n\n`--force-with-lease` is safer than `--force` because it checks that the remote has not changed since your last fetch.\n\n## Verification\n\n- Run `git log --oneline --graph --all` to visualize the branch history\n- Confirm the local branch is ahead of the remote: `git status`\n- Run `git push` and confirm there is no rejection\n- Verify on GitHub/GitLab that the commits appear correctly\n\n## Notes\n\n- `git pull` is equivalent to `git fetch` followed by `git merge`\n- Run `git fetch` before `git push` to check for remote changes without automatically merging\n- Prefer `--force-with-lease` over `--force` in all situations\n- Agree with your team on whether to use merge or rebase to\n\n[clipped]",
+    "url": "lessons/contrib/erro-push-git-rejeitado-divergente.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
+    "id": "error-dco-signoff-windows",
+    "title": "error-dco-signoff-windows",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Al hacer push de un commit a un repositorio que requiere DCO (Developer Certificate of Origin), el mensaje de error indica:",
+    "preview": "## Problem\n\nAl hacer push de un commit a un repositorio que requiere DCO (Developer Certificate of Origin), el mensaje de error indica:\n\n```\n! [remote rejected] main -> main (commit does not have DCO sign-off)\nerror: failed to push some refs\n```\n\nEsto ocurre aunque se haya usado `git commit -s` o incluso cuando se configura el usuario global de Git correctamente. El problema es particularmente frecuente en entornos Windows donde Git Bash, PowerShell y WSL manejan las configuraciones de usuario de forma independiente.\n\n## Root Cause\n\nGit almacena la configuracion de usuario (`user.name` y `user.email`) en tres niveles diferentes: sistema, global y local. En Windows, hay dos causas principales:\n\n1. **Configuracion de usuario no establecida**: Git requiere `user.name` y `user.email` para anadir el `Signed-off-by` en el commit. Si estas variables no estan definidas, `git commit -s` falla silenciosamente sin advertir al usuario.\n\n2. **Entorno mixto (Git Bash + PowerShell + WSL)**: Cada terminal tiene su propio archivo `~/.gitconfig`. Un usuario puede configurar Git en PowerShell pero olvidar hacerlo en Git Bash, resultando en commits sin DCO desde ese entorno.\n\n3. **Diferencia entre mayusculas y minusculas en el email**: DCO verifica que el email en `Signed-off-by` coincida exactamente con el email asociado a la cuenta de GitHub. Si se usa `Usuario@Example.com` en lugar de `usuario@example.com`, el DCO falla.\n\n## Solution\n\n### Paso 1: Verificar la configuracion actual\n\n```bash\ngit config --list --show-origin | grep user\n```\n\nEsto muestra de donde viene cada configuracion (system, global, local).\n\n### Paso 2: Configurar usuario globalmente\n\n```bash\ngit config --global user.name \"Tu Nombre\"\ngit config --global user.email \"tu-email@example.com\"\n```\n\n**Importante**: El email debe coincidir exactamente con el email verificado en GitHub.\n\n### Paso 3: Verificar que el ultimo commit tenga DCO\n\n```bash\ngit log --format=\"%H %s%n%b\" -1\n```\n\nDebe mostrar una linea `Signed-off-by: Tu Nombre <tu-email@example.com>`.\n\n### Paso 4: Si el commit ya fue creado sin DCO, anadirlo retroactivamente\n\nPara el commit mas reciente:\n```bash\ngit commit --amend --signoff --no-edit\n```\n\nPara varios commits:\n```bash\ngit rebase --signoff HEAD~N\ngit push --force-with-lease\n```\n\n### Paso 5: Configurar Git Bash y PowerShell por separado\n\nVerificar en ambos entornos:\n```bash\n# En Git Bash\ncat ~/.git\n\n[clipped]",
+    "url": "lessons/contrib/error-dco-signoff-windows.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
   },
   {
     "id": "fanuc-alarm-code-reference",
@@ -1472,6 +1575,22 @@
     "verified": true
   },
   {
+    "id": "fehler-python-modul-nicht-gefunden",
+    "title": "fehler-python-modul-nicht-gefunden",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "This error occurs when a Python module cannot be found at runtime even though `pip install` succeeded. Running a script fails with:",
+    "preview": "## Problem\n\nThis error occurs when a Python module cannot be found at runtime even though `pip install` succeeded. Running a script fails with:\n\n```\n$ python script.py\nTraceback (most recent call last):\n  File \"script.py\", line 1, in <module>\n    import requests\nModuleNotFoundError: No module named 'requests'\n```\n\nBut `pip list` shows the package as installed. This failure often happens after switching between projects or installing new packages.\n\n## Root Cause\n\nThe root cause is almost always a mismatch between the Python environment where `pip install` was run and the environment executing `python script.py`.\n\nThe three most common scenarios:\n\n1. **Virtual environment not activated**: `pip install` ran inside an active `venv`, but `python script.py` runs outside it.\n2. **Multiple Python installations**: The system has several Python versions (3.9, 3.10, 3.11). `pip` installed into one, `python` uses another.\n3. **`pip install --user` vs. system-wide**: The package was installed with `--user` into a local path, but `PYTHONPATH` does not include that path.\n\n## Solution\n\n**1. Identify which Python and pip are in use**\n```bash\nwhich python\npython --version\nwhich pip\npip --version\n```\nEnsure `python` and `pip` point to the same version.\n\n**2. Use a virtual environment correctly**\n```bash\npython -m venv .venv\nsource .venv/bin/activate      # Linux/Mac\n.venv\\Scripts\\activate          # Windows\n```\nThen install and run:\n```bash\npip install requests\npython script.py\n```\n\n**3. With multiple Python versions, use the explicit interpreter**\n```bash\npython3.11 -m pip install requests\npython3.11 script.py\n```\nOr use `pip3`:\n```bash\npip3 install requests\npython3 script.py\n```\n\n**4. Check PYTHONPATH**\n```bash\npython -c \"import sys; print('\\n'.join(sys.path))\"\n```\nConfirm that the site-packages path for your Python installation appears in the list.\n\n**5. Install with --target as a last resort**\n```bash\npython -m pip install --target=$HOME/.local/lib/python3.11/site-packages requests\nexport PYTHONPATH=$HOME/.local/lib/python3.11/site-packages:$PYTHONPATH\n```\n\n## Verification\n\n- Run `which python` and `which pip` — both should point to the same installation\n- Execute `python -c \"import requests; print(requests.__version__)\"` without errors\n- Inside a virtual environment, confirm `pip list` shows the package\n- Test with a full script that uses the imported package\n\n## Notes\n\n-\n\n[clipped]",
+    "url": "lessons/contrib/fehler-python-modul-nicht-gefunden.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "feishu-agent-display-settings",
     "title": "feishu agent display settings",
     "domain": "contrib",
@@ -1704,19 +1823,25 @@
   },
   {
     "id": "finding-and-fixing-ghostty-s-largest-memory-leak",
-    "title": "finding-and-fixing-ghostty-s-largest-memory-leak",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "",
-    "preview": "",
+    "title": "Finding and fixing Ghostty's largest memory leak",
+    "domain": "memory_management",
+    "tags": [
+      "memory_leak",
+      "memory_management",
+      "terminal",
+      "optimization",
+      "debugging"
+    ],
+    "summary": "Ghostty users reported excessive memory consumption, with one user reporting 37 GB of memory usage after 10 days of uptime. The leak was present since at least …",
+    "preview": "## Problem\n\nGhostty users reported excessive memory consumption, with one user reporting 37 GB of memory usage after 10 days of uptime. The leak was present since at least Ghostty 1.0 but only became apparent at scale when Claude Code started producing the correct conditions to trigger it with regular multi-codepoint grapheme outputs that force Ghostty to use non-standard pages combined with significant scrollback output on the primary screen.\n\n## Root Cause\n\nDuring scrollback pruning optimization, when the PageList reached its scrollback limit, the system would reuse the oldest page as the newest page. During this reuse operation, the metadata was reset to standard size, but the underlying memory allocation (mmap) was not resized. This caused a metadata desync: the PageList thought the page was standard-sized while the actual mmap allocation remained large (non-standard). When the page was eventually freed, the system checked the metadata, saw it was standard-sized, assumed it belonged to the memory pool, and never called munmap to properly free the large underlying allocation, resulting in a memory leak.\n\n## Solution\n\n1. Never reuse non-standard pages during scrollback pruning\n2. If a non-standard page is encountered during scrollback pruning (where the page memory length exceeds standard size), destroy it properly by calling munmap\n3. Allocate a fresh standard-sized page from the pool instead of reusing the non-standard allocation\n\nThe fix uses the following logic:\n\n```\nif (first.data.memory.len > std_size) {\n    self.destroyNode(first);\n    break :prune;\n}\n```\n\n## Verification\n\nnot specified in source\n\n## Notes\n\nThe bug persisted for years because non-standard pages were designed to be rare and only used in specific scenarios with small quantities. The rise of Claude Code changed usage patterns by regularly producing multi-codepoint grapheme outputs, which forced Ghostty to use non-standard pages in large quantities. This exposed the long-standing metadata desync bug at scale. The fix aligns with the original assumption that standard pages are the common case and it makes sense to reset back to standard pooled pages rather than attempting to reuse large non-standard allocations.\n\n## References\n\nhttps://mitchellh.com/writing/ghostty-memory-leak-fix",
     "url": "lessons/contrib/finding-and-fixing-ghostty-s-largest-memory-leak.md",
-    "created": "",
+    "created": "2026-07-28",
     "updated": "",
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "active",
-    "verified": false
+    "status": "published",
+    "verified": true
   },
   {
     "id": "firewall-port-open-not-public",
@@ -2037,6 +2162,22 @@
     "verified": true
   },
   {
+    "id": "github-automation-without-gh-cli-pt",
+    "title": "github-automation-without-gh-cli-pt",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Um job agendado precisava consultar uma issue, publicar um comentário e depois criar uma pull request. O fluxo pressupunha que o GitHub CLI estivesse disponível…",
+    "preview": "# Automação do GitHub quando o comando `gh` não está instalado\n\n## Problem\n\nUm job agendado precisava consultar uma issue, publicar um comentário e depois criar uma pull request. O fluxo pressupunha que o GitHub CLI estivesse disponível e começou com:\n\n```bash\ngh issue view 656 --repo proprietario/projeto --comments\n```\n\nA execução falhou imediatamente:\n\n```text\n/bin/bash: gh: command not found\n```\n\nRepetir o comando não ajudou. Instalar pacotes durante o job também não era uma boa saída: a imagem era mínima, o tempo era limitado e adicionar um repositório de pacotes só para obter `gh` aumentaria a superfície de falha. Apesar disso, `git`, Python e acesso HTTPS ao GitHub estavam disponíveis. O token já existia em uma variável de ambiente e não deveria aparecer em argumentos, logs ou URLs.\n\nO problema é comum em contêineres, runners efêmeros e servidores enxutos. Um script que depende exclusivamente de `gh` pode parar antes de executar qualquer trabalho, mesmo quando todas as operações necessárias estão disponíveis pela API REST.\n\n## Root Cause\n\nO erro não era de autenticação nem da issue. O executável `gh` simplesmente não fazia parte da imagem, o que foi confirmado sem expor segredos:\n\n```bash\ncommand -v gh || printf '%s\\n' 'gh ausente'\ncommand -v git\ncommand -v python3\n```\n\nA causa de projeto era uma dependência implícita: o script tratava a interface de linha de comando como se fosse parte do sistema operacional. Na realidade, `gh` é um cliente opcional. Consultar issues, comentar, criar forks e abrir pull requests são operações HTTP documentadas. Portanto, a ausência do binário não precisava bloquear o fluxo.\n\nTambém havia um risco secundário: passar o token em `https://TOKEN@github.com/...` ou na linha de comando poderia gravá-lo no histórico do shell, na lista de processos ou em mensagens de erro. A alternativa precisava manter a credencial somente no ambiente e no cabeçalho `Authorization`.\n\n## Solution\n\nFoi usado um pequeno cliente com apenas a biblioteca padrão do Python. Ele centraliza os cabeçalhos, envia JSON e preserva o corpo de erros HTTP para diagnóstico, sem imprimir o token:\n\n```python\nimport json\nimport os\nimport urllib.error\nimport urllib.request\n\nTOKEN = os.environ[\"GITHUB_TOKEN\"]\nAPI = \"https://api.github.com\"\n\n\ndef github(method, path, payload=None):\n    data = None if payload is None else json.dumps(payload).encode(\"utf-8\")\n    reques\n\n[clipped]",
+    "url": "lessons/contrib/github-automation-without-gh-cli-pt.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "github-dns-443-block-hosts-workaround",
     "title": "GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案",
     "domain": "contrib",
@@ -2078,7 +2219,7 @@
   },
   {
     "id": "glama-mcp-server-deploy-lessons",
-    "title": "Glama MCP Server Deployment — 7 Build Failures and Fixes",
+    "title": "Glama MCP Server Deployment — 10 Build Failures and Fixes",
     "domain": "devops",
     "tags": [
       "glama",
@@ -2086,10 +2227,12 @@
       "docker",
       "uv",
       "deployment",
-      "ci-cd"
+      "ci-cd",
+      "badges",
+      "markdown"
     ],
     "summary": "Deploying a Python MCP server to Glama (MCP registry) requires passing their automated Docker build + introspection test. The build environment uses `debian:tri…",
-    "preview": "## Problem\n\nDeploying a Python MCP server to Glama (MCP registry) requires passing their automated Docker build + introspection test. The build environment uses `debian:trixie-slim` + `uv` (not pip) + Node.js, which has several pitfalls for Python projects.\n\n## Root Cause\n\nGlama's build system:\n1. Uses `uv` (astral.sh) to install Python, not system pip\n2. System Python is \"externally managed\" (PEP 668) — blocks `pip install --system`\n3. `uv pip install` requires a virtual environment or `--system` flag\n4. `--system` fails on Debian's externally-managed Python\n5. `uv pip install -e .` requires `pyproject.toml` in the current directory\n\n## 7 Build Failures and Fixes\n\n### Failure 1: `pip: not found`\n**Error:** `/bin/sh: 1: pip: not found`\n**Cause:** Glama uses `uv` to install Python — no `pip` in PATH\n**Fix:** Use `uv pip install` instead of `pip install`\n\n### Failure 2: `No virtual environment found`\n**Error:** `No virtual environment found; run uv venv to create an environment`\n**Cause:** `uv pip install` without `--system` requires a venv\n**Fix:** Create venv first: `uv venv && uv pip install ...`\n\n### Failure 3: `externally managed` (PEP 668)\n**Error:** `The interpreter at /usr is externally managed`\n**Cause:** `--system` flag targets Debian's system Python, blocked by PEP 668\n**Fix:** Don't use `--system` — use venv instead\n\n### Failure 4: `No module named prgenius.__main__`\n**Error:** `'prgenius' is a package and cannot be directly executed`\n**Cause:** Package cloned but not installed — `python -m prgenius` needs installed package\n**Fix:** Add `uv pip install -e .` to install the package itself\n\n### Failure 5: `does not appear to be a Python project`\n**Error:** `neither pyproject.toml nor setup.py are present in the directory`\n**Cause:** `pyproject.toml` is in subdirectory (`prgenius/`), not root\n**Fix:** Use `uv pip install -e ./prgenius` instead of `uv pip install -e .`\n\n### Failure 6: Docker Hub timeout\n**Error:** `debian:trixie-slim: failed to resolve source metadata: context deadline exceeded`\n**Cause:** Glama's Docker daemon can't pull from Docker Hub (infrastructure issue)\n**Fix:** Retry — transient Glama infrastructure issue\n\n### Failure 7: Build cancelled (2h timeout)\n**Error:** `The test run did not start within 2 hours; cancelled by maintenance`\n**Cause:** Glama build queue overload\n**Fix:** Retry during off-peak hours\n\n## Final Working Configu\n\n[clipped]",
+    "preview": "## Problem\n\nDeploying a Python MCP server to Glama (MCP registry) requires passing their automated Docker build + introspection test. The build environment uses `debian:trixie-slim` + `uv` (not pip) + Node.js, which has several pitfalls for Python projects.\n\n## Root Cause\n\nGlama's build system:\n1. Uses `uv` (astral.sh) to install Python, not system pip\n2. System Python is \"externally managed\" (PEP 668) — blocks `pip install --system`\n3. `uv pip install` requires a virtual environment or `--system` flag\n4. `--system` fails on Debian's externally-managed Python\n5. `uv pip install -e .` requires `pyproject.toml` in the current directory\n\n## 10 Build Failures and Fixes\n\n### Failure 1: `pip: not found`\n**Error:** `/bin/sh: 1: pip: not found`\n**Cause:** Glama uses `uv` to install Python — no `pip` in PATH\n**Fix:** Use `uv pip install` instead of `pip install`\n\n### Failure 2: `No virtual environment found`\n**Error:** `No virtual environment found; run uv venv to create an environment`\n**Cause:** `uv pip install` without `--system` requires a venv\n**Fix:** Create venv first: `uv venv && uv pip install ...`\n\n### Failure 3: `externally managed` (PEP 668)\n**Error:** `The interpreter at /usr is externally managed`\n**Cause:** `--system` flag targets Debian's system Python, blocked by PEP 668\n**Fix:** Don't use `--system` — use venv instead\n\n### Failure 4: `No module named prgenius.__main__`\n**Error:** `'prgenius' is a package and cannot be directly executed`\n**Cause:** Package cloned but not installed — `python -m prgenius` needs installed package\n**Fix:** Add `uv pip install -e .` to install the package itself\n\n### Failure 5: `does not appear to be a Python project`\n**Error:** `neither pyproject.toml nor setup.py are present in the directory`\n**Cause:** `pyproject.toml` is in subdirectory (`prgenius/`), not root\n**Fix:** Use `uv pip install -e ./prgenius` instead of `uv pip install -e .`\n\n### Failure 6: Docker Hub timeout\n**Error:** `debian:trixie-slim: failed to resolve source metadata: context deadline exceeded`\n**Cause:** Glama's Docker daemon can't pull from Docker Hub (infrastructure issue)\n**Fix:** Retry — transient Glama infrastructure issue\n\n### Failure 7: Build cancelled (2h timeout)\n**Error:** `The test run did not start within 2 hours; cancelled by maintenance`\n**Cause:** Glama build queue overload\n**Fix:** Retry during off-peak hours\n\n## Final Working Config\n\n[clipped]",
     "url": "lessons/contrib/glama-mcp-server-deploy-lessons.md",
     "created": "2026-07-26",
     "updated": "",
@@ -2097,7 +2240,7 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "published",
-    "verified": false
+    "verified": true
   },
   {
     "id": "go-scheduler-deadlock-lock-order",
@@ -2284,8 +2427,8 @@
     "title": "kubernetes-crashloopbackoff-debugging",
     "domain": "contrib",
     "tags": [],
-    "summary": "",
-    "preview": "",
+    "summary": "CrashLoopBackOff is a Kubernetes pod status that indicates a container is crashing and being automatically restarted in a loop. This can result from several typ…",
+    "preview": "## Problem\n\nCrashLoopBackOff is a Kubernetes pod status that indicates a container is crashing and being automatically restarted in a loop. This can result from several types of misconfigurations including inability to connect to persistent volumes, init-container misconfiguration, or application code failures. The primary debugging challenge is understanding why the service fails to stay running.\n\n## Root Cause\n\nTwo common problems when starting a container are:\n\n1. **OCI runtime create failed**: References a binary or script that doesn't exist on the container (Exit Code 127)\n2. **Container \"Completed\" or \"Error\"**: The code executing on the container failed to run a service and stay running (Exit Code 1)\n\nExit code 137 (128 + SIGKILL 9) indicates Kubernetes hit the memory limit for the pod and killed the container.\n\n## Solution\n\n### Step 1: Identify Docker Entrypoint and Cmd\n\nFor containers where you lack the Dockerfile, pull and inspect the image locally:\n\n```bash\ndocker pull docker.elastic.co/elasticsearch/elasticsearch:7.10.2\ndocker inspect docker.elastic.co/elasticsearch/elasticsearch:7.10.2 | jq '.[0].ContainerConfig.Entrypoint'\ndocker inspect docker.elastic.co/elasticsearch/elasticsearch:7.10.2 | jq '.[0].ContainerConfig.Cmd'\n```\n\n**Kubernetes Naming Convention**:\n- Docker Entrypoint = Kubernetes `command`\n- Docker Cmd = Kubernetes `args`\n\n### Step 2: Override Container Entrypoint for Debugging\n\nUpdate the deployment to replace the container entrypoint with `tail -f /dev/null` or `sleep infinity` to keep the container running without executing the problematic startup command:\n\n```yaml\napiVersion: extensions/v1beta1\nkind: Deployment\nmetadata:\n  name: elasticsearch\n  namespace: elasticsearch\nspec:\n  progressDeadlineSeconds: 600\n  replicas: 1\n  revisionHistoryLimit: 3\n  selector:\n    matchLabels:\n      app: backend\n      tier: backend\n  strategy:\n    rollingUpdate:\n      maxSurge: 25%\n      maxUnavailable: 25%\n    type: RollingUpdate\n  template:\n    metadata:\n      creationTimestamp: null\n      labels:\n        app: backend\n        tier: backend\n    spec:\n      containers:\n      - command:\n        - tail\n        - \"-f\"\n        - /dev/null\n```\n\n### Step 3: Execute into the Container\n\nUse kubectl or k9s to exec into the container and inspect the environment:\n\n```\nkubectl exec -it <pod-name> -- /bin/sh\n```\n\n### Step 4: Run the Intended Startup Command\n\nExe\n\n[clipped]",
     "url": "lessons/contrib/kubernetes-crashloopbackoff-debugging.md",
     "created": "",
     "updated": "",
@@ -2293,7 +2436,7 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
-    "verified": false
+    "verified": true
   },
   {
     "id": "lesson-06-git-push-credential-helper-403",
@@ -2837,19 +2980,46 @@
   },
   {
     "id": "mcp-server-that-reduces-claude-code-context-consumption-by-9",
-    "title": "mcp-server-that-reduces-claude-code-context-consumption-by-9",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "",
-    "preview": "",
+    "title": "Context Mode: Reducing Claude Code Context Consumption by 98%",
+    "domain": "ai-agents",
+    "tags": [
+      "mcp",
+      "claude",
+      "context-management",
+      "performance"
+    ],
+    "summary": "Claude Code sessions using MCP tools rapidly consume the 200K context window. A single Playwright snapshot costs 56 KB, twenty GitHub issues cost 59 KB, and one…",
+    "preview": "## Problem\n\nClaude Code sessions using MCP tools rapidly consume the 200K context window. A single Playwright snapshot costs 56 KB, twenty GitHub issues cost 59 KB, and one access log costs 45 KB. With 81+ tools active and tool definitions consuming 143K tokens (72%) before the first message, after 30 minutes 40% of context is depleted. This limits productive session time to approximately 30 minutes before significant slowdown occurs.\n\n## Root Cause\n\nMCP tool interactions dump raw data directly into the context window from both directions — tool definitions consume tokens on input, and raw output from tool calls (log files, API responses, snapshots) fills context on output. The raw data generated by tools never gets filtered or compressed before entering the conversation context.\n\n## Solution\n\nContext Mode is an MCP server that intercepts tool outputs through a PreToolUse hook and processes them in an isolated sandbox:\n\n1. Each `execute` call spawns an isolated subprocess with its own process boundary, preventing scripts from accessing each other's memory or state\n2. Scripts run in the subprocess and capture stdout; raw data (log files, API responses, snapshots) never leaves the sandbox\n3. Only the stdout output enters the conversation context\n4. For knowledge bases, the `index` tool chunks markdown content by headings while keeping code blocks intact, storing them in a SQLite FTS5 virtual table\n5. Search uses BM25 ranking — a probabilistic relevance algorithm that scores documents based on term frequency, inverse document frequency, and document length normalization\n6. Porter stemming is applied at index time so \"running\", \"runs\", and \"ran\" match the same stem\n7. The `search` tool returns exact code blocks with their heading hierarchy, not summaries\n8. The `fetch_and_index` tool extends this to URLs by fetching, converting HTML to markdown, chunking, and indexing — the raw page never enters context\n9. Install via `/plugin marketplace add mksglu/claude-context-mode` or via MCP with `claude mcp add context-mode -- npx -y context-mode`\n10. Restart Claude Code\n\n## Verification\n\nValidated across 11 real-world scenarios with the following compression results:\n\n- Playwright snapshot: 56 KB → 299 B\n- GitHub issues (20): 59 KB → 1.1 KB\n- Access log (500 requests): 45 KB → 155 B\n- Analytics CSV (500 rows): 85 KB → 222 B\n- Git log (153 commits): 11.6 KB → 107 B\n- Repo\n\n[clipped]",
     "url": "lessons/contrib/mcp-server-that-reduces-claude-code-context-consumption-by-9.md",
-    "created": "",
+    "created": "2026-07-28",
     "updated": "",
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "active",
-    "verified": false
+    "status": "published",
+    "verified": true
+  },
+  {
+    "id": "mcp-tool-error-convention-inconsistency",
+    "title": "MCP tool ERROR convention — inconsistency between failure paths causes silent data corruption",
+    "domain": "mcp",
+    "tags": [
+      "mcp",
+      "error_handling",
+      "convention",
+      "git",
+      "commit_message"
+    ],
+    "summary": "An MCP tool `generate_commit_message` converts git diffs into Conventional Commit messages via `claude -p`. It had two distinct failure paths returning plain st…",
+    "preview": "## Problem\n\nAn MCP tool `generate_commit_message` converts git diffs into Conventional Commit messages via `claude -p`. It had two distinct failure paths returning plain strings in different formats. A caller checking for the `ERROR:` prefix would miss the timeout failure and silently use the timeout error message as a real commit message.\n\n## Root Cause\n\nThe timeout handling in `_claude()` was added on a different day from the empty-diff guard in `generate_commit_message`. Each fix addressed only the specific bug it targeted. The timeout branch returned `\"claude -p timed out after 20s\"` — lacking the `ERROR:` prefix convention that was later introduced for the empty-diff case.\n\nThis is a sequencing bug: two independent fixes each introduced a return-string convention, but they didn't agree on the format because they were written at different times.\n\n## Solution\n\nAdd the `ERROR: ` prefix to the timeout return string in `_claude()`:\n\n```python\nexcept subprocess.TimeoutExpired:\n    return \"ERROR: claude -p timed out after 20s\"\n```\n\nThis makes both failure paths consistent so `.startswith(\"ERROR:\")` works as a complete contract.\n\n## Verification\n\nnot specified in source\n\n## Notes\n\nThe broader lesson: when you establish a convention (like `ERROR:` prefix for failures), every failure path must follow it — including ones added before the convention existed. A regression test should enumerate the full subprocess boundary: empty input, timeout, missing executable, non-zero exit, and other failure modes.\n\n## References\n\nhttps://dev.to/enjoy_kumawat/i-gave-my-mcp-tool-an-error-convention-i-only-taught-it-to-one-of-its-two-failure-paths-4619",
+    "url": "lessons/contrib/mcp-tool-error-convention-inconsistency.md",
+    "created": "2026-07-29",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
   },
   {
     "id": "misakanet-heal-engine-bootstrap-workflow",
@@ -2955,6 +3125,22 @@
     "summary": "Scraping multiple technical forums requires different approaches per site. Some have APIs, some require browser automation, some are behind anti-bot protection.…",
     "preview": "{\"title\": \"Multi-Forum Scraping Architecture — API vs Playwright\", \"domain\": \"ops\", \"subdomain\": \"scraping\", \"tags\": [\"scraping\", \"playwright\", \"api\", \"forum\", \"automation\", \"data-collection\"], \"source\": \"practical-experience\", \"status\": \"published\", \"confidence\": \"0.9\", \"created\": \"2026-07-01\", \"verified_date\": \"\", \"domain_expert\": \"\"}\n\n\n## Problem\n\nScraping multiple technical forums requires different approaches per site. Some have APIs, some require browser automation, some are behind anti-bot protection. Need a systematic way to choose and implement.\n\n## Root Cause\n\nEach forum has different:\n- API availability (HN has Algolia, Dev.to has REST, most don't)\n- Anti-bot protection (Cloudflare, login walls, rate limits)\n- HTML structure (WoltLab, IPS Community, custom)\n- Content format (structured Q&A vs long-form articles)\n\n## Solution\n\n### Decision Tree\n\n```\nIs there an API?\n  ├─ Yes → Use API (JSON, structured, reliable)\n  │         Examples: HN Algolia, Dev.to REST, GitHub API\n  └─ No → Is the site behind anti-bot?\n              ├─ Yes → Need browser automation (Playwright)\n              │         Examples: robot-forum.com (WoltLab)\n              └─ No → Try curl first, fall back to Playwright\n                        Examples: Juejin, SegmentFault\n```\n\n### Implementation Patterns\n\n#### Pattern 1: API-Based (Preferred)\n\n```python\n# HN Algolia API\nimport urllib.request, json\nurl = \"https://hn.algolia.com/api/v1/search?query=MCP&tags=story&hitsPerPage=10\"\nreq = urllib.request.Request(url, headers={\"User-Agent\": \"Mozilla/5.0\"})\nwith urllib.request.urlopen(req, timeout=10) as resp:\n    data = json.loads(resp.read())\n    for hit in data[\"hits\"]:\n        print(f\"[{hit['points']}↑] {hit['title']}\")\n```\n\nPros: Fast, structured, no browser overhead\nCons: Not all sites have APIs\n\n#### Pattern 2: Playwright-Based\n\n```javascript\nconst { chromium } = require('playwright');\nconst browser = await chromium.launch({ headless: true });\nconst page = await browser.newPage();\nawait page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });\nawait page.waitForTimeout(3000);  // Wait for JS rendering\nconst text = await page.evaluate(() => {\n    const main = document.querySelector('#content, main');\n    return main ? main.innerText : '';\n});\n```\n\nPros: Works on any site, handles JS rendering\nCons: Slower, needs browser binary, site-specific selectors\n\n#### Pattern 3: Hybri\n\n[clipped]",
     "url": "lessons/contrib/multi-forum-scraping-architecture.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
+    "id": "npm-eacces-permission-error-linux",
+    "title": "npm-eacces-permission-error-linux",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "This error occurs when running `npm install -g` without sufficient permissions. The command fails with:",
+    "preview": "## Problem\n\nThis error occurs when running `npm install -g` without sufficient permissions. The command fails with:\n\n```\nnpm ERR! Error: EACCES: permission denied, access '/usr/lib/node_modules'\nnpm ERR!  [Error: EACCES: permission denied, access '/usr/lib/node_modules'] {\nnpm ERR!   errno: -13,\nnpm ERR!   code: 'EACCES',\nnpm ERR!   syscall: 'access',\nnpm ERR!   path: '/usr/lib/node_modules'\nnpm ERR! }\n```\n\nThis failure is specific to Linux and macOS systems where the default global install directory is owned by root.\n\n## Root Cause\n\nWhen you run `npm install -g <package>`, npm tries to write to the global `node_modules` directory (`/usr/lib/node_modules` or `/usr/local/lib/node_modules`). These directories are owned by `root` and a regular user does not have write permission. The error does not occur on Windows because npm uses a different default directory structure.\n\n## Solution\n\n**1. Configure npm to use a user-owned global directory (recommended)**\n```bash\nmkdir -p ~/.npm-global\nnpm config set prefix ~/.npm-global\n```\n\nThen add the directory to your PATH:\n```bash\nexport PATH=~/.npm-global/bin:$PATH\n```\n\nAdd the PATH line to `~/.bashrc`, `~/.zshrc`, or `~/.profile` for persistence.\n\n**2. Verify the new configuration**\n```bash\necho $PATH\nnpm config get prefix\nnpm install -g eslint\nwhich eslint\n```\n\n**3. Alternative: use a node version manager**\n```bash\n# Install nvm\ncurl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash\n\n# Install Node.js via nvm (user-local by default)\nnvm install 20\nnvm use 20\nnpm install -g yarn\n```\nNVM installs Node.js and npm in the user's home directory, avoiding permission issues entirely.\n\n**4. Alternative: fix ownership (not recommended)**\n```bash\nsudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}\n```\nThis changes ownership of the global directories but can cause issues with other users or package managers.\n\n**5. For single commands: use sudo (least preferred)**\n```bash\nsudo npm install -g create-react-app\n```\nUsing `sudo` with npm is discouraged because it runs lifecycle scripts as root, creating security risks.\n\n## Verification\n\n- Run `npm install -g <any-package>` without errors\n- Run `npm list -g --depth=0` to confirm the package is installed\n- Run the globally installed command (e.g., `eslint --version`)\n- Confirm `npm config get prefix` points to a user-writable directory\n\n\n[clipped]",
+    "url": "lessons/contrib/npm-eacces-permission-error-linux.md",
     "created": "",
     "updated": "",
     "validity_period_days": 365,
@@ -3122,6 +3308,22 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
+  },
+  {
+    "id": "postgresql-connection-pool-exhaustion-ar",
+    "title": "postgresql-connection-pool-exhaustion-ar",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "أثناء فترات الاستخدام الكثيف لبيئة الإنتاج، بدأت واجهة برمجة التطبيقات (API) في إرجاع أخطاء `500 Internal Server Error` مصحوبة بالرسالة التالية في سجلات النظام:",
+    "preview": "# حل مشكلة استنفاد تجميع اتصالات قاعدة البيانات PostgreSQL في بيئات الإنتاج\n\n## Problem\n\nأثناء فترات الاستخدام الكثيف لبيئة الإنتاج، بدأت واجهة برمجة التطبيقات (API) في إرجاع أخطاء `500 Internal Server Error` مصحوبة بالرسالة التالية في سجلات النظام:\n\n```text\nError: fatal: sorry, too many clients already\n    at Connection.parseE (node_modules/pg/lib/connection.js:554:11)\n```\n\nتسببت هذه المشكلة في تجميد الطلبات الجديدة وعدم قدرة الخوادم على الاتصال بقاعدة البيانات PostgreSQL، مما أدى إلى تعطيل الخدمة جزئيًا للمستخدمين due to connection pool leak exception timeout failure.\n\n## Root Cause\n\nبعد تحليل سجلات التتبع ومراقبة الاتصالات، تبين وجود سببين رئيسيين لهذه المشكلة:\n\n1. **عدم تحرير الاتصالات (Connection Leaks):** كانت هناك بعض الدوال التي تفتح اتصالاً مع قاعدة البيانات لإجراء المعاملات (Transactions) ولكنها لا تقوم بإغلاق الاتصال أو إعادة التجميع عند حدوث استثناء (Exception) داخل كتلة `try/catch`.\n2. **غياب حد أقصى للتجميع (Pool Limits):** لم يتم ضبط الحد الأقصى لعدد الاتصالات المسموح بها في كائن التجميع (`pg.Pool`) في التطبيق، مما جعل الخادم يحاول إنشاء اتصالات جديدة حتى تجاوز الحد الأقصى المسموح به في إعدادات PostgreSQL (`max_connections = 100`).\n\n## Solution\n\nتم حل المشكلة من خلال خطوتين أساسيتين:\n\n### Step 1: إجبار تحرير الاتصال باستخدام كتل `finally`\n\nتعديل كافة كود التعامل مع التجميع لضمان إرجاع الاتصال دائمًا إلى التجميع (`pool.release()`) بغض النظر عن نجاح الاستعلام أو فشله. قم بتنفيذ وإضافة الكود التالي وتحديث إعدادات التجميع:\n\n```javascript\nconst { Pool } = require('pg');\n\nconst pool = new Pool({\n  host: process.env.DB_HOST,\n  user: process.env.DB_USER,\n  password: process.env.DB_PASSWORD,\n  database: process.env.DB_NAME,\n  max: 20, // تحديد الحد الأقصى للاتصالات لكل خادم\n  idleTimeoutMillis: 30000,\n  connectionTimeoutMillis: 2000,\n});\n\nasync function executeTransaction(queryText, params) {\n  const client = await pool.connect();\n  try {\n    await client.query('BEGIN');\n    const result = await client.query(queryText, params);\n    await client.query('COMMIT');\n    return result.rows;\n  } catch (error) {\n    await client.query('ROLLBACK');\n    throw error;\n  } finally {\n    // إرجاع العميل دائمًا إلى التجميع لضمان عدم تسريب الاتصال\n    client.release();\n  }\n}\n```\n\n### Step 2: تكوين PgBouncer لمدير التجميع (Connection Pooling)\n\nتم إضافة **PgBouncer** بين الخوادم وقاعدة البيانات لإدارة الاتصالات وتجميعها على مستوى الخادم:\n\n| الخاصية (Parameter) | القيمة \n\n[clipped]",
+    "url": "lessons/contrib/postgresql-connection-pool-exhaustion-ar.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
   },
   {
     "id": "pr-strategy",
@@ -3797,6 +3999,22 @@
     "verified": false
   },
   {
+    "id": "ssh-host-key-verification-failed",
+    "title": "ssh-host-key-verification-failed",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "This error occurs when SSH refuses to connect to a remote server because the host key has changed or is unknown. The connection fails with:",
+    "preview": "## Problem\n\nThis error occurs when SSH refuses to connect to a remote server because the host key has changed or is unknown. The connection fails with:\n\n```\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nIT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!\nOffending ED25519 key in ~/.ssh/known_hosts:3\nHost key verification failed.\n```\n\nThis failure happens when trying to SSH into a server that was previously connected to but has been reinstalled or reconfigured, or when connecting to a new server for the first time in strict mode.\n\n## Root Cause\n\nSSH maintains a file `~/.ssh/known_hosts` that stores the public host keys of every server you connect to. This prevents man-in-the-middle attacks. The error appears in two scenarios:\n\n1. **Host key changed**: The remote server was reinstalled or its SSH keys regenerated. The stored key in `known_hosts` no longer matches.\n2. **Host unknown**: The server is not in `known_hosts` at all, and `StrictHostKeyChecking` is set to `yes`.\n\n## Solution\n\n**1. Remove the old host key (for changed keys)**\n```bash\nssh-keygen -R hostname.example.com\n```\nReplace `hostname.example.com` with the actual server hostname or IP address.\n\nAlternatively, edit `~/.ssh/known_hosts` manually and delete the offending line.\n\n**2. Connect again**\n```bash\nssh user@hostname.example.com\n```\nSSH will prompt you to accept the new host key. Verify the key fingerprint with the server administrator before accepting.\n\n**3. For new servers in automation scripts**\nTemporarily disable strict checking (not recommended for production):\n```bash\nssh -o StrictHostKeyChecking=no user@hostname.example.com\n```\n\nBetter approach: add the host key to `known_hosts` non-interactively:\n```bash\nssh-keyscan -H hostname.example.com >> ~/.ssh/known_hosts\n```\n\n**4. Verify host key fingerprint**\n```bash\nssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub\n```\nCompare the output with the fingerprint shown during SSH connection.\n\n**5. Check the known_hosts file**\n```bash\ncat ~/.ssh/known_hosts\nssh-keygen -F hostname.example.com  # search for a specific host\n```\n\n## Verification\n\n- Run `ssh user@hostname.example.com` and confirm the connection succeeds\n- Verify the host key fingerprint matches the one provided by the server administrator\n- Test with `ss\n\n[clipped]",
+    "url": "lessons/contrib/ssh-host-key-verification-failed.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "static-page-github-api-403-rate-limit",
     "title": "static page github api 403 rate limit",
     "domain": "contrib",
@@ -3976,6 +4194,28 @@
     "preview": "## Problem\n\nA failure-lesson project can undercount real value if it only treats public feedback signals as proof of reuse. Helpful votes, feedback issues, and usage reports are important, but some lessons have already been reused before they are published.\n\nThis creates a misleading conclusion:\n\n> `helpful_votes = 0`, therefore no lesson has ever helped anyone.\n\nThat may be true for public post-publication evidence, but false for source evidence.\n\n## Root Cause\n\nThere are two different evidence loops:\n\n| Loop | What it proves | Example signals |\n|---|---|---|\n| Pre-ingest reuse | The lesson came from a real failure and a real fix before publication | maintainer-side reuse, colleague memory dump, field debugging notes, PR repair record |\n| Post-publication usefulness | The public lesson helped a new user after publication | helpful vote, feedback issue, usage report, external citation |\n\nMixing these loops causes bad strategy. If you only chase public votes, you may ignore high-value private or messy knowledge sources. If you only trust source evidence, you may overclaim public adoption.\n\n## Solution\n\nTrack both loops separately.\n\n### 1. Add source evidence when a lesson is ingested\n\n```yaml\nevidence:\n  level: \"pre_ingest_reused\"\n  source_type: \"maintainer_reuse\"\n  verified_by: \"maintainer\"\n  public_quote_allowed: false\n```\n\nUseful evidence levels:\n\n```text\ndraft\nself_tested\npre_ingest_reused\npost_public_feedback\nindependently_reproduced\n```\n\n### 2. Keep public usefulness metrics separate\n\nDo not merge helpful votes with source evidence. Helpful votes answer a different question:\n\n```text\nDid this published lesson help a new user later?\n```\n\nPre-ingest evidence answers:\n\n```text\nWas this lesson distilled from a real failure and a working fix?\n```\n\n### 3. Use precise release wording\n\nBad:\n\n```text\nNo helpful votes means no evidence of value.\n```\n\nBetter:\n\n```text\nPublic post-publication reuse is not yet proven. Several lessons have pre-ingest reuse evidence from real debugging sessions and maintainer-side reuse.\n```\n\n## Verification\n\n- At least one lesson has explicit `evidence.level` metadata.\n- Release notes distinguish source evidence from public usefulness.\n- Public claims do not imply adoption unless there is external post-publication evidence.\n\n## Next Agent Prompt\n\nWhen reviewing a lesson repository, ask two questions separately:\n\n1. What proves this l\n\n[clipped]",
     "url": "lessons/contrib/two-evidence-loops-for-failure-lessons.md",
     "created": "2026-07-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
+    "id": "typescript-solution-tsconfig-silent-nocheck",
+    "title": "TypeScript solution-style tsconfig — tsc --noEmit checks nothing silently",
+    "domain": "typescript",
+    "tags": [
+      "typescript",
+      "tsconfig",
+      "type_checking",
+      "ci",
+      "build"
+    ],
+    "summary": "After four consecutive clean runs of `npx tsc --noEmit`, a production page showed an error instead of content. The TypeScript error was `TS2350: Only a void fun…",
+    "preview": "## Problem\n\nAfter four consecutive clean runs of `npx tsc --noEmit`, a production page showed an error instead of content. The TypeScript error was `TS2350: Only a void function can be called with the 'new' keyword`. The type checker reported zero errors on every run.\n\n## Root Cause\n\nThe project used a solution-style `tsconfig.json` with `\"files\": []` and project references:\n\n```json\n{\n  \"files\": [],\n  \"references\": [\n    { \"path\": \"./tsconfig.app.json\" },\n    { \"path\": \"./tsconfig.node.json\" }\n  ]\n}\n```\n\nRunning plain `tsc` against this config typechecks nothing — it does not descend into the referenced projects and finds zero errors in the empty set. Additionally, the build step (bundlers) strips types without checking them, so it couldn't catch this either.\n\nThe underlying code bug was an unused import of `Map` from `lucide-react`, which shadowed the global `Map` constructor:\n\n```typescript\nimport { Map } from 'lucide-react'; // unused import, shadows global Map\n\nconst myMap = new Map<string, number>(); // TS2350: constructs React component, not JS Map\n```\n\n## Solution\n\nSteps to fix:\n\n1. Delete the unused `Map` import from lucide-react (resolves the shadowing)\n2. Use the correct typecheck command targeting the app project:\n   - Wrong: `npx tsc --noEmit` (checks empty solution root)\n   - Right: `npx tsc -p tsconfig.app.json --noEmit` (checks actual app code)\n3. Add a deliberate-breakage test to CI — intentionally introduce a type error and verify the checker catches it\n\n## Verification\n\nThe correct command immediately surfaced both the shadowing error and the type error. Run this to confirm your checker works:\n\n```bash\n# Deliberately break code, then run checker — it should report errors\nnpx tsc -p tsconfig.app.json --noEmit\n```\n\n## Notes\n\nAn empty output from a type checker is byte-identical to a genuinely clean run and cannot be distinguished. Key lessons:\n\n- Assert on the content of expected errors (e.g., expecting TS2352 at a specific line), not just \"exit code 0 means pass\"\n- Checks can become unreachable over time as project structure evolves\n- Solution-style tsconfig is designed for IDE support, not for CLI type checking — always target the specific project\n\n## References\n\nhttps://dev.to/henry_dan_81513dd35a2f540/it-passed-because-it-never-looked-552l",
+    "url": "lessons/contrib/typescript-solution-tsconfig-silent-nocheck.md",
+    "created": "2026-07-29",
     "updated": "",
     "validity_period_days": 365,
     "environment_version": "",
@@ -4223,6 +4463,22 @@
     "summary": "Open-source projects want to attract AI agent crawlers and automated PR contributors, but traditional bounty models require funding. How do you design issues th…",
     "preview": "# Zero-Bounty Agent Competition Flywheel\n\n## Problem\n\nOpen-source projects want to attract AI agent crawlers and automated PR contributors, but traditional bounty models require funding. How do you design issues that crawlers can discover, compete on, and complete — without monetary rewards?\n\n## Root Cause\n\nCrawler/model-tester agents scan GitHub for repos with:\n- Clear issue structure (file path, AC, verification commands)\n- Low-risk tasks (single file, docs, tests)\n- Active maintainer (recent merges, fast feedback)\n- Machine-readable labels (`zero-bounty`, `agent-friendly`, `has-test`)\n\nIf issues are vague, multi-file, or lack verification commands, crawlers skip them.\n\n## Fix\n\n### Issue Template (Machine-Readable)\n\n```markdown\n## agent competition — zero-bounty\n\nNo monetary bounty. Merge earns credit.\n\n## Task\n\nFix exactly one file: `path/to/file.md`\n\n## Acceptance Criteria\n\n- [ ] Only the target file changed\n- [ ] No generated files unless explicitly requested\n- [ ] Validation passes:\n```\nPYTHONIOENCODING=utf-8 python scripts/validate_lessons.py path/to/file.md\n```\n\n## PR Rules\n\nComment `/claim` before working. 8h claim window. Multiple PRs allowed. Smallest passing diff wins.\n```\n\n### Label Strategy\n\n| Label | Purpose |\n|---|---|\n| `zero-bounty` | Signals no monetary reward, credit-only |\n| `agent-friendly` | Machine-readable AC, clear file path |\n| `has-test` | Includes validation command |\n| `one-file` | Single file scope |\n| `no-credentials` | No Cloudflare/GH token needed |\n| `status:competition` | Appears in competition listing |\n\n### DCO TTL Rule\n\nDCO failure >48h with no response → close as stale.\nCompetition PRs: first to fix DCO wins, others close as duplicate.\n\n### Issue Lifecycle\n\n1. Publish with `status:competition` label\n2. First `/claim` gets8h exclusive window\n3. After window: multiple PRs allowed\n4. Maintainer reviews smallest passing diff\n5. Merged PR earns leaderboard credit\n\n## Verification\n\n- `time_to_first_pr < 8h` for well-scoped issues\n- `competing_prs_48h >= 2` indicates healthy competition\n- `merge_rate 30-50%` balances quality and participation\n- Repeat contributors indicate flywheel is working\n\n## Notes\n\n- Do not use \"bounty\" or \"reward\" language — use \"credit\" and \"leaderboard\"\n- DCO reminder should be posted as pinned comment on each competition issue\n- Avoid batch/multi-file issues — crawlers prefer single-file tasks\n- Rele\n\n[clipped]",
     "url": "lessons/contrib/zero-bounty-agent-competition-flywheel.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
+    "id": "자바-버전-불일치-빌드-오류",
+    "title": "자바-버전-불일치-빌드-오류",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "This error occurs when building a Java project with Maven or Gradle and the compiled classes target a newer Java version than the runtime JVM. The build fails w…",
+    "preview": "## Problem\n\nThis error occurs when building a Java project with Maven or Gradle and the compiled classes target a newer Java version than the runtime JVM. The build fails with:\n\n```\nError: A JNI error has occurred, please check your installation and try again\nException in thread \"main\" java.lang.UnsupportedClassVersionError: com/example/App has been compiled by a more recent version of the Java Runtime (class file version 65.0), this version of the Java Runtime only recognizes class file versions up to 61.0\n```\n\nThe failure happens even though `java -version` and `javac -version` both report valid versions.\n\n## Root Cause\n\nJava class files have a version number that corresponds to the JDK version used to compile them. When the runtime JRE is older than the JDK used for compilation, the JVM cannot load the class. This mismatch commonly occurs when:\n\n1. `JAVA_HOME` points to JDK 21 for compilation but the system `java` command invokes JRE 17\n2. Maven's `pom.xml` specifies a `release` or `target` value higher than the runtime version\n3. Multiple JDK versions are installed and the IDE or build tool selects the wrong one\n\n## Solution\n\n**1. Check JAVA_HOME and runtime Java**\n```bash\necho $JAVA_HOME\njava -version\njavac -version\n```\nEnsure both point to the same major version.\n\n**2. Verify Maven compiler settings in pom.xml**\n```xml\n<properties>\n    <maven.compiler.source>17</maven.compiler.source>\n    <maven.compiler.target>17</maven.compiler.target>\n</properties>\n```\nSet `source` and `target` to match your runtime JVM version.\n\n**3. Check Gradle settings in build.gradle**\n```groovy\njava {\n    sourceCompatibility = JavaVersion.VERSION_17\n    targetCompatibility = JavaVersion.VERSION_17\n}\n```\n\n**4. List installed JDK versions**\n```bash\nls /usr/lib/jvm/          # Linux\n/usr/libexec/java_home -V # macOS\n```\nSelect the correct one by updating `JAVA_HOME`:\n```bash\nexport JAVA_HOME=/usr/lib/jvm/java-17-openjdk\n```\n\n**5. Clean and rebuild**\n```bash\nmvn clean compile\n# or\ngradle clean build\n```\n\n## Verification\n\n- Run `javap -verbose MyClass.class | grep major_version` to inspect the class file version\n- Confirm `java -version` and `javac -version` report the same major version\n- Run `mvn clean package` or `gradle clean build` without errors\n- Execute the built JAR with `java -jar target/app.jar`\n\n## Notes\n\n- Class file version 61.0 = Java 17, 65.0 = Java 21, 52.0 = Java \n\n[clipped]",
+    "url": "lessons/contrib/자바-버전-불일치-빌드-오류.md",
     "created": "",
     "updated": "",
     "validity_period_days": 365,
