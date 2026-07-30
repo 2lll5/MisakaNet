@@ -433,8 +433,19 @@ def _smart_fallback(query: str, docs: list):
     print()
 
 
+def _feedback_log_path() -> Path:
+    """Path for durable local search feedback (no PII; query + result ids only)."""
+    return Path(__file__).resolve().parent / "data" / "search-feedback.jsonl"
+
+
 def _collect_feedback(query: str, result_ids: list) -> None:
-    """Prompt user for feedback and submit to contribution queue."""
+    """Prompt for search usefulness and append one JSONL record.
+
+    Acceptance (issue #604):
+    - Prompt: Was this helpful? (y/n/comment)
+    - Log to data/search-feedback.jsonl: query, results shown, feedback, timestamp
+    - No external dependencies; no PII beyond the free-text comment the user typed
+    """
     import datetime
 
     print()
@@ -447,7 +458,7 @@ def _collect_feedback(query: str, result_ids: list) -> None:
     if not answer:
         return
 
-    # Normalize
+    # Normalize short answers; keep free-text comments capped
     if answer.lower() in ("y", "yes"):
         feedback = "helpful"
     elif answer.lower() in ("n", "no"):
@@ -455,22 +466,29 @@ def _collect_feedback(query: str, result_ids: list) -> None:
     else:
         feedback = answer[:200]
 
-    # Submit to contribution queue
+    # Stable result identifiers only (filenames / lesson ids — not user data)
+    clean_ids: list[str] = []
+    for rid in result_ids or []:
+        s = str(rid).strip()
+        if s:
+            clean_ids.append(s[:200])
+
+    record = {
+        "timestamp": datetime.datetime.now(datetime.timezone.utc)
+        .isoformat()
+        .replace("+00:00", "Z"),
+        "query": (query or "")[:500],
+        "results": clean_ids,
+        "feedback": feedback,
+    }
+
     try:
-        from scripts.contribution_queue import submit_contribution
-        result = submit_contribution(
-            contrib_type="intake",
-            user="search-feedback",
-            message=f"Search feedback for '{query}': {feedback}",
-            source="search-cli",
-        )
-        if result.get("submitted"):
-            print(f"  ✅ Feedback logged. Thank you!")
-        elif result.get("error") == "duplicate":
-            print(f"  ℹ️  Similar feedback already logged.")
-        else:
-            print(f"  ⚠️  Could not log feedback: {result.get('error', 'unknown')}")
-    except Exception as e:
+        log_path = _feedback_log_path()
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        with log_path.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+        print(f"  ✅ Feedback logged to {log_path.relative_to(Path(__file__).resolve().parent)}. Thank you!")
+    except OSError as e:
         print(f"  ⚠️  Could not log feedback: {e}", file=sys.stderr)
 
 
@@ -672,6 +690,8 @@ def main():
 
     t0 = time.time()
     found_any = False
+    # Result ids shown this run (for --feedback jsonl). Filenames only, no PII.
+    shown_result_ids: list[str] = []
 
     # --suggest mode: list matching titles when query >= 2 chars
     if suggest and len(query) >= 2 and not json_output:
@@ -791,6 +811,10 @@ def main():
         ranked = _rank_docs(query, lessons_docs, titles_only, broad_only, rerank=use_rerank)
         # Only show results above threshold
         filtered = [(s, d) for s, d in ranked if s >= MIN_SCORE_THRESHOLD]
+        for _score, doc in filtered[:top_k]:
+            rid = getattr(doc, "filename", None) or getattr(doc, "title", None) or ""
+            if rid:
+                shown_result_ids.append(str(rid))
         found = _format_output(filtered, titles_only, top_k,
                                mode_label=f"lessons/  (All {len(lessons_docs)} items)",
                                query=query, explain=explain,
@@ -800,6 +824,10 @@ def main():
         ranked = _rank_docs(query, ref_docs, titles_only, broad_only=False, rerank=use_rerank)
         # Only show results above threshold
         filtered = [(s, d) for s, d in ranked if s >= MIN_SCORE_THRESHOLD]
+        for _score, doc in filtered[:top_k]:
+            rid = getattr(doc, "filename", None) or getattr(doc, "title", None) or ""
+            if rid:
+                shown_result_ids.append(str(rid))
         found = _format_output(filtered, titles_only, top_k,
                                mode_label=f"reference/  (All {len(ref_docs)} items)",
                                query=query, explain=explain,
@@ -818,6 +846,9 @@ def main():
                 tag = f"[{doc.domain}]" if doc.domain else ""
                 title = doc.title[:60] or doc.filename
                 print(f"  {score:.3f}  {tag:<18} {title}")
+                rid = getattr(doc, "filename", None) or title
+                if rid:
+                    shown_result_ids.append(str(rid))
             found_any = True
     if not found_any:
         # Feature #301: Smart fallback with closest matches
@@ -834,7 +865,7 @@ def main():
         print(f"  💡 View full content: cat lessons/<filename>.md")
         print(f"  💡 Contribute new knowledge: python3 scripts/queue_lesson.py -t 'title' -d domain 'content...'")
         if use_feedback and not json_output:
-            _collect_feedback(query, result_ids if 'result_ids' in dir() else [])
+            _collect_feedback(query, shown_result_ids)
         print()
 
 
