@@ -1,9 +1,23 @@
 {
-  "generated_at": "2026-07-31T09:20:36.400867+00:00",
+  "generated_at": "2026-07-31T11:36:50.942232+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 15,
+  "item_count": 12,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "docs(lessons): translate 3 Chinese lessons to English (v2)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/680",
+      "timestamp": "2026-07-31T09:44:15Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(search): add shell plugin for MisakaNet search (v2)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/681",
+      "timestamp": "2026-07-31T09:44:11Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "feat(lessons): add Russian failure-recovery lesson for Python smtplib SSL verification",
@@ -23,20 +37,6 @@
       "title": "lesson(ru): USDC base units vs human amounts for agent marketplaces",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/673",
       "timestamp": "2026-07-30T09:08:08Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs: add Russian clean PR branch recovery lesson",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/670",
-      "timestamp": "2026-07-30T01:15:33Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "lesson(ru): USDC wrong chain and zero ETH gas recovery",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/672",
-      "timestamp": "2026-07-30T01:15:30Z",
       "source": "github"
     },
     {
@@ -81,40 +81,6 @@
     },
     {
       "type": "challenge",
-      "title": "Track MCP discovery and adoption: who searches, who installs, who gives feedback",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/588",
-      "labels": [
-        "enhancement",
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "zero-bounty",
-        "status:competition",
-        "pool:deep",
-        "priority:next"
-      ],
-      "timestamp": "2026-07-25T15:32:10Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "Feedback hub: unify search/email/journey/danmaku intake",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/574",
-      "labels": [
-        "enhancement",
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:deep",
-        "status:needs-design",
-        "priority:now"
-      ],
-      "timestamp": "2026-07-23T10:27:25Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
       "title": "[Bounty][$0][agent competition] Blind test homepage SAG-Lite lesson search",
       "url": "https://github.com/Ikalus1988/MisakaNet/issues/429",
       "labels": [
@@ -131,23 +97,6 @@
         "priority:later"
       ],
       "timestamp": "2026-07-09T07:03:41Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Ecosystem] Build Cursor integration for MisakaNet lessons",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/318",
-      "labels": [
-        "enhancement",
-        "Ring-3",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:deep",
-        "status:needs-design",
-        "priority:later"
-      ],
-      "timestamp": "2026-07-02T16:01:30Z",
       "source": "github"
     },
     {
