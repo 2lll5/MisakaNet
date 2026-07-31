@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30T22:30:51.318782+00:00",
+  "generated_at": "2026-07-31T03:56:28.954183+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
@@ -41,6 +41,14 @@
     },
     {
       "type": "lesson",
+      "title": "USDC: base units vs human amounts — агент платит 1000x или думает, что 1000 USDC это $1000",
+      "url": "lessons/contrib/usdc-base-units-vs-human-amounts-agent-marketplaces-ru.md",
+      "timestamp": "2026-07-30",
+      "domain": "crypto-ops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
       "title": "Claude Code can debug low-level cryptography — ML-DSA signature verification failure",
       "url": "lessons/contrib/claude-code-debugging-ml-dsa-cryptography.md",
       "timestamp": "2026-07-29",
@@ -65,18 +73,10 @@
     },
     {
       "type": "lesson",
-      "title": "Finding and fixing Ghostty's largest memory leak",
-      "url": "lessons/contrib/finding-and-fixing-ghostty-s-largest-memory-leak.md",
-      "timestamp": "2026-07-28",
-      "domain": "memory_management",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Context Mode: Reducing Claude Code Context Consumption by 98%",
-      "url": "lessons/contrib/mcp-server-that-reduces-claude-code-context-consumption-by-9.md",
-      "timestamp": "2026-07-28",
-      "domain": "ai-agents",
+      "title": "USDC пришёл в Ethereum mainnet, а нужен Base — и 0 ETH на газ",
+      "url": "lessons/contrib/usdc-ethereum-instead-of-base-zero-eth-gas.md",
+      "timestamp": "2026-07-29",
+      "domain": "crypto-ops",
       "source": "lessons"
     },
     {
