@@ -58,6 +58,28 @@ Add to `.cursor/mcp.json` in your project:
 }
 ```
 
+### Docker / GHCR
+
+No local Python setup needed — pull the container and run:
+
+```bash
+docker pull ghcr.io/ikalus1988/misakanet:2.14.0
+docker run -i ghcr.io/ikalus1988/misakanet:2.14.0
+```
+
+Or use in MCP config:
+
+```json
+{
+  "mcpServers": {
+    "misakanet": {
+      "command": "docker",
+      "args": ["run", "-i", "ghcr.io/ikalus1988/misakanet:2.14.0"]
+    }
+  }
+}
+```
+
 ## Prerequisites
 
 ```bash
