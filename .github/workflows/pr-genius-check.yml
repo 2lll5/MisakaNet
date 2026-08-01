@@ -1,0 +1,50 @@
+name: PR Genius Check
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-genius:
+    if: |
+      !github.event.pull_request.draft &&
+      !contains(github.event.pull_request.labels.*.name, 'docs-only')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: zsxh1990/pr-genius/.github/actions/pr-genius-check@v1.0.0
+        id: pr-genius
+        with:
+          title: ${{ github.event.pull_request.title }}
+          repo: ${{ github.repository }}
+          body: ${{ github.event.pull_request.body }}
+
+      - name: Output PR Genius result
+        if: always()
+        shell: bash
+        env:
+          TIER: ${{ steps.pr-genius.outputs.tier }}
+          RESULT: ${{ steps.pr-genius.outputs.result }}
+        run: |
+          echo "=========================================="
+          echo "PR Genius Analysis"
+          echo "=========================================="
+          echo "Risk Level: $TIER"
+          echo ""
+          echo "$RESULT" | python3 -c "
+          import json, sys
+          try:
+              d = json.load(sys.stdin)
+              checklist = d.get('checklist', [])
+              if checklist:
+                  print('Checklist:')
+                  for c in checklist:
+                      print(f\"  [{c.get('priority','')}] {c.get('action','')}: {c.get('hint','')}\")
+          except:
+              pass
+          " 2>/dev/null
+          echo "=========================================="
