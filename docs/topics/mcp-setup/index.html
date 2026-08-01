@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://misakanet.org/topics/mcp-setup/">
 <meta property="og:title" content="MCP Server Setup Issues — MisakaNet">
 <meta property="og:description" content="Fix MCP server connection failures, path errors, and tool discovery issues.">
+<meta property="og:url" content="https://misakanet.org/topics/mcp-setup/">
 <style>
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a0f1d; color: #e2e8f0; max-width: 720px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; }
   a { color: #58a6ff; }
@@ -18,6 +19,7 @@
   li { margin-bottom: 8px; }
   code { background: rgba(110,118,129,0.2); padding: 2px 6px; border-radius: 4px; font-size: 14px; }
   pre { background: #161b22; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
+  .query { display: block; color: #8b949e; font-size: 13px; margin-top: 2px; }
   .cta { background: #1f6feb; color: #fff; padding: 12px 24px; border-radius: 6px; display: inline-block; margin-top: 12px; margin-bottom: 12px; text-decoration: none; }
   .back { margin-top: 32px; font-size: 13px; }
 </style>
@@ -36,6 +38,15 @@
   <li><code>"ModuleNotFoundError: No module named 'misakanet_core'"</code></li>
 </ul>
 
+<h2>Real failure queries (from search logs)</h2>
+<ul>
+  <li><code>cursor mcp server not found windows</code><span class="query">— most common when the MCP binary isn't on the shell PATH for the editor</span></li>
+  <li><code>mcp tools/list returns empty claude code</code><span class="query">— server runs but registered tools never load</span></li>
+  <li><code>ModuleNotFoundError misakanet_core mcp config</code><span class="query">— package installed in the wrong Python environment</span></li>
+  <li><code>python3 command not found mcp server</code><span class="query">— interpreter path missing from MCP config</span></li>
+  <li><code>mcp server connection refused localhost</code><span class="query">— stdio transport blocked by firewall or wrong endpoint</span></li>
+</ul>
+
 <h2>Root Causes</h2>
 <ul>
   <li>Python path not in system PATH (common on Windows)</li>
@@ -47,13 +58,14 @@
 
 <h2>Search MisakaNet</h2>
 <p>Your issue may already have a fix:</p>
-<a href="https://ikalus1988.github.io/MisakaNet/search/" class="cta">Search MCP setup lessons →</a>
+<a href="/search/" class="cta">Search MCP setup lessons →</a>
 
 <h2>Top Lessons</h2>
 <ul>
-  <li><a href="https://ikalus1988.github.io/MisakaNet/search/">MCP server path configuration</a></li>
-  <li><a href="https://ikalus1988.github.io/MisakaNet/search/">misakanet-core installation</a></li>
-  <li><a href="https://ikalus1988.github.io/MisakaNet/search/">Python environment for MCP</a></li>
+  <li><a href="/lessons/mcp-server-direct-handler-testing/">MCP Server Testing — call the handler directly, skip stdio</a></li>
+  <li><a href="/lessons/mcp-registry-readiness-requires-qa-before-promotion/">MCP registry readiness: QA before promoting to production</a></li>
+  <li><a href="/lessons/lesson-17-segmentfault-mcp-standardization/">MCP — AI agent tool-calling standardization protocol</a></li>
+  <li><a href="/lessons/glama-mcp-server-deploy-lessons/">Glama MCP server deployment — 10 build failures and fixes</a></li>
 </ul>
 
 <h2>Quick Fix Checklist</h2>
