@@ -121,7 +121,7 @@ Didn't find a fix? [📮 Share your failure lesson →](https://github.com/Ikalu
 | **Best for** | DCO failures, GitHub token errors, pip timeout, Feishu API, WSL, FANUC |
 | **Not for** | Private memory storage, hosted vector database, general chatbot memory |
 | **License** | Apache 2.0 |
-| **Data** | 249 lessons, 235+ nodes, 18 domains |
+| **Data** | 249 lessons, 60 assigned node IDs, 18 domains |
 
 ---
 
@@ -403,7 +403,7 @@ python3 scripts/lesson_reuse_bench.py --compare         # with vs without lesson
 | Metric | Value |
 |--------|-------|
 | Shared Lessons | 249 |
-| Registered Nodes | 235+ |
+| Registered Nodes | 60 assigned IDs |
 | Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
 | npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
 | PyPI packages | [`misakanet-core`](https://pypi.org/project/misakanet-core/) |
