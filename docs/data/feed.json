@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-08-01T14:02:22.491170+00:00",
+  "generated_at": "2026-08-01T16:25:58.556916+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "feat: add Russian shell-script-debugging lesson (#702)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/720",
+      "timestamp": "2026-08-01T14:14:45Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "ci: add PR Genius GitHub Action for automated PR analysis",
@@ -30,47 +37,6 @@
       "title": "feat: add Indonesian shell-script-debugging lesson (#704)",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/718",
       "timestamp": "2026-08-01T09:16:44Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: add Hindi shell-script-debugging lesson (#703)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/719",
-      "timestamp": "2026-08-01T09:16:40Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Bounty] Contribute a high-quality lesson in Russian",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/702",
-      "labels": [
-        "good first issue",
-        "lesson",
-        "needs-ac",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "needs-dco",
-        "pool:quick",
-        "i18n"
-      ],
-      "timestamp": "2026-08-01T08:12:47Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[P4][Distribution] Audit Glama / MCP Registry / PyPI / README metadata consistency",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/684",
-      "labels": [
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:quick",
-        "priority:later",
-        "纯文档"
-      ],
-      "timestamp": "2026-07-31T11:02:24Z",
       "source": "github"
     },
     {
@@ -159,6 +125,43 @@
         "纯文档"
       ],
       "timestamp": "2026-07-21T02:30:51Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Bounty][$0][agent competition] Blind test homepage SAG-Lite lesson search",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/429",
+      "labels": [
+        "good first issue",
+        "area:tests",
+        "needs-ac",
+        "ready",
+        "agent-friendly",
+        "no-credentials",
+        "zero-bounty",
+        "has-test",
+        "status:competition",
+        "pool:quick",
+        "priority:later"
+      ],
+      "timestamp": "2026-07-09T07:03:41Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Ecosystem] Add MCP protocol extension for lesson metadata",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/319",
+      "labels": [
+        "enhancement",
+        "Ring-3",
+        "bounty",
+        "agent-friendly",
+        "status:competition",
+        "pool:deep",
+        "status:needs-design",
+        "priority:later"
+      ],
+      "timestamp": "2026-07-02T16:01:32Z",
       "source": "github"
     }
   ]
