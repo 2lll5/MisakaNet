@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Windows Encoding (GBK/Unicode) Errors — MisakaNet</title>
-<meta name="description" content="Fix UnicodeDecodeError, GBK codec errors, and encoding issues on Windows for Python, Git, and CI.">
+<meta name="description" content="Fix UnicodeDecodeError, GBK codec errors, and encoding issues on Windows for Python, Git, and CI. Search failure-recovery lessons.">
 <link rel="canonical" href="https://misakanet.org/topics/windows-encoding/">
 <meta property="og:title" content="Windows Encoding Errors — MisakaNet">
 <meta property="og:description" content="Fix UnicodeDecodeError, GBK codec errors, and encoding issues on Windows.">
@@ -12,12 +12,14 @@
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a0f1d; color: #e2e8f0; max-width: 720px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; }
   a { color: #58a6ff; }
   h1 { font-size: 24px; margin-bottom: 8px; }
+  h2 { font-size: 18px; margin-top: 32px; margin-bottom: 12px; color: #c9d1d9; }
   .count { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
-  .lesson { padding: 12px 0; border-bottom: 1px solid rgba(88,166,255,0.1); }
-  .lesson a { font-weight: 600; }
-  .lesson .summary { color: #8b949e; font-size: 13px; margin-top: 4px; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 8px; }
+  code { background: rgba(110,118,129,0.2); padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+  pre { background: #161b22; padding: 16px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
+  .cta { background: #1f6feb; color: #fff; padding: 12px 24px; border-radius: 6px; display: inline-block; margin-top: 12px; margin-bottom: 12px; text-decoration: none; }
   .back { margin-top: 32px; font-size: 13px; }
-  .cta { background: #1f6feb; color: #fff; padding: 12px 24px; border-radius: 6px; display: inline-block; margin-top: 24px; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -26,33 +28,57 @@
 
 <h2>Common Symptoms</h2>
 <ul>
-  <li><code>UnicodeDecodeError: 'gbk' codec can't decode byte</code></li>
+  <li><code>UnicodeDecodeError: 'gbk' codec can't decode byte 0x94</code></li>
   <li><code>UnicodeDecodeError: 'utf-8' codec can't decode byte</code></li>
-  <li>Git commit message garbled or rejected</li>
+  <li>Git commit message garbled or rejected by pre-commit hooks</li>
   <li>Python script crashes reading files with non-ASCII content</li>
-  <li>pre-commit hooks fail with encoding errors</li>
+  <li><code>pre-commit</code> DCO check fails with encoding error</li>
+  <li>JSON/YAML parsing fails on Windows but works on Linux</li>
+</ul>
+
+<h2>Root Causes</h2>
+<ul>
+  <li>Windows default encoding is GBK (CP936), not UTF-8</li>
+  <li>Python 3.11 and earlier don't default to UTF-8 on Windows</li>
+  <li>Git on Windows uses system locale for commit message encoding</li>
+  <li>pre-commit hooks read files with system default encoding</li>
+  <li>Files created on Linux (UTF-8) opened on Windows (GBK)</li>
 </ul>
 
 <h2>Search MisakaNet</h2>
 <p>Your issue may already have a fix:</p>
 <a href="https://ikalus1988.github.io/MisakaNet/search/" class="cta">Search Windows encoding lessons →</a>
 
-<h2>Quick Fixes</h2>
-<pre><code># Set Python UTF-8 mode
-set PYTHONUTF8=1
-python your_script.py
+<h2>Top Lessons</h2>
+<ul>
+  <li><a href="https://ikalus1988.github.io/MisakaNet/search/">GBK codec error in pre-commit</a></li>
+  <li><a href="https://ikalus1988.github.io/MisakaNet/search/">Python UTF-8 mode on Windows</a></li>
+  <li><a href="https://ikalus1988.github.io/MisakaNet/search/">Git commit encoding settings</a></li>
+</ul>
 
-# Or set globally
+<h2>Quick Fix Checklist</h2>
+<pre><code># 1. Set Python UTF-8 mode (fixes most issues)
+set PYTHONUTF8=1
+# Or permanently:
 setx PYTHONUTF8 1
 
-# Git: set commit encoding
+# 2. Git encoding config
 git config --global core.quotepath false
-git config --global i18n.commitEncoding utf-8</code></pre>
+git config --global i18n.commitEncoding utf-8
 
-<h2>Submit a Redacted Intake</h2>
-<p>If no lesson matches, report your failure:</p>
-<pre><code>python3 scripts/misaka_capture.py --summary "Windows encoding error: <your error>" --source cli</code></pre>
+# 3. For pre-commit hooks, add to .pre-commit-config.yaml:
+# default_language_version:
+#   python: python3
 
-<div class="back"><a href="/">← Back to MisakaNet</a></div>
+# 4. For scripts, always specify encoding:
+# open(file, encoding='utf-8')
+# subprocess.run(..., encoding='utf-8', errors='replace')</code></pre>
+
+<h2>If No Lesson Matches</h2>
+<p>Submit a redacted failure report:</p>
+<pre><code>python3 scripts/misaka_capture.py --summary "Windows encoding error: &lt;your error&gt;" --source cli</code></pre>
+<p>Or <a href="https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml">open an intake issue →</a></p>
+
+<div class="back"><a href="/">← Back to MisakaNet</a> · <a href="/docs/troubleshooting.md">Troubleshooting FAQ</a></div>
 </body>
 </html>
