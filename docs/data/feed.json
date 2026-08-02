@@ -1,57 +1,42 @@
 {
-  "generated_at": "2026-08-02T04:03:26.271601+00:00",
+  "generated_at": "2026-08-02T08:40:11.563745+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
     {
       "type": "merged_pr",
-      "title": "docs: enhance Windows encoding troubleshooting landing page (Issue #726)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/738",
-      "timestamp": "2026-08-02T02:06:28Z",
+      "title": "feat: add runtime failure-memory smoke test report (#683)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/740",
+      "timestamp": "2026-08-02T05:49:55Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat: enhance MCP setup SEO landing page (#725)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/736",
-      "timestamp": "2026-08-02T02:06:25Z",
+      "title": "feat: add intake digest CLI with --since flag and category breakdown",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/752",
+      "timestamp": "2026-08-02T05:49:39Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat: add Russian and Hindi lesson translations",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/729",
-      "timestamp": "2026-08-02T02:05:54Z",
+      "title": "feat: add domain synonym query expansion to search",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/754",
+      "timestamp": "2026-08-02T05:49:35Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat: add Russian shell-script-debugging lesson (#702)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/720",
-      "timestamp": "2026-08-01T14:14:45Z",
+      "title": "feat: define deterministic Agent Self-Healing task catalog",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/749",
+      "timestamp": "2026-08-02T05:49:32Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "ci: add PR Genius GitHub Action for automated PR analysis",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/722",
-      "timestamp": "2026-08-01T09:58:05Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[P2][Runtime] Smoke test Cursor / Claude / misaka run failure-memory flow",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/683",
-      "labels": [
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:quick",
-        "priority:next"
-      ],
-      "timestamp": "2026-07-31T11:01:51Z",
+      "title": "feat: clean-room English translation batch for top lessons",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/750",
+      "timestamp": "2026-08-02T05:49:15Z",
       "source": "github"
     },
     {
@@ -162,6 +147,25 @@
         "priority:later"
       ],
       "timestamp": "2026-07-02T16:01:32Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Lesson] Translate top10 most-viewed Chinese lessons to English",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/309",
+      "labels": [
+        "Ring-2",
+        "ready",
+        "area:lessons",
+        "bounty",
+        "agent-friendly",
+        "zero-bounty",
+        "status:competition",
+        "pool:quick",
+        "priority:later",
+        "纯文档"
+      ],
+      "timestamp": "2026-07-02T15:59:51Z",
       "source": "github"
     }
   ]
