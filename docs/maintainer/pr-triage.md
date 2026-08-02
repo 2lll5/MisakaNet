@@ -1,5 +1,11 @@
 # PR Triage Guide
 
+## Closed-DCO Absorption Batch (2026-08-02)
+
+Closed-DCO absorption batch completed: shell helper, CI hygiene, benchmark catalog, query expansion, intake digest, English translations, runtime smoke.
+
+All implemented via clean-room PRs with DCO sign-off. Original closed PRs were not copied.
+
 ## PR Genius (Advisory Only)
 
 PR Genius is a CI check that provides automated risk assessment for PRs. It is **advisory only** — not a merge gate.
