@@ -14,6 +14,11 @@ Connect MisakaNet to your AI coding tool. Search 207+ lessons directly from your
 | **Cline** | Planned | — |
 | **Shell alias** | Ready | See below |
 
+## Public smoke evidence
+
+- [MCP smoke report](mcp-smoke-report.md) verifies local stdio tool calls for `misakanet_search` and `misakanet_usage_status`.
+- [Glama Analytics counting boundary](glama-analytics.md) explains why `0 Glama-routed tool calls` must not be described as `0 usage`.
+
 ## Quick: Shell Alias
 
 Add to `~/.bashrc` or `~/.zshrc`:
