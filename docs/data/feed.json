@@ -1,9 +1,30 @@
 {
-  "generated_at": "2026-08-01T22:14:18.903155+00:00",
+  "generated_at": "2026-08-02T04:03:26.271601+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "docs: enhance Windows encoding troubleshooting landing page (Issue #726)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/738",
+      "timestamp": "2026-08-02T02:06:28Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat: enhance MCP setup SEO landing page (#725)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/736",
+      "timestamp": "2026-08-02T02:06:25Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat: add Russian and Hindi lesson translations",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/729",
+      "timestamp": "2026-08-02T02:05:54Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "feat: add Russian shell-script-debugging lesson (#702)",
@@ -16,27 +37,6 @@
       "title": "ci: add PR Genius GitHub Action for automated PR analysis",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/722",
       "timestamp": "2026-08-01T09:58:05Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: add Turkish shell-script-debugging lesson (#706)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/716",
-      "timestamp": "2026-08-01T09:16:51Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: add Vietnamese shell-script-debugging lesson (#705)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/717",
-      "timestamp": "2026-08-01T09:16:48Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: add Indonesian shell-script-debugging lesson (#704)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/718",
-      "timestamp": "2026-08-01T09:16:44Z",
       "source": "github"
     },
     {

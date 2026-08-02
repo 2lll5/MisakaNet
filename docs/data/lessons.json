@@ -4212,6 +4212,22 @@
     "verified": false
   },
   {
+    "id": "tor-orbot-privacy-in-react-native-tr",
+    "title": "tor-orbot-privacy-in-react-native-tr",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Mobil uygulamada gizlilik amacıyla Tor kullanımı hedefleniyordu ancak Orbot’un çalışıp çalışmadığı, cihazda yüklü olup olmadığı ve API trafiğinin gerçekten Tor …",
+    "preview": "# React Native uygulamasında Orbot (Tor) ile gizlilik akışı\n## Problem\nMobil uygulamada gizlilik amacıyla Tor kullanımı hedefleniyordu ancak Orbot’un çalışıp çalışmadığı, cihazda yüklü olup olmadığı ve API trafiğinin gerçekten Tor üzerinden geçip geçmediği net değildi. Kullanıcılar “Tor açık” sanırken uygulama normal ağ üzerinden istek atabiliyor ve gerçek anonimlik sağlanamıyordu.\n\n## Root Cause\nOrbot yalnızca cihaz düzeyinde bir Tor proxy sağlar. React Native tarafında soketler otomatik olarak SOCKS5 üzerinden yönlendirilmez. Uygulama, Orbot’un durumunu kontrol etmeden veya proxy tercihini kaydetmeden API isteklerini normal şekilde göndermeye devam eder.\n\n## Solution\nTor kullanımını güvenli hale getirmek için uygulamada ayrı bir gizlilik akışı tanımlandı.\n\n### Step 1 — Orbot kontrolü\n```javascript\nimport { Linking, Platform } from 'react-native';\n\nconst ORBOT_URI = 'orbot://';\n\nasync function isOrbotInstalled() {\n  if (Platform.OS !== 'android') return false;\n  try { return await Linking.canOpenURL(ORBOT_URI); } catch { return false; }\n}\n```\n\n### Step 2 — Kullanıcı tercihini sakla\n```javascript\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst PREF_KEY = '@MyApp:privacy_preferences';\n\nasync function setUseTorProxy(enabled) {\n  await AsyncStorage.setItem(PREF_KEY, JSON.stringify({ useTorProxy: enabled }));\n}\n```\n\n### Step 3 — API isteklerini işaretle\n```javascript\nimport api from './api';\n\nfunction applyTorPreference(enabled) {\n  if (enabled) api.defaults.headers.common['X-Tor-Requested'] = 'true';\n  else delete api.defaults.headers.common['X-Tor-Requested'];\n}\n```\n\n## Verification\n1. Orbot yüklü değilken “Tor’u etkinleştir” butonunun Orbot sayfasını açtığını doğrula.\n2. Tercih aktifken API isteklerinde `X-Tor-Requested: true` başlığını gör.\n3. `https://check.torproject.org/api/ip` ile IP doğrulaması yap.\n\n## Notes\n- Orbot’un çalışması tek başına trafik tünellemesini garanti etmez; gerçek SOCKS5 yönlendirmesi için native proxy modülü gerekir.\n- Üretim ortamında “Tor aktif” rozeti yalnızca proxy gerçekten devredeyken gösterilmelidir.",
+    "url": "lessons/contrib/tor-orbot-privacy-in-react-native-tr.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "tts-chinese-encoding-powershell",
     "title": "tts chinese encoding powershell",
     "domain": "contrib",
