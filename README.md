@@ -16,6 +16,7 @@ mcp-name: io.github.Ikalus1988/misakanet
 [![Python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet)](https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE)
 [![Glama score](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg)](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/score)
+[![MCP Quickstart](https://img.shields.io/badge/MCP-quickstart-green)](docs/mcp-quickstart.md)
 [![Stars](https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social)](https://github.com/Ikalus1988/MisakaNet/stargazers)
 [![MCP Toplist: Top 1% of 81,852](https://mcptoplist.com/badge/io.github.Ikalus1988%2Fmisakanet.svg)](https://mcptoplist.com/server/io.github.Ikalus1988%2Fmisakanet)
 
@@ -46,7 +47,15 @@ MisakaNet is a failure-memory layer for AI coding agents. When your agent hits a
 }
 ```
 
-Then ask: *"Search MisakaNet for DCO sign-off failure"*
+Then ask: *"Search MisakaNet for database locked"*
+
+Expected output:
+
+```
+Results for "database locked" (source: sag-lite):
+  1. Hermes State Database Lock Issues — Cleanup Protocol  (score: 8.32)
+  2. SQLite database is locked — WAL checkpoint fix        (score: 6.14)
+```
 
 **Option B: CLI**
 
@@ -354,7 +363,7 @@ Give your AI assistant access to failure-recovery lessons via MCP:
 }
 ```
 
-Then ask: *"Search MisakaNet for DCO sign-off failure"* → [Full MCP quickstart →](docs/mcp-quickstart.md)
+Then ask: *"Search MisakaNet for database locked"* → [Full MCP quickstart →](docs/mcp-quickstart.md)
 
 ### Integration guides
 
