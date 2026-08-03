@@ -64,7 +64,16 @@ pip install misakanet-core
 python3 search_knowledge.py "GitHub token 401"
 ```
 
-**Option C: Web**
+**Option C: Docker (no local Python needed)**
+
+```bash
+docker pull ghcr.io/ikalus1988/misakanet:latest
+docker run -i ghcr.io/ikalus1988/misakanet:latest search_knowledge.py "database locked"
+```
+
+Use cases: CI smoke test, isolated trial, Claude Desktop MCP config with Docker.
+
+**Option D: Web**
 
 [Search failure lessons →](https://ikalus1988.github.io/MisakaNet/search/)
 
