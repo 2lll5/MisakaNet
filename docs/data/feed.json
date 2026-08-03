@@ -1,9 +1,83 @@
 {
-  "generated_at": "2026-08-03T04:02:12.309118+00:00",
+  "generated_at": "2026-08-03T10:09:37.128230+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 11,
+  "item_count": 12,
   "items": [
+    {
+      "type": "challenge",
+      "title": "[Analytics] Add privacy-preserving unsolved failure map",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/788",
+      "labels": [
+        "ready",
+        "bounty",
+        "agent-friendly",
+        "status:competition",
+        "pool:roadmap",
+        "priority:later"
+      ],
+      "timestamp": "2026-08-03T10:05:20Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Onboarding] Add copy-paste agent instruction for first MisakaNet MCP call",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/787",
+      "labels": [
+        "ready",
+        "bounty",
+        "agent-friendly",
+        "status:competition",
+        "pool:quick",
+        "priority:now"
+      ],
+      "timestamp": "2026-08-03T10:04:55Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Trust] Add evidence levels for failure-recovery lessons",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/786",
+      "labels": [
+        "ready",
+        "bounty",
+        "agent-friendly",
+        "status:competition",
+        "pool:roadmap",
+        "priority:later"
+      ],
+      "timestamp": "2026-08-03T10:04:09Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Health] Add recurring public site health snapshot",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/783",
+      "labels": [
+        "area:docs",
+        "ready",
+        "bounty",
+        "status:competition",
+        "priority:later"
+      ],
+      "timestamp": "2026-08-03T07:10:20Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Growth] Contributor story / first-call intro for MisakaNet",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/782",
+      "labels": [
+        "documentation",
+        "ready",
+        "bounty",
+        "agent-friendly",
+        "status:competition",
+        "priority:next"
+      ],
+      "timestamp": "2026-08-03T07:10:10Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "ci: upgrade pr-genius action to v1.3.1",
@@ -12,81 +86,10 @@
       "source": "github"
     },
     {
-      "type": "challenge",
-      "title": "[P0][Glama] Verify what Tool Calls actually counts",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/764",
-      "labels": [
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:quick",
-        "priority:now"
-      ],
-      "timestamp": "2026-08-02T07:07:12Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[P2][Analytics] Track first-call funnel manually for Glama",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/763",
-      "labels": [
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:quick",
-        "priority:later",
-        "纯文档"
-      ],
-      "timestamp": "2026-08-02T06:59:51Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[P1][Docs] Add Glama-first quickstart block to README and server metadata",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/762",
-      "labels": [
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:quick",
-        "priority:next",
-        "纯文档"
-      ],
-      "timestamp": "2026-08-02T06:59:38Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[P0][MCP] Add public MCP smoke report for Glama users",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/761",
-      "labels": [
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:quick",
-        "priority:now",
-        "纯文档"
-      ],
-      "timestamp": "2026-08-02T06:59:07Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[P0][Glama] Fix first MCP tool call conversion",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/760",
-      "labels": [
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:quick",
-        "priority:now"
-      ],
-      "timestamp": "2026-08-02T06:58:53Z",
+      "type": "merged_pr",
+      "title": "docs: establish minimum growth funnel dashboard",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/765",
+      "timestamp": "2026-08-03T01:22:19Z",
       "source": "github"
     },
     {
