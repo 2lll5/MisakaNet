@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-03T10:09:37.128230+00:00",
+  "generated_at": "2026-08-03T15:21:44.475295+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 12,
@@ -17,21 +17,6 @@
         "priority:later"
       ],
       "timestamp": "2026-08-03T10:05:20Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Onboarding] Add copy-paste agent instruction for first MisakaNet MCP call",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/787",
-      "labels": [
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:quick",
-        "priority:now"
-      ],
-      "timestamp": "2026-08-03T10:04:55Z",
       "source": "github"
     },
     {
@@ -76,6 +61,20 @@
         "priority:next"
       ],
       "timestamp": "2026-08-03T07:10:10Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[CI] Observe PR Genius v1.3.1 on next 5 non-docs PRs",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/781",
+      "labels": [
+        "area:workflow",
+        "ready",
+        "bounty",
+        "status:competition",
+        "priority:next"
+      ],
+      "timestamp": "2026-08-03T07:09:55Z",
       "source": "github"
     },
     {
