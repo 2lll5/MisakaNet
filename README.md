@@ -374,6 +374,24 @@ Give your AI assistant access to failure-recovery lessons via MCP:
 
 Then ask: *"Search MisakaNet for database locked"* → [Full MCP quickstart →](docs/mcp-quickstart.md)
 
+### Copy this to your coding agent
+
+Paste this into Cursor, Claude Code, or Claude Desktop to install and test MisakaNet in one shot:
+
+```
+Please install and test MisakaNet as an MCP failure-memory server.
+
+1. Clone https://github.com/Ikalus1988/MisakaNet
+2. Configure it as an MCP stdio server:
+   - Command: python3
+   - Args: /path/to/MisakaNet/scripts/mcp_server.py
+3. Restart your MCP client (Cursor / Claude Code / Claude Desktop)
+4. Run the first query: Search MisakaNet for "database locked"
+5. Confirm that misakanet_search returns failure-recovery lessons with title, score, and path.
+```
+
+MisakaNet is a failure-memory and recovery layer for coding agents / MCP clients. Local stdio MCP calls work independently of Glama analytics. → [Full MCP quickstart →](docs/mcp-quickstart.md)
+
 ### Integration guides
 
 | Tool | Guide |
