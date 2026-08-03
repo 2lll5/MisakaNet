@@ -6,6 +6,19 @@ Closed-DCO absorption batch completed: shell helper, CI hygiene, benchmark catal
 
 All implemented via clean-room PRs with DCO sign-off. Original closed PRs were not copied.
 
+## Stale PR Bulk Close (2026-08-02)
+
+19 DCO-failed PRs closed (#685-692, #695-696, #700-701, #708-713, #679). Reviewed as demand signals only.
+
+We will not copy code or text from these PRs. Any follow-up will be clean-room implementation from current issues and current repository state.
+
+Signals retained:
+- runtime smoke evidence → #757, #761
+- benchmark task catalog → #742 (closed, absorbed)
+- metadata consistency audit → deferred to v2.15
+- onboarding first-run flow → #646 (active)
+- multilingual lesson demand → i18n bounty issues active
+
 ## PR Genius (Advisory Only)
 
 PR Genius is a CI check that provides automated risk assessment for PRs. It is **advisory only** — not a merge gate.
