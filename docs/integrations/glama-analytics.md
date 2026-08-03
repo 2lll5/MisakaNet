@@ -7,9 +7,27 @@ Related issue: #764
 
 ## Short conclusion
 
-Glama currently shows **0 Glama-routed tool calls** for MisakaNet. Do **not** describe this as "0 usage".
+MisakaNet MCP server works locally; Glama listing exists; Glama Gateway/tool-call analytics has not discovered or routed MisakaNet tools yet.
 
-The current public evidence says MisakaNet is listed on Glama, but the Glama server API returns an empty `tools` array for this listing. That means there is no verified Glama-hosted tool endpoint to exercise from this checkout yet. Local stdio usage through Claude Desktop, Cursor, Claude Code, shell, or Docker should be treated as outside the Glama Analytics `Tool Calls` counter unless Glama documents otherwise.
+This is **not** "MCP broken" or "0 usage". It is an analytics/gateway counting boundary: Glama currently shows 0 Glama-routed tool calls, while local stdio MCP calls are working and should not be described as "0 usage".
+
+## External communication wording
+
+For zsxh / external PRs / awesome-list listings, use this framing:
+
+> MisakaNet is already registered as an MCP server and local MCP usage works. The current Glama issue is not MCP functionality. It is an analytics / gateway counting boundary: Glama currently shows 0 Glama-routed tool calls, while local stdio MCP calls are working and should not be described as "0 usage".
+
+Do **not** say:
+- "MisakaNet has 0 usage"
+- "MCP integration needs to be fixed"
+- "We need to register as an MCP server" (already registered)
+
+## Focus areas (in order)
+
+1. **Clarify Glama counting boundary** — document that Tool Calls = 0 is a measurement gap, not a failure
+2. **Check Glama Gateway support** — confirm whether Glama can host/route MisakaNet tools (see Follow-up below)
+3. **Improve first-call docs** — copy-paste config, recommended first query, expected output
+4. Do **not** frame any of this as "MCP broken"
 
 ## Evidence collected
 
@@ -51,11 +69,13 @@ This proves the MCP server works locally, but it does not prove Glama Analytics 
 
 Use:
 
-> Glama currently shows 0 Glama-routed tool calls; local stdio usage is not counted or not yet confirmed by that metric.
+> MisakaNet is already registered as an MCP server and local MCP usage works. The current Glama issue is not MCP functionality — it is an analytics / gateway counting boundary.
 
 Avoid:
 
 > MisakaNet has 0 usage.
+> MCP integration needs to be fixed.
+> We need to register as an MCP server.
 
 ## Follow-up
 
