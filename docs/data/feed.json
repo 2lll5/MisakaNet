@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-08-03T15:21:44.475295+00:00",
+  "generated_at": "2026-08-03T17:22:10.486436+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 12,
+  "item_count": 13,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "docs(blog): first-call contributor intro (#782)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/784",
+      "timestamp": "2026-08-03T15:57:34Z",
+      "source": "github"
+    },
     {
       "type": "challenge",
       "title": "[Analytics] Add privacy-preserving unsolved failure map",
@@ -50,21 +57,6 @@
     },
     {
       "type": "challenge",
-      "title": "[Growth] Contributor story / first-call intro for MisakaNet",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/782",
-      "labels": [
-        "documentation",
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "priority:next"
-      ],
-      "timestamp": "2026-08-03T07:10:10Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
       "title": "[CI] Observe PR Genius v1.3.1 on next 5 non-docs PRs",
       "url": "https://github.com/Ikalus1988/MisakaNet/issues/781",
       "labels": [
@@ -75,6 +67,20 @@
         "priority:next"
       ],
       "timestamp": "2026-08-03T07:09:55Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Docs] Clarify registered MCP server vs Glama-routed tool calls",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/779",
+      "labels": [
+        "ready",
+        "bounty",
+        "docs",
+        "status:competition",
+        "priority:next"
+      ],
+      "timestamp": "2026-08-03T07:08:56Z",
       "source": "github"
     },
     {
