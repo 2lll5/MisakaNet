@@ -31,7 +31,7 @@ const MAX_NODE_NAME = 50;
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
 function jsonResponse(body, status = 200) {
@@ -44,6 +44,303 @@ function jsonResponse(body, status = 200) {
       "Pragma": "no-cache",
       "Expires": "0",
     },
+  });
+}
+
+// ── MCP (Model Context Protocol) over Streamable HTTP ──
+// Spec: 2025-06-18 + forward-compat with 2026-07-28 RC
+// - Supports initialize handshake (2025-06-18) AND stateless direct calls (2026-07-28)
+// - Accepts Mcp-Method / Mcp-Name headers (2026-07-28) as fallback routing
+// - Origin validation required by spec (DNS rebinding protection)
+// - Version injected at build time from env.MCP_VERSION or falls back to package.json
+
+const MCP_TOOLS = [
+  {
+    name: "misakanet_search",
+    description: "Search MisakaNet's public failure-lesson index by error text, keyword, or topic. Use when you need to discover relevant lessons and do not already know a lesson ID. Returns ranked lesson summaries with path, title, domain, status, and match details.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Required redacted error message, keyword, or topic (e.g. 'pip install timeout' or 'DCO sign-off failed')." },
+        domain: { type: "string", description: "Optional domain filter such as devops, python, network, feishu, rag, fanuc, or mcp." },
+        top: { type: "integer", description: "Maximum ranked results to return. Defaults to 5; keep small for MCP context and latency." },
+      },
+      required: ["query"],
+    },
+  },
+  {
+    name: "misakanet_get_lesson",
+    description: "Fetch one public MisakaNet lesson by repository path or lesson ID. Use after misakanet_search returns a promising result. Returns path and markdown content, truncated to 5000 characters.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        path: { type: "string", description: "Lesson path relative to the repository, e.g. lessons/core/auto-merge-ci-pipeline.md." },
+        id: { type: "string", description: "Lesson ID, usually the filename without .md, e.g. auto-merge-ci-pipeline." },
+      },
+    },
+  },
+];
+
+const MCP_PROTOCOL_VERSION = "2025-06-18";
+const SUPPORTED_PROTOCOL_VERSIONS = ["2025-06-18", "2026-07-28"];
+
+function getMcpServerInfo(env) {
+  return {
+    name: "misakanet",
+    version: env.MCP_VERSION || "2.15.0",
+  };
+}
+
+function timingSafeEqual(a, b) {
+  if (a.length !== b.length) return false;
+  let result = 0;
+  for (let i = 0; i < a.length; i++) result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return result === 0;
+}
+
+// Origin validation — MCP spec requires this to prevent DNS rebinding
+const MCP_ALLOWED_ORIGINS = [
+  "https://glama.ai",
+  "https://claude.ai",
+  "https://cursor.sh",
+  "https://copilot.microsoft.com",
+  "http://localhost",
+  "http://127.0.0.1",
+];
+
+function validateMcpOrigin(request) {
+  const origin = request.headers.get("Origin");
+  // No Origin = CLI tool or direct curl — allowed
+  if (!origin) return true;
+  // Check against whitelist (prefix match for localhost ports)
+  return MCP_ALLOWED_ORIGINS.some(allowed => origin === allowed || origin.startsWith(allowed + ":"));
+}
+
+// Simple keyword-based lesson search (runs in Worker, no BM25)
+function searchLessons(lessons, query, domain, top = 5) {
+  if (!Array.isArray(lessons) || !query) return [];
+  const q = query.toLowerCase();
+  const qWords = q.split(/\s+/).filter(w => w.length > 2);
+  const scored = [];
+
+  for (const lesson of lessons) {
+    if (domain && lesson.domain && lesson.domain.toLowerCase() !== domain.toLowerCase()) continue;
+    const title = (lesson.title || lesson.name || "").toLowerCase();
+    const desc = (lesson.description || "").toLowerCase();
+    const lessonDomain = (lesson.domain || "").toLowerCase();
+    const tags = Array.isArray(lesson.tags) ? lesson.tags.join(" ").toLowerCase() : "";
+    const text = `${title} ${desc} ${lessonDomain} ${tags}`;
+
+    let score = 0;
+    if (text.includes(q)) score += 10;
+    for (const w of qWords) {
+      if (text.includes(w)) score += 2;
+      if (title.includes(w)) score += 1;
+    }
+    if (domain && lessonDomain === domain.toLowerCase()) score += 1;
+
+    if (score > 0) scored.push({ lesson, score });
+  }
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, top).map(({ lesson, score }) => ({
+    id: lesson.id || lesson.name || "",
+    title: lesson.title || lesson.name || "",
+    domain: lesson.domain || "",
+    status: lesson.status || "",
+    description: (lesson.description || "").slice(0, 200),
+    path: lesson.path || "",
+    score,
+  }));
+}
+
+// Fetch a single lesson markdown from GitHub
+async function fetchLessonContent(env, lessonPath, lessonId) {
+  const token = env.REGISTER_TOKEN;
+  if (!token) throw new Error("REGISTER_TOKEN not configured");
+  let filePath = lessonPath;
+  if (!filePath && lessonId) {
+    const candidates = [`lessons/core/${lessonId}.md`, `lessons/contrib/${lessonId}.md`];
+    for (const c of candidates) {
+      try {
+        const url = `${GITHUB_API}/repos/${REPO}/contents/${c}?ref=data`;
+        const resp = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}`, "User-Agent": "MisakaNet-Worker", Accept: "application/vnd.github.v3+json" },
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.content && data.encoding === "base64") return { path: c, content: atob(data.content).slice(0, 5000) };
+        }
+      } catch {}
+    }
+    throw new Error(`Lesson not found: ${lessonId}`);
+  }
+  if (!filePath) throw new Error("Missing path or id");
+
+  const url = `${GITHUB_API}/repos/${REPO}/contents/${filePath}?ref=data`;
+  const resp = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}`, "User-Agent": "MisakaNet-Worker", Accept: "application/vnd.github.v3+json" },
+  });
+  if (!resp.ok) throw new Error(`Lesson not found: ${filePath}`);
+  const data = await resp.json();
+  if (!data.content || data.encoding !== "base64") throw new Error("Unexpected response");
+  return { path: filePath, content: atob(data.content).slice(0, 5000) };
+}
+
+async function handleMcpToolCall(env, toolName, args) {
+  if (toolName === "misakanet_search") {
+    if (!args.query) return { error: "query is required" };
+    let lessons;
+    try {
+      lessons = await getWithCache(env, "proxy:lessons", () => fetchFromGitHub(env.REGISTER_TOKEN, "lessons.json", "data"));
+    } catch (e) {
+      return { error: `Failed to load lessons: ${e.message}` };
+    }
+    const results = searchLessons(lessons, args.query, args.domain, args.top || 5);
+    return { results, source: "worker-search", query: args.query };
+  }
+
+  if (toolName === "misakanet_get_lesson") {
+    try {
+      return await fetchLessonContent(env, args.path, args.id);
+    } catch (e) {
+      return { error: e.message };
+    }
+  }
+
+  return { error: `Unknown tool: ${toolName}` };
+}
+
+function mcpJsonResponse(body, status = 200, extraHeaders = {}) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      "content-type": "application/json",
+      ...CORS_HEADERS,
+      ...extraHeaders,
+    },
+  });
+}
+
+function handleMcpRequest(request, env) {
+  // 1. Origin validation (MCP spec: prevent DNS rebinding)
+  if (!validateMcpOrigin(request)) {
+    return mcpJsonResponse(
+      { jsonrpc: "2.0", error: { code: -32000, message: "Forbidden: invalid Origin" } },
+      403,
+    );
+  }
+
+  // 2. Auth check
+  const authHeader = request.headers.get("Authorization") || "";
+  const token = authHeader.replace(/^Bearer\s+/i, "");
+  const expectedToken = env.MCP_TOKEN;
+  if (!expectedToken || !timingSafeEqual(token, expectedToken)) {
+    return mcpJsonResponse(
+      { jsonrpc: "2.0", error: { code: -32000, message: "Unauthorized" } },
+      401,
+    );
+  }
+
+  // 3. Protocol version check (header-based, per 2025-06-18 spec)
+  const protocolVersion = request.headers.get("MCP-Protocol-Version") || MCP_PROTOCOL_VERSION;
+  if (!SUPPORTED_PROTOCOL_VERSIONS.includes(protocolVersion)) {
+    return mcpJsonResponse(
+      { jsonrpc: "2.0", error: { code: -32600, message: `Unsupported protocol version: ${protocolVersion}` } },
+      400,
+    );
+  }
+
+  // 4. Parse JSON-RPC body
+  return request.json().then(body => {
+    const { id, method, params } = body || {};
+    const reqId = id ?? null;
+
+    // 2026-07-28 RC: validate Mcp-Method / Mcp-Name headers match body
+    const hdrMethod = request.headers.get("Mcp-Method");
+    const hdrName = request.headers.get("Mcp-Name");
+    if (hdrMethod && method && hdrMethod !== method) {
+      return mcpJsonResponse({
+        jsonrpc: "2.0", id: reqId,
+        error: { code: -32600, message: `Mcp-Method header (${hdrMethod}) does not match body method (${method})` },
+      }, 400);
+    }
+    if (hdrName && params?.name && hdrName !== params.name) {
+      return mcpJsonResponse({
+        jsonrpc: "2.0", id: reqId,
+        error: { code: -32600, message: `Mcp-Name header (${hdrName}) does not match body name (${params.name})` },
+      }, 400);
+    }
+
+    // Notifications (no id) → 202 Accepted
+    if (id === undefined && method === "notifications/initialized") {
+      return new Response(null, { status: 202 });
+    }
+    if (id === undefined && method?.startsWith("notifications/")) {
+      return new Response(null, { status: 202 });
+    }
+
+    // 5. Dispatch
+    if (method === "initialize") {
+      const serverInfo = getMcpServerInfo(env);
+      // Respond with negotiated protocol version
+      const negotiatedVersion = SUPPORTED_PROTOCOL_VERSIONS.includes(params?.protocolVersion)
+        ? params.protocolVersion
+        : MCP_PROTOCOL_VERSION;
+      return mcpJsonResponse({
+        jsonrpc: "2.0", id: reqId,
+        result: {
+          protocolVersion: negotiatedVersion,
+          capabilities: { tools: {} },
+          serverInfo,
+        },
+      });
+    }
+
+    if (method === "tools/list") {
+      return mcpJsonResponse({
+        jsonrpc: "2.0", id: reqId,
+        result: { tools: MCP_TOOLS },
+      });
+    }
+
+    if (method === "tools/call") {
+      const toolName = params?.name || hdrName;
+      const args = params?.arguments || {};
+      if (!toolName) {
+        return mcpJsonResponse({
+          jsonrpc: "2.0", id: reqId,
+          error: { code: -32602, message: "Missing tool name" },
+        });
+      }
+      return handleMcpToolCall(env, toolName, args).then(result => {
+        return mcpJsonResponse({
+          jsonrpc: "2.0", id: reqId,
+          result: { content: [{ type: "text", text: JSON.stringify(result) }] },
+        });
+      });
+    }
+
+    // server/discover (2026-07-28 RC) — alias for capabilities query
+    if (method === "server/discover") {
+      return mcpJsonResponse({
+        jsonrpc: "2.0", id: reqId,
+        result: {
+          capabilities: { tools: {} },
+          serverInfo: getMcpServerInfo(env),
+        },
+      });
+    }
+
+    return mcpJsonResponse({
+      jsonrpc: "2.0", id: reqId,
+      error: { code: -32601, message: `Method not found: ${method}` },
+    });
+  }).catch(() => {
+    return mcpJsonResponse({
+      jsonrpc: "2.0", id: null,
+      error: { code: -32700, message: "Parse error" },
+    }, 400);
   });
 }
 
@@ -390,6 +687,29 @@ export default {
           "Cache-Control": resp.ok ? "public, max-age=30" : "no-store",
           "X-GitHub-Proxy": "misakanet",
         },
+      });
+    }
+
+    // POST /mcp — Streamable HTTP MCP endpoint (read-only tools)
+    if (request.method === "POST" && url.pathname === "/mcp") {
+      return handleMcpRequest(request, env);
+    }
+    // OPTIONS /mcp — CORS preflight (browser clients need this)
+    if (request.method === "OPTIONS" && url.pathname === "/mcp") {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          ...CORS_HEADERS,
+          "Access-Control-Allow-Headers": "Content-Type, Authorization, MCP-Protocol-Version, Mcp-Method, Mcp-Name, Mcp-Session-Id",
+          "Access-Control-Max-Age": "86400",
+        },
+      });
+    }
+    // GET /mcp — per spec, return 405 (no SSE stream offered)
+    if (request.method === "GET" && url.pathname === "/mcp") {
+      return new Response(JSON.stringify({ error: "Method Not Allowed. Use POST for MCP Streamable HTTP transport." }), {
+        status: 405,
+        headers: { "content-type": "application/json", "Accept-Post": "application/json, text/event-stream", ...CORS_HEADERS },
       });
     }
 
