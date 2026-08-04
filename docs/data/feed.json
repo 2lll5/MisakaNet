@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-08-03T22:29:36.501553+00:00",
+  "generated_at": "2026-08-04T03:43:45.679470+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 13,
+  "item_count": 14,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "docs: clarify Glama-routed MCP analytics",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/797",
+      "timestamp": "2026-08-04T01:53:47Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "docs(blog): first-call contributor intro (#782)",
@@ -70,20 +77,6 @@
       "source": "github"
     },
     {
-      "type": "challenge",
-      "title": "[Docs] Clarify registered MCP server vs Glama-routed tool calls",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/779",
-      "labels": [
-        "ready",
-        "bounty",
-        "docs",
-        "status:competition",
-        "priority:next"
-      ],
-      "timestamp": "2026-08-03T07:08:56Z",
-      "source": "github"
-    },
-    {
       "type": "merged_pr",
       "title": "ci: upgrade pr-genius action to v1.3.1",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/773",
@@ -95,6 +88,22 @@
       "title": "docs: establish minimum growth funnel dashboard",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/765",
       "timestamp": "2026-08-03T01:22:19Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[P2][Analytics] Track first-call funnel manually for Glama",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/763",
+      "labels": [
+        "ready",
+        "bounty",
+        "agent-friendly",
+        "status:competition",
+        "pool:quick",
+        "priority:later",
+        "纯文档"
+      ],
+      "timestamp": "2026-08-02T06:59:51Z",
       "source": "github"
     },
     {
