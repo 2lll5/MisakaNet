@@ -175,6 +175,7 @@ async function fetchLessonContent(env, lessonPath, lessonId) {
             if (data.content && data.encoding === "base64") return { path: c, content: atob(data.content).slice(0, 5000) };
           }
         } catch {}
+      }
     }
     throw new Error(`Lesson not found: ${lessonId}`);
   }
