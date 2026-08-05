@@ -435,6 +435,8 @@ export default {
         worker: "misakanet-register-proxy",
         scheduled_keepalive: true,
         hasToken: !!env.REGISTER_TOKEN,
+        hasMcpToken: !!env.MCP_TOKEN,
+        mcpTokenLen: env.MCP_TOKEN ? env.MCP_TOKEN.length : 0,
         hasKV: !!env.MISAKANET_KV,
         timestamp: new Date().toISOString(),
       });
