@@ -160,30 +160,38 @@ async function fetchLessonContent(env, lessonPath, lessonId) {
   if (!token) throw new Error("REGISTER_TOKEN not configured");
   let filePath = lessonPath;
   if (!filePath && lessonId) {
-    const candidates = [`lessons/core/${lessonId}.md`, `lessons/contrib/${lessonId}.md`];
-    for (const c of candidates) {
-      try {
-        const url = `${GITHUB_API}/repos/${REPO}/contents/${c}?ref=data`;
-        const resp = await fetch(url, {
-          headers: { Authorization: `Bearer ${token}`, "User-Agent": "MisakaNet-Worker", Accept: "application/vnd.github.v3+json" },
-        });
-        if (resp.ok) {
-          const data = await resp.json();
-          if (data.content && data.encoding === "base64") return { path: c, content: atob(data.content).slice(0, 5000) };
-        }
-      } catch {}
+    // Try multiple paths and branches
+    const paths = [`lessons/core/${lessonId}.md`, `lessons/contrib/${lessonId}.md`, `lessons/_archive/${lessonId}.md`];
+    const branches = ["main", "data"];
+    for (const branch of branches) {
+      for (const c of paths) {
+        try {
+          const url = `${GITHUB_API}/repos/${REPO}/contents/${c}?ref=${branch}`;
+          const resp = await fetch(url, {
+            headers: { Authorization: `Bearer ${token}`, "User-Agent": "MisakaNet-Worker", Accept: "application/vnd.github.v3+json" },
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.content && data.encoding === "base64") return { path: c, content: atob(data.content).slice(0, 5000) };
+          }
+        } catch {}
     }
     throw new Error(`Lesson not found: ${lessonId}`);
   }
   if (!filePath) throw new Error("Missing path or id");
 
-  const url = `${GITHUB_API}/repos/${REPO}/contents/${filePath}?ref=data`;
-  const resp = await fetch(url, {
-    headers: { Authorization: `Bearer ${token}`, "User-Agent": "MisakaNet-Worker", Accept: "application/vnd.github.v3+json" },
-  });
-  if (!resp.ok) throw new Error(`Lesson not found: ${filePath}`);
-  const data = await resp.json();
-  if (!data.content || data.encoding !== "base64") throw new Error("Unexpected response");
+  // Try main branch first, then data
+  for (const branch of ["main", "data"]) {
+    const url = `${GITHUB_API}/repos/${REPO}/contents/${filePath}?ref=${branch}`;
+    const resp = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}`, "User-Agent": "MisakaNet-Worker", Accept: "application/vnd.github.v3+json" },
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data.content && data.encoding === "base64") return { path: filePath, content: atob(data.content).slice(0, 5000) };
+    }
+  }
+  throw new Error(`Lesson not found: ${filePath}`);
   return { path: filePath, content: atob(data.content).slice(0, 5000) };
 }
 
@@ -436,7 +444,6 @@ export default {
         scheduled_keepalive: true,
         hasToken: !!env.REGISTER_TOKEN,
         hasMcpToken: !!env.MCP_TOKEN,
-        mcpTokenLen: env.MCP_TOKEN ? env.MCP_TOKEN.length : 0,
         hasKV: !!env.MISAKANET_KV,
         timestamp: new Date().toISOString(),
       });
