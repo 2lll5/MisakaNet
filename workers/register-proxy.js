@@ -46,6 +46,44 @@ function sanitizeIdentifier(val, maxLen) {
   return val.replace(/[^\w\u4e00-\u9fa5\-]/g, "");
 }
 
+async function sha256Short(value) {
+  return hashSourceId(value);
+}
+
+async function lessonContributor(env, lessonId) {
+  const lessons = await getWithCache(env, "proxy:lessons", () =>
+    fetchFromGitHub(env.REGISTER_TOKEN, "lessons.json", "data")
+  );
+  const lesson = Array.isArray(lessons) ? lessons.find((item) => item.id === lessonId) : null;
+  const fromIndex = lesson ? sanitizeIdentifier(lesson.contributor, 39) : "";
+  if (fromIndex) return fromIndex;
+  const ledger = await getWithCache(env, "proxy:contributor-points", () =>
+    fetchFromGitHub(env.REGISTER_TOKEN, "data/contributor-points.json", "main")
+  );
+  for (const [name, account] of Object.entries((ledger && ledger.contributors) || {})) {
+    if ((account.events || []).some((event) => event.lesson_id === lessonId)) {
+      return sanitizeIdentifier(name, 39);
+    }
+  }
+  return "";
+}
+
+async function dispatchPointSignal(env, payload) {
+  if (!env.REGISTER_TOKEN || !payload.contributor) return false;
+  const resp = await fetch(`${GITHUB_API}/repos/${REPO}/dispatches`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.REGISTER_TOKEN}`,
+      "Content-Type": "application/json",
+      Accept: "application/vnd.github+json",
+      "User-Agent": "MisakaNet-Worker",
+    },
+    body: JSON.stringify({ event_type: "contributor_point", client_payload: payload }),
+  });
+  if (!resp.ok) throw new Error(`point dispatch failed: ${resp.status}`);
+  return true;
+}
+
 // -- Demand board (Issue #591) --
 // Aggregate-only view of repeatedly-unsolved failure families. Data is written by
 // recordUnsolvedSignal(), which the intake endpoint (#589) and classifier (#575)
@@ -516,7 +554,6 @@ async function handleHelpfulVote(request, env) {
     return jsonResponse({ error: "KV not configured" }, 503);
   }
 
-  // 解析请求体
   let body;
   try {
     if (parseInt(request.headers.get("content-length") || "0") > 10000) {
@@ -532,17 +569,53 @@ async function handleHelpfulVote(request, env) {
     return jsonResponse({ error: "Missing or invalid lesson_id" }, 400);
   }
 
+  const source = request.headers.get("CF-Connecting-IP") || body.actor_id || "anonymous";
+  const actorId = await sha256Short(`helpful:${source}`);
+  const dedupKey = `helpful-voter:${lessonId}:${actorId}`;
   const kvKey = `helpful:${lessonId}`;
   try {
+    if (await env.MISAKANET_KV.get(dedupKey, "text")) {
+      const currentRaw = await env.MISAKANET_KV.get(kvKey, "text");
+      return jsonResponse({ lesson_id: lessonId, count: parseInt(currentRaw || "0", 10), duplicate: true });
+    }
     const raw = await env.MISAKANET_KV.get(kvKey, "text");
     const current = raw ? parseInt(raw, 10) || 0 : 0;
     const newCount = current + 1;
     await env.MISAKANET_KV.put(kvKey, String(newCount));
+    await env.MISAKANET_KV.put(dedupKey, "1");
+    const contributor = await lessonContributor(env, lessonId);
+    const timestamp = new Date().toISOString();
+    await dispatchPointSignal(env, {
+      event_type: "helpful", contributor, lesson_id: lessonId, actor_id: actorId,
+      query_hash: "", timestamp, event_id: `helpful:${lessonId}:${actorId}`,
+    });
     return jsonResponse({ lesson_id: lessonId, count: newCount });
   } catch (err) {
     console.error("helpful vote failed:", err.message);
     return jsonResponse({ error: "Failed to record vote" }, 500);
   }
+}
+
+// Privacy-preserving endpoint called fire-and-forget by the search UI.
+async function handleSearchHit(request, env) {
+  if (!env.MISAKANET_KV) return jsonResponse({ error: "KV not configured" }, 503);
+  let body;
+  try { body = await request.json(); } catch { return jsonResponse({ error: "Invalid JSON" }, 400); }
+  const lessonId = sanitizeIdentifier(body.lesson_id, 100);
+  const query = String(body.query || "").trim().slice(0, 500);
+  if (!lessonId || !query) return jsonResponse({ error: "Missing lesson_id or query" }, 400);
+  const queryHash = await sha256Short(query.toLowerCase());
+  const bucket = Math.floor(Date.now() / 86_400_000);
+  const dedupKey = `search-hit:${lessonId}:${queryHash}:${bucket}`;
+  if (await env.MISAKANET_KV.get(dedupKey, "text")) return jsonResponse({ duplicate: true });
+  await env.MISAKANET_KV.put(dedupKey, "1", { expirationTtl: 86400 });
+  const contributor = await lessonContributor(env, lessonId);
+  const timestamp = new Date().toISOString();
+  await dispatchPointSignal(env, {
+    event_type: "search_hit", contributor, lesson_id: lessonId, actor_id: "",
+    query_hash: queryHash, timestamp, event_id: `search:${lessonId}:${queryHash}:${bucket}`,
+  });
+  return jsonResponse({ recorded: true });
 }
 
 // ── 主入口 (仅 API + 注册，静态文件由 Cloudflare Pages 独立服务) ──
@@ -573,6 +646,11 @@ export default {
     // POST /api/helpful — "This helped me" vote
     if (request.method === "POST" && url.pathname === "/api/helpful") {
       return await handleHelpfulVote(request, env);
+    }
+
+    // POST /api/search-hit — asynchronous, deduplicated search usefulness signal
+    if (request.method === "POST" && url.pathname === "/api/search-hit") {
+      return await handleSearchHit(request, env);
     }
 
     // GET /ping — 保持 Worker 热实例

@@ -1,0 +1,16 @@
+{
+  "contributors": {},
+  "policy": {
+    "cash_value": false,
+    "daily_cap": 50,
+    "freeze_after_inactive_days": 365,
+    "new_account_cap": 20,
+    "new_account_days": 7,
+    "non_transferable": true,
+    "on_chain": false,
+    "redeemable": false
+  },
+  "processed_event_ids": [],
+  "schema_version": 1,
+  "updated_at": null
+}

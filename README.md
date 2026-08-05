@@ -637,3 +637,11 @@ See [LIMITATIONS.md](docs/LIMITATIONS.md) for known constraints and non-goals �
 ---
 
 *Swarm Knowledge Protocol (SKP) — [Ikalus1988](https://ikalus1988.github.io/) as founding node of the MisakaNet reference implementation.*
+
+<!-- contributor-points:start -->
+### Top 10 contributors by reputation points
+
+| Rank | Contributor | Points |
+|---:|---|---:|
+| — | No points recorded yet | 0 |
+<!-- contributor-points:end -->

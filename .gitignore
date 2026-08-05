@@ -8,6 +8,7 @@ misakanet/profile.json
 misakanet/.quota.json
 *.pyo
 venv/
+.venv/
 *.egg-info/
 dist/
 build/
@@ -62,3 +63,4 @@ data/contribution_queue.jsonl
 
 # local search quality feedback (issue #604)
 data/search-feedback.jsonl
+data/.contributor-points.lock

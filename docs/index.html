@@ -2528,6 +2528,13 @@ function searchLessons() {
   container.querySelectorAll('.helpful-btn').forEach(btn => {
     loadHelpfulCount(btn.getAttribute('data-lesson'), btn);
   });
+  // Best effort only: reputation accounting must never block rendering or navigation.
+  scored.forEach(l => {
+    fetchPOST(getHelpfulUrl().replace('/helpful', '/search-hit'), {
+      lesson_id: l.id,
+      query: rawQ,
+    }).catch(() => {});
+  });
 }
 
 // ── Request collapsing: reuse in-flight promise for same URL ──

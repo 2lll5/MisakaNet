@@ -1,0 +1,70 @@
+name: Contributor points
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "lessons/core/**"
+      - "lessons/contrib/**"
+  repository_dispatch:
+    types: [contributor_point]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: contributor-points-main
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Record lesson merges
+        if: github.event_name == 'push'
+        env:
+          CONTRIBUTOR: ${{ github.actor }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          git diff --diff-filter=A --name-only "$BEFORE" "$AFTER" -- 'lessons/core/*.md' 'lessons/contrib/*.md' | while IFS= read -r lesson; do
+            [ -n "$lesson" ] || continue
+            id="$(basename "$lesson" .md)"
+            python3 scripts/contributor_points.py record --type lesson_merge --contributor "$CONTRIBUTOR" --lesson-id "$id" --event-id "merge:${AFTER}:${id}"
+            if grep -Eqi '(evidence[_ -]?level|evidence)[^A-Za-z0-9]*E[2-4]' "$lesson"; then
+              python3 scripts/contributor_points.py record --type evidence_e2 --contributor "$CONTRIBUTOR" --lesson-id "$id" --event-id "e2:${AFTER}:${id}"
+            fi
+          done
+
+      - name: Record asynchronous point signal
+        if: github.event_name == 'repository_dispatch'
+        env:
+          EVENT_TYPE: ${{ github.event.client_payload.event_type }}
+          CONTRIBUTOR: ${{ github.event.client_payload.contributor }}
+          LESSON_ID: ${{ github.event.client_payload.lesson_id }}
+          ACTOR_ID: ${{ github.event.client_payload.actor_id }}
+          QUERY_HASH: ${{ github.event.client_payload.query_hash }}
+          EVENT_ID: ${{ github.event.client_payload.event_id }}
+          EVENT_TIME: ${{ github.event.client_payload.timestamp }}
+        run: |
+          python3 scripts/contributor_points.py record --type "$EVENT_TYPE" --contributor "$CONTRIBUTOR" --lesson-id "$LESSON_ID" --actor-id "$ACTOR_ID" --query-hash "$QUERY_HASH" --event-id "$EVENT_ID" --timestamp "$EVENT_TIME"
+
+      - name: Build public views
+        run: python3 scripts/contributor_points.py build
+
+      - name: Commit ledger and views
+        run: |
+          git config user.name "misakanet-bot"
+          git config user.email "bot@misakanet.org"
+          git add data/contributor-points.json docs/leaderboard.html docs/contributors README.md
+          git diff --cached --quiet || git commit -s -m "chore: update contributor points [skip ci]"
+          git pull --rebase origin main
+          git push
