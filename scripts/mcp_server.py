@@ -151,7 +151,8 @@ def handle_search(args: dict) -> dict:
                 "{"query": "machine learning"}",
                 "{"query": "REST API", "top": 3}",
                 "{"query": "tutorial", "domain": "core"}"
-            ]
+            ],
+            "guidance": "Provide a search term (e.g. 'pip install timeout'). For broader results, try shorter keywords. See docs/integrations/mcp-remote.md for usage examples."
         }
 
     if HAS_SAG:
@@ -178,7 +179,8 @@ def handle_search(args: dict) -> dict:
         return {
             "error": "Search engine unavailable — index not built",
             "action": "Run: python3 scripts/build_sag_index.py to enable BM25/SAG search",
-            "fallback": "Browse lessons via misaka://lessons/index resource instead"
+            "fallback": "Browse lessons via misaka://lessons/index resource instead",
+            "guidance": "To obtain a token or search lessons, refer to docs/integrations/mcp-remote.md or contact maintainer."
         }
 
 
@@ -192,7 +194,8 @@ def handle_get_lesson(args: dict) -> dict:
             "examples": [
                 "{"path": "lessons/core/async-python.md"}",
                 "{"id": "async-python"}"
-            ]
+            ],
+            "guidance": "Provide a lesson path (e.g. 'lessons/core/auto-merge-ci-pipeline.md') or lesson ID. Use misakanet_search first to discover available lessons."
         }
 
     # Try direct path
@@ -209,7 +212,8 @@ def handle_get_lesson(args: dict) -> dict:
         return {
             "error": f"Lesson not found: {path_or_id}",
             "hint": "Use misakanet_search to find available lessons by keyword",
-            "suggestion": "Try searching with: {"query": "" + path_or_id.replace("-", " ") + ""}"
+            "suggestion": "Try searching with: {"query": "" + path_or_id.replace("-", " ") + ""}",
+            "guidance": f"Use misakanet_search with a related keyword to discover available lessons, or check docs/integrations/mcp-remote.md for the lesson index."
         }
 
     content = lesson_path.read_text(encoding="utf-8", errors="replace")
@@ -226,7 +230,10 @@ def handle_submit_usage(args: dict) -> dict:
     outcome = args.get("outcome", "unknown")
 
     if not lesson_id:
-        return {"error": "lesson_id is required"}
+        return {
+            "error": "lesson_id is required",
+            "guidance": "Provide the lesson ID (e.g. 'auto-merge-ci-pipeline'). Use misakanet_search to discover lesson IDs by topic."
+        }
 
     # For now, just log locally
     report = {
