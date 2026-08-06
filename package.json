@@ -12,9 +12,12 @@
     "preview": "wrangler dev"
   },
   "devDependencies": {
-    "wrangler": "^4.107.0"
+    "wrangler": "^4.118.0"
   },
   "overrides": {
     "sharp": "0.35.3"
+  },
+  "dependencies": {
+    "miniflare": "^5.20260801.0-alpha"
   }
 }
