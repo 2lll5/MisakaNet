@@ -69,6 +69,73 @@ except ImportError:
     HAS_BM25 = False
 
 
+def _fallback_search(query: str, domain: str = None, top: int = 5) -> list | None:
+    """Lightweight keyword search from lessons.json — zero dependencies.
+
+    Used when SAG-Lite and BM25 are both unavailable (e.g. Glama sandbox).
+    Returns None if lessons.json is not found (caller should show error).
+    Returns [] if lessons.json exists but no matches (caller should show empty results).
+    """
+    import json as _json
+
+    # Try multiple locations for lessons.json
+    candidates = [
+        REPO_ROOT / "data" / "lessons.json",
+        REPO_ROOT / "lessons.json",
+    ]
+    lessons = None
+    for path in candidates:
+        if path.exists():
+            try:
+                lessons = _json.loads(path.read_text(encoding="utf-8", errors="replace"))
+                break
+            except Exception:
+                continue
+
+    if not lessons or not isinstance(lessons, list):
+        return None
+
+    q = query.lower()
+    q_words = [w for w in q.split() if len(w) > 2]
+    scored = []
+
+    for lesson in lessons:
+        if not isinstance(lesson, dict):
+            continue
+        if domain and lesson.get("domain", "").lower() != domain.lower():
+            continue
+
+        title = (lesson.get("title") or "").lower()
+        summary = (lesson.get("summary") or "").lower()
+        lesson_domain = (lesson.get("domain") or "").lower()
+        tags = " ".join(lesson.get("tags", [])).lower() if isinstance(lesson.get("tags"), list) else ""
+        text = f"{title} {summary} {lesson_domain} {tags}"
+
+        score = 0
+        if q in text:
+            score += 10
+        for w in q_words:
+            if w in text:
+                score += 2
+            if w in title:
+                score += 1
+
+        if score > 0:
+            scored.append((score, lesson))
+
+    scored.sort(key=lambda x: -x[0])
+    return [
+        {
+            "title": l.get("title", ""),
+            "path": l.get("url", l.get("path", "")),
+            "score": round(s, 3),
+            "domain": l.get("domain", ""),
+            "status": l.get("status", ""),
+        }
+        for s, l in scored[:top]
+    ]
+
+
 def handle_search(args: dict) -> dict:
     """Search MisakaNet lessons."""
     query = args.get("query", "")
@@ -95,7 +162,11 @@ def handle_search(args: dict) -> dict:
             })
         return {"results": results, "source": "bm25"}
     else:
-        return {"error": "No search engine available. Run: python3 scripts/build_sag_index.py"}
+        # Fallback: lightweight keyword search from lessons.json
+        results = _fallback_search(query, domain=domain, top=top)
+        if results is not None:
+            return {"results": results, "source": "fallback"}
+        return {"error": "No search engine available and no lessons.json found. Run: python3 scripts/build_sag_index.py"}
 
 
 def handle_get_lesson(args: dict) -> dict:
