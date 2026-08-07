@@ -9,6 +9,20 @@ MisakaNet exposes a Streamable HTTP MCP endpoint at `https://misakanet.org/mcp`.
 
 The server also supports local stdio transport as an alternative (see [Local stdio](#local-stdio-alternative) below).
 
+## Getting a Token
+
+### Option 1: One-Time Pairing Code (Recommended)
+
+1. Open https://misakanet.org/connect in your browser
+2. Click "Generate Code" — get a 6-character code (e.g. `A7K9Q2`)
+3. Tell your AI agent: "Connect to MisakaNet MCP using pairing code A7K9Q2"
+4. The agent calls `POST /api/pair` with the code and gets a 24-hour token
+5. Done — the agent can now use `/mcp`
+
+### Option 2: Contact Maintainer
+
+Email bot@misakanet.org or comment on [Discussion #1](https://github.com/Ikalus1988/MisakaNet/issues/1) for a persistent token.
+
 ## Quick Start
 
 ### Claude Desktop / Claude Code

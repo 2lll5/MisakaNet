@@ -240,11 +240,23 @@ function handleMcpRequest(request, env) {
     );
   }
 
-  // 2. Auth check
+  // 2. Auth check (supports both static MCP_TOKEN and pairing tokens)
   const authHeader = request.headers.get("Authorization") || "";
   const token = authHeader.replace(/^Bearer\s+/i, "");
   const expectedToken = env.MCP_TOKEN;
-  if (!expectedToken || !timingSafeEqual(token, expectedToken)) {
+
+  let authed = false;
+  if (expectedToken && token && timingSafeEqual(token, expectedToken)) {
+    authed = true;
+  } else if (token && token.startsWith("mcp_") && env.MISAKANET_KV) {
+    // Check pairing token from KV
+    const tokenData = await env.MISAKANET_KV.get(`mcp_token:${token}`, "json");
+    if (tokenData && new Date(tokenData.expires) > new Date()) {
+      authed = true;
+    }
+  }
+
+  if (!authed) {
     return mcpJsonResponse(
       { jsonrpc: "2.0", error: { code: -32000, message: "Unauthorized" } },
       401,
@@ -936,6 +948,71 @@ export default {
       });
     }
 
+    // ── One-time pairing code flow (Coogen-inspired) ──
+
+    // POST /api/connect — generate a one-time pairing code
+    if (request.method === "POST" && url.pathname === "/api/connect") {
+      if (!env.MISAKANET_KV) return jsonResponse({ error: "KV not configured" }, 503);
+
+      // Rate limit: 3 codes per IP per 10 minutes
+      const connIp = request.headers.get("CF-Connecting-IP") || "unknown";
+      const connRateKey = `rate:connect:${connIp}`;
+      const connRateRaw = await env.MISAKANET_KV.get(connRateKey, "text");
+      const connRateCount = connRateRaw ? parseInt(connRateRaw, 10) || 0 : 0;
+      if (connRateCount >= 3) return jsonResponse({ error: "Rate limited. Try again later." }, 429);
+      await env.MISAKANET_KV.put(connRateKey, String(connRateCount + 1), { expirationTtl: 600 });
+
+      // Generate 6-char alphanumeric code
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no I/O/0/1 for readability
+      let code = "";
+      for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+
+      // Store in KV: pending, 10 min TTL
+      await env.MISAKANET_KV.put(`pair:${code}`, JSON.stringify({
+        status: "pending",
+        created: new Date().toISOString(),
+        ip: connIp,
+      }), { expirationTtl: 600 });
+
+      return jsonResponse({ code, expires_in: 600 });
+    }
+
+    // POST /api/pair — exchange pairing code for short-lived MCP token
+    if (request.method === "POST" && url.pathname === "/api/pair") {
+      if (!env.MISAKANET_KV) return jsonResponse({ error: "KV not configured" }, 503);
+
+      let pairBody;
+      try { pairBody = await request.json(); } catch { return jsonResponse({ error: "Invalid JSON" }, 400); }
+
+      const code = sanitizeIdentifier(pairBody.code, 10);
+      if (!code || code.length !== 6) return jsonResponse({ error: "Invalid code format" }, 400 });
+
+      const pairKey = `pair:${code}`;
+      const pairData = await env.MISAKANET_KV.get(pairKey, "json");
+      if (!pairData) return jsonResponse({ error: "Invalid or expired code" }, 404);
+      if (pairData.status !== "pending") return jsonResponse({ error: "Code already used" }, 409);
+
+      // Mark code as used
+      pairData.status = "used";
+      pairData.used_at = new Date().toISOString();
+      pairData.used_ip = request.headers.get("CF-Connecting-IP") || "unknown";
+      await env.MISAKANET_KV.put(pairKey, JSON.stringify(pairData), { expirationTtl: 86400 });
+
+      // Generate short-lived token (24h)
+      const tokenChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
+      let token = "mcp_";
+      for (let i = 0; i < 32; i++) token += tokenChars[Math.floor(Math.random() * tokenChars.length)];
+
+      // Store token in KV for validation
+      await env.MISAKANET_KV.put(`mcp_token:${token}`, JSON.stringify({
+        created: new Date().toISOString(),
+        expires: new Date(Date.now() + 86400000).toISOString(),
+        ip: pairData.ip,
+      }), { expirationTtl: 86400 });
+
+      return jsonResponse({ token, expires_in: 86400 });
+    }
+
     // POST /mcp — Streamable HTTP MCP endpoint (read-only tools)
     if (request.method === "POST" && url.pathname === "/mcp") {
       return handleMcpRequest(request, env);
@@ -956,6 +1033,62 @@ export default {
       return new Response(JSON.stringify({ error: "Method Not Allowed. Use POST for MCP Streamable HTTP transport." }), {
         status: 405,
         headers: { "content-type": "application/json", "Accept-Post": "application/json, text/event-stream", ...CORS_HEADERS },
+      });
+    }
+
+    // GET /connect — pairing code landing page (human entry point)
+    if (request.method === "GET" && url.pathname === "/connect") {
+      return new Response(`<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Connect MisakaNet MCP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0d1117; color: #e6edf3; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+  .card { max-width: 520px; text-align: center; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 40px; }
+  h1 { color: #f0c040; font-size: 24px; margin-bottom: 8px; }
+  p { color: #8b949e; font-size: 14px; line-height: 1.7; }
+  .code { font-family: monospace; font-size: 32px; color: #58a6ff; background: #0d1117; padding: 16px 24px; border-radius: 8px; letter-spacing: 4px; margin: 20px 0; border: 1px solid #30363d; }
+  .btn { display: inline-block; padding: 12px 24px; background: #238636; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 14px; }
+  .btn:hover { background: #2ea043; }
+  .steps { text-align: left; margin: 20px 0; }
+  .steps li { color: #c9d1d9; margin: 8px 0; font-size: 14px; }
+  .timer { color: #f85149; font-size: 12px; margin-top: 8px; }
+</style></head>
+<body>
+<div class="card">
+  <h1>Connect MisakaNet MCP</h1>
+  <p>Get a one-time pairing code to connect your AI agent.</p>
+  <button class="btn" onclick="getCode()">Generate Code</button>
+  <div id="result" style="display:none">
+    <div class="code" id="code">------</div>
+    <div class="timer" id="timer">Expires in 10:00</div>
+    <div class="steps">
+      <p><strong>Next steps:</strong></p>
+      <ol>
+        <li>Copy the code above</li>
+        <li>Paste it to your AI agent</li>
+        <li>The agent will call <code>/api/pair</code> to get a token</li>
+        <li>Use the token to access <code>/mcp</code></li>
+      </ol>
+    </div>
+  </div>
+</div>
+<script>
+async function getCode() {
+  const r = await fetch('/api/connect', {method:'POST'});
+  const d = await r.json();
+  if(d.code) {
+    document.getElementById('code').textContent = d.code;
+    document.getElementById('result').style.display = 'block';
+    let s = d.expires_in || 600;
+    setInterval(() => { if(s>0){s--;document.getElementById('timer').textContent='Expires in '+Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60;}}, 1000);
+  }
+}
+</script>
+</body>
+</html>`, {
+        status: 200,
+        headers: { "content-type": "text/html;charset=utf-8" },
       });
     }
 
