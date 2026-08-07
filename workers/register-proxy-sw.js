@@ -985,7 +985,7 @@ export default {
       try { pairBody = await request.json(); } catch { return jsonResponse({ error: "Invalid JSON" }, 400); }
 
       const code = sanitizeIdentifier(pairBody.code, 10);
-      if (!code || code.length !== 6) return jsonResponse({ error: "Invalid code format" }, 400 });
+      if (!code || code.length !== 6) return jsonResponse({ error: "Invalid code format" }, 400);
 
       const pairKey = `pair:${code}`;
       const pairData = await env.MISAKANET_KV.get(pairKey, "json");
