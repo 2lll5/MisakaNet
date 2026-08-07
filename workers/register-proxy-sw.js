@@ -87,7 +87,7 @@ const SUPPORTED_PROTOCOL_VERSIONS = ["2025-06-18", "2026-07-28"];
 function getMcpServerInfo(env) {
   return {
     name: "misakanet",
-    version: env.MCP_VERSION || "2.15.0",
+    version: env.MCP_VERSION || "2.16.0",
   };
 }
 
