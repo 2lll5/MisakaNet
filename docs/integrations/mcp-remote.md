@@ -23,6 +23,16 @@ The server also supports local stdio transport as an alternative (see [Local std
 
 Email bot@misakanet.org or comment on [Discussion #1](https://github.com/Ikalus1988/MisakaNet/issues/1) for a persistent token.
 
+### Option 3: Public Token (Read-Only, Low-Rate)
+
+For quick trials, MisakaNet provides a **public read-only token** with rate-limited access (10 req/min):
+
+```
+Authorization: Bearer misakanet-public-readonly
+```
+
+> ⚠️ The public token is rate-limited and shared. For production use, request a dedicated token via Option 1 or 2.
+
 ## Quick Start
 
 ### Claude Desktop / Claude Code
@@ -66,7 +76,7 @@ Add header: `Authorization: Bearer YOUR_TOKEN`
 - **Transport:** Streamable HTTP (POST for all messages)
 - **Protocol version:** 2025-06-18 (negotiated at init)
 - **Forward compat:** Accepts `Mcp-Method` / `Mcp-Name` headers (2026-07-28 RC)
-- **Auth:** Bearer token required
+- **Auth:** Bearer token required (see [Getting a Token](#getting-a-token) above)
 - **Origin:** Validated against allowlist (glama.ai, claude.ai, cursor.sh, localhost)
 - **Stateless:** No session required; each request is self-contained
 
@@ -110,9 +120,9 @@ Add to MCP config:
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| 401 Unauthorized | Missing or invalid token | Check `Authorization` header |
-| 403 Forbidden | Invalid Origin header | Use allowed client (Claude, Cursor, Glama) or remove Origin |
-| 405 Method Not Allowed | Using GET instead of POST | MCP Streamable HTTP uses POST |
-| 400 Bad Request | Protocol version mismatch | Include `MCP-Protocol-Version: 2025-06-18` |
-| 429 Rate Limited | Too many requests | Wait and retry |
-| Empty search results | Query too narrow | Try broader keywords |
+| 401 Unauthorized | Missing or invalid token | Check your `Authorization` header. See [Getting a Token](#getting-a-token) for how to obtain one. |
+| 403 Forbidden | Invalid Origin header or missing permissions | Use an allowed client (Claude, Cursor, Glama). For custom clients, set `Origin: https://misakanet.org` or request access from the maintainer. |
+| 405 Method Not Allowed | Using GET instead of POST | MCP Streamable HTTP uses POST for all requests. Switch your HTTP method to POST. |
+| 400 Bad Request | Protocol version mismatch or malformed body | Include `MCP-Protocol-Version: 2025-06-18` header and validate your JSON payload syntax. |
+| 429 Rate Limited | Too many requests in a short period | Wait 60 seconds before retrying. If using the public token, consider requesting a dedicated token (see [Getting a Token](#getting-a-token)). |
+| Empty search results | Query too narrow or topic not covered | Try broader keywords, check spelling, or browse by [topic](https://misakanet.org/topics/). If the topic is missing, [request a lesson](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-request.yml). |
