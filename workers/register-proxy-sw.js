@@ -950,8 +950,8 @@ export default {
 
     // ── One-time pairing code flow (Coogen-inspired) ──
 
-    // POST /api/connect — generate a one-time pairing code
-    if (request.method === "POST" && url.pathname === "/api/connect") {
+    // POST /mcp/connect — generate a one-time pairing code
+    if (request.method === "POST" && url.pathname === "/mcp/connect") {
       if (!env.MISAKANET_KV) return jsonResponse({ error: "KV not configured" }, 503);
 
       // Rate limit: 3 codes per IP per 10 minutes
@@ -977,8 +977,8 @@ export default {
       return jsonResponse({ code, expires_in: 600 });
     }
 
-    // POST /api/pair — exchange pairing code for short-lived MCP token
-    if (request.method === "POST" && url.pathname === "/api/pair") {
+    // POST /mcp/pair — exchange pairing code for short-lived MCP token
+    if (request.method === "POST" && url.pathname === "/mcp/pair") {
       if (!env.MISAKANET_KV) return jsonResponse({ error: "KV not configured" }, 503);
 
       let pairBody;
@@ -1067,7 +1067,7 @@ export default {
       <ol>
         <li>Copy the code above</li>
         <li>Paste it to your AI agent</li>
-        <li>The agent will call <code>/api/pair</code> to get a token</li>
+        <li>The agent will call <code>/mcp/pair</code> to get a token</li>
         <li>Use the token to access <code>/mcp</code></li>
       </ol>
     </div>
@@ -1075,7 +1075,7 @@ export default {
 </div>
 <script>
 async function getCode() {
-  const r = await fetch('/api/connect', {method:'POST'});
+  const r = await fetch('/mcp/connect', {method:'POST'});
   const d = await r.json();
   if(d.code) {
     document.getElementById('code').textContent = d.code;
