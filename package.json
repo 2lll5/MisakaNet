@@ -16,8 +16,5 @@
   },
   "overrides": {
     "sharp": "0.35.3"
-  },
-  "dependencies": {
-    "miniflare": "^5.20260801.0-alpha"
   }
 }
