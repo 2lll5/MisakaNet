@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "routes": [
+    {
+      "pattern": "/api/*",
+      "methods": ["GET", "POST", "OPTIONS"]
+    },
+    {
+      "pattern": "/mcp*",
+      "methods": ["POST", "GET", "OPTIONS"]
+    },
+    {
+      "pattern": "/connect",
+      "methods": ["GET"]
+    }
+  ]
+}
