@@ -231,7 +231,7 @@ function mcpJsonResponse(body, status = 200, extraHeaders = {}) {
   });
 }
 
-function handleMcpRequest(request, env) {
+async function handleMcpRequest(request, env) {
   // 1. Origin validation (MCP spec: prevent DNS rebinding)
   if (!validateMcpOrigin(request)) {
     return mcpJsonResponse(
@@ -273,9 +273,16 @@ function handleMcpRequest(request, env) {
   }
 
   // 4. Parse JSON-RPC body
-  return request.json().then(body => {
-    const { id, method, params } = body || {};
-    const reqId = id ?? null;
+  const body = await request.json().catch(() => null);
+  if (!body) {
+    return mcpJsonResponse({
+      jsonrpc: "2.0", id: null,
+      error: { code: -32700, message: "Parse error" },
+    }, 400);
+  }
+
+  const { id, method, params } = body;
+  const reqId = id ?? null;
 
     // 2026-07-28 RC: validate Mcp-Method / Mcp-Name headers match body
     const hdrMethod = request.headers.get("Mcp-Method");
@@ -334,11 +341,10 @@ function handleMcpRequest(request, env) {
           error: { code: -32602, message: "Missing tool name" },
         });
       }
-      return handleMcpToolCall(env, toolName, args).then(result => {
-        return mcpJsonResponse({
-          jsonrpc: "2.0", id: reqId,
-          result: { content: [{ type: "text", text: JSON.stringify(result) }] },
-        });
+      const result = await handleMcpToolCall(env, toolName, args);
+      return mcpJsonResponse({
+        jsonrpc: "2.0", id: reqId,
+        result: { content: [{ type: "text", text: JSON.stringify(result) }] },
       });
     }
 
@@ -357,12 +363,6 @@ function handleMcpRequest(request, env) {
       jsonrpc: "2.0", id: reqId,
       error: { code: -32601, message: `Method not found: ${method}` },
     });
-  }).catch(() => {
-    return mcpJsonResponse({
-      jsonrpc: "2.0", id: null,
-      error: { code: -32700, message: "Parse error" },
-    }, 400);
-  });
 }
 
 // ── GitHub API fetch with token ──
