@@ -1,58 +1,42 @@
 {
-  "generated_at": "2026-08-06T11:36:50.123669+00:00",
+  "generated_at": "2026-08-07T07:48:02.530829+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 15,
+  "item_count": 11,
   "items": [
     {
       "type": "merged_pr",
-      "title": "chore(deps-dev): bump jsdom from 29.1.1 to 30.0.1 in /web",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/845",
-      "timestamp": "2026-08-06T07:38:40Z",
+      "title": "fix(security): escape m.time in danmaku widget — CodeQL #45",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/877",
+      "timestamp": "2026-08-07T04:00:16Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "chore(deps-dev): bump wrangler from 4.107.0 to 4.118.0",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/842",
-      "timestamp": "2026-08-06T07:30:51Z",
+      "title": "[REBASED — replaces #865] docs: top-10 CN-to-EN translation roadmap (closes #309)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/874",
+      "timestamp": "2026-08-07T03:31:59Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "chore(deps): update jsonschema requirement from >=4.0.0 to >=4.26.0",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/841",
-      "timestamp": "2026-08-06T07:30:47Z",
+      "title": "[REBASED — replaces #864] docs: first-call funnel tracking spec (closes #763)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/875",
+      "timestamp": "2026-08-07T03:31:56Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "chore(deps-dev): bump vitest from 4.1.8 to 4.1.10 in /web",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/844",
-      "timestamp": "2026-08-06T07:30:44Z",
+      "title": "feat: MCP lesson resources + domains + tags search (#319)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/854",
+      "timestamp": "2026-08-06T16:22:24Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "docs: PR Genius v1.3.1 batch 2 observation — 5 non-docs PRs (closes #781)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/853",
-      "timestamp": "2026-08-06T07:25:35Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[P2][Analytics] Track first-call funnel manually for Glama",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/763",
-      "labels": [
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:quick",
-        "priority:later",
-        "纯文档"
-      ],
-      "timestamp": "2026-08-02T06:59:51Z",
+      "title": "feat: cleanup feishu duplicate lessons (#552)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/856",
+      "timestamp": "2026-08-06T16:22:20Z",
       "source": "github"
     },
     {
@@ -97,24 +81,6 @@
     },
     {
       "type": "challenge",
-      "title": "[Cleanup] Review near-duplicate Feishu bot setup lessons",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/552",
-      "labels": [
-        "good first issue",
-        "ready",
-        "bounty",
-        "agent-friendly",
-        "zero-bounty",
-        "status:competition",
-        "pool:quick",
-        "priority:later",
-        "纯文档"
-      ],
-      "timestamp": "2026-07-21T02:30:51Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
       "title": "[Bounty][$0][agent competition] Blind test homepage SAG-Lite lesson search",
       "url": "https://github.com/Ikalus1988/MisakaNet/issues/429",
       "labels": [
@@ -131,42 +97,6 @@
         "priority:later"
       ],
       "timestamp": "2026-07-09T07:03:41Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Ecosystem] Add MCP protocol extension for lesson metadata",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/319",
-      "labels": [
-        "enhancement",
-        "Ring-3",
-        "bounty",
-        "agent-friendly",
-        "status:competition",
-        "pool:deep",
-        "status:needs-design",
-        "priority:later"
-      ],
-      "timestamp": "2026-07-02T16:01:32Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Lesson] Translate top10 most-viewed Chinese lessons to English",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/309",
-      "labels": [
-        "Ring-2",
-        "ready",
-        "area:lessons",
-        "bounty",
-        "agent-friendly",
-        "zero-bounty",
-        "status:competition",
-        "pool:quick",
-        "priority:later",
-        "纯文档"
-      ],
-      "timestamp": "2026-07-02T15:59:51Z",
       "source": "github"
     }
   ]
