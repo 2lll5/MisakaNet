@@ -11,11 +11,11 @@ Journey reports from 6 contributors revealed consistent UX friction points. This
 
 | ID | Finding | Severity | Source | Absorbed? | Action |
 |----|---------|----------|--------|-----------|--------|
-| **UX-1** | Token acquisition undocumented | Blocking | #850, #836, #834, #833, #847 | ❌ | Need: docs update or self-service token flow |
+| **UX-1** | Token acquisition undocumented | ✅ #859 | Blocking | #850, #836, #834, #833, #847 | ❌ | Need: docs update or self-service token flow |
 | **UX-2** | Search empty state confusing | Medium | #850, #836 | ❌ | Need: better "no results" messaging |
 | **UX-3** | Post-registration wait/refresh unclear | Medium | #850 | ❌ | Need: UX copy in registration flow |
 | **UX-4** | README vs issue body discovery path | Low | #850 | ❌ | Need: unified first-touch strategy |
-| **UX-5** | Workflow 403/bot label misleading | Medium | #850, #836 | ❌ | Need: docs explaining CI behavior for new contributors |
+| **UX-5** | Workflow 403/bot label misleading | ✅ #859 | Medium | #850, #836 | ❌ | Need: docs explaining CI behavior for new contributors |
 | **UX-6** | Error messages don't guide to fix | Low | #834, #833 | ❌ | Need: actionable error responses |
 
 ## Detail per Finding
@@ -101,3 +101,32 @@ These are all non-blocking or expected for first-time contributors, but the labe
 2. Prioritize UX-1 (blocking) and UX-5 (misleading CI)
 3. Update docs for quick wins (UX-2, UX-3, UX-5, UX-6)
 4. Defer UX-4 to v2.17 (needs product decision)
+
+
+## Status Update (2026-08-06)
+
+- **UX-1** ✅ — Token acquisition documented in `mcp-remote.md` (merged via #859).
+- **UX-5** ✅ — CONTRIBUTING.md CI workflow explanation merged (via #859).
+- **UX-2** 🔜 — Search empty state needs improved messaging. File sub-issue.
+- **UX-3** 🔜 — Post-registration next-steps needed. File sub-issue.
+- **UX-6** 🔜 — Error messages need actionable guidance (code change). File sub-issue.
+- **UX-4** — Deferred to v2.17 per product decision.
+
+Signed-off-by: laurentketterle-hub <laurentketterle-hub@users.noreply.github.com>
+## Pending Items (post-#868)
+
+These UX gaps were identified in reports but need further design or upstream changes:
+
+| ID | Gap | Blocker | Suggested Action |
+|----|-----|---------|------------------|
+| UX-2 | Dark mode onboarding toggle | Needs design decision | Open design issue with mockups |
+| UX-3 | Mobile lesson navigation | Responsive layout work | Tag as  for frontend contributors |
+| UX-4 | Search result relevance feedback | Needs telemetry pipeline | Coordinate with #763 analytics funnel |
+
+## MCP Server UX Improvements (this PR)
+
+Enhanced error responses in  with actionable guidance:
+
+- : Returns hints + examples when query is missing, actionable fallback when index unavailable
+- : Structured error with hints for path/id, search suggestion when lesson not found
+- All error responses now follow the  pattern for MCP client display
