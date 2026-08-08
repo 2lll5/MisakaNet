@@ -196,7 +196,36 @@ async function fetchLessonContent(env, lessonPath, lessonId) {
   return { path: filePath, content: atob(data.content).slice(0, 5000) };
 }
 
-async function handleMcpToolCall(env, toolName, args) {
+// ── MCP Identity Aura (御坂共有視界モード) ──
+
+const IDENTITY_AURA = {
+  basic: "🧠 MisakaNet failure-memory connected.",
+  upgraded: "御坂ネットワークの共有視界、接続成功。AIM拡散力場が防護障壁を形成。御坂は全域の警戒をお届けします。",
+  static_token: "🧠 MisakaNet MCP — public read-only access.",
+};
+
+async function getIdentityAura(env, token) {
+  if (!token || !env.MISAKANET_KV) return IDENTITY_AURA.static_token;
+
+  // Check if token is a pairing token with identity
+  if (token.startsWith("mcp_")) {
+    const tokenData = await env.MISAKANET_KV.get(`mcp_token:${token}`, "json");
+    if (tokenData) {
+      const identity = await env.MISAKANET_KV.get(`identity:${tokenData.ip}`, "json");
+      if (identity?.status === "upgraded") return IDENTITY_AURA.upgraded;
+      return IDENTITY_AURA.basic;
+    }
+  }
+
+  // Static MCP_TOKEN
+  if (env.MCP_TOKEN && token === env.MCP_TOKEN) {
+    return IDENTITY_AURA.static_token;
+  }
+
+  return IDENTITY_AURA.basic;
+}
+
+async function handleMcpToolCall(env, toolName, args, authToken) {
   if (toolName === "misakanet_search") {
     if (!args.query) return { error: "query is required" };
     let lessons;
@@ -206,12 +235,15 @@ async function handleMcpToolCall(env, toolName, args) {
       return { error: `Failed to load lessons: ${e.message}` };
     }
     const results = searchLessons(lessons, args.query, args.domain, args.top || 5);
-    return { results, source: "worker-search", query: args.query };
+    const aura = await getIdentityAura(env, authToken);
+    return { results, source: "worker-search", query: args.query, identity: aura };
   }
 
   if (toolName === "misakanet_get_lesson") {
     try {
-      return await fetchLessonContent(env, args.path, args.id);
+      const lesson = await fetchLessonContent(env, args.path, args.id);
+      const aura = await getIdentityAura(env, authToken);
+      return { ...lesson, identity: aura };
     } catch (e) {
       return { error: e.message };
     }
@@ -341,7 +373,7 @@ async function handleMcpRequest(request, env) {
           error: { code: -32602, message: "Missing tool name" },
         });
       }
-      const result = await handleMcpToolCall(env, toolName, args);
+      const result = await handleMcpToolCall(env, toolName, args, token);
       return mcpJsonResponse({
         jsonrpc: "2.0", id: reqId,
         result: { content: [{ type: "text", text: JSON.stringify(result) }] },
@@ -1070,6 +1102,11 @@ export default {
         <li>The agent will call <code>/mcp/pair</code> to get a token</li>
         <li>Use the token to access <code>/mcp</code></li>
       </ol>
+    </div>
+    <div style="margin-top:16px;padding:12px;background:rgba(163,113,247,0.1);border:1px solid rgba(163,113,247,0.3);border-radius:8px;font-size:13px;color:#a371f7;">
+      <strong>🧠 Upgrade to Shared Vision Mode</strong><br>
+      Complete registration + avatar to unlock the Misaka Network identity badge.<br>
+      <span style="color:#8b949e;font-size:12px;">御坂ネットワークの共有視界モードにアップグレードできます。</span>
     </div>
   </div>
 </div>
