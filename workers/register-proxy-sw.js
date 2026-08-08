@@ -1118,10 +1118,10 @@ export default {
 <script>
 const MISAKA_VOICE_KEY = "misakanet_voice_enabled";
 const MISAKA_VOICE = {
-  connect: "/assets/voice/connect-success.mp3",
-  pair: "/assets/voice/pair-success.mp3",
-  found: "/assets/voice/lesson-found.mp3",
-  warning: "/assets/voice/failure-warning.mp3",
+  connect: "/assets/voice/connect-success.v2.mp3",
+  pair: "/assets/voice/pair-success.v2.mp3",
+  found: "/assets/voice/lesson-found.v2.mp3",
+  warning: "/assets/voice/failure-warning.v2.mp3",
 };
 
 function isMisakaVoiceEnabled() {
