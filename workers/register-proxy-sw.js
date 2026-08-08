@@ -1082,6 +1082,8 @@ export default {
   .code { font-family: monospace; font-size: 32px; color: #58a6ff; background: #0d1117; padding: 16px 24px; border-radius: 8px; letter-spacing: 4px; margin: 20px 0; border: 1px solid #30363d; }
   .btn { display: inline-block; padding: 12px 24px; background: #238636; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 14px; }
   .btn:hover { background: #2ea043; }
+  .btn-voice { background: transparent; border: 1px solid #a371f7; color: #a371f7; padding: 8px 16px; font-size: 12px; }
+  .btn-voice:hover { background: rgba(163,113,247,0.1); }
   .steps { text-align: left; margin: 20px 0; }
   .steps li { color: #c9d1d9; margin: 8px 0; font-size: 14px; }
   .timer { color: #f85149; font-size: 12px; margin-top: 8px; }
@@ -1091,6 +1093,9 @@ export default {
   <h1>Connect MisakaNet MCP</h1>
   <p>Get a one-time pairing code to connect your AI agent.</p>
   <button class="btn" onclick="getCode()">Generate Code</button>
+  <div id="voice-section" style="margin-top:12px;">
+    <button class="btn btn-voice" onclick="enableMisakaVoice()">Enable Misaka Voice</button>
+  </div>
   <div id="result" style="display:none">
     <div class="code" id="code">------</div>
     <div class="timer" id="timer">Expires in 10:00</div>
@@ -1111,6 +1116,33 @@ export default {
   </div>
 </div>
 <script>
+const MISAKA_VOICE_KEY = "misakanet_voice_enabled";
+const MISAKA_VOICE = {
+  connect: "/assets/voice/connect-success.mp3",
+  pair: "/assets/voice/pair-success.mp3",
+  found: "/assets/voice/lesson-found.mp3",
+  warning: "/assets/voice/failure-warning.mp3",
+};
+
+function isMisakaVoiceEnabled() {
+  return localStorage.getItem(MISAKA_VOICE_KEY) === "1";
+}
+
+function enableMisakaVoice() {
+  localStorage.setItem(MISAKA_VOICE_KEY, "1");
+  document.getElementById("voice-section").innerHTML = '<span style="color:#a371f7;font-size:12px;">Voice enabled</span>';
+  playMisakaVoice("connect");
+}
+
+function playMisakaVoice(key) {
+  if (!isMisakaVoiceEnabled()) return;
+  const src = MISAKA_VOICE[key];
+  if (!src) return;
+  const audio = new Audio(src);
+  audio.volume = 0.75;
+  audio.play().catch(() => {});
+}
+
 async function getCode() {
   const r = await fetch('/mcp/connect', {method:'POST'});
   const d = await r.json();
@@ -1119,6 +1151,7 @@ async function getCode() {
     document.getElementById('result').style.display = 'block';
     let s = d.expires_in || 600;
     setInterval(() => { if(s>0){s--;document.getElementById('timer').textContent='Expires in '+Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60;}}, 1000);
+    playMisakaVoice("connect");
   }
 }
 </script>
