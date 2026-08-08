@@ -2,7 +2,7 @@ name: 御坂网络注册
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
   # 手动触发兜底（Worker 不通时用）
   workflow_dispatch:
     inputs:
