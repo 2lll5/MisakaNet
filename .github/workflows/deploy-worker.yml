@@ -24,10 +24,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          npx wrangler deploy workers/register-proxy-sw.js \
-            --name misakanet-register-proxy \
-            --compatibility-date 2024-01-01 \
-            --kv MISAKANET_KV
+          cd workers
+          npx wrangler deploy
 
       - name: Ensure keepalive schedule
         env:
