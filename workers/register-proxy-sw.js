@@ -83,6 +83,7 @@ const MCP_TOOLS = [
 
 const MCP_PROTOCOL_VERSION = "2025-06-18";
 const SUPPORTED_PROTOCOL_VERSIONS = ["2025-06-18", "2026-07-28"];
+const MAX_MCP_REQUEST_BYTES = 64 * 1024;
 
 function getMcpServerInfo(env) {
   return {
@@ -304,8 +305,28 @@ async function handleMcpRequest(request, env) {
     );
   }
 
-  // 4. Parse JSON-RPC body
-  const body = await request.json().catch(() => null);
+  // 4. Bound and parse the JSON-RPC body. Do not trust Content-Length alone:
+  // clients using chunked transfer encoding may omit it.
+  const declaredLength = Number.parseInt(request.headers.get("content-length") || "0", 10);
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_MCP_REQUEST_BYTES) {
+    return mcpJsonResponse({
+      jsonrpc: "2.0", id: null,
+      error: { code: -32600, message: `Request too large (max ${MAX_MCP_REQUEST_BYTES} bytes)` },
+    }, 413);
+  }
+
+  const rawBody = await request.text().catch(() => null);
+  if (rawBody !== null && new TextEncoder().encode(rawBody).byteLength > MAX_MCP_REQUEST_BYTES) {
+    return mcpJsonResponse({
+      jsonrpc: "2.0", id: null,
+      error: { code: -32600, message: `Request too large (max ${MAX_MCP_REQUEST_BYTES} bytes)` },
+    }, 413);
+  }
+
+  let body = null;
+  try {
+    body = rawBody === null ? null : JSON.parse(rawBody);
+  } catch {}
   if (!body) {
     return mcpJsonResponse({
       jsonrpc: "2.0", id: null,
@@ -1302,6 +1323,7 @@ async function getCode() {
 // Named exports for unit tests only (workers/unsolved-map.test.mjs). Wrangler
 // deploys this file for its default export; the extra exports are inert there.
 export {
+  MAX_MCP_REQUEST_BYTES,
   UNSOLVED_FAMILY_WHITELIST,
   UNSOLVED_REASONS,
   UNSOLVED_WINDOW_DAYS,
