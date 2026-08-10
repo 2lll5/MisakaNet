@@ -58,7 +58,7 @@ jobs:
 
       - name: Comment gate result on PR
         if: steps.changed.outputs.any_changed == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
