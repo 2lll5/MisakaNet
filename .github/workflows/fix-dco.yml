@@ -71,7 +71,7 @@ jobs:
 
       - name: Checkout PR branch (same-repo only, with path isolation)
         if: steps.pr.outputs.isFork != 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ${{ github.repository }}
           ref: refs/pull/${{ github.event.issue.number }}/head
