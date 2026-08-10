@@ -1,0 +1,46 @@
+name: MCP Endpoint Stress Tests
+
+on:
+  pull_request:
+    paths:
+      - "workers/register-proxy-sw.js"
+      - "workers/mcp-endpoint.stress.test.mjs"
+      - ".github/workflows/mcp-stress.yml"
+  push:
+    branches: [main]
+    paths:
+      - "workers/register-proxy-sw.js"
+      - "workers/mcp-endpoint.stress.test.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: Run MCP stress suite
+        run: |
+          set -o pipefail
+          node --expose-gc --test workers/mcp-endpoint.stress.test.mjs 2>&1 | tee mcp-stress-results.txt
+      - name: Publish performance metrics
+        if: always()
+        run: |
+          {
+            echo "## MCP stress metrics"
+            echo '```json'
+            grep 'MCP_STRESS_METRIC' mcp-stress-results.txt | sed 's/^.*MCP_STRESS_METRIC //' || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload stress results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: mcp-stress-results
+          path: mcp-stress-results.txt
