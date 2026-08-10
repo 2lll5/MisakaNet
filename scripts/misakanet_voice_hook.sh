@@ -44,9 +44,18 @@ esac
 
 # Play audio (non-blocking, suppress errors from headless environments)
 if command -v afplay &>/dev/null; then
+    # macOS
     afplay "$FILE" &>/dev/null &
 elif command -v aplay &>/dev/null; then
+    # Linux (ALSA)
     aplay "$FILE" &>/dev/null &
 elif command -v paplay &>/dev/null; then
+    # Linux (PulseAudio)
     paplay "$FILE" &>/dev/null &
+elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
+    # Windows (Git Bash / MSYS2)
+    powershell -Command "Start-Process -FilePath '$FILE' -WindowStyle Hidden" &>/dev/null &
+elif command -v powershell.exe &>/dev/null; then
+    # Windows (WSL)
+    powershell.exe -Command "Start-Process -FilePath '$(wslpath -w "$FILE")' -WindowStyle Hidden" &>/dev/null &
 fi
