@@ -489,8 +489,8 @@ python3 scripts/lesson_reuse_bench.py --compare         # with vs without lesson
 
 | Metric | Value |
 |--------|-------|
-| Shared Lessons | 285 |
-| Registered Nodes | 60 assigned IDs |
+| Shared Lessons | 285 (indexed) |
+| Registered Nodes | 59 assigned IDs |
 | Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
 | npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
 | PyPI packages | [`misakanet-core`](https://pypi.org/project/misakanet-core/) |
