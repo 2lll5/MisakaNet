@@ -1,9 +1,5 @@
 ---
-domain: "data-engineering"
-title: "WSL NTFS SQLite UPDATE 100x slower than ext4"
-status: "draft"
-verification: "metadata-normalized"
-{"title": "WSL NTFS SQLite UPDATE 100x slower than ext4", "domain": "data-engineering", "tags": ["wsl", "sqlite", "performance", "ntfs", "windows"], "status": "published", "confidence": "0.95", "created": "2026-08-06", "updated": "2026-08-06", "source": "b2-robot-utilization project", "verified_date": "2026-08-06", "domain_expert": ""}
+{"title": "WSL NTFS SQLite UPDATE 100x slower than ext4", "domain": "data-engineering", "tags": ["wsl", "sqlite", "performance", "ntfs", "windows"], "status": "published", "evidence_level": "E2", "created": "2026-08-06", "updated": "2026-08-06", "source": "b2-robot-utilization project", "verified_date": "2026-08-06"}
 ---
 
 # WSL NTFS SQLite UPDATE 100x slower than ext4
