@@ -298,3 +298,40 @@ Certain critical paths require Reviewer-tier approval:
 ## Code of Conduct
 
 Please note that this project follows the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you agree to maintain a respectful and inclusive environment.
+
+## Documentation Contribution Guidelines
+
+MisakaNet documentation is organized into several tiers. Use this guide to determine where your contribution belongs.
+
+### Documentation Map
+
+| Document | Audience | Purpose | When to Update |
+|----------|----------|---------|----------------|
+| `README.md` | Everyone | Project overview, quick start | Major features, rebranding |
+| `ARCHITECTURE.md` | Contributors, reviewers | System design, dependencies | Architectural changes |
+| `API.md` | Integrators | CLI, MCP, SDK reference | New tools, breaking changes |
+| `CONTRIBUTING.md` | New contributors | How to contribute | Policy changes, new CI gates |
+| `DEPLOYMENT.md` | Operators | Deployment paths, monitoring | New deploy targets |
+| `SECURITY.md` | Security researchers | Vulnerability reporting | Policy updates |
+| `CODE_OF_CONDUCT.md` | All participants | Community standards | Governance changes |
+| `ROADMAP.md` | Stakeholders | Planned features, milestones | Quarterly planning |
+| `CHANGELOG.md` | Users | Release history | Every release |
+
+### Documentation PR Rules
+
+1. **Additive first** — prefer adding new docs over rewriting existing ones. Append sections to the end of existing files.
+2. **Cross-reference** — link between related documents (e.g., `ARCHITECTURE.md` ↔ `API.md`).
+3. **Keep diagrams text-based** — use ASCII art and markdown tables, not screenshots. They must be diffable.
+4. **Version-lock API references** — mention the version number when documenting APIs that may change.
+5. **Non-English docs** — use the existing pattern (`README.zh-CN.md`, `quickstart-jp.md`). Create a new file with the language suffix.
+
+### Doc Lint Checklist
+
+Before submitting a documentation PR, verify:
+- [ ] Markdown renders correctly (`preview` locally or check on GitHub)
+- [ ] All links are valid (no broken internal references)
+- [ ] Code blocks have language tags (```python, ```bash, ```json)
+- [ ] Tables are properly aligned
+- [ ] No trailing whitespace
+- [ ] Frontmatter is valid YAML (if applicable)
+
