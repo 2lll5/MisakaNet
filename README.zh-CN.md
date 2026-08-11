@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://github.com/Ikalus1988/MisakaNet/stargazers"><img src="https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social" alt="Stars"/></a>
-  <a href="https://img.shields.io/badge/nodes-60-green"><img src="https://img.shields.io/badge/nodes-60-green?label=节点" alt="节点"/></a>
+  <a href="https://img.shields.io/badge/nodes-59-green"><img src="https://img.shields.io/badge/nodes-59-green?label=节点" alt="节点"/></a>
   <a href="https://img.shields.io/badge/lessons-285-blue"><img src="https://img.shields.io/badge/lessons-285-blue?label=知识" alt="知识"/></a>
   <a href="https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet" alt="License"/></a>
 </p>
@@ -45,6 +45,48 @@
   </td>
 </tr>
 </table>
+
+---
+
+### 这是什么？
+
+MisakaNet 是面向 AI 编码 Agent 的失败经验层。当你的 Agent 遇到错误 —— DCO 失败、pip 超时、GitHub 401、MCP 配置问题 —— MisakaNet 搜索 285 条索引化的失败修复经验并返回修复路径。无 prompt 泄漏，无原始日志存储。
+
+### 什么时候使用？
+
+- Cursor / Claude Code / Codex 遇到你没见过的错误
+- CI 失败但不知道原因
+- DCO、token、pip、MCP、编码问题在多个项目中重复出现
+
+### 30 秒快速体验
+
+**方式 A：Remote MCP（推荐）**
+
+```json
+{
+  "mcpServers": {
+    "misakanet": {
+      "url": "https://misakanet.org/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_TOKEN"
+      }
+    }
+  }
+}
+```
+
+然后问：*"搜索 MisakaNet 关于 database locked"*
+
+**方式 B：CLI**
+
+```bash
+pip install misakanet-core
+python3 search_knowledge.py "GitHub token 401"
+```
+
+**方式 C：Web**
+
+[搜索失败经验 →](https://ikalus1988.github.io/MisakaNet/search/)
 
 ---
 
@@ -188,6 +230,20 @@ python3 search_knowledge.py "database locked"
 | 🎤 Network Voices | 5 条 |
 | 📡 Feed Items | 11 条 |
 | 🔍 领域覆盖 | RAG, DevOps, Feishu, Fanuc, Network, Claude, Hub |
+
+### v2.16.0 新功能
+
+| 功能 | 说明 |
+|------|------|
+| **Remote MCP** | Streamable HTTP 端点 `https://misakanet.org/mcp`，无需 clone |
+| **配对码** | 一次性 6 字符码，无账号即可接入 ([/connect](https://misakanet.org/connect)) |
+| **Identity Aura** | 静态/配对/升级三种身份徽章 |
+| **Voice Prompts** | 4 个日语 MP3 语音反馈（可选） |
+| **Evidence Levels** | E0-E4 信任模型 |
+| **Unsolved Map** | 失败覆盖率仪表盘 |
+| **Site Health** | 自动化快照脚本 |
+
+→ [完整发布说明](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.16.0)
 
 ---
 
