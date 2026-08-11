@@ -1,9 +1,23 @@
 {
-  "generated_at": "2026-08-11T10:14:57.688017+00:00",
+  "generated_at": "2026-08-11T13:22:18.225026+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 11,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "fixGX1): unify lesson directory contract",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/968",
+      "timestamp": "2026-08-11T13:22:07Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "fix(security): P0 hotfix — path traversal + XSS + secret redaction (clean)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/969",
+      "timestamp": "2026-08-11T13:02:12Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "feat: enhance PR Genius output analysis",
@@ -26,57 +40,43 @@
       "source": "github"
     },
     {
-      "type": "merged_pr",
-      "title": "feat: add 3 original failure-recovery lessons (webhook dedupe scope, Go toolchain arch, pycache cleanup)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/950",
-      "timestamp": "2026-08-11T04:44:44Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "test(bench): add SAG-Lite performance benchmark suite",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/949",
-      "timestamp": "2026-08-11T01:25:14Z",
-      "source": "github"
-    },
-    {
       "type": "lesson",
-      "title": "USDC: base units vs human amounts — агент платит 1000x или думает, что 1000 USDC это $1000",
-      "url": "lessons/contrib/usdc-base-units-vs-human-amounts-agent-marketplaces-ru.md",
-      "timestamp": "2026-07-30",
-      "domain": "crypto-ops",
+      "title": "Accidental __pycache__ artifacts committed to a data repository",
+      "url": "lessons/contrib/accidental-pycache-commit.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "development",
       "source": "lessons"
     },
     {
       "type": "lesson",
-      "title": "Claude Code can debug low-level cryptography — ML-DSA signature verification failure",
-      "url": "lessons/contrib/claude-code-debugging-ml-dsa-cryptography.md",
-      "timestamp": "2026-07-29",
-      "domain": "debugging",
+      "title": "CDN edge cache serves stale responses for minutes after deploy",
+      "url": "lessons/contrib/cdn-edge-cache-stale-after-deploy.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "network",
       "source": "lessons"
     },
     {
       "type": "lesson",
-      "title": "MCP tool ERROR convention — inconsistency between failure paths causes silent data corruption",
-      "url": "lessons/contrib/mcp-tool-error-convention-inconsistency.md",
-      "timestamp": "2026-07-29",
-      "domain": "mcp",
+      "title": "CI key rotation silently breaking scheduled automation without a code change",
+      "url": "lessons/contrib/ci-key-rotation-silent-failure.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "devops",
       "source": "lessons"
     },
     {
       "type": "lesson",
-      "title": "TypeScript solution-style tsconfig — tsc --noEmit checks nothing silently",
-      "url": "lessons/contrib/typescript-solution-tsconfig-silent-nocheck.md",
-      "timestamp": "2026-07-29",
-      "domain": "typescript",
+      "title": "GitHub contents API edit fails with 422 without the file sha",
+      "url": "lessons/contrib/github-contents-api-sha-required.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "development",
       "source": "lessons"
     },
     {
       "type": "lesson",
-      "title": "USDC пришёл в Ethereum mainnet, а нужен Base — и 0 ETH на газ",
-      "url": "lessons/contrib/usdc-ethereum-instead-of-base-zero-eth-gas.md",
-      "timestamp": "2026-07-29",
-      "domain": "crypto-ops",
+      "title": "GitHub rate limiting hitting unauthenticated searches during automation",
+      "url": "lessons/contrib/github-rate-limit-auth.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "network",
       "source": "lessons"
     },
     {
