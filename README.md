@@ -24,7 +24,7 @@ mcp-name: io.github.Ikalus1988/misakanet
 
 ### What is this?
 
-MisakaNet is a failure-memory layer for AI coding agents. When your agent hits an error — DCO failure, pip timeout, GitHub 401, MCP setup issue — MisakaNet searches 271+ indexed failure-recovery lessons and returns a fix path. No prompt leaking, no raw logs stored.
+MisakaNet is a failure-memory layer for AI coding agents. When your agent hits an error — DCO failure, pip timeout, GitHub 401, MCP setup issue — MisakaNet searches 285 indexed failure-recovery lessons and returns a fix path. No prompt leaking, no raw logs stored.
 
 ### When to use it
 
@@ -98,7 +98,7 @@ Use cases: CI smoke test, isolated trial, Claude Desktop MCP config with Docker.
 
 | | Component | Purpose |
 |---|---|---|
-| **Core** | `search_knowledge.py` | Search 271+ indexed failure-recovery lessons |
+| **Core** | `search_knowledge.py` | Search 285 indexed failure-recovery lessons |
 | **Core** | MCP server (local) | Give Cursor / Claude Code access to lessons |
 | **Core** | Remote MCP (`/mcp`) | Streamable HTTP endpoint — no clone needed |
 | **Core** | `POST /api/intake` | Submit redacted failure reports |
@@ -165,7 +165,7 @@ Didn't find a fix? [📮 Share your failure lesson →](https://github.com/Ikalu
 | **Best for** | DCO failures, GitHub token errors, pip timeout, Feishu API, WSL, FANUC |
 | **Not for** | Private memory storage, hosted vector database, general chatbot memory |
 | **License** | Apache 2.0 |
-| **Data** | 271+ lessons, 60 assigned node IDs, 18 domains |
+| **Data** | 285 lessons, 59 assigned node IDs, 5 domains |
 | **MCP Endpoint** | `https://misakanet.org/mcp` (Remote) |
 | **Evidence Levels** | E0-E4 trust model |
 
@@ -489,7 +489,7 @@ python3 scripts/lesson_reuse_bench.py --compare         # with vs without lesson
 
 | Metric | Value |
 |--------|-------|
-| Shared Lessons | 271+ |
+| Shared Lessons | 285 |
 | Registered Nodes | 60 assigned IDs |
 | Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
 | npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
