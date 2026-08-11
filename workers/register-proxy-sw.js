@@ -1108,6 +1108,22 @@ export default {
   .steps { text-align: left; margin: 20px 0; }
   .steps li { color: #c9d1d9; margin: 8px 0; font-size: 14px; }
   .timer { color: #f85149; font-size: 12px; margin-top: 8px; }
+  @media (max-width: 768px) {
+    body { padding: 16px; }
+    .card { padding: 24px; }
+    .code { font-size: 24px; letter-spacing: 3px; padding: 14px 20px; word-break: break-all; }
+    .btn { min-height: 44px; padding: 12px 20px; font-size: 14px; }
+    .btn-voice { min-height: 44px; padding: 10px 16px; font-size: 13px; }
+  }
+  @media (max-width: 480px) {
+    body { padding: 12px; }
+    .card { padding: 16px; max-width: 100%; }
+    .code { font-size: 18px; letter-spacing: 2px; padding: 12px 16px; }
+    .btn { min-height: 48px; padding: 14px 16px; font-size: 13px; }
+    .btn-voice { min-height: 48px; padding: 12px 14px; font-size: 12px; }
+    .steps { margin: 16px 0; }
+    .steps li { font-size: 13px; }
+  }
 </style></head>
 <body>
 <div class="card">
