@@ -65,3 +65,86 @@ reference/                # Reference documents (6 .md files)
 - **Python stdlib for search** — git clone and you're done. No pip install needed for core functionality.
 - **No mandatory daemon** — the Hub is optional. MisakaNet works as a pure git repo.
 - **Three concepts** — Lesson / Node / Search. Everything else is implementation detail.
+
+## CI Pipeline Architecture
+
+MisakaNet uses a multi-layered CI architecture powered by GitHub Actions with 30+ workflow files under `.github/workflows/`. Each workflow is a self-contained quality gate or automation task.
+
+### CI Layer Model
+
+```
+┌─────────────────────────────────────────────────┐
+│  LAYER 4 — Merge Gates (auto-merge, shape guard) │
+├─────────────────────────────────────────────────┤
+│  LAYER 3 — Quality (pr-genius, lesson-gate, lint)│
+├─────────────────────────────────────────────────┤
+│  LAYER 2 — Security (dco-check, secret scan, XSS)│
+├─────────────────────────────────────────────────┤
+│  LAYER 1 — Build/Deploy (deploy-worker, publish) │
+└─────────────────────────────────────────────────┘
+```
+
+### Key CI Workflows
+
+| Workflow | Layer | Trigger | Function |
+|----------|-------|---------|----------|
+| `pr-shape-guard.yml` | 4 | PR open/sync | Enforces additive-only PRs, blocks file deletion |
+| `auto-merge-docs.yml` | 4 | PR labeled | Auto-merges documentation-only PRs |
+| `pr-genius-check.yml` | 3 | PR open | AI code review with structured feedback |
+| `pr-quality-gate.yml` | 3 | PR open | Scope validation, lint, test gate |
+| `lesson-gate.yml` | 3 | PR open | Validates lesson frontmatter and content quality |
+| `dco-check.yml` | 2 | PR open | Enforces Developer Certificate of Origin sign-off |
+| `lesson-security.yml` | 2 | PR open | Scans lesson content for secrets and PII |
+| `deploy-worker.yml` | 1 | Push to main | Deploys Cloudflare Workers (dashboard) |
+| `publish-container.yml` | 1 | Release | Builds and pushes Docker image |
+| `sync-data.yml` | 1 | Schedule/Manual | Syncs lessons.json and feed data |
+
+### CI Design Principles
+
+- **Fail fast, fail clearly** — each gate produces a human-readable failure message
+- **Shape before merge** — structural validation (file deletions, scope creep) happens before code review
+- **Auto-merge for docs** — pure documentation PRs skip manual review when CI is green
+- **Self-healing** — `ci-self-heal.yml` can auto-fix known CI failures
+- **Stateless gates** — no persistent state between runs; each run is independent
+
+## Dependency Graph
+
+```
+search_knowledge.py
+  └── misakanet.search.engine (BM25 + L1/L2 cache)
+        └── misakanet_core (BM25, tokenize, rrf)         ← ecosystem package
+  └── misakanet.tools.lesson_scorer (quality scores)
+
+scripts/mcp_server.py
+  └── scripts/build_sag_index.py (SAG-Lite, optional)
+  └── misakanet.search.engine (BM25 fallback)
+
+scripts/mcp_http_server.py
+  └── mcp.server.fastmcp (FastMCP framework)
+  └── same search backends as mcp_server.py
+
+hub/misaka_hub.py
+  └── hub/sync/sync_scheduler.py (git-based sync)
+  └── hub/storage/knowledge_graph.py (graph rebuild)
+  └── hub/sync/notifier.py (Discord/Slack/Email)
+
+hub/federation/
+  └── hmac_auth.py (shared-secret authentication)
+  └── registry.py (peer node directory)
+  └── sync_protocol.py (inter-node sync)
+
+web/ (Cloudflare Workers)
+  └── docs/index.html (vanilla JS SPA, zero dependencies)
+  └── Cloudflare KV (MISAKANET_KV namespace)
+```
+
+## Extension Points
+
+| Extension | Mechanism | Example |
+|-----------|-----------|---------|
+| **New search backend** | Register in `misakanet.search.engine` | Add `ElasticsearchEngine` class |
+| **New notifier channel** | Implement `hub/sync/notifier.py` interface | `TeamsNotifier`, `TelegramNotifier` |
+| **New MCP tool** | Decorate with `@mcp.tool()` in `mcp_server.py` | `misakanet.recommend` tool |
+| **New CI gate** | Add workflow to `.github/workflows/` | `pr-benchmark.yml` |
+| **New lesson domain** | Create subdirectory in `lessons/` | `lessons/kubernetes/` |
+| **New federation peer** | Add URL to `FEDERATION_PEERS` env var | Cross-org knowledge sharing |
