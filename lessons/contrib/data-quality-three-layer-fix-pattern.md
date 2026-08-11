@@ -1,9 +1,5 @@
 ---
-domain: "data-engineering"
-title: "Data Quality Fix: Always Keep Three Layers (DB + ETL + Query)"
-status: "draft"
-verification: "metadata-normalized"
-{"title": "Data Quality Fix: Always Keep Three Layers (DB + ETL + Query)", "domain": "data-engineering", "tags": ["data-quality", "etl", "sql", "normalization", "defense-in-depth"], "status": "published", "confidence": "0.95", "created": "2026-08-06", "updated": "2026-08-06", "source": "b2-robot-utilization project — FE/TGO line name normalization", "verified_date": "2026-08-06", "domain_expert": ""}
+{"title": "Data Quality Fix: Always Keep Three Layers (DB + ETL + Query)", "domain": "data-engineering", "tags": ["data-quality", "etl", "sql", "normalization", "defense-in-depth"], "status": "published", "evidence_level": "E2", "created": "2026-08-06", "updated": "2026-08-06", "source": "b2-robot-utilization project — FE/TGO line name normalization", "verified_date": "2026-08-06"}
 ---
 
 # Data Quality Fix: Always Keep Three Layers (DB + ETL + Query)

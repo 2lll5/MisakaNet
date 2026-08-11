@@ -984,18 +984,24 @@
   },
   {
     "id": "data-quality-three-layer-fix-pattern",
-    "title": "data-quality-three-layer-fix-pattern",
-    "domain": "contrib",
-    "tags": [],
+    "title": "Data Quality Fix: Always Keep Three Layers (DB + ETL + Query)",
+    "domain": "data-engineering",
+    "tags": [
+      "data-quality",
+      "etl",
+      "sql",
+      "normalization",
+      "defense-in-depth"
+    ],
     "summary": "ETL pipeline derives identifiers from source filenames (e.g., `robot_name` from Excel sheet names). Filenames are inherently inconsistent — the same physical ro…",
     "preview": "# Data Quality Fix: Always Keep Three Layers (DB + ETL + Query)\n\n## Problem\n\nETL pipeline derives identifiers from source filenames (e.g., `robot_name` from Excel sheet names). Filenames are inherently inconsistent — the same physical robot appears as `FE135R01`, `FE66135R01`, `UB&FE135R01`, and `FE_处理后数据135R01` depending on which file it came from.\n\nA single-point fix (e.g., only fixing the database) leaves the system vulnerable to regression when new data arrives through the same broken ETL.\n\n## Root Cause\n\nNo normalization layer exists between raw filename parsing and database insertion. The ETL trusts filenames as-is, and downstream queries assume identifiers are consistent.\n\nThe failure pattern:\n1. ETL inserts inconsistent names → database has duplicates\n2. Query `GROUP BY robot_name` → inflated counts (11 robots instead of 1)\n3. Dashboard shows wrong numbers → user loses trust\n\n## Solution\n\nApply fixes at three layers, in order of permanence:\n\n### Layer 1: ETL (prevent recurrence)\n\nAdd a normalization function that runs at insert time:\n\n```python\n# common.py — single source of truth\nROBOT_NAME_PREFIXES = [\n    ('TGO_FEN_处理后数据', 'TGO'),\n    ('FEN&TGO', 'TGO'),\n    ('TGO&FEN', 'TGO'),\n    ('TGO FEN', 'TGO'),\n    ('FE_处理后数据', 'FE'),\n    ('UB&FE', 'FE'),\n    ('FE66', 'FE'),\n]\n\ndef normalize_robot_name(name):\n    for prefix, replacement in ROBOT_NAME_PREFIXES:\n        if name.startswith(prefix):\n            return replacement + name[len(prefix):]\n    return name\n```\n\nIn the ETL script:\n```python\nfrom common import normalize_robot_name\n\ndef process_record(rec):\n    robot_name = normalize_robot_name(rec['robot_name'])\n    # ... insert into DB\n```\n\n### Layer 2: Database (fix historical data)\n\nRun a one-time migration script that normalizes existing data:\n\n```python\n# fix_robot_names.py — uses the SAME normalize function as ETL\nfrom common import normalize_robot_name\n\nfor old_name in dirty_names:\n    new_name = normalize_robot_name(old_name)\n    if old_name != new_name:\n        conn.execute(\"UPDATE table SET robot_name=? WHERE robot_name=?\",\n                     (new_name, old_name))\n```\n\n### Layer 3: Query (safety net)\n\nKeep a `CASE WHEN` in SQL as a defense-in-depth fallback:\n\n```sql\nCASE WHEN t.line IN ('FEN&TGO', 'FE66', 'FE_处理后数据') THEN 'FE'\n     ELSE t.line END as normalized_line\n```\n\nThis catches any edge case that slips through Layers 1 and 2.\n\n## Verif\n\n[clipped]",
     "url": "lessons/contrib/data-quality-three-layer-fix-pattern.md",
-    "created": "",
-    "updated": "",
+    "created": "2026-08-06",
+    "updated": "2026-08-06",
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "active",
+    "status": "published",
     "verified": true
   },
   {
@@ -2936,30 +2942,6 @@
     "verified": true
   },
   {
-    "id": "lesson-pep668-homebrew-externally-managed",
-    "title": "macOS Homebrew Python: pip install Blocked by PEP 668 externally-managed-environment",
-    "domain": "devops",
-    "tags": [
-      "python",
-      "pip",
-      "homebrew",
-      "macos",
-      "pep-668",
-      "venv",
-      "pyyaml"
-    ],
-    "summary": "> Author: zsxh1990",
-    "preview": "# macOS Homebrew Python: pip install Blocked by PEP 668 externally-managed-environment\n\n> Author: zsxh1990  \n> Created: 2026-07-09  \n> Status: draft  \n> Domain: devops  \n> Source: Real incident, running `python3 validate.py --strict` on macOS with Homebrew Python 3.14\n\n## Problem\n\nOn macOS with Homebrew-installed Python (3.12+), `pip install` is blocked by PEP 668:\n\n```\n$ pip3 install pyyaml\nerror: externally-managed-environment\n\n× This environment is externally managed\n╰─> To install Python packages system-wide, try brew install\n    xyz, where xyz the Homebrew formulae.\n\n    If you wish to install a Python library that's not in Homebrew,\n    use a virtual environment:\n    python3 -m venv path/to/venv\n    source path/to/venv/bin/activate\n    python3 -m pip install xyz\n```\n\n**Root cause**: Homebrew Python includes an `EXTERNALLY-MANAGED` marker file (PEP 668) that prevents system-wide pip installs to protect the Homebrew-managed Python environment from corruption.\n\n## Diagnostic\n\n```bash\n# Check if your Python has the marker\npython3 -c \"import sysconfig; print(sysconfig.get_paths()['stdlib'])\"\n# Look for EXTERNALLY-MANAGED file in that directory\n\n# Confirm it's Homebrew Python\nwhich python3\n# Expected: /opt/homebrew/bin/python3 (Apple Silicon) or /usr/local/bin/python3 (Intel)\n```\n\n## Solutions (ranked)\n\n### 1. Virtual environment (recommended)\n\n```bash\npython3 -m venv .venv\nsource .venv/bin/activate\npip install pyyaml\n```\n\n### 2. pipx (for CLI tools)\n\n```bash\nbrew install pipx\npipx install some-tool\n```\n\n### 3. User install with override (quick fix, not ideal)\n\n```bash\npip3 install --user --break-system-packages pyyaml\n```\n\n**Warning**: `--break-system-packages` bypasses the safety check. Use only for quick debugging, not in production.\n\n### 4. uv (fastest, modern)\n\n```bash\nbrew install uv\nuv pip install pyyaml  # respects venvs, no PEP 668 issue\n```\n\n## Prevention\n\n- Always use a virtual environment for project dependencies\n- Add `.venv/` to `.gitignore`\n- For CI: ensure the CI environment uses a venv or container\n\n## Key Insight\n\nPEP 668 is **not a bug** — it's a protection mechanism. The correct fix is always to use a venv. The `--break-system-packages` flag is an escape hatch, not a solution.\n\n## Related\n\n- lesson-07: Ubuntu WSL Python venv Missing pip (similar PEP 668 context, different OS)\n- [PEP 668 spec](https://peps.python.org/pep-0668/)",
-    "url": "lessons/contrib/lesson-pep668-homebrew-externally-managed.md",
-    "created": "2026-07-09",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "draft",
-    "verified": false
-  },
-  {
     "id": "lesson-quality-requirements",
     "title": "lesson-quality-requirements",
     "domain": "contrib",
@@ -3144,7 +3126,7 @@
     "preview": "# macOS Homebrew Python: pip install Blocked by PEP 668 externally-managed-environment\n\n> Author: zsxh1990  \n> Created: 2026-07-09  \n> Status: draft  \n> Domain: devops  \n> Source: Real incident, running `python3 validate.py --strict` on macOS with Homebrew Python 3.14\n\n## Problem\n\nOn macOS with Homebrew-installed Python (3.12+), `pip install` is blocked by PEP 668:\n\n```\n$ pip3 install pyyaml\nerror: externally-managed-environment\n\n× This environment is externally managed\n╰─> To install Python packages system-wide, try brew install\n    xyz, where xyz the Homebrew formulae.\n\n    If you wish to install a Python library that's not in Homebrew,\n    use a virtual environment:\n    python3 -m venv path/to/venv\n    source path/to/venv/bin/activate\n    python3 -m pip install xyz\n```\n\n**Root cause**: Homebrew Python includes an `EXTERNALLY-MANAGED` marker file (PEP 668) that prevents system-wide pip installs to protect the Homebrew-managed Python environment from corruption.\n\n## Diagnostic\n\n```bash\n# Check if your Python has the marker\npython3 -c \"import sysconfig; print(sysconfig.get_paths()['stdlib'])\"\n# Look for EXTERNALLY-MANAGED file in that directory\n\n# Confirm it's Homebrew Python\nwhich python3\n# Expected: /opt/homebrew/bin/python3 (Apple Silicon) or /usr/local/bin/python3 (Intel)\n```\n\n## Solutions (ranked)\n\n### 1. Virtual environment (recommended)\n\n```bash\npython3 -m venv .venv\nsource .venv/bin/activate\npip install pyyaml\n```\n\n### 2. pipx (for CLI tools)\n\n```bash\nbrew install pipx\npipx install some-tool\n```\n\n### 3. User install with override (quick fix, not ideal)\n\n```bash\npip3 install --user --break-system-packages pyyaml\n```\n\n**Warning**: `--break-system-packages` bypasses the safety check. Use only for quick debugging, not in production.\n\n### 4. uv (fastest, modern)\n\n```bash\nbrew install uv\nuv pip install pyyaml  # respects venvs, no PEP 668 issue\n```\n\n## Prevention\n\n- Always use a virtual environment for project dependencies\n- Add `.venv/` to `.gitignore`\n- For CI: ensure the CI environment uses a venv or container\n\n## Key Insight\n\nPEP 668 is **not a bug** — it's a protection mechanism. The correct fix is always to use a venv. The `--break-system-packages` flag is an escape hatch, not a solution.\n\n## Related\n\n- lesson-07: Ubuntu WSL Python venv Missing pip (similar PEP 668 context, different OS)\n- [PEP 668 spec](https://peps.python.org/pep-0668/)",
     "url": "lessons/contrib/macos-homebrew-python-pip-install-blocked-by-pep-668-externa.md",
     "created": "2026-07-09",
-    "updated": "2026-07-09 17:29:45 UTC",
+    "updated": "2026-07-09",
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
@@ -4794,18 +4776,24 @@
   },
   {
     "id": "wsl-ntfs-sqlite-update-100x-slower",
-    "title": "wsl-ntfs-sqlite-update-100x-slower",
-    "domain": "contrib",
-    "tags": [],
+    "title": "WSL NTFS SQLite UPDATE 100x slower than ext4",
+    "domain": "data-engineering",
+    "tags": [
+      "wsl",
+      "sqlite",
+      "performance",
+      "ntfs",
+      "windows"
+    ],
     "summary": "Running `UPDATE` on a 1.2GB SQLite database via WSL2's NTFS mount (`/mnt/d/`) takes 5+ minutes for a single statement updating ~9000 rows. The same operation on…",
     "preview": "# WSL NTFS SQLite UPDATE 100x slower than ext4\n\n## Problem\n\nRunning `UPDATE` on a 1.2GB SQLite database via WSL2's NTFS mount (`/mnt/d/`) takes 5+ minutes for a single statement updating ~9000 rows. The same operation on a Linux ext4 filesystem completes in ~3 seconds.\n\n## Root Cause\n\nWSL2 accesses Windows NTFS through the `drvfs` filesystem driver, which translates POSIX I/O calls to Windows NTFS operations. SQLite's WAL (Write-Ahead Log) mode requires frequent random writes to both the WAL file and the main database file. NTFS's random I/O performance through the WSL2 translation layer is extremely poor compared to native ext4, especially for workloads that mix small random writes with large sequential reads.\n\nKey factors:\n- SQLite WAL mode = heavy random write pattern\n- WSL2 `drvfs` adds translation overhead per I/O syscall\n- NTFS metadata updates (timestamps, allocation) add latency\n- 1GB+ database = large page pool = more random I/O surface\n\n## Solution\n\nCopy the database to a Linux-native filesystem, perform the UPDATE there, then copy back.\n\n### Step 1: Copy to Linux filesystem\n\n```bash\ncp /mnt/d/project/data.db /tmp/data.db\n```\n\n### Step 2: Run UPDATE on the local copy\n\n```bash\npython3 -c \"\nimport sqlite3\nconn = sqlite3.connect('/tmp/data.db')\nconn.execute('UPDATE table SET col = ... WHERE ...')\nconn.commit()\nconn.close()\n\"\n```\n\n### Step 3: Copy back to NTFS\n\n```bash\ncp /tmp/data.db /mnt/d/project/data.db\n```\n\n## Verification\n\nTime the operation before and after:\n\n```bash\n# Before (NTFS): ~300 seconds\ntime python3 -c \"import sqlite3; c=sqlite3.connect('/mnt/d/data.db'); c.execute('UPDATE ...'); c.commit()\"\n\n# After (ext4): ~3 seconds\ntime python3 -c \"import sqlite3; c=sqlite3.connect('/tmp/data.db'); c.execute('UPDATE ...'); c.commit()\"\n```\n\n## Notes\n\n- SELECT queries are not significantly affected — the read path has less random I/O overhead.\n- For repeated UPDATE operations, consider keeping the working copy on `/tmp` and syncing back periodically.\n- The `PRAGMA journal_mode=WAL` does not help on NTFS — the bottleneck is the filesystem layer, not SQLite's journaling.\n- This also applies to `VACUUM`, `REINDEX`, and other write-heavy SQLite operations.\n- Related: WSL2 with `wsl2.mountDisk` or custom `/etc/fstab` with `metadata` option does NOT fix this — the issue is fundamental to the drvfs translation layer.",
     "url": "lessons/contrib/wsl-ntfs-sqlite-update-100x-slower.md",
-    "created": "",
-    "updated": "",
+    "created": "2026-08-06",
+    "updated": "2026-08-06",
     "validity_period_days": 365,
     "environment_version": "",
     "confidence": 0.5,
-    "status": "active",
+    "status": "published",
     "verified": true
   },
   {
