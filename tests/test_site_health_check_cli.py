@@ -78,9 +78,9 @@ def test_write_mode_creates_snapshot_file(monkeypatch, capsys, tmp_path):
     ))
     code = main()
     assert code == 0
-    snapshot = tmp_path / "docs" / "maintainer" / "site-health-2026-08-10.md"
-    assert snapshot.exists()
-    text = snapshot.read_text(encoding="utf-8")
+    snapshots = list((tmp_path / "docs" / "maintainer").glob("site-health-*.md"))
+    assert len(snapshots) == 1
+    text = snapshots[0].read_text(encoding="utf-8")
     assert "| Endpoint | Status | Notes |" in text
 
 
