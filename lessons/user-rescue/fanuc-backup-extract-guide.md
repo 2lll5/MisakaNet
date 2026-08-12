@@ -1,3 +1,9 @@
+---
+title: "FANUC 备份打不开？先别急，试这 3 步"
+domain: fanuc
+evidence_level: E1
+---
+
 # FANUC 备份打不开？先别急，试这 3 步
 
 ## 你可能遇到的是：
