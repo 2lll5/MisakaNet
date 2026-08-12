@@ -1,9 +1,9 @@
 # MisakaNet
 
-> **A redacted failure-memory layer for AI coding agents.**
+> **Git-backed failure-memory for AI coding agents.**
 >
-> Paste an error from Cursor, Claude Code, Codex, or CI.
-> MisakaNet searches real failure-recovery lessons and returns a fix path.
+> Zero dependencies. Zero server. Zero database.
+> Paste an error → search 287 lessons → get a fix path.
 
 mcp-name: io.github.Ikalus1988/misakanet
 
@@ -57,6 +57,19 @@ MisakaNet is a failure-memory layer for AI coding agents. When your agent hits a
 ### See it in 8 seconds
 
 ![Search lesson demo](promotional/search%20lesson.gif)
+
+### What this is NOT
+
+| MisakaNet is NOT | What it is instead |
+|------------------|-------------------|
+| ❌ A general-purpose memory system | ✅ Failure-recovery knowledge layer |
+| ❌ An Agent runtime or framework | ✅ Searchable lesson database |
+| ❌ A vector database or RAG system | ✅ BM25 keyword search (zero deps) |
+| ❌ A cloud service requiring signup | ✅ `git clone` → search locally |
+| ❌ A skill marketplace | ✅ Debugging knowledge from real sessions |
+
+> **MisakaNet is purpose-built for one thing:** helping agents avoid repeating known failures.
+> It is not a general memory layer, not a runtime, and not a vector database.
 
 ### What's new in v2.16.0
 
@@ -195,7 +208,11 @@ Use skills when you want an agent to do something. Use MisakaNet when you want a
 | [MemoryCustodian](https://github.com/waittim/MemoryCustodian) | ![stars](https://img.shields.io/github/stars/waittim/MemoryCustodian?style=social) | 🟡 Warm | Personal memory | Python | `pip install` |
 | [GoodMemory](https://github.com/hjqcan/GoodMemory) | ![stars](https://img.shields.io/github/stars/hjqcan/GoodMemory?style=social) | ✅ Active | Personal memory | Python | `pip install` |
 
-> **MisakaNet is not the only shared memory system.** Its edge is public, Git-backed, zero-dependency failure-recovery knowledge that coding agents can search without running a memory database.
+> **MisakaNet is not the only shared memory system.** Its edge is:
+> - **Git-backed** — every lesson is a Markdown file, fully auditable, version-controlled
+> - **Zero-dependency** — pure Python stdlib, no vector DB, no embedding model, no server
+> - **Purpose-built** — failure-recovery knowledge, not general memory
+> - **Public by default** — lessons are open, contributions are DCO-gated
 >
 > Other systems (Mem0, Agent-KB, agentmemory) offer stronger semantic recall / state management, but require heavier deployment. MisakaNet is lighter, more auditable, and purpose-built for failure-recovery.
 
