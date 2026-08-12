@@ -28,6 +28,34 @@ MisakaNet should stay offline-first and Git-backed. External listings are useful
 - External listing posture: Glama/MCP Registry/MCP Toplist are stable; Smithery
   and GitHub `/mcp` inclusion are deferred until the product loop is stronger.
 
+## August 2026 - v2.17.0: Trust & Curation Hardening
+
+Goal: 把 v2.16.0 的增长势能收敛成"可信、可维护、可审计的 failure-memory 网络"。
+
+| Track | Priority | What to ship | Gate |
+|---|---:|---|---|
+| **Lesson Lint** | P0 | `scripts/lesson_lint.py` 非阻塞试运行 | 0 high issues, CI job running |
+| **GX1 闭环** | P0 | #968 合并, lessons.json 同步 | README/STATUS/lessons.json = 287 |
+| **版本漂移清理** | P0 | STATUS/ROADMAP 同步到 v2.17 | 无版本号矛盾 |
+| **Security 收尾** | P0 | #969 合并, #964 关闭 | Release notes 包含安全修复 |
+| **定位固化** | P1 | "这不是什么" + Git-backed 到 CONCEPTS.md | 文档一致 |
+| **Duplicate governance** | P1 | 重复 lesson 处理流程 | docs/duplicate-governance.md |
+| **Regression queries** | P1 | `data/regression_queries.json` | 覆盖 6 个核心 failure 类型 |
+
+### v2.17.0 Definition of Done
+
+```bash
+python scripts/lesson_lint.py --lessons-dir lessons --fail-on high
+python scripts/lesson_gate.py <changed lessons>
+python scripts/site_health.py
+```
+
+并且：
+- README / STATUS / ROADMAP 数字一致（287）
+- `data/lessons.json` 已重新生成
+- 没有无关未跟踪文件
+- Lesson lint 0 high issues
+
 ## August 2026 - v2.16.0: Remote MCP + Security hardening
 
 Goal: a sandbox, agent, or human can submit a private redacted failure report;
