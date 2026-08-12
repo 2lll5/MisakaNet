@@ -295,6 +295,50 @@ Certain critical paths require Reviewer-tier approval:
 - `misakanet/search/` — Search engine modifications
 - `.github/workflows/` — CI pipeline changes
 
+## Code Style Guidelines
+
+### Python
+
+The repository uses **ruff** for linting and formatting (configured in `pyproject.toml`).
+
+- **Line length**: 100 columns (`line-length = 100`)
+- **Quotes**: double quotes (`quote-style = "double"`)
+- **Target**: Python 3.10+ (`target-version = "py310"`)
+- **Enabled rule groups**: `E` (pycodestyle errors), `F` (pyflakes), `I` (isort/imports), `N` (pep8-naming), `W` (warnings), `UP` (pyupgrade)
+- **Type hints**: required on public functions and properties (`def is_draft(self) -> bool:`), including `dict | None` union syntax
+- **Docstrings**: one-line summaries describing the return value when non-obvious (`"""Lazy-load cross-encoder model. Returns None if unavailable."""`); avoid multi-line Google/numpy styles unless the docstring needs parameter details
+- **Imports**: ruff `I` enforces isort ordering — standard library, then third-party, then local
+
+Verify before pushing:
+
+```bash
+ruff check .
+ruff format --check .
+```
+
+### TypeScript
+
+The VS Code extension (`vscode-extension/`) and Explorer (`explorer/`) follow the ESLint defaults configured in each package.
+
+- **Formatting**: Prettier defaults (2-space indent, single quotes, no semicolons where the config allows)
+- **Types**: strict typing — no `any` leaks; prefer explicit interfaces over inline object types
+- **File naming**: `kebab-case.ts` for modules, `PascalCase.tsx` for components
+- **Async**: prefer `async/await` over `.then()` chains; always handle rejections (no floating promises)
+
+Verify before pushing (from the package root):
+
+```bash
+npm run lint
+npm run format:check
+```
+
+### PR Checklist (all contributions)
+
+- [ ] Tests pass (or a CI check covers the change)
+- [ ] Docs updated if behavior changed
+- [ ] Commits signed with `Signed-off-by:` (DCO)
+- [ ] No unrelated changes bundled in the same PR
+
 ## Code of Conduct
 
 Please note that this project follows the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you agree to maintain a respectful and inclusive environment.
