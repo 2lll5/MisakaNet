@@ -1,5 +1,41 @@
 # Lesson Trust Semantics
 
+> MisakaNet 的信任模型和证据等级
+
+---
+
+## 一句话定位
+
+**MisakaNet is a Git-backed failure-memory layer for AI coding agents.**
+
+不是通用记忆系统，不是 Agent runtime，不是向量数据库。
+是专注、轻量、可审计的失败恢复知识层。
+
+---
+
+## 反 RAG 立场
+
+**MisakaNet is NOT a RAG system.**
+
+| RAG 系统 | MisakaNet |
+|----------|-----------|
+| 向量嵌入 + 语义搜索 | BM25 关键词搜索 |
+| 需要嵌入模型 | 零依赖 |
+| 云服务 | 本地运行 |
+| 黑盒检索 | 可审计的搜索结果 |
+
+**为什么选择 BM25 而不是 RAG？**
+
+1. **零依赖：** 无需安装嵌入模型（通常 2GB+）
+2. **可审计：** 搜索结果完全可预测
+3. **本地运行：** 无需云服务，无需网络
+4. **快速：** 毫秒级响应
+5. **足够好：** 对于 failure recovery，关键词搜索已经足够
+
+---
+
+## 信任级别
+
 MisakaNet uses three trust levels for lessons. These terms are used consistently across README, site, and generated data.
 
 ## Definitions
