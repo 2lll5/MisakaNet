@@ -6,12 +6,42 @@ on:
     paths:
       - 'lessons/**'
       - 'scripts/quality_scorer.py'
+      - 'scripts/lesson_lint.py'
 
 permissions:
   pull-requests: write
   contents: read
 
 jobs:
+  lint-check:
+    runs-on: ubuntu-latest
+    continue-on-error: true  # Non-blocking for now
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run lesson lint
+        id: lint
+        run: |
+          python scripts/lesson_lint.py --lessons-dir lessons --fail-on high --json > lint-output.json 2>&1 || true
+          HIGH=$(python -c "import json; d=json.load(open('lint-output.json')); print(sum(1 for i in d if i.get('severity')=='high'))" 2>/dev/null || echo "0")
+          MEDIUM=$(python -c "import json; d=json.load(open('lint-output.json')); print(sum(1 for i in d if i.get('severity')=='medium'))" 2>/dev/null || echo "0")
+          LOW=$(python -c "import json; d=json.load(open('lint-output.json')); print(sum(1 for i in d if i.get('severity')=='low'))" 2>/dev/null || echo "0")
+          echo "high=$HIGH" >> $GITHUB_OUTPUT
+          echo "medium=$MEDIUM" >> $GITHUB_OUTPUT
+          echo "low=$LOW" >> $GITHUB_OUTPUT
+          {
+            echo "### Lesson Lint Report"
+            echo "High: $HIGH | Medium: $MEDIUM | Low: $LOW"
+            echo ""
+            echo "Run locally: \`python scripts/lesson_lint.py --lessons-dir lessons -v\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   quality-check:
     runs-on: ubuntu-latest
     steps:

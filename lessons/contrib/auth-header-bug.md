@@ -1,3 +1,9 @@
+---
+title: "Moorcheh API Auth Header Bug"
+domain: api
+evidence_level: E1
+---
+
 # Moorcheh API Auth Header Bug
 
 ## Error Description
