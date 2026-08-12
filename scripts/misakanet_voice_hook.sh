@@ -20,7 +20,7 @@ VOICE_DIR="$(cd "$(dirname "$0")/../docs/assets/voice" && pwd)"
 INPUT=$(cat)
 
 # Extract voice field — silent exit if missing
-VOICE=$(echo "$INPUT" | python3 -c "
+VOICE=$(echo "$INPUT" | python -c "
 import sys, json
 try:
     data = json.load(sys.stdin)
