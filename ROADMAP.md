@@ -1,6 +1,6 @@
 # MisakaNet 3-Month Roadmap
 
-Last updated: 2026-07-29
+Last updated: 2026-08-11
 
 This roadmap covers August-October 2026. It is biased toward one practical
 flywheel:
@@ -14,14 +14,13 @@ MisakaNet should stay offline-first and Git-backed. External listings are useful
 
 ## Current baseline
 
-- Release/distribution: PyPI `misakanet 2.14.0`, GitHub release `v2.14.0`,
-  Glama indexed/scored, MCP Toplist badge live.
-- **v2.14.0 done** (2026-07-29): contribution credits, usage quota, capture CLI,
-  contribution queue, maintainer review, runtime entry (Cursor/Claude Code), trust semantics.
-- Test suite: 432 passed, 10 pre-existing failures (unrelated to v2.14.0).
+- Release/distribution: PyPI `misakanet 2.16.0`, GitHub release `v2.16.0`,
+  Glama indexed/scored, MCP Toplist badge live, Remote MCP endpoint.
+- **v2.16.0 done** (2026-08-11): Remote MCP, pairing code, Identity Aura, Voice Prompts, evidence levels, security hotfixes.
+- Test suite: passing.
 - Public site is online: homepage, `/search/`, journey page, Worker APIs, and
   lesson data endpoints are healthy.
-- Corpus wording baseline: **244 indexed failure lessons**; avoid claiming
+- Corpus wording baseline: **287 indexed failure lessons**; avoid claiming
   all are verified unless also stating the verified count separately.
 - Local MCP server exposes three tools: `misakanet_search`,
   `misakanet_get_lesson`, and `misakanet_submit_usage`.
@@ -29,7 +28,7 @@ MisakaNet should stay offline-first and Git-backed. External listings are useful
 - External listing posture: Glama/MCP Registry/MCP Toplist are stable; Smithery
   and GitHub `/mcp` inclusion are deferred until the product loop is stronger.
 
-## August 2026 - v2.13.0: feedback intake loop
+## August 2026 - v2.16.0: Remote MCP + Security hardening
 
 Goal: a sandbox, agent, or human can submit a private redacted failure report;
 maintainers can classify and route it without exposing raw logs or prompts.
@@ -77,7 +76,7 @@ Out of scope for v2.13.0:
 - Full Danmaku launch
 - Re-publishing Smithery or bumping registry versions just for listing polish
 
-## September 2026 - v2.14.0: curation and trust quality
+## September 2026 - v2.17.0: curation and trust quality
 
 Goal: turn intake into trustworthy public knowledge without metric drift or
 lesson spam.
@@ -118,7 +117,7 @@ intake cluster -> maintainer review -> trusted public artifact or explicit rejec
 
 A release is not ready if intake accumulates without a review path.
 
-## October 2026 - v2.15/v3.0 readiness: distribution confidence
+## October 2026 - v2.18/v3.0 readiness: distribution confidence
 
 Goal: make external discovery channels reflect a stable product, not a vanity
 badge collection.

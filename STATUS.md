@@ -1,6 +1,6 @@
 # 项目状态
 
-> 更新于 2026-08-03 | v2.15.0
+> 更新于 2026-08-11 | v2.16.0
 
 ## 概览
 
@@ -89,6 +89,8 @@ python3 scripts/score_lessons.py
 
 | 版本 | 日期 | 要点 |
 |------|------|------|
+| v2.16.0 | 2026-08-11 | Remote MCP、Pairing Code、Identity Aura、Voice Prompts、Security hotfixes |
+| v2.15.0 | 2026-08-03 | Hub federation、CI self-healing、Auto-Merge |
 | v2.14.0 | 2026-07-29 | 贡献积分、需求看板、Capture CLI、Runtime 入口 |
 | v2.13.0 | 2026-07-29 | Intake 端点、Secret redaction、分类器、需求看板 |
 | v2.12.0 | 2026-07-16 | PR template 简化、feedback 入口、Glama 集成 |
