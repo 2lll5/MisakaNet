@@ -145,6 +145,7 @@ MisakaNet is useful in different ways depending on what you are trying to do:
 | 📝 Sharing a failure case | Submit a [5-line failure note](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml) — no polished PR required |
 | 📊 Evaluating agent learning | Run the [benchmarks](scripts/retrieval_noisebench.py) and compare reuse behavior |
 | 💬 Reporting friction | [Email intake](docs/email-intake.md) or [journey report #510](https://github.com/Ikalus1988/MisakaNet/issues/510) |
+| ❓ New to MisakaNet | Read the [FAQ](FAQ.md) for installation, MCP pairing, troubleshooting, and contribution answers |
 
 > 👉 **New here?** [Search failure lessons →](https://ikalus1988.github.io/MisakaNet/search/)
 >
