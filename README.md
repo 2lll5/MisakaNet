@@ -182,18 +182,24 @@ Use skills when you want an agent to do something. Use MisakaNet when you want a
 
 ## How is this different?
 
-| | MisakaNet | Letta | MemMachine | LangMem | Evolver |
-|---|---|---|---|---|---|
-| **Memory type** | Collective (swarm) | Personal (OS) | Personal (3-tier) | Personal (graph) | Personal (vector) |
-| **Infrastructure** | `git` + `python3` *(zero-dep)* | Docker + PostgreSQL | Docker + Neo4j | Python + SQLite | Docker + Qdrant |
-| **Network effect** | ✅ Nodes grow stronger | ❌ Each instance isolated | ❌ Each instance isolated | ❌ Each instance isolated | ❌ Each instance isolated |
-| **Offline-first** | ✅ Full offline search | ❌ Requires server | ❌ Requires server | ⚠️ Partial | ❌ Requires server |
-| **Entry cost** | `git clone` (5s) | Docker setup (~15min) | Docker setup (~15min) | `pip install` | Docker setup (~20min) |
+| Project | ⭐ | Active | Type | Infrastructure | Network Effect | Entry Cost |
+|---------|-----|--------|------|----------------|----------------|------------|
+| **MisakaNet** | ![stars](https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social) | ✅ Active | Collective (swarm) | `git` + `python3` *(zero-dep)* | ✅ Nodes grow stronger | `git clone` (5s) |
+| [agentmemory](https://github.com/rohitg00/agentmemory) | ![stars](https://img.shields.io/github/stars/rohitg00/agentmemory?style=social) | ✅ Active | Personal (vector) | Python + SQLite | ❌ Isolated | `pip install` |
+| [Memorix](https://github.com/AVIDS2/memorix) | ![stars](https://img.shields.io/github/stars/AVIDS2/memorix?style=social) | ✅ Active | Personal (graph) | Python | ❌ Isolated | `pip install` |
+| [Memoria](https://github.com/matrixorigin/Memoria) | ![stars](https://img.shields.io/github/stars/matrixorigin/Memoria?style=social) | ✅ Active | Personal (3-tier) | Infra-backed | ❌ Isolated | Docker |
+| [claude-memory-compiler](https://github.com/coleam00/claude-memory-compiler) | ![stars](https://img.shields.io/github/stars/coleam00/claude-memory-compiler?style=social) | 🟡 Warm | Personal (graph) | Python | ❌ Isolated | `pip install` |
+| [SwarmClaw](https://github.com/swarmclawai/swarmclaw) | ![stars](https://img.shields.io/github/stars/swarmclawai/swarmclaw?style=social) | 🟡 Warm | Swarm (federation) | Python | ⚠️ Partial | `pip install` |
+| [Agent-KB](https://github.com/OPPO-PersonalAI/Agent-KB) | ![stars](https://img.shields.io/github/stars/OPPO-PersonalAI/Agent-KB?style=social) | 🔬 Research | Knowledge base | Docker + PostgreSQL | ❌ Isolated | Docker (~15min) |
+| [MemoryCustodian](https://github.com/waittim/MemoryCustodian) | ![stars](https://img.shields.io/github/stars/waittim/MemoryCustodian?style=social) | 🟡 Warm | Personal (hybrid) | Python | ❌ Isolated | `pip install` |
+| [GoodMemory](https://github.com/hjqcan/GoodMemory) | ![stars](https://img.shields.io/github/stars/hjqcan/GoodMemory?style=social) | ✅ Active | Personal (vector) | Python | ❌ Isolated | `pip install` |
 
 **MisakaNet's moat:** every new node and lesson makes the network exponentially more valuable — no server infrastructure required.
 
 > 📦 Core engine is **zero-dep** (pure Python stdlib). Optional extras: `pip install misakanet[semantic|hub|feishu]`.
 > → [Architecture details](ARCHITECTURE.md) · [Benchmark: LessonReuseBench](docs/lesson-reuse-benchmark.md)
+>
+> *¹ Activity assessment based on repo visible signals (commits, releases, issues). As of 2026-08-12.*
 
 ---
 
