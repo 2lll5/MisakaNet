@@ -1323,12 +1323,14 @@ async function getCode() {
 // Named exports for unit tests only (workers/unsolved-map.test.mjs). Wrangler
 // deploys this file for its default export; the extra exports are inert there.
 export {
+  IDENTITY_AURA,
   MAX_MCP_REQUEST_BYTES,
   UNSOLVED_FAMILY_WHITELIST,
   UNSOLVED_REASONS,
   UNSOLVED_WINDOW_DAYS,
   buildUnsolvedMap,
   classifyTaskFamily,
+  getIdentityAura,
   handleSearchSignal,
   handleUnsolvedMap,
   recordStaleLesson,
