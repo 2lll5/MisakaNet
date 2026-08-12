@@ -154,7 +154,7 @@ MisakaNet is useful in different ways depending on what you are trying to do:
 |---|---|
 | 🔴 Debugging a real failure | [Search existing lessons](https://ikalus1988.github.io/MisakaNet/search/) before retrying |
 | 🤖 Building an AI agent / tool | Use lessons as [failure-memory](docs/mcp-quickstart.md) for your workflow |
-| 🔧 Contributing a fix | Check [related lessons](https://ikalus1988.github.io/MisakaNet/search/), then open a small PR |
+| 🔧 Contributing a fix | Read [CONTRIBUTING.md](CONTRIBUTING.md) for code style + PR checklist, check [related lessons](https://ikalus1988.github.io/MisakaNet/search/), then open a small PR |
 | 📝 Sharing a failure case | Submit a [5-line failure note](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml) — no polished PR required |
 | 📊 Evaluating agent learning | Run the [benchmarks](scripts/retrieval_noisebench.py) and compare reuse behavior |
 | 💬 Reporting friction | [Email intake](docs/email-intake.md) or [journey report #510](https://github.com/Ikalus1988/MisakaNet/issues/510) |
