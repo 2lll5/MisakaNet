@@ -4,9 +4,14 @@
 Checks for:
 - Broken links (relative links to non-existent files)
 - Duplicate titles
-- Missing frontmatter
+- Missing frontmatter (YAML or JSON)
 - Quality score anomalies
 - Empty or too-short lessons
+
+Usage:
+    python scripts/lesson_lint.py --lessons-dir lessons
+    python scripts/lesson_lint.py --lessons-dir lessons --json
+    python scripts/lesson_lint.py --lessons-dir lessons --fail-on high
 """
 
 from __future__ import annotations
@@ -18,10 +23,108 @@ from pathlib import Path
 from typing import Any
 
 
+# Files to exclude from linting (non-lesson files)
+EXCLUDE_FILES = {
+    "TEMPLATE.md",
+    "LESSON_QUALITY_SCORING.md",
+    "index.md",
+}
+
+# Directories to exclude
+EXCLUDE_DIRS = {
+    "_archive",
+    "drafts",
+    "templates",
+}
+
+# Non-lesson directories (language translations, etc.)
+NON_LESSON_DIRS = {
+    "en", "hi", "id", "ru", "tr", "vi", "zh",
+}
+
+
+def is_lesson_file(file_path: Path, lessons_dir: Path) -> bool:
+    """Check if this is an actual lesson file (not a template, index, etc.)."""
+    # Check filename
+    if file_path.name in EXCLUDE_FILES:
+        return False
+
+    # Check if in excluded directory
+    try:
+        relative = file_path.relative_to(lessons_dir)
+        parts = relative.parts
+        # Check top-level directories
+        if parts and parts[0] in EXCLUDE_DIRS:
+            return False
+        if parts and parts[0] in NON_LESSON_DIRS:
+            return False
+        # Skip files directly in lessons/ (not in core/ or contrib/)
+        if len(parts) == 1:
+            return False
+    except ValueError:
+        pass
+
+    return True
+
+
+def parse_frontmatter(content: str) -> tuple[dict | None, int]:
+    """Parse YAML or JSON frontmatter. Returns (parsed_dict, body_start_line)."""
+    lines = content.split("\n")
+
+    # Check for JSON frontmatter (starts with {)
+    if content.lstrip().startswith("{"):
+        try:
+            # Find the closing brace
+            brace_count = 0
+            end_idx = 0
+            for i, char in enumerate(content):
+                if char == "{":
+                    brace_count += 1
+                elif char == "}":
+                    brace_count -= 1
+                    if brace_count == 0:
+                        end_idx = i + 1
+                        break
+            if end_idx > 0:
+                json_str = content[:end_idx]
+                data = json.loads(json_str)
+                body_start = content[:end_idx].count("\n") + 1
+                return data, body_start
+        except json.JSONDecodeError:
+            pass
+
+    # Check for YAML frontmatter (starts with ---)
+    if content.startswith("---"):
+        end_idx = content.find("---", 3)
+        if end_idx > 0:
+            yaml_str = content[3:end_idx].strip()
+            # Simple YAML parsing (key: value pairs)
+            data = {}
+            for line in yaml_str.split("\n"):
+                if ":" in line:
+                    key, _, value = line.partition(":")
+                    key = key.strip()
+                    value = value.strip().strip('"').strip("'")
+                    # Try to parse numbers
+                    try:
+                        value = int(value)
+                    except ValueError:
+                        try:
+                            value = float(value)
+                        except ValueError:
+                            pass
+                    data[key] = value
+            body_start = content[:end_idx].count("\n") + 1
+            return data, body_start
+
+    return None, 0
+
+
 def check_frontmatter(content: str, file_path: Path) -> list[dict[str, str]]:
     """Check for valid YAML/JSON frontmatter."""
     issues = []
-    if not content.startswith("---") and not content.startswith("{"):
+    frontmatter, _ = parse_frontmatter(content)
+    if frontmatter is None:
         issues.append({
             "rule": "missing_frontmatter",
             "severity": "high",
@@ -35,13 +138,16 @@ def check_title(content: str, file_path: Path) -> list[dict[str, str]]:
     """Check for H1 title."""
     issues = []
     lines = content.split("\n")
-    has_h1 = any(line.startswith("# ") for line in lines[:10])
+    # Skip frontmatter
+    _, body_start = parse_frontmatter(content)
+    search_lines = lines[body_start:body_start + 10] if body_start > 0 else lines[:10]
+    has_h1 = any(line.startswith("# ") for line in search_lines)
     if not has_h1:
         issues.append({
             "rule": "missing_title",
             "severity": "medium",
             "file": str(file_path),
-            "message": "No H1 title found in first 10 lines"
+            "message": "No H1 title found in first 10 lines of body"
         })
     return issues
 
@@ -50,13 +156,7 @@ def check_length(content: str, file_path: Path) -> list[dict[str, str]]:
     """Check lesson length."""
     issues = []
     lines = content.split("\n")
-    # Strip frontmatter
-    body_start = 0
-    if content.startswith("---"):
-        for i, line in enumerate(lines[1:], 1):
-            if line.strip() == "---":
-                body_start = i + 1
-                break
+    _, body_start = parse_frontmatter(content)
     body_lines = len(lines[body_start:])
     if body_lines < 10:
         issues.append({
@@ -78,9 +178,13 @@ def check_links(content: str, file_path: Path, lessons_dir: Path) -> list[dict[s
         # Skip external URLs and anchors
         if link_path.startswith(("http://", "https://", "#", "mailto:")):
             continue
-        # Resolve relative link
+        # Skip absolute paths
         if link_path.startswith("/"):
-            continue  # Skip absolute paths
+            continue
+        # Skip references to lessons/ directory (common in README)
+        if "lessons/" in link_path:
+            continue
+        # Resolve relative link
         target = (file_path.parent / link_path).resolve()
         if not target.exists():
             issues.append({
@@ -95,11 +199,10 @@ def check_links(content: str, file_path: Path, lessons_dir: Path) -> list[dict[s
 def check_quality_score(content: str, file_path: Path) -> list[dict[str, str]]:
     """Check for quality score issues."""
     issues = []
-    # Look for quality_score in frontmatter
-    score_match = re.search(r'quality_score:\s*([\d.]+)', content)
-    if score_match:
-        score = float(score_match.group(1))
-        if score < 0.3:
+    frontmatter, _ = parse_frontmatter(content)
+    if frontmatter and "quality_score" in frontmatter:
+        score = frontmatter["quality_score"]
+        if isinstance(score, (int, float)) and score < 0.3:
             issues.append({
                 "rule": "low_quality_score",
                 "severity": "medium",
@@ -113,15 +216,24 @@ def check_duplicate_titles(lessons: dict[str, str]) -> list[dict[str, str]]:
     """Check for duplicate titles across lessons."""
     issues = []
     title_map: dict[str, list[str]] = {}
-    for file_path, content in lessons.items():
-        lines = content.split("\n")
-        for line in lines[:10]:
-            if line.startswith("# "):
-                title = line[2:].strip()
-                if title not in title_map:
-                    title_map[title] = []
-                title_map[title].append(file_path)
-                break
+    for file_path_str, content in lessons.items():
+        frontmatter, body_start = parse_frontmatter(content)
+        # Try to get title from frontmatter first
+        if frontmatter and "title" in frontmatter:
+            title = str(frontmatter["title"])
+        else:
+            # Fall back to H1
+            lines = content.split("\n")
+            search_lines = lines[body_start:body_start + 10] if body_start > 0 else lines[:10]
+            title = None
+            for line in search_lines:
+                if line.startswith("# "):
+                    title = line[2:].strip()
+                    break
+        if title:
+            if title not in title_map:
+                title_map[title] = []
+            title_map[title].append(file_path_str)
     for title, files in title_map.items():
         if len(files) > 1:
             issues.append({
@@ -152,7 +264,8 @@ def main() -> int:
     parser.add_argument("--lessons-dir", default="lessons", help="Lessons directory")
     parser.add_argument("--json", action="store_true", help="Output JSON")
     parser.add_argument("--fail-on", choices=["high", "medium", "low"], default="high",
-                        help="Fail on issues of this severity or higher")
+                        help="Fail on issues of this severity or higher (default: high)")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Show all issues")
     args = parser.parse_args()
 
     lessons_dir = Path(args.lessons_dir)
@@ -160,10 +273,12 @@ def main() -> int:
         print(f"Error: {lessons_dir} not found", file=sys.stderr)
         return 1
 
-    # Collect all lesson files
-    lesson_files = list(lessons_dir.rglob("*.md"))
+    # Collect all lesson files (with filtering)
+    all_md_files = list(lessons_dir.rglob("*.md"))
+    lesson_files = [f for f in all_md_files if is_lesson_file(f, lessons_dir)]
+
     if not lesson_files:
-        print(f"No .md files found in {lessons_dir}", file=sys.stderr)
+        print(f"No lesson files found in {lessons_dir}", file=sys.stderr)
         return 1
 
     # Load all lessons for duplicate check
@@ -171,6 +286,8 @@ def main() -> int:
     for f in lesson_files:
         try:
             lessons[str(f)] = f.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            print(f"Warning: Could not read {f} (encoding error)", file=sys.stderr)
         except Exception as e:
             print(f"Warning: Could not read {f}: {e}", file=sys.stderr)
 
@@ -205,7 +322,7 @@ def main() -> int:
             return 0
 
         print(f"## Lesson Lint Report\n")
-        print(f"**Checked:** {len(lesson_files)} files\n")
+        print(f"**Checked:** {len(lesson_files)} lesson files (from {len(all_md_files)} total .md files)\n")
 
         # Count by severity
         high = sum(1 for i in all_issues if i.get("severity") == "high")
@@ -213,10 +330,20 @@ def main() -> int:
         low = sum(1 for i in all_issues if i.get("severity") == "low")
         print(f"**Issues:** {high} high, {medium} medium, {low} low\n")
 
-        for issue in all_issues:
+        if not args.verbose:
+            # Only show high issues by default
+            display_issues = [i for i in all_issues if i.get("severity") == "high"]
+            if display_issues:
+                print(f"### High severity (showing {len(display_issues)}):\n")
+            else:
+                print("### No high severity issues\n")
+        else:
+            display_issues = all_issues
+
+        for issue in display_issues:
             severity = issue.get("severity", "unknown")
             icon = {"high": "[HIGH]", "medium": "[MED]", "low": "[LOW]"}.get(severity, "[???]")
-            print(f"{icon} **{issue.get('rule', 'unknown')}** ({severity})")
+            print(f"{icon} **{issue.get('rule', 'unknown')}**")
             print(f"   File: {issue.get('file', 'unknown')}")
             print(f"   {issue.get('message', 'No message')}")
             print()
