@@ -182,19 +182,21 @@ Use skills when you want an agent to do something. Use MisakaNet when you want a
 
 ## How is this different?
 
-| Project | ⭐ | Active | Type | Infrastructure | Network Effect | Entry Cost |
-|---------|-----|--------|------|----------------|----------------|------------|
-| **MisakaNet** | ![stars](https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social) | ✅ Active | Collective failure-memory | `git` + `python3` *(zero-dep)* | ✅ Nodes grow stronger | `git clone` (5s) |
-| [agentmemory](https://github.com/rohitg00/agentmemory) | ![stars](https://img.shields.io/github/stars/rohitg00/agentmemory?style=social) | ✅ Active | Personal memory | Python + SQLite | ❌ Isolated | `pip install` |
-| [Memorix](https://github.com/AVIDS2/memorix) | ![stars](https://img.shields.io/github/stars/AVIDS2/memorix?style=social) | ✅ Active | Personal memory | Python | ❌ Isolated | `pip install` |
-| [Memoria](https://github.com/matrixorigin/Memoria) | ![stars](https://img.shields.io/github/stars/matrixorigin/Memoria?style=social) | ✅ Active | Personal memory | Infra-backed | ❌ Isolated | Docker |
-| [claude-memory-compiler](https://github.com/coleam00/claude-memory-compiler) | ![stars](https://img.shields.io/github/stars/coleam00/claude-memory-compiler?style=social) | 🟡 Warm | Personal memory | Python | ❌ Isolated | `pip install` |
-| [SwarmClaw](https://github.com/swarmclawai/swarmclaw) | ![stars](https://img.shields.io/github/stars/swarmclawai/swarmclaw?style=social) | 🟡 Warm | Swarm runtime / federation | Python | ⚠️ Partial | `pip install` |
-| [Agent-KB](https://github.com/OPPO-PersonalAI/Agent-KB) | ![stars](https://img.shields.io/github/stars/OPPO-PersonalAI/Agent-KB?style=social) | 🔬 Research | Research knowledge base | Docker + PostgreSQL | ❌ Isolated | Docker (~15min) |
-| [MemoryCustodian](https://github.com/waittim/MemoryCustodian) | ![stars](https://img.shields.io/github/stars/waittim/MemoryCustodian?style=social) | 🟡 Warm | Personal memory | Python | ❌ Isolated | `pip install` |
-| [GoodMemory](https://github.com/hjqcan/GoodMemory) | ![stars](https://img.shields.io/github/stars/hjqcan/GoodMemory?style=social) | ✅ Active | Personal memory | Python | ❌ Isolated | `pip install` |
+| Project | ⭐ | Active | Sharing model | Infrastructure | Entry cost |
+|---------|-----|--------|---------------|----------------|------------|
+| **MisakaNet** | ![stars](https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social) | ✅ Active | Public Git-backed swarm knowledge | `git` + `python3` *(zero-dep)* | `git clone` (5s) |
+| [agentmemory](https://github.com/rohitg00/agentmemory) | ![stars](https://img.shields.io/github/stars/rohitg00/agentmemory?style=social) | ✅ Active | Local/team memory depending on backend | Python + SQLite | `pip install` |
+| [Memorix](https://github.com/AVIDS2/memorix) | ![stars](https://img.shields.io/github/stars/AVIDS2/memorix?style=social) | ✅ Active | MCP shared memory | Python | `pip install` |
+| [Memoria](https://github.com/matrixorigin/Memoria) | ![stars](https://img.shields.io/github/stars/matrixorigin/Memoria?style=social) | ✅ Active | Cloud / app-level shared memory | Infra-backed | Docker |
+| [claude-memory-compiler](https://github.com/coleam00/claude-memory-compiler) | ![stars](https://img.shields.io/github/stars/coleam00/claude-memory-compiler?style=social) | 🟡 Warm | Personal memory | Python | `pip install` |
+| [SwarmClaw](https://github.com/swarmclawai/swarmclaw) | ![stars](https://img.shields.io/github/stars/swarmclawai/swarmclaw?style=social) | 🟡 Warm | Runtime federation | Python | `pip install` |
+| [Agent-KB](https://github.com/OPPO-PersonalAI/Agent-KB) | ![stars](https://img.shields.io/github/stars/OPPO-PersonalAI/Agent-KB?style=social) | 🔬 Research | Shared experience pool / research prototype | Docker + PostgreSQL | Docker (~15min) |
+| [MemoryCustodian](https://github.com/waittim/MemoryCustodian) | ![stars](https://img.shields.io/github/stars/waittim/MemoryCustodian?style=social) | 🟡 Warm | Personal memory | Python | `pip install` |
+| [GoodMemory](https://github.com/hjqcan/GoodMemory) | ![stars](https://img.shields.io/github/stars/hjqcan/GoodMemory?style=social) | ✅ Active | Personal memory | Python | `pip install` |
 
-**MisakaNet's moat:** every new node and lesson makes the network exponentially more valuable — no server infrastructure required.
+> **MisakaNet is not the only shared memory system.** Its edge is public, Git-backed, zero-dependency failure-recovery knowledge that coding agents can search without running a memory database.
+>
+> Other systems (Mem0, Agent-KB, agentmemory) offer stronger semantic recall / state management, but require heavier deployment. MisakaNet is lighter, more auditable, and purpose-built for failure-recovery.
 
 > 📦 Core engine is **zero-dep** (pure Python stdlib). Optional extras: `pip install misakanet[semantic|hub|feishu]`.
 > → [Architecture details](ARCHITECTURE.md) · [Benchmark: LessonReuseBench](docs/lesson-reuse-benchmark.md)
