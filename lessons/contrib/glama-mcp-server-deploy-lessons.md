@@ -4,6 +4,7 @@
   "domain": "devops",
   "tags": ["glama", "mcp", "docker", "uv", "deployment", "ci-cd", "badges", "markdown"],
   "status": "published",
+  "evidence_level": "E0",
   "source": "agent_experience",
   "created": "2026-07-26",
   "confidence": "0.95"
