@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T03:03:35.883151+00:00",
+  "generated_at": "2026-08-13T03:18:10.485246+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 11,
@@ -65,18 +65,18 @@
     },
     {
       "type": "lesson",
-      "title": "GitHub contents API edit fails with 422 without the file sha",
-      "url": "lessons/contrib/github-contents-api-sha-required.md",
+      "title": "Banking-style escrow fee estimate has a per-provider rounding disparity",
+      "url": "lessons/contrib/escrow-fee-rounding-per-provider.md",
       "timestamp": "2026-08-11 00:00:00 UTC",
       "domain": "development",
       "source": "lessons"
     },
     {
       "type": "lesson",
-      "title": "GitHub rate limiting hitting unauthenticated searches during automation",
-      "url": "lessons/contrib/github-rate-limit-auth.md",
+      "title": "git worktree commit lost after pushing from the wrong directory",
+      "url": "lessons/contrib/git-worktree-dangling-commit-recovery.md",
       "timestamp": "2026-08-11 00:00:00 UTC",
-      "domain": "network",
+      "domain": "development",
       "source": "lessons"
     },
     {

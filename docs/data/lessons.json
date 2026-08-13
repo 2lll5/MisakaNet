@@ -1,21 +1,5 @@
 [
   {
-    "id": "README",
-    "title": "README",
-    "domain": "core",
-    "tags": [],
-    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
-    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
-    "url": "lessons/core/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
     "id": "auto-merge-ci-pipeline",
     "title": "Auto-Merge CI Pipeline — DCO, Quality Score, Shadow Branch, Dynamic Deps, Auto-Merge",
     "domain": "devops",
@@ -215,6 +199,22 @@
     "verified": true
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "core",
+    "tags": [],
+    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
+    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
+    "url": "lessons/core/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": false
+  },
+  {
     "id": "search-first-roadmap-loop",
     "title": "Search-first roadmap loop for agent knowledge projects",
     "domain": "development",
@@ -234,22 +234,6 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "published",
-    "verified": true
-  },
-  {
-    "id": "README",
-    "title": "README",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
-    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
-    "url": "lessons/contrib/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
     "verified": true
   },
   {
@@ -1131,6 +1115,28 @@
     "confidence": 0.5,
     "status": "active",
     "verified": true
+  },
+  {
+    "id": "escrow-fee-rounding-per-provider",
+    "title": "Banking-style escrow fee estimate has a per-provider rounding disparity",
+    "domain": "development",
+    "tags": [
+      "payments",
+      "calculation",
+      "rounding",
+      "precision",
+      "ledger"
+    ],
+    "summary": "A payout/reward schema recorded a fee estimate computed with floating-point math, while the escrow engine (and the human maintainers) expected per-provider inte…",
+    "preview": "# Escrow fee estimates round differently per provider — and it silently changes totals\n\n## Problem\n\nA payout/reward schema recorded a fee estimate computed with floating-point math, while the escrow engine (and the human maintainers) expected per-provider integer-percent rounding. Invoices, reward cells, and gateway payloads diverged by a few basis points — invisible on a single row, yet every cross-check and tally disagreed.\n\n## Root cause\n\nMoney math was done as `amount * rate` in binary floating point and then summed, instead of using currency-centric integer arithmetic (cents/wei/sats) with explicit rounding at the end. Two compounding effects:\n\n- `0.1 * 3` style products are not exact in binary floats (e.g. `0.30000000000000004`), so *identical* fee logic produced *different* totals depending on provider defaults and where the rounding was applied (per-row vs. at-the-end).\n- A schema that allows the number of decimal places to differ per provider makes the same invoice look correct under one and wrong under another.\n\n## Failure & recovery\n\nThe failure surfaced only when an independent audit added totals and compared them to the stored fee. The recovery checklist:\n\n1. Move all money arithmetic to integer units (cents, sats, or the token's smallest unit).\n2. Choose a single rounding mode (and mention it: round-half-up, truncation, banker's rounding).\n3. Sum in integer units, round once at the end, never per-row mid-computation.\n4. Add a \"recompute and compare to stored\" invariant check in tests.\n\n## Lesson\n\nFee/escrow math is currency math: use integer units, apply one rounding policy, and validate stored totals by recomputation. \"It's almost right\" is how payment bugs get shipped.",
+    "url": "lessons/contrib/escrow-fee-rounding-per-provider.md",
+    "created": "2026-08-11 00:00:00 UTC",
+    "updated": "2026-08-11 00:00:00 UTC",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": false
   },
   {
     "id": "fanuc-alarm-code-reference",
@@ -2270,6 +2276,28 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
+    "verified": false
+  },
+  {
+    "id": "git-worktree-dangling-commit-recovery",
+    "title": "git worktree commit lost after pushing from the wrong directory",
+    "domain": "development",
+    "tags": [
+      "git",
+      "worktree",
+      "reflog",
+      "recovery",
+      "branch"
+    ],
+    "summary": "A commit made inside a `git worktree add <path> <branch>` appeared to vanish: the remote branch did not move, and the local branch was suddenly empty. The work …",
+    "preview": "# git worktree commits \"disappear\" after pushing from the wrong directory\n\n## Problem\n\nA commit made inside a `git worktree add <path> <branch>` appeared to vanish: the remote branch did not move, and the local branch was suddenly empty. The work had taken hours and seemed unrecoverable.\n\n## Root cause\n\n`git worktree` attaches a worktree to a *branch*. When a push or commit runs from the wrong place (for example a second worktree, or the main clone, or a bare path) the HEAD you commit on can be a different branch or a detached HEAD:\n\n- Commits made on a detached HEAD or an unexpected branch are not referenced by any branch name, so they are invisible in normal `git log`.\n- The original branch ref itself was not updated — it still pointed at the old commit. The work exists in the object database but nothing references it.\n\nThe commit is not lost; it is simply *unreferenced*.\n\n## Failure & recovery\n\nPanic-driven string searches for the files failed because the working tree had been cleaned. The reliable recovery path:\n\n1. `git fsck --lost-found` — lists dangling commits. Look for commits whose dates/messages match the work.\n2. Or `git reflog --all` — shows every HEAD movement including the detached-HEAD history.\n3. `git branch <name> <sha>` or `git checkout -b <name> <sha>` — re-attach a branch to the recovered commit.\n4. Push from the correct worktree (or folder), or from the re-attached branch directly.\n\n## Prevent it\n\n- Always confirm `git rev-parse --abbrev-ref HEAD` and `git status -b` before committing/pushing when using worktrees.\n- Verify the remote moved: after push, `git ls-remote origin <branch>`.\n- Keep a habit of writing useful commit messages you can grep for in `fsck --lost-found` output.\n\n## Lesson\n\nA \"missing\" git commit is almost always a dangling object. Recover with `fsck --lost-found`/`reflog` instead of rewriting from memory, and fix the workflow that created it.",
+    "url": "lessons/contrib/git-worktree-dangling-commit-recovery.md",
+    "created": "2026-08-11 00:00:00 UTC",
+    "updated": "2026-08-11 00:00:00 UTC",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
     "verified": false
   },
   {
@@ -4021,6 +4049,22 @@
     "verified": false
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
+    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
+    "url": "lessons/contrib/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "regex-escaped-quotes-source-parsing",
     "title": "regex-escaped-quotes-source-parsing",
     "domain": "contrib",
@@ -4340,6 +4384,28 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
+    "verified": false
+  },
+  {
+    "id": "squash-rebase-force-push-lease",
+    "title": "Squash-rebase rewrites the patch base and breaks force-push expectations",
+    "domain": "development",
+    "tags": [
+      "git",
+      "rebase",
+      "squash",
+      "force-push",
+      "collaboration"
+    ],
+    "summary": "A contribution branch had been periodically force-pushed while staying based on an older commit. After a squash-rebase intended to tidy history, the next force-…",
+    "preview": "# Squash-rebase silently changes the base — and force-push races follow\n\n## Problem\n\nA contribution branch had been periodically force-pushed while staying based on an older commit. After a squash-rebase intended to tidy history, the next force-push hit `remote contains work you do not have locally` and reviewers could no longer reconcile the branch with the PR.\n\n## Root cause\n\nTwo compounding git behaviors:\n\n1. A squash-rebase (or any rebase that \"updates\" the branch) changes not just the history but the *base* commit the branch grows from. Reviewers comparing against the PR's recorded base see a rewritten set of files, not an incremental diff.\n2. `--force-with-lease` protects against overwriting work *you haven't seen* — but after a local rebase, the local ref diverges from remote in a way that the semantic guard misjudges, and a plain `--force` overwrites something you may have based your squash on.\n\n## Failure & recovery\n\nThe fix is to treat squash-rebase as a *conflict resolution*, not a formatting step:\n\n1. Before squashing, capture the current remote head: `git rev-parse origin/<branch>`.\n2. `git rebase -i` to squash, then verify `git diff origin/main...HEAD` shows exactly the intended net change.\n3. Push with `--force-with-lease=refs/heads/<branch>:<old-remote-sha>` explicitly naming the sha you are allowed to replace — never a naked `--force`.\n4. If reviewers already commented on line numbers, say clearly that the patch was rebased/squashed so they re-review by file diff, not by conversation.\n\n## Lesson\n\nSquash is not cosmetic: it rewrites the base and re-opens the merge contract. Name the lease explicitly and re-verify the net diff before force-pushing a squashed branch.",
+    "url": "lessons/contrib/squash-rebase-force-push-lease.md",
+    "created": "2026-08-11 00:00:00 UTC",
+    "updated": "2026-08-11 00:00:00 UTC",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
     "verified": false
   },
   {
