@@ -77,6 +77,20 @@ MisakaNet is a failure-memory layer for AI coding agents. When your agent hits a
 > **MisakaNet is purpose-built for one thing:** helping agents avoid repeating known failures.
 > It is not a general memory layer, not a runtime, and not a vector database.
 
+### What's new in v2.17.0
+
+| Feature | Description |
+|---------|-------------|
+| **Lesson Lint** | Automated quality checks: broken links, duplicate titles, missing frontmatter |
+| **Competitive Analysis** | "What this is NOT" table + Git-backed positioning |
+| **289 Lessons** | 14 new failure-recovery lessons (was 275) |
+| **Security Hardening** | MCP path traversal fix, XSS escape, email redaction |
+| **Mobile Responsive** | /connect page works on phones (768px + 480px breakpoints) |
+| **Code Style Guide** | CONTRIBUTING.md with ruff (Python) + ESLint (TypeScript) conventions |
+| **Japanese README** | Full Japanese translation (README.ja.md) |
+
+→ [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.17.0)
+
 ### What's new in v2.16.0
 
 | Feature | Description |

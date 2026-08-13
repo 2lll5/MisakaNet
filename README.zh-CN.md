@@ -231,6 +231,20 @@ python3 search_knowledge.py "database locked"
 | 📡 Feed Items | 11 条 |
 | 🔍 领域覆盖 | RAG, DevOps, Feishu, Fanuc, Network, Claude, Hub |
 
+### v2.17.0 新功能
+
+| 功能 | 说明 |
+|------|------|
+| **Lesson Lint** | 自动化质量检查：断链、重复标题、缺少 frontmatter |
+| **竞争分析** | "这不是什么" 表格 + Git-backed 定位 |
+| **289 篇 Lessons** | 新增 14 篇失败修复经验（原 275） |
+| **安全加固** | MCP 路径遍历修复、XSS 转义、邮箱脱敏 |
+| **移动端适配** | /connect 页面手机可用（768px + 480px 断点） |
+| **代码规范** | CONTRIBUTING.md 含 ruff（Python）+ ESLint（TypeScript）约定 |
+| **日文 README** | 完整日文翻译（README.ja.md） |
+
+→ [完整发布说明](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.17.0)
+
 ### v2.16.0 新功能
 
 | 功能 | 说明 |
