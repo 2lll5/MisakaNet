@@ -20,7 +20,7 @@ MisakaNet should stay offline-first and Git-backed. External listings are useful
 - Test suite: passing.
 - Public site is online: homepage, `/search/`, journey page, Worker APIs, and
   lesson data endpoints are healthy.
-- Corpus wording baseline: **287 indexed failure lessons**; avoid claiming
+- Corpus wording baseline: **289 indexed failure lessons**; avoid claiming
   all are verified unless also stating the verified count separately.
 - Local MCP server exposes three tools: `misakanet_search`,
   `misakanet_get_lesson`, and `misakanet_submit_usage`.
@@ -35,7 +35,7 @@ Goal: 把 v2.16.0 的增长势能收敛成"可信、可维护、可审计的 fai
 | Track | Priority | What to ship | Gate |
 |---|---:|---|---|
 | **Lesson Lint** | P0 | `scripts/lesson_lint.py` 非阻塞试运行 | 0 high issues, CI job running |
-| **GX1 闭环** | P0 | #968 合并, lessons.json 同步 | README/STATUS/lessons.json = 287 |
+| **GX1 闭环** | P0 | #968 合并, lessons.json 同步 | README/STATUS/lessons.json = 289 |
 | **版本漂移清理** | P0 | STATUS/ROADMAP 同步到 v2.17 | 无版本号矛盾 |
 | **Security 收尾** | P0 | #969 合并, #964 关闭 | Release notes 包含安全修复 |
 | **定位固化** | P1 | "这不是什么" + Git-backed 到 CONCEPTS.md | 文档一致 |
@@ -51,7 +51,7 @@ python scripts/site_health.py
 ```
 
 并且：
-- README / STATUS / ROADMAP 数字一致（287）
+- README / STATUS / ROADMAP 数字一致（289）
 - `data/lessons.json` 已重新生成
 - 没有无关未跟踪文件
 - Lesson lint 0 high issues
