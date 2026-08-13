@@ -1,6 +1,6 @@
 {
   "schema_version": "misaka/regression-queries/v0.2",
-  "updated": "2026-08-12",
+  "updated": "2026-08-13",
   "description": "High-signal regression queries for search quality verification. Run before each release to ensure core failure lessons are retrievable.",
   "categories": {
     "dco": "Developer Certificate of Origin issues",
@@ -21,7 +21,7 @@
         "lessons/contrib/error-dco-signoff-windows.md",
         "lessons/core/dco-auto-fix-workflow.md"
       ],
-      "min_results": 1,
+      "min_results": 6,
       "description": "Developer Certificate of Origin sign-off issues on Windows"
     },
     {
@@ -31,7 +31,7 @@
       "expected_lessons": [
         "lessons/core/dco-auto-fix-workflow.md"
       ],
-      "min_results": 1,
+      "min_results": 2,
       "description": "Missing DCO sign-off in git commits"
     },
     {
@@ -41,7 +41,7 @@
       "expected_lessons": [
         "lessons/contrib/pip-install-timeout-ssl.md"
       ],
-      "min_results": 1,
+      "min_results": 4,
       "description": "Python pip install timeout and SSL issues"
     },
     {
@@ -51,7 +51,7 @@
       "expected_lessons": [
         "lessons/contrib/github-401-credential-lookup.md"
       ],
-      "min_results": 1,
+      "min_results": 6,
       "description": "GitHub API authentication failures"
     },
     {
@@ -62,7 +62,7 @@
         "lessons/core/hermes-state-database-lock-issues-cleanup-protocol.md",
         "lessons/contrib/agent-state-database-lock-cleanup.md"
       ],
-      "min_results": 1,
+      "min_results": 2,
       "description": "SQLite/database lock contention"
     },
     {
@@ -72,7 +72,7 @@
       "expected_lessons": [
         "lessons/contrib/agent-web-access-toolchain-selection.md"
       ],
-      "min_results": 1,
+      "min_results": 3,
       "description": "Windows console encoding and Unicode issues"
     },
     {
@@ -82,7 +82,7 @@
       "expected_lessons": [
         "lessons/contrib/feishu-block-api-false-success.md"
       ],
-      "min_results": 1,
+      "min_results": 3,
       "description": "Feishu/Lark API integration issues"
     },
     {
@@ -92,7 +92,7 @@
       "expected_lessons": [
         "lessons/contrib/fanuc-io-marker-m-instruction.md"
       ],
-      "min_results": 1,
+      "min_results": 3,
       "description": "FANUC industrial robot programming errors"
     },
     {
@@ -100,7 +100,7 @@
       "category": "mcp",
       "query": "MCP server setup error",
       "expected_lessons": [],
-      "min_results": 0,
+      "min_results": 3,
       "description": "MCP server configuration issues"
     },
     {
@@ -120,7 +120,7 @@
       "expected_lessons": [
         "lessons/contrib/wsl-ntfs-sqlite-update-100x-slower.md"
       ],
-      "min_results": 1,
+      "min_results": 3,
       "description": "WSL file permission and NTFS issues"
     }
   ]
