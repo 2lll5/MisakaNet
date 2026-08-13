@@ -1,3 +1,9 @@
+<div align="right">
+
+[English](README.md) | [日本語](README.ja.md)
+
+</div>
+
 # MisakaNet
 
 > **Git-backed failure-memory for AI coding agents.**
