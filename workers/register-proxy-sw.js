@@ -5,6 +5,7 @@
 
 const REPO = "Ikalus1988/MisakaNet";
 const GITHUB_API = "https://api.github.com";
+const PUBLIC_DATA_BASE = "https://raw.githubusercontent.com/Ikalus1988/MisakaNet/main/data";
 const PROXY_CACHE_TTL = 30_000;
 const KEEPALIVE_ENDPOINTS = [
   { name: "health", url: "https://misakanet.org/api/health", json: true },
@@ -445,6 +446,14 @@ async function getWithCache(env, cacheKey, fetchFn) {
   return data;
 }
 
+async function fetchPublicJson(path) {
+  const resp = await fetch(`${PUBLIC_DATA_BASE}/${path}`, {
+    headers: { "User-Agent": "MisakaNet-Insights/1.0", Accept: "application/json" },
+  });
+  if (!resp.ok) throw new Error(`Public data ${resp.status}`);
+  return resp.json();
+}
+
 function sanitizeIdentifier(val, maxLen) {
   if (!val) return "";
   if (val.length > maxLen) val = val.slice(0, maxLen);
@@ -623,6 +632,109 @@ async function handleUnsolvedMap(env) {
     staleLessons: data.staleLessons,
     meta: { privacy: "aggregate-only", raw_query: false, prompts: false, logs: false, paths: false, pii: false },
   });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Lesson coverage dashboard (Issue #905)
+//
+// Coverage is calculated from the public lesson index and the aggregate
+// unsolved-family signals above. It never needs raw search queries: a family is
+// covered when at least one published lesson matches its public keyword cluster.
+// ═══════════════════════════════════════════════════════════════════════════
+
+function lessonSearchText(lesson) {
+  if (!lesson || typeof lesson !== "object") return "";
+  const tags = Array.isArray(lesson.tags) ? lesson.tags.join(" ") : "";
+  return [lesson.id, lesson.title, lesson.domain, tags, lesson.summary]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function buildLessonCoverage(lessons, unsolved = { families: [], staleLessons: [] }) {
+  const allLessons = Array.isArray(lessons) ? lessons : [];
+  const publishedLessons = allLessons.filter((lesson) => lesson && lesson.status === "published");
+  const unsolvedFamilies = new Map(
+    (Array.isArray(unsolved.families) ? unsolved.families : [])
+      .map((family) => [family.taskFamily, family]),
+  );
+
+  const families = UNSOLVED_FAMILIES.map(([taskFamily, keywords]) => {
+    const matching = publishedLessons.filter((lesson) => {
+      const text = lessonSearchText(lesson);
+      return keywords.some((keyword) => text.includes(keyword));
+    });
+    const signal = unsolvedFamilies.get(taskFamily) || {};
+    const unsolved30d = Number(signal.unsolved30d) || 0;
+    const coverageStatus = matching.length === 0
+      ? "uncovered"
+      : unsolved30d > 0 ? "needs-review" : "covered";
+    return {
+      taskFamily,
+      lessonCount: matching.length,
+      coverageStatus,
+      unsolved7d: Number(signal.unsolved7d) || 0,
+      unsolved30d,
+      lastSeen: signal.lastSeen || null,
+    };
+  });
+
+  const coveredFamilies = families.filter((family) => family.lessonCount > 0).length;
+  const gaps = families
+    .filter((family) => family.coverageStatus !== "covered")
+    .sort((a, b) => b.unsolved30d - a.unsolved30d || a.lessonCount - b.lessonCount || a.taskFamily.localeCompare(b.taskFamily));
+
+  return {
+    metrics: {
+      totalLessons: allLessons.length,
+      publishedLessons: publishedLessons.length,
+      totalFamilies: families.length,
+      coveredFamilies,
+      coveragePercent: families.length ? Math.round((coveredFamilies / families.length) * 1000) / 10 : 0,
+      gapCount: gaps.length,
+      unsolvedFamilyCount: unsolvedFamilies.size,
+      staleLessonCount: Array.isArray(unsolved.staleLessons) ? unsolved.staleLessons.length : 0,
+    },
+    families,
+    gaps,
+    staleLessons: Array.isArray(unsolved.staleLessons) ? unsolved.staleLessons : [],
+  };
+}
+
+async function handleLessonCoverage(env) {
+  try {
+    let lessons = env.LESSON_DATA;
+    if (typeof lessons === "string") lessons = JSON.parse(lessons);
+    if (!Array.isArray(lessons)) {
+      lessons = await getWithCache(env, "insights:lesson-index", () => fetchPublicJson("lessons.json"));
+    }
+
+    let unsolved = env.UNSOLVED_DATA;
+    if (typeof unsolved === "string") unsolved = JSON.parse(unsolved);
+    if (!unsolved || typeof unsolved !== "object") {
+      unsolved = env.MISAKANET_KV
+        ? await buildUnsolvedMap(env)
+        : { families: [], staleLessons: [] };
+    }
+
+    return jsonResponse({
+      success: true,
+      available: true,
+      signalsAvailable: !!env.MISAKANET_KV || !!env.UNSOLVED_DATA,
+      generatedAt: new Date().toISOString(),
+      ...buildLessonCoverage(lessons, unsolved),
+      meta: {
+        lessonSource: "data/lessons.json",
+        signalSource: "/api/insights/unsolved-map",
+        privacy: "public-metadata-and-aggregate-signals",
+        raw_query: false,
+        pii: false,
+      },
+    });
+  } catch (error) {
+    console.error("[coverage] source unavailable", error && error.message);
+    return jsonResponse({ success: false, error: "Coverage data unavailable" }, 502);
+  }
 }
 
 // POST /api/search-signal — records that a search went unsolved. The query is
@@ -931,6 +1043,11 @@ export default {
     // GET /api/insights/unsolved-map — public aggregate failure map (#788)
     if (request.method === "GET" && url.pathname === "/api/insights/unsolved-map") {
       return handleUnsolvedMap(env);
+    }
+
+    // GET /api/insights/lesson-coverage — public lesson coverage dashboard (#905)
+    if (request.method === "GET" && url.pathname === "/api/insights/lesson-coverage") {
+      return handleLessonCoverage(env);
     }
 
     // GET /api/insights/demand-board — public aggregate view of intake clusters
@@ -1345,9 +1462,11 @@ export {
   UNSOLVED_REASONS,
   UNSOLVED_WINDOW_DAYS,
   buildUnsolvedMap,
+  buildLessonCoverage,
   classifyTaskFamily,
   getIdentityAura,
   handleSearchSignal,
+  handleLessonCoverage,
   handleUnsolvedMap,
   recordStaleLesson,
   recordUnsolvedSearch,
