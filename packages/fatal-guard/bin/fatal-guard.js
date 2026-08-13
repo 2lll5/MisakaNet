@@ -11,6 +11,7 @@
  */
 
 const { spawn } = require('node:child_process');
+const { buildSpawnSpec } = require('../src/lib/spawn-command');
 
 const args = process.argv.slice(2);
 
@@ -48,9 +49,11 @@ const { redact } = require('../src/lib/redact');
 // to capture error output for crash detection + snippet.
 const stderrIsTTY = !!process.stderr.isTTY;
 
-const child = spawn(cmdArgs[0], cmdArgs.slice(1), {
+const invocation = buildSpawnSpec(cmdArgs[0], cmdArgs.slice(1));
+const child = spawn(invocation.command, invocation.args, {
   stdio: ['inherit', 'inherit', stderrIsTTY ? 'inherit' : 'pipe'],
   shell: false,
+  ...invocation.options,
 });
 
 // ── stderr capture (only when piping, i.e. non-TTY) ─────────────
