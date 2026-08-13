@@ -17,6 +17,13 @@ sync:
   interval_minutes: 30            # 同步轮询间隔（分钟）
   # 推荐: 生产环境 30，开发环境 5
 
+# ── 搜索检索权重 ──
+# Hybrid mode combines normalized BM25 keyword and vector similarity scores.
+# Defaults are balanced; values must be in [0, 1] and cannot both be zero.
+retrieval:
+  bm25_weight: 0.5
+  vector_weight: 0.5
+
 # ── 存储 ──
 storage:
   graph:

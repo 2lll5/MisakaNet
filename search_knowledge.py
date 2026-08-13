@@ -607,6 +607,8 @@ def main():
     top_k = 10
     use_semantic = False
     use_rerank = False
+    bm25_weight: Optional[float] = None
+    vector_weight: Optional[float] = None
     suggest = False
     explain = False
     verbose = False
@@ -646,6 +648,14 @@ def main():
             lang = search_args[i + 1]
         elif arg == "--semantic":
             use_semantic = True
+        elif arg.startswith("--bm25-weight="):
+            bm25_weight = float(arg.split("=", 1)[1])
+        elif arg == "--bm25-weight" and i + 1 < len(search_args):
+            bm25_weight = float(search_args[i + 1])
+        elif arg.startswith("--vector-weight="):
+            vector_weight = float(arg.split("=", 1)[1])
+        elif arg == "--vector-weight" and i + 1 < len(search_args):
+            vector_weight = float(search_args[i + 1])
         elif arg == "--rerank":
             use_rerank = True
         elif arg.startswith("--domain="):
@@ -758,7 +768,10 @@ def main():
     if json_output:
         all_docs = lessons_docs + ref_docs
         with contextlib.redirect_stdout(io.StringIO()):
-            ranked = _rank_docs(query, all_docs, titles_only, broad_only)
+            ranked = _rank_docs(
+                query, all_docs, titles_only, broad_only,
+                bm25_weight=bm25_weight, vector_weight=vector_weight,
+            )
         results = [
             _json_result(score, doc, query=query, verbose=verbose)
             for score, doc in ranked
@@ -808,7 +821,10 @@ def main():
     
     all_docs = lessons_docs + ref_docs
     if lessons_docs:
-        ranked = _rank_docs(query, lessons_docs, titles_only, broad_only, rerank=use_rerank)
+        ranked = _rank_docs(
+            query, lessons_docs, titles_only, broad_only, rerank=use_rerank,
+            bm25_weight=bm25_weight, vector_weight=vector_weight,
+        )
         # Only show results above threshold
         filtered = [(s, d) for s, d in ranked if s >= MIN_SCORE_THRESHOLD]
         for _score, doc in filtered[:top_k]:
@@ -821,7 +837,10 @@ def main():
                                all_docs=all_docs)
         found_any = found_any or found
     if ref_docs:
-        ranked = _rank_docs(query, ref_docs, titles_only, broad_only=False, rerank=use_rerank)
+        ranked = _rank_docs(
+            query, ref_docs, titles_only, broad_only=False, rerank=use_rerank,
+            bm25_weight=bm25_weight, vector_weight=vector_weight,
+        )
         # Only show results above threshold
         filtered = [(s, d) for s, d in ranked if s >= MIN_SCORE_THRESHOLD]
         for _score, doc in filtered[:top_k]:

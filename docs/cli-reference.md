@@ -17,6 +17,8 @@ python3 search_knowledge.py <query> [options]
 | `--broad` | Matching | Broader keyword matching | `--broad` |
 | `--suggest` | Mode | List matching titles (≥2 chars) | `--suggest` |
 | `--semantic` | Mode | Use sentence-transformers _(optional dep)_ | `--semantic` |
+| `--bm25-weight` | Hybrid ranking | BM25 weight in `[0, 1]`; defaults to config or `0.5` | `--bm25-weight=0.7` |
+| `--vector-weight` | Hybrid ranking | Vector weight in `[0, 1]`; defaults to config or `0.5` | `--vector-weight=0.3` |
 | `--score` | Mode | Lesson quality scoring from telemetry | `--score --top=5` |
 | `--telemetry=<path>` | Scoring | Custom telemetry DB path | `--telemetry=/tmp/t.db --score` |
 | `--explain` | Search | Show BM25/Meta/Base score breakdown | `--explain` |

@@ -142,6 +142,8 @@ def handle_search(args: dict) -> dict:
     domain = args.get("domain")
     tags = args.get("tags")
     top = args.get("top", 5)
+    bm25_weight = args.get("bm25_weight")
+    vector_weight = args.get("vector_weight")
 
     if not query:
         return {
@@ -156,13 +158,20 @@ def handle_search(args: dict) -> dict:
             "voice": "failure-warning",
         }
 
-    if HAS_SAG:
+    # SAG-Lite does not expose hybrid weighting. Use the BM25 adapter whenever
+    # a caller explicitly supplies weights so the MCP contract is honored.
+    if HAS_SAG and bm25_weight is None and vector_weight is None:
         results = sag_search(SAG_DB, query, domain=domain, top=top)
         voice = "lesson-found" if results else "failure-warning"
         return {"results": results, "source": "sag-lite", "voice": voice}
     elif HAS_BM25:
         docs = _load_docs_cached(LESSONS, is_lesson=True)
-        scored = _search_cached(query, docs)
+        scored = _search_cached(
+            query,
+            docs,
+            bm25_weight=bm25_weight,
+            vector_weight=vector_weight,
+        )
         results = []
         for score, doc in scored[:top]:
             results.append({
@@ -529,6 +538,8 @@ TOOLS = [
             "Search MisakaNet's public failure-lesson index by error text, keyword, or topic. "
             "Use when you need to discover relevant lessons and do not already know a lesson ID. "
             "Input semantics: query is required; domain optionally filters by lesson domain; top limits "
+            "results; bm25_weight and vector_weight optionally control hybrid ranking and default to "
+            "the retrieval config's balanced 0.5/0.5 values. "
             "ranked results and defaults to 5. Output schema: JSON with results[] and source; each "
             "result is a ranked lesson summary that may include path, title, domain/status, score/rank, "
             "and match details depending on the active index. Error cases: missing query, unavailable "
@@ -542,6 +553,8 @@ TOOLS = [
                 "query": {"type": "string", "description": "Required redacted error message, keyword, or topic (for example: 'pip install timeout' or 'DCO sign-off failed')."},
                 "domain": {"type": "string", "description": "Optional domain filter such as devops, python, network, feishu, rag, fanuc, or mcp."},
                 "top": {"type": "integer", "description": "Maximum ranked results to return. Defaults to 5; keep small for MCP context and latency."},
+                "bm25_weight": {"type": "number", "minimum": 0, "maximum": 1, "description": "Optional BM25 keyword weight in hybrid mode."},
+                "vector_weight": {"type": "number", "minimum": 0, "maximum": 1, "description": "Optional vector similarity weight in hybrid mode."},
             },
             "required": ["query"],
         },

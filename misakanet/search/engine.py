@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from misakanet_core import BM25, ScoredDocument
+from .config import RetrievalConfig, load_retrieval_config
 
 REPO = Path(__file__).resolve().parent.parent.parent
 LESSONS = REPO / "lessons"
@@ -265,16 +266,25 @@ def _doc_cache_id(doc: CachedDoc) -> str:
 
 def _search_cached(
     query: str, docs: list[CachedDoc], titles_only: bool = False, broad_only: bool = False,
-    rerank: bool = False,
+    rerank: bool = False, bm25_weight: float | None = None,
+    vector_weight: float | None = None,
 ) -> list[tuple[float, CachedDoc]]:
     """L1缓存 — 相同 query 直接返回上次结果。"""
-    key = f"{query}_{titles_only}_{broad_only}_{rerank}"
+    key = f"{query}_{titles_only}_{broad_only}_{rerank}_{bm25_weight}_{vector_weight}"
     if key in _L1_CACHE:
         doc_map = {_doc_cache_id(d): d for d in docs}
         result = [(s, doc_map[fid]) for s, fid in _L1_CACHE[key] if fid in doc_map]
         if len(result) == len(_L1_CACHE[key]):
             return result
-    result = _rank_docs_impl(query, docs, titles_only, broad_only, rerank=rerank)
+    result = _rank_docs_impl(
+        query,
+        docs,
+        titles_only,
+        broad_only,
+        rerank=rerank,
+        bm25_weight=bm25_weight,
+        vector_weight=vector_weight,
+    )
     _L1_CACHE[key] = [(s, _doc_cache_id(d)) for s, d in result[:20]]
     if len(_L1_CACHE) > _L1_MAX:
         del _L1_CACHE[next(iter(_L1_CACHE))]
@@ -322,6 +332,39 @@ def _compute_bm25_scores(query: str, docs: list[CachedDoc]) -> list[float]:
     # Map results back to original order
     result_scores = {r.doc_id: r.score for r in results}
     return [result_scores.get(d.filename, 0.0) for d in docs]
+
+
+_VECTOR_MODEL = None
+_VECTOR_MODEL_FAILED = False
+
+
+def _compute_vector_scores(query: str, docs: list[CachedDoc]) -> list[float] | None:
+    """Return cosine similarities from the optional sentence-transformers backend.
+
+    Semantic retrieval is deliberately fail-closed: installations without the
+    optional dependency (or without a loadable model) continue to use BM25.
+    ``None`` tells the caller that no vector signal was available.
+    """
+    if not docs:
+        return []
+    global _VECTOR_MODEL, _VECTOR_MODEL_FAILED
+    if _VECTOR_MODEL_FAILED:
+        return None
+    try:
+        if _VECTOR_MODEL is None:
+            from sentence_transformers import SentenceTransformer
+
+            _VECTOR_MODEL = SentenceTransformer("BAAI/bge-base-zh-v1.5")
+        embeddings = _VECTOR_MODEL.encode(
+            [query] + [f"{doc.title}\n{doc.content}" for doc in docs],
+            normalize_embeddings=True,
+        )
+        query_embedding = embeddings[0]
+        return [float(query_embedding @ embedding) for embedding in embeddings[1:]]
+    except Exception as exc:
+        _VECTOR_MODEL_FAILED = True
+        print(f"  ⚠️ Vector search unavailable ({exc}), falling back to BM25", file=sys.stderr)
+        return None
 
 
 def _metadata_bonus(query: str, doc: CachedDoc) -> float:
@@ -424,7 +467,8 @@ def _expand_query(query: str) -> str:
 
 def _rank_docs_impl(
     query: str, docs: list[CachedDoc], titles_only: bool = False, broad_only: bool = False,
-    rerank: bool = False,
+    rerank: bool = False, bm25_weight: float | None = None,
+    vector_weight: float | None = None,
 ) -> list[tuple[float, CachedDoc]]:
     if not docs:
         return []
@@ -437,9 +481,30 @@ def _rank_docs_impl(
     expanded_query = _expand_query(query)
     bm25_raw = _compute_bm25_scores(expanded_query, docs)
     bm25_norm = _normalize(bm25_raw)
+    config = load_retrieval_config()
+    bm25_weight = config.bm25_weight if bm25_weight is None else bm25_weight
+    vector_weight = config.vector_weight if vector_weight is None else vector_weight
+    config = RetrievalConfig(bm25_weight=bm25_weight, vector_weight=vector_weight)
+    vector_raw = _compute_vector_scores(expanded_query, docs) if config.vector_weight else None
+    vector_norm = _normalize(vector_raw) if vector_raw is not None else None
+    if vector_norm is None:
+        # Keep keyword search useful when semantic dependencies/models are not
+        # installed. The configured vector weight is only applied when a vector
+        # signal was actually produced.
+        effective_bm25 = 1.0
+        effective_vector = 0.0
+    else:
+        total_weight = config.bm25_weight + config.vector_weight
+        effective_bm25 = config.bm25_weight / total_weight
+        effective_vector = config.vector_weight / total_weight
     scored = [
         (
-            0.65 * bm25_norm[i]
+            (
+                effective_bm25 * bm25_norm[i]
+                + effective_vector * vector_norm[i]
+                if vector_norm is not None
+                else effective_bm25 * bm25_norm[i]
+            )
             + 0.20 * _metadata_bonus(query, d)
             + 0.15 * d.score_baseline
             + _compute_boost(d),
