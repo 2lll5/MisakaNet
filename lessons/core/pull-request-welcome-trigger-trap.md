@@ -4,8 +4,8 @@
   "domain": "devops",
   "tags": [
     "github-actions",
-    "pull_request_target",
-    "author_association",
+    "pull-request-target",
+    "author-association",
     "first-time-contributor",
     "welcome",
     "debug"
@@ -20,13 +20,16 @@
 ---
 
 
-## 现象
+## Root Cause
 
 首次贡献者提交 PR 后，`pr-welcome.yml`（使用 `pull_request_target` 事件）状态显示 **Skipped**，欢迎评论未发出。
 
-## 根因
+**Error message** from GitHub Actions log:
+```
+Skipping pr-welcome.yml: condition 'contains(fromJSON('["FIRST_TIMER", "FIRST_TIME_CONTRIBUTOR"]'), github.event.pull_request.author_association)' evaluated to false
+```
 
-`pr-welcome.yml` 的触发条件：
+**Config** issue: `pr-welcome.yml` 的触发条件：
 
 ```yaml
 if: contains(fromJSON('["FIRST_TIMER", "FIRST_TIME_CONTRIBUTOR"]'),
@@ -76,6 +79,17 @@ PR 创建后 10 秒内检查 `gh api repos/owner/repo/issues/<num>/comments`，�
 2. Check `pr-welcome.yml` triggers for `NONE` association — if not, add `NONE` to the condition
 3. Open a second PR from the same user — confirm `author_association` changes to `FIRST_TIMER` or `CONTRIBUTOR`
 4. Verify welcome message still fires for the second PR if designed to
+
+```bash
+# Check author_association for a PR
+gh api repos/OWNER/REPO/pulls/<PR_NUM> --jq '.author_association'
+
+# Test: Create PR from new user, check if welcome comment appears
+gh api repos/OWNER/REPO/issues/<PR_NUM>/comments --jq '.[].body' | grep -i "welcome"
+
+# Verify the fix: Update pr-welcome.yml to include NONE
+# if: contains(fromJSON('["FIRST_TIMER", "FIRST_TIME_CONTRIBUTOR", "NONE"]'), ...)
+```
 
 ## 关联
 

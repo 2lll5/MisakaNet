@@ -16,9 +16,17 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      - name: Guard against empty lessons.json
+        run: |
+          SIZE=$(stat --printf="%s" data/lessons.json)
+          if [ "$SIZE" -lt 100 ]; then
+            echo "::error::data/lessons.json is $SIZE bytes — refusing to sync"
+            exit 1
+          fi
 
       - name: Push to data branch
         env:

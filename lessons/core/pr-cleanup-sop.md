@@ -19,9 +19,15 @@
 ---
 
 
-## 背景
+## Root Cause
 
 开放 PR 堆积会消耗维护者心力。AI Agent 提交 PR 的高频场景下，重复/过时/已解决 PR 尤其常见。需要一套系统化的处置策略。
+
+**Config** issue: GitHub 默认不自动关闭已合入的 PR（需要 `Closes #N` 关键字或 bot 配置）。当仓库有多个 AI Agent 同时贡献时，会出现以下问题：
+- 同一 Issue 被多个 Agent 同时解决，产生竞品 PR
+- PR 已通过其他方式合入（如 bot 直接推送），但 PR 本身未关闭
+- PR 改动量过大或与 main 产生冲突，无法合入
+- 大量格式噪音、CRLF 污染等低质量提交
 
 ## PR 分类与处置决策树
 
@@ -76,6 +82,20 @@ PR 已被 squash-merge 或 rebase-merge，但 GitHub 未自动关闭。
 2. Categorize each PR: merged-not-closed, duplicate, conflict-stalled, superseded
 3. For each category, apply the corresponding disposition action (close with explanation / label / comment)
 4. Confirm the PR count on the repo reduces by the expected number after cleanup
+
+```bash
+# List all open PRs with details
+gh pr list --state open --json number,title,headRefName,updatedAt,mergeable
+
+# Check if PR changes are already in main
+git log --oneline main..origin/feature-branch
+
+# Close merged-not-closed PRs
+gh pr close <PR_NUM> --comment "Changes already merged via direct push"
+
+# Close duplicate PRs
+gh pr close <PR_NUM> --comment "Superseded by #<BEST_PR>"
+```
 
 ## 经验
 

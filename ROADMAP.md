@@ -1,64 +1,228 @@
-# Swarm Knowledge Protocol — Roadmap
+# MisakaNet 3-Month Roadmap
 
-> This document tracks the **strategic vision** and **concrete milestones** for the SKP ecosystem.
-> Short-term items are actionable; medium/long-term items are directional and open for community discussion.
+Last updated: 2026-08-11
 
----
+This roadmap covers August-October 2026. It is biased toward one practical
+flywheel:
 
-## Short-term (0–3 months) — Now
+```text
+private intake -> classification -> maintainer demand board -> curated lesson/rescue/issue
+```
 
-| Area | Item | Priority | Depends On |
-|------|------|----------|------------|
-| **Quality scoring** | ✅ Phase A complete — 141 lessons scored, CI integrated | P0 | ~~[#210](https://github.com/Ikalus1988/MisakaNet/issues/210)~~ |
-| **A→C 闭环** | fatal-guard tombstone → draft lesson pipeline, bench-core dynamic tasks | P0 | fatal-guard v0.2.0 |
-| **Proof of Access** | Lightweight quota system — 5 free searches, contribution refill | P1 | profile.py |
-| **Governance** | Define trust tiers in machine-readable config (misaka-protocol.json) | P0 | [#211](https://github.com/Ikalus1988/MisakaNet/issues/211) |
-| **Contributor wall** | Fix time-decay formula — cap per-PR weight, remove contributor disappearance | P0 | [#212](https://github.com/Ikalus1988/MisakaNet/issues/212) |
-| **Trust system** | Formalize GitHub-verified vs mail-verified vs web-verified tiers | P1 | [#213](https://github.com/Ikalus1988/MisakaNet/issues/213) |
-| **Log Harvester CLI** | `misaka harvest` — stdin/bash-history → auto-generate SKP lesson (prototype in search_knowledge.py) | P1 | [#214](https://github.com/Ikalus1988/MisakaNet/issues/214) |
-| **Ecosystem config** | Harvest tool interface declared in misaka-protocol.json | P1 | [#215](https://github.com/Ikalus1988/MisakaNet/issues/215) |
-| **Asset isolation** | Move docs/frontend assets to sidecar repository or `/web` | P1 | [#216](https://github.com/Ikalus1988/MisakaNet/issues/216) |
+MisakaNet should stay offline-first and Git-backed. External listings are useful
+"amplifiers", not the product itself.
 
-## Medium-term (3–9 months) — Next
+## Current baseline
 
-| Area | Item | Priority | Depends On |
-|------|------|----------|------------|
-| **Reputation system** | Reuse signal: count "👍 useful" clicks + cross-lesson references | P0 | [#217](https://github.com/Ikalus1988/MisakaNet/issues/217) |
-| **Reaction collection** | Frontend "👍 helpful" button → `data/reactions.json` (anonymous, git-backed) | P1 | [#218](https://github.com/Ikalus1988/MisakaNet/issues/218) |
-| **Cross-reference auto-detect** | CI scans lessons for `[[lesson-id]]` links, builds reference graph | P2 | Schema stable |
-| **Rank change notifications** | GitHub Issue auto-published when leaderboard #1 changes | P1 | [#219](https://github.com/Ikalus1988/MisakaNet/issues/219) |
-| **Personal rank alerts** | Notify individual contributors when they move up/down | P1 | [#220](https://github.com/Ikalus1988/MisakaNet/issues/220) |
-| **PR scoring** | Score PRs by complexity (files + lines + test coverage) | P2 | Quality gate stable |
-| **Seat belt mechanism** | Auto-cap contribution weight for very high-frequency contributors (sigmoid cap) | P2 | Leaderboard data >50 contributors |
+- Release/distribution: PyPI `misakanet 2.16.0`, GitHub release `v2.16.0`,
+  Glama indexed/scored, MCP Toplist badge live, Remote MCP endpoint.
+- **v2.16.0 done** (2026-08-11): Remote MCP, pairing code, Identity Aura, Voice Prompts, evidence levels, security hotfixes.
+- Test suite: passing.
+- Public site is online: homepage, `/search/`, journey page, Worker APIs, and
+  lesson data endpoints are healthy.
+- Corpus wording baseline: **289 indexed failure lessons**; avoid claiming
+  all are verified unless also stating the verified count separately.
+- Local MCP server exposes three tools: `misakanet_search`,
+  `misakanet_get_lesson`, and `misakanet_submit_usage`.
+- PR governance: DCO is mandatory. Do not deep-review or merge DCO-failing PRs.
+- External listing posture: Glama/MCP Registry/MCP Toplist are stable; Smithery
+  and GitHub `/mcp` inclusion are deferred until the product loop is stronger.
 
-## Long-term (9+ months) — Vision
+## August 2026 - v2.17.0: Trust & Curation Hardening
 
-| Area | Item | Priority | Depends On |
-|------|------|----------|------------|
-| **Retrieval weighting** | Search-hit rate → contribution bonus | P2 | Frontend analytics |
-| **Hub federation** | Cross-repo lesson sync via Hub nodes | P2 | Hub mode stable |
-| **Plugin system** | External tools read/write lessons via SKP protocol | P3 | API surface stable |
-| **Leaderboard prize pool** | Top monthly contributor gets a badge / early-access feature | P3 | Community >100 nodes |
-| **CLI dashboard** | `misaka dashboard` — local terminal leaderboard + notifications | P3 | Harvester CLI stable |
-| **SKP SDK** | TypeScript SDK for browser-agent interactions | P3 | Hub API stable |
-| **DALN whitepaper** | Formal paper on Decentralized Autonomous Learning Networks | P4 | All above stable |
+Goal: 把 v2.16.0 的增长势能收敛成"可信、可维护、可审计的 failure-memory 网络"。
 
----
+| Track | Priority | What to ship | Gate |
+|---|---:|---|---|
+| **Lesson Lint** | P0 | `scripts/lesson_lint.py` 非阻塞试运行 | 0 high issues, CI job running |
+| **GX1 闭环** | P0 | #968 合并, lessons.json 同步 | README/STATUS/lessons.json = 289 |
+| **版本漂移清理** | P0 | STATUS/ROADMAP 同步到 v2.17 | 无版本号矛盾 |
+| **Security 收尾** | P0 | #969 合并, #964 关闭 | Release notes 包含安全修复 |
+| **定位固化** | P1 | "这不是什么" + Git-backed 到 CONCEPTS.md | 文档一致 |
+| **Duplicate governance** | P1 | 重复 lesson 处理流程 | docs/duplicate-governance.md |
+| **Regression queries** | P1 | `data/regression_queries.json` | 覆盖 6 个核心 failure 类型 |
 
-## Design Principles
+### v2.17.0 Definition of Done
 
-1. **Offline-first.** Everything must work in air-gapped environments. Features that require always-on servers get de-prioritized.
-2. **Zero-dep core.** The `misakanet-core` PyPI package stays dependency-free. All extras are optional.
-3. **Git as the source of truth.** No database. No daemon. No centralized API dependency.
-4. **Agent-native.** Configuration must be machine-readable first, human-readable second. Every human doc has a JSON equivalent.
-5. **Anti-hype.** We ship what we can verify. Every claimed capability must be demonstrable. Every limitation must be disclosed.
+```bash
+python scripts/lesson_lint.py --lessons-dir lessons --fail-on high
+python scripts/lesson_gate.py <changed lessons>
+python scripts/site_health.py
+```
 
----
+并且：
+- README / STATUS / ROADMAP 数字一致（289）
+- `data/lessons.json` 已重新生成
+- 没有无关未跟踪文件
+- Lesson lint 0 high issues
 
-## How to Contribute
+## August 2026 - v2.16.0: Remote MCP + Security hardening
 
-- Open a [GitHub Issue](https://github.com/Ikalus1988/MisakaNet/issues/new) with the `roadmap` label
-- Propose changes via PR with rationale
-- Vote on priorities by reacting to pinned roadmap Issues
+Goal: a sandbox, agent, or human can submit a private redacted failure report;
+maintainers can classify and route it without exposing raw logs or prompts.
 
-> [README →](README.md) · [Limitations →](docs/LIMITATIONS.md) · [Protocol Config →](misaka-protocol.json)
+| Track | Priority | What to ship | Gate |
+|---|---:|---|---|
+| **Curl-first intake** | P0 | `POST /api/intake` for explicit opt-in, private, redacted feedback | `curl` smoke test returns an intake id; no raw log/prompt/file content stored |
+| **Classifier integration** | P0 | Route intake into `lesson`, `rescue`, `bug`, or `noise` | Unit tests cover redaction, empty payloads, and category routing |
+| **Demand board** | P0 | Maintainer-facing board of intake clusters and next actions | Board shows pending/reviewed/routed items from fixture data |
+| **Feedback CLI path** | P1 | Search/CLI `--feedback` path that reuses the same policy boundaries | Local JSONL or API submission is explicit and documented |
+| **MCP tool clarity** | P1 | Keep tool descriptions aligned with side effects, auth, rate limits, input/output schema | `tools/list` exposes all 3 tools with operating-contract descriptions |
+| **PR hygiene** | P1 | Work through DCO-clean intake PRs in order: #623 -> #624 -> #622 | No DCO, no merge; competing PRs use first clean + scoped + tested wins |
+
+### v2.13.0 milestone requirements
+
+**Release blocker requirements:**
+
+- `POST /api/intake` accepts a minimal payload from plain `curl` without any
+  GitHub account, browser session, or API client SDK.
+- Intake payloads are redacted before persistence; stored records must not keep
+  raw logs, prompts, file contents, tokens, or environment dumps.
+- Every accepted intake receives a stable id, timestamp, source type, redaction
+  summary, and initial routing category.
+- Classifier output is constrained to `lesson`, `rescue`, `bug`, or `noise`,
+  with an `unknown`/low-confidence path that does not crash the pipeline.
+- Demand board can show at least: new, reviewed, routed, and rejected items.
+- Maintainer can manually override the classifier category without editing raw
+  JSON by hand.
+- Tests cover: empty body, oversized body, secret-like strings, invalid JSON,
+  duplicate submission, and one valid end-to-end fixture.
+
+**Definition of done:**
+
+```text
+curl -> /api/intake -> redacted private record -> classifier category -> demand board row
+```
+
+A release is not ready until that chain is demonstrated in docs or CI evidence.
+
+Out of scope for v2.13.0:
+
+- Auto-publishing public lessons
+- Auto-opening GitHub issues
+- Auto-submitting PRs
+- Full Danmaku launch
+- Re-publishing Smithery or bumping registry versions just for listing polish
+
+## September 2026 - v2.17.0: curation and trust quality
+
+Goal: turn intake into trustworthy public knowledge without metric drift or
+lesson spam.
+
+| Track | Priority | What to ship | Gate |
+|---|---:|---|---|
+| **Review queue** | P0 | Intake review states: private, accepted, rejected, needs-repro, converted | Maintainer can trace one intake to one lesson/rescue/issue decision |
+| **Lesson trust semantics** | P0 | Clarify `indexed`, `published`, and `verified` wording across README/docs/site | README, site counters, and generated data agree on counts and labels |
+| **Regression queries** | P1 | `data/regression_queries.json` for DCO, GitHub token, pip timeout, MCP, Feishu, FANUC, WSL | Search tests include representative real failure queries |
+| **Duplicate governance** | P1 | Continue duplicate/stale lesson policy without blocking useful contributions | New lessons pass quality checks and do not duplicate existing lessons silently |
+| **Frontend health** | P1 | Keep search, registration, journey, and API health in every public UX change | `site-health` green before release notes |
+| **Docs cleanup** | P2 | Remove or archive stale generated/runtime artifacts and obsolete examples via separate small PRs | Each cleanup PR has one purpose and no generated data churn |
+
+### v2.14.0 milestone requirements
+
+**Release blocker requirements:**
+
+- Review queue has explicit states and a documented transition path:
+  `private -> accepted/rejected/needs-repro -> converted`.
+- Each converted intake links to exactly one public artifact type first:
+  lesson, rescue card, GitHub issue, docs fix, or duplicate/no-action note.
+- Trust wording is consistent across README, homepage, generated data, and
+  release notes: `indexed`, `published`, and `verified` do not mean the same
+  thing.
+- Regression query fixtures exist for the recurring failure classes that bring
+  users to MisakaNet: DCO, GitHub token/auth, pip timeout, MCP setup, Feishu,
+  FANUC/RAG, WSL/Windows encoding, and CI cache/build failures.
+- Duplicate governance gives maintainers a clear decision: merge, link,
+  supersede, reject, or ask for reproduction.
+- Search/demand-board changes include empty, loading, error, and no-result
+  states, not just the happy path.
+
+**Definition of done:**
+
+```text
+intake cluster -> maintainer review -> trusted public artifact or explicit rejection
+```
+
+A release is not ready if intake accumulates without a review path.
+
+## October 2026 - v2.18/v3.0 readiness: distribution confidence
+
+Goal: make external discovery channels reflect a stable product, not a vanity
+badge collection.
+
+| Track | Priority | What to ship | Gate |
+|---|---:|---|---|
+| **MCP runtime verification** | P0 | Verify deployed/listed runtime `tools/list` sees all intended tools | Evidence from local smoke + listed runtime scan or Glama refresh |
+| **Registry metadata refresh** | P1 | Next real release may add clearer `server.json` title/description and aligned counts | Only publish a new version when there is a real release, not duplicate-version churn |
+| **Glama quality follow-up** | P1 | Improve MCP tool coherence/completeness where it maps to real behavior | Glama score page updates without breaking existing install path |
+| **GitHub `/mcp` candidacy** | P2 | Reconsider email nomination after v2.13 loop is live and metadata is clean | Official Registry active + Glama evaluated + concise use-case evidence + no version mismatch |
+| **Smithery** | P2 | Keep paused unless there is a real `.mcpb` or public MCP endpoint with no 403 scan blockers | No placeholder URLs; no duplicate-version publish attempts |
+| **Adoption evidence** | P2 | Separate traffic metrics from lesson-use evidence | Release notes say what was measured: views/clones/helpful/intake, without overclaiming adoption |
+
+### v2.15/v3.0 readiness milestone requirements
+
+**Release blocker requirements:**
+
+- Local MCP smoke test proves `tools/list` exposes all expected tools and each
+  tool has side effects, auth, rate-limit, input, output, and error semantics.
+- At least one external scanner/listing reflects the current runtime metadata;
+  stale Glama or Registry snapshots are documented rather than silently ignored.
+- `server.json`, README badges, PyPI package version, GitHub release, and Glama
+  wording do not contradict each other in a user-visible way.
+- Registry metadata refresh only happens with a real versioned release; duplicate
+  version publish attempts are explicitly avoided.
+- GitHub `/mcp` nomination remains optional and requires evidence: Official MCP
+  Registry active, Glama evaluated, working quickstart, clear one-sentence use
+  case, and at least one demonstrable intake-to-lesson loop.
+- Smithery remains paused unless there is either a valid `.mcpb` release artifact
+  or a public MCP endpoint that automated scanners can initialize without 403.
+
+**Definition of done:**
+
+```text
+local MCP contract -> external listing metadata -> user can install/search without version confusion
+```
+
+A release is not ready if it improves badges while making installation or
+runtime verification less clear.
+
+## External channel policy (external amplifiers)
+
+External surfaces help users discover MisakaNet, but they must not drive rushed
+architecture changes.
+
+| Channel | Current stance | Do next | Do not do |
+|---|---|---|---|
+| **Glama** | Keep stable | Maintain score badge and improve real tool descriptions | Do not churn versions only to chase score |
+| **MCP Registry** | Published | Update metadata on next real release | Do not republish duplicate `2.12.2` |
+| **MCP Toplist** | Badge live | Treat as discovery signal | Do not call it official recommendation |
+| **Smithery** | Paused | Revisit only with real bundle/endpoint | Do not publish placeholder URL or break Glama path |
+| **GitHub `/mcp`** | Deferred | Reassess after v2.13 intake is demonstrable | Do not email before value proposition and metadata are clean |
+
+## Standing principles
+
+1. **Root cause first.** Fix the implementation problem before changing tests.
+2. **Explicit consent.** External submission must be opt-in, redacted, and private by default.
+3. **No silent collection.** No raw logs, prompts, file contents, or secrets.
+4. **Git as source of truth.** Markdown/JSON first; databases and dashboards are derived surfaces.
+5. **Small PRs win.** One bounded change with a test beats broad rewrites.
+6. **No DCO, no merge.** DCO is a release-safety gate, not paperwork.
+7. **Evidence over hype.** Every milestone needs a command, page, check, issue, or release artifact.
+
+## Contribution focus
+
+Good next contributions:
+
+- Intake endpoint tests and redaction fixtures
+- Classifier routing fixtures
+- Demand board states and empty/error UI
+- High-signal lessons from real failures with verification commands
+- MCP tool description and runtime-scan evidence
+- Small docs fixes that reduce newcomer friction
+
+Avoid for now:
+
+- More badge-only PRs
+- New public listing submissions without product evidence
+- Auto-publication of private feedback
+- Large hub rewrites not needed for the intake loop

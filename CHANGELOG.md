@@ -7,6 +7,241 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## v2.15.0 — 2026-08-03
+
+### Highlights
+
+- **First-call quickstart**: README now shows `Search MisakaNet for "database locked"` with expected output. New users can verify MCP works in 5 minutes.
+- **Glama analytics boundary documented**: `docs/integrations/glama-analytics.md` — 0 Glama-routed tool calls ≠ 0 usage. MCP stdio works independently.
+- **Runtime smoke matrix**: `docs/integrations/runtime-smoke-matrix.md` — verified entry points for Cursor, Claude Code, `misaka run`, and shell helper.
+- **GHCR container quickstart**: Docker option added to README and quickstart. `docker pull ghcr.io/ikalus1988/misakanet:latest`.
+- **PR Genius v1.3.1**: Pinned by commit SHA, advisory-only, checkout removed, continue-on-error enabled. 12 PR observation report: 100% accuracy.
+- **server.json updated**: Description emphasizes first use case, not lesson count.
+- **Integration index refreshed**: `docs/integrations/README.md` reflects current status (Cursor ✅, Claude Code ✅, shell ✅).
+
+### Docs
+
+- `docs/integrations/glama-analytics.md` — Glama counting boundary, external communication wording
+- `docs/integrations/runtime-smoke-matrix.md` — 4 entry points with setup/trigger/expected/limitations
+- `docs/integrations/mcp-smoke-report.md` — MCP stdio verification (carried from v2.14.0)
+- `docs/maintainer/handoff-2026-08-03.md` — maintainer closeout notes
+- `docs/quickstart.md` — Docker option added
+
+### Data
+
+- 271 lessons, 25 domains, 374 stars, 137 forks
+
+---
+
+## v2.14.0 — 2026-07-29
+
+### Highlights
+
+- **Contribution credits and usage quota**: `scripts/usage_meter.py` — track lesson reads, enforce free quota (5/day anonymous, 20/day registered), manage credits from accepted contributions.
+- **Contribution queue**: `scripts/contribution_queue.py` — submit intake/lesson drafts with automatic redaction, dedup, and quality scoring. No auto-accept.
+- **Maintainer review CLI**: `scripts/contribution_review.py` — accept/reject contributions, grant credits, convert to lesson drafts.
+- **Capture CLI**: `scripts/misaka_capture.py` — `misaka capture --summary "error" --context log.txt` for redacted failure reports.
+- **GitHub Action capture**: `.github/actions/misaka-capture/` — CI failure capture as artifacts (opt-in, no auto-publish).
+- **Feedback intake**: `search_knowledge.py --feedback` — post-search feedback routed to contribution queue.
+- **Demand board endpoint**: `GET /api/insights/demand-board` — public aggregate view of intake clusters.
+- **Trust semantics**: `docs/trust-semantics.md` — defines indexed/published/verified consistently.
+- **Runtime entry**: Cursor failure-memory rule + Claude Code failure playbook + `misaka run` wrapper.
+- **README rewrite**: Single use case focus — "redacted failure-memory layer for AI coding agents".
+
+### New files
+
+| File | Purpose |
+|------|---------|
+| `scripts/usage_meter.py` | Usage quota and credit management |
+| `scripts/contribution_queue.py` | Contribution queue with redaction and dedup |
+| `scripts/contribution_review.py` | Maintainer review CLI |
+| `scripts/misaka_capture.py` | CLI capture for redacted failure reports |
+| `scripts/misaka_run.py` | Command wrapper with MisakaNet search on failure |
+| `.github/actions/misaka-capture/` | GitHub Action for CI failure capture |
+| `.cursor/rules/misakanet-failure-memory.mdc` | Cursor failure-memory rule |
+| `docs/integrations/cursor-failure-memory.md` | Cursor integration guide |
+| `docs/integrations/claude-code-failure-memory.md` | Claude Code failure playbook |
+| `docs/trust-semantics.md` | Trust level definitions |
+| `docs/release-checklist.md` | Release process checklist |
+
+### Data
+
+- 260+ lessons, 22 regression queries, 4 MCP tools
+
+---
+
+## v2.13.0 — 2026-07-29
+
+### Highlights
+
+- **Feedback intake loop**: `POST /api/intake` — private, redacted feedback submission from curl, MCP, agents, or sandbox environments. No GitHub account or browser session required.
+- **Secret redaction**: All intake payloads are redacted before persistence. API keys, GitHub tokens, Slack tokens, AWS keys, PEM private keys, credit cards, credentials in URLs, and environment dumps are stripped. `scripts/intake_redact.py` provides reusable redaction module.
+- **Intake classifier**: `scripts/intake_classify.py` — routes intake entries to `lesson`, `bug`, `rescue`, or `noise` categories. Constrained output: no crashes on malformed input.
+- **Demand board**: `scripts/demand_board.py` — tracks intake clusters with states (new → reviewed → routed | rejected). Maintainer override with full history trail. Task family whitelist aligned with Worker endpoints.
+- **17 new community lessons**: Tailscale migration, Ghostty memory leak, K8s CrashLoopBackOff, Ruby memory debugging, MCP context mode, ML-DSA cryptography debugging, TypeScript tsconfig trap, agent reward hacking, and more (heartbeat v5/v6/v7).
+- **Roadmap**: 3-month roadmap (v2.13 → v2.15) with milestone requirements. RFC evaluation, lesson pipeline blog post.
+- **Glama badges**: Standard Markdown badge format for cross-platform rendering.
+
+### New files
+
+| File | Purpose |
+|------|---------|
+| `scripts/intake_redact.py` | Secret redaction module (API keys, tokens, PEM, AWS, credit cards, env dumps) |
+| `scripts/intake_classify.py` | Intake classifier — routes to demand board |
+| `scripts/demand_board.py` | Demand board data model + CLI (record, list, override, summary) |
+| `tests/test_intake_redaction.py` | 30 tests: empty body, oversized, secrets, env dumps, e2e |
+| `tests/test_demand_board_model.py` | 24 tests: states, override, aggregation, persistence |
+| `tests/test_intake_classify.py` | 17 tests: constrained output, malformed input safety |
+| `docs/rfc-280-90-day-roadmap.md` | 90-day roadmap RFC evaluation |
+| `docs/blog/2026-07-29-lesson-pipeline-from-curation-to-automation.md` | Lesson pipeline blog post |
+
+### Worker changes
+
+- `workers/register-proxy-sw.js` — new `POST /api/intake` endpoint with secret redaction, IP rate limiting (10/hour), body size limit (8KB), field whitelist validation, and demand signal recording.
+
+### Data
+
+- 380+ lessons, 10+ active contributors, MCP server functional
+
+### Non-blocking items (deferred)
+
+- `--feedback` flag (#622) — DCO blocked
+- Smithery, Registry bump, GitHub /mcp — deferred to v2.15
+- Auto-publish, auto-issue, auto-PR — out of scope
+
+---
+
+## v2.11.0 — 2026-07-14
+
+### Highlights
+- **LessonReuseBench MVP**: Evaluate whether AI agents reuse prior failure lessons. 3 A/B task pairs (DCO, secret-scan, db-lock). Runner script with dry-run/compare modes.
+- **Debug Pain Index**: `docs/debug-pain-index.md` — quick reference table for 9 common pain points.
+- **Troubleshooting**: `docs/troubleshooting.md` — 10 real error scenes with fixes and lesson links.
+- **llms.txt**: `docs/llms.txt` — structured metadata for LLM/agent consumption.
+- **Integration guides**: Cursor, Claude Code, Continue setup docs.
+- **Technical article**: "Can coding agents learn from previous failures?"
+- **Benchmark challenge**: `docs/benchmark-challenge.md` — invitation to run and share results.
+
+### Data
+- 205 lessons, 52+ nodes, 17 topic pages, 224 sitemap URLs
+
+---
+
+## v2.10.0 — 2026-07-13
+
+### Highlights
+- **MCP Consumption**: `docs/mcp-quickstart.md` for Cursor / Claude Desktop / Claude Code. README MCP first-fold entry.
+- **SEO Lesson Pages**: 205 static lesson pages + 10 domain topic pages + 7 intent topic pages (dco, github-token, pip-timeout, feishu, fanuc, wsl, feishu-mcp).
+- **AI-readable README**: Project summary table, structured for LLMs and crawlers.
+- **CITATION.cff**: Machine-readable citation metadata.
+- **Quality Flywheel v0**: `data/regression_queries.json` (10 high-signal queries) + `docs/reports/search-badcases-2026-07-13.md`.
+- **fatal-guard opt-in report**: `scripts/report_preview.py` — local preview with auto-redaction.
+- **Intent topic pages**: User-intent based topics (dco, github-token, pip-timeout, etc.) alongside domain topics.
+
+### Fixes
+- Sitemap: 224 URLs (205 lessons + 17 topics + 3 static)
+- MCP server version synced to 2.10.0
+
+---
+
+## v2.9.2 — 2026-07-13
+
+### Highlights
+- **Chinese README rewrite**: Complete rewrite of `README.zh-CN.md` replacing corrupted mojibake encoding. Narrative synced with English: Git-backed failure lesson network, 205+ lessons, 52+ nodes.
+- **ROADMAP.md**: Updated v2.9.x planning and v3.0 candidates.
+
+---
+
+## v2.9.1 — 2026-07-12
+
+### Highlights
+- **Crawler discoverability**: Added `sitemap.xml` (8 URLs), `robots.txt`, canonical URLs, OpenGraph metadata for homepage and search page.
+- **Release metadata sync**: README badges updated (52+ nodes, 205+ lessons), STATUS.md updated, stale release text fixed.
+- **Frontend stabilization**: Nav drawer anchor targets, Network Signals compact stats bar, search count searchable/total breakdown.
+- **Architecture diagram**: Merged PR #454 — `docs/architecture-293.md`.
+- **Frontmatter batch**: Merged PR #452 — 20 bare JSON frontmatter converted to YAML.
+
+### Fixes
+- Removed misleading active nodes panel from homepage.
+- Fixed `skill.md` link in nav drawer (root → docs/).
+
+---
+
+## v2.9.0 — 2026-07-12
+
+### Highlights
+- **Search product chain**: Dedicated `/search/` page with URL query support, quality filter, scoring, inline preview, and auto-expand via `?lesson=` param. Homepage search button routes to search page.
+- **Search suggestions → search page**: Clicking a dropdown lesson navigates to `/search/?q=...&lesson=...` and auto-expands the lesson preview, instead of jumping directly to GitHub.
+- **Network Voices**: Curated contributor testimonials section on homepage — real pain points, real help, GitHub-audited sources. Bilingual (zh/EN).
+- **Nav drawer**: Left-top hamburger menu with Main / Network / For Agents / Contact sections. Esc and overlay click to close.
+- **Network Signals**: Compact stats bar showing registered nodes, curated lessons, feed items, and last updated timestamp.
+- **Node list collapse**: Recent registrations limited to 6 with "View all N registered nodes" expand.
+- **i18n**: zh/EN toggle for homepage search panel, Voices section, and `/search/` page. Shared `localStorage: misakanet-lang`.
+- **Lessons data guard**: CI checks in `build-feed.yml` and `sync-data.yml` prevent syncing empty/truncated `lessons.json`.
+- **Onboarding docs**: DCO sign-off quickstart for Windows (`docs/dco-windows.md`), secret-scan troubleshooting (`docs/secret-scan-windows.md`).
+- **PR merged-thank workflow fix**: Switched from fragile `SHELDON_PAT` to `GITHUB_TOKEN`.
+
+### Data
+- `data/lessons.json`: 202 lessons (restored from ae26b18 after f081eda truncation incident).
+- `docs/community/voices.json`: 5 curated voices with zh/EN fields.
+- `data/feed.json`: 11 feed items.
+
+### Fixes
+- README broken links: `docs/agents/quickstart.md` → `docs/quickstart.md`, `misaka-face.jpg` → `og-card.png`.
+- Nav drawer `skill.md` link: root → `docs/skill.md`.
+- Search click bug: `onclick` referenced out-of-scope `l` variable; fixed by embedding URL directly.
+- Lesson count fallback: hardcoded 198 → 202.
+
+### Closed Issues
+- #443, #444 (docs), #447 (PR), #416, #393, #379, #380, #378, #394, #388 (competition resolved), #429, #430, #434 (search/UX), #291, #353, #292 (stale docs), #450 (Network Voices).
+
+---
+
+## v2.8.1 — 2026-07-07
+
+### Highlights
+- **A→C crash-to-draft hardening**: `tombstone_to_draft.py` now redacts tokens, emails, paths, IPs (stdlib-only). Bounty/reward language replaced with zero-bounty credit semantics.
+- **Safer contributor workflow**: `queue_lesson.py --dry-run --suggest-git` lets contributors preview lessons without triggering file writes or git operations.
+- **Frontend/API stability**: Frontend switched to same-origin `/api/lessons` (avoids GitHub raw 429). Worker restored `/api/counter`, `/api/lessons`, `/api/helpful` endpoints.
+- **Search/index alignment**: `export_okf.py --from-index` exports from `lessons.json`. OKF/SAG/Lessons all at 194 entries.
+- **Quality improvements**: Leaderboard scoring formula refined, `--explain` score breakdown added, 125 lesson metadata normalized, real incident lessons added.
+
+### Data
+- `data/lessons.json`, OKF export, and SAG-Lite index regenerated from the same source (194 aligned).
+
+---
+
+## v2.8.0 — 2026-07-02
+
+### 🔗 Federation
+- **pr-genius peer declaration** (experimental): query-only federation peer for external PR intelligence. No auto-sync, no shared credentials. See `docs/federation/pr-genius.md` and `misaka-protocol.json` → `ecosystem.federation.peers`.
+
+### 🚀 Highlights
+- **MCP Thin Server**: `scripts/mcp_server.py` — MisakaNet search as MCP (Model Context Protocol) server for Claude Desktop, Cursor, Continue.dev integration
+- **SAG-Lite SQLite Search**: `scripts/build_sag_index.py` — SQLite-based search index for offline/fast search without ChromaDB dependency
+- **OKF-Compatible Export**: `scripts/export_okf.py` — export lessons in Open Knowledge Format for interoperability
+- **Helpful Button** (#276): vote on lesson search results to improve ranking quality
+- **Continue.dev Integration** (#271): MisakaNet search available as Continue.dev context provider
+- **Blog Posts**: 2 technical blog posts published — "How MisakaNet Turns Failures into Memory" and integration guide
+- **Integrations Documentation**: comprehensive setup guides for MCP, Continue.dev, and other AI tools
+- **RAG Lessons Translated** (#263): core RAG lessons translated from Chinese to English
+- **Quality Score Gate Hardened**: PR quality threshold raised from 40 to 50 (out of 100)
+- **Core Lesson Quality**: all 10 core lessons now have Root Cause + Verification sections with executable commands
+
+### 📦 Lessons
+- 207+ published lessons (11 core + 196+ contrib)
+- Quality scoring: average 0.261, top lessons scoring 1.0
+- Core lessons quality improved: dco-auto-fix-workflow (0.15→0.80), pr-cleanup-sop (0.15→0.80), pr-welcome-trigger-trap (0.15→0.80)
+
+### 🔧 Fixes
+- Windows encoding fix for helpful button tests
+- Remove sag.db from git tracking
+- Security: restrict HMAC secret file permissions to owner-only
+- Frontend: restore tests and add worker keepalive
+- CI: dependency audit only blocks when deps actually changed
+
+---
+
 ## v2.7.0 — 2026-06-18
 
 ### 🚀 Highlights

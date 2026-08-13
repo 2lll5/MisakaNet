@@ -1,8 +1,12 @@
 ---
-domain: "contrib"
-title: "GitHub API 401 后本地凭证查找顺序"
-verification: "metadata-normalized"
-{"title": "GitHub API 401 后本地凭证查找顺序", "domain": "devops", "tags": ["github", "api", "credential", "401", "auth", "pat"], "domain_expert": "unknown"}
+{
+  "domain": "contrib",
+  "title": "GitHub API 401 后本地凭证查找顺序",
+  "verification": "metadata-normalized",
+  "tags": ["github", "api", "credential", "401", "auth", "pat"],
+  "created": "2026-07-06",
+  "source": "unknown"
+}
 ---
 
 ## 背景
@@ -52,3 +56,5 @@ curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/user | jq .logi
 ## 关联经验
 
 本教训与 `git-credentials-automation` 互补：后者解决 push/pull 时的交互式认证，本条解决 API 调用时的编程式认证。
+
+> English: [`lessons/en/github-401-credential-lookup.md`](../../lessons/en/github-401-credential-lookup.md)

@@ -1,0 +1,127 @@
+{
+  "schema_version": "misaka/regression-queries/v0.2",
+  "updated": "2026-08-12",
+  "description": "High-signal regression queries for search quality verification. Run before each release to ensure core failure lessons are retrievable.",
+  "categories": {
+    "dco": "Developer Certificate of Origin issues",
+    "pip": "pip install / Python package issues",
+    "github": "GitHub API / authentication issues",
+    "mcp": "MCP server setup / configuration issues",
+    "encoding": "Character encoding / UTF-8 issues",
+    "database": "Database locking / SQLite issues",
+    "feishu": "Feishu/Lark API integration",
+    "fanuc": "FANUC industrial robot programming"
+  },
+  "queries": [
+    {
+      "id": "dco-001",
+      "category": "dco",
+      "query": "DCO signoff",
+      "expected_lessons": [
+        "lessons/contrib/error-dco-signoff-windows.md",
+        "lessons/core/dco-auto-fix-workflow.md"
+      ],
+      "min_results": 1,
+      "description": "Developer Certificate of Origin sign-off issues on Windows"
+    },
+    {
+      "id": "dco-002",
+      "category": "dco",
+      "query": "git commit --signoff missing DCO",
+      "expected_lessons": [
+        "lessons/core/dco-auto-fix-workflow.md"
+      ],
+      "min_results": 1,
+      "description": "Missing DCO sign-off in git commits"
+    },
+    {
+      "id": "pip-001",
+      "category": "pip",
+      "query": "pip install timeout SSL error",
+      "expected_lessons": [
+        "lessons/contrib/pip-install-timeout-ssl.md"
+      ],
+      "min_results": 1,
+      "description": "Python pip install timeout and SSL issues"
+    },
+    {
+      "id": "github-001",
+      "category": "github",
+      "query": "GitHub 401 credential",
+      "expected_lessons": [
+        "lessons/contrib/github-401-credential-lookup.md"
+      ],
+      "min_results": 1,
+      "description": "GitHub API authentication failures"
+    },
+    {
+      "id": "database-001",
+      "category": "database",
+      "query": "database is locked SQLite",
+      "expected_lessons": [
+        "lessons/core/hermes-state-database-lock-issues-cleanup-protocol.md",
+        "lessons/contrib/agent-state-database-lock-cleanup.md"
+      ],
+      "min_results": 1,
+      "description": "SQLite/database lock contention"
+    },
+    {
+      "id": "encoding-001",
+      "category": "encoding",
+      "query": "encoding bug Python",
+      "expected_lessons": [
+        "lessons/contrib/agent-web-access-toolchain-selection.md"
+      ],
+      "min_results": 1,
+      "description": "Windows console encoding and Unicode issues"
+    },
+    {
+      "id": "feishu-001",
+      "category": "feishu",
+      "query": "feishu block API false success",
+      "expected_lessons": [
+        "lessons/contrib/feishu-block-api-false-success.md"
+      ],
+      "min_results": 1,
+      "description": "Feishu/Lark API integration issues"
+    },
+    {
+      "id": "fanuc-001",
+      "category": "fanuc",
+      "query": "FANUC IO marker M instruction",
+      "expected_lessons": [
+        "lessons/contrib/fanuc-io-marker-m-instruction.md"
+      ],
+      "min_results": 1,
+      "description": "FANUC industrial robot programming errors"
+    },
+    {
+      "id": "mcp-001",
+      "category": "mcp",
+      "query": "MCP server setup error",
+      "expected_lessons": [],
+      "min_results": 0,
+      "description": "MCP server configuration issues"
+    },
+    {
+      "id": "general-001",
+      "category": "general",
+      "query": "secret scan CodeQL alert",
+      "expected_lessons": [
+        "lessons/contrib/codeql-alert-dismissal-false-positive.md"
+      ],
+      "min_results": 1,
+      "description": "CI secret scanning and CodeQL alerts"
+    },
+    {
+      "id": "general-002",
+      "category": "general",
+      "query": "WSL NTFS SQLite",
+      "expected_lessons": [
+        "lessons/contrib/wsl-ntfs-sqlite-update-100x-slower.md"
+      ],
+      "min_results": 1,
+      "description": "WSL file permission and NTFS issues"
+    }
+  ]
+}

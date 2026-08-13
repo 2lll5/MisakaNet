@@ -1,108 +1,144 @@
-# Lesson 质量门禁 — 在 PR 修改 lessons/ 时自动检查
-# 检查项:
-#   1. 文件名: 无中文, 无项目特定前缀, kebab-case
-#   2. frontmatter: JSON 合法, 必填字段完整
-#   3. 内容: 无硬编码路径/用户名, 建议英文正文
-#
-# 不满足则添加 quality:needs-review 标签并留下评论
+name: Lesson Quality Score
 
-name: Lesson Quality Gate
-
+# Runs on PRs that touch lessons/ directory
 on:
   pull_request:
     paths:
       - 'lessons/**'
-      - 'reference/**'
-  workflow_dispatch:
+      - 'scripts/quality_scorer.py'
+      - 'scripts/lesson_lint.py'
 
 permissions:
-  contents: read
   pull-requests: write
-  checks: write
+  contents: read
 
 jobs:
-  quality:
+  lint-check:
+    runs-on: ubuntu-latest
+    continue-on-error: true  # Non-blocking for now
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run lesson lint
+        id: lint
+        run: |
+          python scripts/lesson_lint.py --lessons-dir lessons --fail-on high --json > lint-output.json 2>&1 || true
+          HIGH=$(python -c "import json; d=json.load(open('lint-output.json')); print(sum(1 for i in d if i.get('severity')=='high'))" 2>/dev/null || echo "0")
+          MEDIUM=$(python -c "import json; d=json.load(open('lint-output.json')); print(sum(1 for i in d if i.get('severity')=='medium'))" 2>/dev/null || echo "0")
+          LOW=$(python -c "import json; d=json.load(open('lint-output.json')); print(sum(1 for i in d if i.get('severity')=='low'))" 2>/dev/null || echo "0")
+          echo "high=$HIGH" >> $GITHUB_OUTPUT
+          echo "medium=$MEDIUM" >> $GITHUB_OUTPUT
+          echo "low=$LOW" >> $GITHUB_OUTPUT
+          {
+            echo "### Lesson Lint Report"
+            echo "High: $HIGH | Medium: $MEDIUM | Low: $LOW"
+            echo ""
+            echo "Run locally: \`python scripts/lesson_lint.py --lessons-dir lessons -v\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  quality-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          fetch-depth: 1
+          python-version: '3.12'
 
-      - uses: actions/setup-python@v5
+      - name: Install dependencies
+        run: pip install misakanet-core
+
+      - name: Get changed lesson files
+        id: changed
+        uses: tj-actions/changed-files@v47.0.6
         with:
-          python-version: '3.10'
+          files: |
+            lessons/**/*.md
 
-      - name: Run quality check
-        id: check
+      - name: Run quality scorer
+        if: steps.changed.outputs.any_changed == 'true'
+        id: quality
+        run: |
+          SCORES=""
+          PASS=true
+          THRESHOLD=0.5
+
+          for file in ${{ steps.changed.outputs.all_changed_files }}; do
+            if [[ "$file" == lessons/*.md ]]; then
+              SCORE=$(python3 scripts/quality_scorer.py "$file" --json 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('total_score') if d.get('total_score') is not None else (d.get('lessons') or [{}])[0].get('total_score') or (d.get('lessons') or [{}])[0].get('score',0)/100)" 2>/dev/null || echo "0")
+              SCORES="$SCORES\n$file: $SCORE"
+              if (( $(echo "$SCORE < $THRESHOLD" | bc -l) )); then
+                PASS=false
+              fi
+            fi
+          done
+
+          echo "scores=$SCORES" >> $GITHUB_OUTPUT
+          echo "pass=$PASS" >> $GITHUB_OUTPUT
+          {
+            echo "### Lesson quality"
+            echo "pass=$PASS threshold=$THRESHOLD"
+            echo '```'
+            echo -e "$SCORES"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on PR
+        # Fork PRs often get HttpError: Resource not accessible by integration
+        # when commenting. Scores still ran; don't fail the check for that.
+        if: steps.changed.outputs.any_changed == 'true'
         continue-on-error: true
-        run: |
-          python3 scripts/check_lesson_quality.py > quality_report.txt 2>&1 || true
-          cat quality_report.txt
-          # 提取结论行
-          SUMMARY=$(grep "总计" quality_report.txt || echo "0 错误, 0 警告")
-          echo "summary=$SUMMARY" >> "$GITHUB_OUTPUT"
-          if echo "$SUMMARY" | grep -q "[1-9] 错误"; then
-            echo "verdict=fail" >> "$GITHUB_OUTPUT"
-          else
-            echo "verdict=pass" >> "$GITHUB_OUTPUT"
-          fi
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const scores = `${{ steps.quality.outputs.scores }}`;
+            const pass = `${{ steps.quality.outputs.pass }}` === 'true';
 
-      - name: Quality Score v0
-        id: qscore
-        continue-on-error: true
-        run: |
-          python3 scripts/score_lessons.py --threshold 0.6 2>&1 | tee qscore_report.txt
-          echo "qscore_summary=$(grep 'Below threshold' qscore_report.txt || echo '0 below threshold')" >> "$GITHUB_OUTPUT"
-          if grep -q "Below threshold: [1-9]" qscore_report.txt; then
-            echo "qscore_verdict=warn" >> "$GITHUB_OUTPUT"
-          else
-            echo "qscore_verdict=ok" >> "$GITHUB_OUTPUT"
-          fi
+            const marker = '<!-- misakanet-lesson-quality -->';
 
-      - name: Post quality report on PR
-        if: always() && github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          VERDICT="${{ steps.check.outputs.verdict }}"
-          SUMMARY="${{ steps.check.outputs.summary }}"
-          QS_VERDICT="${{ steps.qscore.outputs.qscore_verdict }}"
-          QS_SUMMARY="${{ steps.qscore.outputs.qscore_summary }}"
-          PR_NUM="${{ github.event.pull_request.number }}"
-          REPORT_BODY=$(cat quality_report.txt)
+            // Find existing comment
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                per_page: 100,
+              }
+            );
+            const existing = comments.find(c => c.body.includes(marker));
 
-          QS_SECTION=""
+            const status = pass ? '✅ PASS' : '⚠️ BELOW THRESHOLD';
+            const body = `${marker}
+            ## Lesson Quality Report
 
-          if [ "$QS_VERDICT" = "warn" ]; then
-            QS_SECTION="
+            ${status} (threshold: 0.5)
 
-          ### ⚠️ Quality Score v0
-          Some lessons scored below the 0.6 threshold. See details in the CI log.
-          "
-          fi
+            ${scores || 'No lessons changed.'}
 
-          if [ "$VERDICT" = "pass" ]; then
-            gh pr comment "$PR_NUM" --repo "${{ github.repository }}" \
-              --body "### ✅ Lesson Quality Gate Passed
+            _Reported by lesson-quality workflow_
+            `;
 
-            ${SUMMARY}${QS_SECTION}
-
-            All lessons meet the naming, frontmatter, and content standards."
-          else
-            gh pr comment "$PR_NUM" --repo "${{ github.repository }}" \
-              --body "### ❌ Lesson Quality Gate Failed
-
-            ${SUMMARY}${QS_SECTION}
-
-            <details>
-            <summary>Details</summary>
-
-            \`\`\`
-            ${REPORT_BODY}
-            \`\`\`
-
-            </details>
-
-            Fix the errors above and push again."
-            gh pr edit "$PR_NUM" --repo "${{ github.repository }}" --add-label "quality:needs-review"
-          fi
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }

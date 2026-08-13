@@ -1,19 +1,23 @@
 ---
-domain: "contrib"
-title: "wcferry wechat version lock"
-verification: "metadata-normalized"
-{"title": "wcferry 微信版本锁定 — 3.9.12.51 才能用", "domain": "devops", "subdomain": "wechat", "source": "bootstrap", "status": "draft", "tags": ["project:rag", "platform:windows", "node:hermes_wsl", "scope:narrow"], "confidence": "0.85", "created": "2026-05-03", "domain_expert": "bootstrap", "verified_date": "2026-05-03"}
+{
+  "domain": "contrib",
+  "title": "wcferry wechat version lock",
+  "verification": "metadata-normalized",
+  "{\"title\"": "wcferry 微信版本锁定 — 3.9.12.51 才能用\", \"domain\": \"devops\", \"subdomain\": \"wechat\", \"source\": \"bootstrap\", \"status\": \"published\", \"tags\": [\"project:rag\", \"platform:windows\", \"node:hermes_wsl\", \"scope:narrow\"], \"confidence\": \"0.85\", \"created\": \"2026-05-03\", \"domain_expert\": \"bootstrap\", \"verified_date\": \"2026-05-03\"}",
+  "created": "2026-07-06",
+  "source": "unknown"
+}
 ---
 
-## 问题
+## Problem
 
 wxauto 不够稳定时，考虑切换到 wcferry (WeChatFerry) 方案。但安装后无法 hook 微信进程。
 
-## 根因
+## Root Cause
 
 wcferry 通过 DLL 注入 hook 微信内存地址，**微信版本必须精确匹配**。当前 pip 上的 wcferry 39.5.x 仅支持微信 3.9.12.51。用户的微信版本是 3.9.12.56，hook 失败。
 
-## 修复
+## Solution
 
 降级微信到 wcferry 支持的版本：
 1. 关闭微信，卸载当前版本
@@ -24,14 +28,14 @@ wcferry 通过 DLL 注入 hook 微信内存地址，**微信版本必须精确�
    netsh advfirewall firewall add rule name="wcferry" dir=in action=allow protocol=TCP localport=10086
    ```
 
-## 验证
+## Verification
 
 pip install wcferry 后启动微信，运行 wcferry 示例脚本，确认能收到消息。
 
-## 注意
+## Notes
 
 微信 3.9.12.51 可能被腾讯服务端封锁无法登录。如果降级后登录失败，需切回 wxauto 方案（不限版本）。
 
-## 场景
+## Notes
 
 需要用 Python 控制/读取微信消息，且可以接受降级微信版本的使用者。

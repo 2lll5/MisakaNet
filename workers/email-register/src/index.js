@@ -8,6 +8,14 @@
  *   2. KV Rate Limit（每 IP 1h/次，每邮箱 24h/次）
  *   3. 临时邮箱域名黑名单
  */
+import { EmailMessage } from 'cloudflare:email';
+import protocol from '../../../misaka-protocol.json';
+import {
+  buildReplyText,
+  detectIntakeType,
+  extractLessonContent,
+  parseEmailBody,
+} from './email-utils.mjs';
 
 // ── 临时邮箱域名黑名单（top 30） ──
 const TEMP_EMAIL_DOMAINS = new Set([
@@ -24,15 +32,22 @@ const TEMP_EMAIL_DOMAINS = new Set([
 export default {
   async email(message, env, ctx) {
     const sender = message.from;
+    const recipient = message.to;
+    const subject = (message.headers.get('subject') || '').replace(/[\r\n]/g, ' ').trim();
+    const messageId = (message.headers.get('message-id') || '').replace(/[\r\n]/g, ' ').trim();
     const domain = sender.split('@')[1]?.toLowerCase() || '';
 
-    // 防御: 临时邮箱拦截
     if (TEMP_EMAIL_DOMAINS.has(domain)) {
       console.log(`Blocked temp email: ${sender}`);
       return;
     }
 
-    // 防御: 每邮箱 24h 限频
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(sender)) {
+      console.log(`Invalid email format: ${sender}`);
+      return;
+    }
+
     const lastReg = await env.MISAKANET_KV.get(`rate:email:${sender}`, 'text');
     if (lastReg && (Date.now() - parseInt(lastReg)) < 86400000) {
       console.log(`Rate limited email: ${sender}`);
@@ -40,16 +55,92 @@ export default {
     }
     await env.MISAKANET_KV.put(`rate:email:${sender}`, String(Date.now()), { expirationTtl: 86400 });
 
-    const counter = await env.MISAKANET_KV.get('node_counter', 'text');
-    const nextNum = (parseInt(counter) || 10052) + 1;
-    const nodeId = `Misaka${String(nextNum).padStart(5, '0')}`;
-    await env.MISAKANET_KV.put('node_counter', String(nextNum));
-    await env.MISAKANET_KV.put(`node:${nodeId}`, JSON.stringify({
-      nodeId, email: sender,
-      registeredAt: new Date().toISOString(),
-      source: 'email', trustLevel: 'mail-verified'
-    }));
-    console.log(`Registered via email: ${nodeId} <${sender}>`);
+    // Consume the raw stream before forwarding and retain only bounded, plain text.
+    const rawEmail = await new Response(message.raw).text();
+    const emailBody = parseEmailBody(rawEmail);
+    const lessonContent = extractLessonContent(emailBody);
+    const intakeType = detectIntakeType(subject, lessonContent);
+    const intakeId = crypto.randomUUID();
+    const receivedAt = new Date().toISOString();
+    let nodeId = await env.MISAKANET_KV.get(`email-node:${sender}`, 'text');
+
+    // Every accepted sender receives a stable node ID, including lesson submitters.
+    if (!nodeId) {
+      const counter = await env.MISAKANET_KV.get('node_counter', 'text');
+      const nextNum = (parseInt(counter) || 10052) + 1;
+      nodeId = `Misaka${String(nextNum).padStart(5, '0')}`;
+      await env.MISAKANET_KV.put('node_counter', String(nextNum));
+      await env.MISAKANET_KV.put(`email-node:${sender}`, nodeId);
+      const emailTier = protocol.registration?.email?.trust_tier ||
+        Object.keys(protocol.trust_tiers || {}).find(k => protocol.trust_tiers[k].method === 'email') ||
+        'mail-verified';
+      await env.MISAKANET_KV.put(`node:${nodeId}`, JSON.stringify({
+        nodeId, email: sender,
+        registeredAt: receivedAt,
+        source: 'email', trustLevel: emailTier,
+        intakeId,
+      }));
+      console.log(`Registered via email: ${nodeId} <${sender}>`);
+    }
+
+    const intakeRecord = {
+      intakeId,
+      from: sender,
+      to: recipient,
+      subject,
+      intakeType,
+      lessonContent: redactSecrets(lessonContent),
+      nodeId,
+      receivedAt,
+      status: 'processed',
+    };
+    await env.MISAKANET_KV.put(
+      `email-intake:${intakeId}`,
+      JSON.stringify(intakeRecord),
+      { expirationTtl: 2592000 },
+    );
+    console.log(`Intake ${intakeId}: ${intakeType} from ${sender} — "${subject}"`);
+
+    if (env.GH_TOKEN) {
+      try {
+        intakeRecord.githubIssueUrl = await createAuditIssue(env, intakeRecord);
+        await env.MISAKANET_KV.put(
+          `email-intake:${intakeId}`,
+          JSON.stringify(intakeRecord),
+          { expirationTtl: 2592000 },
+        );
+        console.log(`Created audit issue: ${intakeRecord.githubIssueUrl}`);
+      } catch (error) {
+        console.error(`GitHub audit issue failed for ${intakeId}: ${error.message}`);
+      }
+    }
+
+    const forwardHeaders = new Headers({
+      'X-MisakaNet-Intake-Id': intakeId,
+      'X-MisakaNet-Intake-Type': intakeType,
+    });
+    if (env.MAINTAINER_EMAIL) {
+      await message.forward(env.MAINTAINER_EMAIL, forwardHeaders);
+      console.log(`Forwarded ${intakeId} to ${env.MAINTAINER_EMAIL}`);
+    } else {
+      console.warn('MAINTAINER_EMAIL not configured — intake stored in KV only');
+    }
+
+    const reply = new EmailMessage(
+      recipient,
+      sender,
+      [
+        `From: MisakaNet <${recipient}>`,
+        `To: ${sender}`,
+        `Subject: Re: ${subject || 'MisakaNet email intake'}`,
+        'Content-Type: text/plain; charset=UTF-8',
+        ...(messageId ? [`In-Reply-To: ${messageId}`] : []),
+        '',
+        buildReplyText({ intakeId, intakeType, nodeId }),
+      ].join('\r\n'),
+    );
+    await message.reply(reply);
+    console.log(`Replied to ${sender} for intake ${intakeId}`);
   },
 
   async fetch(request, env) {
@@ -122,10 +213,12 @@ export default {
       const nextNum = (parseInt(counter) || 10052) + 1;
       const nodeId = `Misaka${String(nextNum).padStart(5, '0')}`;
       await env.MISAKANET_KV.put('node_counter', String(nextNum));
+      const webTier = Object.keys(protocol.trust_tiers || {}).find(k => protocol.trust_tiers[k].method === 'web') || 
+        'web-verified';
       await env.MISAKANET_KV.put(`node:${nodeId}`, JSON.stringify({
         nodeId, email, name,
         registeredAt: new Date().toISOString(),
-        source: 'web', trustLevel: 'web-verified'
+        source: 'web', trustLevel: webTier
       }));
 
       return new Response(renderPage('success', { nodeId, email, name }), {
@@ -140,6 +233,67 @@ export default {
     });
   }
 };
+
+function redactSecrets(text) {
+  if (!text) return text;
+  return text
+    .replace(/ghp_[A-Za-z0-9]{36}/g, '[REDACTED_GITHUB_TOKEN]')
+    .replace(/gho_[A-Za-z0-9]{36}/g, '[REDACTED_GITHUB_TOKEN]')
+    .replace(/github_pat_[A-Za-z0-9_]{82}/g, '[REDACTED_GITHUB_TOKEN]')
+    .replace(/sk-[A-Za-z0-9]{48}/g, '[REDACTED_API_KEY]')
+    .replace(/AKIA[A-Z0-9]{16}/g, '[REDACTED_AWS_KEY]')
+    .replace(/-----BEGIN (RSA |EC |DSA )?PRIVATE KEY-----[\s\S]*?-----END (RSA |EC |DSA )?PRIVATE KEY-----/g, '[REDACTED_PRIVATE_KEY]')
+    .replace(/(?:password|passwd|pwd)\s*[:=]\s*[^\s,;]+/gi, '[REDACTED_PASSWORD]')
+    .replace(/(?:token|secret|api_key|apikey)\s*[:=]\s*[^\s,;]+/gi, '[REDACTED_SECRET]');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+async function createAuditIssue(env, intake) {
+  const repo = env.GH_REPO || 'Ikalus1988/MisakaNet';
+  const labels = intake.intakeType === 'lesson-submission'
+    ? ['lesson-intake']
+    : ['registered', 'email'];
+  const content = intake.lessonContent || '_No plain-text body was found._';
+  const response = await fetch(`https://api.github.com/repos/${repo}/issues`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.GH_TOKEN}`,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json',
+      'User-Agent': 'MisakaNet-email-intake',
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+    body: JSON.stringify({
+      title: `[email/${intake.intakeType}] ${intake.subject || intake.intakeId}`.slice(0, 240),
+      labels,
+      body: [
+        '<!-- Created automatically by the MisakaNet email intake Worker. -->',
+        `- **Intake ID:** \`${intake.intakeId}\``,
+        `- **Type:** \`${intake.intakeType}\``,
+        `- **From:** \`${intake.from.replace(/`/g, '')}\``,
+        `- **Received:** ${intake.receivedAt}`,
+        intake.nodeId ? `- **Node ID:** \`${intake.nodeId}\`` : '',
+        '',
+        '## Parsed content',
+        '',
+        content.replace(/<!--/g, '&lt;!--').slice(0, 12000),
+      ].filter(Boolean).join('\n'),
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`GitHub API ${response.status}: ${(await response.text()).slice(0, 300)}`);
+  }
+  return (await response.json()).html_url;
+}
 
 function renderPage(view, data) {
   const style = `
@@ -185,8 +339,8 @@ function renderPage(view, data) {
       <div class="card">
         <div class="badge">✅ Registered</div>
         <h1>Welcome to the network</h1>
-        <div class="node-id">${data.nodeId}</div>
-        <p style="text-align:center;margin-bottom:20px">${data.email}${data.name ? ' · ' + data.name : ''}</p>
+        <div class="node-id">${escapeHtml(data.nodeId)}</div>
+        <p style="text-align:center;margin-bottom:20px">${escapeHtml(data.email)}${data.name ? ' · ' + escapeHtml(data.name) : ''}</p>
         <div class="steps">
           <b>Next steps:</b><br>
           1. <code>git clone https://github.com/Ikalus1988/MisakaNet.git</code><br>

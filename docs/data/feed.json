@@ -1,0 +1,103 @@
+{
+  "generated_at": "2026-08-13T13:53:08.043587+00:00",
+  "repo": "https://github.com/Ikalus1988/MisakaNet",
+  "site": "https://misakanet.org",
+  "item_count": 11,
+  "items": [
+    {
+      "type": "merged_pr",
+      "title": "chore(release): sync v2.17 lesson count and data index",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/996",
+      "timestamp": "2026-08-13T03:37:55Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat: add 3 more original failure-recovery lessons (git worktree recovery, escrow fee rounding, squash force-push lease)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/983",
+      "timestamp": "2026-08-13T01:31:22Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "docs: add Python/TypeScript code style guidelines",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/994",
+      "timestamp": "2026-08-13T01:31:18Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "fix(connect): add mobile responsive CSS for /connect page (Fixes #904)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/974",
+      "timestamp": "2026-08-13T01:31:13Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "test(identity): verify Identity Aura badges for all three token types",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/993",
+      "timestamp": "2026-08-12T17:26:57Z",
+      "source": "github"
+    },
+    {
+      "type": "lesson",
+      "title": "Accidental __pycache__ artifacts committed to a data repository",
+      "url": "lessons/contrib/accidental-pycache-commit.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "development",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "CDN edge cache serves stale responses for minutes after deploy",
+      "url": "lessons/contrib/cdn-edge-cache-stale-after-deploy.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "network",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "CI key rotation silently breaking scheduled automation without a code change",
+      "url": "lessons/contrib/ci-key-rotation-silent-failure.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Banking-style escrow fee estimate has a per-provider rounding disparity",
+      "url": "lessons/contrib/escrow-fee-rounding-per-provider.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "development",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "git worktree commit lost after pushing from the wrong directory",
+      "url": "lessons/contrib/git-worktree-dangling-commit-recovery.md",
+      "timestamp": "2026-08-11 00:00:00 UTC",
+      "domain": "development",
+      "source": "lessons"
+    },
+    {
+      "type": "challenge",
+      "title": "[Bounty][$0][agent competition] Blind test homepage SAG-Lite lesson search",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/429",
+      "labels": [
+        "good first issue",
+        "area:tests",
+        "needs-ac",
+        "ready",
+        "agent-friendly",
+        "no-credentials",
+        "zero-bounty",
+        "has-test",
+        "status:competition",
+        "pool:quick",
+        "priority:later"
+      ],
+      "timestamp": "2026-07-09T07:03:41Z",
+      "source": "github"
+    }
+  ]
+}

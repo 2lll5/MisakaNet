@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 MisakaNet Queue Lesson (节点侧)
-================================
+===============================
 踩坑后写一条关键 Lesson 到共享仓库，其他节点启动时自动读取。
 
 用法:
@@ -10,7 +10,7 @@ MisakaNet Queue Lesson (节点侧)
     --title "FANUC R-2000iC 检索混淆修复" \
     --domain rag-retrieval \
     --tags fanuc,r-2000ic \
-    --content "根因: 跨品牌型号字符串 \"2000\" 同时匹配 KUKA 和 FANUC..."
+    "根因: 跨品牌型号字符串 \"2000\" 同时匹配 KUKA 和 FANUC..."
 
   # 方式 2: 简化版
   python3 scripts/queue_lesson.py \
@@ -24,6 +24,7 @@ import argparse
 import json
 import os
 import re
+import shlex
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -36,9 +37,13 @@ if _SCRIPTS_DIR.exists() and str(_SCRIPTS_DIR) not in sys.path:
 
 REPO = "Ikalus1988/MisakaNet"
 NODE_ID = os.environ.get("MISAKANET_NODE_ID", "hermes_wsl2")
-LESSONS_DIR = Path(os.environ.get("LESSONS_DIR",
-                  Path(__file__).parent / ".." / "lessons"))
-REPO_ROOT = Path(__file__).parent / ".."
+REPO_ROOT = Path(__file__).resolve().parent.parent
+
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+from misakanet.evidence import DEFAULT_EVIDENCE_LEVEL  # noqa: E402
+
+LESSONS_DIR = Path(os.environ.get("LESSONS_DIR", str(REPO_ROOT / "lessons")))
 
 
 def _get_token():
@@ -112,6 +117,35 @@ def _update_index(new_file, title, domain, tags, source):
     index_path.write_text(content, encoding="utf-8")
     print(f"  index: {len(body_lines)} lessons")
 
+def _print_suggested_git(filename, title):
+    rel = f"lessons/contrib/{filename}"
+    print("\n# Suggested next steps (not executed):")
+    print(f"git add {shlex.quote(rel)}")
+    print(f"git commit --signoff -m {shlex.quote(f'lessons: {title}')}")
+    print("git push origin main")
+
+
+def _render_lesson(title, domain, tags, content, source=NODE_ID, status="published"):
+    """Build lesson slug, filename and markdown body without writing files."""
+    slug = _slugify(title)
+    filename = f"{slug}.md"
+
+    now = datetime.now(timezone.utc)
+    frontmatter = {
+        "title": title,
+        "domain": domain,
+        "source": source,
+        "status": status,
+        # New lessons start self-reported (#786); promotion is a maintainer action.
+        "evidence_level": DEFAULT_EVIDENCE_LEVEL,
+        "tags": tags,
+        "created": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "updated": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
+    }
+
+    body = f"---\n{json.dumps(frontmatter, ensure_ascii=False)}\n---\n\n{content}\n"
+    return slug, filename, body
+
 
 def write_lesson(title, domain, tags, content, source=NODE_ID, status="published"):
     """写一条 lesson 文件 + 更新 index + git push"""
@@ -131,17 +165,14 @@ def write_lesson(title, domain, tags, content, source=NODE_ID, status="published
         "domain": domain,
         "source": source,
         "status": status,
+        # New lessons start self-reported (#786); promotion is a maintainer action.
+        "evidence_level": DEFAULT_EVIDENCE_LEVEL,
         "tags": tags,
         "created": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
         "updated": now.strftime("%Y-%m-%d %H:%M:%S UTC"),
     }
 
-    body = f"""---
-{json.dumps(frontmatter, ensure_ascii=False)}
----
-
-{content}
-"""
+    body = f"---\n {json.dumps(frontmatter, ensure_ascii=False)}\n ---\n\n{content}\n"
 
     if existing_content:
         body = existing_content.rstrip() + f"\n\n---\n\n### 更新 ({now.strftime('%Y-%m-%d')})\n\n{content}\n"
@@ -153,7 +184,7 @@ def write_lesson(title, domain, tags, content, source=NODE_ID, status="published
 
     # git commit + push (cwd= 参数避免 os.chdir 竞态)
     token = _get_token()
-    repo_root = Path(__file__).parent / ".." / ".."
+    repo_root = REPO_ROOT
 
     subprocess.run(["git", "add", str(filepath), str(LESSONS_DIR / "index.md")],
                    capture_output=True, cwd=str(repo_root))
@@ -255,7 +286,7 @@ def write_lesson_from_file(filepath: str) -> bool:
 
     # git commit + push (cwd= 参数避免 os.chdir 竞态)
     token = _get_token()
-    repo_root = Path(__file__).parent / ".." / ".."
+    repo_root = REPO_ROOT
 
     subprocess.run(["git", "add", str(dest), str(LESSONS_DIR / "index.md")],
                    capture_output=True, cwd=str(repo_root))
@@ -298,12 +329,41 @@ def main():
     parser.add_argument("--status", default="published",
                         choices=["published", "draft", "deprecated"],
                         help="lesson 状态，默认 published")
-    parser.add_argument("--file", help="已编辑好的 md 文件路径 (跳过 --title/--content)")
+    parser.add_argument("--file", help="已编辑好的 md 文件路径 (跳过 --title/正文参数)")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Preview markdown; do not write files or run git")
+    parser.add_argument("--suggest-git", action="store_true",
+                        help="With --dry-run, print suggested git commands only")
     parser.add_argument("content", nargs="?", help="Lesson 内容（或通过 stdin）")
     args = parser.parse_args()
 
+    if args.suggest_git and not args.dry_run:
+        parser.error("--suggest-git requires --dry-run")
+
     # --file 模式: 直接导入
     if args.file:
+        if args.dry_run:
+            src = Path(args.file)
+            if not src.exists():
+                print(f"[error] file not found: {args.file}", file=sys.stderr)
+                sys.exit(1)
+            content = src.read_text(encoding="utf-8")
+            print(content)
+            if args.suggest_git:
+                parts = content.split("---", 2)
+                fm_raw = parts[1].strip() if len(parts) > 1 else ""
+                try:
+                    fm = json.loads(fm_raw)
+                except Exception:
+                    fm = _parse_frontmatter_yaml(fm_raw)
+                title = fm.get("title", src.stem)
+                slug = _slugify(title)
+                filename = f"{slug}.md"
+                print("\n# Suggested commands to apply this preview:\n")
+                print(f"git add lessons/contrib/{filename}")
+                print(f"git commit --signoff -m 'lessons: {title}'")
+                print("git push origin main")
+            sys.exit(0)
         ok = write_lesson_from_file(args.file)
         print("=== done ===" if ok else "=== failed ===")
         sys.exit(0 if ok else 1)
@@ -322,6 +382,13 @@ def main():
         sys.exit(1)
 
     tags = [t.strip() for t in args.tags.split(",") if t.strip()]
+
+    if args.dry_run:
+        slug, filename, body = _render_lesson(args.title, args.domain, tags, content, source=NODE_ID, status=args.status)
+        print(body)
+        if args.suggest_git:
+            _print_suggested_git(filename, args.title)
+        sys.exit(0)
 
     write_lesson(args.title, args.domain, tags, content, status=args.status)
     print("=== done ===")
