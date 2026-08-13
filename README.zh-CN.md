@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/Ikalus1988/MisakaNet/stargazers"><img src="https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social" alt="Stars"/></a>
   <a href="https://img.shields.io/badge/nodes-59-green"><img src="https://img.shields.io/badge/nodes-59-green?label=节点" alt="节点"/></a>
-  <a href="https://img.shields.io/badge/lessons-275-blue"><img src="https://img.shields.io/badge/lessons-275-blue?label=知识" alt="知识"/></a>
+  <a href="https://img.shields.io/badge/lessons-289-blue"><img src="https://img.shields.io/badge/lessons-289-blue?label=知识" alt="知识"/></a>
   <a href="https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet" alt="License"/></a>
 </p>
 
@@ -50,7 +50,7 @@
 
 ### 这是什么？
 
-MisakaNet 是面向 AI 编码 Agent 的失败经验层。当你的 Agent 遇到错误 —— DCO 失败、pip 超时、GitHub 401、MCP 配置问题 —— MisakaNet 搜索 275 条索引化的失败修复经验并返回修复路径。无 prompt 泄漏，无原始日志存储。
+MisakaNet 是面向 AI 编码 Agent 的失败经验层。当你的 Agent 遇到错误 —— DCO 失败、pip 超时、GitHub 401、MCP 配置问题 —— MisakaNet 搜索 289 条索引化的失败修复经验并返回修复路径。无 prompt 泄漏，无原始日志存储。
 
 ### 什么时候使用？
 
@@ -225,7 +225,7 @@ python3 search_knowledge.py "database locked"
 
 | 指标 | 数值 |
 |------|------|
-| 📚 Lessons | 275 (indexed) |
+| 📚 Lessons | 289 (indexed) |
 | 🌐 Nodes | 59 |
 | 🎤 Network Voices | 5 条 |
 | 📡 Feed Items | 11 条 |

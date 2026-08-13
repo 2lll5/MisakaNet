@@ -3,7 +3,7 @@
 > **Git-backed failure-memory for AI coding agents.**
 >
 > Zero dependencies. Zero server. Zero database.
-> Paste an error → search 287 lessons → get a fix path.
+> Paste an error → search 289 lessons → get a fix path.
 
 mcp-name: io.github.Ikalus1988/misakanet
 
@@ -24,7 +24,7 @@ mcp-name: io.github.Ikalus1988/misakanet
 
 ### What is this?
 
-MisakaNet is a failure-memory layer for AI coding agents. When your agent hits an error — DCO failure, pip timeout, GitHub 401, MCP setup issue — MisakaNet searches 287 indexed failure-recovery lessons and returns a fix path. No prompt leaking, no raw logs stored.
+MisakaNet is a failure-memory layer for AI coding agents. When your agent hits an error — DCO failure, pip timeout, GitHub 401, MCP setup issue — MisakaNet searches 289 indexed failure-recovery lessons and returns a fix path. No prompt leaking, no raw logs stored.
 
 ### When to use it
 
@@ -249,7 +249,7 @@ Use skills when you want an agent to do something. Use MisakaNet when you want a
 
 | Metric | Value |
 |--------|-------|
-| Shared Lessons | 287 (indexed) |
+| Shared Lessons | 289 (indexed) |
 | Registered Nodes | 59 assigned IDs |
 | Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
 | npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
