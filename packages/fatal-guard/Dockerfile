@@ -37,9 +37,9 @@ RUN chown -R fatal-guard:fatal-guard /app
 # Switch to non-root user
 USER fatal-guard
 
-# Health check - verify the binary is executable
+# Health check - verify the process is running
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD node -e "process.exit(0)"
+    CMD pgrep -f "fatal-guard.js" > /dev/null || exit 1
 
 # Entry point
 ENTRYPOINT ["node", "bin/fatal-guard.js"]
