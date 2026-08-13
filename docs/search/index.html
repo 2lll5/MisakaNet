@@ -54,6 +54,9 @@
   .fold-toggle .arrow { transition: transform 0.2s; }
   .fold-toggle.open .arrow { transform: rotate(90deg); }
   .match-explain { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+  .score-explain { font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.55; }
+  .score-explain summary { cursor: pointer; color: var(--text-soft); }
+  .score-explain code { color: #8bd5ff; }
   .result-id { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.02em; color: var(--text-muted); }
   .result-summary { font-family: var(--font-ui); font-size: 13px; color: var(--text-soft); font-weight: 400; line-height: 1.65; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .result-tags { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
@@ -291,6 +294,25 @@ function search(q) {
   }).filter(l => l.score > 0).sort((a,b) => b.score - a.score).slice(0, 20);
 }
 
+function explainResult(r, q) {
+  const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const title = (r.title || '').toLowerCase();
+  const domain = (r.domain || '').toLowerCase();
+  const tags = (r.tags || []).join(' ').toLowerCase();
+  const summary = (r.summary || '').toLowerCase();
+  const matched = terms.filter(term => (title + ' ' + domain + ' ' + tags + ' ' + summary).includes(term));
+  const entities = [];
+  if (terms.some(term => title.includes(term))) entities.push('title');
+  if (terms.some(term => domain.includes(term))) entities.push('domain');
+  if (terms.some(term => tags.includes(term))) entities.push('tags');
+  const coverage = terms.length ? matched.length / terms.length : 0;
+  return {
+    matched: matched.length ? matched.join(', ') : 'none',
+    entities: entities.length ? entities.join(', ') : 'content only',
+    coverage: Math.round(coverage * 100),
+  };
+}
+
 function updateUrl(q, lessonId) {
   const url = new URL(location);
   if (q) url.searchParams.set('q', q);
@@ -522,6 +544,7 @@ function render(results, q) {
     const badge = inferBadge(r);
     const confBadge = r._confidence === 'high' ? 'badge-high' : r._confidence === 'low' ? 'badge-low' : 'badge-medium';
     const ev = evidenceInfo(r.evidence_level);
+    const signals = explainResult(r, q);
     const showTitle = takeaway !== title;
     return '<div class="result" tabindex="0" data-index="' + r._index + '" data-id="' + id + '">' +
       '<div class="result-meta">' +
@@ -534,6 +557,11 @@ function render(results, q) {
       (showTitle ? '<div class="result-id">' + id + '</div>' : '') +
       '<div class="result-summary">' + summary + '</div>' +
       (tags ? '<div class="result-tags">' + tags + '</div>' : '') +
+      '<details class="score-explain"><summary>Why this matched</summary>' +
+        '<div>matched terms: <code>' + escapeHTML(signals.matched) + '</code></div>' +
+        '<div>entity fields: <code>' + escapeHTML(signals.entities) + '</code></div>' +
+        '<div>keyword coverage: <code>' + signals.coverage + '%</code> · score: <code>' + Number(r.score || 0).toFixed(3) + '</code></div>' +
+      '</details>' +
       '<div class="result-actions">' +
         '<button class="btn-primary" type="button" data-action="preview">' + t('readLesson') + '</button>' +
         '<a class="btn-secondary" href="' + escapeHTML(url) + '" target="_blank" rel="noopener">' + t('openGitHub') + '</a>' +
