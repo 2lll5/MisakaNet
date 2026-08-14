@@ -193,7 +193,20 @@ python3 bench/self-healing/run_benchmark.py --baseline
 
 # Run a single task
 python3 bench/self-healing/run_benchmark.py --task dco-signoff
+
+# Reproducible task order and retained run history
+python3 bench/self-healing/run_benchmark.py --seed 42 --history-limit 10
+
+# Compare a new run with a retained run id
+python3 bench/self-healing/run_benchmark.py --seed 42 --compare 20260813T120000Z --json
+
+# Compare any two saved result files directly
+python3 bench/self-healing/diff.py bench/history/old/results.json bench/history/new/results.json --json
 ```
+
+Each run is written to `bench/history/<run_id>/results.json`. The history
+directory keeps the newest N runs (10 by default), records the seed and task
+order, and reports outcome, slower, and more-expensive regressions.
 
 ## Results Template
 
