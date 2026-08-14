@@ -119,6 +119,23 @@ On each signal, the handler executable is spawned with a single JSON argv argume
 
 ---
 
+## Security notes
+
+### CodeQL alert dismissal (shell-command-injection-from-environment)
+
+Alerts #46, #47, #48 were dismissed as "won't fix" with the following rationale:
+
+- **`shell: false`** is used in all `spawn()` calls — no shell interpretation
+- Command/handler paths come from **user-controlled inputs** (CLI args or env vars like `FATAL_HANDLER`), not from untrusted external sources
+- On Windows, `.cmd`/`.bat` files require routing through `ComSpec` (`cmd.exe`) — this is a Windows platform requirement, not a security issue
+- There is no external attacker who can inject commands — the user explicitly provides the command to wrap
+
+### Windows `.cmd`/`.bat` handling
+
+The `spawn-command.js` module routes only `.cmd`/`.bat` files through `ComSpec` on Windows. Normal executables are spawned directly without shell involvement. See `packages/fatal-guard/src/lib/spawn-command.js` for the implementation.
+
+---
+
 ## API
 
 ```js
