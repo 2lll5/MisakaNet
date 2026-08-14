@@ -3,6 +3,7 @@ BM25 核心算法委托给 misakanet-core 包。
 """
 
 import json
+import math
 import re
 import sqlite3
 import sys
@@ -761,15 +762,76 @@ def _get_why_matched(match_reasons: str) -> dict:
     }
 
 
-def _score_breakdown(query: str, doc: CachedDoc) -> dict:
+def _term_tfidf(query: str, doc: CachedDoc, docs: list[CachedDoc] | None = None) -> list[dict]:
+    """Return transparent per-term TF/IDF contributions for an explanation."""
+    corpus = docs or [doc]
+    query_terms = list(dict.fromkeys(_tokenize(query)))
+    tokenized = [_tokenize(item.content) for item in corpus]
+    total_docs = max(len(tokenized), 1)
+    doc_index = next((index for index, item in enumerate(corpus) if item.filename == doc.filename), 0)
+    doc_tokens = tokenized[doc_index]
+    details = []
+    for term in query_terms:
+        tf = doc_tokens.count(term)
+        if not tf:
+            continue
+        document_frequency = sum(term in tokens for tokens in tokenized)
+        idf = math.log((total_docs + 1) / (document_frequency + 1)) + 1
+        details.append({"term": term, "term_frequency": tf,
+                       "document_frequency": document_frequency,
+                       "tfidf": round(tf * idf, 6)})
+    return details
+
+
+def _entity_matches(query: str, doc: CachedDoc) -> dict[str, list[str]]:
+    terms = set(_tokenize(query))
+    matches = {}
+    for field, value in (("title", doc.title), ("domain", doc.domain), ("tags", " ".join(map(str, doc.tags)))):
+        found = [term for term in _tokenize(value) if term in terms]
+        if found:
+            matches[field] = list(dict.fromkeys(found))
+    return matches
+
+
+def _vector_similarity(query: str, doc: CachedDoc) -> float | None:
+    """Return optional cosine similarity, or None when vectors are unavailable."""
+    try:
+        from hub.storage.vector_store import generate_embedding
+        query_embedding = generate_embedding(query)
+        doc_embedding = generate_embedding(f"{doc.title}\n{doc.content[:4000]}")
+        numerator = sum(a * b for a, b in zip(query_embedding, doc_embedding))
+        left_norm = math.sqrt(sum(a * a for a in query_embedding))
+        right_norm = math.sqrt(sum(b * b for b in doc_embedding))
+        return round(numerator / (left_norm * right_norm), 6) if left_norm and right_norm else 0.0
+    except (ImportError, RuntimeError, OSError, ValueError):
+        return None
+
+
+def _score_breakdown(query: str, doc: CachedDoc, docs: list[CachedDoc] | None = None) -> dict:
+    """Return field-level ranking evidence for CLI/API explain modes."""
     bm25 = _compute_bm25_scores(query, [doc])[0]
     meta_parts = _metadata_bonus_breakdown(query, doc)
     boost_parts = _compute_boost_breakdown(doc)
+    vector = _vector_similarity(query, doc)
+    metadata_total = sum(value for _, value in meta_parts)
+    boost_total = sum(value for _, value in boost_parts)
     return {
         "bm25": round(float(bm25), 6),
+        "bm25_terms": _term_tfidf(query, doc, docs),
+        "vector_similarity": vector,
+        "entity_matches": _entity_matches(query, doc),
+        "hybrid": {
+            "bm25_component": round(0.65 * float(bm25), 6),
+            "metadata_component": round(0.20 * metadata_total, 6),
+            "baseline_component": round(0.15 * float(doc.score_baseline), 6),
+            "boost_component": round(boost_total, 6),
+            "vector_component": vector,
+        },
         "metadata": {key: round(float(value), 6) for key, value in meta_parts},
+        "metadata_total": round(metadata_total, 6),
         "baseline": round(float(doc.score_baseline), 6),
         "boost": {key: round(float(value), 6) for key, value in boost_parts},
+        "boost_total": round(boost_total, 6),
     }
 
 
@@ -838,24 +900,32 @@ def _format_output(
             print(f"  {'':>25} (matched: {match_reason})")
         # Feature: --explain score breakdown (#303)
         if explain and query:
-            bm25 = _compute_bm25_scores(query, [doc])[0]
-            meta_parts = _metadata_bonus_breakdown(query, doc)
-            meta_total = sum(v for _, v in meta_parts)
-            baseline = doc.score_baseline
-            boost_parts = _compute_boost_breakdown(doc)
-            boost_total = sum(v for _, v in boost_parts)
+            breakdown = _score_breakdown(query, doc, docs=all_docs)
             tag_str = ", ".join(doc.tags[:5]) if doc.tags else "—"
 
-            print(f"  {'':>25} ↳ BM25: {bm25:.3f}")
-            if meta_parts:
-                meta_detail = ", ".join(f"{k}(+{v:.2f})" for k, v in meta_parts)
-                print(f"  {'':>25}   Meta: {meta_total:.3f} = {meta_detail}")
+            vector_label = f"{breakdown['vector_similarity']:.3f}" if breakdown['vector_similarity'] is not None else "unavailable"
+            print(f"  {'':>25} ↳ Hybrid components: BM25 {breakdown['hybrid']['bm25_component']:.3f}; "
+                  f"metadata {breakdown['hybrid']['metadata_component']:.3f}; "
+                  f"vector {vector_label}")
+            if breakdown["bm25_terms"]:
+                terms = ", ".join(
+                    f"{item['term']} tf={item['term_frequency']} tfidf={item['tfidf']:.2f}"
+                    for item in breakdown["bm25_terms"]
+                )
+                print(f"  {'':>25}   Terms: {terms}")
+            else:
+                print(f"  {'':>25}   Terms: none")
+            if breakdown["entity_matches"]:
+                print(f"  {'':>25}   Entities: {breakdown['entity_matches']}")
+            if breakdown["metadata"]:
+                meta_detail = ", ".join(f"{key}(+{value:.2f})" for key, value in breakdown["metadata"].items())
+                print(f"  {'':>25}   Meta: {breakdown['metadata_total']:.3f} = {meta_detail}")
             else:
                 print(f"  {'':>25}   Meta: 0.000")
-            print(f"  {'':>25}   Base: {baseline:.3f}")
-            if boost_parts:
-                boost_detail = ", ".join(f"{k}({v:+.2f})" for k, v in boost_parts)
-                print(f"  {'':>25}   Boost: {boost_total:+.2f} = {boost_detail}")
+            print(f"  {'':>25}   Base: {breakdown['baseline']:.3f}")
+            if breakdown["boost"]:
+                boost_detail = ", ".join(f"{key}({value:+.2f})" for key, value in breakdown["boost"].items())
+                print(f"  {'':>25}   Boost: {breakdown['boost_total']:+.2f} = {boost_detail}")
             else:
                 print(f"  {'':>25}   Boost: +0.00")
             print(f"  {'':>25}   Tags: {tag_str}")

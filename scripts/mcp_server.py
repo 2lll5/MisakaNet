@@ -142,6 +142,7 @@ def handle_search(args: dict) -> dict:
     domain = args.get("domain")
     tags = args.get("tags")
     top = args.get("top", 5)
+    explain = bool(args.get("explain", False))
 
     if not query:
         return {
@@ -156,7 +157,7 @@ def handle_search(args: dict) -> dict:
             "voice": "failure-warning",
         }
 
-    if HAS_SAG:
+    if HAS_SAG and not explain:
         results = sag_search(SAG_DB, query, domain=domain, top=top)
         voice = "lesson-found" if results else "failure-warning"
         return {"results": results, "source": "sag-lite", "voice": voice}
@@ -164,14 +165,18 @@ def handle_search(args: dict) -> dict:
         docs = _load_docs_cached(LESSONS, is_lesson=True)
         scored = _search_cached(query, docs)
         results = []
+        from misakanet.search.engine import _score_breakdown
         for score, doc in scored[:top]:
-            results.append({
+            result = {
                 "title": doc.title,
                 "path": str(doc.filepath),
                 "score": round(score, 3),
                 "domain": doc.domain,
                 "status": doc.status,
-            })
+            }
+            if explain:
+                result["score_breakdown"] = _score_breakdown(query, doc, docs=docs)
+            results.append(result)
         voice = "lesson-found" if results else "failure-warning"
         return {"results": results, "source": "bm25", "voice": voice}
     else:
@@ -529,7 +534,9 @@ TOOLS = [
             "Search MisakaNet's public failure-lesson index by error text, keyword, or topic. "
             "Use when you need to discover relevant lessons and do not already know a lesson ID. "
             "Input semantics: query is required; domain optionally filters by lesson domain; top limits "
-            "ranked results and defaults to 5. Output schema: JSON with results[] and source; each "
+            "ranked results and defaults to 5. Set explain=true to return matched terms, TF-IDF, "
+            "entity matches, vector similarity, and hybrid score components. Output schema: JSON "
+            "with results[] and source; each "
             "result is a ranked lesson summary that may include path, title, domain/status, score/rank, "
             "and match details depending on the active index. Error cases: missing query, unavailable "
             "search index, or no matches (empty results). Side effects: none. Auth: none. Rate limits: "
@@ -542,6 +549,7 @@ TOOLS = [
                 "query": {"type": "string", "description": "Required redacted error message, keyword, or topic (for example: 'pip install timeout' or 'DCO sign-off failed')."},
                 "domain": {"type": "string", "description": "Optional domain filter such as devops, python, network, feishu, rag, fanuc, or mcp."},
                 "top": {"type": "integer", "description": "Maximum ranked results to return. Defaults to 5; keep small for MCP context and latency."},
+                "explain": {"type": "boolean", "description": "Include score evidence for each result; vector similarity is null when the optional backend is unavailable."},
             },
             "required": ["query"],
         },
