@@ -19,6 +19,7 @@
 
 const { spawn } = require('node:child_process');
 const { redact } = require('./src/lib/redact');
+const { buildSpawnSpec } = require('./src/lib/spawn-command');
 
 /**
  * @typedef {Object} FatalPayload
@@ -79,10 +80,12 @@ function runHandler(reason, error, customPayload) {
 
   try {
     const payload = customPayload || buildPayload(reason, error);
-    const child = spawn(handler, [payload], {
+    const invocation = buildSpawnSpec(handler, [payload]);
+    const child = spawn(invocation.command, invocation.args, {
       stdio: 'ignore',
       detached: true,
       shell: false,
+      ...invocation.options,
     });
     child.on('error', () => {});
     child.unref();
