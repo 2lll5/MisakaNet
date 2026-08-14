@@ -5,6 +5,7 @@ Checks for:
 - Broken links (relative links to non-existent files)
 - Duplicate titles
 - Missing frontmatter (YAML or JSON)
+- Missing required frontmatter fields (title, domain, status)
 - Quality score anomalies
 - Empty or too-short lessons
 
@@ -25,10 +26,17 @@ from typing import Any
 
 # Files to exclude from linting (non-lesson files)
 EXCLUDE_FILES = {
+    "README.md",
     "TEMPLATE.md",
     "LESSON_QUALITY_SCORING.md",
     "index.md",
 }
+
+# These are the identity fields the linter can enforce consistently across
+# the repository's JSON and YAML-era lesson formats. The quality gate remains
+# responsible for stricter contribution-time fields such as tags/status/
+# evidence_level.
+REQUIRED_FRONTMATTER_FIELDS = ("title", "domain")
 
 # Directories to exclude
 EXCLUDE_DIRS = {
@@ -98,6 +106,13 @@ def parse_frontmatter(content: str) -> tuple[dict | None, int]:
         end_idx = content.find("---", 3)
         if end_idx > 0:
             yaml_str = content[3:end_idx].strip()
+            try:
+                parsed = json.loads(yaml_str)
+                if isinstance(parsed, dict):
+                    body_start = content[:end_idx].count("\n") + 1
+                    return parsed, body_start
+            except json.JSONDecodeError:
+                pass
             # Simple YAML parsing (key: value pairs)
             data = {}
             for line in yaml_str.split("\n"):
@@ -134,12 +149,40 @@ def check_frontmatter(content: str, file_path: Path) -> list[dict[str, str]]:
     return issues
 
 
+def check_frontmatter_fields(content: str, file_path: Path) -> list[dict[str, str]]:
+    """Check the identity fields required to index a lesson.
+
+    Contribution-time fields such as tags, status, and evidence_level are
+    validated by lesson_gate.py. Keeping this repository-wide check focused on
+    identity fields lets it handle the existing JSON and YAML-era formats
+    without rewriting unrelated lessons.
+    """
+    frontmatter, _ = parse_frontmatter(content)
+    if frontmatter is None:
+        return []
+
+    issues = []
+    for field in REQUIRED_FRONTMATTER_FIELDS:
+        value = frontmatter.get(field)
+        if value is None or (isinstance(value, str) and not value.strip()):
+            issues.append({
+                "rule": "missing_frontmatter_field",
+                "severity": "medium",
+                "file": str(file_path),
+                "message": f"Missing required frontmatter field: {field}"
+            })
+    return issues
+
+
 def check_title(content: str, file_path: Path) -> list[dict[str, str]]:
-    """Check for H1 title."""
+    """Check for a title in metadata or an H1 in the lesson body."""
     issues = []
     lines = content.split("\n")
-    # Skip frontmatter
-    _, body_start = parse_frontmatter(content)
+    frontmatter, body_start = parse_frontmatter(content)
+    metadata_title = frontmatter.get("title") if frontmatter else None
+    if isinstance(metadata_title, str) and metadata_title.strip():
+        return issues
+
     search_lines = lines[body_start:body_start + 10] if body_start > 0 else lines[:10]
     has_h1 = any(line.startswith("# ") for line in search_lines)
     if not has_h1:
@@ -169,22 +212,27 @@ def check_length(content: str, file_path: Path) -> list[dict[str, str]]:
 
 
 def check_links(content: str, file_path: Path, lessons_dir: Path) -> list[dict[str, str]]:
-    """Check for broken relative links."""
+    """Check for broken relative links in rendered Markdown.
+
+    Fenced code is instructional example text, not a rendered link. Skipping
+    it avoids treating placeholders such as ``(img-url)`` as repository files.
+    Image sources are checked separately so the nested ``[![alt](img)]`` form
+    cannot confuse the regular-link parser.
+    """
     issues = []
-    # Find markdown links: [text](path)
-    link_pattern = re.compile(r'\[([^\]]*)\]\(([^)]+)\)')
-    for match in link_pattern.finditer(content):
-        link_text, link_path = match.groups()
+    regular_link = re.compile(r'(?<!!)\[([^\]]*)\]\(([^)]+)\)')
+    image_link = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
+
+    def report(link_text: str, link_path: str) -> None:
         # Skip external URLs and anchors
         if link_path.startswith(("http://", "https://", "#", "mailto:")):
-            continue
+            return
         # Skip absolute paths
         if link_path.startswith("/"):
-            continue
+            return
         # Skip references to lessons/ directory (common in README)
         if "lessons/" in link_path:
-            continue
-        # Resolve relative link
+            return
         target = (file_path.parent / link_path).resolve()
         if not target.exists():
             issues.append({
@@ -193,6 +241,20 @@ def check_links(content: str, file_path: Path, lessons_dir: Path) -> list[dict[s
                 "file": str(file_path),
                 "message": f"Broken link: [{link_text}]({link_path})"
             })
+
+    in_fence = False
+    for line in content.splitlines():
+        if line.strip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        # Inline code is also instructional text, not a rendered link.
+        rendered_line = re.sub(r"`[^`]*`", "", line)
+        for match in image_link.finditer(rendered_line):
+            report(match.group(1), match.group(2))
+        for match in regular_link.finditer(rendered_line):
+            report(match.group(1), match.group(2))
     return issues
 
 
@@ -250,6 +312,7 @@ def lint_lesson(file_path: Path, lessons_dir: Path) -> list[dict[str, str]]:
     content = file_path.read_text(encoding="utf-8")
     issues = []
     issues.extend(check_frontmatter(content, file_path))
+    issues.extend(check_frontmatter_fields(content, file_path))
     issues.extend(check_title(content, file_path))
     issues.extend(check_length(content, file_path))
     issues.extend(check_links(content, file_path, lessons_dir))

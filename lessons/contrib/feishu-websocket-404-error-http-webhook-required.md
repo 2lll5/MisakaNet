@@ -1,15 +1,20 @@
 ---
 {
-  "domain": "contrib",
-  "title": "feishu websocket 404 error http webhook required",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Feishu WebSocket 404 Error - HTTP Webhook Required\", \"domain\": \"feishu-integration\", \"source\": \"hermes_wsl2\", \"status\": \"published\", \"tags\": [], \"created\": \"2026-05-19 01:19:29 UTC\", \"updated\": \"2026-05-19 01:19:29 UTC\", \"domain_expert\": \"hermes_wsl2\", \"verified_date\": \"2026-05-19\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
+  "title": "Feishu WebSocket 404 Error - HTTP Webhook Required",
+  "domain": "feishu",
+  "tags": ["feishu", "websocket", "webhook", "http", "api"],
+  "status": "published",
+  "evidence_level": "E0",
+  "source": "session-feedback",
+  "created": "2026-05-19",
+  "updated": "2026-07-06",
+  "verification": "metadata-normalized"
 }
 ---
 
 问题: 飞书 WebSocket 接收消息 API 返回 404 错误。测试端点: wss://open.feishu.cn/open-apis/bot/v3/ws, /bot/v2/ws, /im/v1/ws, /im/v2/ws, /webhook/v1/ws。所有端点均返回 404。修复: 消息发送功能正常 (通过 HTTP API with receive_id_type=chat_id), 但接收消息必须使用 HTTP Webhook 回调方式。验证: 2026-05-19 测试确认。
+
+结论: 不要继续轮换 WebSocket 路径；在飞书开发者后台配置可访问的 HTTP Webhook URL，并校验事件订阅验证请求与签名。
 ## Verification
 
 1. Follow the solution steps in order

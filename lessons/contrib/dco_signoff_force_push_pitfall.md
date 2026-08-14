@@ -1,10 +1,19 @@
 ---
-name: dco-signoff-force-push-pitfall
-description: DCO signoff 在 force push 后丢失——squash 必须在 reset --hard 后重新 commit --signoff
-metadata:
-  type: feedback
-  originSessionId: c8d99950-7aef-46ad-b4ce-4d0f910c86e9
-  modified: 2026-08-04T10:19:47.621Z
+{
+  "title": "DCO Signoff Lost During Force Push",
+  "domain": "devops",
+  "tags": ["git", "dco", "signoff", "force-push", "pull-request"],
+  "status": "published",
+  "evidence_level": "E0",
+  "source": "session-feedback",
+  "created": "2026-08-04",
+  "updated": "2026-08-04",
+  "metadata": {
+    "type": "feedback",
+    "originSessionId": "c8d99950-7aef-46ad-b4ce-4d0f910c86e9",
+    "modified": "2026-08-04T10:19:47.621Z"
+  }
+}
 ---
 
 ## 问题

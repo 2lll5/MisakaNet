@@ -1,10 +1,19 @@
 ---
-name: heartbeat-scan-improvement
-description: 心跳扫描必须同时查 author PR 和 involvement issue，否则 claimed issue 会丢失
-metadata:
-  type: feedback
-  originSessionId: c8d99950-7aef-46ad-b4ce-4d0f910c86e9
-  modified: 2026-08-04T10:19:56.150Z
+{
+  "title": "GitHub Contribution Heartbeat Scan",
+  "domain": "devops",
+  "tags": ["github", "heartbeat", "monitoring", "pull-request", "issues"],
+  "status": "published",
+  "evidence_level": "E0",
+  "source": "session-feedback",
+  "created": "2026-08-04",
+  "updated": "2026-08-04",
+  "metadata": {
+    "type": "feedback",
+    "originSessionId": "c8d99950-7aef-46ad-b4ce-4d0f910c86e9",
+    "modified": "2026-08-04T10:19:56.150Z"
+  }
+}
 ---
 
 ## 问题
