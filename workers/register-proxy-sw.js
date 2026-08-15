@@ -1045,7 +1045,12 @@ export default {
       return handleUnsolvedMap(env);
     }
 
-    // GET /api/insights/lesson-coverage — public lesson coverage dashboard (#905)
+    // GET /api/insights/pr-genius — PR Genius metrics & workflow statistics (#1035)
+    if (request.method === "GET" && url.pathname === "/api/insights/pr-genius") {
+      return handlePrGeniusStats(env);
+    }
+
+        // GET /api/insights/lesson-coverage — public lesson coverage dashboard (#905)
     if (request.method === "GET" && url.pathname === "/api/insights/lesson-coverage") {
       return handleLessonCoverage(env);
     }
@@ -1455,6 +1460,25 @@ async function getCode() {
 
 // Named exports for unit tests only (workers/unsolved-map.test.mjs). Wrangler
 // deploys this file for its default export; the extra exports are inert there.
+
+// ── PR Genius Workflow Stats (Issue #1035) ──
+async function handlePrGeniusStats(env) {
+  const token = env.REGISTER_TOKEN;
+  try {
+    const data = await getWithCache(env, "proxy:pr-genius-stats", async () => {
+      if (token) {
+        return fetchFromGitHub(token, "data/pr-genius-stats.json");
+      }
+      const resp = await fetch("https://raw.githubusercontent.com/" + REPO + "/main/data/pr-genius-stats.json");
+      if (!resp.ok) throw new Error("Failed to fetch pr-genius-stats.json: " + resp.status);
+      return resp.json();
+    });
+    return jsonResponse(data);
+  } catch (err) {
+    return jsonResponse({ error: "Failed to load PR Genius statistics: " + err.message }, 502);
+  }
+}
+
 export {
   IDENTITY_AURA,
   MAX_MCP_REQUEST_BYTES,
@@ -1468,6 +1492,7 @@ export {
   handleSearchSignal,
   handleLessonCoverage,
   handleUnsolvedMap,
+  handlePrGeniusStats,
   recordStaleLesson,
   recordUnsolvedSearch,
 };

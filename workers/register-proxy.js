@@ -254,6 +254,9 @@ async function handleApiRequest(pathWithQuery, env, request) {
   const search = qIdx >= 0 ? pathWithQuery.slice(qIdx) : "";
 
   // 需求看板端点不依赖 REGISTER_TOKEN（GitHub 代理专用），单独处理
+  if (pathname === "/api/insights/pr-genius") {
+    return handlePrGeniusStats(env);
+  }
   if (pathname === "/api/insights/demand-board") {
     return handleDemandBoard(env);
   }
@@ -546,6 +549,25 @@ async function handleHelpfulVote(request, env) {
 }
 
 // ── 主入口 (仅 API + 注册，静态文件由 Cloudflare Pages 独立服务) ──
+
+// ── PR Genius Workflow Stats (Issue #1035) ──
+async function handlePrGeniusStats(env) {
+  const token = env.REGISTER_TOKEN;
+  try {
+    const data = await getWithCache(env, "proxy:pr-genius-stats", async () => {
+      if (token) {
+        return fetchFromGitHub(token, "data/pr-genius-stats.json");
+      }
+      const resp = await fetch("https://raw.githubusercontent.com/" + REPO + "/main/data/pr-genius-stats.json");
+      if (!resp.ok) throw new Error("Failed to fetch pr-genius-stats.json: " + resp.status);
+      return resp.json();
+    });
+    return jsonResponse(data);
+  } catch (err) {
+    return jsonResponse({ error: "Failed to load PR Genius statistics: " + err.message }, 502);
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -603,4 +625,5 @@ export {
   buildDemandMapBuckets,
   handleDemandBoard,
   handleDemandMap,
+  handlePrGeniusStats,
 };
