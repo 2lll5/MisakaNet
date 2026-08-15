@@ -148,3 +148,7 @@ Worker 的数据代理层解决了两个核心问题：
 
 1. **GitHub API 匿名限速**（60 req/h）→ Token 代理（5000 req/h）
 2. **raw.githubusercontent.com CDN 不确定性** → KV 缓存（30s TTL）+ 主动失效机制
+
+
+### PR Genius Statistics
+- `GET /api/insights/pr-genius`: PR Genius workflow metrics, success rate, latency, and PR type distribution.
