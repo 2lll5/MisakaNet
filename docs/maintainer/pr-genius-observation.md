@@ -1,10 +1,11 @@
 ---
 type: Maintainer Document
-title: PR Genius Advisory Signal — 10 PR Observation Report
-description: Empirical evaluation of PR Genius v1.3.1 advisory signal after 10+ PRs
+title: PR Genius Advisory Signal — Observation Report & FP/FN Tracking
+description: Empirical evaluation of PR Genius advisory signal with persistent observation log and regression tests
 created: 2026-08-03
+updated: 2026-08-15
 author: zsxh1990
-related_issue: Ikalus1988/MisakaNet#756
+related_issue: Ikalus1988/MisakaNet#1037
 related_pr: Ikalus1988/MisakaNet#773
 ---
 
@@ -12,12 +13,44 @@ related_pr: Ikalus1988/MisakaNet#773
 
 ## Context
 
-This document records observations from 12 real PRs monitored by PR Genius v1.3.1
+This document records observations from real PRs monitored by PR Genius
 (Status Mode + GraphQL batch query + Action JSON contract).
 
-Observation period: 2026-07-03 to 2026-08-03 (31 days).
+Observations are stored in the persistent append-only log: `data/pr-genius-observations.jsonl`.
+New observations can be added via `scripts/pr_genius_observe.py`.
 
-## PR Observations
+## Observation Log & Format
+
+Each record in `data/pr-genius-observations.jsonl` adheres to the following schema:
+
+```json
+{
+  "id": 1,
+  "pr": 773,
+  "repo": "Ikalus1988/MisakaNet",
+  "prediction": "high_risk",
+  "human_conclusion": "DCO + audit failure, needed signoff fix",
+  "useful": true,
+  "outcome": "TP",
+  "timestamp": "2026-08-03T00:00:00Z",
+  "notes": "DCO + audit failure caught"
+}
+```
+
+### CLI Usage
+
+```bash
+# Record an observation
+python3 scripts/pr_genius_observe.py record --pr 1042 --repo Ikalus1988/MisakaNet --prediction low_risk --conclusion "Clean smoke report" --outcome TN
+
+# List recorded observations
+python3 scripts/pr_genius_observe.py list
+
+# View summary metrics
+python3 scripts/pr_genius_observe.py stats
+```
+
+## PR Observations Summary
 
 | # | PR | Repo | PR Genius Risk | Human Conclusion | Useful? | Type |
 |---|---|---|---|---|---|---|
@@ -53,6 +86,13 @@ Observation period: 2026-07-03 to 2026-08-03 (31 days).
 | Accuracy | 100% (12/12) |
 | Actionable rate | 83% (10/12 needed action or awareness) |
 
+## FP/FN Regression Testing
+
+Automated test suite `tests/test_pr_genius_observations.py` continuously verifies:
+1. Log schema and monotonic ordering in `data/pr-genius-observations.jsonl`.
+2. Confusion matrix calculations (TP/TN/FP/FN, Accuracy, Precision, Recall, F1).
+3. Regression patterns for synthetic and historical False Positive / False Negative scenarios.
+
 ## Key Findings
 
 ### 1. CI/DCO/CLA detection is the strongest signal
@@ -71,25 +111,13 @@ reviewed but you fixed and they didn't re-review) vs consider abandoning
 
 ### 3. No false positives observed
 
-In 31 days of monitoring, PR Genius did not flag any false alarms. Every
+In initial monitoring, PR Genius did not flag any false alarms. Every
 "actionable" item was genuinely actionable. This is important for trust:
 if the tool cried wolf, it would be ignored.
 
-### 4. Transition tracking (new in v1.3.1) needs more data
-
-The `--save-snapshot` + transition detection was added late in the observation
-period. After 2+ runs, it correctly identifies status changes (e.g.,
-WAITING → NEEDS_REBASE). This feature is promising but needs more observation
-cycles.
-
-### 5. v1.0.0 was not useful
-
-The original v1.0.0 action mostly reported `unknown` tier because
-`analyze --format json` had a silent fallback bug. This is fixed in v1.3.1.
-
 ## Recommendation
 
-**Keep PR Genius v1.3.1 as advisory-only in MisakaNet CI.**
+**Keep PR Genius as advisory-only in MisakaNet CI.**
 
 Reasons:
 - 100% accuracy over 12 PRs (no false positives/negatives)
@@ -97,27 +125,3 @@ Reasons:
 - Identifies stale PRs that would otherwise be forgotten
 - Low overhead (GraphQL batch query, ~5s per heartbeat)
 - Advisory-only means zero risk: it never blocks merge
-
-Constraints to maintain:
-- Advisory only: never become a merge blocker
-- Low permissions: `contents: read` only
-- Skip draft/docs-only PRs
-- No auto-close or auto-request-changes
-- If the tool has an internal failure, it should not block the PR workflow
-
-Suggested next step: pin action to commit SHA for reproducibility.
-
-## Appendix: Observation Timeline
-
-| Date | Event |
-|---|---|
-| 2026-07-03 | PR Genius v1.0.0 deployed to MisakaNet CI |
-| 2026-07-14 | First observation: PR #3 (FANUC lessons), tier=unknown ❌ |
-| 2026-07-18 | v1.2.0: Status Mode MVP released |
-| 2026-07-24 | v1.3.0: Daily content expansion |
-| 2026-07-28 | v1.3.1: Action JSON contract fix (tier no longer unknown) ✅ |
-| 2026-08-02 | MisakaNet #773: tier=high_risk, caught DCO/audit failure ✅ |
-| 2026-08-02 | harbor #2121: CI_FAILING, caught lockfile drift ✅ |
-| 2026-08-02 | holmesgpt #2305: CI_FAILING, caught CLA/DCO issues ✅ |
-| 2026-08-03 | This report: 12 PRs, 100% accuracy |
-| 2026-08-06 | Batch 2 observation started (#781): 5 PRs queued (#852, #851, #850, #848, #837). See `pr-genius-v1.3.1-observation-batch2.md` |
