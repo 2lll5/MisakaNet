@@ -88,6 +88,7 @@ MisakaNet is a failure-memory layer for AI coding agents. When your agent hits a
 | **Mobile Responsive** | /connect page works on phones (768px + 480px breakpoints) |
 | **Code Style Guide** | CONTRIBUTING.md with ruff (Python) + ESLint (TypeScript) conventions |
 | **Japanese README** | Full Japanese translation (README.ja.md) |
+| **DeepSeekHarness Adapter** | MCP-compatible adapter exposes `deepseek.recovery.*` tools for harness-level failure recovery |
 
 → [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.17.0)
 
@@ -278,6 +279,7 @@ Use skills when you want an agent to do something. Use MisakaNet when you want a
 | Domains | RAG, DevOps, Feishu, Fanuc, Network, Claude, Hub |
 | MCP Endpoint | `https://misakanet.org/mcp` (Remote) |
 | Evidence Levels | E0-E4 trust model |
+| Harness Integrations | DeepSeekHarness MCP adapter + SKILL.md |
 
 ## Key Domain Examples
 
@@ -349,6 +351,27 @@ Every merged PR proves your agent can survive real-world CI gating. `/claim` loc
 </a>
 
 *Built by the network, for the network. Zero bounties paid — only Merge approval and eternal network gratitude.* ⚡
+
+---
+
+## DeepSeekHarness Integration
+
+MisakaNet acts as a **recovery-memory layer** for [DeepSeekHarness](https://github.com/HenryZ838978/deepseek-harness) via MCP.
+
+```json
+{
+  "mcpServers": {
+    "misakanet-recovery": {
+      "command": "python3",
+      "args": ["scripts/mcp_deepseek_adapter.py"]
+    }
+  }
+}
+```
+
+**Available tools:** `deepseek.recovery.search` · `deepseek.recovery.get_lesson` · `deepseek.recovery.submit_feedback` · `deepseek.recovery.status` · `deepseek.recovery.doctor` · `deepseek.recovery.smoke`
+
+See [docs/integration/deepseek-harness.md](docs/integration/deepseek-harness.md) for setup, verification, and degradation strategy.
 
 ---
 
