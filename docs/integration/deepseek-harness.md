@@ -99,3 +99,15 @@ Some queries trigger SQLite FTS keyword conflicts (e.g. "off", "and"). Use alter
 - Ensure Python 3.10+ is available
 - Check that `scripts/mcp_server.py` exists
 - Run `python3 -m py_compile scripts/mcp_server.py` to verify syntax
+
+---
+
+## GitHub topic
+
+This repository is published under the `dsh-plugin` topic as a DeepSeekHarness-compatible recovery-memory MCP adapter.
+
+```
+gh repo edit Ikalus1988/MisakaNet --add-topic dsh-plugin --add-topic deepseek-harness
+```
+
+**Topics:** `dsh-plugin`, `deepseek-harness`, `mcp`, `mcp-server`, `agent-memory`, `failure-recovery`, `coding-agents`

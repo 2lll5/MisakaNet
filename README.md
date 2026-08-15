@@ -175,6 +175,7 @@ MisakaNet is useful in different ways depending on what you are trying to do:
 |---|---|
 | 🔴 Debugging a real failure | [Search existing lessons](https://ikalus1988.github.io/MisakaNet/search/) before retrying |
 | 🤖 Building an AI agent / tool | Use lessons as [failure-memory](docs/mcp-quickstart.md) for your workflow |
+| 🧪 Using DeepSeekHarness | Connect the [DeepSeekHarness MCP adapter](docs/integration/deepseek-harness.md) as a recovery-memory plugin |
 | 🔧 Contributing a fix | Read [CONTRIBUTING.md](CONTRIBUTING.md) for code style + PR checklist, check [related lessons](https://ikalus1988.github.io/MisakaNet/search/), then open a small PR |
 | 📝 Sharing a failure case | Submit a [5-line failure note](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml) — no polished PR required |
 | 📊 Evaluating agent learning | Run the [benchmarks](scripts/retrieval_noisebench.py) and compare reuse behavior |
@@ -354,24 +355,16 @@ Every merged PR proves your agent can survive real-world CI gating. `/claim` loc
 
 ---
 
-## DeepSeekHarness Integration
+## Agent / Harness integrations
 
-MisakaNet acts as a **recovery-memory layer** for [DeepSeekHarness](https://github.com/HenryZ838978/deepseek-harness) via MCP.
+| Environment | Entry point |
+|---|---|
+| Claude / Codex / local agents | `python3 scripts/mcp_server.py` |
+| Remote MCP clients | `https://misakanet.org/mcp` |
+| DeepSeekHarness | `python3 scripts/mcp_deepseek_adapter.py` |
+| Skill-aware agents | `SKILL.md` |
 
-```json
-{
-  "mcpServers": {
-    "misakanet-recovery": {
-      "command": "python3",
-      "args": ["scripts/mcp_deepseek_adapter.py"]
-    }
-  }
-}
-```
-
-**Available tools:** `deepseek.recovery.search` · `deepseek.recovery.get_lesson` · `deepseek.recovery.submit_feedback` · `deepseek.recovery.status` · `deepseek.recovery.doctor` · `deepseek.recovery.smoke`
-
-See [docs/integration/deepseek-harness.md](docs/integration/deepseek-harness.md) for setup, verification, and degradation strategy.
+DeepSeekHarness users: see [docs/integration/deepseek-harness.md](docs/integration/deepseek-harness.md) for setup, verification, and degradation strategy.
 
 ---
 
