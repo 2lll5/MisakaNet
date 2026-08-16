@@ -2,14 +2,36 @@
 
 > **Remote MCP endpoint:** `https://misakanet.org/mcp`
 > **Transport:** Streamable HTTP
-> **Auth:** Bearer token
+> **Auth:** Bearer token for read tools; anonymous, rate-limited intake for `misakanet_submit_intake`
 > **Protocol:** MCP 2025-06-18 (forward-compatible with 2026-07-28 RC)
 
 MisakaNet exposes a Streamable HTTP MCP endpoint at `https://misakanet.org/mcp`. Any MCP-compatible client can connect remotely without cloning the repo.
 
 The server also supports local stdio transport as an alternative (see [Local stdio](#local-stdio-alternative) below).
 
+## Agent bookmark: submit a missing lesson without GitHub or email
+
+Use this when an agent searched MisakaNet and found no good lesson. This path does **not** require GitHub, email, a browser, or a Bearer token. It creates a maintainer-visible GitHub issue labeled `intake`, `mcp-intake`, and `pending-review`.
+
+```bash
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "Origin: https://claude.ai" \
+  -H "MCP-Protocol-Version: 2025-06-18" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_submit_intake","arguments":{"kind":"missing_lesson","problem":"SHORT REDACTED PROBLEM","error":"OPTIONAL REDACTED ERROR","what_tried":"OPTIONAL","fix":"OPTIONAL","verification":"OPTIONAL","matched_lesson_id":"","source":"remote-agent"}}}'
+```
+
+Safety rules:
+
+- Keep the request under 8 KB.
+- Send redacted summaries, not raw private logs.
+- Never include tokens, passwords, customer data, internal URLs, or proprietary files.
+- Intake is **not auto-published**. Maintainers review it before converting it into a lesson.
+
 ## Getting a Token
+
+Tokens are only needed for read tools (`misakanet_search`, `misakanet_get_lesson`) and paired identity. `misakanet_submit_intake` can be called without a token.
 
 ### Option 1: One-Time Pairing Code (Recommended)
 
@@ -64,19 +86,20 @@ Add header: `Authorization: Bearer YOUR_TOKEN`
 2. Click "Connect" or add as a custom endpoint
 3. URL: `https://misakanet.org/mcp`
 
-## Available Tools (Read-Only)
+## Available Tools
 
-| Tool | Description |
-|------|-------------|
-| `misakanet_search` | Search failure lessons by keyword, error text, or topic |
-| `misakanet_get_lesson` | Fetch one lesson by path or ID |
+| Tool | Bearer | Description |
+|------|--------|-------------|
+| `misakanet_search` | Required | Search failure lessons by keyword, error text, or topic |
+| `misakanet_get_lesson` | Required | Fetch one lesson by path or ID |
+| `misakanet_submit_intake` | Not required | Submit a redacted missing/stale/new lesson intake for maintainer review |
 
 ## Protocol Details
 
 - **Transport:** Streamable HTTP (POST for all messages)
 - **Protocol version:** 2025-06-18 (negotiated at init)
 - **Forward compat:** Accepts `Mcp-Method` / `Mcp-Name` headers (2026-07-28 RC)
-- **Auth:** Bearer token required (see [Getting a Token](#getting-a-token) above)
+- **Auth:** Bearer token required for read tools; `misakanet_submit_intake` bypasses Bearer and is protected by intake-specific guards
 - **Origin:** Validated against allowlist (glama.ai, claude.ai, cursor.sh, localhost)
 - **Stateless:** No session required; each request is self-contained
 
@@ -84,7 +107,7 @@ Add header: `Authorization: Bearer YOUR_TOKEN`
 
 | Header | Required | Purpose |
 |--------|----------|---------|
-| `Authorization` | Yes | `Bearer <token>` |
+| `Authorization` | For read tools | `Bearer <token>`; omit for `misakanet_submit_intake` |
 | `Content-Type` | Yes | `application/json` |
 | `Accept` | Recommended | `application/json, text/event-stream` |
 | `MCP-Protocol-Version` | Recommended | e.g. `2025-06-18` |
@@ -120,9 +143,9 @@ Add to MCP config:
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| 401 Unauthorized | Missing or invalid token | Check your `Authorization` header. See [Getting a Token](#getting-a-token) for how to obtain one. |
-| 403 Forbidden | Invalid Origin header or missing permissions | Use an allowed client (Claude, Cursor, Glama). For custom clients, set `Origin: https://misakanet.org` or request access from the maintainer. |
+| 401 Unauthorized | Missing or invalid token for read tools | Check your `Authorization` header. See [Getting a Token](#getting-a-token) for how to obtain one. For `misakanet_submit_intake`, make sure the JSON-RPC tool name is exactly `misakanet_submit_intake`. |
+| 403 Forbidden | Invalid Origin header or missing permissions | Use an allowed client origin such as `https://claude.ai`, `https://cursor.sh`, `https://glama.ai`, or `http://localhost`. |
 | 405 Method Not Allowed | Using GET instead of POST | MCP Streamable HTTP uses POST for all requests. Switch your HTTP method to POST. |
 | 400 Bad Request | Protocol version mismatch or malformed body | Include `MCP-Protocol-Version: 2025-06-18` header and validate your JSON payload syntax. |
-| 429 Rate Limited | Too many requests in a short period | Wait 60 seconds before retrying. If using the public token, consider requesting a dedicated token (see [Getting a Token](#getting-a-token)). |
-| Empty search results | Query too narrow or topic not covered | Try broader keywords, check spelling, or browse by [topic](https://misakanet.org/topics/). If the topic is missing, [request a lesson](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-request.yml). |
+| 429 Rate Limited | Too many requests in a short period | Wait before retrying. `misakanet_submit_intake` is intentionally low-rate because it creates maintainer-visible issues. |
+| Empty search results | Query too narrow or topic not covered | Try broader keywords, check spelling, or browse by [topic](https://misakanet.org/topics/). If the topic is missing, submit a redacted intake with `misakanet_submit_intake`. |

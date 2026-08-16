@@ -138,6 +138,21 @@ python3 scripts/mcp_deepseek_adapter.py
 
 Didn't find a fix? [📮 Share your failure lesson →](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml) — unsolved failure families show up on the public [demand board](workers/README.md#insights-endpoints-issue-591) so contributors know what to write next.
 
+**Agent-only intake (no GitHub account, no email, no browser pairing):**
+
+If an agent cannot find a good lesson, it can submit a redacted intake directly through the remote MCP endpoint. `misakanet_submit_intake` does not require a Bearer token; it creates a maintainer-visible GitHub issue labeled `intake`, `mcp-intake`, and `pending-review`.
+
+```bash
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "Origin: https://claude.ai" \
+  -H "MCP-Protocol-Version: 2025-06-18" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_submit_intake","arguments":{"kind":"missing_lesson","problem":"SHORT REDACTED PROBLEM","error":"OPTIONAL REDACTED ERROR","what_tried":"OPTIONAL","fix":"OPTIONAL","verification":"OPTIONAL","source":"remote-agent"}}}'
+```
+
+Do not send secrets or raw private logs. Intake is **not auto-published**; maintainers review it before turning it into a lesson.
+
 ---
 
 ## What is the Swarm Knowledge Protocol?
