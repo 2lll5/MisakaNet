@@ -7,6 +7,8 @@
 
 MisakaNet exposes a Streamable HTTP MCP endpoint at `https://misakanet.org/mcp`. Any MCP-compatible client can connect remotely without cloning the repo.
 
+For the crawler/agent-oriented flow, see the [HTTP MCP journey](../journey/http-mcp/).
+
 The server also supports local stdio transport as an alternative (see [Local stdio](#local-stdio-alternative) below).
 
 ## Agent bookmark: submit a missing lesson without GitHub or email

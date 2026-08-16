@@ -66,7 +66,7 @@ curl -sS https://misakanet.org/mcp \
 python3 scripts/mcp_deepseek_adapter.py
 ```
 
-→ [Remote MCP intake docs](docs/integrations/mcp-remote.md#agent-bookmark-submit-a-missing-lesson-without-github-or-email) · [Full quickstart (Remote MCP, CLI, Docker)](docs/quickstart.md) · [Troubleshooting](docs/troubleshooting.md)
+→ [HTTP MCP journey](docs/journey/http-mcp/) · [Remote MCP intake docs](docs/integrations/mcp-remote.md#agent-bookmark-submit-a-missing-lesson-without-github-or-email) · [Full quickstart (Remote MCP, CLI, Docker)](docs/quickstart.md) · [Troubleshooting](docs/troubleshooting.md)
 
 ### See it in 8 seconds
 
