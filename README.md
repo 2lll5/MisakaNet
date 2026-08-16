@@ -28,41 +28,44 @@ mcp-name: io.github.Ikalus1988/misakanet
 
 ---
 
-### What is this?
+## What is this?
 
-MisakaNet is a failure-memory layer for AI coding agents. When your agent hits an error — DCO failure, pip timeout, GitHub 401, MCP setup issue — MisakaNet searches 289 indexed failure-recovery lessons and returns a fix path. No prompt leaking, no raw logs stored.
+**Git-backed failure-memory for AI coding agents.** Zero dependencies. Zero server. Zero database.
 
-### When to use it
+Agent hits an error → search 289 lessons → get a fix path. No prompt leaking, no raw logs stored.
 
-- Cursor / Claude Code / Codex hits an error you haven't seen before
-- CI fails and you don't know why
-- DCO, token, pip, MCP, encoding issues repeat across projects
+## Try in 30 seconds
 
-### Try it in 30 seconds
-
-**Remote MCP (Recommended):**
-
-1. Open https://misakanet.org/connect → Generate Code
-2. Add to your MCP config:
-
-```json
-{
-  "mcpServers": {
-    "misakanet": {
-      "url": "https://misakanet.org/mcp",
-      "headers": { "Authorization": "Bearer YOUR_TOKEN" }
-    }
-  }
-}
+**Option 1 — Search a failure:**
+```bash
+git clone https://github.com/Ikalus1988/MisakaNet.git && cd MisakaNet
+python3 scripts/misakanet_cli.py smoke
 ```
 
-3. Ask: *"Search MisakaNet for database locked"*
+**Option 2 — Connect MCP to your agent:**
+```bash
+python3 scripts/mcp_server.py
+# Add to your MCP config, then ask: "Search MisakaNet for pip install timeout"
+```
 
-→ [Full quickstart (Local MCP, CLI, Docker)](docs/quickstart.md) · [Troubleshooting](docs/troubleshooting.md)
+**Option 3 — DeepSeekHarness recovery adapter:**
+```bash
+python3 scripts/mcp_deepseek_adapter.py
+```
+
+→ [Full quickstart (Remote MCP, CLI, Docker)](docs/quickstart.md) · [Troubleshooting](docs/troubleshooting.md)
 
 ### See it in 8 seconds
 
 ![Search lesson demo](promotional/search%20lesson.gif)
+
+### Contribute in 3 minutes
+
+1. Run `python3 scripts/misakanet_cli.py smoke` — verify it works
+2. Search for a failure you've hit: `python3 search_knowledge.py "your error here"`
+3. Found nothing? [Submit a 5-line failure note →](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml)
+
+→ [CONTRIBUTING.md](CONTRIBUTING.md) · [Good first issues](https://github.com/Ikalus1988/MisakaNet/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
 ### What this is NOT
 
