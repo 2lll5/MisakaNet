@@ -82,7 +82,7 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_submit_intake",
-    description: "Submit a failure-case intake when no matching lesson exists. No Bearer auth required — open but rate-limited. Creates a GitHub issue labeled intake,mcp-intake,pending-review. No account or email needed.",
+    description: "Submit a failure-case intake when no matching lesson exists. No Bearer auth required — open but rate-limited. Creates a GitHub issue labeled intake,mcp-intake,pending-review.",
     inputSchema: {
       type: "object",
       properties: {
@@ -276,7 +276,6 @@ async function handleMcpToolCall(env, toolName, args, authToken) {
     const textLower = ((args.problem || "") + " " + (args.error || "")).toLowerCase();
     if (SPAM_KEYWORDS.some(kw => textLower.includes(kw))) return { error: "Rejected: possible spam." };
 
-    // Redact
     function redactIntake(text) {
       if (!text) return "";
       let r = String(text).slice(0, 2000);
@@ -365,29 +364,17 @@ async function handleMcpRequest(request, env) {
     );
   }
 
-  // 2. Read body early — needed for auth peek (submit_intake bypass)
-  const peekDeclaredLength = Number.parseInt(request.headers.get("content-length") || "0", 10);
-  if (Number.isFinite(peekDeclaredLength) && peekDeclaredLength > MAX_MCP_REQUEST_BYTES) {
-    return mcpJsonResponse({
-      jsonrpc: "2.0", id: null,
-      error: { code: -32600, message: `Request too large (max ${MAX_MCP_REQUEST_BYTES} bytes)` },
-    }, 413);
-  }
-  const peekRawBody = await request.text().catch(() => null);
-  if (peekRawBody !== null && new TextEncoder().encode(peekRawBody).byteLength > MAX_MCP_REQUEST_BYTES) {
-    return mcpJsonResponse({
-      jsonrpc: "2.0", id: null,
-      error: { code: -32600, message: `Request too large (max ${MAX_MCP_REQUEST_BYTES} bytes)` },
-    }, 413);
-  }
-  let peekBody = null;
-  try { peekBody = peekRawBody === null ? null : JSON.parse(peekRawBody); } catch {}
-  const isIntakeCall = peekBody?.method === "tools/call" && peekBody?.params?.name === "misakanet_submit_intake";
-
-  // 3. Auth check — submit_intake bypasses Bearer (open, rate-limited)
+  // 2. Auth check — submit_intake bypasses Bearer (open, rate-limited)
   const authHeader = request.headers.get("Authorization") || "";
   const token = authHeader.replace(/^Bearer\s+/i, "");
   const expectedToken = env.MCP_TOKEN;
+
+  // Peek at body to detect submit_intake (no auth required)
+  let isIntakeCall = false;
+  try {
+    const peekBody = await request.clone().json();
+    isIntakeCall = peekBody?.method === "tools/call" && peekBody?.params?.name === "misakanet_submit_intake";
+  } catch {}
 
   let authed = false;
   if (isIntakeCall) {
@@ -417,8 +404,28 @@ async function handleMcpRequest(request, env) {
     );
   }
 
-  // 4. Reuse body already read in step 2
-  const body = peekBody;
+  // 4. Bound and parse the JSON-RPC body. Do not trust Content-Length alone:
+  // clients using chunked transfer encoding may omit it.
+  const declaredLength = Number.parseInt(request.headers.get("content-length") || "0", 10);
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_MCP_REQUEST_BYTES) {
+    return mcpJsonResponse({
+      jsonrpc: "2.0", id: null,
+      error: { code: -32600, message: `Request too large (max ${MAX_MCP_REQUEST_BYTES} bytes)` },
+    }, 413);
+  }
+
+  const rawBody = await request.text().catch(() => null);
+  if (rawBody !== null && new TextEncoder().encode(rawBody).byteLength > MAX_MCP_REQUEST_BYTES) {
+    return mcpJsonResponse({
+      jsonrpc: "2.0", id: null,
+      error: { code: -32600, message: `Request too large (max ${MAX_MCP_REQUEST_BYTES} bytes)` },
+    }, 413);
+  }
+
+  let body = null;
+  try {
+    body = rawBody === null ? null : JSON.parse(rawBody);
+  } catch {}
   if (!body) {
     return mcpJsonResponse({
       jsonrpc: "2.0", id: null,
