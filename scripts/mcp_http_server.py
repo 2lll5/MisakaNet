@@ -125,6 +125,63 @@ def misakanet_submit_usage(lesson_id: str, tool: str = "unknown", outcome: str =
 
 
 @mcp.tool()
+def misakanet_submit_intake(
+    kind: str = "missing_lesson",
+    problem: str = "",
+    error: str = "",
+    what_tried: str = "",
+    fix: str = "",
+    verification: str = "",
+    matched_lesson_id: str = "",
+    source: str = "other",
+) -> dict:
+    """Submit a failure-case intake when no matching lesson exists or a lesson was stale."""
+    if not problem:
+        return {"error": "problem is required", "voice": "failure-warning"}
+
+    try:
+        from scripts.contribution_queue import submit_contribution
+
+        parts = [f"Kind: {kind}"]
+        if error:
+            parts.append(f"Error: {error}")
+        if what_tried:
+            parts.append(f"Tried: {what_tried}")
+        if fix:
+            parts.append(f"Fix: {fix}")
+        if verification:
+            parts.append(f"Verification: {verification}")
+        message = "\n".join(parts)
+
+        result = submit_contribution(
+            contrib_type="intake",
+            user="remote-mcp",
+            title=problem[:200],
+            message=message,
+            problem=problem,
+            fix=fix,
+            verification=verification,
+            source=source,
+            lesson_id=matched_lesson_id,
+        )
+
+        if "error" in result:
+            return {"submitted": False, "error": result["error"], "voice": "failure-warning"}
+
+        return {
+            "submitted": True,
+            "intake_id": result["id"],
+            "status": result["status"],
+            "redactions_applied": result.get("redactions_applied", 0),
+            "quality_score": result.get("quality_score", 0),
+            "receipt": f"Keep this ID ({result['id']}); no account or email is required.",
+            "voice": "pair-success",
+        }
+    except Exception as e:
+        return {"error": f"Submit failed: {e}", "voice": "failure-warning"}
+
+
+@mcp.tool()
 def misakanet_usage_status(user: str = "anon:mcp-default") -> dict:
     """Check current usage status and remaining quota."""
     try:
