@@ -151,7 +151,8 @@ def misakanet_submit_intake(
 
     Remote intake: creates a GitHub issue labeled 'intake' for maintainer review.
     No GitHub account or email required from the submitter.
-    Rate limited: max 5 submissions per 10 minutes, global per instance.
+    Auth: optional MISAKANET_INTAKE_TOKEN (if set, source must match token).
+    Rate limits: global 5/hour + per-IP 3/hour (in-memory).
     Dedup hash recorded in issue body for maintainer-side duplicate detection.
     Requires gh CLI with repo write access. If gh fails, returns error (no silent fallback).
     """
@@ -160,10 +161,8 @@ def misakanet_submit_intake(
 
     # ── Token check (if configured) ──
     if INTAKE_TOKEN:
-        # Token passed via X-Intake-Token header or intake_token arg
-        # For FastMCP, we check the source field as a proxy
         if source == INTAKE_TOKEN:
-            pass  # authenticated
+            pass  # authenticated via shared token
         else:
             return {
                 "error": "Unauthorized: set source to the intake token, or set MISAKANET_INTAKE_TOKEN env.",
@@ -176,14 +175,29 @@ def misakanet_submit_intake(
     if any(kw in text_lower for kw in SPAM_KEYWORDS):
         return {"error": "Rejected: possible spam.", "voice": "failure-warning"}
 
-    # ── Global rate limit: 5/hour ──
+    # ── Rate limits ──
     now = _time.time()
+
+    # Global: 5/hour
     _intake_rate_window[:] = [t for t in _intake_rate_window if now - t < INTAKE_RATE_WINDOW]
     if len(_intake_rate_window) >= INTAKE_RATE_LIMIT:
         return {
-            "error": f"Global rate limit: max {INTAKE_RATE_LIMIT} intakes per hour. Try again later.",
+            "error": f"Global rate limit: max {INTAKE_RATE_LIMIT} intakes per hour.",
             "voice": "failure-warning",
         }
+
+    # Per-IP: 3/hour (keyed by source field as IP proxy)
+    ip_key = source or "anon"
+    if ip_key not in INTAKE_IP_WINDOW:
+        INTAKE_IP_WINDOW[ip_key] = []
+    INTAKE_IP_WINDOW[ip_key] = [t for t in INTAKE_IP_WINDOW[ip_key] if now - t < INTAKE_RATE_WINDOW]
+    if len(INTAKE_IP_WINDOW[ip_key]) >= INTAKE_IP_LIMIT:
+        return {
+            "error": f"Per-source rate limit: max {INTAKE_IP_LIMIT} intakes per hour for '{ip_key}'.",
+            "voice": "failure-warning",
+        }
+
+    INTAKE_IP_WINDOW[ip_key].append(now)
     _intake_rate_window.append(now)
 
     # ── Dedup hash (problem text, 1hr window) ──
