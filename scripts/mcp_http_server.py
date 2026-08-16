@@ -135,48 +135,95 @@ def misakanet_submit_intake(
     matched_lesson_id: str = "",
     source: str = "other",
 ) -> dict:
-    """Submit a failure-case intake when no matching lesson exists or a lesson was stale."""
+    """Submit a failure-case intake when no matching lesson exists or a lesson was stale.
+
+    Remote intake: creates a GitHub issue labeled 'intake' for maintainer review.
+    No GitHub account or email required from the submitter.
+    """
     if not problem:
         return {"error": "problem is required", "voice": "failure-warning"}
 
     try:
-        from scripts.contribution_queue import submit_contribution
+        from scripts.intake_redact import redact_text
 
-        parts = [f"Kind: {kind}"]
-        if error:
-            parts.append(f"Error: {error}")
+        # Redact sensitive info
+        safe_problem = redact_text(problem, max_length=2000)
+        safe_error = redact_text(error, max_length=1000) if error else ""
+        safe_fix = redact_text(fix, max_length=2000) if fix else ""
+
+        # Build issue body
+        body_parts = [
+            f"**Kind:** {kind}",
+            f"**Source:** {source}",
+            "",
+            "## Problem",
+            safe_problem,
+        ]
+        if safe_error:
+            body_parts.extend(["", "## Error", safe_error])
         if what_tried:
-            parts.append(f"Tried: {what_tried}")
-        if fix:
-            parts.append(f"Fix: {fix}")
+            body_parts.extend(["", "## What was tried", what_tried])
+        if safe_fix:
+            body_parts.extend(["", "## Fix (if known)", safe_fix])
         if verification:
-            parts.append(f"Verification: {verification}")
-        message = "\n".join(parts)
+            body_parts.extend(["", "## Verification", verification])
+        if matched_lesson_id:
+            body_parts.extend(["", f"**Matched lesson (not helpful):** `{matched_lesson_id}`"])
 
-        result = submit_contribution(
-            contrib_type="intake",
-            user="remote-mcp",
-            title=problem[:200],
-            message=message,
-            problem=problem,
-            fix=fix,
-            verification=verification,
-            source=source,
-            lesson_id=matched_lesson_id,
+        body_parts.extend([
+            "",
+            "---",
+            f"_Submitted via remote MCP ({source}). No account required._",
+        ])
+
+        title = f"[Intake] {safe_problem[:80]}"
+        body = "\n".join(body_parts)
+
+        # Create GitHub issue
+        import subprocess
+        result = subprocess.run(
+            ["gh", "issue", "create",
+             "--title", title,
+             "--body", body,
+             "--label", "intake,needs-human-review"],
+            capture_output=True, text=True, timeout=30,
         )
 
-        if "error" in result:
-            return {"submitted": False, "error": result["error"], "voice": "failure-warning"}
+        if result.returncode == 0 and "github.com" in result.stdout:
+            issue_url = result.stdout.strip()
+            issue_number = issue_url.split("/")[-1]
+            return {
+                "submitted": True,
+                "intake_id": f"issue-{issue_number}",
+                "status": "pending_review",
+                "issue_url": issue_url,
+                "redactions_applied": sum(1 for x in [safe_problem, safe_error, safe_fix] if "[REDACTED" in x),
+                "receipt": f"GitHub issue {issue_number} created. No account or email required.",
+                "voice": "pair-success",
+            }
+        else:
+            # Fallback: local queue
+            from scripts.contribution_queue import submit_contribution
+            qr = submit_contribution(
+                contrib_type="intake",
+                user="remote-mcp",
+                title=safe_problem[:200],
+                message=body,
+                problem=safe_problem,
+                fix=safe_fix,
+                verification=verification,
+                source=source,
+                lesson_id=matched_lesson_id,
+            )
+            return {
+                "submitted": True,
+                "intake_id": qr.get("id", "unknown"),
+                "status": "pending_review",
+                "fallback": "local_queue",
+                "receipt": f"Local queue ({qr.get('id', 'unknown')}). GitHub issue creation failed.",
+                "voice": "pair-success",
+            }
 
-        return {
-            "submitted": True,
-            "intake_id": result["id"],
-            "status": result["status"],
-            "redactions_applied": result.get("redactions_applied", 0),
-            "quality_score": result.get("quality_score", 0),
-            "receipt": f"Keep this ID ({result['id']}); no account or email is required.",
-            "voice": "pair-success",
-        }
     except Exception as e:
         return {"error": f"Submit failed: {e}", "voice": "failure-warning"}
 
