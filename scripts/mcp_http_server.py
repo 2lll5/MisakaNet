@@ -139,8 +139,9 @@ def misakanet_submit_intake(
 
     Remote intake: creates a GitHub issue labeled 'intake' for maintainer review.
     No GitHub account or email required from the submitter.
-    Rate limited: max 5 submissions per 10 minutes per server instance.
-    Deduplicated: same problem text within 1 hour returns existing issue.
+    Rate limited: max 5 submissions per 10 minutes, global per instance.
+    Dedup hash recorded in issue body for maintainer-side duplicate detection.
+    Requires gh CLI with repo write access. If gh fails, returns error (no silent fallback).
     """
     if not problem:
         return {"error": "problem is required", "voice": "failure-warning"}
@@ -231,26 +232,12 @@ def misakanet_submit_intake(
                 "voice": "pair-success",
             }
         else:
-            # Fallback: local queue
-            from scripts.contribution_queue import submit_contribution
-            qr = submit_contribution(
-                contrib_type="intake",
-                user="remote-mcp",
-                title=safe_problem[:200],
-                message=body,
-                problem=safe_problem,
-                fix=safe_fix,
-                verification=safe_verification,
-                source=source,
-                lesson_id=matched_lesson_id,
-            )
+            # No silent fallback — remote intake must reach maintainer
             return {
-                "submitted": True,
-                "intake_id": qr.get("id", "unknown"),
-                "status": "pending_review",
-                "fallback": "local_queue",
-                "receipt": f"Local queue ({qr.get('id', 'unknown')}). GitHub issue creation failed.",
-                "voice": "pair-success",
+                "submitted": False,
+                "error": f"GitHub issue creation failed: {result.stderr[:200]}",
+                "hint": "Check gh CLI auth and permissions. Intake was NOT saved.",
+                "voice": "failure-warning",
             }
 
     except Exception as e:
