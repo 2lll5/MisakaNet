@@ -1273,6 +1273,8 @@ export default {
         // GET /api/insights/lesson-coverage — public lesson coverage dashboard (#905)
     if (request.method === "GET" && url.pathname === "/api/insights/lesson-coverage") {
       return handleLessonCoverage(env);
+    }
+
     // GET /api/insights/reputation-leaderboard — public points leaderboard (#908)
     if (request.method === "GET" && url.pathname === "/api/insights/reputation-leaderboard") {
       return handleReputationLeaderboard(request, env);
