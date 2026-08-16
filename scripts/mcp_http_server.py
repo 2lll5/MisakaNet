@@ -46,6 +46,18 @@ except ImportError:
 # ── Create FastMCP server ──
 mcp = FastMCP("misakanet")
 
+# ── Intake auth / rate limit config ──
+# Set MISAKANET_INTAKE_TOKEN env var to require a shared token for submit_intake.
+# If not set, submit_intake is open but rate-limited.
+import os as _os
+import time as _time
+INTAKE_TOKEN = _os.environ.get("MISAKANET_INTAKE_TOKEN", "")
+_intake_rate_window: list[float] = []
+INTAKE_RATE_LIMIT = 5        # max submissions
+INTAKE_RATE_WINDOW = 3600    # per hour (seconds)
+INTAKE_IP_WINDOW: dict[str, list[float]] = {}
+INTAKE_IP_LIMIT = 3          # per IP per hour
+
 
 @mcp.tool()
 def misakanet_search(query: str, domain: str = "", top: int = 5) -> dict:
@@ -146,19 +158,33 @@ def misakanet_submit_intake(
     if not problem:
         return {"error": "problem is required", "voice": "failure-warning"}
 
-    # ── Rate limit: 5 per 10 min (in-memory) ──
-    now = __import__("time").time()
-    if not hasattr(misakanet_submit_intake, "_rate_window"):
-        misakanet_submit_intake._rate_window = []
-    misakanet_submit_intake._rate_window = [
-        t for t in misakanet_submit_intake._rate_window if now - t < 600
-    ]
-    if len(misakanet_submit_intake._rate_window) >= 5:
+    # ── Token check (if configured) ──
+    if INTAKE_TOKEN:
+        # Token passed via X-Intake-Token header or intake_token arg
+        # For FastMCP, we check the source field as a proxy
+        if source == INTAKE_TOKEN:
+            pass  # authenticated
+        else:
+            return {
+                "error": "Unauthorized: set source to the intake token, or set MISAKANET_INTAKE_TOKEN env.",
+                "voice": "failure-warning",
+            }
+
+    # ── Spam keyword guard ──
+    SPAM_KEYWORDS = ["buy now", "click here", "free money", "casino", "viagra", "crypto pump"]
+    text_lower = (problem + " " + (error or "")).lower()
+    if any(kw in text_lower for kw in SPAM_KEYWORDS):
+        return {"error": "Rejected: possible spam.", "voice": "failure-warning"}
+
+    # ── Global rate limit: 5/hour ──
+    now = _time.time()
+    _intake_rate_window[:] = [t for t in _intake_rate_window if now - t < INTAKE_RATE_WINDOW]
+    if len(_intake_rate_window) >= INTAKE_RATE_LIMIT:
         return {
-            "error": "Rate limit: max 5 intakes per 10 minutes. Try again later.",
+            "error": f"Global rate limit: max {INTAKE_RATE_LIMIT} intakes per hour. Try again later.",
             "voice": "failure-warning",
         }
-    misakanet_submit_intake._rate_window.append(now)
+    _intake_rate_window.append(now)
 
     # ── Dedup hash (problem text, 1hr window) ──
     import hashlib
