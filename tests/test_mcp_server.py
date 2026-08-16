@@ -66,6 +66,7 @@ def test_tools_list():
     check("has misakanet_search", "misakanet_search" in tool_names)
     check("has misakanet_get_lesson", "misakanet_get_lesson" in tool_names)
     check("has misakanet_submit_usage", "misakanet_submit_usage" in tool_names)
+    check("has misakanet_submit_intake", "misakanet_submit_intake" in tool_names)
     check("search requires query", "query" in tools[0]["inputSchema"]["required"])
 
 
@@ -149,6 +150,53 @@ def test_submit_usage():
     result = json.loads(result_text)
     check("returns status", "status" in result)
     check("status is logged", result.get("status") == "logged")
+
+
+def test_submit_intake():
+    print("\n-- tools/call: misakanet_submit_intake --")
+    resp = rpc("tools/call", {
+        "name": "misakanet_submit_intake",
+        "arguments": {
+            "kind": "missing_lesson",
+            "problem": "pip install fails on WSL with SSL timeout",
+            "error": "SSL: CERTIFICATE_VERIFY_FAILED",
+            "source": "claude-code",
+        },
+    })
+    result_text = resp.get("result", {}).get("content", [{}])[0].get("text", "{}")
+    result = json.loads(result_text)
+    check("returns submitted", result.get("submitted") is True)
+    check("returns intake_id", "intake_id" in result)
+    check("status is pending_review", result.get("status") == "pending_review")
+    check("returns redactions_applied", "redactions_applied" in result)
+    check("returns quality_score", "quality_score" in result)
+    check("returns receipt", "receipt" in result)
+
+
+def test_submit_intake_missing_problem():
+    print("\n-- tools/call: misakanet_submit_intake missing problem --")
+    resp = rpc("tools/call", {
+        "name": "misakanet_submit_intake",
+        "arguments": {"kind": "missing_lesson"},
+    })
+    result_text = resp.get("result", {}).get("content", [{}])[0].get("text", "{}")
+    result = json.loads(result_text)
+    check("returns error when problem missing", "error" in result)
+
+
+def test_submit_intake_dedup():
+    print("\n-- tools/call: misakanet_submit_intake dedup --")
+    args = {
+        "kind": "missing_lesson",
+        "problem": "Unique dedup test case XYZ123",
+        "source": "smoke-test",
+    }
+    resp1 = rpc("tools/call", {"name": "misakanet_submit_intake", "arguments": args})
+    resp2 = rpc("tools/call", {"name": "misakanet_submit_intake", "arguments": args})
+    r1 = json.loads(resp1.get("result", {}).get("content", [{}])[0].get("text", "{}"))
+    r2 = json.loads(resp2.get("result", {}).get("content", [{}])[0].get("text", "{}"))
+    check("first submission succeeds", r1.get("submitted") is True)
+    check("duplicate rejected", r2.get("submitted") is False or "error" in r2)
 
 
 def test_unknown_tool():

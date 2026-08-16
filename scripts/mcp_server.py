@@ -276,6 +276,67 @@ def handle_submit_usage(args: dict) -> dict:
     return report
 
 
+def handle_submit_intake(args: dict) -> dict:
+    """Submit a failure-case intake via the contribution queue."""
+    from scripts.contribution_queue import submit_contribution
+
+    kind = args.get("kind", "missing_lesson")
+    problem = args.get("problem", "")
+    error = args.get("error", "")
+    what_tried = args.get("what_tried", "")
+    fix = args.get("fix", "")
+    verification = args.get("verification", "")
+    matched_lesson_id = args.get("matched_lesson_id", "")
+    source = args.get("source", "other")
+
+    if not problem:
+        return {
+            "error": "problem is required",
+            "hint": "Describe the failure or gap you encountered.",
+        }
+
+    # Build message from available fields
+    parts = [f"Kind: {kind}"]
+    if error:
+        parts.append(f"Error: {error}")
+    if what_tried:
+        parts.append(f"Tried: {what_tried}")
+    if fix:
+        parts.append(f"Fix: {fix}")
+    if verification:
+        parts.append(f"Verification: {verification}")
+    message = "\n".join(parts)
+
+    result = submit_contribution(
+        contrib_type="intake",
+        user="mcp-agent",
+        title=problem[:200],
+        message=message,
+        problem=problem,
+        fix=fix,
+        verification=verification,
+        source=source,
+        lesson_id=matched_lesson_id,
+    )
+
+    if "error" in result:
+        return {
+            "submitted": False,
+            "error": result["error"],
+            "message": result.get("message", ""),
+            "existing_id": result.get("existing_id", ""),
+        }
+
+    return {
+        "submitted": True,
+        "intake_id": result["id"],
+        "status": result["status"],
+        "redactions_applied": result.get("redactions_applied", 0),
+        "quality_score": result.get("quality_score", 0),
+        "receipt": f"Keep this ID ({result['id']}); no account or email is required.",
+    }
+
+
 def handle_usage_status(args: dict) -> dict:
     """Show current usage status and remaining quota."""
     try:
@@ -596,6 +657,60 @@ TOOLS = [
         },
     },
     {
+        "name": "misakanet_submit_intake",
+        "description": (
+            "Submit a failure-case intake when no matching lesson exists or a lesson was "
+            "stale/incorrect. Use after misakanet_search fails to find a good match, or when "
+            "the user resolved a problem not yet documented. Input semantics: problem is required "
+            "(short description of the failure); kind defaults to missing_lesson; error, what_tried, "
+            "fix, verification, and matched_lesson_id are optional. Output schema: JSON with "
+            "submitted (boolean), intake_id, status (pending_review), redactions_applied, "
+            "quality_score, and receipt. Side effects: writes to data/contribution_queue.jsonl. "
+            "Auth: none. Rate limits: local stdio process only. All fields are auto-redacted "
+            "for secrets before persistence. Do not include raw logs, prompts, file contents, "
+            "or secrets."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "kind": {
+                    "type": "string",
+                    "enum": ["missing_lesson", "stale_lesson", "new_lesson_candidate"],
+                    "description": "Type of intake. missing_lesson = no match found; stale_lesson = matched but wrong; new_lesson_candidate = user resolved a new problem.",
+                },
+                "problem": {
+                    "type": "string",
+                    "description": "Required short description of the failure or gap (max 2000 chars).",
+                },
+                "error": {
+                    "type": "string",
+                    "description": "Optional short error message (auto-redacted).",
+                },
+                "what_tried": {
+                    "type": "string",
+                    "description": "Optional: what was attempted before or during the failure.",
+                },
+                "fix": {
+                    "type": "string",
+                    "description": "Optional: how the problem was resolved, if known.",
+                },
+                "verification": {
+                    "type": "string",
+                    "description": "Optional: how to confirm the fix works.",
+                },
+                "matched_lesson_id": {
+                    "type": "string",
+                    "description": "Optional: lesson ID that was checked but did not help (for stale_lesson).",
+                },
+                "source": {
+                    "type": "string",
+                    "description": "Calling client: codex, claude-code, cursor, dsh, curl, or other.",
+                },
+            },
+            "required": ["problem"],
+        },
+    },
+    {
         "name": "misakanet_usage_status",
         "description": (
             "Check current usage status and remaining quota. Use to see how many free lesson reads "
@@ -653,6 +768,7 @@ def handle_request(request: dict) -> dict:
             "misakanet_search": handle_search,
             "misakanet_get_lesson": handle_get_lesson,
             "misakanet_submit_usage": handle_submit_usage,
+            "misakanet_submit_intake": handle_submit_intake,
             "misakanet_usage_status": handle_usage_status,
         }
 
