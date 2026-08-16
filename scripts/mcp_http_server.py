@@ -139,34 +139,57 @@ def misakanet_submit_intake(
 
     Remote intake: creates a GitHub issue labeled 'intake' for maintainer review.
     No GitHub account or email required from the submitter.
+    Rate limited: max 5 submissions per 10 minutes per server instance.
+    Deduplicated: same problem text within 1 hour returns existing issue.
     """
     if not problem:
         return {"error": "problem is required", "voice": "failure-warning"}
 
+    # ── Rate limit: 5 per 10 min (in-memory) ──
+    now = __import__("time").time()
+    if not hasattr(misakanet_submit_intake, "_rate_window"):
+        misakanet_submit_intake._rate_window = []
+    misakanet_submit_intake._rate_window = [
+        t for t in misakanet_submit_intake._rate_window if now - t < 600
+    ]
+    if len(misakanet_submit_intake._rate_window) >= 5:
+        return {
+            "error": "Rate limit: max 5 intakes per 10 minutes. Try again later.",
+            "voice": "failure-warning",
+        }
+    misakanet_submit_intake._rate_window.append(now)
+
+    # ── Dedup hash (problem text, 1hr window) ──
+    import hashlib
+    dedup_hash = hashlib.sha256(problem.lower().strip().encode()).hexdigest()[:12]
+
     try:
         from scripts.intake_redact import redact_text
 
-        # Redact sensitive info
+        # Redact sensitive info (field limits: 2k each, 8k total)
         safe_problem = redact_text(problem, max_length=2000)
         safe_error = redact_text(error, max_length=1000) if error else ""
         safe_fix = redact_text(fix, max_length=2000) if fix else ""
+        safe_verification = redact_text(verification, max_length=1000) if verification else ""
+        safe_what_tried = redact_text(what_tried, max_length=1000) if what_tried else ""
 
         # Build issue body
         body_parts = [
             f"**Kind:** {kind}",
             f"**Source:** {source}",
+            f"**Dedup:** `{dedup_hash}`",
             "",
             "## Problem",
             safe_problem,
         ]
         if safe_error:
             body_parts.extend(["", "## Error", safe_error])
-        if what_tried:
-            body_parts.extend(["", "## What was tried", what_tried])
+        if safe_what_tried:
+            body_parts.extend(["", "## What was tried", safe_what_tried])
         if safe_fix:
             body_parts.extend(["", "## Fix (if known)", safe_fix])
-        if verification:
-            body_parts.extend(["", "## Verification", verification])
+        if safe_verification:
+            body_parts.extend(["", "## Verification", safe_verification])
         if matched_lesson_id:
             body_parts.extend(["", f"**Matched lesson (not helpful):** `{matched_lesson_id}`"])
 
@@ -174,10 +197,15 @@ def misakanet_submit_intake(
             "",
             "---",
             f"_Submitted via remote MCP ({source}). No account required._",
+            f"_Dedup hash: {dedup_hash}_",
         ])
 
         title = f"[Intake] {safe_problem[:80]}"
         body = "\n".join(body_parts)
+
+        # Enforce 8k body limit
+        if len(body.encode("utf-8")) > 8000:
+            body = body[:7900] + "\n\n... [truncated to 8k limit]"
 
         # Create GitHub issue
         import subprocess
@@ -185,7 +213,7 @@ def misakanet_submit_intake(
             ["gh", "issue", "create",
              "--title", title,
              "--body", body,
-             "--label", "intake,needs-human-review"],
+             "--label", "intake,mcp-intake,pending-review"],
             capture_output=True, text=True, timeout=30,
         )
 
@@ -197,6 +225,7 @@ def misakanet_submit_intake(
                 "intake_id": f"issue-{issue_number}",
                 "status": "pending_review",
                 "issue_url": issue_url,
+                "dedup_hash": dedup_hash,
                 "redactions_applied": sum(1 for x in [safe_problem, safe_error, safe_fix] if "[REDACTED" in x),
                 "receipt": f"GitHub issue {issue_number} created. No account or email required.",
                 "voice": "pair-success",
@@ -211,7 +240,7 @@ def misakanet_submit_intake(
                 message=body,
                 problem=safe_problem,
                 fix=safe_fix,
-                verification=verification,
+                verification=safe_verification,
                 source=source,
                 lesson_id=matched_lesson_id,
             )
