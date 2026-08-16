@@ -313,24 +313,29 @@ def handle_deepseek_smoke(args: dict) -> dict:
     """Minimal smoke test: search + lesson fetch."""
     results = {}
     start = time.time()
+    smoke_query = "DCO"
 
     # Test 1: Search
     try:
-        search_result = handle_search({"query": "DCO sign-off", "top": 1})
+        search_result = handle_deepseek_search({"query": smoke_query, "top": 1})
+        result_count = len(search_result.get("results", []))
         results["search"] = {
-            "status": "ok" if "results" in search_result else "fail",
-            "result_count": len(search_result.get("results", [])),
+            "status": "ok" if result_count > 0 else "fail",
+            "result_count": result_count,
+            "source": search_result.get("source"),
         }
+        if "error" in search_result:
+            results["search"]["error"] = search_result["error"]
     except Exception as e:
         results["search"] = {"status": "fail", "error": str(e)}
 
     # Test 2: Get lesson (if search found one)
     if results["search"]["status"] == "ok" and results["search"]["result_count"] > 0:
         try:
-            first_result = handle_search({"query": "DCO sign-off", "top": 1})["results"][0]
+            first_result = search_result["results"][0]
             lesson_path = first_result.get("path", "")
             if lesson_path:
-                lesson_result = handle_get_lesson({"path": lesson_path})
+                lesson_result = handle_deepseek_get_lesson({"path": lesson_path})
                 results["get_lesson"] = {
                     "status": "ok" if "content" in lesson_result else "fail",
                     "content_length": len(lesson_result.get("content", "")),
