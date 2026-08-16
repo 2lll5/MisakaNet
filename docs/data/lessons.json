@@ -1,21 +1,5 @@
 [
   {
-    "id": "README",
-    "title": "README",
-    "domain": "core",
-    "tags": [],
-    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
-    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
-    "url": "lessons/core/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
     "id": "auto-merge-ci-pipeline",
     "title": "Auto-Merge CI Pipeline — DCO, Quality Score, Shadow Branch, Dynamic Deps, Auto-Merge",
     "domain": "devops",
@@ -215,6 +199,22 @@
     "verified": true
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "core",
+    "tags": [],
+    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
+    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
+    "url": "lessons/core/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": false
+  },
+  {
     "id": "search-first-roadmap-loop",
     "title": "Search-first roadmap loop for agent knowledge projects",
     "domain": "development",
@@ -234,22 +234,6 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "published",
-    "verified": true
-  },
-  {
-    "id": "README",
-    "title": "README",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
-    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
-    "url": "lessons/contrib/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
     "verified": true
   },
   {
@@ -2459,6 +2443,29 @@
     "verified": true
   },
   {
+    "id": "github-release-large-asset-download-cn",
+    "title": "GitHub Release 大文件下载在 CN 网络超时：分段并行下载方案",
+    "domain": "devops",
+    "tags": [
+      "github",
+      "download",
+      "cn-network",
+      "proxy",
+      "large-file",
+      "timeout"
+    ],
+    "summary": "GitHub Release 大文件（60MB）在 CN 网络下载失败：直连 GitHub 速度极慢（~107KB/s）然后不可达；gh-proxy 镜像大多失效或 429；单连接断点续传通过代理会损坏文件（重试后文件大小缩小）。",
+    "preview": "## Problem\n\nGitHub Release 大文件（60MB）在 CN 网络下载失败：直连 GitHub 速度极慢（~107KB/s）然后不可达；gh-proxy 镜像大多失效或 429；单连接断点续传通过代理会损坏文件（重试后文件大小缩小）。\n\n## Root Cause\n\n1. GitHub CDN 在 CN 限流严重，直连大文件下载容易超时\n2. 代理服务（ghproxy 等）对长连接不稳定，会断开连接\n3. 断点续传通过代理时，代理可能从头传输，导致文件损坏\n4. 并发直连 GitHub 会被 CDN 限流\n\n## Solution\n\n**分段并行下载 + 校验：**\n\n1. 将大文件分成 6 个 10MB 分段\n2. 通过 ghproxy 代理并行下载（代理不限制并发）\n3. 每个分段独立 `--retry`\n4. 合并分段\n5. sha256 校验（对照官方 manifest）\n\n```bash\n# 分段下载示例\nfor i in $(seq 0 5); do\n  start=$((i * 10485760))\n  end=$(((i + 1) * 10485760 - 1))\n  curl -C - -R -o \"segment_$i\" \\\n    \"https://ghproxy.net/https://github.com/owner/repo/releases/download/v1.0/large-file\" \\\n    -H \"Range: bytes=$start-$end\" \\\n    --retry 3 --retry-delay 5 &\ndone\nwait\n\n# 合并\ncat segment_* > large-file\nrm segment_*\n\n# 校验\nsha256sum -c manifest.sha256\n```\n\n**npm 包安装替代方案：**\n\n```bash\n# 安装时跳过脚本\nnpm install --ignore-scripts\n\n# 手动下载二进制到 bin/downloads/\n# 创建 .version 标记文件\n```\n\n## Verification\n\n1. sha256 与官方 manifest 一致\n2. 执行 `codewhale --version` 确认版本正确\n3. 文件大小与官方 Release 一致\n\n## Key Points\n\n- 分段大小 10MB 低于代理稳定传输窗口\n- ghproxy 代理不限制并发连接数\n- 每个分段独立重试，避免整体失败\n- sha256 校验是必须的，防止代理篡改或传输损坏",
+    "url": "lessons/contrib/github-release-large-asset-download-cn.md",
+    "created": "2026-08-17",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "github-sudo-email-otp-wrong-input-field",
     "title": "GitHub sudo email OTP fails when the wrong input is filled",
     "domain": "github",
@@ -4102,6 +4109,22 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
+  },
+  {
+    "id": "README",
+    "title": "README",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
+    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
+    "url": "lessons/contrib/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
   },
   {
     "id": "regex-escaped-quotes-source-parsing",
