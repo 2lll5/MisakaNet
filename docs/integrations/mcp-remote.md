@@ -13,11 +13,14 @@ The server also supports local stdio transport as an alternative (see [Local std
 
 Use this when an agent searched MisakaNet and found no good lesson. This path does **not** require GitHub, email, a browser, or a Bearer token. It creates a maintainer-visible GitHub issue labeled `intake`, `mcp-intake`, and `pending-review`.
 
+Important: this anonymous path is intentionally narrow. `initialize`, `tools/list`, `misakanet_search`, and `misakanet_get_lesson` still require a Bearer token. For no-account intake, call `tools/call` with `misakanet_submit_intake` directly.
+
 ```bash
 curl -sS https://misakanet.org/mcp \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, text/event-stream" \
   -H "Origin: https://claude.ai" \
+  -H "User-Agent: MisakaNet-Remote-Agent/1.0" \
   -H "MCP-Protocol-Version: 2025-06-18" \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_submit_intake","arguments":{"kind":"missing_lesson","problem":"SHORT REDACTED PROBLEM","error":"OPTIONAL REDACTED ERROR","what_tried":"OPTIONAL","fix":"OPTIONAL","verification":"OPTIONAL","matched_lesson_id":"","source":"remote-agent"}}}'
 ```
@@ -27,6 +30,7 @@ Safety rules:
 - Keep the request under 8 KB.
 - Send redacted summaries, not raw private logs.
 - Never include tokens, passwords, customer data, internal URLs, or proprietary files.
+- Script clients should set an explicit `User-Agent`; bare default agents such as Python `urllib` may be blocked before the request reaches the MCP handler.
 - Intake is **not auto-published**. Maintainers review it before converting it into a lesson.
 
 ## Getting a Token
@@ -110,6 +114,8 @@ Add header: `Authorization: Bearer YOUR_TOKEN`
 | `Authorization` | For read tools | `Bearer <token>`; omit for `misakanet_submit_intake` |
 | `Content-Type` | Yes | `application/json` |
 | `Accept` | Recommended | `application/json, text/event-stream` |
+| `Origin` | Recommended | Must be an allowed client origin when present, for example `https://claude.ai`, `https://cursor.sh`, `https://glama.ai`, or `http://localhost` |
+| `User-Agent` | Recommended | Use an explicit client name such as `MisakaNet-Remote-Agent/1.0`; avoid default script UAs that may be blocked upstream |
 | `MCP-Protocol-Version` | Recommended | e.g. `2025-06-18` |
 | `Mcp-Method` | Optional | Method name (2026-07-28 compat) |
 | `Mcp-Name` | Optional | Tool/resource name (2026-07-28 compat) |
@@ -144,7 +150,9 @@ Add to MCP config:
 | Symptom | Cause | Fix |
 |---------|-------|-----|
 | 401 Unauthorized | Missing or invalid token for read tools | Check your `Authorization` header. See [Getting a Token](#getting-a-token) for how to obtain one. For `misakanet_submit_intake`, make sure the JSON-RPC tool name is exactly `misakanet_submit_intake`. |
+| 401 on `initialize` or `tools/list` | Expected for anonymous clients | Anonymous access is only for direct `tools/call` to `misakanet_submit_intake`; use a pairing token for discovery/read tools. |
 | 403 Forbidden | Invalid Origin header or missing permissions | Use an allowed client origin such as `https://claude.ai`, `https://cursor.sh`, `https://glama.ai`, or `http://localhost`. |
+| 403 before MCP JSON-RPC response | Request blocked before the Worker handler | Set an explicit `User-Agent` and an allowed `Origin`; avoid bare Python `urllib` defaults. |
 | 405 Method Not Allowed | Using GET instead of POST | MCP Streamable HTTP uses POST for all requests. Switch your HTTP method to POST. |
 | 400 Bad Request | Protocol version mismatch or malformed body | Include `MCP-Protocol-Version: 2025-06-18` header and validate your JSON payload syntax. |
 | 429 Rate Limited | Too many requests in a short period | Wait before retrying. `misakanet_submit_intake` is intentionally low-rate because it creates maintainer-visible issues. |
