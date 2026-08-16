@@ -258,7 +258,7 @@ def misakanet_submit_intake(
             capture_output=True, text=True, timeout=30,
         )
 
-        if result.returncode == 0 and "github.com" in result.stdout:
+        if result.returncode == 0 and result.stdout.strip().startswith("https://github.com/"):
             issue_url = result.stdout.strip()
             issue_number = issue_url.split("/")[-1]
             return {
