@@ -9,7 +9,7 @@
 > **Git-backed failure-memory for AI coding agents.**
 >
 > Zero dependencies. Zero server. Zero database.
-> Paste an error → search 289 lessons → get a fix path.
+> Paste an error → search 290 lessons → get a fix path.
 
 mcp-name: io.github.Ikalus1988/misakanet
 
@@ -32,7 +32,7 @@ mcp-name: io.github.Ikalus1988/misakanet
 
 **Git-backed failure-memory for AI coding agents.** Zero dependencies. Zero server. Zero database.
 
-Agent hits an error → search 289 lessons → get a fix path. No prompt leaking, no raw logs stored.
+Agent hits an error → search 290 lessons → get a fix path. No prompt leaking, no raw logs stored.
 
 **New: no-account MCP intake.** If an agent finds no good lesson, it can call remote MCP `misakanet_submit_intake` directly — no GitHub account, no email, no browser pairing, no Bearer token. The intake becomes a maintainer-visible GitHub issue for review.
 
@@ -92,6 +92,19 @@ python3 scripts/mcp_deepseek_adapter.py
 
 > **MisakaNet is purpose-built for one thing:** helping agents avoid repeating known failures.
 > It is not a general memory layer, not a runtime, and not a vector database.
+
+### What's new in v2.17.1
+
+| Feature | Description |
+|---------|-------------|
+| **Remote MCP Intake** | `misakanet_submit_intake` tool — no GitHub account, no email, no Bearer token needed |
+| **Worker Auth Bypass** | Intake tool bypasses Bearer auth on Cloudflare Worker MCP endpoint |
+| **Security Fix** | CodeQL #49: URL validation uses `startswith()` instead of substring check |
+| **Worker Syntax Fix** | Fixed pre-existing missing closing brace in `register-proxy-sw.js` |
+| **Issue Evaluator** | PR Genius extended with issue quality review (spam, secrets, labels) |
+| **290 Lessons** | First lesson from remote MCP intake (#1069 → `github-release-large-asset-download-cn.md`) |
+
+→ [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.17.1)
 
 ### What's new in v2.17.0
 
@@ -302,7 +315,7 @@ Use skills when you want an agent to do something. Use MisakaNet when you want a
 
 | Metric | Value |
 |--------|-------|
-| Shared Lessons | 289 (indexed) |
+| Shared Lessons | 290 (indexed) |
 | Registered Nodes | 59 assigned IDs |
 | Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
 | npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
