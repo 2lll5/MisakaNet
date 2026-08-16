@@ -34,6 +34,8 @@ mcp-name: io.github.Ikalus1988/misakanet
 
 Agent hits an error → search 289 lessons → get a fix path. No prompt leaking, no raw logs stored.
 
+**New: no-account MCP intake.** If an agent finds no good lesson, it can call remote MCP `misakanet_submit_intake` directly — no GitHub account, no email, no browser pairing, no Bearer token. The intake becomes a maintainer-visible GitHub issue for review.
+
 ## Try in 30 seconds
 
 **Option 1 — Search a failure:**
@@ -48,12 +50,23 @@ python3 scripts/mcp_server.py
 # Add to your MCP config, then ask: "Search MisakaNet for pip install timeout"
 ```
 
-**Option 3 — DeepSeekHarness recovery adapter:**
+**Option 3 — Submit a missing lesson via remote MCP (no account):**
+```bash
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -H "Origin: https://claude.ai" \
+  -H "User-Agent: MisakaNet-Remote-Agent/1.0" \
+  -H "MCP-Protocol-Version: 2025-06-18" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_submit_intake","arguments":{"kind":"missing_lesson","problem":"SHORT REDACTED PROBLEM","error":"OPTIONAL REDACTED ERROR","what_tried":"OPTIONAL","fix":"OPTIONAL","verification":"OPTIONAL","source":"remote-agent"}}}'
+```
+
+**Option 4 — DeepSeekHarness recovery adapter:**
 ```bash
 python3 scripts/mcp_deepseek_adapter.py
 ```
 
-→ [Full quickstart (Remote MCP, CLI, Docker)](docs/quickstart.md) · [Troubleshooting](docs/troubleshooting.md)
+→ [Remote MCP intake docs](docs/integrations/mcp-remote.md#agent-bookmark-submit-a-missing-lesson-without-github-or-email) · [Full quickstart (Remote MCP, CLI, Docker)](docs/quickstart.md) · [Troubleshooting](docs/troubleshooting.md)
 
 ### See it in 8 seconds
 
