@@ -38,14 +38,22 @@ jobs:
           fi
 
           CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
-          NON_LESSON=$(echo "$CHANGED" | grep -Ev '^(lessons/|\.github/workflows/(lesson-quality|pr-checks)\.yml$)' || true)
+          NON_LESSON=$(echo "$CHANGED" | grep -Ev '^(lessons/|\.github/workflows/(lesson-quality|pr-checks)\.ya?ml$)' || true)
+          NON_WORKFLOW=$(echo "$CHANGED" | grep -Ev '^\.github/workflows/[^/]+\.ya?ml$' || true)
+          NON_JS_DEPS=$(echo "$CHANGED" | grep -Ev '^(package|package-lock)\.json$' || true)
 
-          if [ -n "$NON_LESSON" ]; then
-            echo "scope=full" >> "$GITHUB_OUTPUT"
-            echo "Scope: full (changes outside lessons/)"
-          else
+          if [ -z "$NON_LESSON" ]; then
             echo "scope=lessons-only" >> "$GITHUB_OUTPUT"
             echo "Scope: lessons-only"
+          elif [ -z "$NON_WORKFLOW" ]; then
+            echo "scope=ci-only" >> "$GITHUB_OUTPUT"
+            echo "Scope: ci-only (GitHub Actions/workflow changes)"
+          elif [ -z "$NON_JS_DEPS" ]; then
+            echo "scope=js-deps-only" >> "$GITHUB_OUTPUT"
+            echo "Scope: js-deps-only (root package manifest/lockfile changes)"
+          else
+            echo "scope=full" >> "$GITHUB_OUTPUT"
+            echo "Scope: full (code or mixed changes)"
           fi
 
       - name: Setup Python
@@ -161,43 +169,57 @@ jobs:
             exit 1
           fi
 
-      # ── Dependency Audit (full scope only) ──
+      # ── Dependency Audit (dependency scopes only) ──
       - name: Dependency Audit
         id: depaudit
-        if: steps.scope.outputs.scope == 'full'
+        if: steps.scope.outputs.scope == 'full' || steps.scope.outputs.scope == 'js-deps-only'
         run: |
-          # Only hard-fail if this PR actually changes dependency files
+          # Only audit ecosystems whose dependency files changed
           BASE_SHA="${{ github.event.pull_request.base.sha }}"
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-          DEPS_CHANGED=false
-          if git diff --name-only "$BASE_SHA" "$HEAD_SHA" | grep -qE "requirements\.txt|hub/requirements\.txt|package\.json|pyproject\.toml"; then
-            DEPS_CHANGED=true
-            echo "Dependency files changed — audit is blocking"
-          else
-            echo "No dependency files changed — audit is advisory only"
+          CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
+          PY_DEPS_CHANGED=false
+          JS_DEPS_CHANGED=false
+          if echo "$CHANGED" | grep -qE '(^|/)requirements\.txt$|^pyproject\.toml$'; then
+            PY_DEPS_CHANGED=true
+          fi
+          if echo "$CHANGED" | grep -qE '^(package|package-lock)\.json$'; then
+            JS_DEPS_CHANGED=true
           fi
 
-          echo "=== Python dependency audit ==="
-          pip install pip-audit 2>/dev/null || true
+          if [ "$PY_DEPS_CHANGED" != "true" ] && [ "$JS_DEPS_CHANGED" != "true" ]; then
+            echo "No Python/JS dependency files changed — dependency audit skipped"
+            echo "depaudit_result=skipped" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           AUDIT_FAIL=false
-          if ! pip-audit --requirement requirements.txt 2>&1; then
-            AUDIT_FAIL=true
-            echo "::error::pip-audit found vulnerabilities"
-          fi
-          echo "=== JS dependency audit ==="
-          if [ -f package.json ]; then
-            if ! npm audit --audit-level=high 2>&1; then
+          if [ "$PY_DEPS_CHANGED" = "true" ]; then
+            echo "=== Python dependency audit ==="
+            pip install pip-audit 2>/dev/null || true
+            if ! pip-audit --requirement requirements.txt 2>&1; then
               AUDIT_FAIL=true
-              echo "::error::npm audit found high-severity issues"
+              echo "::error::pip-audit found vulnerabilities in changed Python dependencies"
             fi
+          else
+            echo "Python dependency files unchanged — skipping pip-audit"
           fi
+
+          if [ "$JS_DEPS_CHANGED" = "true" ]; then
+            echo "=== JS dependency audit ==="
+            if [ -f package.json ]; then
+              if ! npm audit --audit-level=high 2>&1; then
+                AUDIT_FAIL=true
+                echo "::error::npm audit found high-severity issues in changed JS dependencies"
+              fi
+            fi
+          else
+            echo "JS dependency files unchanged — skipping npm audit"
+          fi
+
           if [ "$AUDIT_FAIL" = "true" ]; then
             echo "depaudit_result=fail" >> "$GITHUB_OUTPUT"
-            if [ "$DEPS_CHANGED" = "true" ]; then
-              exit 1
-            else
-              echo "::warning::Dependency vulnerabilities found but no dependency files changed — not blocking"
-            fi
+            exit 1
           else
             echo "depaudit_result=pass" >> "$GITHUB_OUTPUT"
           fi
@@ -292,9 +314,16 @@ jobs:
 
           if [ "$SCOPE" = "lessons-only" ]; then
             REPORT+=$'\n\n'
-            REPORT+="> 📚 **Lessons-only PR** — skipped: quality score, PR size, test suite"
+            REPORT+="> 📚 **Lessons-only PR** — skipped: quality score, PR size, dependency audit, test suite"
+          elif [ "$SCOPE" = "ci-only" ]; then
+            REPORT+=$'\n\n'
+            REPORT+="> ⚙️ **CI-only PR** — skipped Python/JS dependency audit and test suite; DCO + schema still run."
+          elif [ "$SCOPE" = "js-deps-only" ]; then
+            REPORT+=$'\n\n'
+            REPORT+="> 📦 **JS dependency-only PR** — runs JS dependency audit; skips unrelated Python tests."
           fi
           REPORT+=$'\n\n'
+
 
           # 1. Quality Score (full scope only)
           if [ "$SCOPE" = "full" ]; then
@@ -358,16 +387,16 @@ jobs:
             REPORT+=$'\n\n'
           fi
 
-          # 5. Dependency Audit (full scope only)
-          if [ "$SCOPE" = "full" ]; then
+          # 5. Dependency Audit (dependency scopes only)
+          if [ "$SCOPE" = "full" ] || [ "$SCOPE" = "js-deps-only" ]; then
             REPORT+="### 📦 Dependency Audit"
             REPORT+=$'\n\n'
             if [ "$DEPAUDIT" = "pass" ]; then
-              REPORT+="✅ No known vulnerabilities."
+              REPORT+="✅ No known vulnerabilities in changed dependency ecosystem(s)."
             elif [ "$DEPAUDIT" = "fail" ]; then
-              REPORT+="❌ **Vulnerabilities found** — merge blocked."
+              REPORT+="❌ **Vulnerabilities found in changed dependencies** — merge blocked."
             else
-              REPORT+="⏭️ Skipped."
+              REPORT+="⏭️ Skipped; no Python/JS dependency files changed."
             fi
             REPORT+=$'\n\n'
           fi
@@ -409,6 +438,11 @@ jobs:
             VERDICT_PASS=false
           fi
 
+          if [ "$SCOPE" = "js-deps-only" ] && [ "$DEPAUDIT" = "fail" ]; then
+            REPORT+="❌ Dependency audit found vulnerabilities in changed JS dependencies."$'\n'
+            VERDICT_PASS=false
+          fi
+
           if [ "$SCOPE" = "full" ]; then
             if [ -n "$SCORE" ] && [ "$SCORE" -lt 40 ] 2>/dev/null; then
               REPORT+="❌ Quality Score ${SCORE}/40 below threshold."$'\n'
@@ -436,6 +470,10 @@ jobs:
           if [ "$VERDICT_PASS" = "true" ]; then
             if [ "$SCOPE" = "lessons-only" ]; then
               REPORT+="✅ DCO + schema passed. Ready for merge."
+            elif [ "$SCOPE" = "ci-only" ]; then
+              REPORT+="✅ CI-only gates passed. Ready for merge."
+            elif [ "$SCOPE" = "js-deps-only" ]; then
+              REPORT+="✅ JS dependency audit + DCO + schema passed. Ready for merge."
             else
               REPORT+="✅ All gates passed. Ready for merge."
             fi
