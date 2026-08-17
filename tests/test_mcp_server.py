@@ -199,6 +199,20 @@ def test_submit_intake_dedup():
     check("duplicate rejected", r2.get("submitted") is False or "error" in r2)
 
 
+def test_submit_intake_title_sanitization():
+    print("\n-- tools/call: misakanet_submit_intake title sanitization --")
+    args = {
+        "kind": "missing_lesson",
+        "problem": "## 背景\n\nfeishu-interactive-card 是 Hermes Agent 的一个技能模块\n\n在日常使用中积累了一些实用经验",
+        "source": "smoke-test",
+    }
+    resp = rpc("tools/call", {"name": "misakanet_submit_intake", "arguments": args})
+    result = json.loads(resp.get("result", {}).get("content", [{}])[0].get("text", "{}"))
+    check("submission succeeds", result.get("submitted") is True)
+    # Verify no markdown headings in intake_id (which comes from GitHub issue)
+    check("has intake_id", "intake_id" in result)
+
+
 def test_unknown_tool():
     print("\n-- error handling --")
     resp = rpc("tools/call", {

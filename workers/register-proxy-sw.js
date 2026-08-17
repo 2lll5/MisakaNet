@@ -304,7 +304,15 @@ async function handleMcpToolCall(env, toolName, args, authToken) {
     if (args.matched_lesson_id) bodyParts.push("", `**Matched lesson (not helpful):** \`${args.matched_lesson_id}\``);
     bodyParts.push("", "---", `_Submitted via remote MCP (${args.source || "mcp"}). No account required._`);
 
-    const title = `[Intake] ${safeProblem.slice(0, 80)}`;
+    // Sanitize title: strip markdown, newlines, collapse whitespace
+    const rawTitle = safeProblem
+      .replace(/^#{1,6}\s+/gm, "")   // strip markdown headings
+      .replace(/```[\s\S]*?```/g, "") // strip code fences
+      .replace(/\n+/g, " ")           // collapse newlines
+      .replace(/\s+/g, " ")           // collapse whitespace
+      .trim()
+      .slice(0, 80);                  // cap length
+    const title = `[Intake] ${rawTitle || "failure case"}`;
     const body = bodyParts.join("\n").slice(0, 8000);
 
     const token = env.REGISTER_TOKEN;

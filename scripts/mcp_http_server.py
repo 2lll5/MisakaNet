@@ -241,7 +241,13 @@ def misakanet_submit_intake(
             f"_Dedup hash: {dedup_hash}_",
         ])
 
-        title = f"[Intake] {safe_problem[:80]}"
+        # Sanitize title: strip markdown, newlines, collapse whitespace
+        import re as _re
+        raw_title = _re.sub(r"^#{1,6}\s+", "", safe_problem, flags=_re.MULTILINE)
+        raw_title = _re.sub(r"```[\s\S]*?```", "", raw_title)
+        raw_title = _re.sub(r"\n+", " ", raw_title)
+        raw_title = _re.sub(r"\s+", " ", raw_title).strip()[:80]
+        title = f"[Intake] {raw_title or 'failure case'}"
         body = "\n".join(body_parts)
 
         # Enforce 8k body limit
