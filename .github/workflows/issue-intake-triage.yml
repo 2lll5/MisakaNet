@@ -28,9 +28,14 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             let issue = context.payload.issue;
-            let issue_number = context.issue.number;
-            if (!issue) {
-              issue_number = Number(core.getInput('issue_number'));
+            let issue_number = context.issue?.number;
+            if (!issue || !issue_number) {
+              const input = core.getInput('issue_number');
+              issue_number = Number(input);
+              if (!issue_number || isNaN(issue_number)) {
+                core.setFailed(`Invalid issue number: ${input}`);
+                return;
+              }
               const response = await github.rest.issues.get({ owner, repo, issue_number });
               issue = response.data;
             }
