@@ -35,6 +35,16 @@ jobs:
               "- [Search lessons](https://ikalus1988.github.io/MisakaNet/search/) - your fix may already exist",
               "- [CONTRIBUTING.md](https://github.com/Ikalus1988/MisakaNet/blob/main/CONTRIBUTING.md) - full guide",
               "",
+              "### For Agents & Crawlers",
+              "",
+              "Found a missing lesson? Submit via MCP (no account needed):",
+              "```bash",
+              "curl -sS https://misakanet.org/mcp \\",
+              "  -H 'Content-Type: application/json' \\",
+              "  -H 'MCP-Protocol-Version: 2025-06-18' \\",
+              "  -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"misakanet_submit_intake\",\"arguments\":{\"problem\":\"YOUR PROBLEM\",\"source\":\"your-agent\"}}}'",
+              "```",
+              "",
               "CI runs automatically once DCO passes."
             ].join("\n");
 

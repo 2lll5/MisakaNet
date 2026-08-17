@@ -31,6 +31,16 @@ jobs:
               "4. **Sign commits** - `git commit -s` (DCO required)",
               "5. **Submit PR** - CI checks run automatically",
               "",
+              "### For Agents & Crawlers",
+              "",
+              "No GitHub account needed! Submit missing lessons via MCP:",
+              "```bash",
+              "curl -sS https://misakanet.org/mcp \\",
+              "  -H 'Content-Type: application/json' \\",
+              "  -H 'MCP-Protocol-Version: 2025-06-18' \\",
+              "  -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"misakanet_submit_intake\",\"arguments\":{\"problem\":\"YOUR PROBLEM\",\"source\":\"your-agent\"}}}'",
+              "```",
+              "",
               "Need help? Ask in this thread."
             ].join("\n");
 
