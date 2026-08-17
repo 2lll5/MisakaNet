@@ -30,10 +30,10 @@ jobs:
             let issue = context.payload.issue;
             let issue_number = context.issue?.number;
             if (!issue || !issue_number) {
-              const input = core.getInput('issue_number');
+              const input = core.getInput('issue_number') || process.env.INPUT_ISSUE_NUMBER || '';
               issue_number = Number(input);
               if (!issue_number || isNaN(issue_number)) {
-                core.setFailed(`Invalid issue number: ${input}`);
+                core.setFailed(`Invalid issue number: "${input}"`);
                 return;
               }
               const response = await github.rest.issues.get({ owner, repo, issue_number });
