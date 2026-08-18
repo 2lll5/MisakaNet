@@ -1,21 +1,5 @@
 [
   {
-    "id": "README",
-    "title": "README",
-    "domain": "core",
-    "tags": [],
-    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
-    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
-    "url": "lessons/core/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
     "id": "auto-merge-ci-pipeline",
     "title": "Auto-Merge CI Pipeline — DCO, Quality Score, Shadow Branch, Dynamic Deps, Auto-Merge",
     "domain": "devops",
@@ -215,6 +199,22 @@
     "verified": true
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "core",
+    "tags": [],
+    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
+    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
+    "url": "lessons/core/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": false
+  },
+  {
     "id": "search-first-roadmap-loop",
     "title": "Search-first roadmap loop for agent knowledge projects",
     "domain": "development",
@@ -234,22 +234,6 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "published",
-    "verified": true
-  },
-  {
-    "id": "README",
-    "title": "README",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
-    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
-    "url": "lessons/contrib/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
     "verified": true
   },
   {
@@ -585,6 +569,28 @@
     "preview": "## Problem\n\nWhen HermesHub starts, if the BGE-m3 model has not been downloaded to the local path, SkillIndexer crashes immediately.\nThe local path is hard-coded as `~/.cache/huggingface/...`, which does not exist on other machines.\n\n## Root Cause\n\nInspect the RAG config, ingestion log, retrieval log, and cache status to confirm the exact mismatch before applying the fix.\n\n`_init_embedding_model()` in `skill_indexer.py` loads the model with `local_files_only=True`, and the model path is a hard-coded machine-specific absolute path. There is no fallback mechanism and no environment-variable override.\n\n## Solution\n\n1. Remove the hard-coded absolute path and use: constructor parameter → `EMBEDDING_MODEL_PATH` environment variable → model name (auto-download)\n2. Wrap loading failures in try/except and degrade to no-embedding mode (`register_skill` skips semantic deduplication)\n3. Make `_generate_embedding()` return an empty list, so `search_skills` falls back to keyword matching\n\n## Verification\n\nStart the hub on a machine without the BGE-m3 model. It does not crash and prints \"[Embedding] degraded mode — semantic deduplication and search will be unavailable\".\n\n\n```bash\n# Expected result: retrieval logs show the intended chunks and no stale cache or fallback errors.\npython3 search_knowledge.py \"rag verification smoke test\" --lessons\n```\n\nEnvironment: Linux / WSL with Python 3.10 or newer; adapt the query to the affected RAG corpus.\n\n## Scenario\n\nAny non-development Node machine (Node 1/2/3/6) without a pre-downloaded BGE-m3 model cache.",
     "url": "lessons/contrib/bge-embedding-fallback-crash.md",
     "created": "2026-05-03",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
+    "id": "bm25-chinese-sliding-window-tuning",
+    "title": "中文 BM25 搜索：滑动窗口子串加分与唯一候选加分",
+    "domain": "search",
+    "tags": [
+      "bm25",
+      "chinese",
+      "search",
+      "recall",
+      "sliding-window"
+    ],
+    "summary": "中文 BM25 搜索长查询召回率低，标准 BM25 对中文分词后的短 token 敏感度不足。",
+    "preview": "## Problem\n\n中文 BM25 搜索长查询召回率低，标准 BM25 对中文分词后的短 token 敏感度不足。\n\n## Root Cause\n\n1. 中文查询经 jieba 分词后产生短 token（2-3字），BM25 对短 token 的 IDF 权重不够\n2. 稀有词（仅匹配1个文档）的 IDF 没有额外加权\n3. 全局 DF 表缺失词的 IDF 回退策略不当\n\n## Solution\n\n**滑动窗口子串加分：**\n- 对 4-6 字的子串窗口进行额外加分\n- 设置 10 字门槛防止噪声（太短的子串不加分）\n- 提升长查询中连续语义片段的召回\n\n**唯一候选加分：**\n- 当一个词仅匹配 1 个文档时，IDF × 2.0\n- 限制仅对纯中文词生效，避免英文回归\n- 提升稀有专有名词的精确匹配\n\n```python\n# 滑动窗口加分示例\ndef sliding_window_boost(query, doc, window_min=4, window_max=6, threshold=10):\n    if len(query) < threshold:\n        return 0\n    boost = 0\n    for w in range(window_min, window_max + 1):\n        for i in range(len(query) - w + 1):\n            substring = query[i:i+w]\n            if substring in doc:\n                boost += 1\n    return boost\n\n# 唯一候选加分示例\ndef unique_candidate_boost(df, doc_freq, is_chinese=True):\n    if not is_chinese:\n        return 1.0  # 英文不加分\n    if doc_freq == 1:\n        return 2.0  # 仅匹配1个文档，IDF翻倍\n    return 1.0\n```\n\n## Verification\n\n- Recall 指标提升 7%+\n- 英文查询无回归（唯一候选仅对纯中文词生效）\n- 滑动窗口在 10 字以下查询不触发（防噪声）\n\n## Key Points\n\n- 滑动窗口需设 10 字门槛防噪声\n- 唯一候选需限制纯中文词防英文回归\n- 全局 DF 表缺失词需要 IDF 回退策略",
+    "url": "lessons/contrib/bm25-chinese-sliding-window-tuning.md",
+    "created": "2026-08-18",
     "updated": "",
     "validity_period_days": 365,
     "environment_version": "",
@@ -2708,6 +2714,28 @@
     "verified": true
   },
   {
+    "id": "jieba-synonym-expansion-pitfall",
+    "title": "同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归",
+    "domain": "search",
+    "tags": [
+      "jieba",
+      "synonym",
+      "chinese",
+      "segmentation",
+      "regression"
+    ],
+    "summary": "使用 jieba.add_word() 添加同义词时，会改变全局分词行为，导致其他查询回归。",
+    "preview": "## Problem\n\n使用 jieba.add_word() 添加同义词时，会改变全局分词行为，导致其他查询回归。\n\n## Root Cause\n\njieba.add_word() 的问题：\n1. 改变全局分词器状态，影响所有后续查询\n2. 新词优先级高于已有分词规则\n3. 语义扩展（如\"手机\"→\"电话\"）不适合用 add_word\n4. 只有专有名词才应该用 add_word\n\n## Solution\n\n**用同义词映射文件代替 add_word：**\n\n```python\n# 错误方式：改变全局分词\njieba.add_word(\"手机\")  # 会影响所有查询\n\n# 正确方式：同义词映射文件\n# synonyms.json:\n{\n  \"手机\": [\"电话\", \"移动设备\", \"智能手机\"],\n  \"电脑\": [\"计算机\", \"PC\", \"笔记本\"]\n}\n\ndef expand_query_with_synonyms(query, synonyms):\n    expanded = [query]\n    for word, syns in synonyms.items():\n        if word in query:\n            expanded.extend(syns)\n    return expanded\n```\n\n**规则：**\n- 只有专有名词才用 add_word（如产品名、品牌名）\n- 语义扩展必须用映射文件\n- 映射文件可版本控制，可审计\n- add_word 改变全局状态，不可控\n\n## Verification\n\n- 修复后其他查询无回归\n- 同义词扩展生效（\"手机\"搜索能匹配\"电话\"相关内容）\n- 专有名词仍可用 add_word\n\n## Key Points\n\n- jieba.add_word() 改变全局分词行为，不可控\n- 语义扩展必须用同义词映射文件\n- 只有专有名词才用 add_word\n- 映射文件可版本控制、可审计",
+    "url": "lessons/contrib/jieba-synonym-expansion-pitfall.md",
+    "created": "2026-08-18",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "js-dead-code-chain-break",
     "title": "js-dead-code-chain-break",
     "domain": "contrib",
@@ -4127,6 +4155,22 @@
     "verified": false
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
+    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
+    "url": "lessons/contrib/README.md",
+    "created": "",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
+  },
+  {
     "id": "regex-escaped-quotes-source-parsing",
     "title": "regex-escaped-quotes-source-parsing",
     "domain": "contrib",
@@ -4270,6 +4314,28 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
+    "verified": true
+  },
+  {
+    "id": "search-evaluation-rank-tracking-bias",
+    "title": "搜索评估陷阱：评估函数先检查标题再检查内容导致 rank 偏差",
+    "domain": "search",
+    "tags": [
+      "search",
+      "evaluation",
+      "rank",
+      "recall",
+      "bias"
+    ],
+    "summary": "搜索评估函数先检查标题再检查内容，导致实际 rank1 的结果被报告为 rank7，Recall 指标虚低 7%+。",
+    "preview": "## Problem\n\n搜索评估函数先检查标题再检查内容，导致实际 rank1 的结果被报告为 rank7，Recall 指标虚低 7%+。\n\n## Root Cause\n\n评估函数的匹配顺序问题：\n1. 先遍历标题匹配\n2. 再遍历内容匹配\n3. 如果标题匹配失败但内容匹配成功，返回的是内容匹配的 rank（较后位置）\n4. 实际上该结果在综合排名中是 rank1\n\n这导致 Recall 指标被低估，搜索引擎本身可能没有问题。\n\n## Solution\n\n**同时追踪标题和内容的最佳命中：**\n\n```python\ndef evaluate_rank(results, expected_title, expected_content):\n    best_rank = float('inf')\n    \n    for i, result in enumerate(results):\n        title_match = expected_title in result.get('title', '')\n        content_match = expected_content in result.get('content', '')\n        \n        # 同时追踪，取最靠前的匹配\n        if title_match or content_match:\n            best_rank = min(best_rank, i + 1)\n    \n    return best_rank if best_rank != float('inf') else None\n```\n\n## Verification\n\n- 修复后 Recall 指标不再虚低 7%+\n- 搜索引擎本身无变化，只是评估准确性提升\n- 可通过对比修复前后的 Recall 指标验证\n\n## Key Points\n\n- 评估函数的匹配顺序会影响指标\n- 应同时追踪多个匹配维度，取最佳结果\n- Recall 虚低会导致误判搜索引擎质量",
+    "url": "lessons/contrib/search-evaluation-rank-tracking-bias.md",
+    "created": "2026-08-18",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
     "verified": true
   },
   {

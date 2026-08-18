@@ -1,9 +1,33 @@
 {
-  "generated_at": "2026-08-18T04:02:41.144614+00:00",
+  "generated_at": "2026-08-18T04:06:21.072437+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "lesson",
+      "title": "中文 BM25 搜索：滑动窗口子串加分与唯一候选加分",
+      "url": "lessons/contrib/bm25-chinese-sliding-window-tuning.md",
+      "timestamp": "2026-08-18",
+      "domain": "search",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归",
+      "url": "lessons/contrib/jieba-synonym-expansion-pitfall.md",
+      "timestamp": "2026-08-18",
+      "domain": "search",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "搜索评估陷阱：评估函数先检查标题再检查内容导致 rank 偏差",
+      "url": "lessons/contrib/search-evaluation-rank-tracking-bias.md",
+      "timestamp": "2026-08-18",
+      "domain": "search",
+      "source": "lessons"
+    },
     {
       "type": "challenge",
       "title": "[MCP Intake] Add spam-guard regression corpus for anonymous submissions",
@@ -144,30 +168,6 @@
       "type": "lesson",
       "title": "Accidental __pycache__ artifacts committed to a data repository",
       "url": "lessons/contrib/accidental-pycache-commit.md",
-      "timestamp": "2026-08-11 00:00:00 UTC",
-      "domain": "development",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "CDN edge cache serves stale responses for minutes after deploy",
-      "url": "lessons/contrib/cdn-edge-cache-stale-after-deploy.md",
-      "timestamp": "2026-08-11 00:00:00 UTC",
-      "domain": "network",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "CI key rotation silently breaking scheduled automation without a code change",
-      "url": "lessons/contrib/ci-key-rotation-silent-failure.md",
-      "timestamp": "2026-08-11 00:00:00 UTC",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Banking-style escrow fee estimate has a per-provider rounding disparity",
-      "url": "lessons/contrib/escrow-fee-rounding-per-provider.md",
       "timestamp": "2026-08-11 00:00:00 UTC",
       "domain": "development",
       "source": "lessons"
