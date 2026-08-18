@@ -3879,22 +3879,6 @@
     "verified": true
   },
   {
-    "id": "promo-use-real-examples-not-hypotheticals",
-    "title": "promo use real examples not hypotheticals",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "写推广帖时用了虚构的 pip install 梗，用户反馈\"换一个\"——因为假例子没有说服力，读者能感觉到是编的。",
-    "preview": "## 问题\n\n写推广帖时用了虚构的 pip install 梗，用户反馈\"换一个\"——因为假例子没有说服力，读者能感觉到是编的。\n\n## 根因\n\n虚构案例的痛点不够具体，缺乏细节。读者看到 \"pip install fails on WSL\" 会觉得是泛泛而谈。\n\n真实案例有**不可伪造的细节**：\n- \"ChromaDB SQLite 在 NTFS 9p bridge 上锁机制失败\" — 只有踩过的人才知道\n- \"write_file 显示 Wrote 5000 bytes 但 wc -c 显示 0\" — 具体到工具名和验证方法\n- \"FANUC 1086 不是 error code 是 line number\" — 这种错误只有亲历者才写得出\n\n## 修复\n\n写引流文案时，从 lessons/ 目录里挑真实案例：\n\n1. 扫 lessons/ 目录，找**最有戏剧性**的故事（浪费时间最长、最反直觉）\n2. 提取 Problem 部分的核心冲突\n3. 用第一人称讲故事，保留技术细节但降低门槛\n4. 最后给出 lesson 中的真实 Fix 片段\n\n**好的引流文案公式：**\n```\n真实痛点故事（具体工具名+具体错误+浪费的时间）\n  → \"所以我做了 X\"\n  → 真实数据（lessons 数、节点数）\n  → 一个真实 lesson 片段作为\"证明\"\n  → Star CTA\n```\n\n**坏的引流文案公式：**\n```\n假设性痛点（\"你有没有遇到过...\"）\n  → 泛泛而谈的解决方案\n  → 没有数据\n  → 没有证据\n  → \"请 star\"\n```\n\n## Verification\n\n1. Write a promo piece using **real** data/case studies — publish on target channel\n2. Monitor CTR, conversion rate, and community engagement\n3. Compare with a prior campaign using hypothetical claims — real examples should outperform\n4. Collect audience questions — gaps reveal where to refine the angle\n\n## 验证\n\n- 改用 4 个真实 lesson（NTFS、phantom write、30-min cliff、line number）重写后\n- 用户接受，不再要求修改\n- 细节越具体，读者越信任——\"ChromaDB SQLite 9p bridge\" 比 \"database corruption\" 有说服力 10 倍",
-    "url": "lessons/contrib/promo-use-real-examples-not-hypotheticals.md",
-    "created": "2026-07-06",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": true
-  },
-  {
     "id": "prompt-injection-what-s-the-worst-that-can-happen",
     "title": "Prompt Injection: What's the Worst That Can Happen?",
     "domain": "AI Security",

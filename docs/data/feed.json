@@ -1,9 +1,41 @@
 {
-  "generated_at": "2026-08-18T15:51:23.927637+00:00",
+  "generated_at": "2026-08-18T16:17:33.913553+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 13,
+  "item_count": 15,
   "items": [
+    {
+      "type": "challenge",
+      "title": "[Feature] write_lesson MCP tool: agents can submit structured lessons",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1122",
+      "labels": [
+        "enhancement",
+        "ready",
+        "agent-friendly",
+        "zero-bounty",
+        "has-test",
+        "status:competition"
+      ],
+      "timestamp": "2026-08-18T15:51:44Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Feature] search rate limit: 5 free/day, then requires registration",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1121",
+      "labels": [
+        "enhancement",
+        "needs-ac",
+        "ready",
+        "agent-friendly",
+        "no-credentials",
+        "zero-bounty",
+        "has-test",
+        "status:competition"
+      ],
+      "timestamp": "2026-08-18T15:51:20Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "docs(mcp): publish crawler-facing snippets for direct HTTP tools/call (#1092)",
