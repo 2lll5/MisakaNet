@@ -169,6 +169,58 @@ jobs:
             exit 1
           fi
 
+      # ── Security Checks (full scope, non-blocking advisory) ──
+      - name: Security Advisory Checks
+        if: steps.scope.outputs.scope == 'full'
+        run: |
+          echo "=== Security Advisory Checks ==="
+          ISSUES=0
+
+          # 1. CI/CD pinned actions (check workflow files use SHA)
+          echo "--- Checking workflow action pinning ---"
+          for wf in .github/workflows/*.yml .github/workflows/*.yaml; do
+            [ -f "$wf" ] || continue
+            UNPINNED=$(grep -E 'uses: [a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+@v[0-9]' "$wf" | grep -v '@[a-f0-9]{40}' || true)
+            if [ -n "$UNPINNED" ]; then
+              echo "::warning file=$wf::Unpinned actions (should use SHA): $UNPINNED"
+              ISSUES=$((ISSUES + 1))
+            fi
+          done
+
+          # 2. Overly broad permissions
+          echo "--- Checking workflow permissions ---"
+          for wf in .github/workflows/*.yml .github/workflows/*.yaml; do
+            [ -f "$wf" ] || continue
+            if grep -q 'permissions:.*write-all' "$wf" 2>/dev/null; then
+              echo "::warning file=$wf::Overly broad permissions (write-all)"
+              ISSUES=$((ISSUES + 1))
+            fi
+          done
+
+          # 3. README quality
+          echo "--- Checking README quality ---"
+          if [ -f README.md ]; then
+            HAS_DESCRIPTION=$(grep -c "## What is this\|## Quick Start\|## Try it" README.md || echo "0")
+            if [ "$HAS_DESCRIPTION" -eq 0 ]; then
+              echo "::warning::README missing description/quickstart section"
+              ISSUES=$((ISSUES + 1))
+            fi
+          fi
+
+          # 4. Code style (TODOs, debug code)
+          echo "--- Checking code style ---"
+          TODOS=$(grep -rn "TODO\|FIXME\|HACK\|XXX" scripts/ --include="*.py" 2>/dev/null | grep -v "test" | wc -l || echo "0")
+          if [ "$TODOS" -gt 5 ]; then
+            echo "::warning::Found $TODOS TODO/FIXME items in scripts/"
+            ISSUES=$((ISSUES + 1))
+          fi
+
+          if [ "$ISSUES" -gt 0 ]; then
+            echo "security_advisory=$ISSUES issues found (non-blocking)" >> "$GITHUB_OUTPUT"
+          else
+            echo "security_advisory=pass" >> "$GITHUB_OUTPUT"
+          fi
+
       # ── Dependency Audit (dependency scopes only) ──
       - name: Dependency Audit
         id: depaudit
