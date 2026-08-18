@@ -1033,6 +1033,28 @@
     "verified": true
   },
   {
+    "id": "dco-signoff-lost-after-force-push",
+    "title": "DCO signoff 在 force push 后丢失导致 PR DCO 检查失败",
+    "domain": "devops",
+    "tags": [
+      "dco",
+      "git",
+      "force-push",
+      "signoff",
+      "ci"
+    ],
+    "summary": "DCO signoff 在 force push 后丢失，即使本地 commit 有 Signed-off-by，PR DCO 检查仍失败。",
+    "preview": "## Problem\n\nDCO signoff 在 force push 后丢失，即使本地 commit 有 Signed-off-by，PR DCO 检查仍失败。\n\n## Root Cause\n\nGitHub Actions 的 DCO 检查会检查 PR 中所有 commit，不只是最新的。如果 force push 重写了 commit 历史，原始的 Signed-off-by 可能丢失。\n\n常见原因：\n1. `git rebase -i` 后没有 `--signoff`\n2. `git commit --amend` 后 force push 丢失了其他 commit 的 signoff\n3. 合并分支时没有保留 signoff\n\n## Solution\n\n**确保所有 commit 都有 signoff：**\n\n```bash\n# 方法1：rebase 时自动 signoff\ngit rebase --signoff HEAD~N\n\n# 方法2：amend 当前 commit\ngit commit --amend --signoff --no-edit\n\n# 方法3：检查所有 commit 是否有 signoff\ngit log --format=\"%H %s\" | while read hash msg; do\n  if ! git log -1 --format=\"%B\" $hash | grep -q \"Signed-off-by:\"; then\n    echo \"Missing signoff: $hash $msg\"\n  fi\ndone\n```\n\n**预防措施：**\n- 在 `.gitconfig` 中设置 `git config format.signoff true`\n- 使用 `git commit -s` 而不是 `git commit`\n- CI 中添加 DCO 检查 pre-commit hook\n\n## Verification\n\n- 所有 commit 都有 Signed-off-by\n- DCO 检查通过\n- force push 后 signoff 不丢失\n\n## Key Points\n\n- DCO 检查检查所有 commit，不只是最新的\n- force push 可能丢失 signoff\n- 使用 `git rebase --signoff` 确保 rebase 后保留 signoff",
+    "url": "lessons/contrib/dco-signoff-lost-after-force-push.md",
+    "created": "2026-08-18",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "dco_signoff_force_push_pitfall",
     "title": "DCO Signoff Lost During Force Push",
     "domain": "devops",
@@ -2373,6 +2395,27 @@
     "verified": false
   },
   {
+    "id": "github-actions-composite-pitfalls",
+    "title": "GitHub Actions composite action 3 个常见陷阱",
+    "domain": "devops",
+    "tags": [
+      "github-actions",
+      "composite",
+      "yaml",
+      "shell-injection"
+    ],
+    "summary": "GitHub Actions composite action 有 3 个常见陷阱：重复 YAML inputs、shell 注入、diff_stat 在单 commit 时为空。",
+    "preview": "## Problem\n\nGitHub Actions composite action 有 3 个常见陷阱：重复 YAML inputs、shell 注入、diff_stat 在单 commit 时为空。\n\n## Root Cause\n\n1. **重复 YAML inputs**：同名 input 被多次定义，导致 \"inputs is already defined\" 错误\n2. **Shell 注入**：PR body 直接拼接到 shell 命令中，可能导致命令注入\n3. **diff_stat 空**：单 commit PR 的 diff_stat 为空，导致后续逻辑失败\n\n## Solution\n\n**1. 避免重复 inputs：**\n```yaml\n# 错误\ninputs:\n  token:\n    description: \"Token\"\ninputs:  # 重复！\n  token:\n    description: \"Token\"\n\n# 正确\ninputs:\n  token:\n    description: \"GitHub token\"\n  # 只定义一次\n```\n\n**2. 防止 shell 注入：**\n```yaml\n# 错误：直接拼接 PR body\n- run: echo \"${{ github.event.pull_request.body }}\"\n\n# 正确：使用环境变量\n- run: echo \"$PR_BODY\"\n  env:\n    PR_BODY: ${{ github.event.pull_request.body }}\n```\n\n**3. 处理空 diff_stat：**\n```yaml\n# 正确：检查 diff_stat 是否为空\n- name: Check diff\n  run: |\n    if [ -z \"${{ steps.diff.outputs.stat }}\" ]; then\n      echo \"No changes detected\"\n      exit 0\n    fi\n```\n\n## Verification\n\n- 无 \"inputs is already defined\" 错误\n- 无 shell 注入风险\n- 单 commit PR 不会失败\n\n## Key Points\n\n- YAML inputs 只能定义一次\n- 永远不要直接拼接用户输入到 shell 命令\n- diff_stat 在单 commit 时可能为空，需要处理",
+    "url": "lessons/contrib/github-actions-composite-pitfalls.md",
+    "created": "2026-08-18",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "github-api-pr-issue-management",
     "title": "github-api-pr-issue-management",
     "domain": "contrib",
@@ -2402,6 +2445,28 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
+    "verified": true
+  },
+  {
+    "id": "github-contents-api-pr-pitfalls",
+    "title": "GitHub Contents API PR 提交的 4 个陷阱",
+    "domain": "devops",
+    "tags": [
+      "github",
+      "api",
+      "contents",
+      "pr",
+      "base64"
+    ],
+    "summary": "GitHub Contents API PR 提交有 4 个陷阱：base64 换行、SHA 不匹配、ruff 空行、fork diff 膨胀。",
+    "preview": "## Problem\n\nGitHub Contents API PR 提交有 4 个陷阱：base64 换行、SHA 不匹配、ruff 空行、fork diff 膨胀。\n\n## Root Cause\n\n1. **base64 换行**：GitHub API 要求 base64 内容无换行，但某些编码器会自动换行\n2. **SHA 不匹配**：使用错误的 blob SHA 导致 409 conflict\n3. **ruff 空行**：pre-commit 格式化工具添加空行导致 diff 膨胀\n4. **fork diff 膨胀**：fork 与上游差异过大导致 PR 无法 review\n\n## Solution\n\n**1. base64 无换行：**\n```python\nimport base64\ncontent_b64 = base64.b64encode(content.encode()).decode().replace('\\n', '')\n```\n\n**2. SHA 正确获取：**\n```python\n# 先获取当前 SHA\nresp = requests.get(f\"{api_url}/contents/{path}\", headers=headers)\ncurrent_sha = resp.json()['sha']\n\n# 更新时使用正确的 SHA\ndata = {\n    'message': 'Update file',\n    'content': content_b64,\n    'sha': current_sha,  # 必须使用当前 SHA\n    'branch': branch\n}\n```\n\n**3. ruff 空行：**\n```yaml\n# .pre-commit-config.yaml\n- repo: https://github.com/psf/black\n  hooks:\n    - id: black\n      args: [\"--line-length=88\"]\n```\n\n**4. fork diff 控制：**\n```bash\n# 定期同步上游\ngit fetch upstream\ngit rebase upstream/main\ngit push --force-with-lease\n```\n\n## Verification\n\n- API 调用返回 200\n- PR diff 干净（无多余空行）\n- SHA 匹配无 409 conflict\n\n## Key Points\n\n- base64 必须无换行\n- 更新文件必须使用当前 SHA\n- ruff/black 格式化可能导致 diff 膨胀\n- 定期同步 fork 避免 diff 过大",
+    "url": "lessons/contrib/github-contents-api-pr-pitfalls.md",
+    "created": "2026-08-18",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
     "verified": true
   },
   {
@@ -5100,6 +5165,27 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
+    "verified": true
+  },
+  {
+    "id": "yaml-inline-comment-type-coercion",
+    "title": "YAML 内联注释导致类型强制转换失败",
+    "domain": "devops",
+    "tags": [
+      "yaml",
+      "type-coercion",
+      "parser",
+      "comment"
+    ],
+    "summary": "YAML 内联注释导致类型强制转换失败 — `0.15 # comment` 被读取为字符串而非 float。",
+    "preview": "## Problem\n\nYAML 内联注释导致类型强制转换失败 — `0.15 # comment` 被读取为字符串而非 float。\n\n## Root Cause\n\nYAML 规范中，`#` 是注释字符。但某些 YAML 解析器（特别是内联注释处理不一致的）会将 `0.15 # comment` 整体作为字符串处理，而不是先提取 `0.15` 再忽略注释。\n\n常见场景：\n1. 配置文件中写 `timeout: 30 # seconds`\n2. 某些解析器将 `30 # seconds` 作为字符串\n3. 后续比较 `timeout > 20` 时类型错误\n\n## Solution\n\n**避免内联注释，或使用引号：**\n\n```yaml\n# 错误方式：内联注释可能导致类型问题\ntimeout: 30 # seconds\n\n# 正确方式1：注释放在下一行\ntimeout: 30\n# seconds\n\n# 正确方式2：使用引号明确类型\ntimeout: \"30\"  # 如果需要字符串\ntimeout: 30    # 如果需要数字（无注释）\n```\n\n**解析器选择：**\n- 使用 `yaml.safe_load()` 而不是 `yaml.load()`\n- 考虑使用 `strictyaml` 等严格解析器\n- 在 CI 中添加 YAML lint 检查\n\n## Verification\n\n- YAML 解析后类型正确\n- 无 TypeError\n- 注释不影响解析\n\n## Key Points\n\n- YAML 内联注释可能导致类型强制转换问题\n- 使用严格解析器或避免内联注释\n- 在 CI 中添加 YAML lint 检查",
+    "url": "lessons/contrib/yaml-inline-comment-type-coercion.md",
+    "created": "2026-08-18",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
     "verified": true
   },
   {
