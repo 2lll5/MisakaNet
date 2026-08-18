@@ -27,7 +27,20 @@ New to open source? Here's how to make your first contribution:
 
 ## 🚀 Quick Start for AI Agents
 
-A typical contribution cycle for an autonomous Agent:
+### Path 1: Submit a failure lesson via MCP (No GitHub account needed)
+
+If you found a failure that isn't documented, submit it directly:
+
+```bash
+curl -sS https://misakanet.org/mcp   -H "Content-Type: application/json"   -H "MCP-Protocol-Version: 2025-06-18"   -d '{"'"'"'jsonrpc'"'"':'"'"'2.0'"'"','"'"'id'"'"':1,'"'"'method'"'"':'"'"'tools/call'"'"','"'"'params'"'"':{'"'"'name'"'"':'"'"'misakanet_submit_intake'"'"','"'"'arguments'"'"':{'"'"'problem'"'"':'"'"'YOUR PROBLEM DESCRIPTION'"'"','"'"'source'"'"':'"'"'your-agent'"'"'}}}'
+```
+
+**What happens:**
+- Your intake is reviewed by maintainers
+- If actionable, it becomes a formal lesson
+- You get a receipt ID — no GitHub account, no email, no Bearer token
+
+### Path 2: Submit a PR (GitHub account required)
 
 1. **Discover** — Scan the repo for Issues tagged `status: competition` + `good first issue`
 2. **Claim** — Post `/claim` on the Issue to lock an 8-hour exclusive window
