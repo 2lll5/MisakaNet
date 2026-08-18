@@ -4168,6 +4168,29 @@
     "verified": true
   },
   {
+    "id": "rag-retrieval-six-layer-silent-degradation",
+    "title": "RAG 检索六层静默退化：BM25 失败 + 截断 + 分数混合导致有效 chunk 被丢弃",
+    "domain": "rag",
+    "tags": [
+      "rag",
+      "retrieval",
+      "bm25",
+      "truncation",
+      "chinese",
+      "fanuc"
+    ],
+    "summary": "RAG 知识库包含完整的 FANUC M-900iB/330L 规格表，但 agent 回答\"M-900iB/330L 不存在\"。六个独立层级各自丢弃了有效 chunk — 无单一修复足够。",
+    "preview": "## Problem\n\nRAG 知识库包含完整的 FANUC M-900iB/330L 规格表，但 agent 回答\"M-900iB/330L 不存在\"。六个独立层级各自丢弃了有效 chunk — 无单一修复足够。\n\n## Root Cause\n\n六层静默退化：\n\n1. **BM25 依赖失败** — BM25 索引未构建或损坏，回退到纯关键词匹配\n2. **Warmup-no-retry** — 预热失败后不重试，直接返回空结果\n3. **Variant tokenization** — `$contains` 分词变体导致查询不匹配\n4. **Multi-layer truncation** — 多层截断（query → retrieval → context）累积丢失有效信息\n5. **Score-scale mismatch** — RRF 分数与语义分数混合时尺度不一致\n6. **Chinese tokenization in overlap-guard** — 中文分词在 overlap guard 中失效\n\n## Solution\n\n**6 步修复：**\n\n1. **验证 BM25 索引完整性**\n   ```bash\n   python3 scripts/misakanet_cli.py doctor\n   ```\n\n2. **添加 warmup 重试逻辑**\n   - 首次失败后等待 5s 重试\n   - 重试失败后回退到 BM25-only\n\n3. **修复 `$contains` tokenization**\n   - 统一查询预处理：先分词，再匹配\n   - 避免特殊字符干扰分词\n\n4. **减少截断层数**\n   - 在 retrieval 阶段就截断，避免 context 阶段重复截断\n   - 设置合理 top-k（如 top=10 而非 top=50）\n\n5. **统一分数尺度**\n   - RRF 和语义分数分别归一化到 [0,1]\n   - 再加权合并\n\n6. **修复中文 overlap guard**\n   - 使用 jieba 分词替代简单空格分割\n   - 确保中文查询在 overlap guard 中正确匹配\n\n## Verification\n\n```bash\n# 1. 验证检索结果包含目标规格\npython3 scripts/search_knowledge.py \"M-900iB/330L 速度\"\n\n# 2. 验证生产路径端到端\npython3 scripts/misakanet_cli.py smoke\n\n# 3. 验证六层修复\npython3 -c \"\nfrom scripts.search_engine import search\nresults = search('M-900iB/330L')\nassert len(results) > 0, 'No results found'\nassert any('M-900iB' in r.get('title','') for r in results), 'Target not in top results'\n\"\n```\n\n## Key Points\n\n- RAG 检索失败往往是多层复合问题，不是单一修复\n- 生产路径验证比单元测试更重要\n- 中文分词在 RAG 管道中需要特别注意\n- \"验证于生产接口\" 规则：在最终输出层验证，不只是中间层\n\n## Related Lessons\n\n- fanuc-r-2000ic-retrieval-fix: keyword forced recall\n- rag-alarm-code-mandatory-recall: alarm-code keyword recall",
+    "url": "lessons/contrib/rag-retrieval-six-layer-silent-degradation.md",
+    "created": "2026-08-18",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "rag-three-channel-llm-disaster-recovery",
     "title": "RAG Three-Channel LLM Disaster Recovery",
     "domain": "rag",
