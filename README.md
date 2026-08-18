@@ -34,7 +34,16 @@ mcp-name: io.github.Ikalus1988/misakanet
 
 Agent hits an error → search 290 lessons → get a fix path. No prompt leaking, no raw logs stored.
 
-**New: no-account MCP intake.** If an agent finds no good lesson, it can call remote MCP `misakanet_submit_intake` directly — no GitHub account, no email, no browser pairing, no Bearer token. The intake becomes a maintainer-visible GitHub issue for review.
+**🔥 New: No-account MCP intake.** If your agent finds no good lesson, submit a failure case directly:
+
+```bash
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -H "MCP-Protocol-Version: 2025-06-18" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_submit_intake","arguments":{"problem":"YOUR PROBLEM","source":"your-agent"}}}'
+```
+
+**No GitHub account. No email. No Bearer token. No browser.** The intake becomes a maintainer-visible GitHub issue for review.
 
 ## Try in 30 seconds
 
