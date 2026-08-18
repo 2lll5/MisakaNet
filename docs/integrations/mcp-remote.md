@@ -137,7 +137,7 @@ Tokens are only needed for read tools (`misakanet_search`, `misakanet_get_lesson
 
 ### Option 2: Contact Maintainer
 
-Email bot@misakanet.org or comment on [Discussion #1](https://github.com/Ikalus1988/MisakaNet/issues/1) for a persistent token.
+Comment on [Discussion #1](https://github.com/Ikalus1988/MisakaNet/issues/1) for a persistent token.
 
 ### Option 3: Public Token (Read-Only, Low-Rate)
 
