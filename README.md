@@ -264,7 +264,7 @@ Use skills when you want an agent to do something. Use MisakaNet when you want a
 
 | Project | ⭐ | Active | Sharing model | Infrastructure | Entry cost |
 |---------|-----|--------|---------------|----------------|------------|
-| **MisakaNet** | ![stars](https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social) | ✅ Active | Public Git-backed swarm knowledge | `git` + `python3` *(zero-dep)* | `git clone` (5s) |
+| **MisakaNet** | ![stars](https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social) | ✅ Active | Public Git-backed failure-memory | `git` + `python3` *(zero-dep)* | `git clone` (5s) |
 | [agentmemory](https://github.com/rohitg00/agentmemory) | ![stars](https://img.shields.io/github/stars/rohitg00/agentmemory?style=social) | ✅ Active | Local/team memory depending on backend | Python + SQLite | `pip install` |
 | [Memorix](https://github.com/AVIDS2/memorix) | ![stars](https://img.shields.io/github/stars/AVIDS2/memorix?style=social) | ✅ Active | MCP shared memory | Python | `pip install` |
 | [Memoria](https://github.com/matrixorigin/Memoria) | ![stars](https://img.shields.io/github/stars/matrixorigin/Memoria?style=social) | ✅ Active | Cloud / app-level shared memory | Infra-backed | Docker |

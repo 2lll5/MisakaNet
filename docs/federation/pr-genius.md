@@ -7,7 +7,7 @@ pr-genius is a query-only federation peer of MisakaNet.
 | Peer | Role |
 |------|------|
 | **pr-genius** | Evidence-backed external PR intelligence and PR rounds archive. |
-| **MisakaNet** | Generalized agent failure/recovery lessons and swarm knowledge network. |
+| **MisakaNet** | Generalized agent failure/recovery lessons and failure-memory network. |
 
 ## Rules
 

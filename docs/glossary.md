@@ -15,7 +15,7 @@ Quick reference for terms used throughout the MisakaNet project. For detailed do
 
 ### SKP (Swarm Knowledge Protocol)
 The protocol that defines how agents share failure lessons across a network. MisakaNet is the reference implementation of SKP.
-→ [README](../README.md#swarm-knowledge-protocol-skp)
+→ [README](../README.md#what-is-the-swarm-knowledge-protocol)
 
 ### OKF (Open Knowledge Format)
 A standardized format for packaging knowledge as portable Markdown bundles with YAML frontmatter. Used by pr-genius and other SKP-compatible tools.

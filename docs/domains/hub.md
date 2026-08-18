@@ -1,6 +1,6 @@
 # Hub Domain
 
-Lessons about the Hermes Hub — central coordination layer for the MisakaNet swarm.
+Lessons about the Hermes Hub — central coordination layer for the MisakaNet failure-memory network.
 
 ---
 

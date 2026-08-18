@@ -15,7 +15,7 @@ a known failure, read the documented root cause, and verify the fix before
 retrying. A lesson is not an executable skill: it describes a failure and its
 recovery path.
 
-See the [README overview](README.md#what-is-the-swarm-knowledge-protocol) and
+See the [README overview](README.md#what-is-the-failure-memory-network) and
 the [architecture guide](ARCHITECTURE.md).
 
 ### 2. What do I need to run the local search?
