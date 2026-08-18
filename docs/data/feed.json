@@ -1,9 +1,23 @@
 {
-  "generated_at": "2026-08-18T04:52:05.640258+00:00",
+  "generated_at": "2026-08-18T07:09:34.287768+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "feat(scripts): add privacy-preserving intake outcome tracker",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1117",
+      "timestamp": "2026-08-18T05:46:37Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(scripts): add maintainer review queue command for pending intake issues",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1116",
+      "timestamp": "2026-08-18T05:46:34Z",
+      "source": "github"
+    },
     {
       "type": "lesson",
       "title": "中文 BM25 搜索：滑动窗口子串加分与唯一候选加分",
@@ -64,24 +78,6 @@
     },
     {
       "type": "challenge",
-      "title": "[MCP Intake] Track anonymous intake outcomes without storing private text",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1093",
-      "labels": [
-        "enhancement",
-        "good first issue",
-        "ready",
-        "agent-friendly",
-        "no-credentials",
-        "zero-bounty",
-        "has-test",
-        "status:competition",
-        "pool:deep"
-      ],
-      "timestamp": "2026-08-17T02:30:48Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
       "title": "[MCP Intake] Publish crawler-facing snippets for direct HTTP tools/call",
       "url": "https://github.com/Ikalus1988/MisakaNet/issues/1092",
       "labels": [
@@ -96,24 +92,6 @@
         "pool:quick"
       ],
       "timestamp": "2026-08-17T02:30:45Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[MCP Intake] Add maintainer review queue command for pending intake issues",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1089",
-      "labels": [
-        "enhancement",
-        "good first issue",
-        "ready",
-        "agent-friendly",
-        "no-credentials",
-        "zero-bounty",
-        "has-test",
-        "status:competition",
-        "pool:quick"
-      ],
-      "timestamp": "2026-08-17T02:30:36Z",
       "source": "github"
     },
     {
@@ -138,20 +116,6 @@
       "source": "github"
     },
     {
-      "type": "merged_pr",
-      "title": "chore(deps): bump actions/upload-artifact from 4 to 7",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1084",
-      "timestamp": "2026-08-17T01:31:18Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "chore(deps): bump actions/setup-node from 6 to 7",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1083",
-      "timestamp": "2026-08-17T01:31:14Z",
-      "source": "github"
-    },
-    {
       "type": "challenge",
       "title": "[Trust] Add trigger metadata for proactive lesson retrieval",
       "url": "https://github.com/Ikalus1988/MisakaNet/issues/1057",
@@ -170,6 +134,46 @@
         "status:competition"
       ],
       "timestamp": "2026-08-15T17:16:18Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Feature] Preflight MCP: risk-aware lesson injection before high-risk tasks",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1056",
+      "labels": [
+        "enhancement",
+        "good first issue",
+        "area:docs",
+        "needs-ac",
+        "ready",
+        "area:scripts",
+        "agent-friendly",
+        "no-credentials",
+        "zero-bounty",
+        "has-test",
+        "status:competition"
+      ],
+      "timestamp": "2026-08-15T17:15:49Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Bounty][$0][agent competition] Blind test homepage SAG-Lite lesson search",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/429",
+      "labels": [
+        "good first issue",
+        "area:tests",
+        "needs-ac",
+        "ready",
+        "agent-friendly",
+        "no-credentials",
+        "zero-bounty",
+        "has-test",
+        "status:competition",
+        "pool:quick",
+        "priority:later"
+      ],
+      "timestamp": "2026-07-09T07:03:41Z",
       "source": "github"
     }
   ]
