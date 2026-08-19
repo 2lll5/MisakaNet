@@ -1,9 +1,49 @@
 {
-  "generated_at": "2026-08-18T21:42:15.071981+00:00",
+  "generated_at": "2026-08-19T01:52:40.310212+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 15,
   "items": [
+    {
+      "type": "lesson",
+      "title": "Agent-first node registration via MCP",
+      "url": "lessons/contrib/agent-first-node-registration-via-mcp.md",
+      "timestamp": "2026-08-19",
+      "domain": "mcp",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "CI security checks: action pinning, permissions, README, code style",
+      "url": "lessons/contrib/ci-security-advisory-checks.md",
+      "timestamp": "2026-08-19",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "GitHub Actions audit: scope detection for bot PRs",
+      "url": "lessons/contrib/github-actions-audit-scope-detection.md",
+      "timestamp": "2026-08-19",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "MCP intake: agents submit failures without GitHub account",
+      "url": "lessons/contrib/mcp-intake-no-account-submission.md",
+      "timestamp": "2026-08-19",
+      "domain": "mcp",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "PR Genius issue evaluator: batch review intake issues",
+      "url": "lessons/contrib/pr-genius-issue-evaluator-for-intake.md",
+      "timestamp": "2026-08-19",
+      "domain": "mcp",
+      "source": "lessons"
+    },
     {
       "type": "challenge",
       "title": "[Feature] write_lesson MCP tool: agents can submit structured lessons",
@@ -56,46 +96,6 @@
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/1116",
       "timestamp": "2026-08-18T05:46:34Z",
       "source": "github"
-    },
-    {
-      "type": "lesson",
-      "title": "中文 BM25 搜索：滑动窗口子串加分与唯一候选加分",
-      "url": "lessons/contrib/bm25-chinese-sliding-window-tuning.md",
-      "timestamp": "2026-08-18",
-      "domain": "search",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "DCO signoff 在 force push 后丢失导致 PR DCO 检查失败",
-      "url": "lessons/contrib/dco-signoff-lost-after-force-push.md",
-      "timestamp": "2026-08-18",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "GitHub Actions composite action 3 个常见陷阱",
-      "url": "lessons/contrib/github-actions-composite-pitfalls.md",
-      "timestamp": "2026-08-18",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "GitHub Contents API PR 提交的 4 个陷阱",
-      "url": "lessons/contrib/github-contents-api-pr-pitfalls.md",
-      "timestamp": "2026-08-18",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归",
-      "url": "lessons/contrib/jieba-synonym-expansion-pitfall.md",
-      "timestamp": "2026-08-18",
-      "domain": "search",
-      "source": "lessons"
     },
     {
       "type": "challenge",
