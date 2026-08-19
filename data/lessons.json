@@ -290,6 +290,28 @@
     "verified": false
   },
   {
+    "id": "agent-first-node-registration-via-mcp",
+    "title": "Agent-first node registration via MCP",
+    "domain": "mcp",
+    "tags": [
+      "mcp",
+      "registration",
+      "agent",
+      "node",
+      "token"
+    ],
+    "summary": "Current node registration requires GitHub account and opening an issue, which is too slow for autonomous agents.",
+    "preview": "## Problem\n\nCurrent node registration requires GitHub account and opening an issue, which is too slow for autonomous agents.\n\n## Root Cause\n\nRegistration was designed for humans (open issue → wait for CI → get ID). Agents need instant registration without leaving their execution context.\n\n## Solution\n\nAdd `misakanet_register` MCP tool:\n\n**Input:**\n- `agent_type` (required): e.g. claude-code, codex, cursor, dsh, other\n\n**Output:**\n- `node_id`: e.g. Misaka12345\n- `token`: mcp_xxx (for authenticated search)\n- `registered_at`: timestamp\n\n**Design:**\n- No user info needed (just agent type)\n- Worker generates node_id and token\n- Token stored in KV for validation\n- Instant registration (no CI wait)\n\n## Verification\n\n- Agent registers via MCP without GitHub account\n- Gets usable token for authenticated search\n- node_id is unique and persistent\n\n## Key Points\n\n- Agent-first design: no human interaction required\n- Token enables authenticated search (unlimited)\n- Registration is lightweight (just agent_type)",
+    "url": "lessons/contrib/agent-first-node-registration-via-mcp.md",
+    "created": "2026-08-19",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "agent-manual-update-timeout",
     "title": "agent-manual-update-timeout",
     "domain": "contrib",
@@ -829,6 +851,28 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
+    "verified": true
+  },
+  {
+    "id": "ci-security-advisory-checks",
+    "title": "CI security checks: action pinning, permissions, README, code style",
+    "domain": "devops",
+    "tags": [
+      "ci",
+      "security",
+      "audit",
+      "actions",
+      "permissions"
+    ],
+    "summary": "No automated checks for CI action pinning, overly broad permissions, README quality, or code style in PRs. Security issues can slip through.",
+    "preview": "## Problem\n\nNo automated checks for CI action pinning, overly broad permissions, README quality, or code style in PRs. Security issues can slip through.\n\n## Root Cause\n\nThe audit workflow focused on DCO, tests, and dependencies, but missed security-related checks.\n\n## Solution\n\nAdd security advisory checks to audit workflow:\n\n```yaml\n- name: Security Advisory Checks\n  run: |\n    # 1. Check workflow action pinning (SHA vs version tag)\n    for wf in .github/workflows/*.yml; do\n      UNPINNED=$(grep -E 'uses: [a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+@v[0-9]' \"$wf\" | grep -v '@[a-f0-9]{40}' || true)\n      if [ -n \"$UNPINNED\" ]; then\n        echo \"::warning file=$wf::Unpinned actions: $UNPINNED\"\n      fi\n    done\n\n    # 2. Check overly broad permissions\n    for wf in .github/workflows/*.yml; do\n      if grep -q 'permissions:.*write-all' \"$wf\" 2>/dev/null; then\n        echo \"::warning file=$wf::Overly broad permissions\"\n      fi\n    done\n\n    # 3. Check README quality\n    HAS_DESCRIPTION=$(grep -c \"## What is this\\|## Quick Start\\|## Try it\" README.md || echo \"0\")\n    if [ \"$HAS_DESCRIPTION\" -eq 0 ]; then\n      echo \"::warning::README missing description/quickstart\"\n    fi\n\n    # 4. Check code style\n    TODOS=$(grep -rn \"TODO\\|FIXME\\|HACK\" scripts/ --include=\"*.py\" 2>/dev/null | wc -l)\n    if [ \"$TODOS\" -gt 5 ]; then\n      echo \"::warning::Found $TODOS TODO/FIXME items\"\n    fi\n```\n\n## Verification\n\n- PR with unpinned actions triggers warning\n- PR with write-all permissions triggers warning\n- PR with missing README description triggers warning\n\n## Key Points\n\n- Non-blocking advisory checks (don't fail CI)\n- Covers security aspects missed by standard audit\n- Extends existing audit without external dependencies",
+    "url": "lessons/contrib/ci-security-advisory-checks.md",
+    "created": "2026-08-19",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
     "verified": true
   },
   {
@@ -2411,6 +2455,28 @@
     "verified": false
   },
   {
+    "id": "github-actions-audit-scope-detection",
+    "title": "GitHub Actions audit: scope detection for bot PRs",
+    "domain": "devops",
+    "tags": [
+      "github-actions",
+      "ci",
+      "audit",
+      "dependabot",
+      "scope"
+    ],
+    "summary": "Dependabot PRs that only update GitHub Actions workflow files trigger the full Python/JS test suite, causing false audit failures from pre-existing test issues …",
+    "preview": "## Problem\n\nDependabot PRs that only update GitHub Actions workflow files trigger the full Python/JS test suite, causing false audit failures from pre-existing test issues unrelated to the PR.\n\n## Root Cause\n\nThe audit workflow runs all tests regardless of what files changed. When Dependabot updates `.github/workflows/*.yml`, it still runs `pytest tests/` which may have pre-existing failures.\n\n## Solution\n\nAdd scope detection to the audit workflow:\n\n```yaml\n# Detect change scope\nCHANGED=$(git diff --name-only \"$BASE_SHA\" \"$HEAD_SHA\")\nNON_LESSON=$(echo \"$CHANGED\" | grep -Ev '^(lessons/|\\.github/workflows/)' || true)\n\nif [ -z \"$NON_LESSON\" ]; then\n  echo \"scope=lessons-only\" >> \"$GITHUB_OUTPUT\"\nelif [ -z \"$(echo \"$CHANGED\" | grep -Ev '^\\.github/workflows/')\" ]; then\n  echo \"scope=ci-only\" >> \"$GITHUB_OUTPUT\"\nelse\n  echo \"scope=full\" >> \"$GITHUB_OUTPUT\"\nfi\n\n# Skip unrelated tests based on scope\nif [ \"$SCOPE\" != \"full\" ]; then\n  pytest --ignore=tests/test_voice_hooks.py --ignore=tests/test_benchmark_fixtures.py tests/\nfi\n```\n\n## Verification\n\n- Dependabot PRs changing only workflow files do not run Python tests\n- Full scope PRs still run all tests\n- CI passes for bot PRs\n\n## Key Points\n\n- Scope detection prevents false failures from pre-existing issues\n- Bot PRs (Dependabot) should only run relevant checks\n- Separate test failures from dependency updates",
+    "url": "lessons/contrib/github-actions-audit-scope-detection.md",
+    "created": "2026-08-19",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "github-actions-composite-pitfalls",
     "title": "GitHub Actions composite action 3 个常见陷阱",
     "domain": "devops",
@@ -3403,6 +3469,28 @@
     "verified": true
   },
   {
+    "id": "mcp-intake-no-account-submission",
+    "title": "MCP intake: agents submit failures without GitHub account",
+    "domain": "mcp",
+    "tags": [
+      "mcp",
+      "intake",
+      "agent",
+      "contribution",
+      "no-auth"
+    ],
+    "summary": "Agents cannot submit failure cases to MisakaNet without a GitHub account, email, or Bearer token. This limits the contribution funnel for autonomous agents.",
+    "preview": "## Problem\n\nAgents cannot submit failure cases to MisakaNet without a GitHub account, email, or Bearer token. This limits the contribution funnel for autonomous agents.\n\n## Root Cause\n\nThe only way to contribute was through GitHub PRs or email, both requiring accounts. Agents running remotely have no way to report failures they encounter.\n\n## Solution\n\nAdd `misakanet_submit_intake` MCP tool:\n\n```bash\ncurl -sS https://misakanet.org/mcp \\\n  -H \"Content-Type: application/json\" \\\n  -H \"MCP-Protocol-Version: 2025-06-18\" \\\n  -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":\"misakanet_submit_intake\",\"arguments\":{\"problem\":\"YOUR PROBLEM\",\"source\":\"your-agent\"}}}'\n```\n\n**Design:**\n- No auth required for intake\n- Creates maintainer-visible GitHub issue\n- Includes rate limiting and spam guard\n- All fields auto-redacted for secrets\n\n## Verification\n\n- Agent can submit without GitHub/email/Bearer\n- GitHub issue created with correct labels\n- No secrets leaked in issue body\n\n## Key Points\n\n- Intake is always free (no registration required)\n- Spam guard prevents abuse\n- Maintainer review required before lesson creation",
+    "url": "lessons/contrib/mcp-intake-no-account-submission.md",
+    "created": "2026-08-19",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
     "id": "mcp-registry-readiness-requires-qa-before-promotion",
     "title": "MCP Registry Readiness Requires QA Before Promotion",
     "domain": "mcp",
@@ -3844,6 +3932,28 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
+    "verified": true
+  },
+  {
+    "id": "pr-genius-issue-evaluator-for-intake",
+    "title": "PR Genius issue evaluator: batch review intake issues",
+    "domain": "mcp",
+    "tags": [
+      "mcp",
+      "pr-genius",
+      "intake",
+      "evaluation",
+      "batch"
+    ],
+    "summary": "Maintainers need to manually review each intake issue for quality, spam, and actionability. This is time-consuming with high intake volume.",
+    "preview": "## Problem\n\nMaintainers need to manually review each intake issue for quality, spam, and actionability. This is time-consuming with high intake volume.\n\n## Root Cause\n\nNo automated tool for batch evaluation of intake issues.\n\n## Solution\n\nAdd `prgenius issue-batch` command:\n\n```bash\n# Batch evaluate all intake issues\nprgenius issue-batch --repo Ikalus1988/MisakaNet --label intake --limit 20\n\n# Output includes:\n# - score (0-100)\n# - tier (low_risk / medium_risk / high_risk)\n# - quality_grade (A-F)\n# - is_spam\n# - is_crawler_friendly\n# - signals (positive/negative)\n# - checklist (actionable items)\n```\n\n**New fields in v1.6.3+:**\n- `score`: 0-100 quality score\n- `tier`: risk classification\n- `quality_grade`: A-F letter grade\n- `signals.positive/negative`: structured feedback\n- `checklist`: actionable items for maintainer\n\n## Verification\n\n- `prgenius issue-batch --label intake` returns scored results\n- Spam issues detected automatically\n- High-risk issues flagged for immediate attention\n\n## Key Points\n\n- Automates initial triage (saves 30s/issue)\n- Structured feedback reduces subjective judgment\n- Batch mode enables weekly intake reports",
+    "url": "lessons/contrib/pr-genius-issue-evaluator-for-intake.md",
+    "created": "2026-08-19",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
     "verified": true
   },
   {
@@ -4289,6 +4399,28 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
+  },
+  {
+    "id": "remote-search-rate-limiting",
+    "title": "Remote search rate limiting: 5 free/day, then registration",
+    "domain": "mcp",
+    "tags": [
+      "mcp",
+      "rate-limit",
+      "search",
+      "registration",
+      "abuse"
+    ],
+    "summary": "Remote HTTP MCP search has no rate limiting, allowing unlimited usage without identification. This enables abuse and provides no usage data.",
+    "preview": "## Problem\n\nRemote HTTP MCP search has no rate limiting, allowing unlimited usage without identification. This enables abuse and provides no usage data.\n\n## Root Cause\n\nThe MCP endpoint was designed for open access without considering rate limiting or user identification.\n\n## Solution\n\nAdd rate limiting to remote HTTP MCP search:\n\n**Rules:**\n- Local stdio MCP: unlimited (user has the code)\n- Remote HTTP MCP: ≤5 searches/day per IP\n- After 5 searches: return error with registration hint\n- With token: unlimited searches\n\n**Implementation:**\n```javascript\n// Cloudflare Worker KV\nconst key = `rate:${ip}:${date}`;\nconst count = await env.MISAKANET_KV.get(key, \"number\") || 0;\nif (count >= 5) {\n  return { error: \"Rate limit exceeded. Register for unlimited.\" };\n}\nawait env.MISAKANET_KV.put(key, count + 1, { expirationTtl: 86400 });\n```\n\n**Response when limit exceeded:**\n```json\n{\n  \"error\": \"Rate limit: 5 free searches per day exceeded\",\n  \"hint\": \"Register to get unlimited access: misakanet_register\"\n}\n```\n\n## Verification\n\n- Remote search without token fails after 5/day\n- Local stdio search unlimited\n- Token holders have unlimited access\n\n## Key Points\n\n- Low barrier to entry (5 free searches)\n- Encourages registration for heavy users\n- Local users不受限 (they have the code)\n- Cloudflare KV handles rate limiting efficiently",
+    "url": "lessons/contrib/remote-search-rate-limiting.md",
+    "created": "2026-08-19",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
   },
   {
     "id": "repository-traffic-is-not-lesson-use",
@@ -5022,6 +5154,28 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "active",
+    "verified": true
+  },
+  {
+    "id": "welcome-bot-mcp-intake-path",
+    "title": "Welcome bot should show MCP intake path for agents",
+    "domain": "mcp",
+    "tags": [
+      "mcp",
+      "welcome",
+      "bot",
+      "intake",
+      "onboarding"
+    ],
+    "summary": "PR welcome bot message does not show agents how to submit failures via MCP. New contributors (especially agents) don't know about the no-account intake path.",
+    "preview": "## Problem\n\nPR welcome bot message does not show agents how to submit failures via MCP. New contributors (especially agents) don't know about the no-account intake path.\n\n## Root Cause\n\nWelcome bot was designed before MCP intake existed. It only shows traditional PR contribution flow.\n\n## Solution\n\nAdd \"For Agents & Crawlers\" section to welcome bot:\n\n```yaml\n# .github/workflows/pr-welcome.yml\nconst body = [\n  \"## Welcome to MisakaNet!\",\n  \"\",\n  \"### For Agents & Crawlers\",\n  \"\",\n  \"Found a missing lesson? Submit via MCP (no account needed):\",\n  \"```bash\",\n  \"curl -sS https://misakanet.org/mcp \\\\\",\n  \"  -H 'Content-Type: application/json' \\\\\",\n  \"  -H 'MCP-Protocol-Version: 2025-06-18' \\\\\",\n  \"  -d '{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":1,\\\"method\\\":\\\"tools/call\\\",\\\"params\\\":{\\\"name\\\":\\\"misakanet_submit_intake\\\",\\\"arguments\\\":{\\\"problem\\\":\\\"YOUR PROBLEM\\\",\\\"source\\\":\\\"your-agent\\\"}}}'\",\n  \"```\",\n].join(\"\\n\");\n```\n\n## Verification\n\n- New PR from first-time contributor shows MCP intake curl\n- Agent can copy-paste and submit immediately\n- No GitHub account required\n\n## Key Points\n\n- First contact should show all contribution paths\n- MCP intake is the fastest path for agents\n- Curl example is copy-pasteable",
+    "url": "lessons/contrib/welcome-bot-mcp-intake-path.md",
+    "created": "2026-08-19",
+    "updated": "",
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
     "verified": true
   },
   {
