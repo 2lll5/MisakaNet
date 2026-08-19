@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-08-19T04:46:06.762608+00:00",
+  "generated_at": "2026-08-19T07:10:38.296440+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 14,
+  "item_count": 13,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "feat: search latency benchmark (#1050) and changelog generator (#1054)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1125",
+      "timestamp": "2026-08-19T06:42:07Z",
+      "source": "github"
+    },
     {
       "type": "lesson",
       "title": "Agent-first node registration via MCP",
@@ -88,34 +95,6 @@
       "title": "test(mcp): add spam-guard regression corpus for anonymous submissions (#1094)",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/1097",
       "timestamp": "2026-08-18T13:21:12Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat(scripts): add maintainer review queue command for pending intake issues",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1116",
-      "timestamp": "2026-08-18T05:46:34Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Trust] Add trigger metadata for proactive lesson retrieval",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1057",
-      "labels": [
-        "enhancement",
-        "good first issue",
-        "area:config",
-        "needs-ac",
-        "ready",
-        "area:lessons",
-        "area:scripts",
-        "agent-friendly",
-        "no-credentials",
-        "zero-bounty",
-        "has-test",
-        "status:competition"
-      ],
-      "timestamp": "2026-08-15T17:16:18Z",
       "source": "github"
     },
     {
