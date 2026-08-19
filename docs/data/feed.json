@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-19T04:03:28.263774+00:00",
+  "generated_at": "2026-08-19T04:46:06.762608+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 15,
+  "item_count": 14,
   "items": [
     {
       "type": "lesson",
@@ -116,26 +116,6 @@
         "status:competition"
       ],
       "timestamp": "2026-08-15T17:16:18Z",
-      "source": "github"
-    },
-    {
-      "type": "challenge",
-      "title": "[Feature] Preflight MCP: risk-aware lesson injection before high-risk tasks",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1056",
-      "labels": [
-        "enhancement",
-        "good first issue",
-        "area:docs",
-        "needs-ac",
-        "ready",
-        "area:scripts",
-        "agent-friendly",
-        "no-credentials",
-        "zero-bounty",
-        "has-test",
-        "status:competition"
-      ],
-      "timestamp": "2026-08-15T17:15:49Z",
       "source": "github"
     },
     {
