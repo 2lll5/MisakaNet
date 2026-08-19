@@ -114,6 +114,7 @@ def main():
                 "url": f"lessons/{rel_path}",
                 "created": meta.get("created", ""),
                 "updated": meta.get("updated", ""),
+                "triggers": meta.get("triggers", None),
                 "validity_period_days": 365,
                 "environment_version": "",
                 "confidence": 0.5,

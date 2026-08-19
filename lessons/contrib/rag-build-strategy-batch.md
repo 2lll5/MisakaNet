@@ -12,7 +12,14 @@
   "language": "en",
   "created": "2026-04-13",
   "domain_expert": "hanged-man",
-  "verified_date": "2026-04-13"
+  "verified_date": "2026-04-13",
+  "triggers": {
+    "intents": ["rag_build", "embedding", "vector_index", "batch_processing"],
+    "commands": ["build_index", "chroma", "faiss", "embedding", "build_edoc"],
+    "environments": ["wsl", "gpu", "cuda"],
+    "risks": ["memory_pressure", "no_checkpoint", "batch_overflow", "driver_crash"],
+    "severity": "critical"
+  }
 }
 ---
 

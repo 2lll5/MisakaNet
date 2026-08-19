@@ -337,6 +337,17 @@ def handle_submit_intake(args: dict) -> dict:
     }
 
 
+def handle_preflight(args: dict) -> dict:
+    """Check risk level before executing high-risk operations."""
+    from scripts.mcp_preflight import preflight_check
+    intent = args.get("intent", "")
+    context = args.get("context", "")
+    if not intent:
+        return {"error": "intent is required", "voice": "failure-warning"}
+    result = preflight_check(intent, context)
+    return result
+
+
 def handle_usage_status(args: dict) -> dict:
     """Show current usage status and remaining quota."""
     try:
@@ -708,6 +719,23 @@ TOOLS = [
                 },
             },
             "required": ["problem"],
+        },
+    },
+    {
+        "name": "misakanet_preflight",
+        "description": (
+            "Check risk level before executing high-risk operations. Matches agent intent "
+            "against lesson triggers to provide proactive warnings. Use before RAG builds, "
+            "WSL/GPU tasks, bulk imports, or any operation that might fail. Input: intent "
+            "(required), context (optional). Output: risk level, matched lessons, guards."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "intent": {"type": "string", "description": "Task intent description (e.g. 'build RAG index from PDFs')"},
+                "context": {"type": "string", "description": "Environment context (e.g. 'WSL, GPU 8GB')"},
+            },
+            "required": ["intent"],
         },
     },
     {
