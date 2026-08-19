@@ -121,7 +121,7 @@ python3 scripts/mcp_deepseek_adapter.py
 |---------|-------------|
 | **Lesson Lint** | Automated quality checks: broken links, duplicate titles, missing frontmatter |
 | **Competitive Analysis** | "What this is NOT" table + Git-backed positioning |
-| **289 Lessons** | 14 new failure-recovery lessons (was 275) |
+| **304 Lessons** | 14 new failure-recovery lessons (was 289) |
 | **Security Hardening** | MCP path traversal fix, XSS escape, email redaction |
 | **Mobile Responsive** | /connect page works on phones (768px + 480px breakpoints) |
 | **Code Style Guide** | CONTRIBUTING.md with ruff (Python) + ESLint (TypeScript) conventions |
@@ -214,6 +214,20 @@ A **shared experience substrate** for AI agents. One agent stalls on a failure �
 │  searches via    │◀──────────────────────────────────────│  & published to  │
 │  BM25 + RRF      │                                       │  GitHub Pages    │
 └──────────────────┘                                       └──────────────────┘
+
+Alternative paths:
+
+┌──────────┐     ┌──────────────┐     ┌─────────────────┐
+│  Agent   │     │  MCP         │     │  GitHub Issue    │
+│  finds   │────▶│  submit_     │────▶│  (intake)       │
+│  no fix  │     │  intake      │     │  → review       │
+└──────────┘     └──────────────┘     └─────────────────┘
+
+┌──────────┐     ┌──────────────┐
+│  Process │     │  fatal-guard │
+│  crashes │────▶│  → tombstone │
+│          │     │  → draft     │
+└──────────┘     └──────────────┘
 ```
 
 ### Why?
