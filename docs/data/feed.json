@@ -1,9 +1,24 @@
 {
-  "generated_at": "2026-08-20T15:52:35.472557+00:00",
+  "generated_at": "2026-08-20T19:06:02.292550+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 12,
   "items": [
+    {
+      "type": "challenge",
+      "title": "[Feature] One-command agent setup: misakanet setup --agent xxx",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1150",
+      "labels": [
+        "enhancement",
+        "ready",
+        "agent-friendly",
+        "zero-bounty",
+        "status:competition",
+        "pool:deep"
+      ],
+      "timestamp": "2026-08-20T16:26:19Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "feat(tools): add lesson deduplication script (#1053)",
@@ -78,23 +93,6 @@
       "timestamp": "2026-08-19",
       "domain": "mcp",
       "source": "lessons"
-    },
-    {
-      "type": "challenge",
-      "title": "[Feature] search rate limit: 5 free/day, then requires registration",
-      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1121",
-      "labels": [
-        "enhancement",
-        "needs-ac",
-        "ready",
-        "agent-friendly",
-        "no-credentials",
-        "zero-bounty",
-        "has-test",
-        "status:competition"
-      ],
-      "timestamp": "2026-08-18T15:51:20Z",
-      "source": "github"
     },
     {
       "type": "challenge",
