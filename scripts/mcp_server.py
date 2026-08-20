@@ -480,7 +480,7 @@ RESOURCES = [
     {
         "uri": "misaka://protocol/overview",
         "name": "Protocol Overview",
-        "description": "Swarm Knowledge Protocol configuration (trust tiers, rings, scoring)",
+        "description": "failure-memory protocol configuration (trust tiers, rings, scoring)",
         "mimeType": "application/json",
     },
     {
