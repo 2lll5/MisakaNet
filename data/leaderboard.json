@@ -5,11 +5,11 @@
   },
   {
     "login": "zsxh1990",
-    "score": 29.0
+    "score": 28.97
   },
   {
     "login": "2lll5",
-    "score": 5.53
+    "score": 5.52
   },
   {
     "login": "liona can",
@@ -25,7 +25,7 @@
   },
   {
     "login": "brok-best",
-    "score": 2.39
+    "score": 2.38
   },
   {
     "login": "tarotoads-debug",
@@ -88,10 +88,6 @@
     "score": 0.82
   },
   {
-    "login": "zeroknowledge0x",
-    "score": 0.65
-  },
-  {
     "login": "noreply",
     "score": 0.61
   },
@@ -106,6 +102,10 @@
   {
     "login": "samarth1306w",
     "score": 0.57
+  },
+  {
+    "login": "zeroknowledge0x",
+    "score": 0.56
   },
   {
     "login": "lincai505011-ops",
@@ -201,7 +201,7 @@
   },
   {
     "login": "lovewave02",
-    "score": 0.19
+    "score": 0.18
   },
   {
     "login": "gothundercats",
@@ -230,9 +230,5 @@
   {
     "login": "pian0",
     "score": 0.1
-  },
-  {
-    "login": "doview1",
-    "score": 0.08
   }
 ]
