@@ -125,7 +125,7 @@ curl -sS https://misakanet.org/mcp \
 > **MisakaNet is purpose-built for one thing:** helping agents avoid repeating known failures.
 > It is not a general memory layer, not a runtime, and not a vector database.
 
-### What's new in v2.17.1
+### What's new in v2.18.0
 
 | Feature | Description |
 |---------|-------------|
@@ -136,7 +136,7 @@ curl -sS https://misakanet.org/mcp \
 | **Issue Evaluator** | PR Genius extended with issue quality review (spam, secrets, labels) |
 | **290 Lessons** | First lesson from remote MCP intake (#1069 → `github-release-large-asset-download-cn.md`) |
 
-→ [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.17.1)
+→ [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.18.0)
 
 ### What's new in v2.17.0
 
