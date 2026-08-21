@@ -1,9 +1,47 @@
 {
-  "generated_at": "2026-08-21T15:52:52.212457+00:00",
+  "generated_at": "2026-08-21T17:07:36.190186+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 11,
   "items": [
+    {
+      "type": "lesson",
+      "title": "BM25 + Vector Hybrid Search: configurable blending weights",
+      "url": "lessons/contrib/bm25-vector-hybrid-search-weights.md",
+      "timestamp": "2026-08-22",
+      "domain": "search",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Fatal-guard CLI: harden entry point with --help, --version, exit codes",
+      "url": "lessons/contrib/fatal-guard-cli-hardening.md",
+      "timestamp": "2026-08-22",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Lesson Provenance Tracking: author, PR, source, merge history",
+      "url": "lessons/contrib/lesson-provenance-tracking.md",
+      "timestamp": "2026-08-22",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "merged_pr",
+      "title": "ci: add PR-Agent for AI code review alongside PR Genius",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1185",
+      "timestamp": "2026-08-21T16:39:44Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "ci: auto-update lesson/tool badge counts via GitHub Actions",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1173",
+      "timestamp": "2026-08-21T15:53:52Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "docs(roadmap): add competitive analysis track — v2.18 Agent Memory Quality Loop",
@@ -26,20 +64,6 @@
       "source": "github"
     },
     {
-      "type": "merged_pr",
-      "title": "docs: add integration surfaces table (#1151)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1154",
-      "timestamp": "2026-08-21T03:14:24Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs: reorder quick start — agent connection first (#1148)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1155",
-      "timestamp": "2026-08-21T03:14:20Z",
-      "source": "github"
-    },
-    {
       "type": "lesson",
       "title": "Agent-first node registration via MCP",
       "url": "lessons/contrib/agent-first-node-registration-via-mcp.md",
@@ -53,30 +77,6 @@
       "url": "lessons/contrib/ci-security-advisory-checks.md",
       "timestamp": "2026-08-19",
       "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "GitHub Actions audit: scope detection for bot PRs",
-      "url": "lessons/contrib/github-actions-audit-scope-detection.md",
-      "timestamp": "2026-08-19",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "MCP intake: agents submit failures without GitHub account",
-      "url": "lessons/contrib/mcp-intake-no-account-submission.md",
-      "timestamp": "2026-08-19",
-      "domain": "mcp",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "PR Genius issue evaluator: batch review intake issues",
-      "url": "lessons/contrib/pr-genius-issue-evaluator-for-intake.md",
-      "timestamp": "2026-08-19",
-      "domain": "mcp",
       "source": "lessons"
     },
     {
