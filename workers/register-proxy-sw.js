@@ -440,7 +440,7 @@ async function handleMcpRequest(request, env) {
   let isIntakeCall = false;
   try {
     const peekBody = await request.clone().json();
-    isIntakeCall = peekBody?.method === "tools/call" && peekBody?.params?.name === "misakanet_submit_intake";
+    isIntakeCall = peekBody?.method === "tools/call" && (peekBody?.params?.name === "misakanet_submit_intake" || peekBody?.params?.name === "misakanet_register");
   } catch {}
 
   let authed = false;
