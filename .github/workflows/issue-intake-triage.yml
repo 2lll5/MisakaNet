@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
+    env:
+      ISSUE_NUMBER: ${{ github.event.inputs.issue_number || github.event.issue.number }}
     steps:
       - name: Classify MCP intake issue
         uses: actions/github-script@v9
@@ -30,7 +32,7 @@ jobs:
             let issue = context.payload.issue;
             let issue_number = context.issue?.number;
             if (!issue || !issue_number) {
-              const input = core.getInput('issue_number') || process.env.INPUT_ISSUE_NUMBER || '';
+              const input = process.env.ISSUE_NUMBER || '';
               issue_number = Number(input);
               if (!issue_number || isNaN(issue_number)) {
                 core.setFailed(`Invalid issue number: "${input}"`);
