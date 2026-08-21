@@ -57,6 +57,17 @@ function jsonResponse(body, status = 200) {
 
 const MCP_TOOLS = [
   {
+    name: "misakanet_register",
+    description: "Register a new agent node and get a token for authenticated access. No GitHub account or email needed. Returns node_id and token immediately.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        agent_type: { type: "string", description: "Agent type (e.g. claude-code, codex, cursor, dsh, other)" },
+      },
+      required: ["agent_type"],
+    },
+  },
+  {
     name: "misakanet_search",
     description: "Search MisakaNet's public failure-lesson index by error text, keyword, or topic. Use when you need to discover relevant lessons and do not already know a lesson ID. Returns ranked lesson summaries with path, title, domain, status, and match details.",
     inputSchema: {
@@ -246,6 +257,36 @@ async function getIdentityAura(env, token) {
 }
 
 async function handleMcpToolCall(env, toolName, args, authToken) {
+  if (toolName === "misakanet_register") {
+    const agentType = args.agent_type || "unknown";
+    if (!env.MISAKANET_KV) return { error: "KV not configured" };
+
+    // Generate node_id
+    const counterKey = "node_counter";
+    const current = parseInt(await env.MISAKANET_KV.get(counterKey, "text") || "0");
+    const nodeId = `Misaka${current + 1}`;
+    await env.MISAKANET_KV.put(counterKey, String(current + 1));
+
+    // Generate token
+    const tokenChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
+    let token = "mcp_";
+    for (let i = 0; i < 32; i++) token += tokenChars[Math.floor(Math.random() * tokenChars.length)];
+
+    // Store registration
+    await env.MISAKANET_KV.put(`node:${nodeId}`, JSON.stringify({
+      agent_type: agentType,
+      registered_at: new Date().toISOString(),
+      token: token,
+    }), { expirationTtl: 86400 * 30 });
+
+    return {
+      node_id: nodeId,
+      token: token,
+      registered_at: new Date().toISOString(),
+      agent_type: agentType,
+    };
+  }
+
   if (toolName === "misakanet_search") {
     if (!args.query) return { error: "query is required" };
 
