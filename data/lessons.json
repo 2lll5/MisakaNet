@@ -1,22 +1,5 @@
 [
   {
-    "id": "README",
-    "title": "README",
-    "domain": "core",
-    "tags": [],
-    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
-    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
-    "url": "lessons/core/README.md",
-    "created": "",
-    "updated": "",
-    "triggers": null,
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "verified": false
-  },
-  {
     "id": "auto-merge-ci-pipeline",
     "title": "Auto-Merge CI Pipeline — DCO, Quality Score, Shadow Branch, Dynamic Deps, Auto-Merge",
     "domain": "devops",
@@ -225,6 +208,23 @@
     "verified": true
   },
   {
+    "id": "README",
+    "title": "README",
+    "domain": "core",
+    "tags": [],
+    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
+    "preview": "# Core Lessons\n\nLessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confidence.\n\nSubmit curated lessons via PR with `curated` label.",
+    "url": "lessons/core/README.md",
+    "created": "",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": false
+  },
+  {
     "id": "search-first-roadmap-loop",
     "title": "Search-first roadmap loop for agent knowledge projects",
     "domain": "development",
@@ -245,23 +245,6 @@
     "environment_version": "",
     "confidence": 0.5,
     "status": "published",
-    "verified": true
-  },
-  {
-    "id": "README",
-    "title": "README",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
-    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
-    "url": "lessons/contrib/README.md",
-    "created": "",
-    "updated": "",
-    "triggers": null,
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
     "verified": true
   },
   {
@@ -669,6 +652,29 @@
     "confidence": 0.5,
     "status": "published",
     "verified": true
+  },
+  {
+    "id": "bm25-vector-hybrid-search-weights",
+    "title": "BM25 + Vector Hybrid Search: configurable blending weights",
+    "domain": "search",
+    "tags": [
+      "bm25",
+      "vector",
+      "hybrid",
+      "search",
+      "weights"
+    ],
+    "summary": "Search uses only BM25, missing semantic similarity from vector embeddings.",
+    "preview": "## Problem\n\nSearch uses only BM25, missing semantic similarity from vector embeddings.\n\n## Solution\n\nConfigurable BM25 + vector blending via config.yaml or env vars. Default 50/50 with RRF blending.\n\n## Key Points\n\n- Normalize scores to [0,1] before blending\n- RRF (reciprocal rank fusion) recommended\n- Weights must sum to 1.0",
+    "url": "lessons/contrib/bm25-vector-hybrid-search-weights.md",
+    "created": "2026-08-22",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": false
   },
   {
     "id": "bounty-contributors-are-not-always-users",
@@ -1942,6 +1948,28 @@
     "confidence": 0.5,
     "status": "active",
     "verified": true
+  },
+  {
+    "id": "fatal-guard-cli-hardening",
+    "title": "Fatal-guard CLI: harden entry point with --help, --version, exit codes",
+    "domain": "devops",
+    "tags": [
+      "fatal-guard",
+      "cli",
+      "harden",
+      "exit-codes"
+    ],
+    "summary": "Fatal-guard CLI lacks --help, --version, and proper exit codes.",
+    "preview": "## Problem\n\nFatal-guard CLI lacks --help, --version, and proper exit codes.\n\n## Solution\n\nAdd standard Unix CLI conventions: --help, --version, --timeout, exit codes (0/1/2/3).\n\n## Key Points\n\n- Exit codes help CI/CD pipelines detect failure types\n- --help and --version are expected by all users",
+    "url": "lessons/contrib/fatal-guard-cli-hardening.md",
+    "created": "2026-08-22",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": false
   },
   {
     "id": "fehler-python-modul-nicht-gefunden",
@@ -3423,6 +3451,28 @@
     "verified": true
   },
   {
+    "id": "lesson-provenance-tracking",
+    "title": "Lesson Provenance Tracking: author, PR, source, merge history",
+    "domain": "devops",
+    "tags": [
+      "provenance",
+      "metadata",
+      "audit",
+      "tracking"
+    ],
+    "summary": "Lessons lack provenance metadata — no way to trace who contributed, which PR, when edited, or who merged.",
+    "preview": "## Problem\n\nLessons lack provenance metadata — no way to trace who contributed, which PR, when edited, or who merged.\n\n## Solution\n\nExtend lesson schema with provenance fields (author, pr, source, edited_at, merged_by). Use `scripts/backfill_provenance.py` to populate from git history.\n\n## Key Points\n\n- Provenance is append-only (never overwrite)\n- Use `--dry-run` before `--write`\n- Merge credit depends on accurate provenance",
+    "url": "lessons/contrib/lesson-provenance-tracking.md",
+    "created": "2026-08-22",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": false
+  },
+  {
     "id": "lesson-quality-requirements",
     "title": "lesson-quality-requirements",
     "domain": "contrib",
@@ -4624,6 +4674,23 @@
     "confidence": 0.5,
     "status": "active",
     "verified": false
+  },
+  {
+    "id": "README",
+    "title": "README",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
+    "preview": "# Contrib Lessons\n\nCommunity-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lessons are automatically scanned for dangerous patterns via CI on every PR.\n\nTo promote a lesson to `core/`, submit a curation PR with review evidence.\n## Verification\n\n1. Follow the solution steps in order\n2. Run any relevant commands or tests to confirm the fix\n3. Verify the symptom no longer occurs\n4. Check related logs or outputs for expected behavior",
+    "url": "lessons/contrib/README.md",
+    "created": "",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true
   },
   {
     "id": "regex-escaped-quotes-source-parsing",
