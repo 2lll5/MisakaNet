@@ -1,9 +1,33 @@
 {
-  "generated_at": "2026-08-21T17:07:36.190186+00:00",
+  "generated_at": "2026-08-21T17:16:39.550631+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 11,
   "items": [
+    {
+      "type": "lesson",
+      "title": "Aider CLI --api-key parameter leaks API key to history files",
+      "url": "lessons/contrib/aider-api-key-leak.md",
+      "timestamp": "2026-08-22",
+      "domain": "security",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Aider via LiteLLM rejects standard Anthropic model names",
+      "url": "lessons/contrib/aider-litellm-model-name-rejection.md",
+      "timestamp": "2026-08-22",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Aider --show-repo-map crashes on Windows with UnicodeEncodeError",
+      "url": "lessons/contrib/aider-windows-unicode-error.md",
+      "timestamp": "2026-08-22",
+      "domain": "devops",
+      "source": "lessons"
+    },
     {
       "type": "lesson",
       "title": "BM25 + Vector Hybrid Search: configurable blending weights",
@@ -16,14 +40,6 @@
       "type": "lesson",
       "title": "Fatal-guard CLI: harden entry point with --help, --version, exit codes",
       "url": "lessons/contrib/fatal-guard-cli-hardening.md",
-      "timestamp": "2026-08-22",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Lesson Provenance Tracking: author, PR, source, merge history",
-      "url": "lessons/contrib/lesson-provenance-tracking.md",
       "timestamp": "2026-08-22",
       "domain": "devops",
       "source": "lessons"
@@ -62,22 +78,6 @@
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/1153",
       "timestamp": "2026-08-21T09:57:44Z",
       "source": "github"
-    },
-    {
-      "type": "lesson",
-      "title": "Agent-first node registration via MCP",
-      "url": "lessons/contrib/agent-first-node-registration-via-mcp.md",
-      "timestamp": "2026-08-19",
-      "domain": "mcp",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "CI security checks: action pinning, permissions, README, code style",
-      "url": "lessons/contrib/ci-security-advisory-checks.md",
-      "timestamp": "2026-08-19",
-      "domain": "devops",
-      "source": "lessons"
     },
     {
       "type": "challenge",

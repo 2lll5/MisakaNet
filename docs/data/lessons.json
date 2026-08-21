@@ -451,6 +451,75 @@
     "verified": false
   },
   {
+    "id": "aider-api-key-leak",
+    "title": "Aider CLI --api-key parameter leaks API key to history files",
+    "domain": "security",
+    "tags": [
+      "aider",
+      "security",
+      "api-key",
+      "leak",
+      "history"
+    ],
+    "summary": "Aider CLI --api-key parameter leaks API key to .aider.chat.history.md, bash history, and /proc/pid/cmdline.",
+    "preview": "## Problem\n\nAider CLI --api-key parameter leaks API key to .aider.chat.history.md, bash history, and /proc/pid/cmdline.\n\n## Root Cause\n\nCLI arguments are visible in process listing and may be logged to history files.\n\n## Solution\n\nUse environment variable instead of CLI argument:\n```bash\nexport ANTHROPIC_API_KEY=\"your-key\"\naider  # don't use --api-key flag\n```\n\nOr use .env file:\n```bash\necho \"ANTHROPIC_API_KEY=your-key\" > .env\naider  # reads from .env automatically\n```\n\n## Key Points\n\n- Never pass API keys as CLI arguments\n- Use environment variables or .env files\n- CLI args are visible in process listing and history",
+    "url": "lessons/contrib/aider-api-key-leak.md",
+    "created": "2026-08-22",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": false
+  },
+  {
+    "id": "aider-litellm-model-name-rejection",
+    "title": "Aider via LiteLLM rejects standard Anthropic model names",
+    "domain": "devops",
+    "tags": [
+      "aider",
+      "litellm",
+      "anthropic",
+      "model",
+      "configuration"
+    ],
+    "summary": "Aider via LiteLLM rejects standard Anthropic model names (claude-sonnet-4-6, claude-3-5-sonnet-20241022) when using a custom API base URL.",
+    "preview": "## Problem\n\nAider via LiteLLM rejects standard Anthropic model names (claude-sonnet-4-6, claude-3-5-sonnet-20241022) when using a custom API base URL.\n\n## Root Cause\n\nLiteLLM requires provider prefix for custom endpoints: `anthropic/claude-sonnet-4-6` not just `claude-sonnet-4-6`.\n\n## Solution\n\nUse full model path with provider prefix:\n```bash\naider --api-key \"anthropic=$KEY\" --model anthropic/claude-sonnet-4-6\n```\n\n## Key Points\n\n- LiteLLM needs provider prefix for custom endpoints\n- Standard model names only work with official API\n- Check LiteLLM docs for supported model paths",
+    "url": "lessons/contrib/aider-litellm-model-name-rejection.md",
+    "created": "2026-08-22",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": false
+  },
+  {
+    "id": "aider-windows-unicode-error",
+    "title": "Aider --show-repo-map crashes on Windows with UnicodeEncodeError",
+    "domain": "devops",
+    "tags": [
+      "aider",
+      "windows",
+      "unicode",
+      "encoding",
+      "gbk"
+    ],
+    "summary": "Aider --show-repo-map crashes on Windows with UnicodeEncodeError (gbk codec) when repo contains unicode characters in file paths.",
+    "preview": "## Problem\n\nAider --show-repo-map crashes on Windows with UnicodeEncodeError (gbk codec) when repo contains unicode characters in file paths.\n\n## Root Cause\n\nWindows default encoding is GBK, which can't handle all Unicode characters in file paths.\n\n## Solution\n\nSet UTF-8 encoding before running Aider:\n```bash\nset PYTHONIOENCODING=utf-8\naider --show-repo-map\n```\n\nOr use PowerShell:\n```powershell\n$env:PYTHONIOENCODING = \"utf-8\"\naider --show-repo-map\n```\n\n## Key Points\n\n- Windows GBK encoding causes UnicodeEncodeError\n- Set PYTHONIOENCODING=utf-8 before running\n- Alternative: use WSL for Unicode-heavy repos",
+    "url": "lessons/contrib/aider-windows-unicode-error.md",
+    "created": "2026-08-22",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": false
+  },
+  {
     "id": "aily-feishu-mcp-pull-only",
     "title": "aily feishu mcp pull only",
     "domain": "contrib",
