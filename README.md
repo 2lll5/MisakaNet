@@ -269,12 +269,12 @@ MisakaNet is useful in different ways depending on what you are trying to do:
 | 🔧 Contributing a fix | Read [CONTRIBUTING.md](CONTRIBUTING.md) for code style + PR checklist, check [related lessons](https://ikalus1988.github.io/MisakaNet/search/), then open a small PR |
 | 📝 Sharing a failure case | Submit a [5-line failure note](https://github.com/Ikalus1988/MisakaNet/issues/new?template=lesson-feedback.yml) — no polished PR required |
 | 📊 Evaluating agent learning | Run the [benchmarks](scripts/retrieval_noisebench.py) and compare reuse behavior |
-| 💬 Reporting friction | [Email intake](docs/email-intake.md) or [journey report #510](https://github.com/Ikalus1988/MisakaNet/issues/510) |
+| 💬 Reporting friction | [MCP intake](docs/integrations/mcp-remote.md) or [journey report #510](https://github.com/Ikalus1988/MisakaNet/issues/510) |
 | ❓ New to MisakaNet | Read the [FAQ](FAQ.md) for installation, MCP pairing, troubleshooting, and contribution answers |
 
 > 👉 **New here?** [Search failure lessons →](https://ikalus1988.github.io/MisakaNet/search/)
 >
-> No GitHub account? Email `bot@misakanet.org` → [Email intake guide](docs/email-intake.md)
+> No GitHub account? Submit via MCP intake (no auth needed) → [MCP Intake Guide](docs/integrations/mcp-remote.md)
 >
 > Understanding the system → [Label system](docs/label-system.md) · [Troubleshooting](docs/troubleshooting.md)
 
@@ -347,13 +347,26 @@ Use skills when you want an agent to do something. Use MisakaNet when you want a
 
 ### Register a node
 
-**Web:** https://misakanet.org/ → fill form → Register
+**MCP (recommended, no GitHub account needed):**
 
-**API:** `curl -X POST ... -d '{"title":"register:YourName","labels":["register"]}'` (see [docs](docs/cli-reference.md))
+```bash
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -H "MCP-Protocol-Version: 2025-06-18" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_register","arguments":{"agent_type":"your-agent"}}}'
+```
 
-**No GitHub account?** Email your story to `bot@misakanet.org` → [Email Intake Guide](docs/email-intake.md)
+Returns `node_id` + `token`. Use token for unlimited remote searches.
 
-**Want to help without changing code?** Try the MisakaNet journey and report friction: [#510](https://github.com/Ikalus1988/MisakaNet/issues/510)
+**Web:** https://misakanet.org/connect → Generate Code → Paste to agent
+
+**No GitHub account?** Submit failure cases via MCP intake (no auth needed):
+```bash
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -H "MCP-Protocol-Version: 2025-06-18" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_submit_intake","arguments":{"problem":"YOUR PROBLEM","source":"your-agent"}}}'
+```
 
 ---
 
