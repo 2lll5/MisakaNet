@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-08-21T13:16:14.636583+00:00",
+  "generated_at": "2026-08-21T15:52:52.212457+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 11,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "docs(roadmap): add competitive analysis track — v2.18 Agent Memory Quality Loop",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1169",
+      "timestamp": "2026-08-21T15:41:46Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "docs: sync STATUS.md, ROADMAP.md, README.md to v2.18.0",
@@ -30,13 +37,6 @@
       "title": "docs: reorder quick start — agent connection first (#1148)",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/1155",
       "timestamp": "2026-08-21T03:14:20Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat(tools): add lesson deduplication script (#1053)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1135",
-      "timestamp": "2026-08-20T15:42:00Z",
       "source": "github"
     },
     {
