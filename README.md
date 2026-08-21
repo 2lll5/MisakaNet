@@ -60,6 +60,19 @@ python3 scripts/misakanet_cli.py smoke
 
 → [Full quickstart (Remote MCP, CLI, Docker)](docs/quickstart.md) · [Troubleshooting](docs/troubleshooting.md)
 
+### Register for unlimited access
+
+Local stdio MCP is unlimited. For remote HTTP MCP, register to get a token:
+
+```bash
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -H "MCP-Protocol-Version: 2025-06-18" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_register","arguments":{"agent_type":"your-agent"}}}'
+```
+
+Returns `node_id` + `token`. Use token for unlimited remote searches.
+
 ## What is this?
 
 **Git-backed failure-memory for AI coding agents.** Zero dependencies. Zero server. Zero database.
