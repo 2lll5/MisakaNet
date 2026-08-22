@@ -181,14 +181,10 @@
   },
   {
     "login": "xkes101116-hub",
-    "score": 0.21
+    "score": 0.2
   },
   {
     "login": "foxymantou",
-    "score": 0.21
-  },
-  {
-    "login": "zeroknowledge0x",
     "score": 0.2
   },
   {
@@ -226,5 +222,9 @@
   {
     "login": "skyjames777",
     "score": 0.12
+  },
+  {
+    "login": "zeroknowledge0x",
+    "score": 0.1
   }
 ]
