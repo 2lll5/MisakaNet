@@ -29,9 +29,10 @@ jobs:
           CURRENT_TAG="${{ github.ref_name }}"
           PREV_TAG=$(git describe --tags --abbrev=0 "${CURRENT_TAG}^" 2>/dev/null || echo "")
           if [ -n "$PREV_TAG" ]; then
-            python3 scripts/gen_changelog.py --from-tag "$PREV_TAG" --to-tag "$CURRENT_TAG" --output CHANGELOG.md
+            SINCE=$(echo "$PREV_TAG" | sed 's/v//')
+            python3 scripts/gen_changelog.py --since "$SINCE" --version "$CURRENT_TAG" --output CHANGELOG.md
           else
-            python3 scripts/gen_changelog.py --to-tag "$CURRENT_TAG" --output CHANGELOG.md
+            python3 scripts/gen_changelog.py --version "$CURRENT_TAG" --output CHANGELOG.md
           fi
 
   build:

@@ -18,6 +18,7 @@ import subprocess
 import sys
 from collections import defaultdict
 from datetime import datetime
+from pathlib import Path
 
 CATEGORY_MAP = {
     "feat": "Added", "add": "Added", "new": "Added", "introduce": "Added",
@@ -59,11 +60,13 @@ def get_merged_prs(repo, since_date=None, owner=None, repo_name=None):
         "--limit", "200",
     ]
     try:
-        r = subprocess.run(cmd, capture_output=True, text=True, cwd=repo, timeout=60)
+        r = subprocess.run(cmd, capture_output=True, cwd=repo, timeout=60)
+        stdout = r.stdout.decode("utf-8", errors="replace") if r.stdout else ""
+        stderr = r.stderr.decode("utf-8", errors="replace") if r.stderr else ""
         if r.returncode != 0:
-            print(f"Warning: gh pr list failed: {r.stderr.strip()}", file=sys.stderr)
+            print(f"Warning: gh pr list failed: {stderr.strip()}", file=sys.stderr)
             return []
-        return json.loads(r.stdout)
+        return json.loads(stdout)
     except FileNotFoundError:
         print("Error: 'gh' CLI not found. Install with: brew install gh", file=sys.stderr)
         sys.exit(1)
@@ -90,8 +93,14 @@ def categorise(pr):
 
 def format_entry(pr):
     title = pr.get("title", "")
-    cleaned = re.sub(r"^\w+[(!:]\s*", "", title).strip()
+    # Strip conventional commit prefix (feat(scope): etc.)
+    cleaned = re.sub(r"^\w+(?:\([^)]*\))?[(!:]\s*", "", title).strip()
+    # Strip trailing PR number references (#123) that may already be in the title
+    cleaned = re.sub(r"\s*\(#[\d,]+\)\s*$", "", cleaned).strip()
     number = pr.get("number", "?")
+    author = pr.get("user", {}).get("login", "")
+    if author and "[bot]" not in author:
+        return f"- {cleaned} (#{number}) @{author}"
     return f"- {cleaned} (#{number})"
 
 
@@ -123,6 +132,84 @@ def generate_changelog(prs):
             lines.append("")
 
     return "\n".join(lines)
+
+
+def categorize_pr(title: str) -> str:
+    """Categorize a PR title by conventional commit prefix. Public API for tests."""
+    match = re.match(r"^(\w+)[(!:]", title)
+    if match:
+        prefix = match.group(1).lower()
+        if prefix in CATEGORY_MAP:
+            return CATEGORY_MAP[prefix]
+    return "Other"
+
+
+def generate_changelog_section(
+    release_tag: str,
+    release_name: str,
+    release_date: str,
+    prs: list[dict],
+) -> str:
+    """Generate a full changelog section for a release. Public API for tests."""
+    date_str = release_date[:10] if release_date else datetime.now().strftime("%Y-%m-%d")
+    categories = defaultdict(list)
+    contributors = set()
+
+    for pr in prs:
+        cat = categorise(pr)
+        entry = format_entry(pr)
+        author = pr.get("user", {}).get("login", "")
+        if author and "[bot]" not in author:
+            contributors.add(author)
+            entry = f"- #{pr['number']}: {pr.get('title', '')} (@{author})"
+        categories[cat].append(entry)
+
+    order = [
+        "Breaking Changes", "Added", "Fixed", "Changed",
+        "Documentation", "Tests", "Maintenance", "Reverted", "Other",
+    ]
+    lines = [f"## {release_name} — {date_str}\n"]
+    for cat in order:
+        entries = categories.get(cat, [])
+        if not entries:
+            continue
+        entries.sort()
+        lines.append(f"### {cat}\n")
+        lines.extend(entries)
+        lines.append("")
+
+    if contributors:
+        lines.append("### Contributors\n")
+        for c in sorted(contributors):
+            lines.append(f"- @{c}")
+        lines.append("")
+
+    lines.append("---\n")
+    return "\n".join(lines)
+
+
+def update_changelog_file(
+    changelog_path: Path,
+    new_section: str,
+    prepend: bool = True,
+) -> None:
+    """Insert a new changelog section into an existing CHANGELOG.md."""
+    if changelog_path.exists():
+        existing = changelog_path.read_text(encoding="utf-8")
+    else:
+        existing = "# Misaka Network — Changelog\n\n"
+
+    if prepend:
+        # Insert after the first heading
+        heading_end = existing.find("\n\n")
+        if heading_end != -1:
+            updated = existing[:heading_end + 2] + new_section + "\n" + existing[heading_end + 2:]
+        else:
+            updated = existing + "\n" + new_section
+    else:
+        updated = existing.rstrip() + "\n\n" + new_section
+
+    changelog_path.write_text(updated, encoding="utf-8")
 
 
 def main():
