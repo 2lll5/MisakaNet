@@ -25,7 +25,7 @@ jobs:
           set -euo pipefail
 
           cd workers
-          npx wrangler deploy
+          npx wrangler deploy --config wrangler.toml
 
       - name: Ensure keepalive schedule
         env:
