@@ -4,6 +4,11 @@ domain: "devops"
 tags: ["cloudflare", "email-worker", "kv", "turnstile", "registration", "spf"]
 created: "2026-07-06"
 source: "unknown"
+provenance:
+  source: "agent-debugging"
+  contributor: "Ikalus1988"
+  merged_at: "2026-08-05"
+  evidence: "pre-ingest-reuse"
 ---
 
 ## 背景

@@ -4,7 +4,14 @@
   "title": "pip install Network Timeout / SSL ErrorFix",
   "verification": "metadata-normalized",
   "created": "2026-07-06",
-  "source": "unknown"
+  "source": "unknown",
+  "provenance": {
+    "source": "agent-memory-dump",
+    "contributor": "unknown",
+    "merged_at": "2026-07-06",
+    "original_issue": null,
+    "evidence": "common-pip-issue"
+  }
 }
 ---
 ---{"title": "pip install Network Timeout / SSL ErrorFix", "domain": "devops", "tags": ["pip", "network", "SSL", "timeout", "proxy"]}---

@@ -7,6 +7,11 @@ status: "published"
 source: "internal-training"
 confidence: "0.95"
 created: "2026-07-14"
+provenance:
+  source: "colleague-memory"
+  contributor: "Ikalus1988"
+  merged_at: "2026-07-15"
+  evidence: "pre-ingest-reuse"
 ---
 
 ## Problem

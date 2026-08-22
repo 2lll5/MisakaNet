@@ -9,6 +9,11 @@ created: 2026-07-06
 updated: 2026-07-06
 source: zsxh1990
 verified_date: 2026-07-06
+provenance:
+  source: "agent-debugging"
+  contributor: "zsxh1990"
+  merged_at: "2026-07-28"
+  evidence: "pr-merged"
 ---
 
 # CSP blocks JavaScript injection in browser automation of authenticated pages

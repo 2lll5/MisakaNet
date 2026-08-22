@@ -2,11 +2,24 @@
 {
   "title": "CI security checks: action pinning, permissions, README, code style",
   "domain": "devops",
-  "tags": ["ci", "security", "audit", "actions", "permissions"],
+  "tags": [
+    "ci",
+    "security",
+    "audit",
+    "actions",
+    "permissions"
+  ],
   "status": "published",
   "evidence_level": "E2",
   "source": "mcp-intake-64eb5d4f88",
-  "created": "2026-08-19"
+  "created": "2026-08-19",
+  "provenance": {
+    "source": "agent-debugging",
+    "contributor": "Ikalus1988",
+    "merged_at": "2026-08-01",
+    "original_issue": null,
+    "evidence": "pr-merged"
+  }
 }
 ---
 

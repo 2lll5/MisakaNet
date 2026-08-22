@@ -2,14 +2,27 @@
 {
   "title": "DCO signoff 在 force push 后丢失导致 PR DCO 检查失败",
   "domain": "devops",
-  "tags": ["dco", "git", "force-push", "signoff", "ci"],
+  "tags": [
+    "dco",
+    "git",
+    "force-push",
+    "signoff",
+    "ci"
+  ],
   "status": "published",
   "evidence_level": "E2",
   "source": "mcp-intake-1099",
   "created": "2026-08-18",
   "updated": "",
   "verified_date": "",
-  "domain_expert": ""
+  "domain_expert": "",
+  "provenance": {
+    "source": "agent-debugging",
+    "contributor": "2lll5",
+    "merged_at": "2026-07-20",
+    "original_issue": "#298",
+    "evidence": "pr-merged"
+  }
 }
 ---
 

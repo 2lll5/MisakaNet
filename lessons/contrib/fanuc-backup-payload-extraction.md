@@ -15,6 +15,11 @@ evidence:
   verified_by: "maintainer"
   context: "Distilled from real field debugging session. kcantrans VR-variable access path verified as practically useful before ingestion."
   public_quote_allowed: false
+provenance:
+  source: "colleague-memory"
+  contributor: "Ikalus1988"
+  merged_at: "2026-07-15"
+  evidence: "pre-ingest-reuse"
 ---
 
 
