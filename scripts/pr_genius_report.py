@@ -8,7 +8,7 @@ import json
 import os
 import re
 import urllib.request
-from pathlib import PurePosixPath
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 CODE_SUFFIXES = {
@@ -19,6 +19,109 @@ TEST_PARTS = {"test", "tests", "spec", "specs", "__tests__"}
 ISSUE_REFERENCE = re.compile(
     r"(?i)(?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+(?:[\w.-]+/[\w.-]+)?#\d+|(?<!\w)#\d+"
 )
+
+# ── Config loading ──
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+CONFIG_FILE = REPO_ROOT / ".pr-genius.yaml"
+
+_DEFAULT_CONFIG = {
+    "rules": {
+        "issue_link": {"patterns": [], "required": True},
+        "pr_size": {"max_lines": 500, "warning_lines": 300},
+        "patterns": {
+            "pr_too_large": {"enabled": True, "severity": "high"},
+            "missing_tests": {"enabled": True, "severity": "medium"},
+            "doc_code_mismatch": {"enabled": True, "severity": "low"},
+            "mixed_concerns": {"enabled": True, "severity": "medium"},
+            "no_issue_reference": {"enabled": True, "severity": "low"},
+            "missing_dco": {"enabled": True, "severity": "medium"},
+        },
+    }
+}
+
+
+def load_config() -> dict[str, Any]:
+    """Load .pr-genius.yaml, falling back to defaults."""
+    if not CONFIG_FILE.exists():
+        return _DEFAULT_CONFIG
+    try:
+        import yaml  # optional dependency
+        with open(CONFIG_FILE, encoding="utf-8") as f:
+            user = yaml.safe_load(f) or {}
+    except ImportError:
+        # Minimal YAML parser for flat key: value and lists
+        user = _parse_yaml_minimal(CONFIG_FILE.read_text(encoding="utf-8"))
+    # Merge user config with defaults
+    config = _deep_merge(_DEFAULT_CONFIG, user)
+    return config
+
+
+def _parse_yaml_minimal(text: str) -> dict:
+    """Minimal YAML parser for .pr-genius.yaml (no dependency)."""
+    import re as _re
+    result: dict[str, Any] = {}
+    current_section = None
+    current_subsection = None
+    current_list_key = None
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        indent = len(line) - len(line.lstrip())
+        # List item
+        if stripped.startswith("- "):
+            value = stripped[2:].strip().strip('"').strip("'")
+            if current_list_key and current_subsection and current_section:
+                result.setdefault(current_section, {}).setdefault(current_subsection, {}).setdefault(current_list_key, []).append(value)
+            continue
+        # Key: value
+        match = _re.match(r'^(\w[\w_]*)\s*:\s*(.*)', stripped)
+        if not match:
+            continue
+        key, value = match.group(1), match.group(2).strip().strip('"').strip("'")
+        if indent == 0:
+            current_section = key
+            current_subsection = None
+            current_list_key = None
+            result.setdefault(current_section, {})
+        elif indent <= 4:
+            current_subsection = key
+            current_list_key = None
+            if value:
+                # Try to parse as number
+                try:
+                    value = int(value)
+                except ValueError:
+                    if value.lower() in ("true", "false"):
+                        value = value.lower() == "true"
+                result.setdefault(current_section, {})[current_subsection] = value
+            else:
+                result.setdefault(current_section, {}).setdefault(current_subsection, {})
+        else:
+            # Deeper nesting (patterns config)
+            if value:
+                try:
+                    value = int(value)
+                except ValueError:
+                    if value.lower() in ("true", "false"):
+                        value = value.lower() == "true"
+                result.setdefault(current_section, {}).setdefault(current_subsection, {})[key] = value
+            else:
+                current_list_key = key
+                result.setdefault(current_section, {}).setdefault(current_subsection, {}).setdefault(key, [])
+    return result
+
+
+def _deep_merge(base: dict, override: dict) -> dict:
+    """Deep merge override into base (override wins)."""
+    result = dict(base)
+    for key, value in override.items():
+        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+            result[key] = _deep_merge(result[key], value)
+        else:
+            result[key] = value
+    return result
 
 
 def is_test(path: str) -> bool:
@@ -61,7 +164,14 @@ def analyze(
     files: list[dict[str, Any]],
     commits: list[dict[str, Any]],
     checks: list[dict[str, Any]] | None = None,
+    config: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    cfg = (config or _DEFAULT_CONFIG).get("rules", {})
+    pattern_cfg = cfg.get("patterns", {})
+    pr_size_cfg = cfg.get("pr_size", {})
+    max_lines = pr_size_cfg.get("max_lines", 500)
+    warning_lines = pr_size_cfg.get("warning_lines", 300)
+
     additions = sum(int(item.get("additions", 0)) for item in files)
     deletions = sum(int(item.get("deletions", 0)) for item in files)
     total = additions + deletions
@@ -74,14 +184,20 @@ def analyze(
     patterns: list[dict[str, str]] = []
     suggestions: list[str] = []
 
-    if total > 500:
-        patterns.append({"rule": "pr_too_large", "severity": "high"})
-        suggestions.append("Split the change into focused PRs of at most 500 changed lines.")
-    if code_paths and not test_paths:
-        patterns.append({"rule": "missing_tests", "severity": "medium"})
+    def _is_enabled(rule_id: str) -> bool:
+        return pattern_cfg.get(rule_id, {}).get("enabled", True)
+
+    def _severity(rule_id: str, default: str) -> str:
+        return pattern_cfg.get(rule_id, {}).get("severity", default)
+
+    if _is_enabled("pr_too_large") and total > max_lines:
+        patterns.append({"rule": "pr_too_large", "severity": _severity("pr_too_large", "high")})
+        suggestions.append(f"Split the change into focused PRs of at most {max_lines} changed lines.")
+    if _is_enabled("missing_tests") and code_paths and not test_paths:
+        patterns.append({"rule": "missing_tests", "severity": _severity("missing_tests", "medium")})
         suggestions.append("Add or update tests for the changed code paths.")
-    if doc_paths and not code_paths and not test_paths:
-        patterns.append({"rule": "doc_code_mismatch", "severity": "low"})
+    if _is_enabled("doc_code_mismatch") and doc_paths and not code_paths and not test_paths:
+        patterns.append({"rule": "doc_code_mismatch", "severity": _severity("doc_code_mismatch", "low")})
         suggestions.append(
             "Confirm this documentation-only change intentionally needs no code update."
         )
@@ -98,15 +214,24 @@ def analyze(
     lock_files = {"package-lock.json", "uv.lock", "poetry.lock"}
     if any(PurePosixPath(path).name.lower() in lock_files for path in paths):
         concern_groups.add("dependencies")
-    if len(concern_groups) >= 3 and len(components) >= 3:
-        patterns.append({"rule": "mixed_concerns", "severity": "medium"})
+    if _is_enabled("mixed_concerns") and len(concern_groups) >= 3 and len(components) >= 3:
+        patterns.append({"rule": "mixed_concerns", "severity": _severity("mixed_concerns", "medium")})
         suggestions.append(
             "Explain why these components belong together or split unrelated concerns."
         )
 
     body = str(pr.get("body") or "")
-    if not ISSUE_REFERENCE.search(body):
-        patterns.append({"rule": "no_issue_reference", "severity": "low"})
+    issue_cfg = cfg.get("issue_link", {})
+    custom_patterns = issue_cfg.get("patterns", [])
+    issue_matched = ISSUE_REFERENCE.search(body)
+    if custom_patterns:
+        for pat in custom_patterns:
+            if re.search(pat, body):
+                issue_matched = True
+                break
+    issue_required = issue_cfg.get("required", True)
+    if _is_enabled("no_issue_reference") and not issue_matched and issue_required:
+        patterns.append({"rule": "no_issue_reference", "severity": _severity("no_issue_reference", "low")})
         suggestions.append("Link the issue this PR closes or explain why no issue is needed.")
 
     unsigned = []
@@ -115,8 +240,8 @@ def analyze(
         message = str(commit.get("message") or "")
         if not re.search(r"(?im)^Signed-off-by:\s*.+<[^>]+>\s*$", message):
             unsigned.append(str(item.get("sha", "unknown"))[:7])
-    if unsigned:
-        patterns.append({"rule": "missing_dco", "severity": "medium"})
+    if _is_enabled("missing_dco") and unsigned:
+        patterns.append({"rule": "missing_dco", "severity": _severity("missing_dco", "medium")})
         suggestions.append("Sign off every commit with `git commit --signoff`.")
 
     relevant_checks = [
@@ -263,7 +388,8 @@ def main() -> int:
         f"https://api.github.com/repos/{repository}/commits/{pr['head']['sha']}/check-runs"
     )
     checks = github_get_check_runs(checks_url, token)
-    report = analyze(pr, files, commits, checks)
+    config = load_config()
+    report = analyze(pr, files, commits, checks, config=config)
     output = json.dumps(report, indent=2) if args.json else render(report, args.risk)
     print(output)
     summary = os.environ.get("GITHUB_STEP_SUMMARY")

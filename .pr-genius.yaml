@@ -1,5 +1,5 @@
 # PR Genius local configuration
-# Relaxes Issue link requirements for MisakaNet
+# Customize rules, thresholds, and patterns per repository.
 
 rules:
   # Accept more Issue link formats
@@ -10,8 +10,33 @@ rules:
       - "resolve[sd]?\\s+#\\d+"
       - "references?\\s+#\\d+"
       - "related\\s+to\\s+#\\d+"
-      - "Resolves\\s+`#\\d+`"  # with backticks
-      - "Fixes\\s+`#\\d+`"     # with backticks
-      - "Closes\\s+`#\\d+`"    # with backticks
-    # Don't fail if Issue is referenced in title or body (any format)
+      - "Resolves\\s+`#\\d+`"
+      - "Fixes\\s+`#\\d+`"
+      - "Closes\\s+`#\\d+`"
     required: false
+
+  # PR size thresholds (lines changed)
+  pr_size:
+    max_lines: 500
+    warning_lines: 300
+
+  # Anti-pattern detection — enable/disable individual rules
+  patterns:
+    pr_too_large:
+      enabled: true
+      severity: high
+    missing_tests:
+      enabled: true
+      severity: medium
+    doc_code_mismatch:
+      enabled: true
+      severity: low
+    mixed_concerns:
+      enabled: true
+      severity: medium
+    no_issue_reference:
+      enabled: true
+      severity: low
+    missing_dco:
+      enabled: true
+      severity: medium
