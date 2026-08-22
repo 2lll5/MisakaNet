@@ -581,6 +581,14 @@ async function handleMcpRequest(request, env) {
           error: { code: -32602, message: "Missing tool name" },
         });
       }
+      // Check tool exists before dispatching
+      const availableTools = MCP_TOOLS.map(t => t.name);
+      if (!availableTools.includes(toolName)) {
+        return mcpJsonResponse({
+          jsonrpc: "2.0", id: reqId,
+          error: { code: -32601, message: `Tool not found: ${toolName}`, available_tools: availableTools },
+        });
+      }
       const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
       const result = await handleMcpToolCall(env, toolName, args, token, clientIp);
       return mcpJsonResponse({
