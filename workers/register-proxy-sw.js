@@ -344,11 +344,20 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
     const textLower = ((args.problem || "") + " " + (args.error || "")).toLowerCase();
     if (SPAM_KEYWORDS.some(kw => textLower.includes(kw))) return { error: "Rejected: possible spam." };
 
+    // Redaction patterns — synced from workers/lib/redact-patterns.json
+    // (single source of truth shared with scripts/intake_redact.py)
     function redactIntake(text) {
       if (!text) return "";
       let r = String(text).slice(0, 2000);
-      r = r.replace(/ghp_[a-zA-Z0-9]{10,}/g, "[REDACTED:github_token]");
-      r = r.replace(/(?:password|secret|token|api[_-]?key)\s*[:=]\s*\S+/gi, "[REDACTED:credential]");
+      r = r.replace(/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----[\s\S]*?-----END(?: RSA | EC | OPENSSH )?PRIVATE KEY-----/gi, "[REDACTED:private_key]");
+      r = r.replace(/(?:ghp|gho|ghu|ghs|ghr|github_pat)_[a-zA-Z0-9]{10,}/g, "[REDACTED:github_token]");
+      r = r.replace(/xox[bpras]-[a-zA-Z0-9\-]{10,}/g, "[REDACTED:slack_token]");
+      r = r.replace(/(?:AKIA|ABIA|ACCA|ASIA)[A-Z0-9]{16}/g, "[REDACTED:aws_key]");
+      r = r.replace(/(?:sk|pk|rk|ak)[_-][a-zA-Z0-9]{10,}/g, "[REDACTED:api_key]");
+      r = r.replace(/(?:Bearer|Authorization)\s+[a-zA-Z0-9\-._~+/]+=*/gi, "[REDACTED:bearer_token]");
+      r = r.replace(/(?:password|passwd|secret|token|api[_-]?key|apikey|database[_-]?url)\s*[:=]\s*\S+/gi, "[REDACTED:credential]");
+      r = r.replace(/:\/\/[^:]+:[^@]+@[^\s]+/g, "://[REDACTED:url_credential]@host");
+      r = r.replace(/\b(?:\d[ -]*?){13,19}\b/g, "[REDACTED:card_number]");
       return r;
     }
 
@@ -1288,7 +1297,8 @@ export default {
       if (!source || !VALID_SOURCES.includes(source)) return jsonResponse({ error: "Invalid or missing 'source'. Must be one of: " + VALID_SOURCES.join(", ") }, 400);
       if (!message || typeof message !== "string" || !message.trim()) return jsonResponse({ error: "Missing 'message'" }, 400);
 
-      // Secret redaction (inline — mirrors scripts/intake_redact.py patterns)
+      // Secret redaction — synced from workers/lib/redact-patterns.json
+      // (single source of truth shared with scripts/intake_redact.py)
       const REDACT_PATTERNS = [
         [/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----[\s\S]*?-----END(?: RSA | EC | OPENSSH )?PRIVATE KEY-----/gi, "[REDACTED:private_key]"],
         [/(?:ghp|gho|ghu|ghs|ghr|github_pat)_[a-zA-Z0-9]{10,}/g, "[REDACTED:github_token]"],
