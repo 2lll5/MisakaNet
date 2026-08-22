@@ -3,9 +3,15 @@
 // counter、头像、欢迎词由 register.yml workflow 处理
 // 环境变量: REGISTER_TOKEN (GitHub PAT, 需 issues:write)
 
-const REPO = "Ikalus1988/MisakaNet";
-const GITHUB_API = "https://api.github.com";
-const PUBLIC_DATA_BASE = "https://raw.githubusercontent.com/Ikalus1988/MisakaNet/main/data";
+const {
+  CORS_HEADERS, timingSafeEqual, sanitizeIdentifier,
+  parseTimestamp, roundPoints, REPUTATION_PERIODS,
+  normalizeReputationPeriod, RATE_LIMIT_WINDOW, rateMap,
+  cleanRateMap,
+} = require("./lib/utils");
+
+// GITHUB_API, REPO, PUBLIC_DATA_BASE are defined locally below
+
 const PROXY_CACHE_TTL = 30_000;
 const KEEPALIVE_ENDPOINTS = [
   { name: "health", url: "https://misakanet.org/api/health", json: true },
@@ -14,26 +20,9 @@ const KEEPALIVE_ENDPOINTS = [
   { name: "journey", url: "https://misakanet.org/journey/", json: false, metadataOnly: true },
 ];
 
-// IP 限流: 每个 IP 每 30 秒最多 1 次
-const RATE_LIMIT_WINDOW = 30_000;
-const rateMap = new Map();
-
-function cleanRateMap() {
-  const cutoff = Date.now() - RATE_LIMIT_WINDOW;
-  for (const [ip, time] of rateMap) {
-    if (time < cutoff) rateMap.delete(ip);
-  }
-}
-
 // 输入校验
 const MAX_AGENT_TYPE = 30;
 const MAX_NODE_NAME = 50;
-
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization",
-};
 
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -151,13 +140,6 @@ function getMcpServerInfo(env) {
     name: "misakanet",
     version: env.MCP_VERSION || "2.16.0",
   };
-}
-
-function timingSafeEqual(a, b) {
-  if (a.length !== b.length) return false;
-  let result = 0;
-  for (let i = 0; i < a.length; i++) result |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return result === 0;
 }
 
 // Origin validation — MCP spec requires this to prevent DNS rebinding
@@ -821,28 +803,6 @@ async function fetchPublicJson(path) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const REPUTATION_MAX_ENTRIES = 20;
-const REPUTATION_PERIODS = Object.freeze(Object.create(null, {
-  "all-time": { value: null, enumerable: true },
-  monthly: { value: 30, enumerable: true },
-  weekly: { value: 7, enumerable: true },
-}));
-
-function normalizeReputationPeriod(value) {
-  const period = String(value || "all-time").toLowerCase();
-  if (period === "all_time" || period === "alltime") return "all-time";
-  if (period === "month") return "monthly";
-  if (period === "week") return "weekly";
-  return period in REPUTATION_PERIODS ? period : null;
-}
-
-function parseTimestamp(value) {
-  const timestamp = Date.parse(String(value || ""));
-  return Number.isFinite(timestamp) ? timestamp : null;
-}
-
-function roundPoints(value) {
-  return Math.round(value * 100) / 100;
-}
 
 function buildReputationLeaderboard(source, period = "all-time", now = Date.now()) {
   const normalizedPeriod = normalizeReputationPeriod(period);
@@ -933,12 +893,6 @@ async function handleReputationLeaderboard(request, env) {
   }
 }
 
-function sanitizeIdentifier(val, maxLen) {
-  if (!val) return "";
-  if (val.length > maxLen) val = val.slice(0, maxLen);
-  // 只允许字母、数字、下划线、连字符、中文
-  return val.replace(/[^\w\u4e00-\u9fa5\-]/g, "");
-}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Unsolved failure map (Issue #788)
