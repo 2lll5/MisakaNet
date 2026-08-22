@@ -273,11 +273,19 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
     crypto.getRandomValues(randBytes);
     for (let i = 0; i < 32; i++) token += tokenChars[randBytes[i] % tokenChars.length];
 
-    // Store registration
+    // Store registration (node data)
     await env.MISAKANET_KV.put(`node:${nodeId}`, JSON.stringify({
       agent_type: agentType,
       registered_at: new Date().toISOString(),
       token: token,
+    }), { expirationTtl: 86400 * 30 });
+
+    // Store token lookup (for auth verification)
+    await env.MISAKANET_KV.put(`mcp_token:${token}`, JSON.stringify({
+      node_id: nodeId,
+      agent_type: agentType,
+      registered_at: new Date().toISOString(),
+      expires: new Date(Date.now() + 86400 * 30 * 1000).toISOString(),
     }), { expirationTtl: 86400 * 30 });
 
     return {
