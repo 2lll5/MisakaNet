@@ -209,6 +209,8 @@ function reportCrash(reason, error, stderrBuffer, exitCode) {
     // Use spawnSync which blocks until the handler completes.
     const payloadTmp = path.join(os.tmpdir(), `fatal-guard-${process.pid}.json`);
     try { fs.writeFileSync(payloadTmp, payload); } catch (_) {}
+    // FATAL_HANDLER is developer-configured, not user input. shell: false prevents injection.
+    // lgtm[js/shell-command-injection-from-environment]
     const invocation = buildSpawnSpec(command[0], [...command.slice(1), ...handlerArgs]);
     const result = spawnSync(invocation.command, invocation.args, {
       timeout: HANDLER_TIMEOUT_MS,
@@ -222,6 +224,8 @@ function reportCrash(reason, error, stderrBuffer, exitCode) {
       process.stderr.write(`fatal-guard: Windows handler failed: ${detail}\n`);
     }
   } else {
+    // FATAL_HANDLER is developer-configured, not user input. shell: false prevents injection.
+    // lgtm[js/shell-command-injection-from-environment]
     const invocation = buildSpawnSpec(command[0], [...command.slice(1), ...handlerArgs, payload]);
     const reporter = spawn(invocation.command, invocation.args, {
       ...spawnOpts,
