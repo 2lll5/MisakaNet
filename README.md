@@ -18,7 +18,7 @@ mcp-name: io.github.Ikalus1988/misakanet
 </p>
 
 [![CI](https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml/badge.svg)](https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml)
-[![PyPI](https://img.shields.io/pypi/v/misakanet-core)](https://pypi.org/project/misakanet-core/)
+[![PyPI](https://img.shields.io/pypi/v/misakanet)](https://pypi.org/project/misakanet/)
 [![Python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet)](https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE)
 [![Glama score](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg)](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/score)
@@ -50,7 +50,14 @@ python3 scripts/mcp_server.py
 # Add to your MCP config, then ask: "Search MisakaNet for pip install timeout"
 ```
 
-**Option 3 — DeepSeek Harness:**
+**Option 3 — PyPI (pip install):**
+```bash
+pip install misakanet
+misakanet "database is locked"
+# Or: python3 -m search_knowledge "your error here"
+```
+
+**Option 4 — DeepSeek Harness:**
 ```bash
 python3 scripts/mcp_deepseek_adapter.py
 ```
