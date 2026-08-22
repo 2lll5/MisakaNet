@@ -224,7 +224,6 @@ async function fetchLessonContent(env, lessonPath, lessonId) {
     }
   }
   throw new Error(`Lesson not found: ${filePath}`);
-  return { path: filePath, content: atob(data.content).slice(0, 5000) };
 }
 
 // ── MCP Identity Aura (御坂共有視界モード) ──
@@ -267,10 +266,12 @@ async function handleMcpToolCall(env, toolName, args, authToken) {
     const nodeId = `Misaka${current + 1}`;
     await env.MISAKANET_KV.put(counterKey, String(current + 1));
 
-    // Generate token
+    // Generate token (cryptographically secure)
     const tokenChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
     let token = "mcp_";
-    for (let i = 0; i < 32; i++) token += tokenChars[Math.floor(Math.random() * tokenChars.length)];
+    const randBytes = new Uint8Array(32);
+    crypto.getRandomValues(randBytes);
+    for (let i = 0; i < 32; i++) token += tokenChars[randBytes[i] % tokenChars.length];
 
     // Store registration
     await env.MISAKANET_KV.put(`node:${nodeId}`, JSON.stringify({
@@ -441,7 +442,10 @@ async function handleMcpRequest(request, env) {
   try {
     const peekBody = await request.clone().json();
     isIntakeCall = peekBody?.method === "tools/call" && (peekBody?.params?.name === "misakanet_submit_intake" || peekBody?.params?.name === "misakanet_register");
-  } catch {}
+  } catch (peekErr) {
+    // Non-JSON body — treat as non-intake; log for diagnostics
+    console.warn("isIntakeCall parse failed:", peekErr?.message || peekErr);
+  }
 
   let authed = false;
   if (isIntakeCall) {
@@ -629,18 +633,18 @@ async function fetchPublicJson(path) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const REPUTATION_MAX_ENTRIES = 20;
-const REPUTATION_PERIODS = {
-  "all-time": null,
-  monthly: 30,
-  weekly: 7,
-};
+const REPUTATION_PERIODS = Object.freeze(Object.create(null, {
+  "all-time": { value: null, enumerable: true },
+  monthly: { value: 30, enumerable: true },
+  weekly: { value: 7, enumerable: true },
+}));
 
 function normalizeReputationPeriod(value) {
   const period = String(value || "all-time").toLowerCase();
   if (period === "all_time" || period === "alltime") return "all-time";
   if (period === "month") return "monthly";
   if (period === "week") return "weekly";
-  return Object.prototype.hasOwnProperty.call(REPUTATION_PERIODS, period) ? period : null;
+  return period in REPUTATION_PERIODS ? period : null;
 }
 
 function parseTimestamp(value) {
@@ -1368,7 +1372,7 @@ export default {
         let total30d = 0, total7d = 0, lastSeen = null;
         for (const [day, bucket] of Object.entries(record.days)) {
           const dayTime = new Date(`${day}T00:00:00Z`).getTime();
-          const dayCount = Object.values(bucket.reasons || {}).reduce((s, r) => s + (r.count || 0), 0);
+          const dayCount = Object.values(bucket.reasons || {}).reduce((s, r) => s + (typeof r === "number" ? r : r?.count || 0), 0);
           if (dayTime >= cutoff) total30d += dayCount;
           if (dayTime >= Date.now() - 7 * 86_400_000) total7d += dayCount;
           if (dayCount > 0 && (!lastSeen || day > lastSeen)) lastSeen = day;
@@ -1428,10 +1432,12 @@ export default {
       if (connRateCount >= 3) return jsonResponse({ error: "Rate limited. Try again later." }, 429);
       await env.MISAKANET_KV.put(connRateKey, String(connRateCount + 1), { expirationTtl: 600 });
 
-      // Generate 6-char alphanumeric code
+      // Generate 6-char alphanumeric code (cryptographically secure)
       const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no I/O/0/1 for readability
       let code = "";
-      for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+      const codeBytes = new Uint8Array(6);
+      crypto.getRandomValues(codeBytes);
+      for (let i = 0; i < 6; i++) code += chars[codeBytes[i] % chars.length];
 
       // Store in KV: pending, 10 min TTL
       await env.MISAKANET_KV.put(`pair:${code}`, JSON.stringify({
@@ -1464,10 +1470,12 @@ export default {
       pairData.used_ip = request.headers.get("CF-Connecting-IP") || "unknown";
       await env.MISAKANET_KV.put(pairKey, JSON.stringify(pairData), { expirationTtl: 86400 });
 
-      // Generate short-lived token (24h)
+      // Generate short-lived token (24h, cryptographically secure)
       const tokenChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
       let token = "mcp_";
-      for (let i = 0; i < 32; i++) token += tokenChars[Math.floor(Math.random() * tokenChars.length)];
+      const pairTokenBytes = new Uint8Array(32);
+      crypto.getRandomValues(pairTokenBytes);
+      for (let i = 0; i < 32; i++) token += tokenChars[pairTokenBytes[i] % tokenChars.length];
 
       // Store token in KV for validation
       await env.MISAKANET_KV.put(`mcp_token:${token}`, JSON.stringify({
@@ -1656,8 +1664,8 @@ async function getCode() {
       return jsonResponse({ error: "Not found" }, 404);
     }
 
-    // 定期清理 rateMap
-    if (Math.random() < 0.02) cleanRateMap();
+    // 定期清理 rateMap (probabilistic, not security-sensitive)
+    if (crypto.getRandomValues(new Uint8Array(1))[0] < 6) cleanRateMap();
 
     // IP 限流
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";

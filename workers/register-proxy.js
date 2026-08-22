@@ -383,8 +383,8 @@ function serveLandingPage() {
 
 // ── 注册处理 ──
 async function handleRegistration(request, env) {
-  // 定期清理 rateMap
-  if (Math.random() < 0.02) cleanRateMap();
+  // 定期清理 rateMap (probabilistic, not security-sensitive)
+  if (crypto.getRandomValues(new Uint8Array(1))[0] < 6) cleanRateMap();
 
   // IP 限流
   const ip = request.headers.get("CF-Connecting-IP") || "unknown";
