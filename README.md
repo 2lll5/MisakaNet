@@ -9,7 +9,7 @@
 > **Git-backed failure-memory for AI coding agents.**
 >
 > Zero dependencies. Zero server. Zero database.
-> Paste an error → search 377 lessons → get a fix path.
+> Paste an error → search 382 lessons → get a fix path.
 
 mcp-name: io.github.Ikalus1988/misakanet
 
@@ -74,7 +74,7 @@ Returns `node_id` + `token`. Use token for unlimited remote searches.
 
 **Git-backed failure-memory for AI coding agents.** Zero dependencies. Zero server. Zero database.
 
-Agent hits an error → search 377 lessons → get a fix path. No prompt leaking, no raw logs stored.
+Agent hits an error → search 382 lessons → get a fix path. No prompt leaking, no raw logs stored.
 
 ### Integration surfaces
 
@@ -99,14 +99,7 @@ Agent hits an error → search 377 lessons → get a fix path. No prompt leaking
 | OpenCode | MCP | ✅ Supported |
 | Copilot | MCP | ✅ Supported |
 
-**🔥 New: No-account MCP intake.** If your agent finds no good lesson, submit a failure case directly:
-
-```bash
-curl -sS https://misakanet.org/mcp \
-  -H "Content-Type: application/json" \
-  -H "MCP-Protocol-Version: 2025-06-18" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_submit_intake","arguments":{"problem":"YOUR PROBLEM","source":"your-agent"}}}'
-```
+**🔥 New: No-account MCP intake.** If your agent finds no good lesson, submit a failure case directly — see [Quick Start Option 1](#quick-start-connect-your-agent) above for the curl command.
 
 **No GitHub account. No email. No Bearer token. No browser.** The intake becomes a maintainer-visible GitHub issue for review.
 
@@ -144,7 +137,7 @@ curl -sS https://misakanet.org/mcp \
 | **Security Fix** | CodeQL #49: URL validation uses `startswith()` instead of substring check |
 | **Worker Syntax Fix** | Fixed pre-existing missing closing brace in `register-proxy-sw.js` |
 | **Issue Evaluator** | PR Genius extended with issue quality review (spam, secrets, labels) |
-| **377 Lessons** | First lesson from remote MCP intake (#1069 → `github-release-large-asset-download-cn.md`) |
+| **382 Lessons** | First lesson from remote MCP intake (#1069 → `github-release-large-asset-download-cn.md`) |
 
 → [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.18.0)
 
@@ -370,13 +363,7 @@ Returns `node_id` + `token`. Use token for unlimited remote searches.
 
 **Web:** https://misakanet.org/connect → Generate Code → Paste to agent
 
-**No GitHub account?** Submit failure cases via MCP intake (no auth needed):
-```bash
-curl -sS https://misakanet.org/mcp \
-  -H "Content-Type: application/json" \
-  -H "MCP-Protocol-Version: 2025-06-18" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_submit_intake","arguments":{"problem":"YOUR PROBLEM","source":"your-agent"}}}'
-```
+**No GitHub account?** Submit failure cases via MCP intake — see [Quick Start Option 1](#quick-start-connect-your-agent) above.
 
 ---
 
@@ -384,7 +371,7 @@ curl -sS https://misakanet.org/mcp \
 
 | Metric | Value |
 |--------|-------|
-| Shared Lessons | 290 (indexed) |
+| Shared Lessons | 382 |
 | Registered Nodes | 59 assigned IDs |
 | Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
 | npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
