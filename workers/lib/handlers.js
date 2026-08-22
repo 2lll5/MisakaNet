@@ -136,7 +136,7 @@ async function fetchPublicJson(path) {
   return resp.json();
 }
 
-module.exports = {
+export {
   fetchFromGitHub,
   getWithCache,
   fetchPublicJson,

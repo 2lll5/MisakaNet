@@ -3,12 +3,14 @@
 // counter、头像、欢迎词由 register.yml workflow 处理
 // 环境变量: REGISTER_TOKEN (GitHub PAT, 需 issues:write)
 
+// Imported modules — loaded at startup via dynamic import (ESM compatible)
+const _utils = await import("./lib/utils.js");
 const {
   CORS_HEADERS, timingSafeEqual, sanitizeIdentifier,
   parseTimestamp, roundPoints, REPUTATION_PERIODS,
   normalizeReputationPeriod, RATE_LIMIT_WINDOW, rateMap,
   cleanRateMap,
-} = require("./lib/utils");
+} = _utils;
 
 // GITHUB_API, REPO, PUBLIC_DATA_BASE are defined locally below
 

@@ -91,7 +91,7 @@ function validateMcpOrigin(request) {
   return MCP_ALLOWED_ORIGINS.includes(origin);
 }
 
-module.exports = {
+export {
   CORS_HEADERS,
   jsonResponse,
   mcpJsonResponse,
