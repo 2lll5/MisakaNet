@@ -29,7 +29,10 @@ test('crash smoke captures a four-field tombstone and converts it to a draft', a
     const handler = path.join(tmp, 'record-handler.js');
     await writeFile(handler, [
       '#!/usr/bin/env node',
-      "require('node:fs').writeFileSync(process.env.PAYLOAD_FILE, process.argv.at(-1));",
+      // On Windows, the payload is passed via FATAL_PAYLOAD env var to avoid
+      // command-line quoting issues with large JSON strings.
+      "const data = process.env.FATAL_PAYLOAD || process.argv.at(-1);",
+      "require('node:fs').writeFileSync(process.env.PAYLOAD_FILE, data);",
     ].join('\n') + '\n');
     await chmod(handler, 0o755);
 
@@ -46,13 +49,15 @@ test('crash smoke captures a four-field tombstone and converts it to a draft', a
 
     // The handler is detached by design; poll briefly instead of sleeping a
     // fixed interval so the test remains fast on both Linux and Windows.
+    const maxAttempts = 30;
+    const pollInterval = 50;
     let payload;
-    for (let attempt = 0; attempt < 30; attempt += 1) {
+    for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
       try {
         payload = JSON.parse(await readFile(payloadFile, 'utf8'));
         break;
       } catch (_) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
+        await new Promise((resolve) => setTimeout(resolve, pollInterval));
       }
     }
     assert.ok(payload, 'fatal handler did not write a payload');
