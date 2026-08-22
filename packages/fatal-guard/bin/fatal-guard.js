@@ -14,6 +14,7 @@
 
 const { spawn, spawnSync } = require('node:child_process');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const { buildPayload } = require('../index');
 const { redact } = require('../src/lib/redact');
@@ -198,22 +199,21 @@ function reportCrash(reason, error, stderrBuffer, exitCode) {
       }
     } catch (_) {}
   }
-  const invocation = buildSpawnSpec(command[0], [...command.slice(1), ...handlerArgs, payload]);
   const spawnOpts = {
     stdio: 'ignore',
     shell: false,
     windowsHide: true,
-    ...invocation.options,
   };
   if (process.platform === 'win32') {
     // On Windows, detached processes die when the parent exits via process.exit().
-    // Use spawnSync so the handler completes before we exit.
-    // Pass the payload via FATAL_PAYLOAD env var to avoid Windows command-line
-    // length/quoting issues with large JSON strings.
+    // Use spawnSync which blocks until the handler completes.
+    const payloadTmp = path.join(os.tmpdir(), `fatal-guard-${process.pid}.json`);
+    try { fs.writeFileSync(payloadTmp, payload); } catch (_) {}
+    const invocation = buildSpawnSpec(command[0], [...command.slice(1), ...handlerArgs]);
     const result = spawnSync(invocation.command, invocation.args, {
-      ...spawnOpts,
       timeout: HANDLER_TIMEOUT_MS,
-      env: { ...process.env, FATAL_PAYLOAD: payload },
+      stdio: 'ignore',
+      env: { ...process.env, FATAL_PAYLOAD_FILE: payloadTmp, FATAL_PAYLOAD: payload },
     });
     if (result.error || (result.status !== null && result.status !== 0)) {
       const detail = result.error
@@ -222,8 +222,10 @@ function reportCrash(reason, error, stderrBuffer, exitCode) {
       process.stderr.write(`fatal-guard: Windows handler failed: ${detail}\n`);
     }
   } else {
+    const invocation = buildSpawnSpec(command[0], [...command.slice(1), ...handlerArgs, payload]);
     const reporter = spawn(invocation.command, invocation.args, {
       ...spawnOpts,
+      ...invocation.options,
       detached: true,
     });
     reporter.on('error', () => {});
