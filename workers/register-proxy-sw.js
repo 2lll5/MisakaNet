@@ -109,6 +109,37 @@ const MCP_TOOLS = [
       required: ["problem"],
     },
   },
+  {
+    name: "misakanet_write_lesson",
+    description: "Submit a complete, structured failure lesson. Requires a registered agent token (not anonymous). Input: title, domain, problem, root_cause, fix (all required); verification, tags, token, source (optional). Returns lesson_id, status (pending_review), quality_score.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        title: { type: "string", description: "Short descriptive title." },
+        domain: { type: "string", description: "Domain: devops, python, network, feishu, rag, fanuc, mcp, etc." },
+        problem: { type: "string", description: "What failed (required)." },
+        root_cause: { type: "string", description: "Why it failed (required)." },
+        fix: { type: "string", description: "How to fix it (required)." },
+        verification: { type: "string", description: "How to confirm the fix works." },
+        tags: { type: "string", description: "Comma-separated tags." },
+        token: { type: "string", description: "Registered agent token (required)." },
+        source: { type: "string", description: "Source: codex, claude-code, cursor, etc." },
+      },
+      required: ["title", "domain", "problem", "root_cause", "fix", "token"],
+    },
+  },
+  {
+    name: "misakanet_preflight",
+    description: "Check risk level before executing high-risk operations. Matches agent intent against lesson triggers to provide proactive warnings. Use before RAG builds, WSL/GPU tasks, bulk imports, or any operation that might fail.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        intent: { type: "string", description: "Required: what you plan to do (e.g. 'build RAG pipeline with ChromaDB')." },
+        context: { type: "string", description: "Optional: additional context about the environment or setup." },
+      },
+      required: ["intent"],
+    },
+  },
 ];
 
 const MCP_PROTOCOL_VERSION = "2025-06-18";
@@ -424,6 +455,137 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
       clearTimeout(timeoutId);
       return { error: `Submit failed: ${e.message}` };
     }
+  }
+
+  if (toolName === "misakanet_write_lesson") {
+    const { title, domain, problem, root_cause, fix, verification, tags, token: agentToken, source } = args;
+    if (!title || !domain || !problem || !root_cause || !fix) {
+      return { submitted: false, error: "Missing required fields: title, domain, problem, root_cause, fix" };
+    }
+    if (!agentToken || !agentToken.startsWith("mcp_")) {
+      return { submitted: false, error: "Registered agent token required. Use misakanet_register first." };
+    }
+    // Validate token
+    if (env.MISAKANET_KV) {
+      const tokenData = await env.MISAKANET_KV.get(`mcp_token:${agentToken}`, "json");
+      if (!tokenData || new Date(tokenData.expires) < new Date()) {
+        return { submitted: false, error: "Invalid or expired token. Use misakanet_register to get a new one." };
+      }
+    }
+    // Quality check: basic length requirements
+    const qualityScore = Math.min(100,
+      (problem.length >= 20 ? 25 : problem.length) +
+      (root_cause.length >= 20 ? 25 : root_cause.length) +
+      (fix.length >= 20 ? 25 : fix.length) +
+      (verification ? 25 : 10)
+    );
+    if (qualityScore < 50) {
+      return { submitted: false, error: "Quality score too low. Provide more detail in problem, root_cause, and fix.", quality_score: qualityScore };
+    }
+    // Create GitHub issue
+    const regToken = env.REGISTER_TOKEN;
+    if (!regToken) return { submitted: false, error: "REGISTER_TOKEN not configured" };
+    const issueBody = [
+      `**Kind:** lesson_submission`,
+      `**Source:** ${source || "remote-mcp"}`,
+      `**Domain:** ${domain}`,
+      `**Title:** ${title}`,
+      ``,
+      `## Problem`,
+      problem,
+      ``,
+      `## Root Cause`,
+      root_cause,
+      ``,
+      `## Fix`,
+      fix,
+      verification ? `\n## Verification\n${verification}` : "",
+      tags ? `\n**Tags:** ${tags}` : "",
+    ].filter(Boolean).join("\n");
+    try {
+      const resp = await fetch(`${GITHUB_API}/repos/${REPO}/issues`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${regToken}`,
+          "Content-Type": "application/json",
+          Accept: "application/vnd.github.v3+json",
+          "User-Agent": "MisakaNet-Worker",
+        },
+        body: JSON.stringify({
+          title: `[Lesson] ${title}`,
+          body: issueBody,
+          labels: ["lesson-submission", "pending-review"],
+        }),
+      });
+      if (!resp.ok) {
+        const err = await resp.text();
+        return { submitted: false, error: `GitHub API error: ${resp.status} ${err.slice(0, 200)}` };
+      }
+      const issue = await resp.json();
+      return {
+        submitted: true,
+        lesson_id: `issue-${issue.number}`,
+        status: "pending_review",
+        quality_score: qualityScore,
+        quality_notes: qualityScore >= 75 ? "Good quality" : "Could use more detail",
+        issue_url: issue.html_url,
+      };
+    } catch (e) {
+      return { submitted: false, error: `Submit failed: ${e.message}` };
+    }
+  }
+
+  if (toolName === "misakanet_preflight") {
+    const { intent, context } = args;
+    if (!intent) return { error: "intent is required" };
+
+    // Load lessons and check for matching triggers
+    let lessons;
+    try {
+      lessons = await getWithCache(env, "proxy:lessons", () => fetchFromGitHub(env.REGISTER_TOKEN, "lessons.json", "data"));
+    } catch (e) {
+      return { error: `Failed to load lessons: ${e.message}` };
+    }
+
+    const intentLower = intent.toLowerCase();
+    const contextLower = (context || "").toLowerCase();
+    const combined = `${intentLower} ${contextLower}`;
+
+    // Simple keyword matching against lesson titles and domains
+    const matches = [];
+    for (const lesson of lessons) {
+      const title = (lesson.title || "").toLowerCase();
+      const domain = (lesson.domain || "").toLowerCase();
+      const tags = (lesson.tags || []).map(t => t.toLowerCase());
+      const keywords = [title, domain, ...tags].join(" ");
+      // Check if any significant word from intent appears in lesson keywords
+      const intentWords = combined.split(/\s+/).filter(w => w.length > 3);
+      const matchCount = intentWords.filter(w => keywords.includes(w)).length;
+      if (matchCount >= 2) {
+        matches.push({
+          id: lesson.id || lesson.name,
+          title: lesson.title || lesson.name,
+          domain: lesson.domain || "",
+          relevance: matchCount,
+        });
+      }
+    }
+
+    matches.sort((a, b) => b.relevance - a.relevance);
+    const topMatches = matches.slice(0, 3);
+
+    let riskLevel = "low";
+    if (topMatches.length >= 3) riskLevel = "high";
+    else if (topMatches.length >= 1) riskLevel = "medium";
+
+    return {
+      risk_level: riskLevel,
+      intent: intent,
+      matched_lessons: topMatches,
+      guards: topMatches.length > 0
+        ? topMatches.map(m => `Check lesson "${m.title}" before proceeding.`)
+        : ["No matching lessons found. Proceed with caution."],
+    };
   }
 
   return { error: `Unknown tool: ${toolName}` };
