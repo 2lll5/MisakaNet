@@ -1,6 +1,6 @@
 name: PR-Agent Code Review
 
-on_disabled:
+on:
   pull_request:
     types: [opened, synchronize, reopened]
   issue_comment:
