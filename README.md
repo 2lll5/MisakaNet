@@ -9,7 +9,7 @@
 > **Git-backed failure-memory for AI coding agents.**
 >
 > Zero dependencies. Zero server. Zero database.
-> Paste an error → search 382 lessons → get a fix path.
+> Paste an error → search 310 lessons → get a fix path.
 
 mcp-name: io.github.Ikalus1988/misakanet
 
@@ -81,7 +81,7 @@ Returns `node_id` + `token`. Use token for unlimited remote searches.
 
 **Git-backed failure-memory for AI coding agents.** Zero dependencies. Zero server. Zero database.
 
-Agent hits an error → search 382 lessons → get a fix path. No prompt leaking, no raw logs stored.
+Agent hits an error → search 310 lessons → get a fix path. No prompt leaking, no raw logs stored.
 
 ### Integration surfaces
 
@@ -144,7 +144,7 @@ Agent hits an error → search 382 lessons → get a fix path. No prompt leaking
 | **Security Fix** | CodeQL #49: URL validation uses `startswith()` instead of substring check |
 | **Worker Syntax Fix** | Fixed pre-existing missing closing brace in `register-proxy-sw.js` |
 | **Issue Evaluator** | PR Genius extended with issue quality review (spam, secrets, labels) |
-| **382 Lessons** | First lesson from remote MCP intake (#1069 → `github-release-large-asset-download-cn.md`) |
+| **310 Lessons** | First lesson from remote MCP intake (#1069 → `github-release-large-asset-download-cn.md`) |
 
 → [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.18.0)
 
@@ -378,7 +378,7 @@ Returns `node_id` + `token`. Use token for unlimited remote searches.
 
 | Metric | Value |
 |--------|-------|
-| Shared Lessons | 382 |
+| Shared Lessons | 310 |
 | Registered Nodes | 59 assigned IDs |
 | Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
 | npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
