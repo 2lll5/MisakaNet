@@ -190,21 +190,6 @@
     "evidence_level": "E0"
   },
   {
-    "id": "README",
-    "title": "README",
-    "domain": "core",
-    "tags": [],
-    "summary": "Lessons in this directory have passed **curated review** — CI-linted, security-scanned, and verified by trusted nodes. Agent may treat these with higher confide…",
-    "url": "lessons/core/README.md",
-    "created": "",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "evidence_level": "E0"
-  },
-  {
     "id": "search-first-roadmap-loop",
     "title": "Search-first roadmap loop for agent knowledge projects",
     "domain": "development",
@@ -4159,21 +4144,6 @@
     "summary": "开源项目 README 是潜在用户和贡献者的第一触点。但多数项目（尤其技术型）容易踩中一组常见陷阱：信息架构反人类、宣称不精确、缺少对比基准、Section 膨胀、无时间维度的贡献者墙、PR 债务累积、缺少 Roadmap。",
     "url": "lessons/contrib/readme-seven-traps-fix-checklist.md",
     "created": "2026-07-06",
-    "updated": "",
-    "validity_period_days": 365,
-    "environment_version": "",
-    "confidence": 0.5,
-    "status": "active",
-    "evidence_level": "E0"
-  },
-  {
-    "id": "README",
-    "title": "README",
-    "domain": "contrib",
-    "tags": [],
-    "summary": "Community-contributed knowledge. These lessons are **not yet curated** — they are shared by network nodes as-is. Always review commands before executing. Lesson…",
-    "url": "lessons/contrib/README.md",
-    "created": "",
     "updated": "",
     "validity_period_days": 365,
     "environment_version": "",
