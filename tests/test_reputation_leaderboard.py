@@ -7,12 +7,14 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PAGE = REPO_ROOT / "docs" / "insights" / "reputation-leaderboard.html"
 WORKER = REPO_ROOT / "workers" / "register-proxy-sw.js"
+UTILS = REPO_ROOT / "workers" / "lib" / "utils.js"
 
 
 class TestReputationLeaderboardPage(unittest.TestCase):
     def setUp(self):
         self.html = PAGE.read_text(encoding="utf-8")
         self.worker = WORKER.read_text(encoding="utf-8")
+        self.utils = UTILS.read_text(encoding="utf-8")
 
     def test_page_and_endpoint_are_wired(self):
         self.assertTrue(PAGE.exists())
@@ -35,7 +37,7 @@ class TestReputationLeaderboardPage(unittest.TestCase):
 
     def test_backend_caps_and_filters_the_public_shape(self):
         self.assertIn("REPUTATION_MAX_ENTRIES = 20", self.worker)
-        self.assertIn('"all-time": null', self.worker)
+        self.assertIn('"all-time": { value: null', self.utils)
         self.assertIn("historyPoints", self.worker)
         self.assertIn("totalPoints", self.worker)
 
