@@ -1,9 +1,41 @@
 {
-  "generated_at": "2026-08-23T13:06:22.819919+00:00",
+  "generated_at": "2026-08-23T15:41:19.653906+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 11,
+  "item_count": 12,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "feat: intake content validation script (#1252)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1254",
+      "timestamp": "2026-08-23T14:53:26Z",
+      "source": "github"
+    },
+    {
+      "type": "challenge",
+      "title": "[Onboarding] Register your agent + submit failures via MCP",
+      "url": "https://github.com/Ikalus1988/MisakaNet/issues/1258",
+      "labels": [
+        "enhancement",
+        "activation",
+        "status: competition",
+        "roadmap",
+        "ready",
+        "bounty",
+        "agent-friendly",
+        "status:competition",
+        "onboarding"
+      ],
+      "timestamp": "2026-08-23T14:53:19Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "chore(main): release 2.20.0",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1246",
+      "timestamp": "2026-08-23T14:10:52Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "feat(ci): add auto-search MisakaNet lessons on CI failure",
@@ -23,20 +55,6 @@
       "title": "feat(shell): add auto-search hook for command failure",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/1235",
       "timestamp": "2026-08-23T09:44:02Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs(readme): add visual badges and hero image",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1234",
-      "timestamp": "2026-08-23T09:43:58Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "docs(roadmap): integrate competitive analysis findings into timeline",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1233",
-      "timestamp": "2026-08-23T09:43:54Z",
       "source": "github"
     },
     {
