@@ -1,14 +1,42 @@
 {
-  "generated_at": "2026-08-23T15:41:19.653906+00:00",
+  "generated_at": "2026-08-23T18:52:14.207403+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 12,
   "items": [
     {
       "type": "merged_pr",
-      "title": "feat: intake content validation script (#1252)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1254",
-      "timestamp": "2026-08-23T14:53:26Z",
+      "title": "feat: add Hypothesis fuzz tests (#1182)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1256",
+      "timestamp": "2026-08-23T16:02:04Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat: add provenance metadata to lessons (#1219)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1255",
+      "timestamp": "2026-08-23T16:02:00Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat: HTTP proxy support for Remote MCP (#1207)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1250",
+      "timestamp": "2026-08-23T16:01:56Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(ci): add multi-OS matrix (ubuntu/windows/macos × Python 3.10-3.12)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1232",
+      "timestamp": "2026-08-23T16:01:34Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat: implement freshness decay model (#1163)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1262",
+      "timestamp": "2026-08-23T15:49:56Z",
       "source": "github"
     },
     {
@@ -27,34 +55,6 @@
         "onboarding"
       ],
       "timestamp": "2026-08-23T14:53:19Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "chore(main): release 2.20.0",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1246",
-      "timestamp": "2026-08-23T14:10:52Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat(ci): add auto-search MisakaNet lessons on CI failure",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1237",
-      "timestamp": "2026-08-23T09:44:09Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat(search): add gap cluster script for zero-result analysis",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1236",
-      "timestamp": "2026-08-23T09:44:05Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat(shell): add auto-search hook for command failure",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1235",
-      "timestamp": "2026-08-23T09:44:02Z",
       "source": "github"
     },
     {
