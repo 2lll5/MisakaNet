@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-08-22T13:02:36.077494+00:00",
+  "generated_at": "2026-08-23T09:47:24.541777+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 11,
   "items": [
     {
       "type": "merged_pr",
-      "title": "chore(main): release 2.19.0",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1242",
-      "timestamp": "2026-08-23T06:49:23Z",
+      "title": "feat(ci): add auto-search MisakaNet lessons on CI failure",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1237",
+      "timestamp": "2026-08-23T09:44:09Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat(ci): add mypy type checking for misakanet/ core package",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1241",
-      "timestamp": "2026-08-23T02:26:01Z",
+      "title": "feat(search): add gap cluster script for zero-result analysis",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1236",
+      "timestamp": "2026-08-23T09:44:05Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "docs: add pip install example + Try it now table (#1194)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1227",
-      "timestamp": "2026-08-23T02:18:09Z",
+      "title": "feat(shell): add auto-search hook for command failure",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1235",
+      "timestamp": "2026-08-23T09:44:02Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat(mcp): add tool filtering via MISAKA_TOOL_FILTER env var (#1204)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1228",
-      "timestamp": "2026-08-23T02:17:59Z",
+      "title": "docs(readme): add visual badges and hero image",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1234",
+      "timestamp": "2026-08-23T09:43:58Z",
       "source": "github"
     },
     {
       "type": "merged_pr",
-      "title": "feat(mcp): add debug logging for Remote MCP endpoint",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1230",
-      "timestamp": "2026-08-23T02:17:46Z",
+      "title": "docs(roadmap): integrate competitive analysis findings into timeline",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1233",
+      "timestamp": "2026-08-23T09:43:54Z",
       "source": "github"
     },
     {
