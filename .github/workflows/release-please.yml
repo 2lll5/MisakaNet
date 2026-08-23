@@ -50,7 +50,8 @@ jobs:
 
           # Update lesson count in docs/index.html
           LESSON_COUNT=$(find lessons/ -name "*.md" ! -name "README*" ! -name "LESSON_QUALITY*" | wc -l)
-          sed -i "s/[0-9]*+ indexed lessons/$LESSON_COUNT+ indexed lessons/g" docs/index.html
+          sed -i "s/[0-9]* indexed lessons/$LESSON_COUNT indexed lessons/g" docs/index.html
+          sed -i "s/[0-9]* indexed failure-recovery lessons/$LESSON_COUNT indexed failure-recovery lessons/g" docs/index.html
           echo "Updated lesson count to $LESSON_COUNT"
 
       - name: Commit version sync
