@@ -5846,5 +5846,55 @@
     "confidence": 0.5,
     "status": "active",
     "verified": true
+  },
+  {
+    "id": "windows-ci-splitcommand-backslash-unicode-detached",
+    "title": "Windows CI: splitCommand backslash stripping, UnicodeEncodeError, and detached process failure",
+    "domain": "devops",
+    "tags": [
+      "windows",
+      "ci",
+      "nodejs",
+      "python",
+      "subprocess",
+      "encoding",
+      "backslash",
+      "detached"
+    ],
+    "summary": "Three Windows CI bugs in one session: (1) splitCommand() strips backslashes from paths causing ENOENT, (2) Python subprocess UnicodeEncodeError with non-ASCII output on cp1252, (3) detached:true + unref() does not survive process.exit() on Windows.",
+    "preview": "## Problem\n\nThree distinct bugs surfaced in a single Windows CI session: splitCommand() strips backslashes from Windows paths, Python subprocess with non-ASCII output fails with UnicodeEncodeError, and detached processes are killed by parent exit.\n\n## Root Cause\n\nThe !isWindows guard was lost during rebase/squash. Windows defaults to cp1252 encoding. detached:true + unref() does not truly decouple child lifetime on Windows.\n\n## Solution\n\nRestore isWindows guard, set PYTHONIOENCODING=utf-8, use spawnSync for fire-and-forget children.",
+    "url": "lessons/contrib/windows-ci-splitcommand-backslash-unicode-detached.md",
+    "created": "2026-08-23",
+    "updated": "2026-08-23",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.85,
+    "status": "published",
+    "verified": false
+  },
+  {
+    "id": "nodejs-missing-require-inside-try-catch",
+    "title": "Node.js missing require inside try/catch silently kills win32 code path",
+    "domain": "devops",
+    "tags": [
+      "nodejs",
+      "require",
+      "try-catch",
+      "windows",
+      "debugging",
+      "ReferenceError"
+    ],
+    "summary": "Missing require(\"node:os\") inside try/catch(_){} silently kills the entire Windows code path. os.tmpdir() throws ReferenceError, caught by blanket catch, handler never spawned, test fails with cryptic marker: not found.",
+    "preview": "## Problem\n\nMissing require(\"node:os\") inside try/catch(_){} silently kills the entire Windows code path. The blanket catch swallows ReferenceError, the spawn never happens, and downstream code times out.\n\n## Root Cause\n\nModule require is inside the try block. A missing or mistyped require throws ReferenceError, caught by the blanket catch(_), making the error invisible.\n\n## Solution\n\nMove all require statements to top level. If try/catch must wrap everything, at minimum log the error.",
+    "url": "lessons/contrib/nodejs-missing-require-inside-try-catch.md",
+    "created": "2026-08-23",
+    "updated": "2026-08-23",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.85,
+    "status": "published",
+    "verified": false
   }
 ]
