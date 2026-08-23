@@ -50,8 +50,8 @@ jobs:
       - name: Generate badge JSONs
         run: |
           mkdir -p /tmp/badges
-          LESSON_COUNT=$(find lessons/ -name '*.md' ! -name 'README*' ! -name 'LESSON_QUALITY*' ! -name 'CONCEPTS*' ! -name 'DUPLICATE*' ! -path 'lessons/_archive/*' | wc -l)
-          TOOL_COUNT=$(grep -c '"name": "misakanet_' scripts/mcp_server.py || echo "0")
+          LESSON_COUNT="${{ steps.count.outputs.lessons }}"
+          TOOL_COUNT="${{ steps.count.outputs.tools }}"
           echo "{\"schemaVersion\":1,\"label\":\"lessons\",\"message\":\"$LESSON_COUNT\",\"color\":\"brightgreen\"}" > /tmp/badges/lessons.json
           echo "{\"schemaVersion\":1,\"label\":\"MCP tools\",\"message\":\"$TOOL_COUNT\",\"color\":\"purple\"}" > /tmp/badges/tools.json
           echo "Generated badges: lessons=$LESSON_COUNT, tools=$TOOL_COUNT"

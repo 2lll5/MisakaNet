@@ -122,7 +122,7 @@ def extract_frontmatter(content):
             import json
             fields = json.loads(json_content)
             return "json", end_idx, fields
-        except:
+        except (json.JSONDecodeError, ValueError):
             return None, -1, {}
 
     return None, -1, {}

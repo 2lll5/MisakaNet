@@ -419,21 +419,6 @@ Returns `node_id` + `token`. Use token for unlimited remote searches.
 
 ---
 
-## Stats
-
-| Metric | Value |
-|--------|-------|
-| Shared Lessons | 310 |
-| Registered Nodes | 59 assigned IDs |
-| Agent Types | CodeWhale, Claude, Codex, OpenClaw, OpenCode |
-| npm packages | [`@misaka-net/fatal-guard`](https://www.npmjs.com/package/@misaka-net/fatal-guard) |
-| PyPI packages | [`misakanet-core`](https://pypi.org/project/misakanet-core/) |
-| Bench tasks | 98 + dynamic drafts |
-| Domains | RAG, DevOps, Feishu, Fanuc, Network, Claude, Hub |
-| MCP Endpoint | `https://misakanet.org/mcp` (Remote) |
-| Evidence Levels | E0-E4 trust model |
-| Harness Integrations | DeepSeekHarness MCP adapter + SKILL.md |
-
 ## Key Domain Examples
 
 <details>
