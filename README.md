@@ -107,26 +107,23 @@ Returns `node_id` + `token`. Use token for unlimited remote searches.
 
 Agent hits an error → search lessons → get a fix path. No prompt leaking, no raw logs stored.
 
-### Core capabilities
+### What you get
 
-| Capability | Status |
-|---|---|
-| BM25 keyword search | ✅ Zero dependencies |
-| MCP Server (stdio) | ✅ 8 tools, Glama indexed |
-| MCP Remote | ✅ misakanet.org/mcp, pairing code + token |
-| POST /api/intake | ✅ Private feedback, auto redaction |
-| Demand Board | ✅ Intake clustering + maintainer override |
-| Contribution Credits | ✅ Usage quota + contribution points |
-| Capture CLI | ✅ `misaka capture` redacted failure reports |
-| Runtime Entry | ✅ Cursor rule + Claude Code playbook + `misaka run` |
-| PR Shape Guard | ✅ 5 rules, pull_request_target |
-| PR Genius Advisory | ✅ Quality signals, non-blocking |
-| Thank-you Workflow | ✅ Auto-comment on PR merge |
-| Email Intake | ✅ bot@misakanet.org → Worker → GitHub Issue |
-| Evidence Levels | ✅ E0-E4, trust_score = quality × (0.7 + 0.3 × evidence) |
-| Identity Aura | ✅ Agent identity + pairing code |
-| Voice Prompts | ✅ Voice hint system |
-| Preflight Guard | ✅ MCP risk injection check |
+| Metric | Value | Description |
+|---|---|---|
+| **Lessons** | 310+ | Failure-recovery knowledge base |
+| **Domains** | 25+ | rag, devops, fanuc, docker, feishu... |
+| **Evidence Levels** | E0-E4 | Verified by humans, PRs, or agents |
+
+### Evidence Levels
+
+| Level | Meaning | Source |
+|---|---|---|
+| E0 | Community reported | Intake, issues |
+| E1 | CI verified | Automated tests |
+| E2 | PR merged | Code review |
+| E3 | Maintainer verified | Human review |
+| E4 | Production proven | Real-world usage |
 
 ### Integration surfaces
 
