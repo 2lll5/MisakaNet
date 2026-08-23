@@ -31,8 +31,8 @@ def get_git_history(filepath):
             date_match = re.match(r"(\d{4}-\d{2}-\d{2})", date_str)
             date = date_match.group(1) if date_match else ""
             return author, date
-    except Exception:
-        pass
+    except (subprocess.SubprocessError, FileNotFoundError) as e:
+        print(f"Warning: git log failed for {filepath}: {e}", file=sys.stderr)
     return "", ""
 
 def determine_provenance_source(source_field, contributor):
