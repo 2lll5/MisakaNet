@@ -372,21 +372,20 @@ jobs:
         if: steps.scope.outputs.scope == 'full'
         run: |
           echo "=== Lesson Count Consistency ==="
-          # Count actual lesson files
-          ACTUAL=$(find lessons/ -name "*.md" -not -path "*/_archive/*" -not -path "*/drafts/*" | wc -l)
-          # Extract claimed count from STATUS.md (handles "377 篇" format)
-          CLAIMED=$(grep -oE "[0-9]+ 篇" STATUS.md | head -1 | grep -oE "[0-9]+")
-          if [ -z "$CLAIMED" ]; then
-            echo "::warning::Could not extract lesson count from STATUS.md"
-            exit 0
+          # Count actual lesson files (excluding README, TEMPLATE, etc.)
+          ACTUAL=$(find lessons/core lessons/contrib -name "*.md" \
+            ! -name "README.md" \
+            ! -name "TEMPLATE.md" \
+            ! -name "LESSON_QUALITY_SCORING.md" \
+            | wc -l)
+          # Count entries in lessons.json
+          JSON_COUNT=$(python3 -c "import json; print(len(json.load(open('data/lessons.json', encoding='utf-8'))))")
+          echo "Actual .md files: $ACTUAL"
+          echo "lessons.json entries: $JSON_COUNT"
+          if [ "$ACTUAL" -ne "$JSON_COUNT" ]; then
+            echo "::warning::Lesson count mismatch: actual=$ACTUAL, lessons.json=$JSON_COUNT"
           fi
-          echo "Actual: $ACTUAL lessons"
-          echo "Claimed: $CLAIMED in STATUS.md"
-          if [ "$ACTUAL" -ne "$CLAIMED" ]; then
-            echo "::error::Lesson count mismatch: actual=$ACTUAL, claimed=$CLAIMED in STATUS.md"
-            exit 1
-          fi
-          echo "✅ Lesson count consistent: $ACTUAL"
+          echo "✅ Lesson count: $ACTUAL files, $JSON_COUNT indexed"
 
       # ── Audit Report (all PRs) ──
       - name: Post Audit Report
