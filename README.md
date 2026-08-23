@@ -6,12 +6,9 @@
 
 # MisakaNet
 
-> **Git-backed failure-memory for AI coding agents.**
+> **Stop debugging the same error twice.**
 >
-> Zero dependencies. Zero server. Zero database.
-> Paste an error → search lessons → get a fix path.
-
-mcp-name: io.github.Ikalus1988/misakanet
+> MisakaNet searches 310+ failure lessons so your agent skips known bugs.
 
 <p align="center">
   <img src="promotional/misaka-compare.jpg" width="720" alt="MisakaNet — Before: 30+ min manual debugging vs After: 0.02s with MCP"/>
