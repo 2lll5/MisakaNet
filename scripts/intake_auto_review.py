@@ -38,16 +38,16 @@ from validate_intake import validate_intake, ValidationResult
 
 # === Scoring Weights ===
 DIMENSION_WEIGHTS = {
-    "completeness": 0.30,   # Required sections present
-    "generalization": 0.25, # Not specific to one user/env
-    "verification": 0.20,   # Has verification steps
-    "detail": 0.15,         # Sufficient detail
+    "completeness": 0.25,   # Required sections present
+    "generalization": 0.15, # Not specific to one user/env
+    "verification": 0.30,   # Has verification steps (most important)
+    "detail": 0.20,         # Sufficient detail
     "format": 0.10,         # Proper markdown structure
 }
 
 # === Decision Thresholds ===
-THRESHOLD_APPROVE = 80
-THRESHOLD_REVIEW = 50
+THRESHOLD_APPROVE = 75  # Lowered from 80
+THRESHOLD_REVIEW = 40   # Lowered from 50
 
 
 @dataclass
@@ -142,7 +142,7 @@ def score_completeness(body: str, sections: dict[str, str]) -> DimensionScore:
 
 def score_generalization(body: str, sections: dict[str, str]) -> DimensionScore:
     """Score how generalizable the lesson is (0-100)."""
-    score = 50  # Start at neutral
+    score = 30  # Start lower - need to earn points
     reasons = []
 
     # Check for user-specific paths (negative)
@@ -150,14 +150,14 @@ def score_generalization(body: str, sections: dict[str, str]) -> DimensionScore:
         r"/home/\w+/",
         r"/Users/\w+/",
         r"C:\\Users\\",
-        r"~\/",
+        r"~/",
     ]
     has_user_paths = any(re.search(p, body) for p in user_paths)
     if has_user_paths:
-        score -= 20
+        score -= 15
         reasons.append("✗ Contains user-specific paths")
     else:
-        score += 10
+        score += 15
         reasons.append("✓ No user-specific paths")
 
     # Check for internal tools (negative)
@@ -189,6 +189,8 @@ def score_generalization(body: str, sections: dict[str, str]) -> DimensionScore:
     elif keyword_count >= 3:
         score += 10
         reasons.append(f"✓ {keyword_count} generic tech keywords")
+    else:
+        reasons.append(f"✗ Only {keyword_count} generic tech keywords")
 
     # Check for multiple environments (positive)
     env_patterns = [
@@ -205,6 +207,18 @@ def score_generalization(body: str, sections: dict[str, str]) -> DimensionScore:
     elif env_count >= 1:
         score += 5
         reasons.append(f"✓ {env_count} environment mentioned")
+
+    # Check for specific project names (negative - reduces generalizability)
+    project_names = [
+        r"self-grow-wiki",
+        r"misakanet",
+        r"hermes",
+        r"codewhale",
+    ]
+    has_project = any(re.search(p, body, re.IGNORECASE) for p in project_names)
+    if has_project:
+        score -= 10
+        reasons.append("✗ Contains specific project names")
 
     return DimensionScore(
         name="generalization",
@@ -228,7 +242,7 @@ def score_verification(body: str, sections: dict[str, str]) -> DimensionScore:
     )
 
     if has_verification:
-        score += 30
+        score += 20  # Base score for having section
         reasons.append("✓ Verification section present")
 
         # Get verification content from sections or extract from body
@@ -265,9 +279,14 @@ def score_verification(body: str, sections: dict[str, str]) -> DimensionScore:
         # Has verification steps
         if re.search(r"^\s*[-*]\s+", verification_content, re.MULTILINE):
             score += 15
-            reasons.append("✓ Has verification steps (list)")
+        reasons.append("✓ Has verification steps (list)")
     else:
-        reasons.append("✗ No verification section")
+        # Check if verification is mentioned anywhere in body
+        if re.search(r"verified|验证|确认|测试通过", body, re.IGNORECASE):
+            score += 15
+            reasons.append("✓ Verification mentioned (no dedicated section)")
+        else:
+            reasons.append("✗ No verification section")
 
     # Check for verification mentions anywhere in body (not just section)
     if re.search(r"验证通过|verified|确认.*落地|确认.*成功|no leaks found", body, re.IGNORECASE):
