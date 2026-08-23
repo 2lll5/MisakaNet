@@ -140,15 +140,6 @@ Agent hits an error → search lessons → get a fix path. No prompt leaking, no
 
 ### Agent compatibility
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Claude_Code-MCP-7C3AED?style=flat-square&logo=anthropic" alt="Claude Code">
-  <img src="https://img.shields.io/badge/Codex-MCP-000000?style=flat-square&logo=openai" alt="Codex">
-  <img src="https://img.shields.io/badge/Cursor-MCP-000000?style=flat-square&logo=cursor" alt="Cursor">
-  <img src="https://img.shields.io/badge/Gemini_CLI-MCP-4285F4?style=flat-square&logo=google" alt="Gemini CLI">
-  <img src="https://img.shields.io/badge/Windsurf-MCP-00D4AA?style=flat-square" alt="Windsurf">
-  <img src="https://img.shields.io/badge/Copilot-MCP-000000?style=flat-square&logo=github" alt="Copilot">
-</p>
-
 | Agent | Integration | Status |
 |---|---|---|
 | Claude Code | MCP + SKILL.md | ✅ Supported |
