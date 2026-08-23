@@ -18,17 +18,14 @@ jobs:
        !github.event.pull_request.draft &&
        !contains(github.event.pull_request.labels.*.name, 'docs-only')) ||
       (github.event_name == 'issue_comment' &&
-       contains(github.event.comment.body, '/review') ||
-       contains(github.event.comment.body, '/describe') ||
-       contains(github.event.comment.body, '/improve') ||
-       contains(github.event.comment.body, '/ask'))
+       (contains(github.event.comment.body, '/review') ||
+        contains(github.event.comment.body, '/describe') ||
+        contains(github.event.comment.body, '/improve') ||
+        contains(github.event.comment.body, '/ask')))
     runs-on: ubuntu-latest
     steps:
       - name: PR-Agent Review
-        uses: Codium-ai/pr-agent@v0.42.0  # pin to known working version
+        uses: Codium-ai/pr-agent@v0.43.0  # upgrade to fix AttributeError bug
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG: |
-            config.model="openrouter/minimax/m3"
-            pr_reviewer.extra_instructions="This is a Git-backed failure-memory system for AI agents. Focus on security (intake redaction), search quality (BM25), and MCP protocol compliance."
