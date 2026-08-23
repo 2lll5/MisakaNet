@@ -1,9 +1,16 @@
 {
-  "generated_at": "2026-08-23T04:05:38.981217+00:00",
+  "generated_at": "2026-08-23T07:06:41.231171+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 10,
+  "item_count": 11,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "chore(main): release 2.19.0",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1242",
+      "timestamp": "2026-08-23T06:49:23Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "feat(ci): add mypy type checking for misakanet/ core package",
