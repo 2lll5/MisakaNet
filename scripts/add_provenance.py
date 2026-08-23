@@ -8,7 +8,10 @@ import sys
 from pathlib import Path
 from datetime import datetime
 
-CONTRIB_DIR = Path(r"C:\Users\hp\MisakaNet\lessons\contrib")
+# Auto-detect repo root from script location
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+CONTRIB_DIR = REPO_ROOT / "lessons" / "contrib"
 BATCH_SIZE = 30
 
 def get_git_history(filepath):
@@ -16,7 +19,7 @@ def get_git_history(filepath):
     try:
         result = subprocess.run(
             ["git", "log", "--follow", "--format=%an|%ai", "--", filepath],
-            capture_output=True, text=True, cwd=r"C:\Users\hp\MisakaNet"
+            capture_output=True, text=True, cwd=str(REPO_ROOT)
         )
         if result.stdout.strip():
             lines = result.stdout.strip().split("\n")

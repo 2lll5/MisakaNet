@@ -1,7 +1,10 @@
 # Add provenance metadata to contrib lessons
 # Processes first 30 lessons without provenance
 
-$contribDir = "C:\Users\hp\MisakaNet\lessons\contrib"
+# Auto-detect repo root from script location
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$repoRoot = Split-Path -Parent $scriptDir
+$contribDir = Join-Path $repoRoot "lessons\contrib"
 $batchSize = 30
 
 # Get all .md files in contrib (exclude README)

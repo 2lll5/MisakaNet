@@ -6,7 +6,7 @@
 
 | 指标 | 数值 |
 |------|------|
-| 📚 Lessons | 388 篇 |
+| 📚 Lessons | 312 篇 |
 | 🏛️ 领域覆盖 | 25+ 个 |
 | 🔧 MCP Tools | 7 个 (local) + register (remote) |
 | ⭐ Stars | 421 |
