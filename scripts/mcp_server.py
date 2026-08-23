@@ -595,10 +595,10 @@ def handle_resources_read(uri: str) -> dict:
         return {"error": "troubleshooting.md not found"}
 
     elif uri == "misaka://docs/changelog":
-        p = REPO_ROOT / "STATUS.md"
+        p = REPO_ROOT / "CHANGELOG.md"
         if p.exists():
-            return {"content": p.read_text(encoding="utf-8", errors="replace")[:4000]}
-        return {"error": "STATUS.md not found"}
+            return {"content": p.read_text(encoding="utf-8", errors="replace")[:8000]}
+        return {"error": "CHANGELOG.md not found"}
 
     elif uri.startswith("misakanet://lessons/"):
         lesson_id = uri.replace("misakanet://lessons/", "")
