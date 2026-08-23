@@ -180,47 +180,14 @@ Agent hits an error → search lessons → get a fix path. No prompt leaking, no
 > **MisakaNet is purpose-built for one thing:** helping agents avoid repeating known failures.
 > It is not a general memory layer, not a runtime, and not a vector database.
 
-### What's new in v2.18.0
+### Latest: v2.18.0 (2026-08-21)
 
-| Feature | Description |
-|---------|-------------|
-| **Remote MCP Intake** | `misakanet_submit_intake` tool — no GitHub account, no email, no Bearer token needed |
-| **Worker Auth Bypass** | Intake tool bypasses Bearer auth on Cloudflare Worker MCP endpoint |
-| **Security Fix** | CodeQL #49: URL validation uses `startswith()` instead of substring check |
-| **Worker Syntax Fix** | Fixed pre-existing missing closing brace in `register-proxy-sw.js` |
-| **Issue Evaluator** | PR Genius extended with issue quality review (spam, secrets, labels) |
-| **310 Lessons** | First lesson from remote MCP intake (#1069 → `github-release-large-asset-download-cn.md`) |
+- **Remote MCP Intake** — No GitHub account needed
+- **Preflight Guardrails** — Risk check before execution
+- **Identity Aura** — Visual token badges
+- **Voice Prompts** — Agent guidance hints
 
-→ [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.18.0)
-
-### What's new in v2.17.0
-
-| Feature | Description |
-|---------|-------------|
-| **Lesson Lint** | Automated quality checks: broken links, duplicate titles, missing frontmatter |
-| **Competitive Analysis** | "What this is NOT" table + Git-backed positioning |
-| **304 Lessons** | 14 new failure-recovery lessons (was 289) |
-| **Security Hardening** | MCP path traversal fix, XSS escape, email redaction |
-| **Mobile Responsive** | /connect page works on phones (768px + 480px breakpoints) |
-| **Code Style Guide** | CONTRIBUTING.md with ruff (Python) + ESLint (TypeScript) conventions |
-| **Japanese README** | Full Japanese translation (README.ja.md) |
-| **DeepSeekHarness Adapter** | MCP-compatible adapter exposes `deepseek.recovery.*` tools for harness-level failure recovery |
-
-→ [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.17.0)
-
-### What's new in v2.16.0
-
-| Feature | Description |
-|---------|-------------|
-| **Remote MCP** | Streamable HTTP endpoint at `https://misakanet.org/mcp` — no clone needed |
-| **Pairing Code** | One-time 6-character code for tokenless onboarding ([/connect](https://misakanet.org/connect)) |
-| **Identity Aura** | Visual badges for static/paired/upgraded tokens |
-| **Voice Prompts** | Japanese MP3 voice feedback (opt-in) |
-| **Evidence Levels** | E0-E4 trust model for lesson quality |
-| **Unsolved Map** | Dashboard showing failure coverage gaps |
-| **Site Health** | Automated snapshot script for monitoring |
-
-→ [Full release notes](https://github.com/Ikalus1988/MisakaNet/releases/tag/v2.16.0)
+→ [Full changelog](CHANGELOG.md) · [Release notes](https://github.com/Ikalus1988/MisakaNet/releases)
 
 ### How it works
 
