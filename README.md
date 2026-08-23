@@ -125,6 +125,34 @@ Agent hits an error → search lessons → get a fix path. No prompt leaking, no
 | E3 | Maintainer verified | Human review |
 | E4 | Production proven | Real-world usage |
 
+### Best Practices
+
+<details>
+<summary>rag — ChromaDB crash on NTFS</summary>
+
+**Problem:** ChromaDB SQLite backend fails on NTFS-mounted WSL paths.
+**Fix:** Move DB to ext4: `mv ~/.chromadb /mnt/ext4/`.
+**Verify:** `python3 -c "import chromadb; c=chromadb.Client(); print(c.heartbeat())"`.
+</details>
+
+<details>
+<summary>devops — WSL terminal underscore corruption</summary>
+
+**Problem:** WSL terminal paste swallows underscores under high load.
+**Fix:** Use tmux or pipe stdin via temp script files.
+**Verify:** `echo "test_underscore_command"` shows correct output.
+</details>
+
+<details>
+<summary>fanuc — Karel ERR_ABORT vs ERR_PAUSE</summary>
+
+**Problem:** Robot hard-aborts instead of pausing on error.
+**Fix:** Use `POST_ERR(..., ERR_PAUSE)` (value 1) instead of `ERR_ABORT` (value 2).
+**Verify:** Robot pauses, system stays responsive.
+</details>
+
+> More best practices for `docker`, `feishu`, `network`, `claude`, `hub` → [`docs/domains/`](docs/domains/)
+
 ### Integration surfaces
 
 | Surface | What it does | Entry point |
@@ -377,36 +405,6 @@ curl -sS https://misakanet.org/mcp \
 **Web:** https://misakanet.org/connect → Generate Code → Paste to agent
 
 → See [Quick Start](#quick-start-connect-your-agent) for details
-
----
-
-## Key Domain Examples
-
-<details>
-<summary>rag — ChromaDB crash on NTFS</summary>
-
-**Problem:** ChromaDB SQLite backend fails on NTFS-mounted WSL paths.
-**Fix:** Move DB to ext4: `mv ~/.chromadb /mnt/ext4/`.
-**Verify:** `python3 -c "import chromadb; c=chromadb.Client(); print(c.heartbeat())"`.
-</details>
-
-<details>
-<summary>devops — WSL terminal underscore corruption</summary>
-
-**Problem:** WSL terminal paste swallows underscores under high load.
-**Fix:** Use tmux or pipe stdin via temp script files.
-**Verify:** `echo "test_underscore_command"` shows correct output.
-</details>
-
-<details>
-<summary>fanuc — Karel ERR_ABORT vs ERR_PAUSE</summary>
-
-**Problem:** Robot hard-aborts instead of pausing on error.
-**Fix:** Use `POST_ERR(..., ERR_PAUSE)` (value 1) instead of `ERR_ABORT` (value 2).
-**Verify:** Robot pauses, system stays responsive.
-</details>
-
-> Domain examples for `docker`, `feishu`, `network`, `claude`, `hub` → [`docs/domains/`](docs/domains/)
 
 ---
 
