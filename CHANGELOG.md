@@ -7,6 +7,13 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## [2.20.1](https://github.com/Ikalus1988/MisakaNet/compare/v2.20.0...v2.20.1) (2026-08-23)
+
+
+### Bug Fixes
+
+* replace bare backticks in tests to pass shape guard ([c8b0016](https://github.com/Ikalus1988/MisakaNet/commit/c8b0016f28c366c724af173ebdd8b60e2850937c))
+
 ## [2.20.0](https://github.com/Ikalus1988/MisakaNet/compare/v2.19.1...v2.20.0) (2026-08-23)
 
 
