@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T02:57:05.146110+00:00",
+  "generated_at": "2026-08-23T03:04:56.412102+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 10,
@@ -34,14 +34,6 @@
     },
     {
       "type": "lesson",
-      "title": "Windows CI: splitCommand backslash stripping, UnicodeEncodeError, and detached process failure",
-      "url": "lessons/contrib/windows-ci-splitcommand-backslash-unicode-detached.md",
-      "timestamp": "2026-08-23",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
       "title": "Node.js missing require inside try/catch silently kills win32 code path",
       "url": "lessons/contrib/nodejs-missing-require-inside-try-catch.md",
       "timestamp": "2026-08-23",
@@ -50,25 +42,33 @@
     },
     {
       "type": "lesson",
-      "title": "Aider CLI --api-key parameter leaks API key to history files",
-      "url": "lessons/contrib/aider-api-key-leak.md",
-      "timestamp": "2026-08-22",
-      "domain": "security",
+      "title": "Windows CI: splitCommand backslash stripping, UnicodeEncodeError, and detached process failure",
+      "url": "lessons/contrib/windows-ci-splitcommand-backslash-unicode-detached.md",
+      "timestamp": "2026-08-23",
+      "domain": "devops",
       "source": "lessons"
     },
     {
       "type": "lesson",
-      "title": "Aider via LiteLLM rejects standard Anthropic model names",
-      "url": "lessons/contrib/aider-litellm-model-name-rejection.md",
+      "title": "Fatal-guard CLI: harden entry point with --help, --version, exit codes",
+      "url": "lessons/contrib/fatal-guard-cli-hardening.md",
       "timestamp": "2026-08-22",
       "domain": "devops",
       "source": "lessons"
     },
     {
       "type": "lesson",
-      "title": "Aider --show-repo-map crashes on Windows with UnicodeEncodeError",
-      "url": "lessons/contrib/aider-windows-unicode-error.md",
+      "title": "Lesson Provenance Tracking: author, PR, source, merge history",
+      "url": "lessons/contrib/lesson-provenance-tracking.md",
       "timestamp": "2026-08-22",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "CI security checks: action pinning, permissions, README, code style",
+      "url": "lessons/contrib/ci-security-advisory-checks.md",
+      "timestamp": "2026-08-19",
       "domain": "devops",
       "source": "lessons"
     },
