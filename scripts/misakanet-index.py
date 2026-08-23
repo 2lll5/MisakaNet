@@ -74,7 +74,7 @@ def build_index(lessons_dir: str | Path) -> list[dict]:
         if not subdir_path.exists():
             continue
         for f in sorted(subdir_path.glob("*.md")):
-            if f.name == "index.md" or f.name.startswith("."):
+            if f.name in ("index.md", "README.md") or f.name.startswith("."):
                 continue
 
             content = f.read_text(encoding="utf-8")
