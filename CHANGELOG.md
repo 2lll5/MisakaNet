@@ -7,6 +7,39 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## [2.20.0](https://github.com/Ikalus1988/MisakaNet/compare/v2.19.1...v2.20.0) (2026-08-23)
+
+
+### Features
+
+* **ci:** add auto-search MisakaNet lessons on CI failure ([#1237](https://github.com/Ikalus1988/MisakaNet/issues/1237)) ([d09e92e](https://github.com/Ikalus1988/MisakaNet/commit/d09e92e7b7fbbed24c563b893ce360361f242154))
+* **search:** add gap cluster script for zero-result analysis ([#1236](https://github.com/Ikalus1988/MisakaNet/issues/1236)) ([54514e9](https://github.com/Ikalus1988/MisakaNet/commit/54514e99242a88eca797e2622d5d8f10d2ded4e0))
+* **shell:** add auto-search hook for command failure ([#1235](https://github.com/Ikalus1988/MisakaNet/issues/1235)) ([adaf4bc](https://github.com/Ikalus1988/MisakaNet/commit/adaf4bce49ed12fe479f4369188effc5b386fe07))
+
+
+### Bug Fixes
+
+* **ci:** fix shell escaping issues in ci-lesson-search workflow ([f52982e](https://github.com/Ikalus1988/MisakaNet/commit/f52982e1d499377ccd7e3c1d68aeb86893079bbd))
+* **ci:** upgrade pr-agent to v0.43.0 to fix AttributeError bug ([f869a31](https://github.com/Ikalus1988/MisakaNet/commit/f869a31a5281fda861978bec1f9fa5c5190a55f3))
+* configure pr-agent for minimax M3 via OpenRouter ([90a7892](https://github.com/Ikalus1988/MisakaNet/commit/90a7892d951a6039af6adff1671ba3ef9743742f))
+* **readme:** remove duplicate agent compatibility badges ([75a021d](https://github.com/Ikalus1988/MisakaNet/commit/75a021d20e812e9d7cc368d62a8c67b381325d44))
+* replace hardcoded lesson/domain counts with dynamic badges ([597d2b3](https://github.com/Ikalus1988/MisakaNet/commit/597d2b36b1f1c4713f3eb2bd56a73095e792fe50))
+* update lesson count check in pr-checks.yml ([99da603](https://github.com/Ikalus1988/MisakaNet/commit/99da6030cb9046689bb2750a167950e3eac454d1))
+
+
+### Reverts
+
+* **readme:** revert PR [#1234](https://github.com/Ikalus1988/MisakaNet/issues/1234) visual badges changes ([dae39c6](https://github.com/Ikalus1988/MisakaNet/commit/dae39c6ddf5598b4883134b432d71f0228782892))
+
+
+### Documentation
+
+* optimize README for Glama profile ([ef241ab](https://github.com/Ikalus1988/MisakaNet/commit/ef241abe65cce09b196a4cf027dabc5b0a0fc663))
+* **readme:** add visual badges and hero image ([#1234](https://github.com/Ikalus1988/MisakaNet/issues/1234)) ([129bbfb](https://github.com/Ikalus1988/MisakaNet/commit/129bbfbed1c0dc0929c7753de943596d9c2d2da3))
+* **roadmap:** integrate competitive analysis findings into timeline ([#1233](https://github.com/Ikalus1988/MisakaNet/issues/1233)) ([8622223](https://github.com/Ikalus1988/MisakaNet/commit/8622223f20bc5d0feefd42ea99e7d6ffdd432f68))
+* simplify README value proposition ([b723e72](https://github.com/Ikalus1988/MisakaNet/commit/b723e72513a5a11fe21ba3bf82ecf4846ee41ef3))
+* update lesson count in mcp-quickstart.md ([963632e](https://github.com/Ikalus1988/MisakaNet/commit/963632e3c24e3046ac1703f71e1e676f7440d3c9))
+
 ## [2.19.1](https://github.com/Ikalus1988/MisakaNet/compare/v2.19.0...v2.19.1) (2026-08-23)
 
 
