@@ -46,7 +46,7 @@ class TestSearchKnowledgeStdout(unittest.TestCase):
         result = search_knowledge._json_result(0.12345678, doc)
 
         self.assertEqual(
-            set(result), {"title", "domain", "tags", "score", "path", "preview"}
+            set(result), {"title", "domain", "tags", "score", "path", "preview", "freshness"}
         )
         self.assertEqual(result["path"], "lessons/example.md")
         self.assertEqual(result["score"], 0.123457)
