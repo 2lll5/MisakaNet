@@ -43,6 +43,7 @@ jobs:
           echo "domains=$DOMAIN_COUNT" >> "$GITHUB_OUTPUT"
 
       - name: Count MCP tools
+        id: tools
         run: |
           TOOL_COUNT=$(grep -c '"name": "misakanet_' scripts/mcp_server.py || echo "0")
           echo "tools=$TOOL_COUNT" >> "$GITHUB_OUTPUT"
