@@ -52,7 +52,7 @@ jobs:
         run: |
           mkdir -p /tmp/badges
           LESSON_COUNT="${{ steps.count.outputs.lessons }}"
-          TOOL_COUNT="${{ steps.count.outputs.tools }}"
+          TOOL_COUNT="${{ steps.tools.outputs.tools }}"
           echo "{\"schemaVersion\":1,\"label\":\"lessons\",\"message\":\"$LESSON_COUNT\",\"color\":\"brightgreen\"}" > /tmp/badges/lessons.json
           echo "{\"schemaVersion\":1,\"label\":\"MCP tools\",\"message\":\"$TOOL_COUNT\",\"color\":\"purple\"}" > /tmp/badges/tools.json
           echo "Generated badges: lessons=$LESSON_COUNT, tools=$TOOL_COUNT"
