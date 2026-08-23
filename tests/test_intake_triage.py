@@ -7,6 +7,13 @@ from __future__ import annotations
 
 import pytest
 
+_BT = "`"
+
+
+def _code_block(code: str, lang: str = "") -> str:
+    """Create a markdown code block."""
+    return f"{_BT * 3}{lang}\n{code}\n{_BT * 3}"
+
 
 # ── Priority scoring logic (mirrors workflow) ──
 
@@ -45,7 +52,7 @@ def compute_priority_score(
         score += 5
 
     # Code/error evidence
-    if "```" in body:
+    if _BT * 3 in body:
         score += 5
     import re
     if re.search(r"Error:|Traceback|Exception|ENOENT|EACCES|404|500", body):
@@ -104,28 +111,29 @@ class TestPriorityScoring:
 
     def test_high_quality_intake(self):
         """Well-structured intake with code and errors scores high."""
-        body = """## Problem
-
-The MCP server crashes when handling concurrent requests with Python 3.14.
-
-## Error
-
-```
-Traceback (most recent call last):
-  File "mcp_server.py", line 42
-    TypeError: 'str' object has no attribute 'get'
-```
-
-## Fix
-
-Replace `get_settings().get()` with dict access.
-
-## Verification
-
-1. Run `python3 mcp_server.py`
-2. Send 10 concurrent requests
-3. Verify no crashes
-"""
+        body = (
+            "## Problem\n"
+            "\n"
+            "The MCP server crashes when handling concurrent requests with Python 3.14.\n"
+            "\n"
+            "## Error\n"
+            "\n"
+            + _code_block(
+                'Traceback (most recent call last):\n'
+                '  File "mcp_server.py", line 42\n'
+                "    TypeError: 'str' object has no attribute 'get'"
+            )
+            + "\n\n"
+            "## Fix\n"
+            "\n"
+            "Replace `get_settings().get()` with dict access.\n"
+            "\n"
+            "## Verification\n"
+            "\n"
+            "1. Run `python3 mcp_server.py`\n"
+            "2. Send 10 concurrent requests\n"
+            "3. Verify no crashes\n"
+        )
         score = compute_priority_score(
             body,
             has_problem=True,
@@ -154,7 +162,9 @@ Replace `get_settings().get()` with dict access.
 
     def test_code_block_bonus(self):
         """Code blocks add to score."""
-        score_with = compute_priority_score("Some text\n```python\nprint('hi')\n```")
+        score_with = compute_priority_score(
+            "Some text\n" + _code_block("print('hi')", "python")
+        )
         score_without = compute_priority_score("Some text without code")
         assert score_with >= score_without
 
@@ -186,7 +196,12 @@ Replace `get_settings().get()` with dict access.
         assert score >= 0
 
         # Very high
-        body = " ".join(["word"] * 200) + "\n```python\ncode\n```\nError: test\nTraceback"
+        body = (
+            " ".join(["word"] * 200)
+            + "\n"
+            + _code_block("code", "python")
+            + "\nError: test\nTraceback"
+        )
         score = compute_priority_score(
             body,
             has_problem=True,
