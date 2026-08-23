@@ -9,7 +9,7 @@
 > **Git-backed failure-memory for AI coding agents.**
 >
 > Zero dependencies. Zero server. Zero database.
-> Paste an error → search 310 lessons → get a fix path.
+> Paste an error → search lessons → get a fix path.
 
 mcp-name: io.github.Ikalus1988/misakanet
 
@@ -17,6 +17,8 @@ mcp-name: io.github.Ikalus1988/misakanet
   <img src="promotional/misaka-compare.jpg" width="720" alt="MisakaNet — Before: 30+ min manual debugging vs After: 0.02s with MCP"/>
 </p>
 
+[![Lessons](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Ikalus1988/MisakaNet/data/badges/lessons.json)](https://github.com/Ikalus1988/MisakaNet/tree/main/lessons)
+[![MCP Tools](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Ikalus1988/MisakaNet/data/badges/tools.json)](https://github.com/Ikalus1988/MisakaNet/blob/main/scripts/mcp_server.py)
 [![CI](https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml/badge.svg)](https://github.com/Ikalus1988/MisakaNet/actions/workflows/pr-quality-gate.yml)
 [![PyPI](https://img.shields.io/pypi/v/misakanet)](https://pypi.org/project/misakanet/)
 [![Python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/downloads/)
@@ -103,7 +105,7 @@ Returns `node_id` + `token`. Use token for unlimited remote searches.
 
 **Git-backed failure-memory for AI coding agents.** Zero dependencies. Zero server. Zero database.
 
-Agent hits an error → search 310 lessons → get a fix path. No prompt leaking, no raw logs stored.
+Agent hits an error → search lessons → get a fix path. No prompt leaking, no raw logs stored.
 
 ### Integration surfaces
 
