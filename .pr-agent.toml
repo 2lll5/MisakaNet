@@ -1,7 +1,11 @@
 [config]
-model = "gpt-4o"
+model = "openrouter/minimax/m3"
 max_tokens = 16000
 patch_extra_lines = 1
+
+[openrouter]
+# minimax M3 via OpenRouter
+# API key configured via OPENAI_KEY secret (OpenRouter format: sk-or-...)
 
 [pr_reviewer]
 require_score_review = true
