@@ -67,6 +67,17 @@ def _json_result(score, doc, query: str = "", verbose: bool = False) -> dict:
         result["why_matched"] = _get_why_matched(match_reason)
     if verbose and query:
         result["score_breakdown"] = _score_breakdown(query, doc)
+    # Freshness badge (tier info)
+    try:
+        from misakanet.freshness import compute_freshness_from_content
+        freshness = compute_freshness_from_content(doc.content)
+        result["freshness"] = {
+            "score": freshness["score"],
+            "tier": freshness["tier"]["tier"],
+            "badge": freshness["tier"]["badge"],
+        }
+    except Exception:
+        pass  # freshness is non-critical
     return result
 
 
