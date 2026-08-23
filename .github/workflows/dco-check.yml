@@ -17,6 +17,8 @@ permissions:
 jobs:
   dco:
     runs-on: ubuntu-latest
+    # Skip DCO check for release-please bot PRs
+    if: github.event.pull_request.user.login != 'release-please[bot]'
     steps:
       - name: Checkout (pull_request)
         if: github.event_name == 'pull_request'
