@@ -78,4 +78,45 @@ check('timeout returns exit code 3 and names the command', () => {
   assert.match(result.stderr, /timed out after 50ms/);
 });
 
+check('invalid timeout value is a usage error (2)', () => {
+  const result = run(['--timeout', 'abc', '--', 'echo', 'hi']);
+  assert.equal(result.status, 2);
+  assert.match(result.stderr, /invalid timeout/);
+});
+
+check('--timeout without value is a usage error (2)', () => {
+  const result = run(['--timeout']);
+  assert.equal(result.status, 2);
+  assert.match(result.stderr, /requires a value/);
+});
+
+check('missing command after -- is a usage error (2)', () => {
+  const result = run(['--']);
+  assert.equal(result.status, 2);
+  assert.match(result.stderr, /missing command/);
+});
+
+check('--help combined with command is a usage error (2)', () => {
+  const result = run(['--help', '--', 'echo', 'hi']);
+  assert.equal(result.status, 2);
+  assert.match(result.stderr, /cannot be combined/);
+});
+
+check('--timeout=50 inline syntax works', () => {
+  const result = run([
+    '--timeout=50', '--', process.execPath, '-e', 'setTimeout(() => {}, 1000)',
+  ]);
+  assert.equal(result.status, 3);
+  assert.match(result.stderr, /timed out after 50ms/);
+});
+
+check('fatal-guard with FATAL_HANDLER set on crash', () => {
+  const result = spawnSync(process.execPath, [CLI, '--', process.execPath, '-e', 'process.exit(1)'], {
+    encoding: 'utf8',
+    env: { ...process.env, FATAL_HANDLER: 'echo' },
+    timeout: 5000,
+  });
+  assert.equal(result.status, 1);
+});
+
 if (process.exitCode) process.exit(1);
