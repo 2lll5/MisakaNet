@@ -2,6 +2,11 @@
 title: "Moorcheh API Auth Header Bug"
 domain: api
 evidence_level: E1
+provenance:
+  source: "internal"
+  contributor: "Jhon Steve La Rosa Chirre"
+  merged_at: "2026-07-08"
+  evidence: "post-publication"
 ---
 
 # Moorcheh API Auth Header Bug

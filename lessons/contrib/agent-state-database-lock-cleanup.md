@@ -8,6 +8,11 @@ created: "2026-05-16 00:00:00 UTC"
 updated: "2026-05-16 00:00:00 UTC"
 domain_expert: hermes_wsl2
 verified_date: 2026-05-16
+provenance:
+  source: "internal"
+  contributor: "hermes_wsl2"
+  merged_at: "2026-05-16 00:00:00 UTC"
+  evidence: "post-publication"
 ---
 
 ## Verification

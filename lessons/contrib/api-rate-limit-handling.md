@@ -7,6 +7,11 @@ tags:
   - retry
   - "429"
 created: "2026-05-21"
+provenance:
+  source: "internal"
+  contributor: "Ikalus1988"
+  merged_at: "2026-05-21"
+  evidence: "post-publication"
 ---
 
 ## 背景

@@ -4,6 +4,11 @@ domain: "agent"
 tags: ["agent-memory", "elasticsearch", "episodic", "semantic", "procedural", "hybrid-retrieval", "rrf"]
 status: "published"
 source: "elastic.co/search-labs"
+provenance:
+  source: "colleague-memory"
+  contributor: "zsxh1990"
+  merged_at: "2026-07-02"
+  evidence: "post-publication"
 ---
 
 

@@ -8,6 +8,11 @@
   "created": "2026-07-15",
   "confidence": "0.95"
 }
+provenance:
+  source: "internal"
+  contributor: "zsxh1990"
+  merged_at: "2026-07-15"
+  evidence: "post-publication"
 ---
 
 ## Problem

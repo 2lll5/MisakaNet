@@ -7,6 +7,11 @@ status: "published"
 source: "https://tailscale.com/blog/an-unlikely-database-migration/"
 created: "2026-07-28"
 confidence: 0.85
+provenance:
+  source: "colleague-memory"
+  contributor: "zsxh1990"
+  merged_at: "2026-07-28"
+  evidence: "post-publication"
 ---
 
 ## Problem

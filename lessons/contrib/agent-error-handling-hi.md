@@ -7,6 +7,11 @@ status: published
 confidence: 0.85
 created: 2026-08-01
 lang: hi
+provenance:
+  source: "github-pr"
+  contributor: "zsxh1990"
+  merged_at: "2026-08-01"
+  evidence: "pr-merged"
 ---
 
 ## समस्या

@@ -4,6 +4,11 @@ domain: "agent"
 tags: ["agent-memory", "extractor", "timing", "token-efficiency", "quality"]
 status: "published"
 source: "brgsk.xyz"
+provenance:
+  source: "colleague-memory"
+  contributor: "zsxh1990"
+  merged_at: "2026-07-02"
+  evidence: "post-publication"
 ---
 
 

@@ -8,6 +8,11 @@
   "created": "2026-07-17",
   "confidence": "0.88"
 }
+provenance:
+  source: "internal"
+  contributor: "Ikalus1988"
+  merged_at: "2026-07-17"
+  evidence: "post-publication"
 ---
 
 ## Problem

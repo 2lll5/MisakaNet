@@ -11,6 +11,11 @@
   "status": "published",
   "source": "ninghuagui-debug"
 }
+provenance:
+  source: "internal"
+  contributor: "ninghuagui-debug"
+  merged_at: "2026-07-21"
+  evidence: "post-publication"
 ---
 
 ## Problem

@@ -9,6 +9,11 @@ tags:
   - test-bank
 confidence: 0.88
 created: "2026-05-21"
+provenance:
+  source: "internal"
+  contributor: "Claude Opus 4.7"
+  merged_at: "2026-05-21"
+  evidence: "post-publication"
 ---
 
 ## 背景
