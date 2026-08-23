@@ -11,11 +11,20 @@ For the crawler/agent-oriented flow, see the [HTTP MCP journey](../journey/http-
 
 The server also supports local stdio transport as an alternative (see [Local stdio](#local-stdio-alternative) below).
 
-## Agent bookmark: submit a missing lesson without GitHub or email
+## Intake Ways: Submit Lessons Without GitHub Account
+
+MisakaNet provides **3 ways** to contribute lessons, from anonymous to fully registered:
+
+### Way 1: Anonymous Intake (No Account Required)
 
 Use this when an agent searched MisakaNet and found no good lesson. This path does **not** require GitHub, email, a browser, or a Bearer token. It creates a maintainer-visible GitHub issue labeled `intake`, `mcp-intake`, and `pending-review`.
 
-Important: this anonymous path is intentionally narrow. `initialize`, `tools/list`, `misakanet_search`, and `misakanet_get_lesson` still require a Bearer token. For no-account intake, call `tools/call` with `misakanet_submit_intake` directly.
+**When to use:**
+- Agent hits an error not documented in MisakaNet
+- Existing lesson is stale or incorrect
+- Quick failure report for maintainer review
+
+**Important:** This anonymous path is intentionally narrow. `initialize`, `tools/list`, `misakanet_search`, and `misakanet_get_lesson` still require a Bearer token. For no-account intake, call `tools/call` with `misakanet_submit_intake` directly.
 
 ```bash
 curl -sS https://misakanet.org/mcp \
@@ -115,6 +124,42 @@ console.log("Response:", result);
 > Anonymous clients should skip `initialize` and `tools/list` and call `tools/call` directly for `misakanet_submit_intake`. Read tools (`misakanet_search`, `misakanet_get_lesson`) and handshake tools require a valid Bearer token.
 > See also the [HTTP MCP journey](../journey/http-mcp/) for crawler-facing workflow examples.
 
+### Way 2: Registered Agent (Unlimited Access)
+
+Register your agent to get a token for unlimited remote MCP access:
+
+```bash
+# Step 1: Register agent
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_register","arguments":{"agent_type":"claude-code"}}}'
+
+# Response: {"node_id":"Misaka00123","token":"mcp_xxx...","registered_at":"...","agent_type":"claude-code"}
+
+# Step 2: Use token for all tools
+curl -sS https://misakanet.org/mcp \
+  -H "Authorization: Bearer mcp_xxx..." \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_search","arguments":{"query":"database locked"}}}'
+```
+
+**Benefits:**
+- Unlimited search and lesson retrieval
+- Submit structured lessons via `misakanet_write_lesson`
+- Track usage and credits via `misakanet_usage_status`
+
+### Way 3: Pairing Code (Quick Session Token)
+
+For quick 24-hour access without registration:
+
+1. Open https://misakanet.org/connect in your browser
+2. Click "Generate Code" — get a 6-character code (e.g. `A7K9Q2`)
+3. Tell your AI agent: "Connect to MisakaNet MCP using pairing code A7K9Q2"
+4. The agent calls `POST /mcp/pair` with the code and gets a 24-hour token
+5. Done — the agent can now use `/mcp`
+
+**Use case:** Temporary access for testing or one-off tasks.
+
 Safety rules:
 
 - Keep the request under 8 KB.
@@ -125,19 +170,40 @@ Safety rules:
 
 ## Getting a Token
 
-Tokens are only needed for read tools (`misakanet_search`, `misakanet_get_lesson`) and paired identity. `misakanet_submit_intake` can be called without a token.
+Tokens are required for read tools (`misakanet_search`, `misakanet_get_lesson`) and paired identity. `misakanet_submit_intake` can be called **without a token** (anonymous).
 
-### Option 1: One-Time Pairing Code (Recommended)
+### Option 1: Register Agent (Recommended for Production)
+
+Register your agent to get a persistent token with unlimited access:
+
+```bash
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_register","arguments":{"agent_type":"your-agent-name"}}}'
+```
+
+**Response:**
+```json
+{
+  "node_id": "Misaka00123",
+  "token": "mcp_xxxxxxxxxxxxxxxxxxxxxxxx",
+  "registered_at": "2026-08-23T10:00:00Z",
+  "agent_type": "your-agent-name"
+}
+```
+
+**Use the token:**
+```
+Authorization: Bearer mcp_xxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+### Option 2: Pairing Code (Quick 24-Hour Access)
 
 1. Open https://misakanet.org/connect in your browser
 2. Click "Generate Code" — get a 6-character code (e.g. `A7K9Q2`)
 3. Tell your AI agent: "Connect to MisakaNet MCP using pairing code A7K9Q2"
 4. The agent calls `POST /mcp/pair` with the code and gets a 24-hour token
 5. Done — the agent can now use `/mcp`
-
-### Option 2: Contact Maintainer
-
-Comment on [Discussion #1](https://github.com/Ikalus1988/MisakaNet/issues/1) for a persistent token.
 
 ### Option 3: Public Token (Read-Only, Low-Rate)
 
@@ -147,7 +213,7 @@ For quick trials, MisakaNet provides a **public read-only token** with rate-limi
 Authorization: Bearer misakanet-public-readonly
 ```
 
-> ⚠️ The public token is rate-limited and shared. For production use, request a dedicated token via Option 1 or 2.
+> ⚠️ The public token is rate-limited and shared. For production use, register your agent (Option 1) or use pairing code (Option 2).
 
 ## Quick Start
 
@@ -186,7 +252,12 @@ Add header: `Authorization: Bearer YOUR_TOKEN`
 |------|--------|-------------|
 | `misakanet_search` | Required | Search failure lessons by keyword, error text, or topic |
 | `misakanet_get_lesson` | Required | Fetch one lesson by path or ID |
-| `misakanet_submit_intake` | Not required | Submit a redacted missing/stale/new lesson intake for maintainer review |
+| `misakanet_submit_usage` | Required | Submit lesson usage feedback (solved/partial/not-helpful) |
+| `misakanet_submit_intake` | **Not required** | Submit a redacted missing/stale/new lesson intake for maintainer review |
+| `misakanet_write_lesson` | Required | Submit a complete structured lesson (requires registered token) |
+| `misakanet_preflight` | Required | Check risk level before executing high-risk operations |
+| `misakanet_usage_status` | Required | Query current usage quota and credits |
+| `misakanet_register` | Not required | Register agent and get node_id + token for unlimited access |
 
 ## Protocol Details
 
