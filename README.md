@@ -111,8 +111,8 @@ Agent hits an error → search lessons → get a fix path. No prompt leaking, no
 
 | Metric | Value | Description |
 |---|---|---|
-| **Lessons** | 310+ | Failure-recovery knowledge base |
-| **Domains** | 25+ | rag, devops, fanuc, docker, feishu... |
+| **Lessons** | [![Lessons](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Ikalus1988/MisakaNet/data/badges/lessons.json)](https://github.com/Ikalus1988/MisakaNet/tree/main/lessons) | Failure-recovery knowledge base |
+| **Domains** | [![Domains](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/Ikalus1988/MisakaNet/data/badges/domains.json)](https://github.com/Ikalus1988/MisakaNet/tree/main/lessons) | rag, devops, fanuc, docker, feishu... |
 | **Evidence Levels** | E0-E4 | Verified by humans, PRs, or agents |
 
 ### Evidence Levels

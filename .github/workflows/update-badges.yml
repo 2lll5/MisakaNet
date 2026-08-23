@@ -53,11 +53,15 @@ jobs:
           mkdir -p /tmp/badges
           LESSON_COUNT="${{ steps.count.outputs.lessons }}"
           TOOL_COUNT="${{ steps.tools.outputs.tools }}"
+          DOMAIN_COUNT=$(grep -rh "^domain:" lessons/ --include="*.md" 2>/dev/null \
+            | sed 's/domain: *//' | sort -u | wc -l)
           echo "{\"schemaVersion\":1,\"label\":\"lessons\",\"message\":\"$LESSON_COUNT\",\"color\":\"brightgreen\"}" > /tmp/badges/lessons.json
           echo "{\"schemaVersion\":1,\"label\":\"MCP tools\",\"message\":\"$TOOL_COUNT\",\"color\":\"purple\"}" > /tmp/badges/tools.json
-          echo "Generated badges: lessons=$LESSON_COUNT, tools=$TOOL_COUNT"
+          echo "{\"schemaVersion\":1,\"label\":\"domains\",\"message\":\"$DOMAIN_COUNT\",\"color\":\"blue\"}" > /tmp/badges/domains.json
+          echo "Generated badges: lessons=$LESSON_COUNT, tools=$TOOL_COUNT, domains=$DOMAIN_COUNT"
           cat /tmp/badges/lessons.json
           cat /tmp/badges/tools.json
+          cat /tmp/badges/domains.json
 
       - name: Push to data branch
         env:
