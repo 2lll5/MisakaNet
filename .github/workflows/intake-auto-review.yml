@@ -1,0 +1,177 @@
+name: Intake Auto Review
+
+on:
+  issues:
+    types: [opened, edited, labeled, reopened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "Issue number to review"
+        required: true
+        type: string
+
+jobs:
+  auto-review:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.issue.labels.*.name, 'intake') ||
+      contains(github.event.issue.labels.*.name, 'mcp-intake') ||
+      startsWith(github.event.issue.title, '[Intake]')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    env:
+      ISSUE_NUMBER: ${{ github.event.inputs.issue_number || github.event.issue.number }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install pyyaml jsonschema
+
+      - name: Run auto-review
+        id: review
+        run: |
+          # Get issue details
+          ISSUE_BODY=$(gh issue view $ISSUE_NUMBER --repo ${{ github.repository }} --json body --jq '.body')
+          ISSUE_TITLE=$(gh issue view $ISSUE_NUMBER --repo ${{ github.repository }} --json title --jq '.title')
+
+          # Save body to temp file
+          echo "$ISSUE_BODY" > /tmp/issue_body.txt
+
+          # Run auto-review
+          RESULT=$(python3 scripts/intake_auto_review.py \
+            --issue $ISSUE_NUMBER \
+            --title "$ISSUE_TITLE" \
+            --file /tmp/issue_body.txt \
+            --json 2>&1)
+
+          # Parse result
+          DECISION=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin)['decision'])")
+          FINAL_SCORE=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin)['final_score'])")
+          LESSON_TITLE=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin)['lesson_title'])")
+          LESSON_DOMAIN=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin)['lesson_domain'])")
+          LESSON_TAGS=$(echo "$RESULT" | python3 -c "import sys,json; print(','.join(json.load(sys.stdin)['lesson_tags']))")
+
+          echo "decision=$DECISION" >> "$GITHUB_OUTPUT"
+          echo "final_score=$FINAL_SCORE" >> "$GITHUB_OUTPUT"
+          echo "lesson_title=$LESSON_TITLE" >> "$GITHUB_OUTPUT"
+          echo "lesson_domain=$LESSON_DOMAIN" >> "$GITHUB_OUTPUT"
+          echo "lesson_tags=$LESSON_TAGS" >> "$GITHUB_OUTPUT"
+          echo "result=$RESULT" >> "$GITHUB_OUTPUT"
+
+          # Generate comment
+          COMMENT=$(python3 scripts/intake_auto_review.py \
+            --issue $ISSUE_NUMBER \
+            --title "$ISSUE_TITLE" \
+            --file /tmp/issue_body.txt 2>&1)
+
+          # Save comment to file
+          echo "$COMMENT" > /tmp/review_comment.txt
+
+      - name: Post review comment
+        run: |
+          COMMENT=$(cat /tmp/review_comment.txt)
+          gh issue comment $ISSUE_NUMBER --repo ${{ github.repository }} --body "$COMMENT"
+
+      - name: Apply labels
+        run: |
+          DECISION="${{ steps.review.outputs.decision }}"
+
+          # Remove existing review labels
+          gh issue edit $ISSUE_NUMBER --repo ${{ github.repository }} \
+            --remove-label "auto-approved" \
+            --remove-label "auto-rejected" \
+            --remove-label "needs-human-review" \
+            --remove-label "pending-review" 2>/dev/null || true
+
+          # Apply new label based on decision
+          if [ "$DECISION" = "approve" ]; then
+            gh issue edit $ISSUE_NUMBER --repo ${{ github.repository }} \
+              --add-label "auto-approved"
+          elif [ "$DECISION" = "reject" ]; then
+            gh issue edit $ISSUE_NUMBER --repo ${{ github.repository }} \
+              --add-label "auto-rejected" \
+              --add-label "needs-salvage"
+          else
+            gh issue edit $ISSUE_NUMBER --repo ${{ github.repository }} \
+              --add-label "needs-human-review"
+          fi
+
+      - name: Create lesson file (auto-approve only)
+        if: steps.review.outputs.decision == 'approve'
+        run: |
+          LESSON_TITLE="${{ steps.review.outputs.lesson_title }}"
+          LESSON_DOMAIN="${{ steps.review.outputs.lesson_domain }}"
+          LESSON_TAGS="${{ steps.review.outputs.lesson_tags }}"
+          ISSUE_BODY=$(cat /tmp/issue_body.txt)
+
+          # Create lesson directory if needed
+          mkdir -p lessons/contrib
+
+          # Generate lesson filename
+          FILENAME=$(echo "$LESSON_TITLE" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-')
+          FILEPATH="lessons/contrib/${FILENAME}.md"
+
+          # Create lesson content
+          cat > "$FILEPATH" << LESSON_EOF
+          ---
+          title: "$LESSON_TITLE"
+          domain: "$LESSON_DOMAIN"
+          tags: [$(echo "$LESSON_TAGS" | sed 's/,/, /g')]
+          status: published
+          evidence_level: E0
+          source: "intake-issue-${ISSUE_NUMBER}"
+          created: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          ---
+
+          # $LESSON_TITLE
+
+          ## Problem
+
+          $(echo "$ISSUE_BODY" | sed -n '/^## Problem/,/^##/p' | head -n -1)
+
+          ## Solution
+
+          $(echo "$ISSUE_BODY" | sed -n '/^## Fix/,/^##/p' | head -n -1)
+
+          ## Verification
+
+          $(echo "$ISSUE_BODY" | sed -n '/^## Verification/,/^---/p' | head -n -1)
+
+          ## Notes
+
+          Auto-generated from intake issue #$ISSUE_NUMBER.
+          LESSON_EOF
+
+          # Create PR
+          BRANCH="auto-lesson-$ISSUE_NUMBER"
+          git checkout -b "$BRANCH"
+          git add "$FILEPATH"
+          git commit -s -m "feat(lessons): add lesson from intake issue #$ISSUE_NUMBER
+
+          Auto-generated from intake issue #${ISSUE_NUMBER}.
+          Quality score: ${{ steps.review.outputs.final_score }}/100"
+          git push origin "$BRANCH"
+
+          # Create PR
+          PR_URL=$(gh pr create \
+            --repo ${{ github.repository }} \
+            --title "feat(lessons): add lesson from intake issue #$ISSUE_NUMBER" \
+            --body "Auto-generated from intake issue #${ISSUE_NUMBER}.
+
+          Quality score: ${{ steps.review.outputs.final_score }}/100
+          Domain: ${{ steps.review.outputs.lesson_domain }}
+
+          Closes #$ISSUE_NUMBER" \
+            --head "$BRANCH" \
+            --base "main" 2>&1 | grep -o 'https://.*')
+
+          # Comment on issue with PR link
+          gh issue comment $ISSUE_NUMBER --repo ${{ github.repository }} \
+            --body "🎉 Lesson created! PR: $PR_URL"
