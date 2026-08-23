@@ -180,12 +180,12 @@ Agent hits an error → search lessons → get a fix path. No prompt leaking, no
 > **MisakaNet is purpose-built for one thing:** helping agents avoid repeating known failures.
 > It is not a general memory layer, not a runtime, and not a vector database.
 
-### Latest: v2.18.0 (2026-08-21)
+### Latest: v2.19.0 (2026-08-23)
 
-- **Remote MCP Intake** — No GitHub account needed
-- **Preflight Guardrails** — Risk check before execution
-- **Identity Aura** — Visual token badges
-- **Voice Prompts** — Agent guidance hints
+- **release-please** — Automated versioning and changelog
+- **Dynamic badges** — Real-time lesson/tool counts in README
+- **DCO exemption** — Bot PRs skip DCO check
+- **MCP improvements** — Tool filtering, debug logging, register tool
 
 → [Full changelog](CHANGELOG.md) · [Release notes](https://github.com/Ikalus1988/MisakaNet/releases)
 
