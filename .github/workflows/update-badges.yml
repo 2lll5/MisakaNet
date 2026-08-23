@@ -79,9 +79,9 @@ jobs:
           # Copy badges from backup
           cp -f /tmp/badges-backup/*.json badges/
 
-          # Check for changes and push
-          if ! git diff --quiet badges/; then
-            git add badges/
+          # Stage badges and check for changes
+          git add badges/
+          if ! git diff --cached --quiet; then
             git commit -m "badges: auto-update lesson/tool counts [skip ci]"
             git push origin data
             echo "✅ Badges updated and pushed"
