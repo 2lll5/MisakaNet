@@ -59,11 +59,18 @@ def parse_date(date_str: str) -> Optional[datetime]:
     """Parse date string (YYYY-MM-DD or ISO format)."""
     if not date_str:
         return None
-    for fmt in ("%Y-%m-%d", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%dT%H:%M:%SZ"):
-        try:
-            return datetime.strptime(date_str.split(".")[0].rstrip("Z"), fmt)
-        except ValueError:
-            continue
+    # 规范化：移除 Z 后缀，处理微秒
+    normalized = date_str.rstrip("Z").split(".")[0]
+    # 尝试 ISO 格式
+    try:
+        return datetime.fromisoformat(normalized)
+    except (ValueError, TypeError):
+        pass
+    # 回退：简单日期格式
+    try:
+        return datetime.strptime(normalized, "%Y-%m-%d")
+    except ValueError:
+        pass
     return None
 
 

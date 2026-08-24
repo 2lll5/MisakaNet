@@ -82,23 +82,13 @@ def parse_frontmatter(content: str) -> tuple[dict | None, int]:
     # Check for JSON frontmatter (starts with {)
     if content.lstrip().startswith("{"):
         try:
-            # Find the closing brace
-            brace_count = 0
-            end_idx = 0
-            for i, char in enumerate(content):
-                if char == "{":
-                    brace_count += 1
-                elif char == "}":
-                    brace_count -= 1
-                    if brace_count == 0:
-                        end_idx = i + 1
-                        break
-            if end_idx > 0:
-                json_str = content[:end_idx]
-                data = json.loads(json_str)
+            # Use JSONDecoder.raw_decode to safely find JSON boundary
+            decoder = json.JSONDecoder()
+            data, end_idx = decoder.raw_decode(content)
+            if isinstance(data, dict):
                 body_start = content[:end_idx].count("\n") + 1
                 return data, body_start
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError, ValueError):
             pass
 
     # Check for YAML frontmatter (starts with ---)

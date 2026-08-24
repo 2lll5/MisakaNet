@@ -71,7 +71,8 @@ def redact_payload(record: dict[str, Any]) -> dict[str, Any]:
         safe["_env_dump_detected"] = True
 
     # Redact string fields that may contain secrets
-    for field in ("message", "context", "description", "error", "traceback"):
+    for field in ("message", "context", "description", "error", "traceback",
+                   "title", "problem", "root_cause", "fix", "verification"):
         if field in safe and isinstance(safe[field], str):
             safe[field] = redact_text(safe[field])
 

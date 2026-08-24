@@ -75,20 +75,27 @@ BOOST_RECENT = 0.05
 BOOST_DRAFT = -0.20
 BOOST_RECENT_DAYS = 30
 
+# Cross-encoder reranking weights — now configurable via search_config
+# (Issue #312, defaults: cross_encoder=0.70, bm25_rerank=0.30)
+
 # ── 分层缓存 ──
+import threading
+
 _CACHE_DIR = REPO / ".cache"
 _CACHE_DB = _CACHE_DIR / "search_cache.db"
 _L1_CACHE = {}
 _L1_MAX = 50
 _L2_CONN = None
+_CACHE_LOCK = threading.RLock()
 
 
 def _l2():
     global _L2_CONN
-    if _L2_CONN is None:
-        _CACHE_DIR.mkdir(parents=True, exist_ok=True)
-        _L2_CONN = sqlite3.connect(str(_CACHE_DB))
-        _L2_CONN.execute("PRAGMA journal_mode=WAL")
+    with _CACHE_LOCK:
+        if _L2_CONN is None:
+            _CACHE_DIR.mkdir(parents=True, exist_ok=True)
+            _L2_CONN = sqlite3.connect(str(_CACHE_DB), check_same_thread=False)
+            _L2_CONN.execute("PRAGMA journal_mode=WAL")
         _L2_CONN.execute("""
             CREATE TABLE IF NOT EXISTS file_cache (
                 path TEXT PRIMARY KEY, mtime REAL, size INT,
@@ -310,19 +317,28 @@ def _tokenize(text: str) -> list[str]:
 
 def _compute_bm25_scores(query: str, docs: list[CachedDoc]) -> list[float]:
     """BM25 scoring delegated to misakanet-core."""
+    if not query or not query.strip():
+        return [0.0] * len(docs)
+    
     query_tokens = _tokenize(query)
     if not query_tokens:
         return [0.0] * len(docs)
 
-    # Build ScoredDocument list for core engine
-    scored_docs = [ScoredDocument(d.filename, _tokenize(d.content)) for d in docs]
+    try:
+        # Build ScoredDocument list for core engine
+        scored_docs = [ScoredDocument(d.filename, _tokenize(d.content)) for d in docs]
+        if not scored_docs:
+            return [0.0] * len(docs)
 
-    engine = BM25(scored_docs)
-    results = engine.search(query, top_k=len(docs))
+        engine = BM25(scored_docs)
+        results = engine.search(query, top_k=len(docs))
 
-    # Map results back to original order
-    result_scores = {r.doc_id: r.score for r in results}
-    return [result_scores.get(d.filename, 0.0) for d in docs]
+        # Map results back to original order
+        result_scores = {r.doc_id: r.score for r in results}
+        return [result_scores.get(d.filename, 0.0) for d in docs]
+    except Exception as e:
+        print(f"  ⚠️ BM25 scoring failed: {e}", file=sys.stderr)
+        return [0.0] * len(docs)
 
 
 def _metadata_bonus(query: str, doc: CachedDoc) -> float:
@@ -509,9 +525,13 @@ def _cross_encoder_rerank(
         # Normalize CE scores to [0, 1]
         ce_norm = _normalize(list(ce_scores))
 
-        # Blend: 70% cross-encoder + 30% original BM25 composite
+        # Blend: cross-encoder + original BM25 composite (configurable weights)
+        from scripts.search_config import get_cached_config
+        rerank_cfg = get_cached_config()
+        ce_w = rerank_cfg.cross_encoder_weight
+        bm25_rerank_w = rerank_cfg.bm25_rerank_weight
         reranked = [
-            (0.70 * ce_norm[i] + 0.30 * orig_score, doc)
+            (ce_w * ce_norm[i] + bm25_rerank_w * orig_score, doc)
             for i, (orig_score, doc) in enumerate(candidates)
         ]
         reranked.sort(key=lambda x: -x[0])

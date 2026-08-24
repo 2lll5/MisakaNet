@@ -26,6 +26,8 @@ class SearchConfig:
     metadata_weight: float = 0.20
     baseline_weight: float = 0.15
     rrf_k: int = 60  # Reciprocal Rank Fusion constant (for future vector hybrid)
+    cross_encoder_weight: float = 0.70  # Cross-encoder rerank weight
+    bm25_rerank_weight: float = 0.30  # BM25 rerank weight
 
     def validate(self) -> list[str]:
         """Validate weights. Returns list of errors (empty = valid)."""
@@ -37,6 +39,8 @@ class SearchConfig:
             ("bm25_weight", self.bm25_weight),
             ("metadata_weight", self.metadata_weight),
             ("baseline_weight", self.baseline_weight),
+            ("cross_encoder_weight", self.cross_encoder_weight),
+            ("bm25_rerank_weight", self.bm25_rerank_weight),
         ]:
             if val < 0 or val > 1:
                 errors.append(f"{name} must be 0-1, got {val}")
@@ -80,6 +84,8 @@ def _load_config_from_env() -> dict:
         ("metadata_weight", "MISAKA_SEARCH_METADATA_WEIGHT"),
         ("baseline_weight", "MISAKA_SEARCH_BASELINE_WEIGHT"),
         ("rrf_k", "MISAKA_SEARCH_RRF_K"),
+        ("cross_encoder_weight", "MISAKA_SEARCH_CROSS_ENCODER_WEIGHT"),
+        ("bm25_rerank_weight", "MISAKA_SEARCH_BM25_RERANK_WEIGHT"),
     ]:
         val = os.environ.get(env_key)
         if val is not None:
