@@ -7,6 +7,29 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## [2.21.0](https://github.com/Ikalus1988/MisakaNet/compare/v2.20.1...v2.21.0) (2026-08-24)
+
+
+### Features
+
+* **docs:** set up mkdocs-material documentation site ([420ff0f](https://github.com/Ikalus1988/MisakaNet/commit/420ff0ffc0bf66ba7e65aaba7252f537933c4cb8)), closes [#1179](https://github.com/Ikalus1988/MisakaNet/issues/1179)
+* **intake:** add archiving system for review/reject decisions ([b503c24](https://github.com/Ikalus1988/MisakaNet/commit/b503c240163be33338acd1101194e10cbe212ff0))
+* **intake:** add auto-review pipeline for intake issues ([ae3f81c](https://github.com/Ikalus1988/MisakaNet/commit/ae3f81cfc3b90868e246293529bf4e45f0197403))
+* **intake:** archive 20 intake issues ([60f2525](https://github.com/Ikalus1988/MisakaNet/commit/60f25253739f850d9b624af276cb44458b8a98de))
+* **intake:** archive existing intake issues ([5d90013](https://github.com/Ikalus1988/MisakaNet/commit/5d90013fbeb0064c53e99df822ecf44d5de854ba))
+* **integration:** add LangChain and LlamaIndex tool wrappers ([e2ad13b](https://github.com/Ikalus1988/MisakaNet/commit/e2ad13bbd7ea34db0ca30dfc43c07440e0b92364)), closes [#1178](https://github.com/Ikalus1988/MisakaNet/issues/1178)
+* **search:** add BM25 search with pre-computed inverted index ([04a156e](https://github.com/Ikalus1988/MisakaNet/commit/04a156e1778b77a86f672557c344756d8c330fd6)), closes [#1189](https://github.com/Ikalus1988/MisakaNet/issues/1189)
+* **worker:** add SSE transport support for MCP endpoint ([7aad564](https://github.com/Ikalus1988/MisakaNet/commit/7aad5649c8878a09d757d3147ecfd24ad9c6ac3e))
+
+
+### Bug Fixes
+
+* **ci:** exempt dependabot PRs from DCO check ([37ac9c3](https://github.com/Ikalus1988/MisakaNet/commit/37ac9c3712a385e34adb7d22974f7eae3cbe37b8))
+* **ci:** make audit report comment non-blocking ([70e1fc2](https://github.com/Ikalus1988/MisakaNet/commit/70e1fc2b6bb015249d7cc02b3ee66aff67b13752))
+* **deps:** revert chromadb version bump (1.5.10 not yet released) ([a57bd84](https://github.com/Ikalus1988/MisakaNet/commit/a57bd84ac53ba943dbc7dfffb138c296fa986cdf))
+* **security:** address CodeQL and Dependabot alerts ([fc2700c](https://github.com/Ikalus1988/MisakaNet/commit/fc2700ca445699b9cb4efac0ca83389de2e55c73))
+* **tests:** remove fuzz tests requiring hypothesis ([4a9a73c](https://github.com/Ikalus1988/MisakaNet/commit/4a9a73c8fd170aae29a807cb65f67bbe7b10b4db))
+
 ## [2.20.1](https://github.com/Ikalus1988/MisakaNet/compare/v2.20.0...v2.20.1) (2026-08-23)
 
 
