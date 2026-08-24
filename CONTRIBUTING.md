@@ -249,6 +249,19 @@ By signing off, you certify that:
 
 A `dco-check.yml` workflow runs on every PR. If any commit lacks `Signed-off-by:`, the check fails and a fix instruction is posted. PRs with DCO failures will not be merged.
 
+### Local DCO Check (Optional)
+
+To catch DCO issues before pushing, install the pre-commit hook:
+
+```bash
+pip install pre-commit
+pre-commit install --hook-type commit-msg
+```
+
+This runs a local check on every commit. If `Signed-off-by:` is missing, the commit is blocked locally (you'll see an error message).
+
+**Note:** This is optional — CI will also check DCO on every PR. The local hook provides instant feedback but is not required.
+
 ## 🔍 Frontend Local Debugging
 
 The dashboard includes a built-in debug logging system. To activate:
