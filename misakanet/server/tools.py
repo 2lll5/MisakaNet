@@ -420,6 +420,52 @@ TOOLS = [
             },
         },
     },
+    {
+        "name": "misakanet_memory_context",
+        "description": (
+            "Pull relevant failure-memory lessons as context"
+            " before starting a task. Call this at the beginning"
+            " of a coding session or before attempting a"
+            " non-trivial operation. Returns a condensed context"
+            " block with matching lessons (problem + fix"
+            " summaries) that can be injected into the agent's"
+            " system prompt. Input semantics: task (required),"
+            " domain (optional filter), top_n (optional,"
+            " default 5, max 10). Output schema: JSON with task,"
+            " lesson_count, lessons array, and context_block"
+            " (ready-to-inject markdown). Error cases: missing"
+            " task. Side effects: none. Auth: none."
+            " Rate limits: none."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "task": {
+                    "type": "string",
+                    "description": (
+                        "Task description (e.g. 'set up ChromaDB"
+                        " RAG pipeline', 'deploy FastAPI to"
+                        " production')."
+                    ),
+                },
+                "domain": {
+                    "type": "string",
+                    "description": (
+                        "Optional domain filter (e.g."
+                        " 'search-and-retrieval', 'ci-cd')."
+                    ),
+                },
+                "top_n": {
+                    "type": "integer",
+                    "description": (
+                        "Number of lessons to retrieve"
+                        " (default 5, max 10)."
+                    ),
+                },
+            },
+            "required": ["task"],
+        },
+    },
 ]
 
 
