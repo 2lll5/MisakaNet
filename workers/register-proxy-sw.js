@@ -754,18 +754,21 @@ async function handleMcpRequest(request, env, useSse = false) {
   const token = authHeader.replace(/^Bearer\s+/i, "");
   const expectedToken = env.MCP_TOKEN;
 
-  // Peek at body to detect submit_intake (no auth required)
+  // Peek at body to detect auth-bypass methods (no auth required)
   let isIntakeCall = false;
+  let isPublicMethod = false;
   try {
     const peekBody = await request.clone().json();
     isIntakeCall = peekBody?.method === "tools/call" && (peekBody?.params?.name === "misakanet_submit_intake" || peekBody?.params?.name === "misakanet_register");
+    // allow initialize + tools/list without auth (needed for MCP registries like Smithery to scan)
+    isPublicMethod = peekBody?.method === "initialize" || peekBody?.method === "tools/list";
   } catch (peekErr) {
     // Non-JSON body — treat as non-intake; log for diagnostics
     console.warn("isIntakeCall parse failed:", peekErr?.message || peekErr);
   }
 
   let authed = false;
-  if (isIntakeCall) {
+  if (isIntakeCall || isPublicMethod) {
     authed = true;
   } else if (expectedToken && token && timingSafeEqual(token, expectedToken)) {
     authed = true;
