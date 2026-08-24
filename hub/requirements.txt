@@ -1,7 +1,7 @@
 # Core dependencies
 aiohttp>=3.9.0
 websocket-client>=1.6.0
-chromadb>=0.4.0
+chromadb>=1.5.10  # Fix CVE-2026-45829: pre-auth code injection
 networkx>=3.2
 PyYAML>=6.0
 numpy>=1.24.0
