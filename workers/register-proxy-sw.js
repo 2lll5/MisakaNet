@@ -726,10 +726,24 @@ function mcpJsonResponse(body, status = 200, extraHeaders = {}) {
   });
 }
 
-async function handleMcpRequest(request, env) {
+function mcpSseResponse(body, status = 200, extraHeaders = {}) {
+  const data = `event: message\ndata: ${JSON.stringify(body)}\n\n`;
+  return new Response(data, {
+    status,
+    headers: {
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache",
+      ...CORS_HEADERS,
+      ...extraHeaders,
+    },
+  });
+}
+
+async function handleMcpRequest(request, env, useSse = false) {
+  const respond = useSse ? mcpSseResponse : mcpJsonResponse;
   // 1. Origin validation (MCP spec: prevent DNS rebinding)
   if (!validateMcpOrigin(request)) {
-    return mcpJsonResponse(
+    return respond(
       { jsonrpc: "2.0", error: { code: -32000, message: "Forbidden: invalid Origin" } },
       403,
     );
@@ -769,7 +783,7 @@ async function handleMcpRequest(request, env) {
       hasExpectedToken: !!expectedToken,
       isIntakeCall,
     });
-    return mcpJsonResponse(
+    return respond(
       { jsonrpc: "2.0", error: addDebugContext(env, { code: -32000, message: "Unauthorized" }, {
         step: "authentication",
         reason: token ? "token_invalid_or_expired" : "no_token_provided",
@@ -786,7 +800,7 @@ async function handleMcpRequest(request, env) {
       provided: protocolVersion,
       supported: SUPPORTED_PROTOCOL_VERSIONS,
     });
-    return mcpJsonResponse(
+    return respond(
       { jsonrpc: "2.0", error: addDebugContext(env, { code: -32600, message: `Unsupported protocol version: ${protocolVersion}` }, {
         step: "protocol_version_check",
         reason: "version_not_supported",
@@ -801,7 +815,7 @@ async function handleMcpRequest(request, env) {
   // clients using chunked transfer encoding may omit it.
   const declaredLength = Number.parseInt(request.headers.get("content-length") || "0", 10);
   if (Number.isFinite(declaredLength) && declaredLength > MAX_MCP_REQUEST_BYTES) {
-    return mcpJsonResponse({
+    return respond({
       jsonrpc: "2.0", id: null,
       error: { code: -32600, message: `Request too large (max ${MAX_MCP_REQUEST_BYTES} bytes)` },
     }, 413);
@@ -809,7 +823,7 @@ async function handleMcpRequest(request, env) {
 
   const rawBody = await request.text().catch(() => null);
   if (rawBody !== null && new TextEncoder().encode(rawBody).byteLength > MAX_MCP_REQUEST_BYTES) {
-    return mcpJsonResponse({
+    return respond({
       jsonrpc: "2.0", id: null,
       error: { code: -32600, message: `Request too large (max ${MAX_MCP_REQUEST_BYTES} bytes)` },
     }, 413);
@@ -820,7 +834,7 @@ async function handleMcpRequest(request, env) {
     body = rawBody === null ? null : JSON.parse(rawBody);
   } catch {}
   if (!body) {
-    return mcpJsonResponse({
+    return respond({
       jsonrpc: "2.0", id: null,
       error: { code: -32700, message: "Parse error" },
     }, 400);
@@ -842,13 +856,13 @@ async function handleMcpRequest(request, env) {
     const hdrMethod = request.headers.get("Mcp-Method");
     const hdrName = request.headers.get("Mcp-Name");
     if (hdrMethod && method && hdrMethod !== method) {
-      return mcpJsonResponse({
+      return respond({
         jsonrpc: "2.0", id: reqId,
         error: { code: -32600, message: `Mcp-Method header (${hdrMethod}) does not match body method (${method})` },
       }, 400);
     }
     if (hdrName && params?.name && hdrName !== params.name) {
-      return mcpJsonResponse({
+      return respond({
         jsonrpc: "2.0", id: reqId,
         error: { code: -32600, message: `Mcp-Name header (${hdrName}) does not match body name (${params.name})` },
       }, 400);
@@ -869,7 +883,7 @@ async function handleMcpRequest(request, env) {
       const negotiatedVersion = SUPPORTED_PROTOCOL_VERSIONS.includes(params?.protocolVersion)
         ? params.protocolVersion
         : MCP_PROTOCOL_VERSION;
-      return mcpJsonResponse({
+      return respond({
         jsonrpc: "2.0", id: reqId,
         result: {
           protocolVersion: negotiatedVersion,
@@ -881,7 +895,7 @@ async function handleMcpRequest(request, env) {
 
     if (method === "tools/list") {
       debugLog(env, 2, "tools/list: returning", MCP_TOOLS.length, "tools");
-      return mcpJsonResponse({
+      return respond({
         jsonrpc: "2.0", id: reqId,
         result: { tools: MCP_TOOLS },
       });
@@ -893,7 +907,7 @@ async function handleMcpRequest(request, env) {
       if (!toolName) {
         const err = { code: -32602, message: "Missing tool name" };
         debugLog(env, 1, "MCP tool call: missing tool name");
-        return mcpJsonResponse({
+        return respond({
           jsonrpc: "2.0", id: reqId,
           error: addDebugContext(env, err, { step: "tool_call", reason: "missing_name" }),
         });
@@ -903,7 +917,7 @@ async function handleMcpRequest(request, env) {
       if (!availableTools.includes(toolName)) {
         const err = { code: -32601, message: `Tool not found: ${toolName}`, available_tools: availableTools };
         debugLog(env, 1, "MCP tool not found:", toolName, "| available:", availableTools.join(","));
-        return mcpJsonResponse({
+        return respond({
           jsonrpc: "2.0", id: reqId,
           error: addDebugContext(env, err, { step: "tool_call", reason: "not_found", requested: toolName }),
         });
@@ -918,7 +932,7 @@ async function handleMcpRequest(request, env) {
         resultKeys: Object.keys(result || {}),
       });
 
-      return mcpJsonResponse({
+      return respond({
         jsonrpc: "2.0", id: reqId,
         result: { content: [{ type: "text", text: JSON.stringify(result) }] },
       });
@@ -926,7 +940,7 @@ async function handleMcpRequest(request, env) {
 
     // server/discover (2026-07-28 RC) — alias for capabilities query
     if (method === "server/discover") {
-      return mcpJsonResponse({
+      return respond({
         jsonrpc: "2.0", id: reqId,
         result: {
           capabilities: { tools: {} },
@@ -935,7 +949,7 @@ async function handleMcpRequest(request, env) {
       });
     }
 
-    return mcpJsonResponse({
+    return respond({
       jsonrpc: "2.0", id: reqId,
       error: { code: -32601, message: `Method not found: ${method}` },
     });
@@ -1859,7 +1873,9 @@ export default {
 
     // POST /mcp — Streamable HTTP MCP endpoint (read-only tools)
     if (request.method === "POST" && url.pathname === "/mcp") {
-      return handleMcpRequest(request, env);
+      const accept = request.headers.get("Accept") || "";
+      const useSse = accept.includes("text/event-stream");
+      return handleMcpRequest(request, env, useSse);
     }
     // OPTIONS /mcp — CORS preflight (browser clients need this)
     if (request.method === "OPTIONS" && url.pathname === "/mcp") {
@@ -1872,9 +1888,35 @@ export default {
         },
       });
     }
-    // GET /mcp — per spec, return 405 (no SSE stream offered)
+    // GET /mcp — SSE stream for server-initiated messages
     if (request.method === "GET" && url.pathname === "/mcp") {
-      return new Response(JSON.stringify({ error: "Method Not Allowed. Use POST for MCP Streamable HTTP transport." }), {
+      const accept = request.headers.get("Accept") || "";
+      if (accept.includes("text/event-stream")) {
+        // SSE stream — keep connection open for server-initiated notifications
+        const stream = new ReadableStream({
+          start(controller) {
+            const encoder = new TextEncoder();
+            controller.enqueue(encoder.encode("event: connected\ndata: {}\n\n"));
+            // Keep-alive ping every 30s
+            const interval = setInterval(() => {
+              try {
+                controller.enqueue(encoder.encode(": keepalive\n\n"));
+              } catch {
+                clearInterval(interval);
+              }
+            }, 30000);
+            // Note: In Cloudflare Workers, the stream closes when the request is cancelled
+          },
+        });
+        return new Response(stream, {
+          headers: {
+            "content-type": "text/event-stream",
+            "cache-control": "no-cache",
+            ...CORS_HEADERS,
+          },
+        });
+      }
+      return new Response(JSON.stringify({ error: "Method Not Allowed. Use POST for MCP Streamable HTTP transport, or GET with Accept: text/event-stream for SSE." }), {
         status: 405,
         headers: { "content-type": "application/json", "Accept-Post": "application/json, text/event-stream", ...CORS_HEADERS },
       });
