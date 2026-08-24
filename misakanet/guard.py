@@ -32,6 +32,7 @@ import subprocess
 import sys
 import time
 from datetime import datetime, timezone
+import tempfile
 from pathlib import Path
 
 # ── 安全意识：检测到的 secret pattern 会从 snippet 中过滤 ──
@@ -159,8 +160,8 @@ def main():
             return
         for line in proc.stderr:
             stderr_lines.append(line)
-            # 透传 stderr 到父进程（保持原始颜色/ANSI）
-            sys.stderr.write(line)
+            # 透传 stderr 到父进程（脱敏后输出）
+            sys.stderr.write(_redact(line))
             sys.stderr.flush()
             if len(stderr_lines) > args.capture_lines + 100:
                 stderr_lines.pop(0)
@@ -197,8 +198,12 @@ def main():
         repo = Path(__file__).resolve().parent.parent
         draft_script = repo / "scripts" / "tombstone_to_draft.py"
         if draft_script.exists():
-            tmp = Path(f"/tmp/misakanet-tombstone-{os.getpid()}.json")
-            tmp.write_text(tombstone_json, encoding="utf-8")
+            fd, tmp_path = tempfile.mkstemp(prefix="misakanet-tombstone-", suffix=".json")
+            tmp = Path(tmp_path)
+            try:
+                os.write(fd, tombstone_json.encode("utf-8"))
+            finally:
+                os.close(fd)
             try:
                 subprocess.run(
                     [sys.executable, str(draft_script),
@@ -207,8 +212,8 @@ def main():
                     stdout=subprocess.DEVNULL,
                 )
                 print(f"[misakanet.guard] draft lesson 已生成", file=sys.stderr)
-            except Exception:
-                pass
+            except Exception as e:
+                print(f"[misakanet.guard] draft lesson 生成失败: {e}", file=sys.stderr)
             finally:
                 try:
                     tmp.unlink()

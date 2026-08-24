@@ -45,9 +45,9 @@ DIMENSION_WEIGHTS = {
     "format": 0.10,         # Proper markdown structure
 }
 
-# === Decision Thresholds ===
-THRESHOLD_APPROVE = 75  # Lowered from 80
-THRESHOLD_REVIEW = 40   # Lowered from 50
+# === Decision Thresholds (可被环境变量覆盖) ===
+THRESHOLD_APPROVE = int(os.environ.get("MISAKANET_THRESHOLD_APPROVE", "75"))
+THRESHOLD_REVIEW = int(os.environ.get("MISAKANET_THRESHOLD_REVIEW", "40"))
 
 
 @dataclass
@@ -74,6 +74,9 @@ class AutoReviewResult:
     lesson_title: str = ""
     lesson_domain: str = "general"
     lesson_tags: list[str] = field(default_factory=list)
+
+    def __post_init__(self):
+        self.confidence = max(0.0, min(1.0, self.confidence))
 
 
 # === Dimension Scorers ===
@@ -256,7 +259,7 @@ def score_verification(body: str, sections: dict[str, str]) -> DimensionScore:
         if not verification_content:
             # Find content between ## Verification and next section or end
             match = re.search(
-                r"##\s*(?:Verification|验证)\s*\n(.*?)(?=\n##|\Z)",
+                r"##\s*(?:Verification|验证)\s*\n((?:(?!\n##).)*)",
                 body,
                 re.DOTALL | re.IGNORECASE
             )
@@ -328,7 +331,7 @@ def score_detail(body: str, word_count: int) -> DimensionScore:
         reasons.append(f"✗ Very short word count: {word_count}")
 
     # Code blocks
-    code_blocks = re.findall(r"```[\s\S]*?```", body)
+    code_blocks = re.findall(r"```(?:(?!```).)*```", body, flags=re.DOTALL)
     if len(code_blocks) >= 3:
         score += 25
         reasons.append(f"✓ {len(code_blocks)} code blocks (excellent)")

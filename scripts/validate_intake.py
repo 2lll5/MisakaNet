@@ -83,7 +83,7 @@ def extract_sections(body: str) -> dict[str, str]:
 def count_words(text: str) -> int:
     """Count words in text, excluding code blocks."""
     # Remove code blocks
-    text = re.sub(r"```[\s\S]*?```", "", text)
+    text = re.sub(r"```(?:(?!```).)*```", "", text, flags=re.DOTALL)
     text = re.sub(r"`[^`]+`", "", text)
     # Split and count
     words = re.findall(r"\b\w+\b", text)
@@ -92,7 +92,7 @@ def count_words(text: str) -> int:
 
 def has_code_blocks(text: str) -> bool:
     """Check if text contains code blocks."""
-    return bool(re.search(r"```[\s\S]*?```", text) or re.search(r"`[^`]+`", text))
+    return bool(re.search(r"```(?:(?!```).)*```", text, flags=re.DOTALL) or re.search(r"`[^`]+`", text))
 
 
 def has_error_patterns(text: str) -> bool:
