@@ -585,7 +585,7 @@ jobs:
           if [ -n "$PR_NUM" ]; then
             gh pr comment "$PR_NUM" --repo Ikalus1988/MisakaNet --body "$REPORT" 2>/dev/null || \
               gh issue comment "$PR_NUM" --repo Ikalus1988/MisakaNet --body "$REPORT" 2>/dev/null || \
-              echo "Could not post comment to PR #$PR_NUM"
+              echo "::warning::Could not post comment to PR #$PR_NUM"
           fi
 
           # ── Exit with failure if any hard gate fails ──
