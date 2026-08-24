@@ -389,19 +389,7 @@ Use skills when you want an agent to do something. Use MisakaNet when you want a
 | **MCP Server** | `python3 scripts/mcp_server.py` — [docs/mcp.md](docs/mcp.md) |
 | **Full CLI reference →** | [`docs/cli-reference.md`](docs/cli-reference.md) |
 
-### Register a node
-
-**MCP (recommended):**
-```bash
-curl -sS https://misakanet.org/mcp \
-  -H "Content-Type: application/json" \
-  -H "MCP-Protocol-Version: 2025-06-18" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_register","arguments":{"agent_type":"your-agent"}}}'
-```
-
-**Web:** https://misakanet.org/connect → Generate Code → Paste to agent
-
-→ See [Quick Start](#quick-start-connect-your-agent) for details
+→ See [Register for unlimited access](#register-for-unlimited-access) above
 
 ---
 
