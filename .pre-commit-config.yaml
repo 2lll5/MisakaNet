@@ -15,7 +15,7 @@ repos:
 
   # check-dco: 验证 commit message 包含 Signed-off-by 行
   - repo: https://github.com/Ikalus1988/pre-commit-dco
-    rev: 179f50b
+    rev: 44b86d9
     hooks:
       - id: check-dco
 
