@@ -28,6 +28,20 @@
 
 ---
 
+## AI Agent Friendly
+
+MisakaNet is optimized for AI agents:
+
+- ✅ **MCP Server** — 6 tools for search, lessons, intake
+- ✅ **Smithery Deployed** — One-click install for AI agents
+- ✅ **robots.txt** — AI crawlers allowed on public content
+- ✅ **JSON-LD Schema** — Structured data for search engines
+- ✅ **Content Signals** — Clear access policies for AI agents
+
+→ [Full AI Agent Configuration](docs/cloudflare-waf-rules.md)
+
+---
+
 ## Quick Start: Connect your agent
 
 **Option 1 — Remote MCP (no install, no account):**
@@ -98,6 +112,18 @@ curl -sS https://misakanet.org/mcp \
 Returns `node_id` + `token`. Use token for unlimited remote searches.
 
 **Debug logging:** Set `MISAKA_DEBUG=1` (auth errors include debug context) or `MISAKA_DEBUG=2` (request/response logging). Debug context is stripped by default; only shown when enabled.
+
+### WebMCP (Browser-based AI Agents)
+
+MisakaNet supports WebMCP for browser-based AI agents:
+
+1. **Enable in Cloudflare** — Security > Bots > WebMCP
+2. **Select "Site MCP Server"** toolset
+3. **Configure endpoint** — `https://misakanet.org/mcp`
+
+Once enabled, AI agents visiting misakanet.org will automatically discover and can use MisakaNet tools without configuration.
+
+→ [WebMCP Configuration Guide](docs/cloudflare-worker.md)
 
 ## What is this?
 
