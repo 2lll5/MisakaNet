@@ -8,8 +8,24 @@ import json
 import os
 import re
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any
+
+try:
+    from scripts.pr_genius_rules import (
+        build_rule_list,
+        evaluate_body_rules,
+        evaluate_path_rules,
+        get_enabled_rules,
+    )
+except ImportError:
+    from pr_genius_rules import (
+        build_rule_list,
+        evaluate_body_rules,
+        evaluate_path_rules,
+        get_enabled_rules,
+    )
 
 CODE_SUFFIXES = {
     ".c", ".cc", ".cpp", ".cs", ".go", ".java", ".js", ".jsx", ".kt",
@@ -170,7 +186,9 @@ def analyze(
     pattern_cfg = cfg.get("patterns", {})
     pr_size_cfg = cfg.get("pr_size", {})
     max_lines = pr_size_cfg.get("max_lines", 500)
-    warning_lines = pr_size_cfg.get("warning_lines", 300)
+
+    # Build rule list (repo-agnostic + repo-specific)
+    rules = build_rule_list(config or _DEFAULT_CONFIG)
 
     additions = sum(int(item.get("additions", 0)) for item in files)
     deletions = sum(int(item.get("deletions", 0)) for item in files)
@@ -190,14 +208,21 @@ def analyze(
     def _severity(rule_id: str, default: str) -> str:
         return pattern_cfg.get(rule_id, {}).get("severity", default)
 
+    # ── Layer 1: Repo-agnostic core rules ──
+
     if _is_enabled("pr_too_large") and total > max_lines:
-        patterns.append({"rule": "pr_too_large", "severity": _severity("pr_too_large", "high")})
-        suggestions.append(f"Split the change into focused PRs of at most {max_lines} changed lines.")
+        sev = _severity("pr_too_large", "high")
+        patterns.append({"rule": "pr_too_large", "severity": sev})
+        suggestions.append(
+            f"Split the change into focused PRs of at most {max_lines} changed lines."
+        )
     if _is_enabled("missing_tests") and code_paths and not test_paths:
-        patterns.append({"rule": "missing_tests", "severity": _severity("missing_tests", "medium")})
+        sev = _severity("missing_tests", "medium")
+        patterns.append({"rule": "missing_tests", "severity": sev})
         suggestions.append("Add or update tests for the changed code paths.")
     if _is_enabled("doc_code_mismatch") and doc_paths and not code_paths and not test_paths:
-        patterns.append({"rule": "doc_code_mismatch", "severity": _severity("doc_code_mismatch", "low")})
+        sev = _severity("doc_code_mismatch", "low")
+        patterns.append({"rule": "doc_code_mismatch", "severity": sev})
         suggestions.append(
             "Confirm this documentation-only change intentionally needs no code update."
         )
@@ -215,23 +240,25 @@ def analyze(
     if any(PurePosixPath(path).name.lower() in lock_files for path in paths):
         concern_groups.add("dependencies")
     if _is_enabled("mixed_concerns") and len(concern_groups) >= 3 and len(components) >= 3:
-        patterns.append({"rule": "mixed_concerns", "severity": _severity("mixed_concerns", "medium")})
+        sev = _severity("mixed_concerns", "medium")
+        patterns.append({"rule": "mixed_concerns", "severity": sev})
         suggestions.append(
             "Explain why these components belong together or split unrelated concerns."
         )
 
     body = str(pr.get("body") or "")
     issue_cfg = cfg.get("issue_link", {})
-    custom_patterns = issue_cfg.get("patterns", [])
+    custom_issue_patterns = issue_cfg.get("patterns", [])
     issue_matched = ISSUE_REFERENCE.search(body)
-    if custom_patterns:
-        for pat in custom_patterns:
+    if custom_issue_patterns:
+        for pat in custom_issue_patterns:
             if re.search(pat, body):
                 issue_matched = True
                 break
     issue_required = issue_cfg.get("required", True)
     if _is_enabled("no_issue_reference") and not issue_matched and issue_required:
-        patterns.append({"rule": "no_issue_reference", "severity": _severity("no_issue_reference", "low")})
+        sev = _severity("no_issue_reference", "low")
+        patterns.append({"rule": "no_issue_reference", "severity": sev})
         suggestions.append("Link the issue this PR closes or explain why no issue is needed.")
 
     unsigned = []
@@ -243,6 +270,55 @@ def analyze(
     if _is_enabled("missing_dco") and unsigned:
         patterns.append({"rule": "missing_dco", "severity": _severity("missing_dco", "medium")})
         suggestions.append("Sign off every commit with `git commit --signoff`.")
+
+    # Draft PR detection
+    if _is_enabled("draft_pr") and pr.get("draft"):
+        patterns.append({"rule": "draft_pr", "severity": _severity("draft_pr", "info")})
+        suggestions.append("PR is in draft state — mark as ready when it's time for review.")
+
+    # Review staleness (>14 days without approval)
+    if _is_enabled("review_stale"):
+        created_at = pr.get("created_at", "")
+        if created_at:
+            try:
+                created = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+                now = datetime.now(timezone.utc)
+                days_open = (now - created).days
+                has_approval = any(
+                    (c.get("state") or "").upper() == "APPROVED"
+                    for c in (pr.get("reviews") or [])
+                )
+                if days_open > 14 and not has_approval:
+                    patterns.append({
+                        "rule": "review_stale",
+                        "severity": _severity("review_stale", "medium"),
+                    })
+                    msg = (
+                        f"PR has been open {days_open} days without"
+                        " approval — ping reviewers or address feedback."
+                    )
+                    suggestions.append(msg)
+            except (ValueError, TypeError):
+                pass
+
+    # ── Layer 2: Repo-specific rules ──
+
+    # Path-triggered rules
+    path_findings = evaluate_path_rules(rules, paths)
+    for finding in path_findings:
+        patterns.append({"rule": finding["rule"], "severity": finding["severity"]})
+        if finding.get("detail"):
+            suggestions.append(finding["detail"])
+
+    # Body/title pattern rules
+    title = str(pr.get("title") or "")
+    body_findings = evaluate_body_rules(rules, body, title)
+    for finding in body_findings:
+        patterns.append({"rule": finding["rule"], "severity": finding["severity"]})
+        if finding.get("detail"):
+            suggestions.append(finding["detail"])
+
+    # ── CI checks ──
 
     relevant_checks = [
         check for check in (checks or []) if "pr genius" not in str(check.get("name", "")).lower()
@@ -298,6 +374,10 @@ def analyze(
         "checklist": checklist,
         "anti_patterns": patterns,
         "suggestions": suggestions,
+        "rules_applied": {
+            "core": len(get_enabled_rules(rules, "core")),
+            "repo": len(get_enabled_rules(rules, "repo")),
+        },
     }
 
 
@@ -305,6 +385,7 @@ def render(report: dict[str, Any], risk: str) -> str:
     size = report["size"]
     impact = report["impact"]
     components = ", ".join(impact["components"]) or "none"
+    rules_applied = report.get("rules_applied", {})
     lines = [
         "## PR Genius Analysis",
         f"- **Risk Level:** {risk or 'unknown'}",
@@ -313,6 +394,10 @@ def render(report: dict[str, Any], risk: str) -> str:
             f"({size['total']} lines, {size['label']})"
         ),
         f"- **Impact:** {impact['files_changed']} files changed ({components})",
+        (
+            f"- **Rules:** {rules_applied.get('core', '?')} core"
+            f" + {rules_applied.get('repo', '?')} repo-specific"
+        ),
         "",
         "### Checklist",
     ]
