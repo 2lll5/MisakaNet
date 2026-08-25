@@ -7,13 +7,14 @@
   "created": "2026-07-06",
   "source": "unknown"
 }
+---
+<!-- provenance:
 provenance:
   source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
----
-
+-->
 
 ## aily 飞书 MCP 通道：只能拉取不能推送
 

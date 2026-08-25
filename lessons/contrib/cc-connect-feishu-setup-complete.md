@@ -2,7 +2,15 @@
 {
   "title": "cc-connect Feishu bot complete setup guide",
   "domain": "feishu",
-  "tags": ["feishu", "cc-connect", "bot", "setup", "agent", "bridge", "npm"],
+  "tags": [
+    "feishu",
+    "cc-connect",
+    "bot",
+    "setup",
+    "agent",
+    "bridge",
+    "npm"
+  ],
   "status": "published",
   "source": "bootstrap",
   "created": "2026-05-19",
@@ -10,12 +18,14 @@
   "confidence": "0.95",
   "verification": "metadata-normalized"
 }
+---
+<!-- provenance:
 provenance:
   source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
----
+-->
 
 ## Problem
 

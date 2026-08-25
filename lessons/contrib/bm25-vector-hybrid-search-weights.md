@@ -2,18 +2,26 @@
 {
   "title": "BM25 + Vector Hybrid Search: configurable blending weights",
   "domain": "search",
-  "tags": ["bm25", "vector", "hybrid", "search", "weights"],
+  "tags": [
+    "bm25",
+    "vector",
+    "hybrid",
+    "search",
+    "weights"
+  ],
   "status": "published",
   "evidence_level": "E2",
   "source": "closed-pr-1029",
   "created": "2026-08-22"
 }
+---
+<!-- provenance:
 provenance:
   source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-08-22"
   evidence: "post-publication"
----
+-->
 
 ## Problem
 

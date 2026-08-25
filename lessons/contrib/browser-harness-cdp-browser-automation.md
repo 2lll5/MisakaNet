@@ -6,12 +6,15 @@
   "created": "2026-07-06",
   "source": "unknown"
 }
+---
+<!-- provenance:
 provenance:
   source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
----
+-->
+
 ---{"title": "browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation", "domain": "devops", "source": "skill-harvest", "status": "published", "confidence": "0.6", "created": "2026-05-20"}---
 
 # browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation

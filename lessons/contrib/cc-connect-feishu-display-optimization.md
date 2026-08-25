@@ -6,12 +6,15 @@
   "created": "2026-07-06",
   "source": "unknown"
 }
+---
+<!-- provenance:
 provenance:
   source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
----
+-->
+
 ---{"title": "cc-connect 飞书显示Optimization：禁用工具调用和上下文提示", "domain": "feishu", "subdomain": "cc-connect", "source": "bootstrap", "status": "published", "confidence": "0.9", "created": "2026-05-19"}---
 
 ## cc-connect 飞书显示优化：禁用工具调用和上下文提示

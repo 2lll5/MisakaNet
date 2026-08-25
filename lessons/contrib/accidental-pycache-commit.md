@@ -13,12 +13,14 @@
   "created": "2026-08-11 00:00:00 UTC",
   "updated": "2026-08-11 00:00:00 UTC"
 }
+---
+<!-- provenance:
 provenance:
   source: "internal"
   contributor: "ElevaSync Solutions"
   merged_at: "2026-08-11"
   evidence: "post-publication"
----
+-->
 
 # Accidental __pycache__ artifacts committed to a data repository
 

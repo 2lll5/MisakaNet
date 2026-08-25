@@ -15,12 +15,14 @@
   "verified_date": "2026-05-03",
   "subdomain": "embedding"
 }
+---
+<!-- provenance:
 provenance:
   source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
----
+-->
 
 ## Problem
 

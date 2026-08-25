@@ -2,7 +2,13 @@
 {
   "title": "中文 BM25 搜索：滑动窗口子串加分与唯一候选加分",
   "domain": "search",
-  "tags": ["bm25", "chinese", "search", "recall", "sliding-window"],
+  "tags": [
+    "bm25",
+    "chinese",
+    "search",
+    "recall",
+    "sliding-window"
+  ],
   "status": "published",
   "evidence_level": "E2",
   "source": "mcp-intake-1112",
@@ -11,12 +17,14 @@
   "verified_date": "",
   "domain_expert": ""
 }
+---
+<!-- provenance:
 provenance:
   source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-08-18"
   evidence: "post-publication"
----
+-->
 
 ## Problem
 

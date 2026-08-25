@@ -2,18 +2,26 @@
 {
   "title": "Aider CLI --api-key parameter leaks API key to history files",
   "domain": "security",
-  "tags": ["aider", "security", "api-key", "leak", "history"],
+  "tags": [
+    "aider",
+    "security",
+    "api-key",
+    "leak",
+    "history"
+  ],
   "status": "published",
   "evidence_level": "E2",
   "source": "mcp-intake-1190",
   "created": "2026-08-22"
 }
+---
+<!-- provenance:
 provenance:
   source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-08-22"
   evidence: "post-publication"
----
+-->
 
 ## Problem
 
