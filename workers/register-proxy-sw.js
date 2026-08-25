@@ -12,7 +12,9 @@ const {
   cleanRateMap,
 } = _utils;
 
-// GITHUB_API, REPO, PUBLIC_DATA_BASE are defined locally below
+// GitHub API configuration from handlers.js
+const _handlers = await import("./lib/handlers.js");
+const { GITHUB_API, REPO, PUBLIC_DATA_BASE } = _handlers;
 
 const PROXY_CACHE_TTL = 30_000;
 const KEEPALIVE_ENDPOINTS = [
