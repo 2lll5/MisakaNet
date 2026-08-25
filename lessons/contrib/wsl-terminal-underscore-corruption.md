@@ -29,11 +29,11 @@ Windows Terminal → WSL PTY 粘贴时，下划线 `_` 被吞掉（变成空格�
 import json
 
 # 读
-with open('/home/eric_jia/.hermes/.env') as f:
+with open('/home/<user>/.hermes/.env') as f:
     content = f.read()
 
 # 写（保留原始字符）
-with open('/home/eric_jia/.hermes/.env', 'w') as f:
+with open('/home/<user>/.hermes/.env', 'w') as f:
     f.write(new_content)
 ```
 

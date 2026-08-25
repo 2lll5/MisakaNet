@@ -165,4 +165,4 @@ Any CLI tool that adopts this env-var-based fatal error hook becomes a first-cla
 - **Repo:** `openclaw/openclaw`
 - **PR:** #93310
 - **Final commit (fork):** `2298a37a8c`
-- **Branch:** `feat/openclaw-error-handler-env` on `zsxh1990/openclaw`
+- **Branch:** `feat/openclaw-error-handler-env` on `<user>/openclaw`

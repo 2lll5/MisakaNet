@@ -9,7 +9,7 @@ created: "2026-07-28"
 confidence: 0.85
 provenance:
   source: "colleague-memory"
-  contributor: "zsxh1990"
+  contributor: "<user>"
   merged_at: "2026-07-28"
   evidence: "post-publication"
 ---

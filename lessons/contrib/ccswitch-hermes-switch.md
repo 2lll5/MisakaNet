@@ -7,7 +7,7 @@
   "source": "unknown"
 }
 ---
----{"confidence": "0.7", "created": "2026-05-02", "domain": "devops", "source": "bootstrap", "status": "published", "tags": "", "- node": "cc_haha", "title": "ccswitch-hermes-switch 踩坑Notes"}---
+---{"confidence": "0.7", "created": "2026-05-02", "domain": "devops", "source": "bootstrap", "status": "published", "tags": "", "- node": "<agent>", "title": "ccswitch-hermes-switch 踩坑Notes"}---
 
 # ccswitch-hermes-switch 踩坑Notes
 

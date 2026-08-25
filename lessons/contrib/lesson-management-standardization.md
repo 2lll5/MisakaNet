@@ -18,7 +18,7 @@ verified_date: 2026-06-14
 Over 180 lessons accumulated in the MisakaNet knowledge base with significant quality and consistency issues:
 
 1. **Inconsistent filenames**: Mix of Chinese and English characters, project-specific prefixes (`cc-connect-*`, `ccswitch-*`, `codewhale-*`, `deepseek-tui-*`, `hermes-*`, `node_*`, `st2-*`)
-2. **Hardcoded sensitive content**: User home paths (`/mnt/c/Users/hp/`), specific usernames (`zsxh1990`, `cc_haha`), internal project names (`mify`, `InternalGateway`) embedded in lesson body text
+2. **Hardcoded sensitive content**: User home paths (`/mnt/c/Users/hp/`), specific usernames (`<user>`, `<agent>`), internal project names (`mify`, `InternalGateway`) embedded in lesson body text
 3. **Non-portable tags**: Project-specific metadata (`project:*`, `node:*`, `severity:*`) in frontmatter that are meaningless to external contributors
 4. **No submission standards**: Every contributor writes differently, no automated validation before merge
 5. **Plaintext secrets discovered**: PATs, API keys, and Cloudflare tokens in public-facing and internal documentation
@@ -90,7 +90,7 @@ The sanitization pattern library (`check_lesson_quality.py` and `submit_lesson.p
 | Category | Examples |
 |----------|----------|
 | File paths | `/mnt/c/Users/*`, `C:\Users\*\` |
-| Usernames | `zsxh1990`, `cc_haha`, `sheldonisspark*` |
+| Usernames | `<user>`, `<agent>`, `sheldonisspark*` |
 | Internal projects | `mify`, `InternalGateway`, `InternalModel` |
 | Brand names | `xiaomi` (when generic context) |
 | Credentials | `ghp_*`, `github_pat_*`, `sk-*`, `cfut_*`, `AKIA*` |

@@ -70,7 +70,7 @@ def check_filename(filepath: Path) -> list[str]:
 
 
 def check_frontmatter(filepath: Path) -> list[str]:
-    """检查 frontmatter JSON 合法性和必填字段."""
+    """检查 frontmatter JSON/YAML 合法性和必填字段."""
     errors = []
     content = filepath.read_text(encoding='utf-8')
 
@@ -80,21 +80,40 @@ def check_frontmatter(filepath: Path) -> list[str]:
         return ["FRONTMATTER_MISSING: No frontmatter block found (must start with ---)"]
 
     raw = m.group(1).strip()
-    try:
-        fm = json.loads(raw)
-    except json.JSONDecodeError as e:
-        return [f"FRONTMATTER_JSON: Invalid JSON: {e}"]
+    fm = None
 
-    # 必填字段
-    required = ["title", "domain", "status"]
-    for field in required:
-        if field not in fm:
-            errors.append(f"FRONTMATTER_REQUIRED: Missing required field '{field}'")
+    # 尝试 JSON 解析
+    if raw.startswith('{'):
+        try:
+            fm = json.loads(raw)
+        except json.JSONDecodeError as e:
+            # 检查是否是 JSON+YAML 混排
+            if 'Extra data' in str(e):
+                errors.append(f"FRONTMATTER_MIX: JSON+YAML mix detected in '{filepath.name}'")
+            else:
+                errors.append(f"FRONTMATTER_JSON: Invalid JSON: {e}")
 
-    # 标题无中文
-    title = fm.get("title", "")
-    if CHINESE_RE.search(title):
-        errors.append(f"FRONTMATTER_CN: Title contains Chinese: '{title}'")
+    # 尝试 YAML 解析（如果 JSON 失败或不是 JSON 格式）
+    if fm is None:
+        try:
+            import yaml
+            fm = yaml.safe_load(raw)
+        except Exception:
+            # 如果 YAML 解析也失败，返回错误
+            if not any(e.startswith("FRONTMATTER_JSON") or e.startswith("FRONTMATTER_MIX") for e in errors):
+                errors.append(f"FRONTMATTER_PARSE: Cannot parse frontmatter as JSON or YAML")
+
+    # 检查必填字段
+    if fm and isinstance(fm, dict):
+        required = ["title", "domain", "status"]
+        for field in required:
+            if field not in fm:
+                errors.append(f"FRONTMATTER_REQUIRED: Missing required field '{field}'")
+
+        # 标题无中文
+        title = fm.get("title", "")
+        if CHINESE_RE.search(title):
+            errors.append(f"FRONTMATTER_CN: Title contains Chinese: '{title}'")
 
     return errors
 

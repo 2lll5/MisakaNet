@@ -7,9 +7,9 @@
   "confidence": "0.9",
   "created": "2026-07-06",
   "updated": "2026-07-06",
-  "source": "zsxh1990",
+  "source": "<user>",
   "verified_date": "2026-07-06",
-  "domain_expert": "zsxh1990"
+  "domain_expert": "<user>"
 }
 
 # Feishu Block API returns code=0 but creates zero blocks under rate limiting

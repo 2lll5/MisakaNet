@@ -4,7 +4,7 @@
 
 # macOS Homebrew Python: pip install Blocked by PEP 668 externally-managed-environment
 
-> Author: zsxh1990  
+> Author: <user>  
 > Created: 2026-07-09  
 > Status: draft  
 > Domain: devops  

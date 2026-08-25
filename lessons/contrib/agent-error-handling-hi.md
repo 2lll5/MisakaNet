@@ -9,7 +9,7 @@ created: 2026-08-01
 lang: hi
 provenance:
   source: "github-pr"
-  contributor: "zsxh1990"
+  contributor: "<user>"
   merged_at: "2026-08-01"
   evidence: "pr-merged"
 ---
@@ -69,4 +69,4 @@ async def resilient_call(func, *args, max_retries=3, fallback=None):
 
 ## स्रोत
 
-चीनी पाठ से अनुवाद, लेखक zsxh1990।
+चीनी पाठ से अनुवाद, लेखक <user>।

@@ -28,13 +28,13 @@
 
 ```bash
 # A. 开放 PR
-gh search prs --author=zsxh1990 --state=open --limit=30
+gh search prs --author=<user> --state=open --limit=30
 
 # B. Claimed issues（防丢失！）
-gh search issues --involves=zsxh1990 --state=open --updated='>YYYY-MM-DD' --limit=20
+gh search issues --involves=<user> --state=open --updated='>YYYY-MM-DD' --limit=20
 
 # C. 近期关闭的 PR（追认贡献墙）
-gh search prs --author=zsxh1990 --state=closed --sort=updated --limit=10
+gh search prs --author=<user> --state=closed --sort=updated --limit=10
 ```
 
 ## 关键点

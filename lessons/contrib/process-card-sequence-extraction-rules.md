@@ -8,11 +8,11 @@ tags:
   - sequence
   - cycle-time
   - robot
-source: "zsxh1990"
+source: "<user>"
 status: "published"
 confidence: "0.95"
 created: "2026-07-03"
-domain_expert: "zsxh1990"
+domain_expert: "<user>"
 verified_date: "2026-07-06"
 ---
 

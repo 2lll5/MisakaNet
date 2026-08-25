@@ -14,7 +14,7 @@ For repository-specific PR profiles, maintainer response patterns, and PR round 
 
 ## Canonical peer
 
-https://github.com/zsxh1990/pr-genius
+https://github.com/<user>/pr-genius
 
 ## What pr-genius contains
 
@@ -35,7 +35,7 @@ python3 search_knowledge.py "pr-genius federation"
 python3 search_knowledge.py "external PR strategy"
 
 # Query pr-genius directly
-# Clone: git clone https://github.com/zsxh1990/pr-genius
+# Clone: git clone https://github.com/<user>/pr-genius
 # Search: python3 search_knowledge.py "astral-sh/uv" (in pr-genius repo)
 ```
 

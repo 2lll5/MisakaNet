@@ -6,7 +6,7 @@ status: "published"
 source: "brgsk.xyz"
 provenance:
   source: "colleague-memory"
-  contributor: "zsxh1990"
+  contributor: "<user>"
   merged_at: "2026-07-02"
   evidence: "post-publication"
 ---

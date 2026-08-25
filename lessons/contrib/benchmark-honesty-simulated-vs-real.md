@@ -18,7 +18,7 @@
 <!-- provenance:
 provenance:
   source: "internal"
-  contributor: "zsxh1990"
+  contributor: "<user>"
   merged_at: "2026-07-15"
   evidence: "post-publication"
 -->

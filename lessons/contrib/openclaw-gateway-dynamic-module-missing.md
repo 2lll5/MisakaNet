@@ -21,7 +21,7 @@
 日志关键报错：
 ```
 Error [ERR_MODULE_NOT_FOUND]: Cannot find module
-'/home/eric_jia/.nvm/versions/node/v22.22.2/lib/node_modules/openclaw/dist/directive-handling.fast-lane-BAhyQLdx.js'
+'/home/<user>/.nvm/versions/node/v22.22.2/lib/node_modules/openclaw/dist/directive-handling.fast-lane-BAhyQLdx.js'
 imported from .../get-reply-462JLlw-.js
 ```
 

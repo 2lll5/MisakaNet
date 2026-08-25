@@ -7,11 +7,11 @@ status: published
 confidence: 0.8
 created: 2026-07-06
 updated: 2026-07-06
-source: zsxh1990
+source: <user>
 verified_date: 2026-07-06
 provenance:
   source: "agent-debugging"
-  contributor: "zsxh1990"
+  contributor: "<user>"
   merged_at: "2026-07-28"
   evidence: "pr-merged"
 ---
