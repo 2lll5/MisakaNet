@@ -68,13 +68,17 @@ Add security advisory checks to audit workflow:
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: CI security checks: action pinning, permissions, R"
+wc -l lessons/contrib/ci-security-advisory-checks.md
+```
 
 **Expected Output:**
 ```
-On branch main
+Lesson: CI security checks: action pinning, permissions, R
+# (line count)
 ```
+
 ## Key Points
 
 - Non-blocking advisory checks (don't fail CI)

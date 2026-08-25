@@ -65,10 +65,13 @@ For an application team consuming such a platform, the safer runbook is:
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Supabase capacity constraints caused project opera"
+wc -l lessons/contrib/supabase-capacity-constraints-project-operations.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: Supabase capacity constraints caused project opera
+# (line count)
 ```

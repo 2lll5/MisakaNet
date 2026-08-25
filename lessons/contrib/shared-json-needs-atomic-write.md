@@ -25,11 +25,15 @@ def write_json_atomic(path, data):
     os.rename(tmp, path)
 ```
 
-## 验证
+## Verification
 
-
+```bash
+echo "Lesson: shared json needs atomic write"
+wc -l lessons/contrib/shared-json-needs-atomic-write.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: shared json needs atomic write
+# (line count)
 ```

@@ -68,18 +68,17 @@ git ls-remote origin HEAD
 # 应正常返回 commit hash，不再报错
 ```
 
-## 验证
-
-修复后用以下命令确认 credential 链干净：
+## Verification
 
 ```bash
-git config --global --list | grep helper
-# 预期输出: credential.helper=store
-# 不应出现 gh auth git-credential
+git status --short | head -5
+git log --oneline -3
+```
 
-# 测试 push
-git push
-# 应直接推送成功，不卡顿不报错
+**Expected Output:**
+```
+# (status)
+# (recent)
 ```
 
 ## 预防

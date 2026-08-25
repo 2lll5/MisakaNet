@@ -77,13 +77,17 @@ Competition PRs: first to fix DCO wins, others close as duplicate.
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Zero-Bounty Agent Competition Flywheel: Issue Desi"
+wc -l lessons/contrib/zero-bounty-agent-competition-flywheel.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: Zero-Bounty Agent Competition Flywheel: Issue Desi
+# (line count)
 ```
+
 ## Notes
 
 - Do not use "bounty" or "reward" language — use "credit" and "leaderboard"

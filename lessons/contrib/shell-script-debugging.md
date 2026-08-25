@@ -40,14 +40,17 @@ done
 ```
 ## Verification
 
-
-
+```bash
+echo "Lesson: Shell Debugging — set -x 与常见Pitfalls"
+wc -l lessons/contrib/shell-script-debugging.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+Lesson: Shell Debugging — set -x 与常见Pitfalls
+# (line count)
 ```
+
 ## 陷阱
 
 | 场景 | 问题 | 修复 |

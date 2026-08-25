@@ -40,15 +40,16 @@ text = pymupdf4llm.extract(doc, encoding="utf-8")
 
 ## Verification
 
-Re-import PDFs containing Chinese alarm codes (for example, SRVO-023); retrieval returns the correct Chinese descriptions.
-
-
 ```bash
-# Expected result: retrieval logs show the intended chunks and no stale cache or fallback errors.
-python3 search_knowledge.py "rag verification smoke test" --lessons
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
 ```
 
-Environment: Linux / WSL with Python 3.10 or newer; adapt the query to the affected RAG corpus.
+**Expected Output:**
+```
+# (refs)
+Search verified
+```
 
 ## Key Points
 

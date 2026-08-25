@@ -89,13 +89,17 @@ Stop distance = (Motion speed × Scan time) + Coast distance at power cutoff
 
 ## Verification
 
-
-
+```bash
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
+```
 
 **Expected Output:**
 ```
-On branch main
+# (count)
+FANUC verified
 ```
+
 ## Notes
 
 - WARN alarms don't light the LED — easy to miss in production

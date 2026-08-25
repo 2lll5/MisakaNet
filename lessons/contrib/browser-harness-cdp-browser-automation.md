@@ -147,16 +147,17 @@ ws.send(json.dumps({"type": "batch", "actions": [
 可以同时跑，互不干扰。Chrome Relay 也支持连外部 Chrome（需 `--no-chrome` + 配置 `cdpUrl`）。
 ## Verification
 
-
-
+```bash
+echo "Lesson: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation"
+wc -l lessons/contrib/browser-harness-cdp-browser-automation.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
-Found
+Lesson: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
+# (line count)
 ```
+
 ## 文档
 
 - 项目地址：https://github.com/browser-use/browser-harness

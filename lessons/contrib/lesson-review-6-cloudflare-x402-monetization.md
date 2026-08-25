@@ -83,14 +83,17 @@ MCP 工具可以通过 x402 协议收费：
 
 ## Verification
 
-
-
+```bash
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
+```
 
 **Expected Output:**
 ```
-OK
-Found
+# (refs)
+MCP verified
 ```
+
 ## Notes
 
 - x402 是开放协议，25+ 行业领导者共建

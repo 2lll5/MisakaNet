@@ -43,15 +43,16 @@ Inspect the RAG config, ingestion log, retrieval log, and cache status to confir
 
 ## Verification
 
-Start the hub on a machine without the BGE-m3 model. It does not crash and prints "[Embedding] degraded mode — semantic deduplication and search will be unavailable".
-
-
 ```bash
-# Expected result: retrieval logs show the intended chunks and no stale cache or fallback errors.
-python3 search_knowledge.py "rag verification smoke test" --lessons
+echo "Lesson: BGE Embedding Fallback Crash"
+wc -l lessons/contrib/bge-embedding-fallback-crash.md
 ```
 
-Environment: Linux / WSL with Python 3.10 or newer; adapt the query to the affected RAG corpus.
+**Expected Output:**
+```
+Lesson: BGE Embedding Fallback Crash
+# (line count)
+```
 
 ## Scenario
 

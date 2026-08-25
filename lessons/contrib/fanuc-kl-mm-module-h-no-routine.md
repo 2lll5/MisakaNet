@@ -31,11 +31,12 @@ KTRANS 编译整个项目无"already defined"报错。
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: FANUC KL: mm_module_h.kl 禁止 ROUTINE 声明"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

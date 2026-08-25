@@ -131,11 +131,12 @@ For frontend metric fixes, also inspect the code path: every visible count shoul
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Version Management Across Multiple Files"
+echo "Lesson: Version Management Across Multiple Files"
+wc -l lessons/contrib/version-management-multiple-files.md
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Lesson: Version Management Across Multiple Files
+# (line count)
 ```

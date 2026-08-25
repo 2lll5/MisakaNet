@@ -151,11 +151,12 @@ set_orientation / set_coord_sys / set_scan_finished
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-karel-geometry-kinematics-layer"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

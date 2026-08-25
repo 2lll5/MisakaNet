@@ -49,14 +49,17 @@ curl -v --trace-ascii /dev/stderr https://example.com 2>&1 | head -30
 ```
 ## Verification
 
-
-
+```bash
+echo "Lesson: curl / wget 请求失败通用Diagnosis"
+wc -l lessons/contrib/curl-request-troubleshoot.md
+```
 
 **Expected Output:**
 ```
-OK
-Found
+Lesson: curl / wget 请求失败通用Diagnosis
+# (line count)
 ```
+
 ## 错误速查
 
 | 错误 | 原因 | 方向 |

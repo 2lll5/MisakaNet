@@ -66,17 +66,17 @@ npm install --ignore-scripts
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
+# (status)
+# (recent)
 ```
+
 ## Key Points
 
 - 分段大小 10MB 低于代理稳定传输窗口

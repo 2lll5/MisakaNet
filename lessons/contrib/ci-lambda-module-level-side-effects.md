@@ -62,14 +62,17 @@ assert "/@" in _extract_default(source)
 
 ## Verification
 
-
-
+```bash
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+Python 3.
+3.
 ```
+
 ## Why it matters
 
 Lambda 函数、数据库迁移脚本、CLI 工具等经常在模块级执行 I/O 操作（连接数据库、初始化客户端）。测试这类代码时，**源码分析**比**运行时导入**更安全、更可靠。

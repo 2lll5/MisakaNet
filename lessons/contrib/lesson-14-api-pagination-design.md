@@ -93,15 +93,17 @@ LIMIT 20;
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: API 分页设计 — Cursor vs Offset vs Keyset"
+wc -l lessons/contrib/lesson-14-api-pagination-design.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
-Found
+Lesson: API 分页设计 — Cursor vs Offset vs Keyset
+# (line count)
 ```
+
 ## Notes
 
 - GitHub API 使用 CURSOR 分页

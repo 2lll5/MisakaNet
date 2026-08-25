@@ -28,11 +28,15 @@ provenance:
 3. 大任务分批，每批后写checkpoint
 4. 任务可从上一个checkpoint恢复
 
-## 验证
+## Verification
 
-
+```bash
+echo "Lesson: api rate limit handling best practices"
+wc -l lessons/contrib/api-rate-limit-handling-best-practices.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: api rate limit handling best practices
+# (line count)
 ```

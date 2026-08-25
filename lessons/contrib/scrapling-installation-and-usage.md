@@ -70,15 +70,17 @@ scrapling uses curl_cffi underneath, which can impersonate browser TLS fingerpri
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Scrapling — Web Scraping Library with Anti-Detecti"
+wc -l lessons/contrib/scrapling-installation-and-usage.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
+Lesson: Scrapling — Web Scraping Library with Anti-Detecti
+# (line count)
 ```
+
 ## Notes
 
 - scrapling is NOT a replacement for Playwright — it's a higher-level wrapper

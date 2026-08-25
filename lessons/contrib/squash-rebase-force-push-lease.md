@@ -46,11 +46,12 @@ Squash is not cosmetic: it rewrites the base and re-opens the merge contract. Na
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Squash-rebase rewrites the patch base and breaks force-push expectations"
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (status)
+# (recent)
 ```

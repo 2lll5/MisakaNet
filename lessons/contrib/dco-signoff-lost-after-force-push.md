@@ -65,13 +65,15 @@ done
 
 ## Verification
 
-
-
+```bash
+git log --format="%b" -1 | grep -i "Signed-off-by" || echo none
+```
 
 **Expected Output:**
 ```
-On branch main
+Signed-off-by:
 ```
+
 ## Key Points
 
 - DCO 检查检查所有 commit，不只是最新的

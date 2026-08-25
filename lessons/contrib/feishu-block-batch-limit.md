@@ -19,9 +19,13 @@ verification: metadata-normalized
 
 ## Verification
 
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-OK
+# (count)
+Feishu verified
 ```

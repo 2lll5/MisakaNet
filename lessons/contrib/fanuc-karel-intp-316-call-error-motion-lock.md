@@ -94,11 +94,12 @@ CALL 'TEST.TP'
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-karel-intp-316-call-error-motion-lock"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

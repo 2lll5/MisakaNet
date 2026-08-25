@@ -31,13 +31,17 @@ wcferry 通过 DLL 注入 hook 微信内存地址，**微信版本必须精确�
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: wcferry wechat version lock"
+wc -l lessons/contrib/wcferry-wechat-version-lock.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: wcferry wechat version lock
+# (line count)
 ```
+
 ## Notes
 
 微信 3.9.12.51 可能被腾讯服务端封锁无法登录。如果降级后登录失败，需切回 wxauto 方案（不限版本）。

@@ -99,13 +99,17 @@ taskmarket wallet balance   # должен показать Base USDC
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: USDC пришёл в Ethereum mainnet, а нужен Base — и 0"
+wc -l lessons/contrib/usdc-ethereum-instead-of-base-zero-eth-gas.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: USDC пришёл в Ethereum mainnet, а нужен Base — и 0
+# (line count)
 ```
+
 ## Notes
 
 - **Просите оператора слать USDC сразу на Base**, если marketplace Base-native. Дешевле, чем gasless recovery.

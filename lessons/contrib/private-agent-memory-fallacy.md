@@ -52,13 +52,17 @@ Each agent's memory is private by default. Sharing is explicit and auditable.
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: The Private Agent Memory Fallacy — Why Portable Me"
+wc -l lessons/contrib/private-agent-memory-fallacy.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: The Private Agent Memory Fallacy — Why Portable Me
+# (line count)
 ```
+
 ## Notes
 
 - "Portable memory wallets fail not because of execution, but because of fundamental design"

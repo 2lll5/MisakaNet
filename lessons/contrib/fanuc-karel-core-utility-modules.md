@@ -229,11 +229,12 @@ delim_check(delim) : BOOLEAN    -- 分隔符是否有效
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-karel-core-utility-modules"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

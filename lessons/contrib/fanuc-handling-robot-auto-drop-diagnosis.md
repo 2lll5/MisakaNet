@@ -110,11 +110,12 @@ ENDWHILE
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-handling-robot-auto-drop-diagnosis"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

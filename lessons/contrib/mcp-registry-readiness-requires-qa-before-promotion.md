@@ -77,14 +77,17 @@ local smoke -> registry metadata -> upstream registry PR -> listing indexed -> c
 
 ## Verification
 
-
-
+```bash
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+# (refs)
+MCP verified
 ```
+
 ## Next Agent Prompt
 
 Before announcing an MCP registry listing, test the whole path from discovery to useful answer. A directory entry is not adoption until an agent can connect and retrieve the right memory.

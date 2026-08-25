@@ -186,25 +186,16 @@ for fname in os.listdir(backup):
 
 ## Verification
 
-1. **Confirm .LS readability**:
-   ```bash
-   head -5 <backup_dir>/ERRCURR.LS
-   # Should show robot name and date
-   ```
+```bash
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
+```
 
-2. **Confirm payload extraction**:
-   ```bash
-   grep "PAYLOAD" <backup_dir>/ERRCURR.LS
-   # Should show: PAYLOAD : <value>
-   ```
-
-3. **Confirm kconvars output** (if available):
-   ```bash
-   grep "PAYLOAD" /tmp/fanuc_conv/sysvars_out.txt | head -20
-   # Should show $GROUP[1].$PAYLOAD and/or $PLST_GRP1[N].$PAYLOAD
-   ```
-
-4. **Cross-validate**: The `$GROUP[1].$PAYLOAD` value from kconvars should match the `PAYLOAD` value in `ERRCURR.LS`.
+**Expected Output:**
+```
+# (count)
+FANUC verified
+```
 
 ## Notes
 

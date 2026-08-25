@@ -117,19 +117,17 @@ await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
+echo "Lesson: Playwright Forum Selectors — WoltLab/IPS/Common Pa"
+wc -l lessons/contrib/session-lesson-4-playwright-forum-selectors.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
-Found
+Lesson: Playwright Forum Selectors — WoltLab/IPS/Common Pa
+# (line count)
 ```
+
 ## Notes
 
 - WoltLab 的 `data-is-done` 属性标识已解决帖子

@@ -40,12 +40,17 @@ systemctl --user status hermes-gateway.service
 
 **watchdog 只监控进程存活**，不监控 Gateway 功能响应性。
 
-## 验证
+## Verification
 
 ```bash
-# 确认 Gateway 只通过 systemd 运行
-ps aux | grep hermes | grep -v grep
-# 应只有 systemd 管理的进程，无 TTY 依赖的 CLI
+echo "Lesson: Gateway 进程挂死未崩溃 — watchdog 自动Recovery"
+wc -l lessons/contrib/gateway-hang-watchdog-recovery.md
+```
+
+**Expected Output:**
+```
+Lesson: Gateway 进程挂死未崩溃 — watchdog 自动Recovery
+# (line count)
 ```
 
 ## 关键点

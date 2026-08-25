@@ -41,13 +41,17 @@ api_base: https://api.internal-gateway.local/v1
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: api gateway anthropic incompatibility"
+wc -l lessons/contrib/api-gateway-anthropic-incompatibility.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: api gateway anthropic incompatibility
+# (line count)
 ```
+
 ## Notes
 
 使用公司内网大模型网关（InternalGateway/InternalModel API）作为 Hermes Agent 的 LLM 后端。

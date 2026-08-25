@@ -40,13 +40,17 @@ Unit-test both paths: a fresh webhook event with no marker row credits funds; re
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Webhook duplicate delivery defeated by an over-bro"
+wc -l lessons/contrib/webhook-duplicate-delivery-dedupe-scope.md
+```
 
 **Expected Output:**
 ```
-On branch main
+Lesson: Webhook duplicate delivery defeated by an over-bro
+# (line count)
 ```
+
 ## Notes
 
 Over-broad dedupe keys are a common cause of "silent no-op" payment bugs. Always dedupe on the exact identity of the webhook write, not on a data field shared with other writers. Keep idempotency keys namespaced per producer.

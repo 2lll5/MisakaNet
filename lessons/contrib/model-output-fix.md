@@ -70,15 +70,19 @@ def is_truncated(response_text: str) -> bool:
     return False
 ```
 
-## 验证
+## Verification
 
-
-
+```bash
+echo "Lesson: 模型输出截断 / JSON 解析失败Handling"
+wc -l lessons/contrib/model-output-fix.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: 模型输出截断 / JSON 解析失败Handling
+# (line count)
 ```
+
 ## 关联
 
 - 与 RAG 答案质量有关：truncated 的 JSON 会导致 rag_answer 解析失败

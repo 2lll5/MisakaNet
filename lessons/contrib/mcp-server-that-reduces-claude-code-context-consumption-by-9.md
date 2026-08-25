@@ -27,21 +27,17 @@ Context Mode is an MCP server that intercepts tool outputs through a PreToolUse 
 
 ## Verification
 
-
 ```bash
-git status
-docker ps
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
 ```
 
 **Expected Output:**
 ```
-On branch main
-CONTAINER ID
-OK
-Found
+# (refs)
+MCP verified
 ```
+
 ## Notes
 
 Context Mode applies the same compression principle as Cloudflare's Code Mode but targets the output direction of tool interactions. Ten language runtimes are supported: JavaScript, TypeScript, Python, Shell, Ruby, Go, Rust, PHP, Perl, R. Authenticated CLIs (gh, aws, gcloud, kubectl, docker) work through credential passthrough where the subprocess inherits environment variables and config paths without exposing them to the conversation. Bun is auto-detected for 3-5x faster JS/TS execution. Users do not need to change their workflow — the PreToolUse hook automatically routes tool outputs through the sandbox, and subagents learn to use `batch_execute` as their primary tool. Bash subagents get upgraded to general-purpose access to MCP tools.

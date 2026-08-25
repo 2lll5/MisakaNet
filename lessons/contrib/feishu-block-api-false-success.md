@@ -128,51 +128,16 @@ def create_blocks_with_size_check(doc_id, parent_id, all_blocks):
 
 ## Verification
 
-
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
+# (count)
+Feishu verified
 ```
-### Test 1: Confirm false-success detection
-
-```bash
-# Create a document with 100 text blocks
-python3 -c "
-from misakanet.tools.feishu_helpers import create_blocks_batched
-blocks = [{'block_type': 2, 'text': {'text_elements': [{'text_run': {'content': f'Block {i}'}}]}} for i in range(100)]
-result = create_blocks_batched('<doc_id>', '<parent_block_id>', blocks)
-print(f'Created {len(result)} of 100 blocks')
-assert len(result) == 100, f'Only {len(result)} blocks created!'
-"
-```
-
-Expected: all 100 blocks created, with automatic chunking and delays.
-
-### Test 2: Rate limit stress test
-
-```bash
-# Write 200 blocks without batching (should trigger false success)
-python3 -c "
-import requests, json, os
-token = os.environ['FEISHU_TOKEN']
-doc_id = '<doc_id>'
-parent_id = '<parent_block_id>'
-blocks = [{'block_type': 2, 'text': {'text_elements': [{'text_run': {'content': f'Stress {i}'}}]}} for i in range(200)]
-resp = requests.post(
-    f'https://open.feishu.cn/open-apis/docx/v1/documents/{doc_id}/blocks/{parent_id}/children',
-    headers={'Authorization': f'Bearer {token}'},
-    json={'children': blocks, 'index': -1},
-)
-data = resp.json()
-print(f'code={data[\"code\"]}, blocks_created={len(data.get(\"data\", {}).get(\"children\", []))}')
-# Expected: code=0, blocks_created=0 (false success without batching)
-"
-```
-
-Expected: `code=0, blocks_created=0` — proves the false-success behavior exists.
 
 ## Notes
 

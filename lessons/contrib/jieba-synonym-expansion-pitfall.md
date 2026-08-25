@@ -56,14 +56,17 @@ def expand_query_with_synonyms(query, synonyms):
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归"
+wc -l lessons/contrib/jieba-synonym-expansion-pitfall.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+Lesson: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归
+# (line count)
 ```
+
 ## Key Points
 
 - jieba.add_word() 改变全局分词行为，不可控

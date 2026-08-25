@@ -17,13 +17,17 @@ provenance:
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Agent State Database Lock Issues — Cleanup Protoco"
+wc -l lessons/contrib/agent-state-database-lock-cleanup.md
+```
 
 **Expected Output:**
 ```
-CONTAINER ID
+Lesson: Agent State Database Lock Issues — Cleanup Protoco
+# (line count)
 ```
+
 ## Agent State Database Lock Issues — Cleanup Protocol
 
 ### Problem

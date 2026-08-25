@@ -1,8 +1,20 @@
 ---
-domain: "automation"
-title: "Fix Node.js ECONNRESET Connection Reset Error in n8n Webhook HTTP Requests"
-status: "published"
-{"title": "Fix Node.js ECONNRESET Connection Reset Error in n8n Webhook HTTP Requests", "domain": "automation", "tags": ["n8n", "nodejs", "econnreset", "http-request", "webhook", "networking"], "status": "published", "confidence": "0.95", "created": "2026-07-30", "updated": "2026-07-30", "source": "https://github.com/agente-gaudi/n8n-automation-workflows", "verified_date": "2026-07-30", "domain_expert": "n8n-node"}
+confidence: '0.95'
+created: '2026-07-30'
+domain: automation
+domain_expert: n8n-node
+source: https://github.com/agente-gaudi/n8n-automation-workflows
+status: published
+tags:
+- n8n
+- nodejs
+- econnreset
+- http-request
+- webhook
+- networking
+title: Fix Node.js ECONNRESET Connection Reset Error in n8n Webhook HTTP Requests
+updated: '2026-07-30'
+verified_date: '2026-07-30'
 ---
 
 # Fix Node.js ECONNRESET Connection Reset Error in n8n Webhook HTTP Requests
@@ -111,19 +123,17 @@ server {
 
 ## Verification
 
-
 ```bash
-git status
-docker ps
-curl -sS http://localhost:8080/health
+echo "Lesson: n8n-nodejs-econnreset-connection-reset-fix"
+wc -l lessons/contrib/n8n-nodejs-econnreset-connection-reset-fix.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-CONTAINER ID
-OK
+Lesson: n8n-nodejs-econnreset-connection-reset-fix
+# (line count)
 ```
+
 ## Notes
 
 - For high-throughput workflows targeting Cloudflare-protected APIs, adding a **Wait** node (500ms - 1000ms) between parallel requests prevents WAF socket termination.

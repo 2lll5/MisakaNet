@@ -32,15 +32,17 @@ python -c "import your_module; print(your_module.__file__)"
 ```
 ## Verification
 
-
-
+```bash
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-Found
+Python 3.
+3.
 ```
+
 ## 预防
 
 ```bash

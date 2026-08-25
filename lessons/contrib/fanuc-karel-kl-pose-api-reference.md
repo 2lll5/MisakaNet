@@ -159,11 +159,12 @@ CC_JOINT = 9      -- PR类型：关节
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-karel-kl-pose-api-reference"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

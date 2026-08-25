@@ -116,11 +116,12 @@ DO[3]     → 报警信号
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-profinet-s7-1200-external-startup"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

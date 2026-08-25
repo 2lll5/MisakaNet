@@ -82,15 +82,17 @@ export PYTHONPATH=$HOME/.local/lib/python3.11/site-packages:$PYTHONPATH
 
 ## Verification
 
-
-
+```bash
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
+Python 3.
+3.
 ```
+
 ## Notes
 
 - Always create a dedicated virtual environment per project with `python -m venv`

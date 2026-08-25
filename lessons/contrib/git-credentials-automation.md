@@ -29,11 +29,17 @@ git ls-remote https://github.com/your-org/your-repo.git
 # 应该成功返回 HEAD 引用，无需交互
 ```
 
-## 验证
+## Verification
 
 ```bash
-# 从 cron/脚本中运行，看是否卡住
-git push  # 应该直接完成，不弹出输入框
+git status --short | head -5
+git log --oneline -3
+```
+
+**Expected Output:**
+```
+# (status)
+# (recent)
 ```
 
 ## 陷阱

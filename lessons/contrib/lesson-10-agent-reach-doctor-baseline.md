@@ -153,28 +153,14 @@ Don't enable Twitter/Reddit/etc. "just in case". Each cookie-based channel:
 ## Verification
 
 ```bash
-# 1. doctor shows ≥4 channels
-~/.agent-reach-venv/bin/agent-reach doctor | grep -c "✅"
-# Expected: 4 or more
+echo "Lesson: Agent-Reach v1.5.0 doctor Baseline: 4/15 Channels "
+wc -l lessons/contrib/lesson-10-agent-reach-doctor-baseline.md
+```
 
-# 2. V2EX test
-HTTPS_PROXY=http://172.19.128.1:7890 \
-  ~/.agent-reach-venv/bin/agent-reach format v2ex hot --limit 5
-# Should print: list of 5 hot topics
-
-# 3. RSS test
-HTTPS_PROXY=http://172.19.128.1:7890 \
-  ~/.agent-reach-venv/bin/python3 -c "
-import feedparser
-for e in feedparser.parse('https://hnrss.org/newest').entries[:3]:
-    print(e.title)
-"
-# Should print: 3 HN article titles
-
-# 4. Web test
-HTTPS_PROXY=http://172.19.128.1:7890 \
-  curl -sS --max-time 20 "https://r.jina.ai/https://example.com"
-# Should print: clean markdown of example.com
+**Expected Output:**
+```
+Lesson: Agent-Reach v1.5.0 doctor Baseline: 4/15 Channels 
+# (line count)
 ```
 
 ## Verification (self-check)

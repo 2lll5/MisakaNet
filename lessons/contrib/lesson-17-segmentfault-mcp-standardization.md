@@ -81,14 +81,17 @@ result = await client.call_tool("query_database", {
 
 ## Verification
 
-
-
+```bash
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+# (refs)
+MCP verified
 ```
+
 ## Notes
 
 - MCP 最重要的价值：工具提供方与应用研发者解耦

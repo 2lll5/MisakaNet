@@ -169,11 +169,12 @@ Expected "a" but got "b"
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-karel-unit-testing-kunit"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

@@ -66,11 +66,12 @@ print(result)
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Паттерны тестирования MCP серверов — прямой вызов обработчика"
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (refs)
+MCP verified
 ```

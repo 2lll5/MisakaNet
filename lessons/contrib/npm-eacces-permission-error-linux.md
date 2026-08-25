@@ -79,17 +79,17 @@ Using `sudo` with npm is discouraged because it runs lifecycle scripts as root, 
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
+echo "Lesson: npm install EACCES permission error on Linux and m"
+wc -l lessons/contrib/npm-eacces-permission-error-linux.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
+Lesson: npm install EACCES permission error on Linux and m
+# (line count)
 ```
+
 ## Notes
 
 - The `~/.npm-global` approach is the official npm recommendation for avoiding EACCES errors

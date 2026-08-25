@@ -58,13 +58,17 @@ LLM Agent → MCP Protocol → GhidraMCP Server → Ghidra Plugin
 
 ## Verification
 
-
-
+```bash
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
+```
 
 **Expected Output:**
 ```
-On branch main
+# (refs)
+MCP verified
 ```
+
 ## Notes
 
 - 9.4K stars — one of the most popular MCP servers

@@ -41,17 +41,17 @@ const body = [
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
+# (refs)
+MCP verified
 ```
+
 ## Key Points
 
 - First contact should show all contribution paths

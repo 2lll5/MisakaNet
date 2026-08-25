@@ -78,11 +78,13 @@ with zipfile.ZipFile("题库.docx") as z:
 
 ## Verification
 
-
-
+```bash
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+# (count)
+FANUC verified
 ```

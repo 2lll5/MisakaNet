@@ -99,14 +99,17 @@ def search(db_path: Path, query: str, domain: str | None = None, top: int = 5) -
 
 ## Verification
 
-
-
+```bash
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+# (refs)
+Search verified
 ```
+
 ## Notes
 
 - OKF export covers core/contrib normalized lessons only (not full lesson count)

@@ -141,11 +141,12 @@ R[1]=1                 ; 重置索引，开始下一轮
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-rsr-program-select-logic"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

@@ -51,18 +51,19 @@ WSL 侧的 worktree 目录只是一个"影子"（含 .git 指针），实际文�
 2. 绕过 worktree，直接对 main 分支做 git add/commit/push
 3. git push 使用 `https://oauth2:<PAT>@github.com/<owner>/<repo>.git` 显式认证
 
-## 验证
+## Verification
 
-
-
+```bash
+git status --short | head -5
+git log --oneline -3
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
-Found
+# (status)
+# (recent)
 ```
+
 ## 教训
 
 1. DeepSeek TUI Agent 模式下，**write_file 显示的 diff 和 "Wrote X bytes" 不可信**——必须用 shell 命令交叉验证文件内容

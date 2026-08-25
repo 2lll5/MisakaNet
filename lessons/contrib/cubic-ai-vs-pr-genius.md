@@ -67,11 +67,12 @@ Cubic AI 明确说 "No issues found across 1 file"，给人信心。PR Genius �
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Cubic AI and PR Genius Comparison"
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (status)
+# (recent)
 ```

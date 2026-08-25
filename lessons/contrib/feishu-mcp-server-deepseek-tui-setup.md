@@ -117,12 +117,13 @@ async with stdio_client(params) as (read, write):
 
 ## Verification
 
-
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
-Found
+# (count)
+Feishu verified
 ```

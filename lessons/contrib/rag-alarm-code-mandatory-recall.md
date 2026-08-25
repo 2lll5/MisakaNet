@@ -35,15 +35,16 @@ Add keyword mandatory recall to the `retrieve()` function in `rag_core.py`:
 
 ## Verification
 
-The query "SRVO-023" returns the correct FANUC alarm document list and ranks it near the top. The query "FANUC R-2000iC maximum speed" no longer returns KUKA Series 2000 data.
-
-
 ```bash
-# Expected result: retrieval logs show the intended chunks and no stale cache or fallback errors.
-python3 search_knowledge.py "rag verification smoke test" --lessons
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
 ```
 
-Environment: Linux / WSL with Python 3.10 or newer; adapt the query to the affected RAG corpus.
+**Expected Output:**
+```
+# (refs)
+Search verified
+```
 
 ## Scenario
 

@@ -15,19 +15,17 @@ provenance:
 ---{"title": "Agent 手动Update步骤（update Timeout Handling）", "domain": "devops", "source": "bootstrap", "status": "published", "confidence": "0.8", "created": "2026-05-03"}---
 ## Verification
 
-
 ```bash
-git status
-docker ps
-curl -sS http://localhost:8080/health
+echo "Lesson: Agent 手动Update步骤（update Timeout Handling）"
+wc -l lessons/contrib/agent-manual-update-timeout.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-CONTAINER ID
-OK
+Lesson: Agent 手动Update步骤（update Timeout Handling）
+# (line count)
 ```
+
 ## Agent 手动更新步骤（update 超时处理）
 
 ## Problem

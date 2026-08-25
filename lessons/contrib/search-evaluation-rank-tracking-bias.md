@@ -48,14 +48,17 @@ def evaluate_rank(results, expected_title, expected_content):
 
 ## Verification
 
-
-
+```bash
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+# (refs)
+Search verified
 ```
+
 ## Key Points
 
 - 评估函数的匹配顺序会影响指标

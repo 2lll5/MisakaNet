@@ -48,11 +48,17 @@ cd ~//hf-mirror.com \
 2>&1 | tee /mnt/d/Eric/知识库/chroma_db_v3/build.log &
 ```
 
-## 验证
+## Verification
 
 ```bash
-# 检查入库数量
-python3 -c "import chromadb; c=chromadb.PersistentClient('/path/to/chroma_db'); print(c.get_collection('edoc').count())"
+echo "Lesson: Chroma 建库无 Checkpoint — 进程一死全部丢失"
+wc -l lessons/contrib/chroma-rebuild-no-checkpoint-cn.md
+```
+
+**Expected Output:**
+```
+Lesson: Chroma 建库无 Checkpoint — 进程一死全部丢失
+# (line count)
 ```
 
 ## 关键点

@@ -46,11 +46,12 @@ Fee/escrow math is currency math: use integer units, apply one rounding policy, 
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Banking-style escrow fee estimate has a per-provider rounding disparity"
+echo "Lesson: Banking-style escrow fee estimate has a per-provid"
+wc -l lessons/contrib/escrow-fee-rounding-per-provider.md
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Lesson: Banking-style escrow fee estimate has a per-provid
+# (line count)
 ```

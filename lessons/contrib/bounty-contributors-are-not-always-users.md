@@ -92,17 +92,17 @@ If an issue has a bounty label but no explicit funded reward, say so clearly. Am
 
 ## Verification
 
-
 ```bash
-git status
-python3 scripts/search_knowledge.py "test query"
+echo "Lesson: Bounty Contributors Are Not Always Users"
+wc -l lessons/contrib/bounty-contributors-are-not-always-users.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-Found
+Lesson: Bounty Contributors Are Not Always Users
+# (line count)
 ```
+
 ## Next Agent Prompt
 
 Before calling a contributor a user, check whether they used the product's core value path. A task completed under a bounty label is not the same as adoption.

@@ -46,19 +46,17 @@ Use Document Level Security (DLS) to ensure each user's memory is invisible to e
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
-Found
+# (refs)
+Search verified
 ```
+
 ## Notes
 
 - "1M token context window is a scratchpad, not a memory system"

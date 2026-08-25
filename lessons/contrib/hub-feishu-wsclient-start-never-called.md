@@ -35,17 +35,19 @@ async def start(self):
 
 已在 commit `56f690b` 中修复。
 
-## 验证
+## Verification
 
-
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
+# (count)
+Feishu verified
 ```
+
 ## 关键点
 
 - Hub 和 Gateway 共享同一个 Feishu App（相同 app_id/app_secret）

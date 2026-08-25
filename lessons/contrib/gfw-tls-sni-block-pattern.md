@@ -132,13 +132,17 @@ agent-reach install --channels reddit --proxy http://proxy:port
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: GFW TLS SNI Block Pattern — Why Tool-Layer Solutio"
+wc -l lessons/contrib/gfw-tls-sni-block-pattern.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: GFW TLS SNI Block Pattern — Why Tool-Layer Solutio
+# (line count)
 ```
+
 ## Notes
 
 - This pattern applies to any GFW-blocked domain, not just Reddit

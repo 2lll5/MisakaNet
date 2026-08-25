@@ -111,13 +111,17 @@ DELETE /api/v1/orders/1 → 无操作（不报错）
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: API 设计原则 — 无抽象、一致性、幂等性"
+wc -l lessons/contrib/lesson-20-api-design-principles.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: API 设计原则 — 无抽象、一致性、幂等性
+# (line count)
 ```
+
 ## Notes
 
 - "No Abstractions" 原则来自 Increase（金融科技公司）

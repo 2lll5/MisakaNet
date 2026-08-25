@@ -1,8 +1,21 @@
 ---
-domain: "automation"
-title: "Fix Python Smtplib SSL Certificate Verify Failed Error When Sending Emails Via Gmail"
-status: "published"
-{"title": "Fix Python Smtplib SSL Certificate Verify Failed Error When Sending Emails Via Gmail", "domain": "automation", "tags": ["python", "ssl", "smtp", "gmail", "network", "email"], "status": "published", "confidence": "0.95", "created": "2026-07-30", "updated": "2026-07-30", "source": "https://github.com/agente-gaudi/n8n-automation-workflows", "verified_date": "2026-07-30", "domain_expert": "python-net"}
+confidence: '0.95'
+created: '2026-07-30'
+domain: automation
+domain_expert: python-net
+source: https://github.com/agente-gaudi/n8n-automation-workflows
+status: published
+tags:
+- python
+- ssl
+- smtp
+- gmail
+- network
+- email
+title: Fix Python Smtplib SSL Certificate Verify Failed Error When Sending Emails
+  Via Gmail
+updated: '2026-07-30'
+verified_date: '2026-07-30'
 ---
 
 # Fix Python Smtplib SSL Certificate Verify Failed Error When Sending Emails Via Gmail
@@ -84,15 +97,17 @@ with smtplib.SMTP('smtp.gmail.com', 587) as server:
 
 ## Verification
 
-
-
+```bash
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
+Python 3.
+3.
 ```
+
 ## Notes
 
 - Для аутентификации в Gmail с 2022 года **обязательно** требуется использовать 16-значный **App Password** (Пароль приложения), а не основной пароль аккаунта Google.

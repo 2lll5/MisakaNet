@@ -34,11 +34,12 @@ KTRANS 编译 MM_RCV_NTFY.kl，无 BYTES_AHEAD 相关报错。
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: FANUC KL: BYTES_AHEAD 是 Karel 内置 Procedure"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

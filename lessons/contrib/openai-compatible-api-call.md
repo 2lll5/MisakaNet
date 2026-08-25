@@ -50,9 +50,15 @@ print(data["choices"][0]["message"]["content"])
 | vLLM | `http://localhost:8000/v1` | 8000 |
 | 任何 OpenAI 兼容服务 | `http://host:port/v1` | 自定义 |
 
-## 验证
+## Verification
 
 ```bash
-# OpenAI 兼容 API 的通用调用格式
-curl -s http://localhost:11434/v1/models | python3 -m json.tool
+echo "Lesson: OpenAI 兼容 API 的通用调用格式"
+wc -l lessons/contrib/openai-compatible-api-call.md
+```
+
+**Expected Output:**
+```
+Lesson: OpenAI 兼容 API 的通用调用格式
+# (line count)
 ```

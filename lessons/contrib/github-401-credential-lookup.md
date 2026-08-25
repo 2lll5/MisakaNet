@@ -50,11 +50,17 @@ git config --global --list | grep credential
 grep -oP 'https://[^:]+:([^@]+)@' ~/.git-credentials | sed 's/https:\/\/[^:]\+://;s/@$//'
 ```
 
-## 验证
+## Verification
 
 ```bash
-# 用找到的 token 测试
-curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/user | jq .login
+git status --short | head -5
+git log --oneline -3
+```
+
+**Expected Output:**
+```
+# (status)
+# (recent)
 ```
 
 ## 关联经验

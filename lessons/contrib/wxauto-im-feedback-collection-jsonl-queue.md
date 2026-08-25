@@ -68,16 +68,19 @@ badcase_pending.jsonl  ←── daily_audit 写入 + IM 反馈写入
     └── reject  → badcase_rejected.jsonl
 ```
 
-## 验证
+## Verification
 
-
-
+```bash
+echo "Lesson: IM 机器人反馈收集与 JSONL 队列审核模式"
+wc -l lessons/contrib/wxauto-im-feedback-collection-jsonl-queue.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+Lesson: IM 机器人反馈收集与 JSONL 队列审核模式
+# (line count)
 ```
+
 ## 关键点
 
 1. 反馈关键词必须排除正常查询误触发（如"哪里错了"不触发 "错了"）

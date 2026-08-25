@@ -60,15 +60,19 @@ def sample_questions(bank, l2_count=2, l3_count=5):
     return selected
 ```
 
-## 验证
+## Verification
 
-
-
+```bash
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
+```
 
 **Expected Output:**
 ```
-Python check passed
+# (refs)
+Search verified
 ```
+
 ## 适用场景
 
 任何需要从分类题库中定期抽样的 QA 系统都适用，不限于 RAG。

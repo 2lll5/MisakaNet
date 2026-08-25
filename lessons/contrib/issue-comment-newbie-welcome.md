@@ -67,17 +67,17 @@ jobs:
 - 可附带 Star 提示（⭐ If you find this project useful, consider starring the repo）
 ## Verification
 
-
 ```bash
-git status
-python3 scripts/search_knowledge.py "test query"
+echo "Lesson: Auto-Welcome Newcomers via issue_comment Event"
+wc -l lessons/contrib/issue-comment-newbie-welcome.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-Found
+Lesson: Auto-Welcome Newcomers via issue_comment Event
+# (line count)
 ```
+
 ## 注意事项
 
 - 同一 Issue 每次有人评论都会触发——如需去重，可在 JS 中检查是否已有 Bot 历史评论

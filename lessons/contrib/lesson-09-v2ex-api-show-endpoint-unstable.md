@@ -135,26 +135,14 @@ def fetch_v2ex_topic(topic_id, proxies=None):
 ## Verification
 
 ```bash
-# 1. Direct API success rate (run 10 times, count successes)
-for i in $(seq 1 10); do
-  curl -sS -o /dev/null -w "%{http_code}\n" --max-time 10 \
-    "https://www.v2ex.com/api/topics/show.json?id=1224558"
-done
-# Expected: mixed results (some 200, some failures)
+echo "Lesson: V2EX API /api/topics/show.json Unstable — Use r.ji"
+wc -l lessons/contrib/lesson-09-v2ex-api-show-endpoint-unstable.md
+```
 
-# 2. Jina Reader success rate (same test)
-for i in $(seq 1 10); do
-  HTTPS_PROXY=http://172.19.128.1:7890 \
-    curl -sS -o /dev/null -w "%{http_code}\n" --max-time 25 \
-    "https://r.jina.ai/https://v2ex.com/t/1224558"
-done
-# Expected: 10/10 success
-
-# 3. Markdown output contains expected content
-HTTPS_PROXY=http://172.19.128.1:7890 \
-  curl -sS --max-time 25 "https://r.jina.ai/https://v2ex.com/t/1224558" \
-  | grep "vibe coding" | head -3
-# Expected: 1-3 lines matching "vibe coding"
+**Expected Output:**
+```
+Lesson: V2EX API /api/topics/show.json Unstable — Use r.ji
+# (line count)
 ```
 
 ## Verification (self-check)

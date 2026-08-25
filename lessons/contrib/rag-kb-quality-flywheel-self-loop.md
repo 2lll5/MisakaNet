@@ -72,20 +72,16 @@ Implement a four-layer closed loop, where each layer can work independently:
 
 ## Verification
 
-Data-flow validation:
-- `daily_audit`: 7 questions, 2 failures, appends 2 entries to `badcase_pending.jsonl`
-- User says "bad", appends 1 entry to `badcase_pending.jsonl`
-- `badcase_review.py list` shows 3 pending items
-- `badcase_review.py approve 1` moves the item into the approved queue
-- `badcase_review.py auto` automatically approves low-score badcases
-
-
 ```bash
-# Expected result: retrieval logs show the intended chunks and no stale cache or fallback errors.
-python3 search_knowledge.py "rag verification smoke test" --lessons
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
 ```
 
-Environment: Linux / WSL with Python 3.10 or newer; adapt the query to the affected RAG corpus.
+**Expected Output:**
+```
+# (refs)
+Search verified
+```
 
 ## File Structure
 

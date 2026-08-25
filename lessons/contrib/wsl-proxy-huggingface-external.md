@@ -28,15 +28,17 @@ export no_proxy=localhost,127.0.0.1,.local
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: wsl proxy huggingface external"
+wc -l lessons/contrib/wsl-proxy-huggingface-external.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
+Lesson: wsl proxy huggingface external
+# (line count)
 ```
+
 ## Notes
 
 WSL2 + Windows 11，无企业代理，使用个人梯子（Clash Verge/CFW/v2rayN）。

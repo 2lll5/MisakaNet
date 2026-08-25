@@ -45,14 +45,17 @@ pip install --upgrade pip setuptools wheel
 ```
 ## Verification
 
-
-
+```bash
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
+Python 3.
+3.
 ```
+
 ## 陷阱
 
 - 永远不要在 venv 已激活时运行 `python3 -m venv venv` — 这会创建嵌套 venv

@@ -38,17 +38,19 @@ MisakaNet 早期架构照搬了"中心协调网络"的设计——A2A 实时通�
 - VHS 终端演示 GIF
 - docs/wiki/Home.md 统一指回根目录文档
 
-## 验证
+## Verification
 
-
-
+```bash
+echo "Lesson: misakanet refactor v2 review"
+wc -l lessons/contrib/misakanet-refactor-v2-review.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-Found
+Lesson: misakanet refactor v2 review
+# (line count)
 ```
+
 ## 已完成（搜索结果质量评分）
 
 分数条（██████░░ 78%）、关键词高亮（ANSI 黄色）、内容预览——在 v2 重构第三轮已全部实现。当前 search_knowledge.py 的输出包含这三项。

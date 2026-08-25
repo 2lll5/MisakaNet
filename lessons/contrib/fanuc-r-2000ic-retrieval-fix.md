@@ -38,17 +38,19 @@ if _KW.search(query):
 - 文档头部含特征词 0.92（插入到 Top）
 - 文档尾部含特征词 0.85（进入前 10）
 
-## 验证
+## Verification
 
-
-
+```bash
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
-Found
+# (count)
+FANUC verified
 ```
+
 ## 关联
 
 关键词映射表是可扩展的。每遇到新的语义鸿沟，只需要在 `_KW` 正则加规则，

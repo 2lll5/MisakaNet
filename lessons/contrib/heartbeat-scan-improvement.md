@@ -50,11 +50,12 @@ gh search prs --author=<user> --state=closed --sort=updated --limit=10
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: GitHub Contribution Heartbeat Scan"
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (status)
+# (recent)
 ```

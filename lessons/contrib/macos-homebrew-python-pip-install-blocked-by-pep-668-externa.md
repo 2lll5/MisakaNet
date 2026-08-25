@@ -94,11 +94,12 @@ PEP 668 is **not a bug** — it's a protection mechanism. The correct fix is alw
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: macOS Homebrew Python: pip install Blocked by PEP 668 externally-managed-environment"
+python3 --version
+python3 -c 'import sys; print(sys.version)'
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Python 3.
+3.
 ```

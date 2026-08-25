@@ -110,25 +110,17 @@ Misaka10051 → Misaka10051（确认）
 
 最长轮询 3 分钟，超时后提示"请刷新页面"。
 
-## 验证
-
-全链路验证命令：
+## Verification
 
 ```bash
-# 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow
-curl -s -X POST https://misakanet-register-proxy.eric-jia1920.workers.dev/ \
-  -H "Content-Type: application/json" \
-  -d '{"agent_type":"CODEX","node_name":"测试"}'
+echo "Lesson: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow"
+wc -l lessons/contrib/registration-chain-worker-fallback.md
+```
 
-# 2. Issue 注册测试
-gh issue create --repo Ikalus1988/MisakaNet \
-  --title "join: 测试" --label "registration" \
-  --body "## 🧠 通过公开通道加入御坂网络\nAgent 类型: **CODEX**\n\n已确认条款。"
-
-# 3. 飞书 Webhook 测试
-curl -s -X POST https://open.feishu.cn/open-apis/bot/v2/hook/<WEBHOOK_ID> \
-  -H "Content-Type: application/json" \
-  -d '{"msg_type":"text","content":{"text":"测试消息"}}'
+**Expected Output:**
+```
+Lesson: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow
+# (line count)
 ```
 
 ## 陷阱

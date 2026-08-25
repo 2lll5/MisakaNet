@@ -71,15 +71,17 @@ jobs:
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: DevOps Platform Engineering — Golden Paths to Redu"
+wc -l lessons/contrib/lesson-review-3-devops-platform-engineering.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-CONTAINER ID
+Lesson: DevOps Platform Engineering — Golden Paths to Redu
+# (line count)
 ```
+
 ## Notes
 
 - HN 208↑, 82 comments (Docker/K8s/Terraform crash course)

@@ -37,16 +37,18 @@ internal-gateway.local API 端点 (`https://api.internal-gateway.local/v1`) 只�
 # 把 Anthropic 格式转成 OpenAI 格式发到 internal-gateway.local
 ```
 
-## 验证
+## Verification
 
 ```bash
-# 代理启动后
-curl -X POST http://127.0.0.1:8765/v1/messages \
-  -H "x-api-key: sk-xxx" \
-  -d '{"model":"claude-sonnet-4","messages":[{"role":"user","content":"hi"}]}'
+echo "Lesson: Internal Gateway — Incompatible with Anthropic For"
+wc -l lessons/contrib/anthropic-proxy-internal-gateway.md
 ```
 
-预期：返回 Anthropic 格式的响应。
+**Expected Output:**
+```
+Lesson: Internal Gateway — Incompatible with Anthropic For
+# (line count)
+```
 
 ## 关联
 

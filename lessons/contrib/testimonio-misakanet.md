@@ -27,11 +27,12 @@ Gracias MisakaNet por salvarme el dia!
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Testimonio: MisakaNet me ayudo a resolver ModuleNotFoundError"
+echo "Lesson: Testimonio: MisakaNet me ayudo a resolver ModuleNo"
+wc -l lessons/contrib/testimonio-misakanet.md
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Lesson: Testimonio: MisakaNet me ayudo a resolver ModuleNo
+# (line count)
 ```

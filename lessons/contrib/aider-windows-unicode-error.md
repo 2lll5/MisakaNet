@@ -55,11 +55,12 @@ aider --show-repo-map
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Aider --show-repo-map crashes on Windows with UnicodeEncodeError"
+python3 --version
+python3 -c 'import sys; print(sys.version)'
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Python 3.
+3.
 ```

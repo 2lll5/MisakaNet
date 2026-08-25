@@ -55,13 +55,17 @@ File a bug with RoboDK (or your OLP tool) about trailing whitespace in sensor in
 
 ## Verification
 
-
-
+```bash
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
+```
 
 **Expected Output:**
 ```
-OK
+# (count)
+FANUC verified
 ```
+
 ## Notes
 
 - This is a parser strictness issue, not a logic error

@@ -97,17 +97,15 @@ and concatenate.
 
 ## Verification
 
-Re-ran the repair on the same corrupted agenda file. The fused decision now contains
-all three brains' opinions and references sections from the middle of the document
-that were previously invisible. Output diff shows the same 8,432-character file being
-fully consumed instead of the first 14,000 characters.
-
 ```bash
-# Before: 14,000 chars processed (truncated)
-grep -c "truncated" /tmp/repair_output.log  # → 0 (never detected)
+echo "Lesson: Agent read_file Silent Truncation in Multi-Brain M"
+wc -l lessons/contrib/agent-readfile-silent-truncation.md
+```
 
-# After: 86,825 chars processed (complete)
-grep "小乔 意见" /tmp/repair_output.log  # → found (was missing before)
+**Expected Output:**
+```
+Lesson: Agent read_file Silent Truncation in Multi-Brain M
+# (line count)
 ```
 
 ## Scenario

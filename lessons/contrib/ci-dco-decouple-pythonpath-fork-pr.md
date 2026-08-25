@@ -74,16 +74,17 @@ jobs:
 gh workflow run 'Manual PR Audit' --repo owner/repo --ref main -f pr_number=142
 ```
 
-## 验证
+## Verification
 
-
-
+```bash
+git log --format="%b" -1 | grep -i "Signed-off-by" || echo none
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
+Signed-off-by:
 ```
+
 ## 进阶：工业级 DCO Bot 留言模板
 
 DCO 失败时，可以让 `github-actions[bot]` 自动在 PR 下发布结构化修复指引（非人工复制粘贴）。

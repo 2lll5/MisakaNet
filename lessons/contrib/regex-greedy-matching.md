@@ -44,9 +44,15 @@ re.findall(r"<div>([^<]*)</div>", text)
 | `.+` | 任意字符1次+ | `.+?` |
 | `\d+` | 数字1次+ | `\d+?` |
 
-## 验证
+## Verification
 
 ```bash
-# 确认期望的匹配范围
-python3 -c "import re; print(re.findall(r'YOUR_PATTERN', 'YOUR_TEXT'))"
+echo "Lesson: 正则表达式 debugging — 贪婪匹配造成的意外结果"
+wc -l lessons/contrib/regex-greedy-matching.md
+```
+
+**Expected Output:**
+```
+Lesson: 正则表达式 debugging — 贪婪匹配造成的意外结果
+# (line count)
 ```

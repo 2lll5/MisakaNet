@@ -54,11 +54,12 @@ A "missing" git commit is almost always a dangling object. Recover with `fsck --
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: git worktree commit lost after pushing from the wrong directory"
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (status)
+# (recent)
 ```

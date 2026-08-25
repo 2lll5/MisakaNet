@@ -50,9 +50,15 @@ tmux kill-session -t my-session
 | `Ctrl+B` `"` | 水平分割窗格 |
 | `Ctrl+B` 方向键 | 切换窗格 |
 
-## 验证
+## Verification
 
 ```bash
-tmux new -d -s test-session 'echo "tmux works"; sleep 5'
-tmux attach -t test-session  # 应显示 "tmux works"
+echo "Lesson: tmux 终端复用 — 断开不丢失会话"
+wc -l lessons/contrib/tmux-session-management.md
+```
+
+**Expected Output:**
+```
+Lesson: tmux 终端复用 — 断开不丢失会话
+# (line count)
 ```

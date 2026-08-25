@@ -56,12 +56,17 @@ function applyTorPreference(enabled) {
 
 ## Verification
 
-
+```bash
+echo "Lesson: React Native uygulamasında Orbot (Tor) ile gizlili"
+wc -l lessons/contrib/tor-orbot-privacy-in-react-native-tr.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: React Native uygulamasında Orbot (Tor) ile gizlili
+# (line count)
 ```
+
 ## Notes
 - Orbot’un çalışması tek başına trafik tünellemesini garanti etmez; gerçek SOCKS5 yönlendirmesi için native proxy modülü gerekir.
 - Üretim ortamında “Tor aktif” rozeti yalnızca proxy gerçekten devredeyken gösterilmelidir.

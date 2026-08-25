@@ -54,14 +54,17 @@ Cloudflare now provides attribution data showing which AI services are crawling 
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Cloudflare AI Traffic Options — Content Monetizati"
+wc -l lessons/contrib/lesson-review-8-cloudflare-ai-traffic-options.md
+```
 
 **Expected Output:**
 ```
-OK
-Found
+Lesson: Cloudflare AI Traffic Options — Content Monetizati
+# (line count)
 ```
+
 ## Notes
 
 - Small sites benefit most: AI discoverability without losing control

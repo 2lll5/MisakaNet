@@ -34,11 +34,13 @@ verified_date: "2026-07-06"
 
 ## Verification
 
-
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
+# (count)
+Feishu verified
 ```

@@ -47,10 +47,13 @@ else:
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: 数据封顶=伪造数据：超出阈值应剔除而非截断"
+wc -l lessons/contrib/data-capping-equals-forging-data.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: 数据封顶=伪造数据：超出阈值应剔除而非截断
+# (line count)
 ```

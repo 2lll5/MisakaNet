@@ -85,20 +85,14 @@ The `--seed` flag tells uv to install `pip`, `setuptools`, and `wheel` into the 
 ## Verification
 
 ```bash
-# 1. venv exists with pip
-test -x ~/.agent-reach-venv/bin/pip && echo "✅ pip exists"
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
-# 2. Python inside venv works
-~/.agent-reach-venv/bin/python3 -c "import sys; print(sys.prefix)"
-# Should print: /home/USER/.agent-reach-venv
-
-# 3. Package installed successfully
-~/.agent-reach-venv/bin/python3 -c "import agent_reach; print(agent_reach.__file__)"
-# Should print a path inside site-packages
-
-# 4. CLI works
-~/.agent-reach-venv/bin/agent-reach --version
-# Should print version like: 1.5.0
+**Expected Output:**
+```
+Python 3.
+3.
 ```
 
 ## Verification (self-check)

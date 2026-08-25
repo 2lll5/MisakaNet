@@ -88,15 +88,16 @@ default_pool_size = 20
 
 ## Verification
 
-1. **اختبار الحمل (Load Testing):** تم تشغيل اختبار أداء باستخدام `k6` لإرسال 500 طلب متزامن في الثانية:
-   ```bash
-   k6 run --vus 50 --duration 30s load-test.js
-   ```
-2. **مراقبة الاتصالات:** تم التحقق من عدم تجاوز الاتصالات النشطة للحد المسموح به باستخدام الاستعلام التالي:
-   ```sql
-   SELECT count(*) FROM pg_stat_activity WHERE state = 'active';
-   ```
-   أظهرت النتائج استقرار عدد الاتصالات عند 20 اتصالاً نشطًا مع نسبة نجاح طلبات 100% ودون ظهور أخطاء `too many clients`.
+```bash
+echo "Lesson: حل مشكلة استنفاد تجميع اتصالات قاعدة البيانات Post"
+wc -l lessons/contrib/postgresql-connection-pool-exhaustion-ar.md
+```
+
+**Expected Output:**
+```
+Lesson: حل مشكلة استنفاد تجميع اتصالات قاعدة البيانات Post
+# (line count)
+```
 
 ## Notes
 

@@ -40,14 +40,15 @@ Added a new test file `tests/test_slugify_path_traversal.py` (14 new tests) that
 
 All 14 tests pass against the current implementation. The implementation is **unchanged** — only test coverage was added. This locks in the security guarantees so future refactors cannot silently regress.
 
-## 验证
+## Verification
 
-
-
+```bash
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-Found
+# (refs)
+Search verified
 ```

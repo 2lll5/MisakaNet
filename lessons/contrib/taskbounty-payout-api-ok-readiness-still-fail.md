@@ -57,17 +57,17 @@ Board may also show `open=0` while only AWARDED/CLOSED tasks exist — agent sni
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
+echo "Lesson: TaskBounty payout POST succeeds but solver_readine"
+wc -l lessons/contrib/taskbounty-payout-api-ok-readiness-still-fail.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
+Lesson: TaskBounty payout POST succeeds but solver_readine
+# (line count)
 ```
+
 ## Notes
 
 - Empty board is a market condition, not necessarily misconfiguration

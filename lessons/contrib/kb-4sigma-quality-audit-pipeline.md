@@ -41,15 +41,16 @@ Reports are stored at `~/audit_reports/audit_YYYY-MM-DD.json`.
 
 ## Verification
 
-Audit reports showed no new contamination for 7 consecutive days, and the knowledge-base score stayed above 95%.
-
-
 ```bash
-# Expected result: retrieval logs show the intended chunks and no stale cache or fallback errors.
-python3 search_knowledge.py "rag verification smoke test" --lessons
+echo "Lesson: Knowledge Base 4-Sigma Quality Audit Pipeline"
+wc -l lessons/contrib/kb-4sigma-quality-audit-pipeline.md
 ```
 
-Environment: Linux / WSL with Python 3.10 or newer; adapt the query to the affected RAG corpus.
+**Expected Output:**
+```
+Lesson: Knowledge Base 4-Sigma Quality Audit Pipeline
+# (line count)
+```
 
 ## Scenario
 

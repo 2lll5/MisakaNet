@@ -49,11 +49,12 @@ Separate "cannot merge right now" (reviews, behind) from "should not merge" (fai
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: mergeable_state blocked does not mean failing CI"
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (status)
+# (recent)
 ```

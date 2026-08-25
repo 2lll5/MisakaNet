@@ -107,15 +107,17 @@ Per-site daily limit: ~500 pages (be respectful)
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Multi-Forum Scraping Architecture — API vs Playwri"
+wc -l lessons/contrib/multi-forum-scraping-architecture.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
-Found
+Lesson: Multi-Forum Scraping Architecture — API vs Playwri
+# (line count)
 ```
+
 ## Notes
 
 - Always check API availability before writing Playwright scrapers

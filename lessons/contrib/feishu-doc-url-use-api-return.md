@@ -22,13 +22,17 @@ verification: metadata-normalized
 API 返回的 `url` 字段直接使用，不要自己构造。正确格式：`https://{租户域名}.feishu.cn/docx/{document_id}`
 ## Verification
 
-
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-OK
+# (count)
+Feishu verified
 ```
+
 ## 教训
 
 厂商 API 返回的字段就是真实值，信任文档，不要猜测格式。

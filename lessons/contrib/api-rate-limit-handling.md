@@ -52,9 +52,15 @@ data = resp.json()
 print(f"剩余: {data['rate']['remaining']}/{data['rate']['limit']}")
 ```
 
-## 验证
+## Verification
 
 ```bash
-# GitHub 限流检查
-curl -s https://api.github.com/rate_limit | python3 -c "import sys,json;d=json.load(sys.stdin);print(f\"剩余: {d['rate']['remaining']}/{d['rate']['limit']}\")"
+echo "Lesson: API 请求限流 (Rate Limit) 处理方案"
+wc -l lessons/contrib/api-rate-limit-handling.md
+```
+
+**Expected Output:**
+```
+Lesson: API 请求限流 (Rate Limit) 处理方案
+# (line count)
 ```

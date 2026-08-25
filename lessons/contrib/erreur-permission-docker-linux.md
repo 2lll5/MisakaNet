@@ -60,17 +60,17 @@ sudo systemctl restart docker
 
 ## Verification
 
-
 ```bash
-docker ps
-curl -sS http://localhost:8080/health
+echo "Lesson: Erreur de permission Docker: permission denied sur"
+wc -l lessons/contrib/erreur-permission-docker-linux.md
 ```
 
 **Expected Output:**
 ```
-CONTAINER ID
-OK
+Lesson: Erreur de permission Docker: permission denied sur
+# (line count)
 ```
+
 ## Notes
 
 - Adding a user to the `docker` group grants equivalent to `root` access on the Docker socket — be aware of this security implication

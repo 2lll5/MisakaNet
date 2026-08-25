@@ -43,11 +43,12 @@ If the game state shows the next turn has started, proceed normally. The 409 is 
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Game MCP: End Turn Returns 409 Conflict"
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (refs)
+MCP verified
 ```

@@ -56,14 +56,17 @@ Don't try to contribute to repos outside your domain. Focus on:
 
 ## Verification
 
-
-
+```bash
+git status --short | head -5
+git log --oneline -3
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
+# (status)
+# (recent)
 ```
+
 ## Related
 
 - `pr-strategy.md` — External PR strategy

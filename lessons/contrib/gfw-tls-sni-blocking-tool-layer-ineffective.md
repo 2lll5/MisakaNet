@@ -68,8 +68,12 @@ curl -x http://ip:port https://www.reddit.com/...
 ## Verification
 
 ```bash
-# 确认是 SNI 阻断（不是 anti-bot）
-curl -v --max-time 5 "https://www.reddit.com/" 2>&1 | grep "timeout"
-# 有 timeout → SNI 阻断，需代理
-# 有 403/404 → anti-bot，换 User-Agent 或 headers
+echo "Lesson: GFW TLS SNI 阻断：工具层全部无效，只有代理能解"
+wc -l lessons/contrib/gfw-tls-sni-blocking-tool-layer-ineffective.md
+```
+
+**Expected Output:**
+```
+Lesson: GFW TLS SNI 阻断：工具层全部无效，只有代理能解
+# (line count)
 ```

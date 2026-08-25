@@ -86,14 +86,17 @@ else:
 - 应急退退策略保证在无合格文档时仍有回答，但 LLM 不会在答案中提及竞品品牌
 ## Verification
 
-
-
+```bash
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+# (refs)
+Search verified
 ```
+
 ## 注意事项
 
 1. ChromaDB 的 `query()` 返回最新 metadata，但 BM25 索引会缓存旧 metadata —— 更新后必须删除 BM25 缓存文件并重建

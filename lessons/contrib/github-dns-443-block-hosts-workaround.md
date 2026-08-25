@@ -104,16 +104,17 @@ git fetch origin main
 # 正常返回分支信息 → 修复成功
 ```
 
-## 验证
+## Verification
 
 ```bash
-# 检查 hosts 是否生效
-getent hosts github.com
-# 预期返回: <可达IP>  github.com
+git status --short | head -5
+git log --oneline -3
+```
 
-# 测试 Git 操作
-git ls-remote origin HEAD
-# 正常返回 commit hash
+**Expected Output:**
+```
+# (status)
+# (recent)
 ```
 
 ## git push 的临时绕过方案（无需 sudo 改 hosts）

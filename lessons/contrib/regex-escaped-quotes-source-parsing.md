@@ -65,14 +65,17 @@ def extract_env_default(source: str, key: str) -> str:
 
 ## Verification
 
-
-
+```bash
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+Python 3.
+3.
 ```
+
 ## Why it matters
 
 从源码中提取字符串常量是自动化测试和代码分析的常见需求。当源码包含转义引号（`\"`、`\'`）时，标准非贪婪匹配会提前终止。这个问题在解析 JSON 字符串、SQL 查询、Shell 命令等嵌套引号场景中也会出现。

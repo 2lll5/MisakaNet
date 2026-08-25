@@ -59,13 +59,17 @@ window.location.href = '目标URL';
 - 跨平台内容同步
 ## Verification
 
-
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-Python check passed
+# (count)
+Feishu verified
 ```
+
 ## 脱敏说明
 
 本文档已移除所有设备信息、API密钥和企业特定内容，仅保留通用技术经验。

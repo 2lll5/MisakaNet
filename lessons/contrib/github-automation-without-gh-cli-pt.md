@@ -121,15 +121,17 @@ A documentação oficial dos endpoints fica em https://docs.github.com/en/rest/i
 
 ## Verification
 
-
-
+```bash
+git status --short | head -5
+git log --oneline -3
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
+# (status)
+# (recent)
 ```
+
 ## Notes
 
 - Uma resposta `401` indica token ausente, expirado ou inválido; não é sinal para repetir indefinidamente.

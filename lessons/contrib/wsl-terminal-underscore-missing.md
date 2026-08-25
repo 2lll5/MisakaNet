@@ -30,10 +30,15 @@ echo "your_text_with_underscores" > \\\\wsl$\\<distro>\\home\\hp\\temp.txt
 cat ~/temp.txt
 ```
 
-## 验证
+## Verification
 
-在 WSL 终端中输入：
 ```bash
-echo "test_text_with_underscores"
-# 应显示完整下划线
+echo "Lesson: WSL Windows 终端复制粘贴吞下划线Issue"
+wc -l lessons/contrib/wsl-terminal-underscore-missing.md
+```
+
+**Expected Output:**
+```
+Lesson: WSL Windows 终端复制粘贴吞下划线Issue
+# (line count)
 ```

@@ -110,14 +110,17 @@ git branch -D recovery-branch
 
 ## Verification
 
-
-
+```bash
+git status --short | head -5
+git log --oneline -3
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
+# (status)
+# (recent)
 ```
+
 ## Bonus: Configuration
 
 Set force-with-lease as the default push behavior:

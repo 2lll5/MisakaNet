@@ -197,11 +197,12 @@ t_DEPTHREGR { a, b, c: REAL }  -- 二次多项式：a*x^2 + b*x + c，用于Z高
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-karel-uv-to-xyzwpr-pipeline"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

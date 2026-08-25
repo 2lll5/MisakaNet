@@ -43,11 +43,12 @@ After selecting a rare relic, send an additional confirmation message:
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: game mcp rare relic freeze"
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (refs)
+MCP verified
 ```

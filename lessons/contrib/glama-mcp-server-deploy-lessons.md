@@ -132,16 +132,17 @@ The working Glama deployment requires:
 
 ## Verification
 
-
-
+```bash
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-CONTAINER ID
-OK
+# (refs)
+MCP verified
 ```
+
 ## Notes
 
 - Glama's introspection is async — build success does not mean tools are immediately available

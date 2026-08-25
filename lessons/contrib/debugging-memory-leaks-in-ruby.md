@@ -98,17 +98,17 @@ Monitor `GC.stat[:heap_live_slots]` to detect managed object leaks.
 
 ## Verification
 
-
 ```bash
-docker ps
-curl -sS http://localhost:8080/health
+echo "Lesson: Debugging memory leaks in Ruby"
+wc -l lessons/contrib/debugging-memory-leaks-in-ruby.md
 ```
 
 **Expected Output:**
 ```
-CONTAINER ID
-OK
+Lesson: Debugging memory leaks in Ruby
+# (line count)
 ```
+
 ## Notes
 
 - Graphing RSS and `GC.stat[:heap_live_slots]` are critical metrics for detection

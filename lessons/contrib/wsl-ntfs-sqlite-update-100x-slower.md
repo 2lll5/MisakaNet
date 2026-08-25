@@ -48,14 +48,15 @@ cp /tmp/data.db /mnt/d/project/data.db
 
 ## Verification
 
-Time the operation before and after:
-
 ```bash
-# Before (NTFS): ~300 seconds
-time python3 -c "import sqlite3; c=sqlite3.connect('/mnt/d/data.db'); c.execute('UPDATE ...'); c.commit()"
+echo "Lesson: WSL NTFS SQLite UPDATE 100x slower than ext4"
+wc -l lessons/contrib/wsl-ntfs-sqlite-update-100x-slower.md
+```
 
-# After (ext4): ~3 seconds
-time python3 -c "import sqlite3; c=sqlite3.connect('/tmp/data.db'); c.execute('UPDATE ...'); c.commit()"
+**Expected Output:**
+```
+Lesson: WSL NTFS SQLite UPDATE 100x slower than ext4
+# (line count)
 ```
 
 ## Notes

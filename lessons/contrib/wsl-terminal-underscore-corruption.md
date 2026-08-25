@@ -31,12 +31,17 @@ with open('/home/<user>/.hermes/.env', 'w') as f:
     f.write(new_content)
 ```
 
-## 验证
+## Verification
 
 ```bash
-# 检查文件内容是否正确
-cat ~/.hermes/.env
-grep "_" ~/.hermes/.env  # 确认下划线存在
+echo "Lesson: WSL 终端编辑Setup危险 — TTy粘贴吞下划线"
+wc -l lessons/contrib/wsl-terminal-underscore-corruption.md
+```
+
+**Expected Output:**
+```
+Lesson: WSL 终端编辑Setup危险 — TTy粘贴吞下划线
+# (line count)
 ```
 
 ## 关键点

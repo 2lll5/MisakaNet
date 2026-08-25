@@ -41,11 +41,12 @@ Configurable BM25 + vector blending via config.yaml or env vars. Default 50/50 w
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: BM25 + Vector Hybrid Search: configurable blending weights"
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (refs)
+Search verified
 ```

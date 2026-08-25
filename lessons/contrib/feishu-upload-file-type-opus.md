@@ -32,13 +32,17 @@ data = {'file_type': 'opus', 'file_name': 'voice.ogg'}  # 正确
 ```
 ## Verification
 
-
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-Python check passed
+# (count)
+Feishu verified
 ```
+
 ## 教训
 
 飞书 API 字段名严格按文档来，不要猜测近似名称。

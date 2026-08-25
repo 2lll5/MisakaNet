@@ -45,13 +45,17 @@ print(requests.__file__)  # 应指向正确的 venv
 ```
 ## Verification
 
-
-
+```bash
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
 **Expected Output:**
 ```
-Python check passed
+Python 3.
+3.
 ```
+
 ## 陷阱
 
 - `subprocess.run("python script.py", ...)` 用的不是当前 Python——`python` 可能是系统默认的

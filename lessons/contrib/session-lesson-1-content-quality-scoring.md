@@ -122,15 +122,17 @@ for f in lessons/*.md; do python3 score_lesson.py "$f"; done
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Content Quality Scoring System — Automated Lesson "
+wc -l lessons/contrib/session-lesson-1-content-quality-scoring.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
-Found
+Lesson: Content Quality Scoring System — Automated Lesson 
+# (line count)
 ```
+
 ## Notes
 
 - 评分是近似的，不能替代人工审核

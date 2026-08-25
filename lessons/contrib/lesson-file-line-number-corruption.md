@@ -76,9 +76,14 @@ This is the most portable version (works on BSD/macOS `sed` too).
 ## Verification
 
 ```bash
-# Check that no lines start with digits+pipe
-grep -cP '^\s*\d+\|' file
-# Should output 0
+echo "Lesson: Before — inspect raw first line"
+wc -l lessons/contrib/lesson-file-line-number-corruption.md
+```
+
+**Expected Output:**
+```
+Lesson: Before — inspect raw first line
+# (line count)
 ```
 
 ## Notes

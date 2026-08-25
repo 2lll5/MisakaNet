@@ -56,13 +56,17 @@ Key value: 65536 = 2^16, the 16-bit boundary.
 
 ## Verification
 
-
-
+```bash
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
+```
 
 **Expected Output:**
 ```
-OK
+# (count)
+FANUC verified
 ```
+
 ## Notes
 
 - Large integers in registers may overflow — adjust scaling factor if range exceeds ±32.767

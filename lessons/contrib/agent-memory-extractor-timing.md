@@ -92,15 +92,17 @@ Top 5 facts:"""
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Agent Memory Extractor Timing — Eager vs Lazy with"
+wc -l lessons/contrib/agent-memory-extractor-timing.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
-Found
+Lesson: Agent Memory Extractor Timing — Eager vs Lazy with
+# (line count)
 ```
+
 ## Notes
 
 - Episodic/Semantic/Procedural labels from Tulving (1972) but many libraries just贴标签

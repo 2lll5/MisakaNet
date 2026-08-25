@@ -75,16 +75,17 @@ rdt status --json
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: rdt-cli — Reddit in Your Terminal (Reverse-Enginee"
+wc -l lessons/contrib/rdt-cli-reddit-terminal.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
-Found
+Lesson: rdt-cli — Reddit in Your Terminal (Reverse-Enginee
+# (line count)
 ```
+
 ## Notes
 
 - Requires login (browser cookies) — no anonymous access

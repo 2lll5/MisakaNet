@@ -73,13 +73,17 @@ git log --show-signature
 
 ## Verification
 
-
-
+```bash
+git status --short | head -5
+git log --oneline -3
+```
 
 **Expected Output:**
 ```
-On branch main
+# (status)
+# (recent)
 ```
+
 ## Notes
 
 - 提交伪造是真实的安全风险，尤其在开源项目中

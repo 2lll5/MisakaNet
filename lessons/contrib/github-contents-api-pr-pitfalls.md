@@ -66,15 +66,17 @@ git push --force-with-lease
 
 ## Verification
 
-
-
+```bash
+git status --short | head -5
+git log --oneline -3
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
+# (status)
+# (recent)
 ```
+
 ## Key Points
 
 - base64 必须无换行

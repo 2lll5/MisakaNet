@@ -75,14 +75,17 @@ result = await client.call_tool("read_s3_file", {
 
 ## Verification
 
-
-
+```bash
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+# (refs)
+MCP verified
 ```
+
 ## Notes
 
 - MCP 最重要的点：通过标准化协议，将工具提供方与应用研发者解耦

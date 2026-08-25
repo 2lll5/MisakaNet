@@ -106,13 +106,17 @@ This catches any edge case that slips through Layers 1 and 2.
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Data Quality Fix: Always Keep Three Layers (DB + E"
+wc -l lessons/contrib/data-quality-three-layer-fix-pattern.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: Data Quality Fix: Always Keep Three Layers (DB + E
+# (line count)
 ```
+
 ## Notes
 
 - **The normalization function MUST be shared** between ETL, migration script, and any other code that touches identifiers. If you copy-paste the prefix list, it will diverge.

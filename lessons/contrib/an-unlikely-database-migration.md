@@ -50,19 +50,17 @@ The team also evaluated but rejected alternatives:
 
 ## Verification
 
-
 ```bash
-git status
-docker ps
-curl -sS http://localhost:8080/health
+echo "Lesson: An Unlikely Database Migration: From JSON Files to"
+wc -l lessons/contrib/an-unlikely-database-migration.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-CONTAINER ID
-OK
+Lesson: An Unlikely Database Migration: From JSON Files to
+# (line count)
 ```
+
 ## Notes
 
 - The Tailscale team is intentionally careful not to use etcd features that would be hard to map onto CockroachDB, keeping migration options open for the future

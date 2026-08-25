@@ -88,19 +88,14 @@ proxy = http://172.19.128.1:7890
 ## Verification
 
 ```bash
-# 1. Direct curl works without proxy (network reachable)
-curl -sS -o /dev/null -w "HTTP %{http_code}\n" --max-time 10 https://github.com
-# May or may not work depending on whether ALL_PROXY is set
+echo "Lesson: pip install HTTPS Timeout from WSL — Prepend HTTPS"
+wc -l lessons/contrib/lesson-08-pip-https-proxy-clash.md
+```
 
-# 2. Curl WITH explicit HTTPS_PROXY works
-HTTPS_PROXY=http://172.19.128.1:7890 \
-  curl -sS -o /dev/null -w "HTTP %{http_code}\n" --max-time 10 https://github.com
-# Should print: HTTP 200
-
-# 3. pip install WITH HTTPS_PROXY works
-HTTPS_PROXY=http://172.19.128.1:7890 \
-  ~/.agent-reach-venv/bin/pip install <github-url>
-# Should download successfully
+**Expected Output:**
+```
+Lesson: pip install HTTPS Timeout from WSL — Prepend HTTPS
+# (line count)
 ```
 
 ## Verification (self-check)

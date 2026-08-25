@@ -51,11 +51,12 @@ verification: 复现 IPC 超时场景，确认 1086 出现在 KTRANS 编译输�
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-kl-1086-is-line-number-not-error-code"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

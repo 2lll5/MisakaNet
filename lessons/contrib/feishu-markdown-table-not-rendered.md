@@ -43,15 +43,19 @@ def _optimize_markdown_style(content: str) -> str:
     return '\n'.join(result)
 ```
 
-## 验证
+## Verification
 
-
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-Python check passed
+# (count)
+Feishu verified
 ```
+
 ## 限制
 
 - 此修复适用于飞书 post 消息，其他平台不适用

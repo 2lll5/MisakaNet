@@ -72,14 +72,17 @@ const { chromium } = require('playwright');
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Forum Accessibility Testing — Systematic Reachabil"
+wc -l lessons/contrib/session-lesson-2-forum-accessibility-testing.md
+```
 
 **Expected Output:**
 ```
-OK
-Found
+Lesson: Forum Accessibility Testing — Systematic Reachabil
+# (line count)
 ```
+
 ## Notes
 
 - 先测试可达性，再写抓取逻辑

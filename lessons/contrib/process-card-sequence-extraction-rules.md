@@ -59,10 +59,13 @@ verified_date: "2026-07-06"
 
 ## Verification
 
-
-
+```bash
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
+```
 
 **Expected Output:**
 ```
-Python check passed
+# (count)
+FANUC verified
 ```

@@ -104,11 +104,12 @@ For CI fire-and-forget scenarios, `spawnSync` is the most reliable cross-platfor
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Windows CI: splitCommand backslash stripping, UnicodeEncodeError, and detached process failure"
+python3 --version
+python3 -c 'import sys; print(sys.version)'
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Python 3.
+3.
 ```

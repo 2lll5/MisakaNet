@@ -43,14 +43,17 @@ master:
 ```
 ## Verification
 
-
-
+```bash
+echo "Lesson: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里"
+wc -l lessons/contrib/hub-credential-gateway-vs-hub.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
+Lesson: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
+# (line count)
 ```
+
 ## 关键点
 
 - Hub 需要 `.venv` Python（`~/.hermes/hermes-agent/.venv/bin/python3`），系统 Python 缺 `networkx`

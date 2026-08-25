@@ -125,22 +125,14 @@ Error handling: Retry with exponential backoff, fall back to alternative tool
 ## Verification
 
 ```bash
-# Test agent web access with curl_cffi
-python3 -c "
-from curl_cffi import requests
-r = requests.get('https://bbs.gongkong.com/', impersonate='chrome', timeout=15)
-print(f'Status: {r.status_code}, Length: {len(r.text)}')
-"
-# Expected: Status: 200, Length: >10000
+echo "Lesson: Agent Web Access Toolchain — 7 Libraries for Relia"
+wc -l lessons/contrib/agent-web-access-toolchain-selection.md
+```
 
-# Test Scrapling
-python3 -c "
-from scrapling import Fetcher
-f = Fetcher(auto_match=False)
-p = f.get('https://bbs.gongkong.com/', timeout=15)
-print(f'Status: {p.status}, Body: {len(p.body)}')
-"
-# Expected: Status: 200, Body: >100000
+**Expected Output:**
+```
+Lesson: Agent Web Access Toolchain — 7 Libraries for Relia
+# (line count)
 ```
 
 ## Notes

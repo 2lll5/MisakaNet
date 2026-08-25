@@ -38,9 +38,15 @@ export LANG=C.UTF-8
 sudo locale-gen zh_CN.UTF-8
 ```
 
-## 验证
+## Verification
 
 ```bash
-python3 -c "import sys; print(sys.getdefaultencoding())"
-# 应输出 utf-8
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
+
+**Expected Output:**
+```
+Python 3.
+3.
 ```

@@ -17,14 +17,17 @@ verification: metadata-normalized
 3. JSON 内容含未转义的特殊字符
 ## Verification
 
-
-
+```bash
+echo "Lesson: JSON 解析失败Handling — 截断 / 格式Error"
+wc -l lessons/contrib/json-parse-failure-handling.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+Lesson: JSON 解析失败Handling — 截断 / 格式Error
+# (line count)
 ```
+
 ## 修复
 
 ```python

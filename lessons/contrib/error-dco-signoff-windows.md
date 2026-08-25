@@ -84,17 +84,15 @@ git config --global --list
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
+git log --format="%b" -1 | grep -i "Signed-off-by" || echo none
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
+Signed-off-by:
 ```
+
 ## Notes
 
 - Este problema afecta aproximadamente al 30% de los contribuyentes nuevos en proyectos que requieren DCO

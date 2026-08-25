@@ -52,11 +52,12 @@ Deployment verification must bypass the cache for the exact zone you changed. Wi
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: CDN edge cache serves stale responses for minutes after deploy"
+echo "Lesson: CDN edge cache serves stale responses for minutes "
+wc -l lessons/contrib/cdn-edge-cache-stale-after-deploy.md
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Lesson: CDN edge cache serves stale responses for minutes 
+# (line count)
 ```

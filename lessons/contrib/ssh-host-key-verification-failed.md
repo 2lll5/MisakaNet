@@ -73,19 +73,17 @@ ssh-keygen -F hostname.example.com  # search for a specific host
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
+echo "Lesson: SSH host key verification failed when connecting t"
+wc -l lessons/contrib/ssh-host-key-verification-failed.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
-Found
+Lesson: SSH host key verification failed when connecting t
+# (line count)
 ```
+
 ## Notes
 
 - Always verify host key fingerprints with the server administrator before accepting

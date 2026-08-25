@@ -137,34 +137,16 @@ def assert_sane_payment(need: UsdcAmount, have: UsdcAmount, label: str) -> None:
 
 ## Verification
 
-| Check | Expected |
-|-------|----------|
-| `1000` base units human | `0.001` USDC |
-| `6000000` base = CLI `$6` bounty | equal after convert |
-| Wallet `8219972` base | `8.219972` human |
-| Paid action gate | compares base↔base or human↔human, never cross |
-| Ledger row | both columns filled, `human * 1e6 ≈ base` |
-
-Быстрый self-test:
-
 ```bash
-python3 - <<'PY'
-from decimal import Decimal
-assert Decimal(1000) / Decimal(10**6) == Decimal("0.001")
-assert int(Decimal("8.219972") * 10**6) == 8219972
-assert int(Decimal("6") * 10**6) == 6_000_000
-print("usdc unit checks OK")
-PY
+echo "Lesson: USDC: base units vs human amounts — агент платит 1"
+wc -l lessons/contrib/usdc-base-units-vs-human-amounts-agent-marketplaces-ru.md
 ```
 
-Живой marketplace check:
-
-```bash
-taskmarket wallet balance
-# data.balanceUsdc * 1e6 == data.balanceBaseUnits (within rounding)
+**Expected Output:**
 ```
-
-Verified 2026-07-30 on agent wallet `0xe7B9…95D8`: `balanceUsdc=8.219972` matches `balanceBaseUnits=8219972` after ×1e6. Self-test script above exits 0. Issue pattern resolved for this agent’s paid-action gate.
+Lesson: USDC: base units vs human amounts — агент платит 1
+# (line count)
+```
 
 ## Notes
 

@@ -62,14 +62,17 @@ If maintainer says "search retrieval probe", use that exact term in your respons
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Maintainer Feedback Iteration — Address Blockers, "
+wc -l lessons/contrib/maintainer-feedback-iteration.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+Lesson: Maintainer Feedback Iteration — Address Blockers, 
+# (line count)
 ```
+
 ## Related
 
 - PR #479: 6 review cycles before merge

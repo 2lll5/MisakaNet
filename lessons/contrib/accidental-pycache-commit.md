@@ -63,14 +63,17 @@ Verify the diff contains only intended changes: `git status --short` and `git di
 
 ## Verification
 
-
-
+```bash
+git status --short | grep -v __pycache__ | head -5
+cat .gitignore 2>/dev/null | grep -c __pycache__ || echo 0
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
+# (staging clean)
+1
 ```
+
 ## Notes
 
 Never `git add -A` in worktrees where scripts generated artifact directories. A `.gitignore` with `__pycache__/` and `*.pyc` is the cheapest insurance against reviewer-triggering noise, and stage specific files rather than whole directories.

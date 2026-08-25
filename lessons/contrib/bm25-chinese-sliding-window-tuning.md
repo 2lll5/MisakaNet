@@ -72,14 +72,17 @@ def unique_candidate_boost(df, doc_freq, is_chinese=True):
 
 ## Verification
 
-
-
+```bash
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+# (refs)
+Search verified
 ```
+
 ## Key Points
 
 - 滑动窗口需设 10 字门槛防噪声

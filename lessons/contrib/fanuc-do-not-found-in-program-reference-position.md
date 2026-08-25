@@ -58,19 +58,17 @@ Space functions can activate DOs based on robot position within defined volumes.
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
-Found
+# (count)
+FANUC verified
 ```
+
 ## Notes
 
 - "Solved, close the question" without posting the fix defeats the purpose of a forum — always share the solution

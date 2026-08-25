@@ -56,13 +56,17 @@ Claude Code → MCP Context Mode → Actual MCP Server
 
 ## Verification
 
-
-
+```bash
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
+```
 
 **Expected Output:**
 ```
-OK
+# (refs)
+MCP verified
 ```
+
 ## Notes
 
 - Cloudflare showed tool definitions can be compressed 99.9% with Code Mode

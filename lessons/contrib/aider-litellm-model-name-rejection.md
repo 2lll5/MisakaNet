@@ -48,11 +48,12 @@ aider --api-key "anthropic=$KEY" --model anthropic/claude-sonnet-4-6
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Aider via LiteLLM rejects standard Anthropic model names"
+echo "Lesson: Aider via LiteLLM rejects standard Anthropic model"
+wc -l lessons/contrib/aider-litellm-model-name-rejection.md
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Lesson: Aider via LiteLLM rejects standard Anthropic model
+# (line count)
 ```

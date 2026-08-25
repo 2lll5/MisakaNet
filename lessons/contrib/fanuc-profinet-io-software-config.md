@@ -103,11 +103,12 @@ FANUC 机器人支持多种现场总线协议：
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-profinet-io-software-config"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

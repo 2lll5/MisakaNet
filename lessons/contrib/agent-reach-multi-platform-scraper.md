@@ -96,16 +96,17 @@ agent-reach doctor --json
 
 ## Verification
 
-
-
+```bash
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
-Found
+# (refs)
+MCP verified
 ```
+
 ## Notes
 
 - Agent-Reach is a Chinese project (README in Chinese)

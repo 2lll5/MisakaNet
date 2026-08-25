@@ -43,14 +43,17 @@ fi
 
 ## Verification
 
-
-
+```bash
+git status --short | head -5
+git log --oneline -3
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
+# (status)
+# (recent)
 ```
+
 ## Key Points
 
 - Scope detection prevents false failures from pre-existing issues

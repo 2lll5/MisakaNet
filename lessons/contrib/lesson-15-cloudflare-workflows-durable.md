@@ -71,13 +71,17 @@ export default {
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Cloudflare Workflows — 持久化多步骤执行"
+wc -l lessons/contrib/lesson-15-cloudflare-workflows-durable.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: Cloudflare Workflows — 持久化多步骤执行
+# (line count)
 ```
+
 ## Notes
 
 - 适合：审批流程、数据处理管道、订单编排

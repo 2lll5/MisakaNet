@@ -122,16 +122,19 @@ ws.send(json.dumps(batch_msg))
 3. **batch 操作有原子性** — `stopOnError: true` 时遇错即停，`false` 时继续执行后续
 4. **token 安全** — Claw Relay token 相当于浏览器控制权限，不要暴露到前端页面
 
-## 验证
+## Verification
 
-
-
+```bash
+echo "Lesson: Chrome Relay 浏览器Automation — CDP over WebSocket 控制"
+wc -l lessons/contrib/chrome-relay-browser-automation.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-OK
+Lesson: Chrome Relay 浏览器Automation — CDP over WebSocket 控制
+# (line count)
 ```
+
 ## 已知限制
 
 - WSL2 下无法控制 Windows Chrome（NAT 隔离问题）

@@ -50,11 +50,17 @@ rm -rf /tmp/hermes-* 2>/dev/null
 find ~/.hermes/logs/ -name "*.log" -mtime +7 -delete 2>/dev/null
 ```
 
-## 验证
+## Verification
 
 ```bash
-df -h ~/.hermes/
-df -h /mnt/d/Eric/知识库/
+echo "Lesson: 磁盘空间不足 / chroma_db_v4 CacheCleanup"
+wc -l lessons/contrib/disk-space-cleanup.md
+```
+
+**Expected Output:**
+```
+Lesson: 磁盘空间不足 / chroma_db_v4 CacheCleanup
+# (line count)
 ```
 
 ## 关联

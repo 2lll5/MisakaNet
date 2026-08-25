@@ -54,11 +54,10 @@ gh api repos/UPSTREAM/REPO/pulls/NUMBER/commits --jq 'length'
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: DCO Signoff Lost During Force Push"
+git log --format="%b" -1 | grep -i "Signed-off-by" || echo none
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Signed-off-by:
 ```

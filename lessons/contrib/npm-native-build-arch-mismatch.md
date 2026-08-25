@@ -53,13 +53,17 @@ Verify: run `npm ci` on both hosts and confirm the native module loads with no p
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: npm install failing on one host but not another (n"
+wc -l lessons/contrib/npm-native-build-arch-mismatch.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: npm install failing on one host but not another (n
+# (line count)
 ```
+
 ## Notes
 
 A lockfile generated on one OS is the usual culprit. Pin engines, install build tools in CI, and prefer prebuilt binaries with an explicit registry so behavior is identical across hosts.

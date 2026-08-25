@@ -28,11 +28,12 @@ IPC 超时类错误应使用 ERR_PAUSE 而非 ERR_ABORT，避免级联中止。
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-kl-err-abort-vs-err-pause"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

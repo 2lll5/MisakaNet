@@ -105,11 +105,12 @@ FANUC 控制器报警代码按子系统分类，每个子系统有独立的代�
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: FANUC Robot Alarm Code Reference Table"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

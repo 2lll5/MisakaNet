@@ -31,13 +31,17 @@ with open(config_path, encoding="utf-8") as f:
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: wsl pip gbk hub poller crash"
+wc -l lessons/contrib/wsl-pip-gbk-hub-poller-crash.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: wsl pip gbk hub poller crash
+# (line count)
 ```
+
 ## Notes
 
 Windows 11 + WSL2 + PowerShell 终端，Python 3.12。Windows 系统编码为 GBK (zh-CN)。

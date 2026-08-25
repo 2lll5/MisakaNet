@@ -99,13 +99,17 @@ Stop Distance = (Motion Speed × Scan Time) + Coast Distance at Power Cutoff
 
 ## Verification
 
-
-
+```bash
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
+```
 
 **Expected Output:**
 ```
-On branch main
+# (count)
+FANUC verified
 ```
+
 ## Notes
 
 - DCS is a safety-critical system — changes require proper authorization and documentation

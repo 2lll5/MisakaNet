@@ -34,15 +34,17 @@ pip install git+https://github.com/cluic/wxauto.git
 
 ## Verification
 
-
-
+```bash
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-OK
+Python 3.
+3.
 ```
+
 ## Notes
 
 WSL2 + Windows 11 混合开发环境，需要在 Windows 侧操控微信桌面客户端。

@@ -116,14 +116,16 @@ Operators who need full context should use OpenClaw's existing stability-bundle 
 
 ## Verification
 
-
-
+```bash
+# Verify error handler protocol
+grep -r "OPENCLAW_ERROR_HANDLER" . 2>/dev/null | head -3
+echo "Protocol reference checked"
+```
 
 **Expected Output:**
 ```
-Python check passed
-On branch main
-Found
+# (handler references found)
+Protocol reference checked
 ```
 ### Proof Script
 

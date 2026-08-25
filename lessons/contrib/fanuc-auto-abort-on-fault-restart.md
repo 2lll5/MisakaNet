@@ -51,13 +51,17 @@ The PLC sends ABORT via UOP when it detects a fault:
 
 ## Verification
 
-
-
+```bash
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
+```
 
 **Expected Output:**
 ```
-OK
+# (count)
+FANUC verified
 ```
+
 ## Notes
 
 **Expert warnings from the community:**

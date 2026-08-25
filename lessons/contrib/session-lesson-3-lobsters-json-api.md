@@ -79,15 +79,17 @@ for p in relevant[:10]:
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Lobsters JSON API — Structured Tech Forum Scraping"
+wc -l lessons/contrib/session-lesson-3-lobsters-json-api.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-CONTAINER ID
-OK
+Lesson: Lobsters JSON API — Structured Tech Forum Scraping
+# (line count)
 ```
+
 ## Notes
 
 - Lobsters 没有搜索 API，只能通过 JSON 端点获取列表

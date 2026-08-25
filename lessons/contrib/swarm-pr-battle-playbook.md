@@ -224,27 +224,16 @@ Only escalate on verdict changes (`needs-human` → `ready`). Ignore description
 
 ## Verification
 
-
 ```bash
-git status
-python3 scripts/search_knowledge.py "test query"
+echo "Lesson: Swarm PR Battle Playbook — Shipping env-var error "
+wc -l lessons/contrib/swarm-pr-battle-playbook.md
 ```
 
 **Expected Output:**
 ```
-On branch main
-Found
+Lesson: Swarm PR Battle Playbook — Shipping env-var error 
+# (line count)
 ```
-### Checklist Before Opening PR
-
-- [ ] Code: top-level import (no dynamic import, no require())
-- [ ] Security: `shell: false`, `env: { PATH }`, `stdio: ignore`, `detached`, `unref`
-- [ ] Payload: 4 fields only (schemaVersion, reason, timestamp, pid)
-- [ ] Fork: GitHub Actions enabled in fork Settings
-- [ ] PR body: `## Real behavior proof` heading + 6 inline fields
-- [ ] Evidence: real runtime build output, not test/standalone
-- [ ] `@botname re-review` mention appended to final comment only
-- [ ] Author email: `userid+username@users.noreply.github.com`
 
 ## Lessons Learned
 

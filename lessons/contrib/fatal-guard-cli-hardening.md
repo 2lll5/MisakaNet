@@ -27,11 +27,12 @@ Add standard Unix CLI conventions: --help, --version, --timeout, exit codes (0/1
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Fatal-guard CLI: harden entry point with --help, --version, exit codes"
+echo "Lesson: Fatal-guard CLI: harden entry point with --help, -"
+wc -l lessons/contrib/fatal-guard-cli-hardening.md
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Lesson: Fatal-guard CLI: harden entry point with --help, -
+# (line count)
 ```

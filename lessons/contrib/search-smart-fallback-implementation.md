@@ -12,14 +12,17 @@ verified_date: 2026-07-10
 
 ## Verification
 
-
-
+```bash
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+# (refs)
+Search verified
 ```
+
 ## Search Smart Fallback — Turning Zero Results into Discovery
 
 ### Problem

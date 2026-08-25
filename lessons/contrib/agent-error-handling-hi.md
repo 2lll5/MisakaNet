@@ -75,11 +75,12 @@ async def resilient_call(func, *args, max_retries=3, fallback=None):
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: एजेंट त्रुटि हैंडलिंग — पुनर्प्रयास और फॉलबैक पैटर्न"
+echo "Lesson: एजेंट त्रुटि हैंडलिंग — पुनर्प्रयास और फॉलबैक पैटर"
+wc -l lessons/contrib/agent-error-handling-hi.md
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Lesson: एजेंट त्रुटि हैंडलिंग — पुनर्प्रयास और फॉलबैक पैटर
+# (line count)
 ```

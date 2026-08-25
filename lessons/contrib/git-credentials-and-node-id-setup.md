@@ -70,11 +70,12 @@ git fetch --dry-run
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Git Credentials 和 Node ID Setup"
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (status)
+# (recent)
 ```

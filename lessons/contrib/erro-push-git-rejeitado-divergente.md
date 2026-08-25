@@ -76,17 +76,17 @@ git push --force-with-lease
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
+# (status)
+# (recent)
 ```
+
 ## Notes
 
 - `git pull` is equivalent to `git fetch` followed by `git merge`

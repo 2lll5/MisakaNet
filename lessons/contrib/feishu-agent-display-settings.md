@@ -46,11 +46,12 @@ reply_footer = false            # 不显示回复底部状态行
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: feishu agent display settings"
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+Feishu verified
 ```

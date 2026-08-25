@@ -39,17 +39,17 @@ Generic bridge docs omit the real package name and concrete config paths. Operat
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
+# (count)
+Feishu verified
 ```
+
 ## cc-connect 飞书机器人完整配置指南
 
 ### 概述

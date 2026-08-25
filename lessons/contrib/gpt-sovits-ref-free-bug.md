@@ -27,13 +27,17 @@ if prompt_text is None or len(prompt_text) == 0:
 提供非空的 `prompt_text`（可与 target text 相同），确保 `ref_free=False` 生效。
 ## Verification
 
-
-
+```bash
+echo "Lesson: gpt sovits ref free bug"
+wc -l lessons/contrib/gpt-sovits-ref-free-bug.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: gpt sovits ref free bug
+# (line count)
 ```
+
 ## 根本修复
 
 去掉该行条件判断，或改为仅在 `ref_free` 未被显式传递时才覆盖。

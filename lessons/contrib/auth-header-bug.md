@@ -40,11 +40,12 @@ headers = {
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: Moorcheh API Auth Header Bug"
+echo "Lesson: Moorcheh API Auth Header Bug"
+wc -l lessons/contrib/auth-header-bug.md
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+Lesson: Moorcheh API Auth Header Bug
+# (line count)
 ```

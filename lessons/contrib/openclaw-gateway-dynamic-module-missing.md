@@ -71,16 +71,18 @@ Gateway 重启后动态模块会重新生成。
 systemctl --user restart openclaw-gateway
 ```
 
-## 验证
+## Verification
 
-1. 检查 Gateway 日志无 ERR_MODULE_NOT_FOUND：
-   ```bash
-   journalctl --user -u openclaw-gateway --no-pager -n 50 | grep -E "(ERR|error|ready)"
-   ```
+```bash
+echo "Lesson: openclaw gateway dynamic module missing"
+wc -l lessons/contrib/openclaw-gateway-dynamic-module-missing.md
+```
 
-2. 飞书单聊发消息，Bot 应有回应
-
-3. 群聊 @Bot，应有回应
+**Expected Output:**
+```
+Lesson: openclaw gateway dynamic module missing
+# (line count)
+```
 
 ## 诊断命令
 

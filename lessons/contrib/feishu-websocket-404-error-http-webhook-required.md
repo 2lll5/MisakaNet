@@ -17,10 +17,13 @@
 结论: 不要继续轮换 WebSocket 路径；在飞书开发者后台配置可访问的 HTTP Webhook URL，并校验事件订阅验证请求与签名。
 ## Verification
 
-
-
+```bash
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
+```
 
 **Expected Output:**
 ```
-OK
+# (count)
+Feishu verified
 ```

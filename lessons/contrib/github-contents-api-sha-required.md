@@ -51,11 +51,12 @@ For file mutations via the contents API: fetch-then-write with `sha` is the rule
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: GitHub contents API edit fails with 422 without the file sha"
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (status)
+# (recent)
 ```

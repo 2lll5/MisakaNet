@@ -62,17 +62,17 @@ This is useful when "closed" distance varies by part type — set threshold in R
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
+# (count)
+FANUC verified
 ```
+
 ## Notes
 
 - Markers are specific to HandlingTool option — not available on all controllers

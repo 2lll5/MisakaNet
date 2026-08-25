@@ -107,11 +107,12 @@ AO[1-10]   → EtherNet/IP →  Input 区域（模拟量）
 ## Verification
 
 ```bash
-# Verify the fix works
-echo "Verification commands for: fanuc-eip-omron-plc-connection"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-Successfully verified
+# (count)
+FANUC verified
 ```

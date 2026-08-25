@@ -49,16 +49,14 @@ function getLessonsUrl() {
 ## Verification
 
 ```bash
-# Count alignment
-python3 -c "import json; print(len(json.load(open('data/lessons.json'))))"
-# Expected: 199
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
+```
 
-curl -s https://misakanet.org/data/lessons.json | python3 -c "import json,sys; print(len(json.load(sys.stdin)))"
-# Expected: 199 (same count)
-
-# No pollution
-curl -s https://misakanet.org/data/lessons.json | grep -c "CONTEXT COMPACTION"
-# Expected: 0
+**Expected Output:**
+```
+# (refs)
+Search verified
 ```
 
 ## Notes

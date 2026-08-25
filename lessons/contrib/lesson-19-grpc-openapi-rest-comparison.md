@@ -109,13 +109,17 @@ message User {
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: gRPC vs OpenAPI vs REST — API 协议选择指南"
+wc -l lessons/contrib/lesson-19-grpc-openapi-rest-comparison.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: gRPC vs OpenAPI vs REST — API 协议选择指南
+# (line count)
 ```
+
 ## Notes
 
 - REST 最通用但性能最低

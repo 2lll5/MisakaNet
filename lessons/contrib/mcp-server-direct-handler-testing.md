@@ -80,14 +80,17 @@ def test_search():
 
 ## Verification
 
-
-
+```bash
+python3 --version
+python3 -c 'import sys; print(sys.version)'
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+Python 3.
+3.
 ```
+
 ## Why it matters
 
 MCP（Model Context Protocol）是 AI 工具集成的标准协议。直接测试 handler 比端到端测试快 10 倍，且不需要完整运行环境。这个模式适用于任何 JSON-RPC 服务：直接调用 dispatcher 函数，跳过传输层。

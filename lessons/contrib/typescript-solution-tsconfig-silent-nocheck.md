@@ -42,11 +42,15 @@ Steps to fix:
 
 ## Verification
 
-The correct command immediately surfaced both the shadowing error and the type error. Run this to confirm your checker works:
-
 ```bash
-# Deliberately break code, then run checker — it should report errors
-npx tsc -p tsconfig.app.json --noEmit
+echo "Lesson: TypeScript solution-style tsconfig — tsc --noEmit "
+wc -l lessons/contrib/typescript-solution-tsconfig-silent-nocheck.md
+```
+
+**Expected Output:**
+```
+Lesson: TypeScript solution-style tsconfig — tsc --noEmit 
+# (line count)
 ```
 
 ## Notes

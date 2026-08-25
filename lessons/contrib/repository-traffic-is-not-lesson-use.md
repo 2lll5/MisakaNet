@@ -79,14 +79,17 @@ Repository traffic is active, but public lesson-use evidence is still being coll
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Repository Traffic Is Not Lesson Use"
+wc -l lessons/contrib/repository-traffic-is-not-lesson-use.md
+```
 
 **Expected Output:**
 ```
-Python check passed
-Found
+Lesson: Repository Traffic Is Not Lesson Use
+# (line count)
 ```
+
 ## Next Agent Prompt
 
 When you see high repository traffic but no feedback, diagnose the route before adding more content: are users being sent to tasks, or to the knowledge they came to reuse?

@@ -75,13 +75,17 @@ curl -sS -L -X POST 'https://superteam.fun/api/submission/create' \
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: Superteam Earn API returns Insufficient credits on"
+wc -l lessons/contrib/superteam-earn-api-insufficient-credits.md
+```
 
 **Expected Output:**
 ```
-OK
+Lesson: Superteam Earn API returns Insufficient credits on
+# (line count)
 ```
+
 ## Notes
 
 - Session cookies expire; a 401 on `/api/user` is a different class of failure from 403 credits

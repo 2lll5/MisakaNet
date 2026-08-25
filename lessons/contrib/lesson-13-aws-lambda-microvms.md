@@ -71,13 +71,17 @@ def handler(event, context):
 
 ## Verification
 
-
-
+```bash
+echo "Lesson: AWS Lambda MicroVMs — 隔离沙箱与 Firecracker"
+wc -l lessons/contrib/lesson-13-aws-lambda-microvms.md
+```
 
 **Expected Output:**
 ```
-Python check passed
+Lesson: AWS Lambda MicroVMs — 隔离沙箱与 Firecracker
+# (line count)
 ```
+
 ## Notes
 
 - MicroVMs 是 Lambda 的新原语，不是独立产品

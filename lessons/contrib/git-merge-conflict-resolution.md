@@ -47,13 +47,17 @@ git merge --abort
 ```
 ## Verification
 
-
-
+```bash
+git status --short | head -5
+git log --oneline -3
+```
 
 **Expected Output:**
 ```
-On branch main
+# (status)
+# (recent)
 ```
+
 ## 预防
 
 ```bash

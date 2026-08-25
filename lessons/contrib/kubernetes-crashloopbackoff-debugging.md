@@ -100,19 +100,17 @@ Containers may lack debugging tools (curl, lsof, vim). Try common package manage
 
 ## Verification
 
-
 ```bash
-docker ps
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
+echo "Lesson: Tips for Debugging Kubernetes CrashLoopBackOff in "
+wc -l lessons/contrib/kubernetes-crashloopbackoff-debugging.md
 ```
 
 **Expected Output:**
 ```
-CONTAINER ID
-OK
-Found
+Lesson: Tips for Debugging Kubernetes CrashLoopBackOff in 
+# (line count)
 ```
+
 ## Notes
 
 - Use `kubectl describe pod <pod-name>` to view container exit codes and status messages

@@ -80,17 +80,17 @@ gh auth status   # expect scopes like repo, read:org, workflow
 
 ## Verification
 
-
 ```bash
-git status
-curl -sS http://localhost:8080/health
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
 ```
-On branch main
-OK
+# (status)
+# (recent)
 ```
+
 ## Notes
 
 - Account created via Google OAuth often has **no password** path for sudo — email OTP (or passkey) is the path.

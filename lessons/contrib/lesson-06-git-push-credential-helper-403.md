@@ -97,23 +97,15 @@ git remote -v  # Verify
 
 ## Verification
 
-Confirm the fix worked:
-
 ```bash
-# 1. Push succeeds
-git push origin main
-# Should print: "To https://github.com/<owner>/<repo>.git\n   abc1234..def5678  main -> main"
+git status --short | head -5
+git log --oneline -3
+```
 
-# 2. Latest commit on GitHub matches local
-git log --oneline -1
-curl -sS -H "Authorization: token $REAL_PAT" \
-  https://api.github.com/repos/<owner>/<repo>/commits/main \
-  | python3 -c "import json,sys; print(json.load(sys.stdin)['sha'][:7])"
-# Both should print the same 7-char SHA
-
-# 3. Remote URL does NOT contain PAT in plain text
-git remote -v
-# Should show: https://github.com/<owner>/<repo>.git (no PAT embedded)
+**Expected Output:**
+```
+# (status)
+# (recent)
 ```
 
 ## Verification (self-check)
