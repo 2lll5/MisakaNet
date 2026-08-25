@@ -38,11 +38,12 @@ from validate_intake import validate_intake, ValidationResult
 
 # === Scoring Weights ===
 DIMENSION_WEIGHTS = {
-    "completeness": 0.25,   # Required sections present
+    "completeness": 0.20,   # Required sections present
     "generalization": 0.15, # Not specific to one user/env
     "verification": 0.30,   # Has verification steps (most important)
-    "detail": 0.20,         # Sufficient detail
+    "detail": 0.15,         # Sufficient detail
     "format": 0.10,         # Proper markdown structure
+    "uniqueness": 0.10,     # Not duplicate content
 }
 
 # === Decision Thresholds (可被环境变量覆盖) ===
@@ -295,6 +296,63 @@ def score_verification(body: str, sections: dict[str, str]) -> DimensionScore:
     if re.search(r"验证通过|verified|确认.*落地|确认.*成功|no leaks found", body, re.IGNORECASE):
         score += 15
         reasons.append("✓ Verification results mentioned in body")
+
+    return DimensionScore(
+        name="verification",
+        score=min(100, score),
+        weight=DIMENSION_WEIGHTS["verification"],
+        reasons=reasons,
+    )
+
+
+def score_uniqueness(body: str, sections: dict[str, str], lesson_title: str = "") -> DimensionScore:
+    """Score content uniqueness and novelty (0-100)."""
+    score = 50  # Start at neutral
+    reasons = []
+
+    # Check for common duplicate topics
+    duplicate_topics = [
+        (r"DCO.*signoff|Signed-off-by", "DCO/signoff"),
+        (r"force.with.lease", "force-with-lease"),
+        (r"BM25.*RRF|hybrid.*search", "BM25/hybrid search"),
+        (r"mcp.*intake|MCP.*submit", "MCP intake"),
+    ]
+
+    topic_matches = []
+    for pattern, topic_name in duplicate_topics:
+        if re.search(pattern, body, re.IGNORECASE):
+            topic_matches.append(topic_name)
+
+    if len(topic_matches) > 1:
+        score -= 30
+        reasons.append(f"[X] Covers multiple common topics: {', '.join(topic_matches)}")
+    elif len(topic_matches) == 1:
+        score -= 10
+        reasons.append(f"[!] Common topic: {topic_matches[0]}")
+
+    # Check for unique value propositions
+    unique_indicators = [
+        r"novel|unique|first.time|new approach|different from",
+        r"unlike.*existing|compared to|alternatives",
+        r"edge case|rare|uncommon|specific scenario",
+    ]
+
+    has_unique = any(re.search(p, body, re.IGNORECASE) for p in unique_indicators)
+    if has_unique:
+        score += 20
+        reasons.append("[OK] Contains unique value proposition")
+
+    # Check for references to existing lessons (good practice)
+    if re.search(r"related.*lesson|see also|similar to|extends", body, re.IGNORECASE):
+        score += 10
+        reasons.append("[OK] References related lessons")
+
+    return DimensionScore(
+        name="uniqueness",
+        score=min(100, max(0, score)),
+        weight=DIMENSION_WEIGHTS["uniqueness"],
+        reasons=reasons,
+    )
 
     # Check for test mentions in body
     if re.search(r"test|测试|verified", body, re.IGNORECASE):
@@ -630,6 +688,7 @@ def auto_review_issue(
         score_verification(body, sections),
         score_detail(body, word_count),
         score_format(body, sections),
+        score_uniqueness(body, sections, result.lesson_title),
     ]
 
     # Step 5: Calculate weighted score
@@ -691,11 +750,11 @@ def format_result_comment(result: AutoReviewResult) -> str:
     lines = []
 
     if result.decision == "approve":
-        lines.append("## ✅ Auto-Approved — Lesson Created\n")
+        lines.append("## [APPROVED] Auto-Approved — Lesson Created\n")
     elif result.decision == "review":
-        lines.append("## ⚠️ Needs Human Review\n")
+        lines.append("## [REVIEW] Needs Human Review\n")
     else:
-        lines.append("## ❌ Auto-Rejected\n")
+        lines.append("## [REJECTED] Auto-Rejected\n")
 
     # Score summary
     lines.append("### Score Summary\n")
