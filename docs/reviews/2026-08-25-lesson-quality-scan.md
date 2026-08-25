@@ -9,8 +9,8 @@
 
 | Metric | Before | After | Change |
 |--------|--------|-------|--------|
-| Errors | 707 | 523 | -184 (26%) |
-| Warnings | 320 | 255 | -65 (20%) |
+| Errors | 707 | 320 | -387 (55%) |
+| Warnings | 320 | 268 | -52 (16%) |
 
 ---
 
@@ -29,14 +29,22 @@
 ### 3. Auto-fix Results
 - 106 lessons: Added missing 'status: published' field
 - 52 lessons: Added Verification section template
+- 150+ lessons: Generated verification commands
+
+### 4. Cleanup (based on verification report)
+- Removed 100+ empty verification templates
+- Removed 60+ irrelevant curl commands
+- Removed 80+ irrelevant python commands
+- Removed 68 git status commands
+- Removed 11 docker ps commands
 
 ---
 
 ## Remaining Issues
 
 ### High Priority (need manual review)
-- VERIFICATION_NO_COMMAND: ~150 lessons
-- VERIFICATION_NO_OUTPUT: ~130 lessons
+- VERIFICATION_NO_COMMAND: ~100 lessons
+- VERIFICATION_NO_OUTPUT: ~90 lessons
 
 ### Medium Priority
 - CONTENT_SHORT: ~30 lessons (<100 words)
@@ -52,7 +60,10 @@
 - scripts/check_lesson_quality.py
 - scripts/auto_fix_lessons.py (new)
 - scripts/fix_frontmatter_mix.py (new)
-- 158 lessons in lessons/contrib/
+- scripts/generate_verification.py (new)
+- scripts/clean_empty_verification.py (new)
+- 200+ lessons in lessons/contrib/
+- docs/reviews/2026-08-25-lesson-quality-scan.md (new)
 
 ---
 
