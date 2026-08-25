@@ -184,6 +184,7 @@ const MCP_ALLOWED_ORIGINS = [
   "https://claude.ai",
   "https://cursor.sh",
   "https://copilot.microsoft.com",
+  "https://misakanet.org",
   "http://localhost",
   "http://127.0.0.1",
 ];
