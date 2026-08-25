@@ -6,9 +6,13 @@ import json
 import os
 from datetime import datetime
 
-# BGE-m3 for semantic embedding
-import torch
-from transformers import AutoModel, AutoTokenizer
+# BGE-m3 for semantic embedding (optional dependency)
+try:
+    import torch
+    from transformers import AutoModel, AutoTokenizer
+    HAS_TORCH = True
+except ImportError:
+    HAS_TORCH = False
 
 
 class SkillIndexer:

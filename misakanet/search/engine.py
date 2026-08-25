@@ -276,7 +276,9 @@ def _search_cached(
     rerank: bool = False,
 ) -> list[tuple[float, CachedDoc]]:
     """L1缓存 — 相同 query 直接返回上次结果。"""
-    key = f"{query}_{titles_only}_{broad_only}_{rerank}"
+    # Add corpus fingerprint to cache key to avoid stale results
+    corpus_fingerprint = hash(tuple(sorted(d.filepath.name for d in docs[:100])))
+    key = f"{query}_{titles_only}_{broad_only}_{rerank}_{corpus_fingerprint}"
     if key in _L1_CACHE:
         doc_map = {_doc_cache_id(d): d for d in docs}
         result = [(s, doc_map[fid]) for s, fid in _L1_CACHE[key] if fid in doc_map]
