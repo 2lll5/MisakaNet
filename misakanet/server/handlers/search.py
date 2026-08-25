@@ -187,9 +187,11 @@ def _apply_detail_level(results: list[dict], detail: str) -> list[dict]:
     return compact
 
 
-def handle_search(args: dict) -> dict:
+def handle_search(args: dict, search_state=None) -> dict:
     """Search MisakaNet lessons."""
-    HAS_SAG, SAG_DB, HAS_BM25, sag_search = _get_search_state()  # noqa: N806
+    if search_state is None:
+        search_state = _get_search_state()
+    HAS_SAG, SAG_DB, HAS_BM25, sag_search = search_state  # noqa: N806
 
     query = args.get("query", "")
     domain = args.get("domain")

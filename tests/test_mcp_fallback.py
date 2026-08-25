@@ -41,8 +41,8 @@ def test_fallback_source_is_distinct():
 
 
 def test_fallback_results_have_lesson_shape():
-    """Fallback results carry the documented shape (title/path/domain)."""
-    resp = mcp.handle_search({"query": "sandbox", "top": 3})
+    """Full fallback results carry the documented title/path/domain shape."""
+    resp = mcp.handle_search({"query": "sandbox", "top": 3, "detail": "full"})
     for r in resp["results"]:
         assert isinstance(r, dict)
         assert "title" in r
@@ -71,7 +71,9 @@ def test_fallback_empty_query_is_rejected():
 
 def test_fallback_domain_filter():
     """A domain filter narrows the fallback results."""
-    resp = mcp.handle_search({"query": "MCP", "top": 20, "domain": "core"})
+    resp = mcp.handle_search({
+        "query": "MCP", "top": 20, "domain": "core", "detail": "full",
+    })
     for r in resp["results"]:
         assert r.get("domain") == "core"
 
