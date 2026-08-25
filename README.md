@@ -24,6 +24,7 @@
 [![MCP Quickstart](https://img.shields.io/badge/MCP-quickstart-green)](docs/mcp-quickstart.md)
 [![Stars](https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social)](https://github.com/Ikalus1988/MisakaNet/stargazers)
 [![MCP Toplist](https://mcptoplist.com/badge/io.github.Ikalus1988%2Fmisakanet.svg)](https://mcptoplist.com/server/io.github.Ikalus1988%2Fmisakanet)
+[![smithery badge](https://smithery.ai/badge/misakanet/misakanet)](https://smithery.ai/servers/misakanet/misakanet)
 [![smithery](https://img.shields.io/badge/Smithery-install-blue)](https://smithery.ai/servers/misakanet/misakanet)
 
 ---
