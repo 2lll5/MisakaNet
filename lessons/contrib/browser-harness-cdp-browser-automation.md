@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
+verification: metadata-normalized
 ---
 <!-- provenance:
 provenance:

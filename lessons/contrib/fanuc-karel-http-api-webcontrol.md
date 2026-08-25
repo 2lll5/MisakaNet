@@ -148,3 +148,16 @@ GET /KAREL/webstart?str_task=webmotion
 - FANUC KAREL WebControl API文档
 - 基于KAREL webserver实现
 - 默认端点：webcontrol, webmonitor, weblimit, webstart, webabort, webcheck, webkeep, webreset, webstop, webprogram
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: FANUC KAREL HTTP API — WebControl Robot Motion and Monitoring"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

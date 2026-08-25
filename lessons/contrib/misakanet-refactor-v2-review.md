@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "misakanet refactor v2 review",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: misakanet refactor v2 review
+verification: metadata-normalized
 ---
 ---{"title": "MisakaNet Refactoring复盘 — 从中心协调到 Agent 图书馆", "domain": "development", "tags": ["refactor", "architecture", "v2", "misakanet"], "status": "published", "source": "deepseek", "created": "2026-05-30 02:00:00 UTC", "updated": "2026-05-30 02:00:00 UTC"}---
 

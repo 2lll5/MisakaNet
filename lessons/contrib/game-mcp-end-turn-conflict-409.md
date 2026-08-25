@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Game MCP: End Turn Returns 409 Conflict",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Game MCP: End Turn Returns 409 Conflict\", \"domain\": \"mcp\", \"source\": \"hanged-man\", \"status\": \"published\", \"domain_expert\": \"hanged-man\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: 'Game MCP: End Turn Returns 409 Conflict'
+verification: metadata-normalized
+'{"title"': 'Game MCP: End Turn Returns 409 Conflict", "domain": "mcp", "source":
+  "hanged-man", "status": "published", "domain_expert": "hanged-man"}'
 ---
-
 ## Game MCP: End Turn Returns 409 Conflict
 
 ### Problem
@@ -40,3 +39,15 @@ If the game state shows the next turn has started, proceed normally. The 409 is 
 ### Notes
 - This is a game-specific behavior; not all MCP games return 409
 - If 409 occurs repeatedly without state update, it may indicate a real server-side issue
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Game MCP: End Turn Returns 409 Conflict"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

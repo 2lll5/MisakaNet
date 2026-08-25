@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Python venv 激活失败或路径不匹配",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Python venv 激活失败或路径不匹配\", \"domain\": \"devops\", \"tags\": [\"python\", \"venv\", \"virtualenv\", \"path\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Python venv 激活失败或路径不匹配
+verification: metadata-normalized
+'{"title"': 'Python venv 激活失败或路径不匹配", "domain": "devops", "tags": ["python", "venv",
+  "virtualenv", "path"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 `source venv/bin/activate` 后 `which python` 还是系统 Python，或 `deactivate` 报错。

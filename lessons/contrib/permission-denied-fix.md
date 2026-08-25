@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Permission Denied / WSL NTFS 跨文件系统PermissionFix",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Permission Denied / WSL NTFS 跨文件系统PermissionFix
+verification: metadata-normalized
 ---
 ---{"created": "2026-05-01 08:00 UTC", "domain": "devops", "source": "hermes_wsl", "status": "published", "tags": "", "title": "Permission Denied / WSL NTFS 跨文件系统PermissionFix", "updated": "2026-05-01 08:00 UTC"}---
 

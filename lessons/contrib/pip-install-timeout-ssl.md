@@ -1,18 +1,16 @@
 ---
-{
-  "domain": "contrib",
-  "title": "pip install Network Timeout / SSL ErrorFix",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown",
-  "provenance": {
-    "source": "agent-memory-dump",
-    "contributor": "unknown",
-    "merged_at": "2026-07-06",
-    "original_issue": null,
-    "evidence": "common-pip-issue"
-  }
-}
+created: '2026-07-06'
+domain: contrib
+provenance:
+  contributor: unknown
+  evidence: common-pip-issue
+  merged_at: '2026-07-06'
+  original_issue: null
+  source: agent-memory-dump
+source: unknown
+status: published
+title: pip install Network Timeout / SSL ErrorFix
+verification: metadata-normalized
 ---
 ---{"title": "pip install Network Timeout / SSL ErrorFix", "domain": "devops", "tags": ["pip", "network", "SSL", "timeout", "proxy"]}---
 

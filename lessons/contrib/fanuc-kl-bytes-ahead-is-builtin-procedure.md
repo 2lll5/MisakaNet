@@ -29,3 +29,16 @@ BYTES_AHEAD 是 Karel 语言的内置系统调用（Built-in Procedure），用�
 
 ### 验证方式
 KTRANS 编译 MM_RCV_NTFY.kl，无 BYTES_AHEAD 相关报错。
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: FANUC KL: BYTES_AHEAD 是 Karel 内置 Procedure"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

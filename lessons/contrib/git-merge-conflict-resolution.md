@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Git 合并ConflictHandling — 手动解决最佳实践",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Git 合并ConflictHandling — 手动解决最佳实践
+verification: metadata-normalized
 ---
 ---{"title": "Git 合并ConflictHandling — 手动解决最佳实践", "domain": "development", "tags": ["git", "merge", "conflict", "rebase"]}---
 

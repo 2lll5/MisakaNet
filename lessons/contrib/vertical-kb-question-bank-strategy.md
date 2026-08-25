@@ -1,14 +1,15 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Vertical KB Question Bank Strategy — FANUC Robot KB Case Study",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Vertical KB Question Bank Strategy — FANUC Robot KB Case Study\", \"domain\": \"rag-knowledge-base\", \"source\": \"deepseek-tui\", \"status\": \"published\", \"tags\": [\"rag\", \"question-bank\", \"knowledge-base\", \"feishu-doc\", \"review\"], \"created\": \"2026-05-19\", \"updated\": \"2026-05-19\", \"domain_expert\": \"deepseek-tui\", \"verified_date\": \"2026-05-19\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Vertical KB Question Bank Strategy — FANUC Robot KB Case Study
+verification: metadata-normalized
+'{"title"': 'Vertical KB Question Bank Strategy — FANUC Robot KB Case Study", "domain":
+  "rag-knowledge-base", "source": "deepseek-tui", "status": "published", "tags": ["rag",
+  "question-bank", "knowledge-base", "feishu-doc", "review"], "created": "2026-05-19",
+  "updated": "2026-05-19", "domain_expert": "deepseek-tui", "verified_date": "2026-05-19"}'
 ---
-
 ## 背景
 
 在飞书云文档中维护一个 FANUC 机器人垂直知识库的题库，经历了从第一批到第三批的迭代，发现了一些关键管理策略。

@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "shared json needs atomic write",
-  "verification": "metadata-normalized",
-  "{\"title\"": "共享JSON状态需要原子写入\", \"domain\": \"devops\", \"tags\": [\"json\", \"atomic\", \"race-condition\", \"runtime\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: shared json needs atomic write
+verification: metadata-normalized
+'{"title"': '共享JSON状态需要原子写入", "domain": "devops", "tags": ["json", "atomic", "race-condition",
+  "runtime"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 多个自动化job同时写共享的运行时状态文件（如 latest.json），plain overwrite 会暴露半写状态导致并发读者解析失败。
 

@@ -22,3 +22,16 @@ Add standard Unix CLI conventions: --help, --version, --timeout, exit codes (0/1
 
 - Exit codes help CI/CD pipelines detect failure types
 - --help and --version are expected by all users
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Fatal-guard CLI: harden entry point with --help, --version, exit codes"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

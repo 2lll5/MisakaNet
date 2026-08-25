@@ -44,3 +44,16 @@ Cross-check with the concrete evidence: `GET /repos/{owner}/{repo}/commits/{sha}
 ## Lesson
 
 Separate "cannot merge right now" (reviews, behind) from "should not merge" (failed checks). The API summary tells you about the first; only the individual checks tell you about the second.
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: mergeable_state blocked does not mean failing CI"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

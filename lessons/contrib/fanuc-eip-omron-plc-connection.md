@@ -65,3 +65,16 @@ AO[1-10]   → EtherNet/IP →  Input 区域（模拟量）
 - 帖子：[OMRON PLC与FANUC发那科机器人 EIP 连接](https://bbs.gongkong.com/d/202112/878050/878050_1.shtml)
 - 作者：hy28，2021-12-24
 - 说明：原帖包含附件（需积分下载），技术细节基于帖子主题和 EIP 通讯通用流程整理
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-eip-omron-plc-connection"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

@@ -1,14 +1,14 @@
 ---
-{
-  "domain": "contrib",
-  "title": "GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案",
-  "verification": "metadata-normalized",
-  "{\"title\"": "GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案\", \"domain\": \"devops\", \"tags\": [\"git\", \"github\", \"TLS\", \"network\", \"DNS\", \"hosts\", \"connectivity\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案
+verification: metadata-normalized
+'{"title"': 'GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案", "domain": "devops", "tags":
+  ["git", "github", "TLS", "network", "DNS", "hosts", "connectivity"], "domain_expert":
+  "unknown"}'
 ---
-
 ## 背景
 
 `git push` / `git fetch` 持续超时或报 TLS 握手错误：

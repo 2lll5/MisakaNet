@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "tmux 终端复用 — 断开不丢失会话",
-  "verification": "metadata-normalized",
-  "{\"title\"": "tmux 终端复用 — 断开不丢失会话\", \"domain\": \"development\", \"tags\": [\"tmux\", \"terminal\", \"session\", \"background\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: tmux 终端复用 — 断开不丢失会话
+verification: metadata-normalized
+'{"title"': 'tmux 终端复用 — 断开不丢失会话", "domain": "development", "tags": ["tmux", "terminal",
+  "session", "background"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 SSH 断开或终端关闭后，正在运行的任务（训练、迁移、部署）中断。重新连接后无法恢复。

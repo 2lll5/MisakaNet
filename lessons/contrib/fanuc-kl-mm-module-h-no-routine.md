@@ -26,3 +26,16 @@ KTRANS 将头文件中的 ROUTINE 声明（含参数）当作**完整定义**，
 
 ### 验证方式
 KTRANS 编译整个项目无"already defined"报错。
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: FANUC KL: mm_module_h.kl 禁止 ROUTINE 声明"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

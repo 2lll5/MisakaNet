@@ -1,15 +1,14 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Chroma 建库无 Checkpoint — 进程一死全部丢失",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Chroma 建库无 Checkpoint — 进程一死全部丢失\", \"domain\": \"rag\", \"source\": \"bootstrap\", \"status\": \"published\", \"confidence\": \"0.7\", \"created\": \"2026-04-01\", \"domain_expert\": \"bootstrap\", \"verified_date\": \"2026-04-01\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Chroma 建库无 Checkpoint — 进程一死全部丢失
+verification: metadata-normalized
+'{"title"': 'Chroma 建库无 Checkpoint — 进程一死全部丢失", "domain": "rag", "source": "bootstrap",
+  "status": "published", "confidence": "0.7", "created": "2026-04-01", "domain_expert":
+  "bootstrap", "verified_date": "2026-04-01"}'
 ---
-
-
 ## 背景
 
 Agent 内跑 BGE-large-zh 建库（约30分钟），Gateway 重启后整个数据库为空，0条向量入库。

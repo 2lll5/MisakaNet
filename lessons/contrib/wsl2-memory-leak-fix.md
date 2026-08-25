@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "WSL2 内存泄漏 / 内存占用过高",
-  "verification": "metadata-normalized",
-  "{\"title\"": "WSL2 内存泄漏 / 内存占用过高\", \"domain\": \"devops\", \"tags\": [\"wsl\", \"memory\", \"leak\", \"performance\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: WSL2 内存泄漏 / 内存占用过高
+verification: metadata-normalized
+'{"title"': 'WSL2 内存泄漏 / 内存占用过高", "domain": "devops", "tags": ["wsl", "memory", "leak",
+  "performance"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 WSL2 运行几天后吃掉 8GB+ 内存，Windows 变卡。`free -h` 显示已用内存极高。

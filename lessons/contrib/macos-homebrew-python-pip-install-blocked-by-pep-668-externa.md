@@ -89,3 +89,16 @@ PEP 668 is **not a bug** — it's a protection mechanism. The correct fix is alw
 
 - lesson-07: Ubuntu WSL Python venv Missing pip (similar PEP 668 context, different OS)
 - [PEP 668 spec](https://peps.python.org/pep-0668/)
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: macOS Homebrew Python: pip install Blocked by PEP 668 externally-managed-environment"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

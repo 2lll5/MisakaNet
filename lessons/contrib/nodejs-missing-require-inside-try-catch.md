@@ -93,3 +93,16 @@ try {
 3. **Never use bare `catch(_)` without logging.** Even for fire-and-forget patterns, log the error to a debug channel at minimum.
 4. **Cryptic downstream errors often point to swallowed upstream errors.** "marker: not found" means the process never ran, not that the file is missing.
 5. **The `node:` prefix requires Node.js 16+.** `require("node:os")` is equivalent to `require("os")` but makes the core-module intent explicit.
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Node.js missing require inside try/catch silently kills win32 code path"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

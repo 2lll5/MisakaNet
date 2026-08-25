@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "CodeWhale 中 git push 的正确方式 — YOLO task + gh CLI",
-  "verification": "metadata-normalized",
-  "{\"title\"": "CodeWhale 中 git push 的正确方式 — YOLO task + gh CLI\", \"domain\": \"devops\", \"tags\": [\"codewhale\", \"git\", \"yolo\", \"push\", \"lesson\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: CodeWhale 中 git push 的正确方式 — YOLO task + gh CLI
+verification: metadata-normalized
+'{"title"': 'CodeWhale 中 git push 的正确方式 — YOLO task + gh CLI", "domain": "devops",
+  "tags": ["codewhale", "git", "yolo", "push", "lesson"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 在 CodeWhale 的 Agent 模式中，`exec_shell` 工具不可用。需要执行 `git push` 时，不能直接用 shell 命令。

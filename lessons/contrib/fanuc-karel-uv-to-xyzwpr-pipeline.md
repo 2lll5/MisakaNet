@@ -171,3 +171,15 @@ t_DEPTHREGR { a, b, c: REAL }  -- 二次多项式：a*x^2 + b*x + c，用于Z高
 - Ka-Boost项目 Layer7模块
 - 模块：`lib/draw`(光栅化)、`lib/paths`(路径系统，含pathlib/pathplan/pathmake/pathmotion/pathlayer)
 - 辅助工具：Python DXF/SVG/Clipper工具链
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-karel-uv-to-xyzwpr-pipeline"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

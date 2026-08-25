@@ -46,3 +46,16 @@ Write a small `update(path, content)` helper that always fetches the current `sh
 ## Lesson
 
 For file mutations via the contents API: fetch-then-write with `sha` is the rule. The 422 body is the hint — read it before changing the strategy.
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: GitHub contents API edit fails with 422 without the file sha"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

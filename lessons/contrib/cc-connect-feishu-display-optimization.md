@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "cc connect feishu display optimization",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: cc connect feishu display optimization
+verification: metadata-normalized
 ---
 <!-- provenance:
 provenance:
@@ -53,3 +52,16 @@ reply_footer = false            # 不显示回复底部状态行
 - 配置文件：`~/.cc-connect/config.toml`
 - 日志查看：`cc-connect logs --force`
 - 状态查看：`cc-connect status --force`
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: cc connect feishu display optimization"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

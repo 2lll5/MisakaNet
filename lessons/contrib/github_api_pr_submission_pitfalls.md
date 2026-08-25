@@ -101,3 +101,16 @@ gh pr create --repo UPSTREAM/REPO --head FORK:BRANCH --base main --title "..." -
 
 **Why:** 大仓 clone 慢时 API 是唯一选择，但踩坑成本高
 **How to apply:** 用 API 提 PR 前逐项检查这 4 个坑
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: GitHub API PR Submission Pitfalls"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

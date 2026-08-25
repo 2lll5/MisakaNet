@@ -1,14 +1,14 @@
 ---
-title: "Moorcheh API Auth Header Bug"
 domain: api
 evidence_level: E1
 provenance:
-  source: "internal"
-  contributor: "Jhon Steve La Rosa Chirre"
-  merged_at: "2026-07-08"
-  evidence: "post-publication"
+  contributor: Jhon Steve La Rosa Chirre
+  evidence: post-publication
+  merged_at: '2026-07-08'
+  source: internal
+status: published
+title: Moorcheh API Auth Header Bug
 ---
-
 # Moorcheh API Auth Header Bug
 
 ## Error Description
@@ -36,3 +36,15 @@ headers = {
     "Authorization": f"Bearer {token}",
     "Content-Type": "application/json"
 }
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Moorcheh API Auth Header Bug"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

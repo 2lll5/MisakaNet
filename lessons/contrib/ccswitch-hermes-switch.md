@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "ccswitch-hermes-switch 踩坑Notes",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: ccswitch-hermes-switch 踩坑Notes
+verification: metadata-normalized
 ---
 ---{"confidence": "0.7", "created": "2026-05-02", "domain": "devops", "source": "bootstrap", "status": "published", "tags": "", "- node": "<agent>", "title": "ccswitch-hermes-switch 踩坑Notes"}---
 

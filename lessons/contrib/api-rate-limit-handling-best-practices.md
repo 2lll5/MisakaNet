@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "api rate limit handling best practices",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: api rate limit handling best practices
+verification: metadata-normalized
 ---
 <!-- provenance:
 provenance:

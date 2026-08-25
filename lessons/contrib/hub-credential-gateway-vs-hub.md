@@ -1,15 +1,14 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里\", \"domain\": \"devops\", \"source\": \"bootstrap\", \"status\": \"published\", \"confidence\": \"0.7\", \"created\": \"2026-04-01\", \"domain_expert\": \"bootstrap\", \"verified_date\": \"2026-04-01\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
+verification: metadata-normalized
+'{"title"': 'Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里", "domain": "devops", "source":
+  "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01",
+  "domain_expert": "bootstrap", "verified_date": "2026-04-01"}'
 ---
-
-
 ## 背景
 
 Hub 有两套配置体系，Gateway 和 Hub 读取不同的凭证位置，容易混淆。

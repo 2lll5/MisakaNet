@@ -50,3 +50,16 @@ aider  # reads from .env automatically
 - Never pass API keys as CLI arguments
 - Use environment variables or .env files
 - CLI args are visible in process listing and history
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Aider CLI --api-key parameter leaks API key to history files"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

@@ -1,14 +1,14 @@
 ---
-{
-  "domain": "contrib",
-  "title": "feishu doc url use api return",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Feishu 文档 URL：必须用 API 返回值，不要拼接\", \"domain\": \"feishu\", \"tags\": \"\", \"source\": \"hanged-man\", \"status\": \"published\", \"created\": \"2026-03-29\", \"confidence\": \"0.95\", \"scope\": \"broad\", \"domain_expert\": \"hanged-man\", \"verified_date\": \"2026-03-29\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: feishu doc url use api return
+verification: metadata-normalized
+'{"title"': 'Feishu 文档 URL：必须用 API 返回值，不要拼接", "domain": "feishu", "tags": "", "source":
+  "hanged-man", "status": "published", "created": "2026-03-29", "confidence": "0.95",
+  "scope": "broad", "domain_expert": "hanged-man", "verified_date": "2026-03-29"}'
 ---
-
 ## 问题
 
 创建 Feishu 云文档后，猜测 URL 格式为 `https://feishu.cn/document/...`，用户连续3次无法打开文档。

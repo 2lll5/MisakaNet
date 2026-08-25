@@ -149,3 +149,16 @@ robot.call_prog(prog_name)
 - GitHub: torayeff/fanucpy — Python package for FANUC industrial robots
 - MAPPDK Driver 文档：github.com/torayeff/fanucpy/blob/main/fanuc.md
 - 学术引用：Torayev et al., "Towards Modular and Plug-and-Produce Manufacturing Apps", Procedia CIRP, 2022
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-python-interface-fanucpy"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

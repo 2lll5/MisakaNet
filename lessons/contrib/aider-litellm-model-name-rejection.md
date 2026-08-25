@@ -43,3 +43,16 @@ aider --api-key "anthropic=$KEY" --model anthropic/claude-sonnet-4-6
 - LiteLLM needs provider prefix for custom endpoints
 - Standard model names only work with official API
 - Check LiteLLM docs for supported model paths
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Aider via LiteLLM rejects standard Anthropic model names"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

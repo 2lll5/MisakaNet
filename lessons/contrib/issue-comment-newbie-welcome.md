@@ -1,14 +1,16 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Auto-Welcome Newcomers via issue_comment Event",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Auto-Welcome Newcomers via issue_comment Event\", \"domain\": \"devops\", \"tags\": [\"github-actions\", \"ci\", \"community\", \"newbie\", \"good-first-issue\", \"automation\"], \"status\": \"published\", \"source\": \"deepseek\", \"created\": \"2026-06-12 00:00:00 UTC\", \"updated\": \"2026-06-12 00:00:00 UTC\", \"domain_expert\": \"deepseek\", \"verified_date\": \"2026-06-12\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Auto-Welcome Newcomers via issue_comment Event
+verification: metadata-normalized
+'{"title"': 'Auto-Welcome Newcomers via issue_comment Event", "domain": "devops",
+  "tags": ["github-actions", "ci", "community", "newbie", "good-first-issue", "automation"],
+  "status": "published", "source": "deepseek", "created": "2026-06-12 00:00:00 UTC",
+  "updated": "2026-06-12 00:00:00 UTC", "domain_expert": "deepseek", "verified_date":
+  "2026-06-12"}'
 ---
-
 ## 背景
 
 开源项目设置 Good First Issues 后，新手贡献者往往不知道如何开始。需要一种自动化的方式在贡献者评论 Issue 时立即给予引导。

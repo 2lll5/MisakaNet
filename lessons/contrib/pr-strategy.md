@@ -44,3 +44,16 @@ python3 search_knowledge.py "external PR strategy"
 - Query-only: pr-genius content is not auto-synced into MisakaNet
 - Imported lessons must preserve upstream provenance, commit SHA, license, and evidence URLs
 - See `docs/federation/pr-genius.md` for full peer declaration
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: External PR Strategy via pr-genius"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

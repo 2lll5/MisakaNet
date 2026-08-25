@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "openclaw prefer cli and policy over direct edit",
-  "verification": "metadata-normalized",
-  "{\"title\"": "OpenClaw优先CLI和官方策略\", \"domain\": \"agentops\", \"tags\": [\"openclaw\", \"cli\", \"policy\", \"config\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: openclaw prefer cli and policy over direct edit
+verification: metadata-normalized
+'{"title"': 'OpenClaw优先CLI和官方策略", "domain": "agentops", "tags": ["openclaw", "cli",
+  "policy", "config"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 直接修改配置文件（临时hack）容易变成默认模型，导致官方路径退化。
 

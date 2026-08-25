@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Git 凭证Setup — Automation push 免密码",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Git 凭证Setup — Automation push 免密码
+verification: metadata-normalized
 ---
 ---{"title": "Git 凭证Setup — Automation push 免密码", "domain": "devops", "tags": ["git", "credentials", "auth", "github"]}---
 

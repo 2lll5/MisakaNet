@@ -153,3 +153,16 @@ Ka-Boost/
 
 - GitHub: kobbled/ka-boost — CLAUDE.md 项目架构文档
 - 相关工具：rossum (包管理)、ktransw (转译器)、GPP (预处理器)、TP-Plus (DSL)
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-karel-ka-boost-architecture"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

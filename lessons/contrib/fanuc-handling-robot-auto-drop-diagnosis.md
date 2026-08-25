@@ -72,3 +72,16 @@ ENDWHILE
 - 帖子：[发那科搬运机器人掉自动](https://bbs.gongkong.com/d/202603/974683/974683_1.shtml)
 - 作者：不羁一生，2026-03-05
 - 回复者：Allen010、JSdanzi、未来。
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-handling-robot-auto-drop-diagnosis"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

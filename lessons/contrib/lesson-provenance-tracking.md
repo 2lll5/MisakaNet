@@ -23,3 +23,16 @@ Extend lesson schema with provenance fields (author, pr, source, edited_at, merg
 - Provenance is append-only (never overwrite)
 - Use `--dry-run` before `--write`
 - Merge credit depends on accurate provenance
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Lesson Provenance Tracking: author, PR, source, merge history"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

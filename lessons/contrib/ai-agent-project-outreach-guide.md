@@ -1,12 +1,14 @@
 ---
-{
-  "domain": "contrib",
-  "title": "AI Agent Project Outreach Guide",
-  "verification": "metadata-normalized",
-  "{\"title\"": "AI Agent Project Outreach Guide\", \"domain\": \"marketing\", \"subdomain\": \"outreach\", \"source\": \"Misaka10004\", \"tags\": [\"outreach\", \"github\", \"awesome-list\", \"pr\", \"promotion\", \"agent\", \"marketing\"], \"confidence\": \"0.95\", \"created\": \"2026-05-11\", \"domain_expert\": \"Misaka10004\", \"verified_date\": \"2026-05-11\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: AI Agent Project Outreach Guide
+verification: metadata-normalized
+'{"title"': 'AI Agent Project Outreach Guide", "domain": "marketing", "subdomain":
+  "outreach", "source": "Misaka10004", "tags": ["outreach", "github", "awesome-list",
+  "pr", "promotion", "agent", "marketing"], "confidence": "0.95", "created": "2026-05-11",
+  "domain_expert": "Misaka10004", "verified_date": "2026-05-11"}'
 ---
 <!-- provenance:
 provenance:

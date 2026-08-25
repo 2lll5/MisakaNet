@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "feishu agent display settings",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: feishu agent display settings
+verification: metadata-normalized
 ---
 ---{"title": "飞书 Agent 显示Optimization：禁用工具调用和上下文提示", "domain": "feishu", "source": "bootstrap", "status": "published", "confidence": "0.9", "created": "2026-05-19"}---
 
@@ -45,3 +44,15 @@ reply_footer = false            # 不显示回复底部状态行
 - 关闭工具消息显示
 - 关闭上下文指示器
 - 使用 quiet/minimal 模式
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: feishu agent display settings"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

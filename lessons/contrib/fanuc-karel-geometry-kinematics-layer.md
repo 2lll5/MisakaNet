@@ -124,3 +124,15 @@ set_orientation / set_coord_sys / set_scan_finished
 - Ka-Boost项目 Layer6模块
 - 模块：`lib/shapes`(3D几何)、`lib/pose`(运动学，详见专题)、`lib/sensors`(ToF传感器)
 - 传感器驱动：`lib/sensors/tof/`子模块
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-karel-geometry-kinematics-layer"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

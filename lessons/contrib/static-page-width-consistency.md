@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "static page width consistency",
-  "verification": "metadata-normalized",
-  "{\"title\"": "静态页面多组件宽度一致性——各自定义 max-width 导致视觉割裂\", \"domain\": \"frontend\", \"tags\": [\"css\", \"layout\", \"ux\", \"responsive\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: static page width consistency
+verification: metadata-normalized
+'{"title"': '静态页面多组件宽度一致性——各自定义 max-width 导致视觉割裂", "domain": "frontend", "tags": ["css",
+  "layout", "ux", "responsive"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 页面各个功能区块宽度不一致：搜索栏 `max-width: 800px`，内容卡片 `max-width: 600px`，表单 `display: inline-block; min-width: 360px`，而其他区块又是全宽。页面看起来像拼凑的，没有统一感。

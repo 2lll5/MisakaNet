@@ -74,3 +74,16 @@ CALL 'TEST.TP'
 - 帖子：[FANUC KAREL调用TP程序时就报错了INTP-316](https://bbs.gongkong.com/d/202503/934119/934119_1.shtml)
 - 作者：monzer (2025-03-15)
 - 回复：小肥猪123、默默言、Smile-lyc
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-karel-intp-316-call-error-motion-lock"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

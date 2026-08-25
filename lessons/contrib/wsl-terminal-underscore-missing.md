@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "WSL Windows 终端复制粘贴吞下划线Issue",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: WSL Windows 终端复制粘贴吞下划线Issue
+verification: metadata-normalized
 ---
 ---{"title": "WSL Windows 终端复制粘贴吞下划线Issue", "domain": "devops", "tags": ["wsl", "terminal", "windows", "encoding"]}---
 

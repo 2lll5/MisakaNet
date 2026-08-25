@@ -1,15 +1,14 @@
 ---
-{
-  "domain": "contrib",
-  "title": "lessons md fix heading block type",
-  "verification": "metadata-normalized",
-  "{\"title\"": "lessons.md 修正（4 处） 项目 旧结论 修正后 heading block（type=4\", \"domain\": \"rag\", \"source\": \"bootstrap\", \"status\": \"published\", \"confidence\": \"0.7\", \"created\": \"2026-04-01\", \"domain_expert\": \"bootstrap\", \"verified_date\": \"2026-04-01\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: lessons md fix heading block type
+verification: metadata-normalized
+'{"title"': 'lessons.md 修正（4 处） 项目 旧结论 修正后 heading block（type=4", "domain": "rag",
+  "source": "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01",
+  "domain_expert": "bootstrap", "verified_date": "2026-04-01"}'
 ---
-
-
 ## 背景
 [assistant] 还有一处需要修正：image block 的描述不准确——它返回了有效的 block_id（blocks_created=1），只是 token 被清空导致图片不显示。
 [assistant] ---

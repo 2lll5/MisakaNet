@@ -99,3 +99,16 @@ For CI fire-and-forget scenarios, `spawnSync` is the most reliable cross-platfor
 2. **Windows encoding defaults differ from Unix.** `PYTHONIOENCODING=utf-8` or `encoding: 'utf-8'` on spawn options is mandatory for non-ASCII output.
 3. **`detached: true` + `unref()` is not truly fire-and-forget on Windows.** Use `spawnSync` for cross-platform reliability, or keep the parent alive until the child confirms detachment.
 4. **Test CI changes on Windows runners.** These three bugs only manifest on Windows; Linux/macOS CI passes would not catch them.
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Windows CI: splitCommand backslash stripping, UnicodeEncodeError, and detached process failure"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

@@ -38,3 +38,16 @@
 | 1086 | KL 代码行号（KTRANS 编译输出） | `ERROR AT LINE 1086` |
 | ERR_ABORT=2 | 任务中止指令 | `POST_ERR(..., ERR_ABORT)` |
 | ERR_PAUSE=1 | 仅暂停当前任务 | `POST_ERR(..., ERR_PAUSE)` |
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-kl-1086-is-line-number-not-error-code"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

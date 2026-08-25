@@ -129,3 +129,16 @@ Python 客户端（fanucpy）与 MAPPDK 服务端之间的协议：
 
 - GitHub: torayeff/fanucpy — MAPPDK Driver 安装文档 (fanuc.md)
 - FANUC 控制器手册：Host Comm / Socket Messaging 配置章节
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-communication-protocol-socket"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

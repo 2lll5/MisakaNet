@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Python 沙箱/受限环境 — PATH 和 sys.path 隔离",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Python 沙箱/受限环境 — PATH 和 sys.path 隔离\", \"domain\": \"development\", \"tags\": [\"python\", \"sandbox\", \"path\", \"import\", \"venv\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Python 沙箱/受限环境 — PATH 和 sys.path 隔离
+verification: metadata-normalized
+'{"title"': 'Python 沙箱/受限环境 — PATH 和 sys.path 隔离", "domain": "development", "tags":
+  ["python", "sandbox", "path", "import", "venv"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 在沙箱或受限环境中执行 Python 代码时，`import` 报 `ModuleNotFoundError`，或 import 的是宿主环境的包而非沙箱环境的。

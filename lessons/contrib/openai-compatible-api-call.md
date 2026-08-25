@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "OpenAI 兼容 API 的通用调用格式",
-  "verification": "metadata-normalized",
-  "{\"title\"": "OpenAI 兼容 API 的通用调用格式\", \"domain\": \"development\", \"tags\": [\"api\", \"openai\", \"llm\", \"inference\", \"chat\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: OpenAI 兼容 API 的通用调用格式
+verification: metadata-normalized
+'{"title"': 'OpenAI 兼容 API 的通用调用格式", "domain": "development", "tags": ["api", "openai",
+  "llm", "inference", "chat"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 部署了 LLM 服务（vLLM/Ollama/本地推理）后，不知道怎么用 API 调用。各框架接口不一。

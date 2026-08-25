@@ -1,14 +1,14 @@
 ---
-{
-  "domain": "contrib",
-  "title": "IM 机器人反馈收集与 JSONL 队列审核模式",
-  "verification": "metadata-normalized",
-  "{\"title\"": "IM 机器人反馈收集与 JSONL 队列审核模式\", \"domain\": \"rag\", \"tags\": [\"rag\", \"feedback\", \"queue\", \"jsonl\", \"wechat\", \"wxauto\", \"workflow\"], \"confidence\": 0.9, \"created\": \"2026-05-21\", \"domain_expert\": \"unknown\", \"verified_date\": \"2026-05-21\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: IM 机器人反馈收集与 JSONL 队列审核模式
+verification: metadata-normalized
+'{"title"': 'IM 机器人反馈收集与 JSONL 队列审核模式", "domain": "rag", "tags": ["rag", "feedback",
+  "queue", "jsonl", "wechat", "wxauto", "workflow"], "confidence": 0.9, "created":
+  "2026-05-21", "domain_expert": "unknown", "verified_date": "2026-05-21"}'
 ---
-
 ## 背景
 
 RAG 知识库的 IM 机器人（wxauto 微信）只提供单向问答能力，用户不满意时无反馈渠道。知识库质量改进完全依赖离线人工审计，无法捕捉真实使用场景中的问题。

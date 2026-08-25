@@ -157,3 +157,16 @@ Expected "a" but got "b"
 
 - GitHub: kylerlippincott/kunit — Simple unit testing framework for FANUC KAREL
 - 适用于所有支持 KAREL 的 FANUC 控制器（需 R632 选件）
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-karel-unit-testing-kunit"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

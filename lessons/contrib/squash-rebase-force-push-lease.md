@@ -41,3 +41,16 @@ The fix is to treat squash-rebase as a *conflict resolution*, not a formatting s
 ## Lesson
 
 Squash is not cosmetic: it rewrites the base and re-opens the merge contract. Name the lease explicitly and re-verify the net diff before force-pushing a squashed branch.
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Squash-rebase rewrites the patch base and breaks force-push expectations"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

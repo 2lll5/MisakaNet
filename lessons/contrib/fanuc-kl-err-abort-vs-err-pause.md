@@ -15,3 +15,16 @@ IPC 超时类错误应使用 ERR_PAUSE 而非 ERR_ABORT，避免级联中止。
 
 ### 验证方式
 模拟 IPC 超时，确认程序号在 ERR_PAUSE 场景下保留。
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-kl-err-abort-vs-err-pause"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

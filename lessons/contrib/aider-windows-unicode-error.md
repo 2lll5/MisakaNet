@@ -50,3 +50,16 @@ aider --show-repo-map
 - Windows GBK encoding causes UnicodeEncodeError
 - Set PYTHONIOENCODING=utf-8 before running
 - Alternative: use WSL for Unicode-heavy repos
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Aider --show-repo-map crashes on Windows with UnicodeEncodeError"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

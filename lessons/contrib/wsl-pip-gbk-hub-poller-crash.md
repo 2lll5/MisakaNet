@@ -1,14 +1,15 @@
 ---
-{
-  "domain": "contrib",
-  "title": "wsl pip gbk hub poller crash",
-  "verification": "metadata-normalized",
-  "{\"title\"": "WSL pip install GBK 编码导致 hub_poller 崩溃\", \"domain\": \"devops\", \"subdomain\": \"wsl\", \"source\": \"bootstrap\", \"status\": \"published\", \"tags\": [\"project:agent-medici\", \"severity:critical\", \"platform:wsl\", \"node:hermes_wsl\"], \"confidence\": \"0.8\", \"created\": \"2026-05-03\", \"domain_expert\": \"bootstrap\", \"verified_date\": \"2026-05-03\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: wsl pip gbk hub poller crash
+verification: metadata-normalized
+'{"title"': 'WSL pip install GBK 编码导致 hub_poller 崩溃", "domain": "devops", "subdomain":
+  "wsl", "source": "bootstrap", "status": "published", "tags": ["project:agent-medici",
+  "severity:critical", "platform:wsl", "node:hermes_wsl"], "confidence": "0.8", "created":
+  "2026-05-03", "domain_expert": "bootstrap", "verified_date": "2026-05-03"}'
 ---
-
 ## Problem
 
 Windows Hub 的 hub_poller.py 读取 config.yaml 时崩溃，错误信息为 UnicodeDecodeError。

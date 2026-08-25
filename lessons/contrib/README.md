@@ -1,7 +1,8 @@
 ---
-domain: "contrib"
-title: "Contrib Lessons"
-verification: "metadata-normalized"
+domain: contrib
+status: published
+title: Contrib Lessons
+verification: metadata-normalized
 ---
 # Contrib Lessons
 

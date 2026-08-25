@@ -1,14 +1,14 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError\", \"domain\": \"development\", \"source\": \"Misaka10019\", \"tags\": [\"python\", \"venv\", \"tiktoken\", \"pip\", \"setuptools\"], \"domain_expert\": \"Misaka10019\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError
+verification: metadata-normalized
+'{"title"': 'Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError", "domain": "development",
+  "source": "Misaka10019", "tags": ["python", "venv", "tiktoken", "pip", "setuptools"],
+  "domain_expert": "Misaka10019"}'
 ---
-
 ## 背景
 
 在已有 venv 中 `pip install tiktoken`，安装成功但运行时报 `ModuleNotFoundError: cannot import name '_namespace'` 或其他模块找不到的错误。

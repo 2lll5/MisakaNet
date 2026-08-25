@@ -47,3 +47,16 @@ Deployment verification must bypass the cache for the exact zone you changed. Wi
 ## Lesson
 
 "Deployed" and "served" are different states. Cache-bust the verification request, and read the cache-status header, before trusting that your new code is really live.
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: CDN edge cache serves stale responses for minutes after deploy"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

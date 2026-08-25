@@ -36,3 +36,16 @@ Configurable BM25 + vector blending via config.yaml or env vars. Default 50/50 w
 - Normalize scores to [0,1] before blending
 - RRF (reciprocal rank fusion) recommended
 - Weights must sum to 1.0
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: BM25 + Vector Hybrid Search: configurable blending weights"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

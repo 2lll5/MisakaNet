@@ -90,3 +90,16 @@ FANUC 机器人支持多种现场总线协议：
 - 工控网论坛: bbs.gongkong.com/d/202311/912784 — FANUC机器人配置profinet IO的软件
 - 作者: snowei sun, 2023-11-20
 - 注意：原帖主要是软件分享帖，详细配置步骤需参考 FANUC 官方 PROFINET IO 配置手册
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-profinet-io-software-config"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

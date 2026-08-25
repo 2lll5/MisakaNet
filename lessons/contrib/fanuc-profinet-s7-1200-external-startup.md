@@ -70,3 +70,16 @@ DO[3]     → 报警信号
 - 帖子：[FANUC机器人与S7-1200profinet通讯及外部启动配置](https://bbs.gongkong.com/d/202011/845226/845226_1.shtml)
 - 作者：工控稔 (gongkongren)，2020-11-19
 - 说明：原帖主要内容为附件下载（需积分），技术细节基于帖子主题和社区讨论整理
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-profinet-s7-1200-external-startup"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

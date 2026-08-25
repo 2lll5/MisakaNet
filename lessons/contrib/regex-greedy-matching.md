@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "正则表达式 debugging — 贪婪匹配造成的意外结果",
-  "verification": "metadata-normalized",
-  "{\"title\"": "正则表达式 debugging — 贪婪匹配造成的意外结果\", \"domain\": \"development\", \"tags\": [\"regex\", \"debug\", \"greedy\", \"pattern\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: 正则表达式 debugging — 贪婪匹配造成的意外结果
+verification: metadata-normalized
+'{"title"': '正则表达式 debugging — 贪婪匹配造成的意外结果", "domain": "development", "tags": ["regex",
+  "debug", "greedy", "pattern"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 正则匹配返回了预期之外的大量文本。`<div>.*</div>` 匹配到了文档末尾而不是最近的闭合标签。

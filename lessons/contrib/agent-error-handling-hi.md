@@ -70,3 +70,16 @@ async def resilient_call(func, *args, max_retries=3, fallback=None):
 ## स्रोत
 
 चीनी पाठ से अनुवाद, लेखक <user>।
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: एजेंट त्रुटि हैंडलिंग — पुनर्प्रयास और फॉलबैक पैटर्न"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

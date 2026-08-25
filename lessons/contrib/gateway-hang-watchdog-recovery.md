@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Gateway 进程挂死未崩溃 — watchdog 自动Recovery",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Gateway 进程挂死未崩溃 — watchdog 自动Recovery
+verification: metadata-normalized
 ---
 ---{"title": "Gateway 进程挂死未崩溃 — watchdog 自动Recovery", "domain": "devops", "source": "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01"}---
 

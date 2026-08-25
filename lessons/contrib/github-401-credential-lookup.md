@@ -1,14 +1,18 @@
 ---
-{
-  "domain": "contrib",
-  "title": "GitHub API 401 后本地凭证查找顺序",
-  "verification": "metadata-normalized",
-  "tags": ["github", "api", "credential", "401", "auth", "pat"],
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+tags:
+- github
+- api
+- credential
+- '401'
+- auth
+- pat
+title: GitHub API 401 后本地凭证查找顺序
+verification: metadata-normalized
 ---
-
 ## 背景
 
 调用 GitHub API 时收到 `{"message": "Bad credentials"}` 或 HTTP 401/403，第一反应是 token 无效要去问用户要新的。但本地往往已经有可用凭证，跳过检查会让用户白跑一趟。

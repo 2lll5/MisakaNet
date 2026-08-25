@@ -1,14 +1,14 @@
 ---
-{
-  "domain": "contrib",
-  "title": "slugify path traversal deep coverage",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Slugify: deep coverage of path traversal, null bytes, and reserved names\", \"domain\": \"scripts\", \"tags\": [\"slugify\", \"path-traversal\", \"windows-reserved\", \"null-byte\", \"test-coverage\", \"hardening\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: slugify path traversal deep coverage
+verification: metadata-normalized
+'{"title"': 'Slugify: deep coverage of path traversal, null bytes, and reserved names",
+  "domain": "scripts", "tags": ["slugify", "path-traversal", "windows-reserved", "null-byte",
+  "test-coverage", "hardening"], "domain_expert": "unknown"}'
 ---
-
 ## 问题
 
 The original 5-test `test_slugify.py` (merged in commit `6912f87` for issue #95) covered the basics: standard titles, slashes, emojis, reserved names, and length limits. But it did NOT explicitly verify the new task acceptance criteria for issue #95 (re-posted as EvoMap bounty `cmptjhjjg4ood7i2bkhkov`):

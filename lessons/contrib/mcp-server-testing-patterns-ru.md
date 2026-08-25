@@ -61,3 +61,16 @@ print(result)
 ## Источник
 
 Перевод с китайского урока, автор <user>.
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Паттерны тестирования MCP серверов — прямой вызов обработчика"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

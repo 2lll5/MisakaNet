@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "phase 0 output gate",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Phase 0 Output Gate — Agent 的硬性知识检索规则\", \"domain\": \"methodology\", \"tags\": [\"output-gate\", \"knowledge-reuse\", \"methodology\", \"core\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: phase 0 output gate
+verification: metadata-normalized
+'{"title"': 'Phase 0 Output Gate — Agent 的硬性知识检索规则", "domain": "methodology", "tags":
+  ["output-gate", "knowledge-reuse", "methodology", "core"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 Agent 在 context 中看到了知识但不一定会用。即使指令写了"不可跳过"，Agent 的惯性行为是直接执行任务、跳过检索。

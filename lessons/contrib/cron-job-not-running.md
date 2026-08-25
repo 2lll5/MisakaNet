@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Cron 作业不执行 / 不生效排障",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Cron 作业不执行 / 不生效排障\", \"domain\": \"devops\", \"tags\": [\"cron\", \"scheduler\", \"not-running\", \"debug\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Cron 作业不执行 / 不生效排障
+verification: metadata-normalized
+'{"title"': 'Cron 作业不执行 / 不生效排障", "domain": "devops", "tags": ["cron", "scheduler",
+  "not-running", "debug"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 `crontab -e` 设置好后，作业从未执行。输出没有、日志没有、进程没有。

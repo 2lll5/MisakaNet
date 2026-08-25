@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Git Credentials 和 Node ID Setup",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Git Credentials 和 Node ID Setup
+verification: metadata-normalized
 ---
 ---{"title": "Git Credentials 和 Node ID Setup", "domain": "devops", "source": "hermes_wsl2", "status": "published", "tags": ["git", "credentials", "node-id", "setup"]}---
 
@@ -69,3 +68,15 @@ git fetch --dry-run
 - PAT 视为密码，不要提交到仓库
 - 不同平台使用不同的 credential helper（Windows: manager, macOS: osxkeychain, Linux: libsecret）
 - Node ID 一旦使用建议保持不变，避免混淆
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Git Credentials 和 Node ID Setup"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

@@ -1,19 +1,19 @@
 ---
-title: "API 请求限流 (Rate Limit) 处理方案"
-domain: "devops"
-tags:
-  - api
-  - rate-limit
-  - retry
-  - "429"
-created: "2026-05-21"
+created: '2026-05-21'
+domain: devops
 provenance:
-  source: "internal"
-  contributor: "Ikalus1988"
-  merged_at: "2026-05-21"
-  evidence: "post-publication"
+  contributor: Ikalus1988
+  evidence: post-publication
+  merged_at: '2026-05-21'
+  source: internal
+status: published
+tags:
+- api
+- rate-limit
+- retry
+- '429'
+title: API 请求限流 (Rate Limit) 处理方案
 ---
-
 ## 背景
 
 调用第三方 API 时返回 HTTP 429（Too Many Requests）或 403（被限流）。自动化脚本因未处理限流而中断。

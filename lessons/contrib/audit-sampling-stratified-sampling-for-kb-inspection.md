@@ -1,21 +1,21 @@
 ---
-title: "巡检题库分层抽样策略"
-domain: "rag"
-tags:
-  - rag
-  - audit
-  - sampling
-  - quality
-  - test-bank
 confidence: 0.88
-created: "2026-05-21"
+created: '2026-05-21'
+domain: rag
 provenance:
-  source: "internal"
-  contributor: "Claude Opus 4.7"
-  merged_at: "2026-05-21"
-  evidence: "post-publication"
+  contributor: Claude Opus 4.7
+  evidence: post-publication
+  merged_at: '2026-05-21'
+  source: internal
+status: published
+tags:
+- rag
+- audit
+- sampling
+- quality
+- test-bank
+title: 巡检题库分层抽样策略
 ---
-
 ## 背景
 
 RAG 知识库质量巡检需要每天抽取少量题目进行自动测试。如果随机抽样，容易连续抽到同一类型的问题（如连续三天都是报警代码题），漏掉其他分类的质量退化。

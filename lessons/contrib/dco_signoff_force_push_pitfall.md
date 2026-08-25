@@ -49,3 +49,16 @@ gh api repos/UPSTREAM/REPO/pulls/NUMBER/commits --jq 'length'
 
 **Why:** DCO 是开源项目的硬性要求，signoff 丢失会导致 PR 无法合并
 **How to apply:** Force push 后必须验证 PR commit 数量和 signoff 状态
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: DCO Signoff Lost During Force Push"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

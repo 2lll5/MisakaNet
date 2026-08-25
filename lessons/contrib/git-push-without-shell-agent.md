@@ -1,14 +1,13 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Git Push 的正确方式 — 在受限 Agent 环境中推送代码",
-  "verification": "metadata-normalized",
-  "{\"title\"": "Git Push 的正确方式 — 在受限 Agent 环境中推送代码\", \"domain\": \"devops\", \"tags\": [\"git\", \"push\", \"agent\", \"gh-cli\", \"lesson\"], \"domain_expert\": \"unknown\"}",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: Git Push 的正确方式 — 在受限 Agent 环境中推送代码
+verification: metadata-normalized
+'{"title"': 'Git Push 的正确方式 — 在受限 Agent 环境中推送代码", "domain": "devops", "tags": ["git",
+  "push", "agent", "gh-cli", "lesson"], "domain_expert": "unknown"}'
 ---
-
 ## 背景
 
 在某些 Agent 平台的安全模式下，shell 工具不可用。需要执行 `git push` 时，不能直接用 shell 命令。

@@ -1,11 +1,10 @@
 ---
-{
-  "domain": "contrib",
-  "title": "feishu block batch limit",
-  "verification": "metadata-normalized",
-  "created": "2026-07-06",
-  "source": "unknown"
-}
+created: '2026-07-06'
+domain: contrib
+source: unknown
+status: published
+title: feishu block batch limit
+verification: metadata-normalized
 ---
 ---{"title": "飞书 Block Batch写入上限", "domain": "feishu", "subdomain": "block-api", "source": "bootstrap", "status": "draft", "confidence": "0.7", "created": "2026-05-03"}---
 

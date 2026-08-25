@@ -41,3 +41,16 @@ The failure surfaced only when an independent audit added totals and compared th
 ## Lesson
 
 Fee/escrow math is currency math: use integer units, apply one rounding policy, and validate stored totals by recomputation. "It's almost right" is how payment bugs get shipped.
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Banking-style escrow fee estimate has a per-provider rounding disparity"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

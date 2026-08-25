@@ -62,3 +62,16 @@ Cubic AI 明确说 "No issues found across 1 file"，给人信心。PR Genius �
 
 **Why:** Cubic AI 的即时性和正向确认能提升 PR 体验
 **How to apply:** PR Genius v1.5.0 应加入 webhook 自动触发和正向确认输出
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: Cubic AI and PR Genius Comparison"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```

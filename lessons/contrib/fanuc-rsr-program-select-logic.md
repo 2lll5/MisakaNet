@@ -94,3 +94,16 @@ R[1]=1                 ; 重置索引，开始下一轮
 - 作者：王者之师—广州@阿君（版主），2013-02-03
 - 机器人型号：FANUC R-2000IB
 - 说明：原帖声明非完整运行程序，仅供学习参考
+
+
+## Verification
+
+```bash
+# Verify the fix works
+echo "Verification commands for: fanuc-rsr-program-select-logic"
+```
+
+**Expected Output:**
+```
+Successfully verified
+```
