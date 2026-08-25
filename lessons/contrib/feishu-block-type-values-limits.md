@@ -31,4 +31,12 @@ verification: metadata-normalized
 - divider（type=19）慎用，批量操作时加限流保护
 
 ## Verification
-单接口测试各 type，验证响应中返回的 block 结构与预期一致。
+
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```

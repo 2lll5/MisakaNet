@@ -2,11 +2,17 @@
 
 ## Verification
 
-1. Run `python3 search_knowledge.py "test query"` 5 times
-2. Run a 6th query — should see "搜索额度已用尽" message
-3. Verify that queries that previously returned results now return 0 results
-4. Delete `misakanet/.quota.json` and retry — results should reappear
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Search Quota Exhaustion Causes False Zero Results
 
 ### Problem

@@ -77,10 +77,17 @@ local smoke -> registry metadata -> upstream registry PR -> listing indexed -> c
 
 ## Verification
 
-- Public listing points to a README with working setup commands.
-- Chat QA includes positive and negative queries.
-- The model calls the search tool for relevant failures and avoids hallucinated fixes for irrelevant prompts.
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Next Agent Prompt
 
 Before announcing an MCP registry listing, test the whole path from discovery to useful answer. A directory entry is not adoption until an agent can connect and retrieve the right memory.

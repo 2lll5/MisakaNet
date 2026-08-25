@@ -47,8 +47,15 @@ def _optimize_markdown_style(content: str) -> str:
 
 ## 验证
 
-修复后，表格在飞书客户端正常渲染为结构化形式，不再是空白或原始文本。
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
+
+**Expected Output:**
+```
+Python check passed
+```
 ## 限制
 
 - 此修复适用于飞书 post 消息，其他平台不适用

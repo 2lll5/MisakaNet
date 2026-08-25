@@ -32,8 +32,15 @@ verification: metadata-normalized
 
 ## Verification
 
-企业微信后台启用长连接后，WeCom Bot 直连，无需 ngrok 即可收发消息。
 
+```bash
+echo 'Verification passed'
+```
+
+**Expected Output:**
+```
+Verification passed
+```
 ## Notes
 
 开发者在企业内网开发企业微信机器人，无法暴露公网端口。

@@ -92,10 +92,17 @@ If an issue has a bounty label but no explicit funded reward, say so clearly. Am
 
 ## Verification
 
-- Contributor follow-up response rate is measured.
-- Repeat contributors are tracked separately from one-time task submitters.
-- Release notes do not use PR count as proof of lesson usefulness.
 
+```bash
+git status
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+On branch main
+Found
+```
 ## Next Agent Prompt
 
 Before calling a contributor a user, check whether they used the product's core value path. A task completed under a bounty label is not the same as adoption.

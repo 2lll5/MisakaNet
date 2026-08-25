@@ -76,11 +76,17 @@ git push --force-with-lease
 
 ## Verification
 
-- Run `git log --oneline --graph --all` to visualize the branch history
-- Confirm the local branch is ahead of the remote: `git status`
-- Run `git push` and confirm there is no rejection
-- Verify on GitHub/GitLab that the commits appear correctly
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Notes
 
 - `git pull` is equivalent to `git fetch` followed by `git merge`

@@ -39,12 +39,17 @@ Generic bridge docs omit the real package name and concrete config paths. Operat
 
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
 
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## cc-connect 飞书机器人完整配置指南
 
 ### 概述

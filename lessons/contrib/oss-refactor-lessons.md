@@ -77,12 +77,17 @@ verification: metadata-normalized
 - 技术专注度：fork 占比从 60% 降至 0%
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
 
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## 教训
 
 1. **先砍后加** — 砍掉 3 个模块比增加 10 个功能更能提升完成度

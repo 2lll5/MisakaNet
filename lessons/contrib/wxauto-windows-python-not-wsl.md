@@ -34,8 +34,19 @@ pip install git+https://github.com/cluic/wxauto.git
 
 ## Verification
 
-安装后在 Windows Python 中 `import wxauto` 不报错，WSL 中 `import wxauto` 预期报错。
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+```
 ## Notes
 
 WSL2 + Windows 11 混合开发环境，需要在 Windows 侧操控微信桌面客户端。

@@ -50,9 +50,15 @@ This is intentional bot defense, not a missing “create gig” API field.
 
 ## Verification
 
-- After human challenge: `manage_gigs` shows create UI without “human touch”
-- Headless with only cookies: challenge page still appears → confirms PX, not bad CSS selectors
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - xdotool against a real Firefox window can still hit PX on sensitive routes

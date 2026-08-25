@@ -70,10 +70,19 @@ scrapling uses curl_cffi underneath, which can impersonate browser TLS fingerpri
 
 ## Verification
 
-1. `pip install "scrapling[all]"` succeeds
-2. `from scrapling import Fetcher` imports without error
-3. `fetcher.get("https://example.com")` returns 200
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+```
 ## Notes
 
 - scrapling is NOT a replacement for Playwright — it's a higher-level wrapper

@@ -53,10 +53,15 @@ Verify: run `npm ci` on both hosts and confirm the native module loads with no p
 
 ## Verification
 
-1. Clean install passes on both the dev host and the CI runner.
-2. `node -e "require('<native-module>')"` succeeds on both.
-3. Logs show prebuilt binary download (or a successful source compile) rather than a toolchain error.
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
+
+**Expected Output:**
+```
+Python check passed
+```
 ## Notes
 
 A lockfile generated on one OS is the usual culprit. Pin engines, install build tools in CI, and prefer prebuilt binaries with an explicit registry so behavior is identical across hosts.

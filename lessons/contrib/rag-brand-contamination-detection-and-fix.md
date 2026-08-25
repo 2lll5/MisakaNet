@@ -88,12 +88,17 @@ else:
 - 应急退退策略保证在无合格文档时仍有回答，但 LLM 不会在答案中提及竞品品牌
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
 
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## 注意事项
 
 1. ChromaDB 的 `query()` 返回最新 metadata，但 BM25 索引会缓存旧 metadata —— 更新后必须删除 BM25 缓存文件并重建

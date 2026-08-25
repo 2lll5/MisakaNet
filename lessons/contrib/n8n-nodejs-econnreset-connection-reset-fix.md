@@ -111,24 +111,19 @@ server {
 
 ## Verification
 
-Test the resolution by executing an HTTP node loop using a script that simulates socket disconnects or high-frequency polling:
 
-```javascript
-// Test script for n8n Code node (JavaScript)
-const http = require('http');
-
-return new Promise((resolve, reject) => {
-  const req = http.get('http://httpbin.org/delay/1', (res) => {
-    resolve([{ json: { statusCode: res.statusCode, status: 'OK' } }]);
-  });
-  req.on('error', (err) => {
-    reject(err);
-  });
-});
+```bash
+git status
+docker ps
+curl -sS http://localhost:8080/health
 ```
 
-When executed with **Retry On Fail** enabled, temporary network reset spikes will automatically retry and succeed without aborting the parent workflow.
-
+**Expected Output:**
+```
+On branch main
+CONTAINER ID
+OK
+```
 ## Notes
 
 - For high-throughput workflows targeting Cloudflare-protected APIs, adding a **Wait** node (500ms - 1000ms) between parallel requests prevents WAF socket termination.

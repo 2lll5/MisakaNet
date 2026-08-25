@@ -73,11 +73,19 @@ ssh-keygen -F hostname.example.com  # search for a specific host
 
 ## Verification
 
-- Run `ssh user@hostname.example.com` and confirm the connection succeeds
-- Verify the host key fingerprint matches the one provided by the server administrator
-- Test with `ssh -v user@hostname.example.com` to see verbose connection details
-- Confirm the entry appears in `known_hosts` after accepting
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+Found
+```
 ## Notes
 
 - Always verify host key fingerprints with the server administrator before accepting

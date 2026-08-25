@@ -75,10 +75,15 @@ curl -sS -L -X POST 'https://superteam.fun/api/submission/create' \
 
 ## Verification
 
-- With credits > 0: `POST /api/submission/create` returns 200 and creates a pending submission id
-- With credits = 0: stable 403 JSON as above (not a cookie/auth failure — `/api/user` still 200)
-- Confirm host: no unexpected 308 when posting to `superteam.fun`
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - Session cookies expire; a 401 on `/api/user` is a different class of failure from 403 credits

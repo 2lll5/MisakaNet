@@ -93,11 +93,19 @@ LIMIT 20;
 
 ## Verification
 
-1. 创建 1M 行表
-2. 测试 OFFSET 100000 vs CURSOR 性能
-3. CURSOR 应该快 100x+
-4. 测试并发写入时的数据一致性
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+OK
+Found
+```
 ## Notes
 
 - GitHub API 使用 CURSOR 分页

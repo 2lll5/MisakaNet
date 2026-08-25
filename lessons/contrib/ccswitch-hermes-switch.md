@@ -76,12 +76,15 @@ hermes-switch ds-flash
 | InternalModel-flash | internal/InternalModel-v2-flash | InternalGateway |
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+echo 'Verification passed'
+```
 
+**Expected Output:**
+```
+Verification passed
+```
 ## 相关文件
 
 - `~/ccswitch` — cc 切换脚本

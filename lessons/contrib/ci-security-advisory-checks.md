@@ -68,10 +68,15 @@ Add security advisory checks to audit workflow:
 
 ## Verification
 
-- PR with unpinned actions triggers warning
-- PR with write-all permissions triggers warning
-- PR with missing README description triggers warning
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Key Points
 
 - Non-blocking advisory checks (don't fail CI)

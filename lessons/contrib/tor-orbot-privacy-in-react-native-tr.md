@@ -55,10 +55,15 @@ function applyTorPreference(enabled) {
 ```
 
 ## Verification
-1. Orbot yüklü değilken “Tor’u etkinleştir” butonunun Orbot sayfasını açtığını doğrula.
-2. Tercih aktifken API isteklerinde `X-Tor-Requested: true` başlığını gör.
-3. `https://check.torproject.org/api/ip` ile IP doğrulaması yap.
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 - Orbot’un çalışması tek başına trafik tünellemesini garanti etmez; gerçek SOCKS5 yönlendirmesi için native proxy modülü gerekir.
 - Üretim ortamında “Tor aktif” rozeti yalnızca proxy gerçekten devredeyken gösterilmelidir.

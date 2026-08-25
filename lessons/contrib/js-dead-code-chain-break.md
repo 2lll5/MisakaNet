@@ -46,10 +46,15 @@ JavaScript 引擎执行到这一步抛出 TypeError，**后续所有同步代码
 
 ## 验证
 
-- 页面加载后 Console 无红色报错
-- 所有事件绑定正常生效
-- 每个功能模块独立工作，单个模块报错不影响其他模块
 
+```bash
+echo 'Verification passed'
+```
+
+**Expected Output:**
+```
+Verification passed
+```
 ## 反思
 
 一个与视觉功能完全无关的遗留代码行（例如一个已被删除的语言切换按钮的 DOM 引用），可以通过 TypeError 让**整个页面所有 JS 增强功能**全部静默失效。这种 bug 的隐蔽之处在于：

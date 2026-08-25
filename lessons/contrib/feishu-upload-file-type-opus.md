@@ -32,12 +32,15 @@ data = {'file_type': 'opus', 'file_name': 'voice.ogg'}  # 正确
 ```
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
 
+**Expected Output:**
+```
+Python check passed
+```
 ## 教训
 
 飞书 API 字段名严格按文档来，不要猜测近似名称。

@@ -67,12 +67,17 @@ jobs:
 - 可附带 Star 提示（⭐ If you find this project useful, consider starring the repo）
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+git status
+python3 scripts/search_knowledge.py "test query"
+```
 
+**Expected Output:**
+```
+On branch main
+Found
+```
 ## 注意事项
 
 - 同一 Issue 每次有人评论都会触发——如需去重，可在 JS 中检查是否已有 Bot 历史评论

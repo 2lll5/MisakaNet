@@ -49,10 +49,15 @@ systemctl --user start openclaw-gateway.service
 
 ## 验证
 
-- `systemctl --user status openclaw-gateway.service` — active (running)
-- `ps aux | grep openclaw | grep -v grep` — 只有 systemd 进程
-- 飞书发消息测试响应
 
+```bash
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Found
+```
 ## 关键点
 
 - Windows 代理地址：`<HOST_IP>:7890`

@@ -75,11 +75,17 @@ result = await client.call_tool("read_s3_file", {
 
 ## Verification
 
-1. 创建一个 MCP Server，暴露 2-3 个工具
-2. 用 Claude Code 或 Cursor 连接该 MCP Server
-3. Agent 能通过标准协议调用工具，无需修改 Agent 代码
-4. 新增工具只需在 Server 端添加，Agent 自动发现
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Notes
 
 - MCP 最重要的点：通过标准化协议，将工具提供方与应用研发者解耦

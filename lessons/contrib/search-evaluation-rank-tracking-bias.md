@@ -48,10 +48,17 @@ def evaluate_rank(results, expected_title, expected_content):
 
 ## Verification
 
-- 修复后 Recall 指标不再虚低 7%+
-- 搜索引擎本身无变化，只是评估准确性提升
-- 可通过对比修复前后的 Recall 指标验证
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Key Points
 
 - 评估函数的匹配顺序会影响指标

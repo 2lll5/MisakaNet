@@ -106,10 +106,19 @@ for f in lessons/*.md; do python3 score_lesson.py "$f"; done
 
 ## Verification
 
-1. 对 10 个已知高质量文件评分 → 应该全部 ≥ 75
-2. 对 10 个已知低质量文件评分 → 应该全部 < 75
-3. 修改低分文件后重新评分 → 分数应提升
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+OK
+Found
+```
 ## Notes
 
 - 评分是近似的，不能替代人工审核

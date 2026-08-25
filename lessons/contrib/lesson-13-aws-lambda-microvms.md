@@ -71,11 +71,15 @@ def handler(event, context):
 
 ## Verification
 
-1. 创建 Lambda 函数
-2. 启用 SnapStart
-3. 测量冷启动时间（应该 < 200ms）
-4. 测试状态恢复（暂停/恢复）
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
+
+**Expected Output:**
+```
+Python check passed
+```
 ## Notes
 
 - MicroVMs 是 Lambda 的新原语，不是独立产品

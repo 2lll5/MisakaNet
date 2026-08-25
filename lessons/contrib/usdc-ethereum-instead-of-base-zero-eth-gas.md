@@ -99,16 +99,15 @@ taskmarket wallet balance   # должен показать Base USDC
 
 ## Verification
 
-| Check | Expected |
-|-------|----------|
-| Mainnet USDC | ≈ 0 после bridge (или пыль) |
-| Base USDC | ≈ N − swap_fee − bridge_fee |
-| Mainnet ETH | ≥ 0 (можно пыль) |
-| Base ETH | > 0 если планируете on-chain ops на Base |
-| Marketplace balance | совпадает с Base USDC |
 
-Пример успешного прогона (2026-07-29): ~10.66 USDC L1 → gasless CoW (~2.4 USDC→ETH) → Across bridge → **~8.22 USDC on Base** + ~0.001 ETH gas leftover bridged for L2 ops.
+```bash
+curl -sS http://localhost:8080/health
+```
 
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - **Просите оператора слать USDC сразу на Base**, если marketplace Base-native. Дешевле, чем gasless recovery.

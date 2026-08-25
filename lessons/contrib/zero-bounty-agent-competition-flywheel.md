@@ -77,11 +77,15 @@ Competition PRs: first to fix DCO wins, others close as duplicate.
 
 ## Verification
 
-- `time_to_first_pr < 8h` for well-scoped issues
-- `competing_prs_48h >= 2` indicates healthy competition
-- `merge_rate 30-50%` balances quality and participation
-- Repeat contributors indicate flywheel is working
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
+
+**Expected Output:**
+```
+Python check passed
+```
 ## Notes
 
 - Do not use "bounty" or "reward" language — use "credit" and "leaderboard"

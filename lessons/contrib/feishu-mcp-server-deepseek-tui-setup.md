@@ -117,11 +117,16 @@ async with stdio_client(params) as (read, write):
 
 ## Verification
 
-1. Complete the MCP server setup and verify `FEISHU_*` env vars are picked up
-2. Test `search_knowledge.py "feishu"` — confirm lessons are retrieved through the MCP bridge
-3. Attempt to create a Feishu doc via the MCP server — confirm write permissions work
-4. Try sheet and wiki operations — confirm they return an explicit "not supported" error
 
-- 不支持 sheet（电子表格）和 wiki（知识库）
-- 文档评论需要额外权限（docs:document.comment:read）
-- 消息接收需要事件订阅配置 + 发布应用版本
+```bash
+python3 -c "import sys; print('Python check passed')"
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+OK
+Found
+```

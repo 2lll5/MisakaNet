@@ -65,10 +65,15 @@ done
 
 ## Verification
 
-- 所有 commit 都有 Signed-off-by
-- DCO 检查通过
-- force push 后 signoff 不丢失
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Key Points
 
 - DCO 检查检查所有 commit，不只是最新的

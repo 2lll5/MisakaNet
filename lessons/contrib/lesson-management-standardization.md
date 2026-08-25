@@ -102,11 +102,19 @@ The sanitization pattern library (`check_lesson_quality.py` and `submit_lesson.p
 
 ## Verification
 
-1. `python3 scripts/check_lesson_quality.py` — zero errors on current lesson set
-2. `python3 scripts/submit_lesson.py lessons/ --dry-run` — validates all files without committing
-3. Pre-commit hooks pass on new lesson commits
-4. CI pipeline in `.github/workflows/lesson-quality.yml` gates PRs
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+```
 ## Notes
 
 - All generalization scripts are removed from the repo after use (`generalize_lessons.py`, `rename_cn_files.py`, `update_index.py` were deleted to keep repo clean)

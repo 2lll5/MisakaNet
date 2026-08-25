@@ -44,11 +44,15 @@ LLM Agent → MCP Protocol → GhidraMCP Server → Ghidra Plugin
 
 ## Verification
 
-1. Install GhidraMCP plugin in Ghidra
-2. Start MCP server
-3. Ask Claude: "Analyze this binary and list the main functions"
-4. Verify Claude can decompile and rename functions
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Notes
 
 - 9.4K stars — one of the most popular MCP servers

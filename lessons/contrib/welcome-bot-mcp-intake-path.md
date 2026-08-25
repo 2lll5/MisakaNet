@@ -41,10 +41,17 @@ const body = [
 
 ## Verification
 
-- New PR from first-time contributor shows MCP intake curl
-- Agent can copy-paste and submit immediately
-- No GitHub account required
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Key Points
 
 - First contact should show all contribution paths

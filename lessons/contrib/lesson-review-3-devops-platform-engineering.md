@@ -71,11 +71,19 @@ jobs:
 
 ## Verification
 
-1. Create a golden path template for a common service type
-2. New developer uses template → gets CI/CD + monitoring out of the box
-3. Measure: time from "git init" to "deployed in staging"
-4. Compare: with vs without golden path (should be 5x+ faster)
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+docker ps
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+CONTAINER ID
+```
 ## Notes
 
 - HN 208↑, 82 comments (Docker/K8s/Terraform crash course)

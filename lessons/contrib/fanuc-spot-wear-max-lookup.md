@@ -60,10 +60,15 @@ This value is the maximum wear amount in mm.
 
 ## Verification
 
-- The value should be a positive number (typically 3.0–10.0 mm)
-- Multiple `$SPOTEQSETUP[x]` entries exist for multi-gun setups (x = 1–5)
-- Cross-check with R[32] (原始电极磨损) and R[33] (当前电极磨损) user registers if available
 
+```bash
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Found
+```
 ## Related Parameters
 
 | Parameter | Description |

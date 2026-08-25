@@ -72,11 +72,17 @@ const { chromium } = require('playwright');
 
 ## Verification
 
-1. 运行 Level 1 测试 → 记录所有站点状态
-2. 对可达站点运行 Level 2 测试 → 记录 API 可用性
-3. 对 API 不可用但 HTTP 可达的站点运行 Level 3 测试
-4. 输出可达性报告
 
+```bash
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+OK
+Found
+```
 ## Notes
 
 - 先测试可达性，再写抓取逻辑

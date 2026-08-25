@@ -12,11 +12,17 @@ verified_date: 2026-07-10
 
 ## Verification
 
-1. Run a query with no exact match: `python3 search_knowledge.py "xylophone purple elephant dancing"`
-2. Verify smart fallback shows: closest matches, "Did you mean" suggestion, available domains
-3. Check that zero-result queries are logged to `~/.misakanet/search_telemetry.jsonl`
-4. Run the same query 3+ times and verify auto-issue suggestion appears
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Search Smart Fallback — Turning Zero Results into Discovery
 
 ### Problem

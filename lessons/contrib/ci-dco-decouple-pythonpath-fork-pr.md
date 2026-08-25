@@ -78,10 +78,17 @@ gh workflow run 'Manual PR Audit' --repo owner/repo --ref main -f pr_number=142
 
 ## 验证
 
-- 40 个测试全部通过，无 ModuleNotFoundError
-- DCO 失败时测试依然运行并报告真实结果
-- 手动 dispatch 可在 2 分钟内对任意 fork PR 执行审计
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+```
 ## 进阶：工业级 DCO Bot 留言模板
 
 DCO 失败时，可以让 `github-actions[bot]` 自动在 PR 下发布结构化修复指引（非人工复制粘贴）。

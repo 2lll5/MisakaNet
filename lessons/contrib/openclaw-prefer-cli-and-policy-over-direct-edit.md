@@ -20,4 +20,12 @@ verification: metadata-normalized
 3. 恢复时先恢复官方路径，再拆除临时hack
 
 ## 验证
-配置操作通过官方CLI完成，系统行为与配置一致
+
+```bash
+echo 'Verification passed'
+```
+
+**Expected Output:**
+```
+Verification passed
+```

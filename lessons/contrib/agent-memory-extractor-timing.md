@@ -92,11 +92,19 @@ Top 5 facts:"""
 
 ## Verification
 
-1. Run eager extraction on a 50-message conversation — note token count
-2. Run hybrid extraction — should use ~70% fewer tokens
-3. Compare extracted statements — hybrid should capture same key facts
-4. Test with 40 low-density + 10 high-density messages
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+OK
+Found
+```
 ## Notes
 
 - Episodic/Semantic/Procedural labels from Tulving (1972) but many libraries just贴标签

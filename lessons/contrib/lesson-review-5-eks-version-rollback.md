@@ -64,11 +64,15 @@ done
 
 ## Verification
 
-1. 创建 EKS 1.30 集群
-2. 升级到 1.31
-3. 验证回滚功能：`aws eks rollback-cluster-version --name my-cluster --kubernetes-version 1.30`
-4. 确认集群恢复到 1.30
 
+```bash
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Found
+```
 ## Notes
 
 - 开源 K8s 不支持控制平面回滚，这是 EKS 独有功能

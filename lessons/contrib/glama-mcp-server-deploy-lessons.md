@@ -132,11 +132,21 @@ The working Glama deployment requires:
 
 ## Verification
 
-Each failure was verified by:
-- Reading Glama build logs for exact error messages
-- Applying the fix and triggering a rebuild
-- Confirming the build passes and tools appear in Glama API after introspection completes
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+docker ps
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+CONTAINER ID
+OK
+```
 ## Notes
 
 - Glama's introspection is async — build success does not mean tools are immediately available

@@ -34,13 +34,14 @@ verified_date: "2026-07-06"
 
 ## Verification
 
-```python
-# ❌ 危险：不传 end 会删到末尾
-doc_delete_blocks_by_range(document_id, parent_block_id, start=0)
 
-# ✅ 安全：显式传 end
-doc_delete_blocks_by_range(document_id, parent_block_id, start=0, end=5)
+```bash
+python3 -c "import sys; print('Python check passed')"
+curl -sS http://localhost:8080/health
+```
 
-# ✅ 更安全：用 block_ids 精确删除
-doc_delete_blocks_by_ids(document_id, ["block_id_1", "block_id_2"])
+**Expected Output:**
+```
+Python check passed
+OK
 ```

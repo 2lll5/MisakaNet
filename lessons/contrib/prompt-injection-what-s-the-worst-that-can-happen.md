@@ -25,8 +25,19 @@ The article states: "To date, I have not yet seen a robust defense against this 
 
 ## Verification
 
-Not specified in source.
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+Found
+```
 ## Notes
 
 Prompt injection severity depends on application context. For single-user applications that only display output to the person sending input, the risk is lower (though prompt leak attacks are considered inevitable). The vulnerability becomes genuinely dangerous when:

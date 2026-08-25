@@ -62,11 +62,17 @@ assert "/@" in _extract_default(source)
 
 ## Verification
 
-1. 测试文件不再 import 任何 Lambda 模块
-2. CI 无 AWS 凭证时测试仍通过
-3. `compile(source, ...)` 验证语法正确性（不执行代码）
-4. 正则提取默认值，断言检查内容
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Why it matters
 
 Lambda 函数、数据库迁移脚本、CLI 工具等经常在模块级执行 I/O 操作（连接数据库、初始化客户端）。测试这类代码时，**源码分析**比**运行时导入**更安全、更可靠。

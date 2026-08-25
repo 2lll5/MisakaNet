@@ -27,8 +27,15 @@ if (first.data.memory.len > std_size) {
 
 ## Verification
 
-not specified in source
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 The bug persisted for years because non-standard pages were designed to be rare and only used in specific scenarios with small quantities. The rise of Claude Code changed usage patterns by regularly producing multi-codepoint grapheme outputs, which forced Ghostty to use non-standard pages in large quantities. This exposed the long-standing metadata desync bug at scale. The fix aligns with the original assumption that standard pages are the common case and it makes sense to reset back to standard pooled pages rather than attempting to reuse large non-standard allocations.

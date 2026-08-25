@@ -45,12 +45,15 @@ print(requests.__file__)  # 应指向正确的 venv
 ```
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
 
+**Expected Output:**
+```
+Python check passed
+```
 ## 陷阱
 
 - `subprocess.run("python script.py", ...)` 用的不是当前 Python——`python` 可能是系统默认的

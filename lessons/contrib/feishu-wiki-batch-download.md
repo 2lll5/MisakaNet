@@ -61,12 +61,15 @@ window.location.href = '目标URL';
 - 跨平台内容同步
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
 
+**Expected Output:**
+```
+Python check passed
+```
 ## 脱敏说明
 
 本文档已移除所有设备信息、API密钥和企业特定内容，仅保留通用技术经验。

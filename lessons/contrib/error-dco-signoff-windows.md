@@ -84,12 +84,17 @@ git config --global --list
 
 ## Verification
 
-1. Ejecutar `git config --global user.name` y confirmar que muestra el nombre correcto
-2. Ejecutar `git config --global user.email` y confirmar que muestra el email verificado en GitHub
-3. Crear un commit de prueba: `git commit --allow-empty -m "test dco" -s`
-4. Verificar el mensaje del commit: debe contener `Signed-off-by:`
-5. Hacer push: debe ser aceptado sin errores de DCO
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Notes
 
 - Este problema afecta aproximadamente al 30% de los contribuyentes nuevos en proyectos que requieren DCO

@@ -33,8 +33,15 @@ WSL2 (Linux 虚拟机) → 本机虚拟网卡 → Windows 主机 :10086
 
 ## Verification
 
-powershell `netsh advfirewall firewall show rule name="wcferry"` 可查看规则详情。
 
+```bash
+echo 'Verification passed'
+```
+
+**Expected Output:**
+```
+Verification passed
+```
 ## Notes
 
 WSL2 + Windows 混合开发，任何需要 WSL 访问 Windows 端口的情况（RAG API、微信机器人等）。

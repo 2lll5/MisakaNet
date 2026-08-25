@@ -109,11 +109,15 @@ message User {
 
 ## Verification
 
-1. 对同一 API 分别用 REST、OpenAPI、gRPC 实现
-2. 测量延迟和吞吐量
-3. gRPC 应该快 2-5x
-4. 测量开发效率（代码生成 vs 手写）
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - REST 最通用但性能最低

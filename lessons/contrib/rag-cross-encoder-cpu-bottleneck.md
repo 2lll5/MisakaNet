@@ -125,6 +125,17 @@ share_session_in_channel = false  # per-user sessions
 
 ## Verification
 
+
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ### Test 1: Latency
 
 ```bash

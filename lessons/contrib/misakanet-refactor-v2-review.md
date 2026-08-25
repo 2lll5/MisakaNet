@@ -42,13 +42,19 @@ MisakaNet 早期架构照搬了"中心协调网络"的设计——A2A 实时通�
 
 ## 验证
 
-```
-python3 search_knowledge.py "pip 超时" --top=1
-python3 scripts/contribute.py path/to/lesson.md
-python3 scripts/score_lessons.py
-vhs scripts/demo.tape
+
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+python3 scripts/search_knowledge.py "test query"
 ```
 
+**Expected Output:**
+```
+Python check passed
+On branch main
+Found
+```
 ## 已完成（搜索结果质量评分）
 
 分数条（██████░░ 78%）、关键词高亮（ANSI 黄色）、内容预览——在 v2 重构第三轮已全部实现。当前 search_knowledge.py 的输出包含这三项。

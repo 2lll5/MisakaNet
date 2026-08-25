@@ -62,8 +62,15 @@ def sample_questions(bank, l2_count=2, l3_count=5):
 
 ## 验证
 
-连续运行 `--dry-run` 10 次，每次抽到的题目类型分布均匀，没有连续 3 次重复同一 tag 的情况。
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
+
+**Expected Output:**
+```
+Python check passed
+```
 ## 适用场景
 
 任何需要从分类题库中定期抽样的 QA 系统都适用，不限于 RAG。

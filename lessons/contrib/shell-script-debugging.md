@@ -42,12 +42,17 @@ done
 ```
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
 
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## 陷阱
 
 | 场景 | 问题 | 修复 |

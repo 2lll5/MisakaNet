@@ -38,11 +38,15 @@ Each agent's memory is private by default. Sharing is explicit and auditable.
 
 ## Verification
 
-1. Agent A stores user preferences in its own memory
-2. User asks Agent B to use the same preferences
-3. UMP export → import → Agent B has the preferences
-4. Agent A's other memories remain private
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - "Portable memory wallets fail not because of execution, but because of fundamental design"

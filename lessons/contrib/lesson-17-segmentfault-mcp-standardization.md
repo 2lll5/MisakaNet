@@ -81,11 +81,17 @@ result = await client.call_tool("query_database", {
 
 ## Verification
 
-1. 创建 MCP Server，暴露 2 个工具
-2. 用 Claude Code 连接
-3. Agent 自动发现并调用工具
-4. 换用 Cursor 连接同一 Server → 同样工作
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Notes
 
 - MCP 最重要的价值：工具提供方与应用研发者解耦

@@ -27,17 +27,21 @@ Context Mode is an MCP server that intercepts tool outputs through a PreToolUse 
 
 ## Verification
 
-Validated across 11 real-world scenarios with the following compression results:
 
-- Playwright snapshot: 56 KB → 299 B
-- GitHub issues (20): 59 KB → 1.1 KB
-- Access log (500 requests): 45 KB → 155 B
-- Analytics CSV (500 rows): 85 KB → 222 B
-- Git log (153 commits): 11.6 KB → 107 B
-- Repo research (subagent): 986 KB → 62 KB (5 calls vs 37)
+```bash
+git status
+docker ps
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
 
-Over a full session: 315 KB of raw output becomes 5.4 KB (98% reduction). Session time before slowdown extends from ~30 minutes to ~3 hours. Context remaining after 45 minutes: 99% instead of 60%.
-
+**Expected Output:**
+```
+On branch main
+CONTAINER ID
+OK
+Found
+```
 ## Notes
 
 Context Mode applies the same compression principle as Cloudflare's Code Mode but targets the output direction of tool interactions. Ten language runtimes are supported: JavaScript, TypeScript, Python, Shell, Ruby, Go, Rust, PHP, Perl, R. Authenticated CLIs (gh, aws, gcloud, kubectl, docker) work through credential passthrough where the subprocess inherits environment variables and config paths without exposing them to the conversation. Bun is auto-detected for 3-5x faster JS/TS execution. Users do not need to change their workflow — the PreToolUse hook automatically routes tool outputs through the sandbox, and subagents learn to use `batch_execute` as their primary tool. Bash subagents get upgraded to general-purpose access to MCP tools.

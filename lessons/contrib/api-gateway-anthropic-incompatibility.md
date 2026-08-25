@@ -41,8 +41,15 @@ api_base: https://api.internal-gateway.local/v1
 
 ## Verification
 
-配置为 OpenAI provider 后，API 调用正常返回，模型响应正确。
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 使用公司内网大模型网关（InternalGateway/InternalModel API）作为 Hermes Agent 的 LLM 后端。

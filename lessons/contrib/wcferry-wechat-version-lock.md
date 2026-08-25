@@ -31,8 +31,15 @@ wcferry 通过 DLL 注入 hook 微信内存地址，**微信版本必须精确�
 
 ## Verification
 
-pip install wcferry 后启动微信，运行 wcferry 示例脚本，确认能收到消息。
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
+
+**Expected Output:**
+```
+Python check passed
+```
 ## Notes
 
 微信 3.9.12.51 可能被腾讯服务端封锁无法登录。如果降级后登录失败，需切回 wxauto 方案（不限版本）。

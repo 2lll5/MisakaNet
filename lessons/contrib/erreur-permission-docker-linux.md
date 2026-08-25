@@ -62,11 +62,17 @@ sudo systemctl restart docker
 
 ## Verification
 
-- Run `id -nG` and confirm `docker` appears in the group list
-- Execute `docker run hello-world` as a complete integration test
-- Confirm the container runs without `sudo`
-- Run `docker info` to verify the daemon responds
 
+```bash
+docker ps
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+CONTAINER ID
+OK
+```
 ## Notes
 
 - Adding a user to the `docker` group grants equivalent to `root` access on the Docker socket — be aware of this security implication

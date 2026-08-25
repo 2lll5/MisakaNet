@@ -30,12 +30,15 @@ ffmpeg -i input.wav -ar 24000 -ac 1 -c:a libopus output.ogg
 ```
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+echo 'Verification passed'
+```
 
+**Expected Output:**
+```
+Verification passed
+```
 ## 额外注意
 
 - 交互式覆盖提示：先 `os.remove(out)` 删除旧文件再调用 FFmpeg

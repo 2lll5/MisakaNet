@@ -85,10 +85,17 @@ curl -s -X PATCH \
 
 ## Verification
 
-1. Test API connectivity: `curl -s -H "Authorization: token $TOKEN" https://api.github.com/user`
-2. Verify issue creation: check `html_url` in response
-3. Verify PR merge: check `"merged": true` in response
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Notes
 
 - Use `jq` for JSON parsing: `curl ... | jq '.html_url'`

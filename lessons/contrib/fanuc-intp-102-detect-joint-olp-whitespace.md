@@ -55,10 +55,15 @@ File a bug with RoboDK (or your OLP tool) about trailing whitespace in sensor in
 
 ## Verification
 
-1. Load the fixed .ls file to controller — no INTP-102 error
-2. Run the sensor program — DETECT JOINT executes correctly
-3. FTP the program back out — confirm no re-introduced whitespace
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - This is a parser strictness issue, not a logic error

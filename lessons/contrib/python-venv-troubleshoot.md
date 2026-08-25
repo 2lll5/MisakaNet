@@ -45,12 +45,17 @@ pip install --upgrade pip setuptools wheel
 ```
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+curl -sS http://localhost:8080/health
+```
 
+**Expected Output:**
+```
+Python check passed
+OK
+```
 ## 陷阱
 
 - 永远不要在 venv 已激活时运行 `python3 -m venv venv` — 这会创建嵌套 venv

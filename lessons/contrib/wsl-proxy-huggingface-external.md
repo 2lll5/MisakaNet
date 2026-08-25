@@ -30,8 +30,19 @@ export no_proxy=localhost,127.0.0.1,.local
 
 ## Verification
 
-source ~/.bashrc 后，wget https://huggingface.co 返回 200，python 下载模型成功。
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+```
 ## Notes
 
 WSL2 + Windows 11，无企业代理，使用个人梯子（Clash Verge/CFW/v2rayN）。

@@ -117,11 +117,19 @@ await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
 
 ## Verification
 
-1. 识别目标论坛的 CMS 类型
-2. 使用对应的选择器提取帖子列表
-3. 验证提取的数据完整性（标题、回复数、日期）
-4. 测试翻页（如果有）
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+Found
+```
 ## Notes
 
 - WoltLab 的 `data-is-done` 属性标识已解决帖子

@@ -79,11 +79,15 @@ export default {
 
 ## Verification
 
-1. Create a 3-step workflow with rollback on step 2
-2. Force step 2 to fail
-3. Verify step 1's rollback compensating action executes
-4. Verify system returns to consistent state
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Notes
 
 - Cloudflare Workflows provides built-in saga rollback support

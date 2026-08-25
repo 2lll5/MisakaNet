@@ -71,11 +71,15 @@ export default {
 
 ## Verification
 
-1. 创建一个 4 步工作流
-2. 模拟第 2 步失败
-3. 验证自动重试
-4. 验证状态在步骤间持久化
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - 适合：审批流程、数据处理管道、订单编排

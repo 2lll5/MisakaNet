@@ -73,11 +73,15 @@ git log --show-signature
 
 ## Verification
 
-1. 生成 GPG/SSH 密钥并添加到 GitHub
-2. 提交一个签名提交
-3. 在 GitHub 上验证显示 "Verified"
-4. 尝试用未签名提交 → 应该被分支保护规则拒绝
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Notes
 
 - 提交伪造是真实的安全风险，尤其在开源项目中

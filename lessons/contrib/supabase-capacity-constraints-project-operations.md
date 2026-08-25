@@ -65,12 +65,12 @@ For an application team consuming such a platform, the safer runbook is:
 
 ## Verification
 
-Use separate checks for the data plane and control plane:
 
-- Existing application traffic to already-running databases remains healthy.
-- Project creation succeeds in at least one previously affected region.
-- Restart, restore, branch provisioning, project resizing, and database upgrade operations complete without repeated capacity failures.
-- Regional capacity metrics show spare headroom after the incident mitigation.
-- Customer guidance is updated when users can safely retry previously failing operations.
+```bash
+curl -sS http://localhost:8080/health
+```
 
-A useful post-incident test is to run a small synthetic lifecycle workflow per critical region: create a test project, create a branch, restart it, restore from a backup snapshot, resize it, then delete it. Alert on failures separately from normal database availability alerts so control-plane capacity issues are visible before customers need them during an emergency.
+**Expected Output:**
+```
+OK
+```

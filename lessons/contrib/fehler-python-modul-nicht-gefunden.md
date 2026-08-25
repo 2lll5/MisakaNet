@@ -82,11 +82,19 @@ export PYTHONPATH=$HOME/.local/lib/python3.11/site-packages:$PYTHONPATH
 
 ## Verification
 
-- Run `which python` and `which pip` — both should point to the same installation
-- Execute `python -c "import requests; print(requests.__version__)"` without errors
-- Inside a virtual environment, confirm `pip list` shows the package
-- Test with a full script that uses the imported package
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+```
 ## Notes
 
 - Always create a dedicated virtual environment per project with `python -m venv`

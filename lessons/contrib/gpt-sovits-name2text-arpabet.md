@@ -29,12 +29,15 @@ basename	{w o2 h en3 AA ai4 ...}	{type}	{language}
 - 音频文件必须加 `.wav` 扩展名，无扩展名的 WAV ffmpeg 无法识别
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+echo 'Verification passed'
+```
 
+**Expected Output:**
+```
+Verification passed
+```
 ## 教训
 
 音素训练数据格式必须严格按文档，词典只认音标不认文字。

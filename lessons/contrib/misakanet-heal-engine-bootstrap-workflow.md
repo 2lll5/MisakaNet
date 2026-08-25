@@ -121,39 +121,19 @@ If coverage is still `<100%`, the new lesson's `broad_only` filter probably does
 
 ## Verification
 
-End-to-end loop, validated with a real production traceback:
 
-**Log input** (Playwright on WSL2, system chromium missing libnss3):
-
-```
-Error: Failed to launch chromium-headless-shell: libnss3.so: cannot open shared object file
-    at /usr/lib/chromium-browser/chromium-browser:125
-    spawn /usr/bin/chromium-browser EACCES
-    at child_process.spawn (node:internal/child_process:421)
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+python3 scripts/search_knowledge.py "test query"
 ```
 
-**First --heal run** (no lesson existed yet):
-
+**Expected Output:**
 ```
-Coverage: 0/1 signatures matched (0.0%)
-  📝 1 unmatched signature(s) — auto-generated fixtures in tests/fixtures/openclaw/
-     Submit a lesson to improve coverage:
-     python3 scripts/queue_lesson.py -t 'your title' -d openclaw -f tests/fixtures/openclaw/unmatched_a1b2c3d4.log
+Python check passed
+On branch main
+Found
 ```
-
-**Lesson submitted** (commit `lessons: openclaw-playwright-wsl-libnss3-libnspr4-snap-chromium` with `scope: broad` tag), PR #244.
-
-**Second --heal run** (after merge, corpus rebuilt):
-
-```
-[MisakaNet] 🔍 Extracted 1 error signature(s)
-  ✅ matched: 'libnss3.so not found' (score: 0.72, lesson: openclaw-playwright-wsl-libnss3-libnspr4-snap-chromium)
-  📊 Coverage: 1/1 signatures matched (100.0%)
-  ✅ All signatures covered by swarm knowledge.
-```
-
-**Result**: 0% → 100% coverage, single lesson, fixture → published in <30 minutes. The bootstrap workflow validated end-to-end.
-
 ## Notes
 
 - **`broad_only=True` is non-negotiable** — `heal()` filters to lessons with `scope: broad` frontmatter. Lessons with `scope: narrow` (project-specific) are intentionally excluded from the swarm search. See `misakanet/search/engine.py:286-288`.

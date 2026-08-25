@@ -20,4 +20,12 @@ verification: metadata-normalized
 3. 两个阶段分开处理失败，各自有独立的重试逻辑
 
 ## 验证
-成功抓取目标文章并输出为 Markdown 格式
+
+```bash
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Found
+```

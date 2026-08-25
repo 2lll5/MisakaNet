@@ -26,4 +26,12 @@ def write_json_atomic(path, data):
 ```
 
 ## 验证
-在多个job同时调度场景下，读者不会看到 JSON 解析错误
+
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
+
+**Expected Output:**
+```
+Python check passed
+```

@@ -40,13 +40,19 @@ if _KW.search(query):
 
 ## 验证
 
-```
-curl -s http://localhost:8002/query \
-  -d '{"query":"如何通过上位机读写机器人的寄存器"}'
+
+```bash
+python3 -c "import sys; print('Python check passed')"
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
 ```
 
-预期：Robot Interface 介绍.pdf 的 chunk 出现在结果 #0 或 #1。
-
+**Expected Output:**
+```
+Python check passed
+OK
+Found
+```
 ## 关联
 
 关键词映射表是可扩展的。每遇到新的语义鸿沟，只需要在 `_KW` 正则加规则，

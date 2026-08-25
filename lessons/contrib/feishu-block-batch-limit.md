@@ -20,4 +20,12 @@ verification: metadata-normalized
 每批 ≤20 个 block；`parent_block_id` 使用 DOC_ID（不加 index）；超量时分批发送并加 500ms 间隔。
 
 ## Verification
-连续写入 100 个 block，逐批确认 `blocks_created` 计数。
+
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```

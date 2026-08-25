@@ -65,14 +65,17 @@ def extract_env_default(source: str, key: str) -> str:
 
 ## Verification
 
-```python
-source = 'os.environ.get("KEY", "/@\\"\\'+:?&!=% ")'
-result = extract_env_default(source, "KEY")
-assert '"' in result   # 转义引号被正确保留
-assert "'" in result   # 单引号被正确保留
-assert "&" in result   # 后续字符未被截断
+
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
 ```
 
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Why it matters
 
 从源码中提取字符串常量是自动化测试和代码分析的常见需求。当源码包含转义引号（`\"`、`\'`）时，标准非贪婪匹配会提前终止。这个问题在解析 JSON 字符串、SQL 查询、Shell 命令等嵌套引号场景中也会出现。

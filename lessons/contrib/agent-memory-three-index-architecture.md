@@ -46,10 +46,19 @@ Use Document Level Security (DLS) to ensure each user's memory is invisible to e
 
 ## Verification
 
-1. R@10 = 0.89 on 168-question QA eval
-2. Zero cross-tenant leaks
-3. Supersession preserves full history
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+Found
+```
 ## Notes
 
 - "1M token context window is a scratchpad, not a memory system"

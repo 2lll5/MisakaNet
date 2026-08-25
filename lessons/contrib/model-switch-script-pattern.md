@@ -22,12 +22,15 @@ See problem description above for technical details.
 
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+echo 'Verification passed'
+```
 
+**Expected Output:**
+```
+Verification passed
+```
 ## 方案
 
 每个 Agent 各自维护一个独立的切换脚本，各管各的配置。

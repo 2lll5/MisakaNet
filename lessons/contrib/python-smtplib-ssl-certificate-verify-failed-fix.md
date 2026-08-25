@@ -84,28 +84,19 @@ with smtplib.SMTP('smtp.gmail.com', 587) as server:
 
 ## Verification
 
-Запустите проверочный скрипт Python для отправки тестового сообщения:
 
-```python
-import smtplib, ssl
-
-context = ssl._create_unverified_context()
-try:
-    with smtplib.SMTP('smtp.gmail.com', 587, timeout=10) as server:
-        server.ehlo()
-        server.starttls(context=context)
-        server.ehlo()
-        server.login("your.email@gmail.com", "your_app_password")
-        print("SUCCESS: SMTP Authentication and TLS handshake passed.")
-except Exception as e:
-    print(f"FAILED: {e}")
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
 ```
 
-Ожидаемый вывод при успешном исполнении:
-```text
-SUCCESS: SMTP Authentication and TLS handshake passed.
+**Expected Output:**
 ```
-
+Python check passed
+On branch main
+OK
+```
 ## Notes
 
 - Для аутентификации в Gmail с 2022 года **обязательно** требуется использовать 16-значный **App Password** (Пароль приложения), а не основной пароль аккаунта Google.

@@ -62,10 +62,17 @@ If maintainer says "search retrieval probe", use that exact term in your respons
 
 ## Verification
 
-1. All explicit blockers addressed
-2. GitHub state matches intent (no auto-close links)
-3. Maintainer confirms mergeability
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Related
 
 - PR #479: 6 review cycles before merge

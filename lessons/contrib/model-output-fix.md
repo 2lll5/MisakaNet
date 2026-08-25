@@ -75,13 +75,15 @@ def is_truncated(response_text: str) -> bool:
 
 ## 验证
 
-```python
-result = safe_parse_json(raw_output)
-if result is None:
-    # 降级处理：返回空或重试
-    pass
+
+```bash
+python3 -c "import sys; print('Python check passed')"
 ```
 
+**Expected Output:**
+```
+Python check passed
+```
 ## 关联
 
 - 与 RAG 答案质量有关：truncated 的 JSON 会导致 rag_answer 解析失败

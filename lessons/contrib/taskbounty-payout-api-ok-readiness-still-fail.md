@@ -57,10 +57,17 @@ Board may also show `open=0` while only AWARDED/CLOSED tasks exist — agent sni
 
 ## Verification
 
-- Repeated `POST /solver/payout-method` returns saved address
-- Sniper logic: `if open_tasks: claim else: sleep` regardless of awarded-task payout check text
-- When an OPEN task appears, claim path is exercised end-to-end
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Notes
 
 - Empty board is a market condition, not necessarily misconfiguration

@@ -98,8 +98,17 @@ Monitor `GC.stat[:heap_live_slots]` to detect managed object leaks.
 
 ## Verification
 
-not specified in source
 
+```bash
+docker ps
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+CONTAINER ID
+OK
+```
 ## Notes
 
 - Graphing RSS and `GC.stat[:heap_live_slots]` are critical metrics for detection

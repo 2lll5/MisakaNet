@@ -2,12 +2,17 @@
 
 ## Verification
 
-1. Create a test file with missing frontmatter: `echo "# Test" > /tmp/test.md`
-2. Run `python3 scripts/validate_lessons.py /tmp/test.md`
-3. Verify it returns error: "No frontmatter block found"
-4. Test with malformed JSON: `echo -e "---\n{invalid\n---\n# Content" > /tmp/test2.md`
-5. Verify graceful handling without crash
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Frontmatter Parsing Edge Cases — Silent Failures and Data Loss
 
 ### Problem

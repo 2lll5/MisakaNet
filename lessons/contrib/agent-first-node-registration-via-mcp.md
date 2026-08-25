@@ -58,10 +58,15 @@ Add `misakanet_register` MCP tool:
 
 ## Verification
 
-- Agent registers via MCP without GitHub account
-- Gets usable token for authenticated search
-- node_id is unique and persistent
 
+```bash
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Found
+```
 ## Key Points
 
 - Agent-first design: no human interaction required

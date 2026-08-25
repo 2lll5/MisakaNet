@@ -88,11 +88,15 @@ SELECT * FROM orders WHERE user_id = 123 AND created_at > '2026-01-01';
 
 ## Verification
 
-1. 运行 `EXPLAIN ANALYZE` 在慢查询上
-2. 检查是否使用索引
-3. 添加缺失的索引
-4. 重新测量查询时间
 
+```bash
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Found
+```
 ## Notes
 
 - 80% 的性能问题可以通过加索引解决

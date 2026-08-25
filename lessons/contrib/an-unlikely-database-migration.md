@@ -50,8 +50,19 @@ The team also evaluated but rejected alternatives:
 
 ## Verification
 
-not specified in source
 
+```bash
+git status
+docker ps
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+CONTAINER ID
+OK
+```
 ## Notes
 
 - The Tailscale team is intentionally careful not to use etcd features that would be hard to map onto CockroachDB, keeping migration options open for the future

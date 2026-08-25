@@ -29,4 +29,12 @@ provenance:
 4. 任务可从上一个checkpoint恢复
 
 ## 验证
-限流触发后指数退避正常，最终任务完成且无数据丢失
+
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```

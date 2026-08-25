@@ -51,11 +51,15 @@ The PLC sends ABORT via UOP when it detects a fault:
 
 ## Verification
 
-1. Run program in auto mode
-2. Enable TP → robot should abort (not pause) if using Option 1
-3. Check that $SHELL_WRK.$CUST_NAME can be restarted
-4. Verify no lingering program state from the aborted program
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 **Expert warnings from the community:**

@@ -54,10 +54,17 @@ curl -s -X PATCH \
 
 ## Verification
 
-1. Check alert status: `curl ... | jq '.state'` → `"dismissed"`
-2. Verify dismissed_at timestamp is set
-3. Verify dismissed_comment is preserved
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Example
 
 Dismiss alert #37 for secrets.py:

@@ -42,11 +42,15 @@ Claude Code → MCP Context Mode → Actual MCP Server
 
 ## Verification
 
-1. Run `gh issue list` without Context Mode — note token usage
-2. Enable Context Mode MCP server
-3. Run same command — token usage should drop by ~98%
-4. Verify Claude still understands the output
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - Cloudflare showed tool definitions can be compressed 99.9% with Code Mode

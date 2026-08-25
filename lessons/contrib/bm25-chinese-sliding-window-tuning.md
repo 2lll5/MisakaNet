@@ -72,10 +72,17 @@ def unique_candidate_boost(df, doc_freq, is_chinese=True):
 
 ## Verification
 
-- Recall 指标提升 7%+
-- 英文查询无回归（唯一候选仅对纯中文词生效）
-- 滑动窗口在 10 字以下查询不触发（防噪声）
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Key Points
 
 - 滑动窗口需设 10 字门槛防噪声

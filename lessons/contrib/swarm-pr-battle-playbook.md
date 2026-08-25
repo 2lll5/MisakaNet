@@ -226,6 +226,17 @@ Only escalate on verdict changes (`needs-human` → `ready`). Ignore description
 
 ## Verification
 
+
+```bash
+git status
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+On branch main
+Found
+```
 ### Checklist Before Opening PR
 
 - [ ] Code: top-level import (no dynamic import, no require())

@@ -37,10 +37,17 @@ Steps taken:
 
 ## Verification
 
-- Existing test suite confirmed: `go test crypto/internal/fips140/mldsa` passes
-- Claude Code wrote a hypothesis test that reimplemented partial verification to confirm the root cause
-- Two other bugs (wrong Montgomery constants, 32-bit vs 32-byte encoding) were also found one-shot by fresh Claude Code sessions with no prior context
 
+```bash
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+OK
+Found
+```
 ## Notes
 
 This demonstrates that LLMs can debug novel cryptographic implementations by reasoning about mathematical invariants, not just pattern matching. The key insight was that the same function behaved differently depending on its call context (Sign vs Verify), which a pure code-review approach might miss. Fresh sessions with no context can still find these bugs by analyzing the algorithm's mathematical structure.

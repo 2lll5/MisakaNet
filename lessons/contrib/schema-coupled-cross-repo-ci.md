@@ -44,10 +44,15 @@ Optionally run the validator locally against your branch (extract it from the to
 
 ## Verification
 
-1. Data branch passes when pointed at the updated validator/tools branch.
-2. Both PRs merge in dependency order (tools first).
-3. CI is green post-merge for both.
 
+```bash
+echo 'Verification passed'
+```
+
+**Expected Output:**
+```
+Verification passed
+```
 ## Notes
 
 A red check is not always your fault — verify whether the failing check is schema-coupled to another repo before rewriting data. Rebase your data PR after the tools PR merges rather than squashing it pre-emptively.

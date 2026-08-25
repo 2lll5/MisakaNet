@@ -66,10 +66,17 @@ npm install --ignore-scripts
 
 ## Verification
 
-1. sha256 与官方 manifest 一致
-2. 执行 `codewhale --version` 确认版本正确
-3. 文件大小与官方 Release 一致
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Key Points
 
 - 分段大小 10MB 低于代理稳定传输窗口

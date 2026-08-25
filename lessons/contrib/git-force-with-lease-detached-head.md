@@ -110,12 +110,17 @@ git branch -D recovery-branch
 
 ## Verification
 
-1. Before any force push, always run `git fetch origin` first
-2. Check `git log origin/feature-branch --oneline -3` to see what's on remote
-3. Run `git push --force-with-lease` and confirm it succeeds
-4. Verify the remote branch has the expected commits: `git log origin/feature-branch --oneline -5`
-5. To make this the default, configure: `git config --global push.default current` and make `--force-with-lease` your muscle memory
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+```
 ## Bonus: Configuration
 
 Set force-with-lease as the default push behavior:

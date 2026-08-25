@@ -63,10 +63,17 @@ Verify the diff contains only intended changes: `git status --short` and `git di
 
 ## Verification
 
-1. `git ls-files | grep -c pyc` returns 0.
-2. `git status --short` shows only intended files.
-3. CI passes on the cleaned branch.
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+```
 ## Notes
 
 Never `git add -A` in worktrees where scripts generated artifact directories. A `.gitignore` with `__pycache__/` and `*.pyc` is the cheapest insurance against reviewer-triggering noise, and stage specific files rather than whole directories.

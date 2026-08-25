@@ -99,12 +99,15 @@ Stop Distance = (Motion Speed × Scan Time) + Coast Distance at Power Cutoff
 
 ## Verification
 
-1. Check DCS parameter file exists: DCSPOS.SV, DCSIOC.SV
-2. Verify stop mode matches application requirements (A/B/C)
-3. Test E-stop button — should trigger correct stop type per mode
-4. Test fence signal — should trigger correct stop type per mode
-5. Verify DCS position limits match physical workspace constraints
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Notes
 
 - DCS is a safety-critical system — changes require proper authorization and documentation

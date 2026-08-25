@@ -80,10 +80,17 @@ gh auth status   # expect scopes like repo, read:org, workflow
 
 ## Verification
 
-- `gh auth status` shows non-empty scopes (not `Token scopes: none`)
-- `gh repo create ...` or `gh api user` with write operations succeeds
-- Creating a classic PAT at https://github.com/settings/tokens/new no longer loops on Confirm access after OTP
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Notes
 
 - Account created via Google OAuth often has **no password** path for sudo — email OTP (or passkey) is the path.

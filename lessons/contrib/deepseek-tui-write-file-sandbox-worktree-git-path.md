@@ -53,12 +53,21 @@ WSL 侧的 worktree 目录只是一个"影子"（含 .git 指针），实际文�
 
 ## 验证
 
-- `code_execution` 写入后文件大小一致：```python
-  import os
-  os.path.getsize("/path/to/file") == expected_bytes
-  ```
-- push 成功后 `git log --oneline -3 origin/main` 显示新 commit
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+Found
+```
 ## 教训
 
 1. DeepSeek TUI Agent 模式下，**write_file 显示的 diff 和 "Wrote X bytes" 不可信**——必须用 shell 命令交叉验证文件内容

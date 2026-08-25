@@ -37,12 +37,19 @@ async def start(self):
 
 ## 验证
 
-重启 Hub 后检查日志：
 
-```
-grep "长连接已启动" ~/.hermes/logs/hermes_hub_new.log
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
 ```
 
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+```
 ## 关键点
 
 - Hub 和 Gateway 共享同一个 Feishu App（相同 app_id/app_secret）

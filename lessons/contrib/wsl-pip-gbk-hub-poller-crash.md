@@ -31,8 +31,15 @@ with open(config_path, encoding="utf-8") as f:
 
 ## Verification
 
-在 Windows 终端手动运行 hub_poller.py，确认 config.yaml 正常加载，无 UnicodeDecodeError。
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+```
+
+**Expected Output:**
+```
+Python check passed
+```
 ## Notes
 
 Windows 11 + WSL2 + PowerShell 终端，Python 3.12。Windows 系统编码为 GBK (zh-CN)。

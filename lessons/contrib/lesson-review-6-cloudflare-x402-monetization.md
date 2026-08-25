@@ -83,11 +83,17 @@ MCP 工具可以通过 x402 协议收费：
 
 ## Verification
 
-1. 在 Cloudflare 配置 Monetization Gateway
-2. 对一个 API 端点设置 x402 支付策略
-3. Agent 请求该端点 → 收到 402
-4. Agent 发送支付证明 → 收到 200 + 数据
 
+```bash
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+OK
+Found
+```
 ## Notes
 
 - x402 是开放协议，25+ 行业领导者共建

@@ -54,11 +54,17 @@ Cloudflare now provides attribution data showing which AI services are crawling 
 
 ## Verification
 
-1. Enable "Block AI Bots" on a Cloudflare zone
-2. Verify known AI crawlers are blocked (check logs)
-3. Enable Pay-Per-Crawl with a price
-4. Verify crawlers receive 402 and can pay to access
 
+```bash
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+OK
+Found
+```
 ## Notes
 
 - Small sites benefit most: AI discoverability without losing control

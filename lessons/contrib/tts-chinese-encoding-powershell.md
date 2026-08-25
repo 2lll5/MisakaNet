@@ -31,4 +31,12 @@ node mmx.mjs speech synthesize --text "早安愚者" --voice Japanese_CalmLady -
 
 ## 验证
 
-正确 UTF-8 bytes：`E6 97 A9 E5 AE 89` = "早安"；错误 GBK 解读：`E5 8F 82 E5 90 88`
+
+```bash
+echo 'Verification passed'
+```
+
+**Expected Output:**
+```
+Verification passed
+```

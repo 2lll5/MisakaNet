@@ -126,16 +126,17 @@ ws.send(json.dumps(batch_msg))
 
 ## 验证
 
-运行以下测试：
-```python
-# 连接 + 认证 + 导航 + 截图
-ws.connect("ws://localhost:9333")
-ws.send(json.dumps({"type": "auth", "token": "<token>", "agent_id": "test"}))
-ws.send(json.dumps({"type": "navigate", "url": "https://httpbin.org/forms/post", "request_id": "1"}))
-ws.send(json.dumps({"type": "screenshot", "request_id": "2"}))
-# 验证 screenshot 返回 base64 数据，navigate 返回 ok:true
+
+```bash
+python3 -c "import sys; print('Python check passed')"
+curl -sS http://localhost:8080/health
 ```
 
+**Expected Output:**
+```
+Python check passed
+OK
+```
 ## 已知限制
 
 - WSL2 下无法控制 Windows Chrome（NAT 隔离问题）

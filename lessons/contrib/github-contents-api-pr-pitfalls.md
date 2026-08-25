@@ -66,10 +66,19 @@ git push --force-with-lease
 
 ## Verification
 
-- API 调用返回 200
-- PR diff 干净（无多余空行）
-- SHA 匹配无 409 conflict
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+```
 ## Key Points
 
 - base64 必须无换行

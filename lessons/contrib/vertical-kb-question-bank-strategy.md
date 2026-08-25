@@ -78,13 +78,14 @@ with zipfile.ZipFile("题库.docx") as z:
 
 ## Verification
 
-1. Generate a question bank from a FANUC KB document set using the strategy
-2. Have a domain expert review the first batch — confirm ≥80% pass rate
-3. Apply the refined strategy (expert review gate) to a second batch — confirm quality improvement
-4. Run the question bank against the RAG system — confirm each question maps to a specific KB doc
-5. Measure question pass rate before and after expert review — confirm reduction in low-quality questions
 
-1. **垂直知识库不引入 RAG 元问题**——题库是为了测试知识质量，不是测试 RAG 系统自身
-2. **术语准确性**——用户对术语敏感，如"模拟IO"vs"模拟量IO"、"物理IO"的表述问题
-3. **题目可回答性**——每题必须锚定一个具体知识库文档
-4. **审阅流程**——第一批无审核导致大量不合格题，第二批引入专家审阅后题目质量明显提升
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```

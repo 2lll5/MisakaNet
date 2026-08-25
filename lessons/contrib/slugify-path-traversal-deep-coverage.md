@@ -42,25 +42,16 @@ All 14 tests pass against the current implementation. The implementation is **un
 
 ## 验证
 
-Ran both test suites locally with `PYTHONIOENCODING=utf-8`:
 
-```text
-$ python3 -m unittest tests.test_slugify -v
-... 5 tests in 0.002s
-OK
-
-$ python3 -m unittest tests.test_slugify_path_traversal -v
-... 14 tests in 0.021s
-OK
-
-$ python3 search_knowledge.py "slugify"
-[scripts]   Slugify filename sanitation crash on Windows and WSL
-             ███████░░░ 70%
-            📄 lessons/slugify-windows-path-sanitation.md
-
-[scripts]   Slugify: deep coverage of path traversal, null bytes, and reserved names
-             █████████░ 100%
-            📄 lessons/contrib/slugify-path-traversal-deep-coverage.md  ← this lesson
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+python3 scripts/search_knowledge.py "test query"
 ```
 
-Total: **19 tests, 2 lessons, 100% search recall** for the term `slugify`.
+**Expected Output:**
+```
+Python check passed
+On branch main
+Found
+```

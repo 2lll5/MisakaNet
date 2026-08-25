@@ -92,10 +92,19 @@ Per-site daily limit: ~500 pages (be respectful)
 
 ## Verification
 
-1. API approach: `curl` returns JSON with expected structure
-2. Playwright approach: `page.evaluate()` extracts text matching known content
-3. Hybrid: API returns URLs, Playwright successfully loads each
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+OK
+Found
+```
 ## Notes
 
 - Always check API availability before writing Playwright scrapers

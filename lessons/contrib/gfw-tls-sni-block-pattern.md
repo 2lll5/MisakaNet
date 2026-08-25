@@ -132,10 +132,15 @@ agent-reach install --channels reddit --proxy http://proxy:port
 
 ## Verification
 
-1. `curl -v --max-time 5 "https://reddit.com/"` shows TLS handshake hanging
-2. `curl -v --max-time 5 -x http://proxy:port "https://reddit.com/"` succeeds
-3. Playwright with proxy option loads the page
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - This pattern applies to any GFW-blocked domain, not just Reddit

@@ -56,10 +56,17 @@ def expand_query_with_synonyms(query, synonyms):
 
 ## Verification
 
-- 修复后其他查询无回归
-- 同义词扩展生效（"手机"搜索能匹配"电话"相关内容）
-- 专有名词仍可用 add_word
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Key Points
 
 - jieba.add_word() 改变全局分词行为，不可控

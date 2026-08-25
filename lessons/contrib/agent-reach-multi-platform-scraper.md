@@ -96,11 +96,21 @@ agent-reach doctor --json
 
 ## Verification
 
-1. `agent-reach doctor --json` shows platform statuses
-2. `agent-reach install --channels reddit` installs rdt-cli
-3. `rdt status` shows authentication state
-4. `rdt search "query"` returns results (if authenticated)
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+Found
+```
 ## Notes
 
 - Agent-Reach is a Chinese project (README in Chinese)

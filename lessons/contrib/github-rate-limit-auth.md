@@ -48,10 +48,19 @@ Throttle search queries (10/min max, even authenticated) and add retry/backoff s
 
 ## Verification
 
-1. `rate_limit` shows `core.remaining` near 5000 after adding the header.
-2. Search loop completes without `403/429`.
-3. Re-run survives consecutive calls with no limit errors.
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+Found
+```
 ## Notes
 
 A stale or invalid token produces `Bad credentials` (401), which is different from `rate limit exceeded` (403/429). Check which one you are actually seeing before changing code. Keep the token out of logs and source — inject it via environment, never inline in the repo.

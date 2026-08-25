@@ -111,11 +111,15 @@ DELETE /api/v1/orders/1 → 无操作（不报错）
 
 ## Verification
 
-1. 审查现有 API 是否一致
-2. 检查所有 POST/PUT/DELETE 是否幂等
-3. 检查错误格式是否统一
-4. 检查命名是否符合规范
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - "No Abstractions" 原则来自 Increase（金融科技公司）

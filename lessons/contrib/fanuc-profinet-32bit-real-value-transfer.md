@@ -56,11 +56,15 @@ Key value: 65536 = 2^16, the 16-bit boundary.
 
 ## Verification
 
-1. Send a known real value (e.g., 123.456) from robot
-2. Verify PLC receives correct high/low words
-3. PLC sends back, robot reconstructs: `abs(received - original) < 0.001`
-4. Test with negative values and edge cases near 32767
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Notes
 
 - Large integers in registers may overflow — adjust scaling factor if range exceeds ±32.767

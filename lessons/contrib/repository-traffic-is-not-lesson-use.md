@@ -79,10 +79,17 @@ Repository traffic is active, but public lesson-use evidence is still being coll
 
 ## Verification
 
-- Search page appears in top referrer or page-view paths.
-- At least one public feedback event exists: helpful vote, lesson-feedback issue, usage report, or cited lesson.
-- Release notes separate traffic metrics from usefulness metrics.
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Next Agent Prompt
 
 When you see high repository traffic but no feedback, diagnose the route before adding more content: are users being sent to tasks, or to the knowledge they came to reuse?

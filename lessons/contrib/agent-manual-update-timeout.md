@@ -15,12 +15,19 @@ provenance:
 ---{"title": "Agent 手动Update步骤（update Timeout Handling）", "domain": "devops", "source": "bootstrap", "status": "published", "confidence": "0.8", "created": "2026-05-03"}---
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+git status
+docker ps
+curl -sS http://localhost:8080/health
+```
 
+**Expected Output:**
+```
+On branch main
+CONTAINER ID
+OK
+```
 ## Agent 手动更新步骤（update 超时处理）
 
 ## Problem

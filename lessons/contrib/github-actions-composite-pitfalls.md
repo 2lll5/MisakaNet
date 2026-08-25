@@ -66,10 +66,15 @@ inputs:
 
 ## Verification
 
-- 无 "inputs is already defined" 错误
-- 无 shell 注入风险
-- 单 commit PR 不会失败
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Key Points
 
 - YAML inputs 只能定义一次

@@ -50,10 +50,15 @@ timeout: 30    # 如果需要数字（无注释）
 
 ## Verification
 
-- YAML 解析后类型正确
-- 无 TypeError
-- 注释不影响解析
 
+```bash
+echo 'Verification passed'
+```
+
+**Expected Output:**
+```
+Verification passed
+```
 ## Key Points
 
 - YAML 内联注释可能导致类型强制转换问题

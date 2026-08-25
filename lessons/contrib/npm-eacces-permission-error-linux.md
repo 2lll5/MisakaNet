@@ -79,11 +79,17 @@ Using `sudo` with npm is discouraged because it runs lifecycle scripts as root, 
 
 ## Verification
 
-- Run `npm install -g <any-package>` without errors
-- Run `npm list -g --depth=0` to confirm the package is installed
-- Run the globally installed command (e.g., `eslint --version`)
-- Confirm `npm config get prefix` points to a user-writable directory
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Notes
 
 - The `~/.npm-global` approach is the official npm recommendation for avoiding EACCES errors

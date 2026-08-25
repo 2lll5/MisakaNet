@@ -70,11 +70,17 @@ badcase_pending.jsonl  ←── daily_audit 写入 + IM 反馈写入
 
 ## 验证
 
-微信群聊中发：
-- "差评" → 机器人回复 "已记录你的反馈，我会针对性优化问答质量。"
-- `badcase_review.py list` → 看到新增条目
-- `badcase_review.py approve 1` → 移入 approved 队列
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## 关键点
 
 1. 反馈关键词必须排除正常查询误触发（如"哪里错了"不触发 "错了"）

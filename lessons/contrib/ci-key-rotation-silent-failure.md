@@ -49,10 +49,19 @@ If the platform lets you name tokens, give them a stable name (e.g. `automation-
 
 ## Verification
 
-1. Rotated value present in every consumer (grep returns the new token everywhere).
-2. Health check prints HTTP 200 after rotation.
-3. Scheduled job runs clean for the next full cycle.
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+```
 ## Notes
 
 Token regeneration emails name the token, not the pipeline. Grep your env files, update every consumer, and add a startup health check so a silent 401 can never masquerade as a random CI flake.

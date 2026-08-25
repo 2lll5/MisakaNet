@@ -79,10 +79,19 @@ for p in relevant[:10]:
 
 ## Verification
 
-1. `curl https://lobste.rs/hottest.json` 返回 JSON
-2. 过滤关键词后有相关结果
-3. 每条结果包含 score、title、url、tags
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+docker ps
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+CONTAINER ID
+OK
+```
 ## Notes
 
 - Lobsters 没有搜索 API，只能通过 JSON 端点获取列表

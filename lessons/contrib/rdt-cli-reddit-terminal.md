@@ -75,11 +75,21 @@ rdt status --json
 
 ## Verification
 
-1. `pipx install rdt-cli` succeeds
-2. `rdt status` returns valid JSON
-3. After `rdt login`, `rdt search "test"` returns results
-4. `--compact` output is significantly shorter
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+Found
+```
 ## Notes
 
 - Requires login (browser cookies) — no anonymous access

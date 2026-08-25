@@ -147,12 +147,21 @@ ws.send(json.dumps({"type": "batch", "actions": [
 可以同时跑，互不干扰。Chrome Relay 也支持连外部 Chrome（需 `--no-chrome` + 配置 `cdpUrl`）。
 ## Verification
 
-1. Follow the solution steps in order
-2. Run any relevant commands or tests to confirm the fix
-3. Verify the symptom no longer occurs
-4. Check related logs or outputs for expected behavior
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+python3 scripts/search_knowledge.py "test query"
+```
 
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+Found
+```
 ## 文档
 
 - 项目地址：https://github.com/browser-use/browser-harness

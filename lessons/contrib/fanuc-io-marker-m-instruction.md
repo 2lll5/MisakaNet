@@ -62,11 +62,17 @@ This is useful when "closed" distance varies by part type — set threshold in R
 
 ## Verification
 
-1. Set `$MIX_LOGIC.$USE_MKR = TRUE`
-2. Create `M[1] = (DI[1] AND DI[2])` in a program
-3. Toggle DI[1] and DI[2] — M[1] updates automatically in background
-4. Check MENU → I/O → Marker shows the correct state
 
+```bash
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+On branch main
+OK
+```
 ## Notes
 
 - Markers are specific to HandlingTool option — not available on all controllers

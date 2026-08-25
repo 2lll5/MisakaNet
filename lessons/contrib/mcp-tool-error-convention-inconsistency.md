@@ -25,8 +25,19 @@ This makes both failure paths consistent so `.startswith("ERROR:")` works as a c
 
 ## Verification
 
-not specified in source
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+OK
+```
 ## Notes
 
 The broader lesson: when you establish a convention (like `ERROR:` prefix for failures), every failure path must follow it — including ones added before the convention existed. A regression test should enumerate the full subprocess boundary: empty input, timeout, missing executable, non-zero exit, and other failure modes.

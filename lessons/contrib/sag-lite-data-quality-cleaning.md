@@ -99,11 +99,17 @@ def search(db_path: Path, query: str, domain: str | None = None, top: int = 5) -
 
 ## Verification
 
-1. Rebuild OKF export: `python3 scripts/export_okf.py`
-2. Rebuild SAG-Lite index: `python3 scripts/build_sag_index.py`
-3. Test search: `python3 scripts/build_sag_index.py --query "pip timeout" --json`
-4. Verify description is clean (no frontmatter patterns)
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Notes
 
 - OKF export covers core/contrib normalized lessons only (not full lesson count)

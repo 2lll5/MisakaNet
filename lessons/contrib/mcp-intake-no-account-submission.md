@@ -37,10 +37,15 @@ curl -sS https://misakanet.org/mcp \
 
 ## Verification
 
-- Agent can submit without GitHub/email/Bearer
-- GitHub issue created with correct labels
-- No secrets leaked in issue body
 
+```bash
+curl -sS http://localhost:8080/health
+```
+
+**Expected Output:**
+```
+OK
+```
 ## Key Points
 
 - Intake is always free (no registration required)

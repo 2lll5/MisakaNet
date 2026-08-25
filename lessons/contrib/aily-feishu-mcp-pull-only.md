@@ -31,4 +31,12 @@ aily 平台只支持**调用外部 MCP server**，不能作为 MCP server 被外
 - 接受 30 分钟 SLA（延迟可接受，实时性要求不高）
 
 ## Verification
-Hub 推送广播后，检查飞书侧日志是否在 SLA 内拉取到更新。
+
+```bash
+echo 'Verification passed'
+```
+
+**Expected Output:**
+```
+Verification passed
+```

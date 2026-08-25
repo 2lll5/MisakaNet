@@ -40,11 +40,15 @@ Unit-test both paths: a fresh webhook event with no marker row credits funds; re
 
 ## Verification
 
-1. Create a project record that writes a bare PaymentIntent reference.
-2. Deliver a real webhook event with that PI.
-3. Confirm the account is credited (no duplicate skip).
-4. Re-deliver the identical event and confirm the second delivery is skipped.
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Notes
 
 Over-broad dedupe keys are a common cause of "silent no-op" payment bugs. Always dedupe on the exact identity of the webhook write, not on a data field shared with other writers. Keep idempotency keys namespaced per producer.

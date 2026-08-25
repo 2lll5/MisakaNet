@@ -30,8 +30,15 @@ config.yaml 在 .gitignore 之前就已经被 git add，导致后续 .gitignore 
 
 ## Verification
 
-git log 中不再跟踪 config.yaml 变更。hermes_hub.py 中的 _load_config() 正确解析 ${FEISHU_APP_ID} 等占位符。
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Notes
 
 任何使用飞书集成的 Hermes Agent-Medici 节点。

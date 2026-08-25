@@ -49,10 +49,15 @@ await env.MISAKANET_KV.put(key, count + 1, { expirationTtl: 86400 });
 
 ## Verification
 
-- Remote search without token fails after 5/day
-- Local stdio search unlimited
-- Token holders have unlimited access
 
+```bash
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Found
+```
 ## Key Points
 
 - Low barrier to entry (5 free searches)

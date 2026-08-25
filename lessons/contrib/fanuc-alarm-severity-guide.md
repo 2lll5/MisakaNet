@@ -89,11 +89,15 @@ Stop distance = (Motion speed × Scan time) + Coast distance at power cutoff
 
 ## Verification
 
-1. Trigger a WARN-level alarm — verify robot continues operating
-2. Trigger a PAUSE-level alarm — verify robot decelerates gracefully
-3. Trigger a SERVO-level alarm — verify servo power is cut immediately
-4. Check alarm history after each test — verify correct logging
 
+```bash
+git status
+```
+
+**Expected Output:**
+```
+On branch main
+```
 ## Notes
 
 - WARN alarms don't light the LED — easy to miss in production

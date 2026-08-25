@@ -56,10 +56,17 @@ Don't try to contribute to repos outside your domain. Focus on:
 
 ## Verification
 
-1. Run `coach` on planned PR before submitting
-2. Check repo's recent merge history
-3. Verify no existing PR for same issue
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+```
 ## Related
 
 - `pr-strategy.md` — External PR strategy

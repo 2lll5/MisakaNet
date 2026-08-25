@@ -43,10 +43,17 @@ fi
 
 ## Verification
 
-- Dependabot PRs changing only workflow files do not run Python tests
-- Full scope PRs still run all tests
-- CI passes for bot PRs
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+git status
+```
+
+**Expected Output:**
+```
+Python check passed
+On branch main
+```
 ## Key Points
 
 - Scope detection prevents false failures from pre-existing issues

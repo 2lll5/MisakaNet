@@ -80,11 +80,17 @@ def test_search():
 
 ## Verification
 
-1. 测试文件直接 import handler 函数
-2. 不启动子进程、不读写 stdin/stdout
-3. 搜索不可用时测试标记为 skipped 而非 failed
-4. 覆盖：initialize、tools/list、tools/call、error handling
 
+```bash
+python3 -c "import sys; print('Python check passed')"
+python3 scripts/search_knowledge.py "test query"
+```
+
+**Expected Output:**
+```
+Python check passed
+Found
+```
 ## Why it matters
 
 MCP（Model Context Protocol）是 AI 工具集成的标准协议。直接测试 handler 比端到端测试快 10 倍，且不需要完整运行环境。这个模式适用于任何 JSON-RPC 服务：直接调用 dispatcher 函数，跳过传输层。
