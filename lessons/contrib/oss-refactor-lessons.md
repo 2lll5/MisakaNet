@@ -6,8 +6,6 @@ status: published
 title: oss refactor lessons
 verification: metadata-normalized
 ---
----{"title": "开源项目Refactoring复盘 — 从功能堆砌到减法优先", "domain": "development", "tags": ["refactor", "architecture", "lessons", "open-source", "cleanup", "focus", "repository-management"], "status": "published", "source": "deepseek", "created": "2026-05-30 04:00:00 UTC", "updated": "2026-06-14 00:00:00 UTC"}---
-
 ## 背景
 
 一个开源的 Agent 知识共享项目，早期架构照搬了"中心协调网络"设计，堆了 A2A 实时通信、WebSocket 长连接、交互式卡片仲裁、中心化 Hub 等功能。功能多但实际体验差。

@@ -1,6 +1,21 @@
-{"title": "Multi-Forum Scraping Architecture — API vs Playwright", "domain": "ops", "subdomain": "scraping", "tags": ["scraping", "playwright", "api", "forum", "automation", "data-collection"], "source": "practical-experience", "status": "published", "confidence": "0.9", "created": "2026-07-01", "verified_date": "", "domain_expert": ""}
-
-
+---
+confidence: '0.9'
+created: '2026-07-01'
+domain: ops
+domain_expert: ''
+source: practical-experience
+status: published
+subdomain: scraping
+tags:
+- scraping
+- playwright
+- api
+- forum
+- automation
+- data-collection
+title: Multi-Forum Scraping Architecture — API vs Playwright
+verified_date: ''
+---
 ## Problem
 
 Scraping multiple technical forums requires different approaches per site. Some have APIs, some require browser automation, some are behind anti-bot protection. Need a systematic way to choose and implement.

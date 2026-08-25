@@ -1,21 +1,29 @@
-{
-  "id": "fanuc-kl-1086-is-line-number-not-error-code",
-  "title": "FANUC KL: 1086 是代码行号而非错误码",
-  "domain": "fanuc",
-  "subdomain": "debug-methodology",
-  "source": "实操经验",
-  "status": "published",
-  "confidence": 0.85,
-  "created": "2026-05-03",
-  "updated": "2026-07-06",
-  "tags": ["fanuc", "karel", "ktrans", "debugging", "error-analysis"],
-  "quality_score": 78,
-  "problem": "分析 FANUC 1086 报错时，误将 1086 当作某种错误码，一路追错方向。",
-  "root_cause": "1086 是 MM_MODULE.kl 的代码行号（line number），不是错误码。KTRANS 输出报错时同时标注行号，但之前分析路径将其误认为错误编号。",
-  "solution": "1. 报错信息中的数字需区分：行号 vs 错误码\n2. ERR_ABORT=2 是真正导致'所有任务中止'的根因（而非 1086）\n3. IPC 通信超时导致 ERR_ABORT 触发 → 根因是 Mech-Vision 12:00 文件夹切换竞争",
-  "verification": "复现 IPC 超时场景，确认 1086 出现在 KTRANS 编译输出中（而非运行时日志）。"
-}
+---
+confidence: 0.85
+created: '2026-05-03'
+domain: fanuc
+id: fanuc-kl-1086-is-line-number-not-error-code
+problem: 分析 FANUC 1086 报错时，误将 1086 当作某种错误码，一路追错方向。
+quality_score: 78
+root_cause: 1086 是 MM_MODULE.kl 的代码行号（line number），不是错误码。KTRANS 输出报错时同时标注行号，但之前分析路径将其误认为错误编号。
+solution: '1. 报错信息中的数字需区分：行号 vs 错误码
 
+  2. ERR_ABORT=2 是真正导致''所有任务中止''的根因（而非 1086）
+
+  3. IPC 通信超时导致 ERR_ABORT 触发 → 根因是 Mech-Vision 12:00 文件夹切换竞争'
+source: 实操经验
+status: published
+subdomain: debug-methodology
+tags:
+- fanuc
+- karel
+- ktrans
+- debugging
+- error-analysis
+title: 'FANUC KL: 1086 是代码行号而非错误码'
+updated: '2026-07-06'
+verification: 复现 IPC 超时场景，确认 1086 出现在 KTRANS 编译输出中（而非运行时日志）。
+---
 ## FANUC KL: 1086 是代码行号而非错误码
 
 ### 问题描述

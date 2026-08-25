@@ -1,11 +1,16 @@
-{
-  "title": "Lesson Quality Requirements: failure-memory protocol Format",
-  "domain": "devops",
-  "tags": ["lesson", "quality", "format", "skp", "misakanet"],
-  "status": "published",
-  "source": "agent_experience",
-  "created": "2026-07-02"
-}
+---
+created: '2026-07-02'
+domain: devops
+source: agent_experience
+status: published
+tags:
+- lesson
+- quality
+- format
+- skp
+- misakanet
+title: 'Lesson Quality Requirements: failure-memory protocol Format'
+---
 ---
 
 ## Problem

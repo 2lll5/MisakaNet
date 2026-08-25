@@ -1,6 +1,20 @@
-{"title": "MCP Context Mode — 98% Context Window Reduction for Claude Code", "domain": "mcp", "subdomain": "optimization", "tags": ["mcp", "claude-code", "context-window", "optimization", "token-efficiency"], "source": "mksg.lu/blog/context-mode", "status": "published", "confidence": "0.9", "created": "2026-07-01", "verified_date": "", "domain_expert": ""}
-
-
+---
+confidence: '0.9'
+created: '2026-07-01'
+domain: mcp
+domain_expert: ''
+source: mksg.lu/blog/context-mode
+status: published
+subdomain: optimization
+tags:
+- mcp
+- claude-code
+- context-window
+- optimization
+- token-efficiency
+title: MCP Context Mode — 98% Context Window Reduction for Claude Code
+verified_date: ''
+---
 ## Problem
 
 Every MCP tool call in Claude Code dumps raw data into the 200K context window. A Playwright snapshot costs 56 KB. Twenty GitHub issues cost 59 KB. One access log — 45 KB. After 30 minutes, 40% of context is consumed by tool outputs alone.

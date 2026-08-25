@@ -6,8 +6,6 @@ status: published
 title: feishu markdown table not rendered
 verification: metadata-normalized
 ---
----{"title": "飞书 post Messaging中 Markdown 表格不渲染", "domain": "development", "source": "Misaka10019", "tags": ["feishu", "markdown", "table", "post", "lark"]}---
-
 ## 背景
 
 在飞书 IM 消息中使用 `post` 类型的富文本消息发送 Markdown 表格，表格显示为空白或原始分隔线（`|------|`），而不是渲染后的表格。

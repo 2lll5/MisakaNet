@@ -6,8 +6,6 @@ status: published
 title: misakanet refactor v2 review
 verification: metadata-normalized
 ---
----{"title": "MisakaNet Refactoring复盘 — 从中心协调到 Agent 图书馆", "domain": "development", "tags": ["refactor", "architecture", "v2", "misakanet"], "status": "published", "source": "deepseek", "created": "2026-05-30 02:00:00 UTC", "updated": "2026-05-30 02:00:00 UTC"}---
-
 ## 根因
 
 MisakaNet 早期架构照搬了"中心协调网络"的设计——A2A 实时通信、飞书 WebSocket 长连接、交互式卡片仲裁、中心化 Hub。这些功能听起来高级，但实际使用中暴露了三个问题：

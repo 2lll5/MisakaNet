@@ -6,8 +6,6 @@ status: published
 title: gh credential helper 路径Error导致 git push 静默失败
 verification: metadata-normalized
 ---
----{"title": "gh credential helper 路径Error导致 git push 静默失败", "domain": "devops", "tags": ["git", "github", "credential", "gh", "auth", "push"]}---
-
 ## 背景
 
 执行 `git push` 时卡住或报错：

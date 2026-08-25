@@ -1,5 +1,21 @@
-{"title": "Content Quality Scoring System — Automated Lesson Evaluation", "domain": "ops", "subdomain": "automation", "tags": ["quality", "scoring", "automation", "content", "evaluation", "rubric"], "source": "practical-experience", "status": "published", "confidence": 0.95, "created": "2026-07-02", "verified_date": "", "domain_expert": ""}
-
+---
+confidence: 0.95
+created: '2026-07-02'
+domain: ops
+domain_expert: ''
+source: practical-experience
+status: published
+subdomain: automation
+tags:
+- quality
+- scoring
+- automation
+- content
+- evaluation
+- rubric
+title: Content Quality Scoring System — Automated Lesson Evaluation
+verified_date: ''
+---
 ## Problem
 
 批量生成的内容质量参差不齐。人工审核效率低，无法规模化。需要自动化评估系统筛选合格内容。

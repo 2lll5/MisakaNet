@@ -6,8 +6,6 @@ status: published
 title: feishu agent display settings
 verification: metadata-normalized
 ---
----{"title": "飞书 Agent 显示Optimization：禁用工具调用和上下文提示", "domain": "feishu", "source": "bootstrap", "status": "published", "confidence": "0.9", "created": "2026-05-19"}---
-
 ## 飞书 Agent 显示优化：禁用工具调用和上下文提示
 
 ### 问题描述

@@ -6,8 +6,6 @@ status: published
 title: Git 合并ConflictHandling — 手动解决最佳实践
 verification: metadata-normalized
 ---
----{"title": "Git 合并ConflictHandling — 手动解决最佳实践", "domain": "development", "tags": ["git", "merge", "conflict", "rebase"]}---
-
 ## 背景
 
 `git pull` 或 `git merge` 时报 `CONFLICT`，文件里出现 `<<<<<<<` 标记。不知如何选择。

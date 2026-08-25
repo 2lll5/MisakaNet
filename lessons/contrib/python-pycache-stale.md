@@ -6,8 +6,6 @@ status: published
 title: Python 代码修改不生效 — stale .pyc Cache
 verification: metadata-normalized
 ---
----{"title": "Python 代码修改不生效 — stale .pyc Cache", "domain": "devops", "tags": ["python", "pyc", "cache", "debug"]}---
-
 ## 背景
 
 改了 Python 文件后运行，行为还是旧的。函数返回值、错误信息、path 等都没有改变。

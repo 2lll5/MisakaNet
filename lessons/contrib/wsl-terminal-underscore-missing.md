@@ -6,8 +6,6 @@ status: published
 title: WSL Windows 终端复制粘贴吞下划线Issue
 verification: metadata-normalized
 ---
----{"title": "WSL Windows 终端复制粘贴吞下划线Issue", "domain": "devops", "tags": ["wsl", "terminal", "windows", "encoding"]}---
-
 ## 背景
 
 从 Windows 复制文本粘贴到 WSL 终端时，下划线 `_` 字符消失。配置文件、命令中的下划线名全部错误。

@@ -6,8 +6,6 @@ status: published
 title: WSL 代理Setup — 通过 Windows 梯子Access外网
 verification: metadata-normalized
 ---
----{"title": "WSL 代理Setup — 通过 Windows 梯子Access外网", "domain": "devops", "tags": ["wsl", "proxy", "network", "windows"]}---
-
 ## 背景
 
 WSL 内 `curl google.com` 失败，但 Windows 能正常访问外网。WSL 默认不走 Windows 的代理。

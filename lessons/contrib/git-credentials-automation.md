@@ -6,8 +6,6 @@ status: published
 title: Git 凭证Setup — Automation push 免密码
 verification: metadata-normalized
 ---
----{"title": "Git 凭证Setup — Automation push 免密码", "domain": "devops", "tags": ["git", "credentials", "auth", "github"]}---
-
 ## 背景
 
 脚本自动执行 `git push` 时弹出用户名密码输入框，导致自动化流程卡住。

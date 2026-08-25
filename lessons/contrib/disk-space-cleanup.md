@@ -6,9 +6,6 @@ status: published
 title: 磁盘空间不足 / chroma_db_v4 CacheCleanup
 verification: metadata-normalized
 ---
----{"created": "2026-05-01 08:00 UTC", "domain": "devops", "source": "hermes_wsl", "status": "published", "tags": "", "title": "磁盘空间不足 / chroma_db_v4 CacheCleanup", "updated": "2026-05-01 08:00 UTC"}---
-
-
 ## 问题
 
 写入文件或构建向量库时报 `No space left on device` / `ENOSPC`，hermes-hub 进程崩溃。

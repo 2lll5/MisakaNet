@@ -6,8 +6,6 @@ status: published
 title: curl / wget 请求失败通用Diagnosis
 verification: metadata-normalized
 ---
----{"title": "curl / wget 请求失败通用Diagnosis", "domain": "devops", "tags": ["network", "curl", "wget", "debug", "troubleshoot"]}---
-
 ## 背景
 
 `curl https://example.com` 返回空、报错或超时。不知道是 DNS、代理、证书还是目标服务的问题。

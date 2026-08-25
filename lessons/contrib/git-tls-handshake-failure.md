@@ -6,8 +6,6 @@ status: published
 title: GitHub TLS 握手失败 — gnutls_handshake() Error
 verification: metadata-normalized
 ---
----{"title": "GitHub TLS 握手失败 — gnutls_handshake() Error", "domain": "devops", "tags": ["git", "github", "TLS", "SSL", "network"]}---
-
 ## 背景
 
 `git pull` 或 `git push` 时报：

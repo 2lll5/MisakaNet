@@ -6,8 +6,6 @@ status: published
 title: Python GBK Encoding Error — Windows/WSL 跨平台
 verification: metadata-normalized
 ---
----{"title": "Python GBK Encoding Error — Windows/WSL 跨平台", "domain": "devops", "tags": ["python", "encoding", "gbk", "windows", "wsl"]}---
-
 ## 背景
 
 在 WSL 中运行 Python 脚本，读取或写入文件时报：

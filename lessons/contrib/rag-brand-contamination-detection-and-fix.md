@@ -6,8 +6,6 @@ status: published
 title: RAG 知识库品牌污染Detection与治理
 verification: metadata-normalized
 ---
----{"title": "RAG 知识库品牌污染Detection与治理", "domain": "rag", "tags": ["rag", "chromadb", "brand-contamination", "data-quality", "metadata"], "confidence": 0.9, "created": "2026-05-29"}---
-
 ## 背景
 
 一个面向特定品牌的垂直 RAG 知识库（200K+ 向量），在每日巡检中发现部分查询答案混入了竞品品牌技术内容。例如：

@@ -6,8 +6,6 @@ status: published
 title: GitHub Actions CI for AI Agent PRs — DCO decoupling & PYTHONPATH fix
 verification: metadata-normalized
 ---
----{"title": "GitHub Actions CI for AI Agent PRs — DCO decoupling & PYTHONPATH fix", "domain": "devops", "tags": ["github-actions", "ci", "dco", "python", "ai-agent", "fork-pr", "pytest", "coverage"], "status": "published", "source": "deepseek", "created": "2026-06-04 00:00:00 UTC", "updated": "2026-06-12 00:00:00 UTC"}---
-
 ## 根因
 
 AI Agent 从 fork 仓库提交 PR 后，GitHub Actions CI 频繁报 `ModuleNotFoundError: No module named 'misakanet'`，且 DCO（Signed-off-by）门禁锁死整个测试管线。

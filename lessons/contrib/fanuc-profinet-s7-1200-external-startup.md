@@ -1,5 +1,46 @@
-{"id": "fanuc-profinet-s7-1200-external-startup", "title": "FANUC PROFINET Communication with Siemens S7-1200 and External Startup", "domain": "fanuc", "subdomain": "plc-communication", "source": "bbs.gongkong.com/d/202011/845226", "status": "draft", "confidence": 0.7, "created": "2026-07-12", "tags": ["fanuc", "profinet", "siemens", "s7-1200", "external-startup", "rsr", "pns", "plc-communication"], "quality_score": 60, "problem": "需要将 FANUC 机器人与 Siemens S7-1200 PLC 通过 PROFINET 协议建立通讯，并配置外部启动功能，使 PLC 能远程触发机器人程序执行。", "root_cause": "PROFINET 通讯配置涉及多个环节：S7-1200 作为 PROFINET Controller、FANUC 机器人装有 PROFINET 适配卡作为 Device、外部启动(RSR/PNS)模式需正确配置信号映射。任一环节配置错误都会导致通讯失败或无法远程启动。", "solution": "1. 硬件准备：FANUC 机器人需安装 PROFINET 适配卡（如 PCI 卡）\n2. S7-1200 侧：在 TIA Portal 中添加 FANUC GSD 文件，配置 PROFINET Device\n3. FANUC 侧：设置 PROFINET 通讯参数（IP 地址、设备名）\n4. 信号映射：配置 DI/DO 信号与 PLC 的对应关系\n5. 外部启动配置：设置 RSR（Robot Start Request）或 PNS（Program Number Select）启动模式\n6. RSR 模式：PLC 通过 DI 信号选择程序编号并触发启动\n7. PNS 模式：PLC 通过信号组选择程序号，FANUC 自动执行对应程序", "verification": "1. 在 TIA Portal 中确认 PROFINET 网络拓扑显示 FANUC Device 为绿色（在线）\n2. 手动触发 DI 信号，确认 FANUC 侧对应信号响应正确\n3. 通过 PLC 发送 RSR/PNS 启动信号，确认机器人自动执行目标程序\n4. 监控通讯状态无断线或超时报警"}
+---
+confidence: 0.7
+created: '2026-07-12'
+domain: fanuc
+id: fanuc-profinet-s7-1200-external-startup
+problem: 需要将 FANUC 机器人与 Siemens S7-1200 PLC 通过 PROFINET 协议建立通讯，并配置外部启动功能，使 PLC 能远程触发机器人程序执行。
+quality_score: 60
+root_cause: PROFINET 通讯配置涉及多个环节：S7-1200 作为 PROFINET Controller、FANUC 机器人装有 PROFINET
+  适配卡作为 Device、外部启动(RSR/PNS)模式需正确配置信号映射。任一环节配置错误都会导致通讯失败或无法远程启动。
+solution: '1. 硬件准备：FANUC 机器人需安装 PROFINET 适配卡（如 PCI 卡）
 
+  2. S7-1200 侧：在 TIA Portal 中添加 FANUC GSD 文件，配置 PROFINET Device
+
+  3. FANUC 侧：设置 PROFINET 通讯参数（IP 地址、设备名）
+
+  4. 信号映射：配置 DI/DO 信号与 PLC 的对应关系
+
+  5. 外部启动配置：设置 RSR（Robot Start Request）或 PNS（Program Number Select）启动模式
+
+  6. RSR 模式：PLC 通过 DI 信号选择程序编号并触发启动
+
+  7. PNS 模式：PLC 通过信号组选择程序号，FANUC 自动执行对应程序'
+source: bbs.gongkong.com/d/202011/845226
+status: draft
+subdomain: plc-communication
+tags:
+- fanuc
+- profinet
+- siemens
+- s7-1200
+- external-startup
+- rsr
+- pns
+- plc-communication
+title: FANUC PROFINET Communication with Siemens S7-1200 and External Startup
+verification: '1. 在 TIA Portal 中确认 PROFINET 网络拓扑显示 FANUC Device 为绿色（在线）
+
+  2. 手动触发 DI 信号，确认 FANUC 侧对应信号响应正确
+
+  3. 通过 PLC 发送 RSR/PNS 启动信号，确认机器人自动执行目标程序
+
+  4. 监控通讯状态无断线或超时报警'
+---
 ## FANUC PROFINET 通讯与 S7-1200 外部启动配置
 
 ### 问题描述

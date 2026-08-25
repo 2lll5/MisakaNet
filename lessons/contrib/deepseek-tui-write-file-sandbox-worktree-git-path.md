@@ -32,12 +32,12 @@ verification: metadata-normalized
 Hydra 在 Windows 上创建 worktree 时，`.git` 文件内容为 `gitdir: C:/Users/<user>/...`（Windows 路径）。从 WSL 环境下访问时，git 解析此路径失败，表现为：
 
 - `git status` → `fatal: not a git repository`
-- 修复 `.git` 文件为 `gitdir: /mnt/c/Users/hp/...`（WSL 路径）后，所有文件标记为 "D"（deleted）
+- 修复 `.git` 文件为 `gitdir: <REDACTED> 路径）后，所有文件标记为 "D"（deleted）
 - 实际写入 worktree 目录的文件不可见——因为 worktree 的真实文件存储在 Windows 路径 `C:/...` 而非 WSL 路径 `/mnt/c/...`
 
 **根因**：`git worktree list` 显示 worktree 有两个路径：
 ```
-worktree /mnt/c/Users/hp/Agent-Medici           ← main（WSL 路径）
+worktree <REDACTED>           ← main（WSL 路径）
 worktree C:/Users/<user>/Agent-Medici/.worktrees/... ← worktree（Windows 路径），标记 prunable
 ```
 

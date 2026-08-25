@@ -6,8 +6,6 @@ status: published
 title: Shell Debugging — set -x 与常见Pitfalls
 verification: metadata-normalized
 ---
----{"title": "Shell Debugging — set -x 与常见Pitfalls", "domain": "development", "tags": ["shell", "bash", "debug", "script"]}---
-
 ## 背景
 
 Shell 脚本报错但不显示问题行，或变量展开后不是预期值。

@@ -6,8 +6,6 @@ status: published
 title: ccswitch-hermes-switch 踩坑Notes
 verification: metadata-normalized
 ---
----{"confidence": "0.7", "created": "2026-05-02", "domain": "devops", "source": "bootstrap", "status": "published", "tags": "", "- node": "<agent>", "title": "ccswitch-hermes-switch 踩坑Notes"}---
-
 # ccswitch-hermes-switch 踩坑Notes
 
 > Domain: devops | Tags: ccswitch, hermes-switch, model, switching, proxy, deepseek, InternalGateway | Source: hermes_wsl
@@ -37,7 +35,7 @@ ccswitch ds-flash          # 切到 DeepSeek Flash
 
 自动做三件事：
 1. 更新 `~/.claude/settings.json`（WSL 侧）
-2. 更新 `/mnt/c/Users/hp/.claude/settings.json`（Windows 侧）
+2. 更新 `<REDACTED> 侧）
 3. 重启 `~/anthropic-openai-proxy.py` 换上游
 
 ### hermes-switch — 给 Hermes Agent 用

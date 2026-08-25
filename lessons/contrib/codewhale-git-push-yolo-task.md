@@ -25,7 +25,7 @@ CodeWhale Agent 模式的工具集不含 `exec_shell`。有两条替代路径：
 
 ```python
 task_create(
-    prompt="在 /mnt/c/Users/hp/MisakaNet 执行... <具体命令>",
+    prompt="在 <REDACTED> 执行... <具体命令>",
     mode="yolo",
     allow_shell=True,
     auto_approve=True,
@@ -66,8 +66,8 @@ MisakaNet/     → origin = github.com/Ikalus1988/MisakaNet.git     ✅ 这才�
 操作前必须验证：
 
 ```bash
-git -C /mnt/c/Users/hp/Agent-Medici remote -v   # 看一眼 remote 指向
-git -C /mnt/c/Users/hp/MisakaNet remote -v       # 确认这是你要改的 repo
+git -C <REDACTED> remote -v   # 看一眼 remote 指向
+git -C <REDACTED> remote -v       # 确认这是你要改的 repo
 ```
 
 lesson 库里也记录了两个项目的业务区别：

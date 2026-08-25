@@ -6,11 +6,6 @@ status: published
 title: WSL 终端编辑Setup危险 — TTy粘贴吞下划线
 verification: metadata-normalized
 ---
----{"title": "WSL 终端编辑Setup危险 — TTy粘贴吞下划线", "domain": "devops", "source": "bootstrap", "bootstrapped": true, "author": "node2", "machine": "hermes-wsl", "original_date": "2026-04-24", "tags": "", "- node": "hermes_wsl", "- project": "wsl", "- severity": "high", "status": "published", "quality": "published", "created": "2026-04-01", "confidence": "0.7"}---
-
-
-
-
 ## 背景
 
 需要修改 WSL 中的配置文件（如 `.env`、`config.yaml`），通过 Windows Terminal 粘贴时出现神秘失败。

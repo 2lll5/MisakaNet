@@ -12,8 +12,6 @@ status: published
 title: pip install Network Timeout / SSL ErrorFix
 verification: metadata-normalized
 ---
----{"title": "pip install Network Timeout / SSL ErrorFix", "domain": "devops", "tags": ["pip", "network", "SSL", "timeout", "proxy"]}---
-
 ## 背景
 
 `pip install` 失败，报 `timeout`、`SSL: CERTIFICATE_VERIFY_FAILED`、或 `Connection broken` 错误。

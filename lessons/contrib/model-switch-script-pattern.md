@@ -6,8 +6,6 @@ status: published
 title: 多模型Switch脚本模式 — 双 Agent 模型管理
 verification: metadata-normalized
 ---
----{"title": "多模型Switch脚本模式 — 双 Agent 模型管理", "confidence": "0.7", "created": "2026-05-02", "domain": "devops", "source": "bootstrap", "status": "published", "tags": ""}---
-
 # 多模型Switch脚本模式 — 双 Agent 模型管理
 
 > Domain: devops | Tags: model-switching, proxy, config-management

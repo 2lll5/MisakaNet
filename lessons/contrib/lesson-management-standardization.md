@@ -18,7 +18,7 @@ verified_date: 2026-06-14
 Over 180 lessons accumulated in the MisakaNet knowledge base with significant quality and consistency issues:
 
 1. **Inconsistent filenames**: Mix of Chinese and English characters, project-specific prefixes (`cc-connect-*`, `ccswitch-*`, `codewhale-*`, `deepseek-tui-*`, `hermes-*`, `node_*`, `st2-*`)
-2. **Hardcoded sensitive content**: User home paths (`/mnt/c/Users/hp/`), specific usernames (`<user>`, `<agent>`), internal project names (`mify`, `InternalGateway`) embedded in lesson body text
+2. **Hardcoded sensitive content**: User home paths (`<REDACTED> specific usernames (`<user>`, `<agent>`), internal project names (`mify`, `InternalGateway`) embedded in lesson body text
 3. **Non-portable tags**: Project-specific metadata (`project:*`, `node:*`, `severity:*`) in frontmatter that are meaningless to external contributors
 4. **No submission standards**: Every contributor writes differently, no automated validation before merge
 5. **Plaintext secrets discovered**: PATs, API keys, and Cloudflare tokens in public-facing and internal documentation

@@ -6,9 +6,6 @@ status: published
 title: 模型输出截断 / JSON 解析失败Handling
 verification: metadata-normalized
 ---
----{"created": "2026-05-01 08:00 UTC", "domain": "claude", "source": "hermes_wsl", "status": "published", "tags": "", "title": "模型输出截断 / JSON 解析失败Handling", "updated": "2026-05-01 08:00 UTC"}---
-
-
 ## 问题
 
 模型返回的内容不完整（truncated），或者 JSON 解析失败（`json.decoder.JSONDecodeError`），导致后续处理流程中断。
