@@ -111,22 +111,7 @@ Then **edit** the generated `lessons/contrib/<slug>.md` to fill in `## Problem`,
 
 After committing the new lesson (and waiting for the corpus index to rebuild — typically via the `update_lessons_json.py` workflow or next agent boot), re-run `--heal` on the same log:
 
-```bash
-python3 search_knowledge.py --heal /tmp/agent-crash.log
-# Expected: 📊 Coverage: 2/2 signatures matched (100.0%)
-#          ✅ All signatures covered by swarm knowledge.
-```
 
-If coverage is still `<100%`, the new lesson's `broad_only` filter probably doesn't match — check the `scope: broad` frontmatter tag, and the `tags` field should include 1-2 terms that BM25 tokenizes from the error signature (e.g. `libnss3`, `playwright`, `wsl`).
-
-## Verification
-
-
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-python3 scripts/search_knowledge.py "test query"
-```
 
 **Expected Output:**
 ```

@@ -50,9 +50,7 @@ newgrp docker
 ```
 
 **4. Verify the fix**
-```bash
-docker ps
-```
+
 
 **5. (Optional) Restart the Docker service**
 If the error persists after the steps above:

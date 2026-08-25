@@ -27,38 +27,7 @@ The alert needs to be dismissed with a reason explaining why it's safe.
 
 ### List Open Alerts
 
-```bash
-curl -s -H "Authorization: token $TOKEN" \
-  https://api.github.com/repos/{owner}/{repo}/code-scanning/alerts
-```
 
-### Dismiss Alert
-
-```bash
-curl -s -X PATCH \
-  -H "Authorization: token $TOKEN" \
-  -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/{owner}/{repo}/code-scanning/alerts/{number} \
-  -d '{
-    "state": "dismissed",
-    "dismissed_reason": "false positive",
-    "dismissed_comment": "Explanation of why this is safe"
-  }'
-```
-
-### Valid Dismiss Reasons
-
-- `"false positive"` — Code is safe, pattern is incorrect
-- `"won't fix"` — Accepted risk, won't change
-- `"used in tests"` — Test code only, not production
-
-## Verification
-
-
-```bash
-git status
-curl -sS http://localhost:8080/health
-```
 
 **Expected Output:**
 ```

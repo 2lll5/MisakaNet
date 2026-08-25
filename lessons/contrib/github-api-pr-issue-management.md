@@ -35,61 +35,7 @@ TOKEN="ghp_xxxxxxxxxxxx"
 
 ### Create Issue
 
-```bash
-curl -s -X POST \
-  -H "Authorization: token $TOKEN" \
-  -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/{owner}/{repo}/issues \
-  -d '{"title":"Issue title","body":"Issue body","labels":["bug"]}'
-```
 
-### Update Issue
-
-```bash
-curl -s -X PATCH \
-  -H "Authorization: token $TOKEN" \
-  -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/{owner}/{repo}/issues/{number} \
-  -d '{"state":"closed","state_reason":"completed"}'
-```
-
-### Add Comment
-
-```bash
-curl -s -X POST \
-  -H "Authorization: token $TOKEN" \
-  -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/{owner}/{repo}/issues/{number}/comments \
-  -d '{"body":"Comment text"}'
-```
-
-### Merge PR
-
-```bash
-curl -s -X PUT \
-  -H "Authorization: token $TOKEN" \
-  -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/{owner}/{repo}/pulls/{number}/merge \
-  -d '{"merge_method":"squash","commit_title":"Title","commit_message":"Message"}'
-```
-
-### Close PR
-
-```bash
-curl -s -X PATCH \
-  -H "Authorization: token $TOKEN" \
-  -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/{owner}/{repo}/pulls/{number} \
-  -d '{"state":"closed"}'
-```
-
-## Verification
-
-
-```bash
-git status
-curl -sS http://localhost:8080/health
-```
 
 **Expected Output:**
 ```

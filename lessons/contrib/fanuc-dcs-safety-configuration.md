@@ -100,9 +100,7 @@ Stop Distance = (Motion Speed × Scan Time) + Coast Distance at Power Cutoff
 ## Verification
 
 
-```bash
-git status
-```
+
 
 **Expected Output:**
 ```

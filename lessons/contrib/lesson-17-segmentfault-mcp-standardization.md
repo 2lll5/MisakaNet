@@ -82,10 +82,7 @@ result = await client.call_tool("query_database", {
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

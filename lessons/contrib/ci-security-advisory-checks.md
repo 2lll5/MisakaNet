@@ -69,9 +69,7 @@ Add security advisory checks to audit workflow:
 ## Verification
 
 
-```bash
-git status
-```
+
 
 **Expected Output:**
 ```

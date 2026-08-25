@@ -43,11 +43,7 @@ MisakaNet 早期架构照搬了"中心协调网络"的设计——A2A 实时通�
 ## 验证
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

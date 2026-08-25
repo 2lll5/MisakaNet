@@ -133,9 +133,7 @@ agent-reach install --channels reddit --proxy http://proxy:port
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

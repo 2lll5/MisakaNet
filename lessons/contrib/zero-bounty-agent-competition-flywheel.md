@@ -78,9 +78,7 @@ Competition PRs: first to fix DCO wins, others close as duplicate.
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

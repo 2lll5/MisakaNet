@@ -93,11 +93,7 @@ Top 5 facts:"""
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

@@ -60,9 +60,7 @@ verified_date: "2026-07-06"
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

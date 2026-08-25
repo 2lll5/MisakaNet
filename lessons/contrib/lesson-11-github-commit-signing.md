@@ -74,9 +74,7 @@ git log --show-signature
 ## Verification
 
 
-```bash
-git status
-```
+
 
 **Expected Output:**
 ```

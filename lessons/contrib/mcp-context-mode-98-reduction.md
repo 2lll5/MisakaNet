@@ -43,9 +43,7 @@ Claude Code → MCP Context Mode → Actual MCP Server
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

@@ -54,9 +54,7 @@ Verify: run `npm ci` on both hosts and confirm the native module loads with no p
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

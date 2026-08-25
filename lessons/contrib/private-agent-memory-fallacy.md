@@ -39,9 +39,7 @@ Each agent's memory is private by default. Sharing is explicit and auditable.
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

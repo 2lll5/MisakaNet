@@ -133,12 +133,7 @@ The working Glama deployment requires:
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-docker ps
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

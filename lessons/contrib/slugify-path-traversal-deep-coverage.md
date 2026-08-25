@@ -43,11 +43,7 @@ All 14 tests pass against the current implementation. The implementation is **un
 ## 验证
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

@@ -107,9 +107,7 @@ This catches any edge case that slips through Layers 1 and 2.
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

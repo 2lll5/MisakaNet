@@ -65,49 +65,7 @@ Checks before allowing commit:
 - Fail: ❌ add `quality:needs-review` label + detailed comment
 
 **Layer 3 — One-click submission** (`scripts/submit_lesson.py`):
-```bash
-python3 scripts/submit_lesson.py lessons/contrib/my-lesson.md
-```
-Automates: validation → content sanitization → dedup check → git commit → push (with 3 retries)
 
-### Phase 3: Template Standardization
-
-`lessons/TEMPLATE.md` defines:
-
-| Rule | Standard |
-|------|----------|
-| Filename | `kebab-case-english.md` |
-| Frontmatter | JSON inside `---`, must have `title`/`domain`/`status` |
-| Structure | Problem → Root Cause → Solution → Verification |
-| Code blocks | Language-specified fenced blocks |
-| Paths | `<placeholder>` not `/home/user/...` |
-| Tags | 1-10 tags, 2+ chars, no `project:*`/`node:*`/`severity:*` |
-
-### Phase 4: Sensitive Content Checklist
-
-The sanitization pattern library (`check_lesson_quality.py` and `submit_lesson.py`) detects:
-
-| Category | Examples |
-|----------|----------|
-| File paths | `/mnt/c/Users/*`, `C:\Users\*\` |
-| Usernames | `<user>`, `<agent>`, `sheldonisspark*` |
-| Internal projects | `mify`, `InternalGateway`, `InternalModel` |
-| Brand names | `xiaomi` (when generic context) |
-| Credentials | `ghp_*`, `github_pat_*`, `sk-*`, `cfut_*`, `AKIA*` |
-
-### Phase 5: Repository Security
-
-- Removed exposed PAT from `JOIN.md` (was hex-encoded for zero-friction onboarding)
-- Created Issue #226 to track remaining 136 files with Chinese body content needing English translation
-
-## Verification
-
-
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-curl -sS http://localhost:8080/health
-```
 
 **Expected Output:**
 ```

@@ -18,9 +18,7 @@ provenance:
 ## Verification
 
 
-```bash
-docker ps
-```
+
 
 **Expected Output:**
 ```

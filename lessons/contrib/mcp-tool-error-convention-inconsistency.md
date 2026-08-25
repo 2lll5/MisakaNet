@@ -26,11 +26,7 @@ This makes both failure paths consistent so `.startswith("ERROR:")` works as a c
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

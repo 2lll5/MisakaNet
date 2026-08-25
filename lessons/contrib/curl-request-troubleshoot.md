@@ -52,10 +52,7 @@ curl -v --trace-ascii /dev/stderr https://example.com 2>&1 | head -30
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

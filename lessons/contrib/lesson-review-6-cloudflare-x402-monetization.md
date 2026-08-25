@@ -84,10 +84,7 @@ MCP 工具可以通过 x402 协议收费：
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

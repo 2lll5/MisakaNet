@@ -52,9 +52,7 @@ The PLC sends ABORT via UOP when it detects a fault:
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

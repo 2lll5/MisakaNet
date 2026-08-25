@@ -80,9 +80,7 @@ export default {
 ## Verification
 
 
-```bash
-git status
-```
+
 
 **Expected Output:**
 ```

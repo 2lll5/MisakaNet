@@ -50,9 +50,7 @@ git merge --abort
 ## Verification
 
 
-```bash
-git status
-```
+
 
 **Expected Output:**
 ```

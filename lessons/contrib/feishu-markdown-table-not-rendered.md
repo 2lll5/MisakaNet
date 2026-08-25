@@ -48,9 +48,7 @@ def _optimize_markdown_style(content: str) -> str:
 ## 验证
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

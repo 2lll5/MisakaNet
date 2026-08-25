@@ -32,9 +32,7 @@ wcferry 通过 DLL 注入 hook 微信内存地址，**微信版本必须精确�
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

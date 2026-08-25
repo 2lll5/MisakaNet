@@ -27,9 +27,7 @@ def write_json_atomic(path, data):
 
 ## 验证
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

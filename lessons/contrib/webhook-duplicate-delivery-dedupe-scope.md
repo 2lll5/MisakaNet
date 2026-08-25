@@ -41,9 +41,7 @@ Unit-test both paths: a fresh webhook event with no marker row credits funds; re
 ## Verification
 
 
-```bash
-git status
-```
+
 
 **Expected Output:**
 ```

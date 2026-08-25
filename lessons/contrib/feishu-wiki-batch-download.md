@@ -62,9 +62,7 @@ window.location.href = '目标URL';
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

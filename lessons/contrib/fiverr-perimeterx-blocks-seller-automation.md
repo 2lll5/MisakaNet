@@ -51,9 +51,7 @@ This is intentional bot defense, not a missing “create gig” API field.
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

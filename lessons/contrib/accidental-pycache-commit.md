@@ -64,10 +64,7 @@ Verify the diff contains only intended changes: `git status --short` and `git di
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-```
+
 
 **Expected Output:**
 ```

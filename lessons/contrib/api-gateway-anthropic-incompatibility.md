@@ -42,9 +42,7 @@ api_base: https://api.internal-gateway.local/v1
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

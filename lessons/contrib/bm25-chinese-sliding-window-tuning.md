@@ -73,10 +73,7 @@ def unique_candidate_boost(df, doc_freq, is_chinese=True):
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

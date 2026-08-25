@@ -67,11 +67,7 @@ git push --force-with-lease
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

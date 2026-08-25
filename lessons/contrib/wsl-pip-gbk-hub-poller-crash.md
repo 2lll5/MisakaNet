@@ -32,9 +32,7 @@ with open(config_path, encoding="utf-8") as f:
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

@@ -22,25 +22,7 @@ The only way to contribute was through GitHub PRs or email, both requiring accou
 
 Add `misakanet_submit_intake` MCP tool:
 
-```bash
-curl -sS https://misakanet.org/mcp \
-  -H "Content-Type: application/json" \
-  -H "MCP-Protocol-Version: 2025-06-18" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"misakanet_submit_intake","arguments":{"problem":"YOUR PROBLEM","source":"your-agent"}}}'
-```
 
-**Design:**
-- No auth required for intake
-- Creates maintainer-visible GitHub issue
-- Includes rate limiting and spam guard
-- All fields auto-redacted for secrets
-
-## Verification
-
-
-```bash
-curl -sS http://localhost:8080/health
-```
 
 **Expected Output:**
 ```

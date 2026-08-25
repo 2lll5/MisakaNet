@@ -28,9 +28,7 @@ if (first.data.memory.len > std_size) {
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

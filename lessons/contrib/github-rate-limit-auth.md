@@ -32,28 +32,7 @@ Authenticate every API call so you get the 5000/hour budget, and tune search cal
 
 ### Step 1
 Send an authorization header on every request:
-```bash
-curl -H "Authorization: Bearer $GHTOKEN" https://api.github.com/search/issues?q=repo:org/repo
-```
 
-### Step 2
-Verify the real budget before assuming a bug:
-```bash
-curl -H "Authorization: Bearer $GHTOKEN" https://api.github.com/rate_limit | jq .resources.core
-```
-`remaining` should be ~5000, not 60.
-
-### Step 3
-Throttle search queries (10/min max, even authenticated) and add retry/backoff so a temporary limit does not kill the whole run.
-
-## Verification
-
-
-```bash
-git status
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
-```
 
 **Expected Output:**
 ```

@@ -38,10 +38,7 @@ Steps taken:
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

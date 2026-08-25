@@ -35,10 +35,7 @@ verified_date: "2026-07-06"
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

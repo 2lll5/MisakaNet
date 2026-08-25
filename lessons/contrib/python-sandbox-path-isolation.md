@@ -46,9 +46,7 @@ print(requests.__file__)  # 应指向正确的 venv
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

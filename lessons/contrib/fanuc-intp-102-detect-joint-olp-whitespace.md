@@ -56,9 +56,7 @@ File a bug with RoboDK (or your OLP tool) about trailing whitespace in sensor in
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

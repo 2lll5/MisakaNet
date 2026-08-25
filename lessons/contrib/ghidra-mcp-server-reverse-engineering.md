@@ -45,9 +45,7 @@ LLM Agent → MCP Protocol → GhidraMCP Server → Ghidra Plugin
 ## Verification
 
 
-```bash
-git status
-```
+
 
 **Expected Output:**
 ```

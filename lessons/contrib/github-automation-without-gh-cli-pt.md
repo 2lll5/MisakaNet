@@ -122,11 +122,7 @@ A documentação oficial dos endpoints fica em https://docs.github.com/en/rest/i
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

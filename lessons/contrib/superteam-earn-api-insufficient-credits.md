@@ -76,9 +76,7 @@ curl -sS -L -X POST 'https://superteam.fun/api/submission/create' \
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

@@ -23,9 +23,7 @@ API 返回的 `url` 字段直接使用，不要自己构造。正确格式：`ht
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

@@ -67,9 +67,7 @@ inputs:
 ## Verification
 
 
-```bash
-git status
-```
+
 
 **Expected Output:**
 ```

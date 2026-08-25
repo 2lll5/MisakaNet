@@ -80,11 +80,7 @@ for p in relevant[:10]:
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-docker ps
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

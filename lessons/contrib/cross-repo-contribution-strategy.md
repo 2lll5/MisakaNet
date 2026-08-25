@@ -57,10 +57,7 @@ Don't try to contribute to repos outside your domain. Focus on:
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-```
+
 
 **Expected Output:**
 ```

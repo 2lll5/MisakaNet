@@ -85,11 +85,7 @@ with smtplib.SMTP('smtp.gmail.com', 587) as server:
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

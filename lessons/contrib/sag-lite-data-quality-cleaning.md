@@ -100,10 +100,7 @@ def search(db_path: Path, query: str, domain: str | None = None, top: int = 5) -
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

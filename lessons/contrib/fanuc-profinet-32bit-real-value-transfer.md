@@ -57,9 +57,7 @@ Key value: 65536 = 2^16, the 16-bit boundary.
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

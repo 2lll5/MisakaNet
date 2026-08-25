@@ -72,11 +72,7 @@ jobs:
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-docker ps
-```
+
 
 **Expected Output:**
 ```

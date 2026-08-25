@@ -119,11 +119,7 @@ Operators who need full context should use OpenClaw's existing stability-bundle 
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

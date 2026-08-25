@@ -40,24 +40,7 @@ aider  # don't use --api-key flag
 ```
 
 Or use .env file:
-```bash
-echo "ANTHROPIC_API_KEY=your-key" > .env
-aider  # reads from .env automatically
-```
 
-## Key Points
-
-- Never pass API keys as CLI arguments
-- Use environment variables or .env files
-- CLI args are visible in process listing and history
-
-
-## Verification
-
-```bash
-# Verify the fix works
-echo "Verification commands for: Aider CLI --api-key parameter leaks API key to history files"
-```
 
 **Expected Output:**
 ```

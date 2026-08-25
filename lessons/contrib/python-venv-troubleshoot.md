@@ -46,10 +46,7 @@ pip install --upgrade pip setuptools wheel
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

@@ -35,11 +35,7 @@ python -c "import your_module; print(your_module.__file__)"
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

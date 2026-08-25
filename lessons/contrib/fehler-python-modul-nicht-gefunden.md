@@ -83,11 +83,7 @@ export PYTHONPATH=$HOME/.local/lib/python3.11/site-packages:$PYTHONPATH
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

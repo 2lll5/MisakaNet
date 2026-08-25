@@ -100,9 +100,7 @@ taskmarket wallet balance   # должен показать Base USDC
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

@@ -33,9 +33,7 @@ data = {'file_type': 'opus', 'file_name': 'voice.ogg'}  # 正确
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

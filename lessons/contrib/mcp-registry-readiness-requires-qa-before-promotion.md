@@ -78,10 +78,7 @@ local smoke -> registry metadata -> upstream registry PR -> listing indexed -> c
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

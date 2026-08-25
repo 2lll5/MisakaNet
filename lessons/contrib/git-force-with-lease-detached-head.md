@@ -111,10 +111,7 @@ git branch -D recovery-branch
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-```
+
 
 **Expected Output:**
 ```

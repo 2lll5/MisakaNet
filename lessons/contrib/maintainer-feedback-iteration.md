@@ -63,10 +63,7 @@ If maintainer says "search retrieval probe", use that exact term in your respons
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

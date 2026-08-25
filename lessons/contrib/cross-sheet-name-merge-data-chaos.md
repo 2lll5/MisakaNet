@@ -45,9 +45,7 @@ result = pd.concat(all_data).groupby('robot_id').agg(...)
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

@@ -40,21 +40,7 @@ Rotate in one place: put the new value into every consumer (`.env`, CI secrets, 
 
 ### Step 3
 Add a cheap health check at automation start so stale credentials fail loudly:
-```bash
-curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $TOKEN" https://api.github.com/user | grep -q 200 || echo "[Error] token rejected"
-```
 
-### Step 4
-If the platform lets you name tokens, give them a stable name (e.g. `automation-sezez`), so the security-event email tells you which pipeline to update.
-
-## Verification
-
-
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-curl -sS http://localhost:8080/health
-```
 
 **Expected Output:**
 ```

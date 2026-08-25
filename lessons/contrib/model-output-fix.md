@@ -76,9 +76,7 @@ def is_truncated(response_text: str) -> bool:
 ## 验证
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```

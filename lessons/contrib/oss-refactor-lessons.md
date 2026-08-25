@@ -61,27 +61,7 @@ verification: metadata-normalized
 1. **分类审计**：按 `fork`、`archived`、`active`、`stale` 四个维度遍历所有仓库
 
 2. **归档零贡献 fork**：对没有独立 commit、open issue 或 PR 的 fork，执行：
-   ```bash
-   curl -X PATCH "https://api.github.com/repos/<owner>/<repo>" \
-     -d '{"archived": true, "allow_forking": true}'
-   ```
-
-3. **明确"技术地图"**：在个人主页或组织 README 中将仓库归类，标注哪些是核心项目、哪些是实验性、哪些是归档存档
-
-4. **消除命名冲突**：避免同名仓库在不同组织间造成混淆（如将分叉仓库重命名或加前缀）
-
-### 指标
-
-- 清理前：33 个公开仓库，20 个零贡献 fork
-- 清理后：13 个活跃仓库
-- 技术专注度：fork 占比从 60% 降至 0%
-## Verification
-
-
-```bash
-git status
-curl -sS http://localhost:8080/health
-```
+   
 
 **Expected Output:**
 ```

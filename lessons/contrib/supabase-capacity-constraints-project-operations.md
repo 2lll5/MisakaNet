@@ -66,9 +66,7 @@ For an application team consuming such a platform, the safer runbook is:
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

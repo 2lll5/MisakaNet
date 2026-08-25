@@ -31,9 +31,7 @@ config.yaml 在 .gitignore 之前就已经被 git add，导致后续 .gitignore 
 ## Verification
 
 
-```bash
-git status
-```
+
 
 **Expected Output:**
 ```

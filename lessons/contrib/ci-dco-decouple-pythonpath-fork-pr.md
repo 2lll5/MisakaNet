@@ -79,10 +79,7 @@ gh workflow run 'Manual PR Audit' --repo owner/repo --ref main -f pr_number=142
 ## 验证
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-git status
-```
+
 
 **Expected Output:**
 ```

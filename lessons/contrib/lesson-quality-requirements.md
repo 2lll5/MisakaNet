@@ -51,10 +51,7 @@ Provide the solution. Include code, commands, or configuration.
 ## Verification
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-python3 scripts/search_knowledge.py "test query"
-```
+
 
 **Expected Output:**
 ```

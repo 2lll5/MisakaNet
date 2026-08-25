@@ -112,9 +112,7 @@ DELETE /api/v1/orders/1 → 无操作（不报错）
 ## Verification
 
 
-```bash
-curl -sS http://localhost:8080/health
-```
+
 
 **Expected Output:**
 ```

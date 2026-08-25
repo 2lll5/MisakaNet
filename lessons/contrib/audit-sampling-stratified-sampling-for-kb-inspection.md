@@ -63,9 +63,7 @@ def sample_questions(bank, l2_count=2, l3_count=5):
 ## 验证
 
 
-```bash
-python3 -c "import sys; print('Python check passed')"
-```
+
 
 **Expected Output:**
 ```
