@@ -83,8 +83,12 @@ for r in results:
     print(r["title"], r["score"])
 ```
 
-**Option 5 — DeepSeek Harness:**
+**Option 5 — DeepSeek Harness (DSH plugin):**
 ```bash
+# Install as DSH plugin
+dsh plugin add git+https://github.com/Ikalus1988/MisakaNet.git
+
+# Or run adapter directly
 python3 scripts/mcp_deepseek_adapter.py
 ```
 
