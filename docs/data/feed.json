@@ -1,9 +1,23 @@
 {
-  "generated_at": "2026-08-26T02:02:35.059495+00:00",
+  "generated_at": "2026-08-26T04:06:40.555421+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 12,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "feat(search): progressive disclosure for worker search results",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1322",
+      "timestamp": "2026-08-26T03:42:08Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "fix(mcp): use Bearer token for write_lesson auth instead of args.token",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1321",
+      "timestamp": "2026-08-26T03:42:04Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "feat: add misakanet_memory_context tool (#1165)",
@@ -23,20 +37,6 @@
       "title": "feat(pr-genius): split rules into repo-agnostic and repo-specific layers (#1036)",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/1264",
       "timestamp": "2026-08-24T12:45:23Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "chore(main): release 2.21.0",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1263",
-      "timestamp": "2026-08-24T12:03:52Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "refactor: split mcp_server.py into misakanet/server/ package",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1277",
-      "timestamp": "2026-08-24T11:52:46Z",
       "source": "github"
     },
     {
