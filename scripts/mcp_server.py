@@ -39,7 +39,7 @@ from misakanet.server.handlers import (  # noqa: E402
     handle_memory_context,
     handle_preflight,
     handle_register,
-    handle_search,
+    handle_search as _handle_search,
     handle_submit_intake,
     handle_submit_usage,
     handle_usage_status,
@@ -66,6 +66,11 @@ from misakanet.server.tools import _filtered_tools  # noqa: E402
 
 # Expose search state for tests that monkeypatch
 HAS_SAG, SAG_DB, HAS_BM25, sag_search = _init_search()
+
+
+def handle_search(args: dict) -> dict:
+    """Search through the package handler using compatibility search state."""
+    return _handle_search(args, (HAS_SAG, SAG_DB, HAS_BM25, sag_search))
 
 __all__ = [
     "TOOLS",

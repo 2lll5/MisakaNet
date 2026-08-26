@@ -177,7 +177,7 @@ TOOLS = [
 def handle_deepseek_search(args: dict) -> dict:
     """Delegate to misakanet.search with DeepSeekHarness naming."""
     try:
-        result = handle_search(args)
+        result = handle_search({**args, "detail": "full"})
     except Exception as e:
         # SAG-Lite FTS may fail on SQLite keywords (e.g. "off", "and")
         # Fall back to empty result with error info
