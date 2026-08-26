@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-25T21:48:11.632219+00:00",
+  "generated_at": "2026-08-26T02:02:35.059495+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 12,
@@ -75,25 +75,25 @@
     },
     {
       "type": "lesson",
-      "title": "Fatal-guard CLI: harden entry point with --help, --version, exit codes",
-      "url": "lessons/contrib/fatal-guard-cli-hardening.md",
+      "title": "Aider CLI --api-key parameter leaks API key to history files",
+      "url": "lessons/contrib/aider-api-key-leak.md",
+      "timestamp": "2026-08-22",
+      "domain": "security",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Aider via LiteLLM rejects standard Anthropic model names",
+      "url": "lessons/contrib/aider-litellm-model-name-rejection.md",
       "timestamp": "2026-08-22",
       "domain": "devops",
       "source": "lessons"
     },
     {
       "type": "lesson",
-      "title": "Lesson Provenance Tracking: author, PR, source, merge history",
-      "url": "lessons/contrib/lesson-provenance-tracking.md",
+      "title": "Aider --show-repo-map crashes on Windows with UnicodeEncodeError",
+      "url": "lessons/contrib/aider-windows-unicode-error.md",
       "timestamp": "2026-08-22",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "CI security checks: action pinning, permissions, README, code style",
-      "url": "lessons/contrib/ci-security-advisory-checks.md",
-      "timestamp": "2026-08-19",
       "domain": "devops",
       "source": "lessons"
     },
