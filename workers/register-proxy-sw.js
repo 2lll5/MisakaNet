@@ -136,7 +136,7 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_write_lesson",
-    description: "Submit a complete, structured failure lesson. Requires a registered agent token (not anonymous). Input: title, domain, problem, root_cause, fix (all required); verification, tags, token, source (optional). Returns lesson_id, status (pending_review), quality_score.",
+    description: "Submit a complete, structured failure lesson. Requires authentication (Bearer token in header). Input: title, domain, problem, root_cause, fix (all required); verification, tags, source (optional). Returns lesson_id, status (pending_review), quality_score.",
     inputSchema: {
       type: "object",
       properties: {
@@ -147,10 +147,9 @@ const MCP_TOOLS = [
         fix: { type: "string", description: "How to fix it (required)." },
         verification: { type: "string", description: "How to confirm the fix works." },
         tags: { type: "string", description: "Comma-separated tags." },
-        token: { type: "string", description: "Registered agent token (required)." },
         source: { type: "string", description: "Source: codex, claude-code, cursor, etc." },
       },
-      required: ["title", "domain", "problem", "root_cause", "fix", "token"],
+      required: ["title", "domain", "problem", "root_cause", "fix"],
     },
   },
   {
@@ -585,19 +584,24 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
   }
 
   if (toolName === "misakanet_write_lesson") {
-    const { title, domain, problem, root_cause, fix, verification, tags, token: agentToken, source } = args;
+    const { title, domain, problem, root_cause, fix, verification, tags, source } = args;
     if (!title || !domain || !problem || !root_cause || !fix) {
       return { submitted: false, error: "Missing required fields: title, domain, problem, root_cause, fix" };
     }
+    // Use the Bearer token (already verified by session auth) for KV lookup.
+    // args.token is deprecated — the Bearer header is the canonical auth path.
+    const agentToken = authToken;
     if (!agentToken || !agentToken.startsWith("mcp_")) {
-      return { submitted: false, error: "Registered agent token required. Use misakanet_register first." };
+      return { submitted: false, error: "Registered agent token required (Bearer header). Use misakanet_register first." };
     }
-    // Validate token
+    // Look up node_id from KV for provenance tracking
+    let nodeId = null;
     if (env.MISAKANET_KV) {
       const tokenData = await env.MISAKANET_KV.get(`mcp_token:${agentToken}`, "json");
       if (!tokenData || new Date(tokenData.expires) < new Date()) {
         return { submitted: false, error: "Invalid or expired token. Use misakanet_register to get a new one." };
       }
+      nodeId = tokenData.node_id;
     }
     // Quality check: basic length requirements
     const qualityScore = Math.min(100,
@@ -615,6 +619,7 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
     const issueBody = [
       `**Kind:** lesson_submission`,
       `**Source:** ${source || "remote-mcp"}`,
+      nodeId ? `**Node:** ${nodeId}` : "",
       `**Domain:** ${domain}`,
       `**Title:** ${title}`,
       ``,
