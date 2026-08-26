@@ -94,13 +94,14 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_search",
-    description: "Search MisakaNet's public failure-lesson index by error text, keyword, or topic. Use when you need to discover relevant lessons and do not already know a lesson ID. Returns ranked lesson summaries with path, title, domain, status, and match details.",
+    description: "Search MisakaNet's public failure-lesson index by error text, keyword, or topic. detail controls progressive disclosure: compact (default, ~80 tok/lesson) for broad scans, summary (~200 tok) adds domain/tags/fix, full returns complete lesson data. Use misakanet_get_lesson for full markdown content.",
     inputSchema: {
       type: "object",
       properties: {
         query: { type: "string", description: "Required redacted error message, keyword, or topic (e.g. 'pip install timeout' or 'DCO sign-off failed')." },
         domain: { type: "string", description: "Optional domain filter such as devops, python, network, feishu, rag, fanuc, or mcp." },
         top: { type: "integer", description: "Maximum ranked results to return. Defaults to 5; keep small for MCP context and latency." },
+        detail: { type: "string", enum: ["compact", "summary", "full"], description: "Progressive disclosure: compact (default, ~80 tok) includes id/title/problem/freshness; summary (~200 tok) adds domain/tags/fix; full returns complete lesson data with path." },
       },
       required: ["query"],
     },
@@ -195,6 +196,44 @@ function validateMcpOrigin(request) {
   if (!origin) return true;
   // Check against whitelist (prefix match for localhost ports)
   return MCP_ALLOWED_ORIGINS.some(allowed => origin === allowed || origin.startsWith(allowed + ":"));
+}
+
+// ── Progressive Disclosure ──
+// Transform search results to the requested detail level.
+
+function freshness(dateStr) {
+  if (!dateStr) return "unknown";
+  const age = Date.now() - new Date(dateStr).getTime();
+  const days = Math.floor(age / 86400000);
+  if (days < 30) return "recent";
+  if (days < 180) return "established";
+  return "legacy";
+}
+
+function compactResult(lesson) {
+  return {
+    id: lesson.id || "",
+    title: lesson.title || "",
+    problem: (lesson.description || lesson.summary || "").slice(0, 120),
+    freshness: freshness(lesson.updated || lesson.created),
+    evidence_level: lesson.evidence_level || "",
+  };
+}
+
+function summaryResult(lesson) {
+  const compact = compactResult(lesson);
+  return {
+    ...compact,
+    domain: lesson.domain || "",
+    tags: lesson.tags || [],
+    fix: lesson.fix || "",
+  };
+}
+
+function applyDetailLevel(results, detail) {
+  if (detail === "summary") return results.map(summaryResult);
+  if (detail === "compact") return results.map(compactResult);
+  return results; // full — keep as-is
 }
 
 // Simple keyword-based lesson search (runs in Worker, no BM25)
@@ -481,8 +520,14 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
       debugLog(env, 2, "Fallback search", { query: args.query, results: results.length });
     }
 
+    // Progressive disclosure: transform by detail level
+    const detail = args.detail || "compact";
+    if (results.length > 0 && detail !== "full") {
+      results = applyDetailLevel(results, detail);
+    }
+
     const aura = await getIdentityAura(env, authToken);
-    return { results, source, query: args.query, identity: aura };
+    return { results, source, detail, query: args.query, identity: aura };
   }
 
   if (toolName === "misakanet_get_lesson") {
