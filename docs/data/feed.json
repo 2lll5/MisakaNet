@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-26T07:13:22.918941+00:00",
+  "generated_at": "2026-08-26T10:01:23.149061+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 12,
+  "item_count": 10,
   "items": [
     {
       "type": "merged_pr",
@@ -23,20 +23,6 @@
       "title": "fix(mcp): use Bearer token for write_lesson auth instead of args.token",
       "url": "https://github.com/Ikalus1988/MisakaNet/pull/1321",
       "timestamp": "2026-08-26T03:42:04Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: add misakanet_memory_context tool (#1165)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1245",
-      "timestamp": "2026-08-24T12:45:31Z",
-      "source": "github"
-    },
-    {
-      "type": "merged_pr",
-      "title": "feat: configurable BM25/vector hybrid search weights (#1220)",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1247",
-      "timestamp": "2026-08-24T12:45:27Z",
       "source": "github"
     },
     {
