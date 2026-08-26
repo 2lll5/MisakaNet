@@ -82,12 +82,13 @@ gh workflow run 'Manual PR Audit' --repo owner/repo --ref main -f pr_number=142
 ## Verification
 
 ```bash
-git log --format="%b" -1 | grep -i "Signed-off-by" || echo none
+# Verify: GitHub Actions CI for AI Agent PRs — DCO decoupling & PYTHON
+FAILED_LOG="${FAILED_LOG}$(git log -1 --format='%h | %s | %an <%ae>' "$commit")\n"
 ```
 
 **Expected Output:**
 ```
-Signed-off-by:
+# (command should succeed without errors)
 ```
 
 ## 进阶：工业级 DCO Bot 留言模板

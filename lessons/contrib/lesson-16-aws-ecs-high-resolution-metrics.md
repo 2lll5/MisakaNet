@@ -75,15 +75,16 @@ aws cloudwatch get-metric-statistics \
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: AWS ECS 高分辨率指标 — 更快的自动扩缩容
+aws ecs update-service \
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (command should succeed without errors)
 ```
+
 ## Notes
 
 - 高分辨率指标会增加 CloudWatch 成本

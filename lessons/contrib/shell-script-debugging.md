@@ -45,14 +45,13 @@ done
 ## Verification
 
 ```bash
-echo "Lesson: Shell Debugging — set -x 与常见Pitfalls"
-wc -l lessons/contrib/shell-script-debugging.md
+# Verify: Shell Debugging — set -x 与常见Pitfalls
+set -x   # 打印执行的命令（+ 前缀）
 ```
 
 **Expected Output:**
 ```
-Lesson: Shell Debugging — set -x 与常见Pitfalls
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Pitfalls

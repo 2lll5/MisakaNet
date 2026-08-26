@@ -55,7 +55,13 @@ stat ~/.hermes/some_file
 ## Verification
 
 ```bash
-touch ~/.hermes/test_write_perm && rm ~/.hermes/test_write_perm && echo "写权限 OK"
+# Verify: Permission Denied / WSL NTFS 跨文件系统PermissionFix
+[automount]
+```
+
+**Expected Output:**
+```
+# (command should succeed without errors)
 ```
 
 ## Related

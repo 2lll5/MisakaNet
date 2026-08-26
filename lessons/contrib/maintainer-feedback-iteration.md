@@ -63,14 +63,13 @@ If maintainer says "search retrieval probe", use that exact term in your respons
 ## Verification
 
 ```bash
-echo "Lesson: Maintainer Feedback Iteration — Address Blockers, "
-wc -l lessons/contrib/maintainer-feedback-iteration.md
+# Verify: Maintainer Feedback Iteration — Address Blockers, Not Just C
+gh pr view $PR --json closingIssuesReferences
 ```
 
 **Expected Output:**
 ```
-Lesson: Maintainer Feedback Iteration — Address Blockers, 
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Related

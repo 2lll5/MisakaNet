@@ -48,15 +48,16 @@ Run the dependency bump (`go get golang.org/x/text@v0.39.0 && go mod tidy`) and 
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: Go dependency vuln bump blocked by wrong-architecture toolch
+tar -C /tmp/gotool -xzf /tmp/gotool/go1.24.5.darwin-amd64.tar.gz
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (command should succeed without errors)
 ```
+
 ## Notes
 
 "Bad CPU type" from a freshly downloaded Go is almost always arch mismatch, not a corrupted file. Always check `uname -m` before selecting a `darwin-*` build. Bumping only in CI without a local toolchain leaves you unable to validate, so keep a pinned local toolchain matching your host.

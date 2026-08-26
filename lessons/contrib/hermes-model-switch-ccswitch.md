@@ -80,15 +80,16 @@ hermes-switch ds-flash
 | InternalModel-flash | internal/InternalModel-v2-flash | InternalGateway |
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: ccswitch-hermes-switch 踩坑Notes
+ccswitch list              # 可用模型
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (command should succeed without errors)
 ```
+
 ## 相关文件
 
 - `~/ccswitch` — cc 切换脚本

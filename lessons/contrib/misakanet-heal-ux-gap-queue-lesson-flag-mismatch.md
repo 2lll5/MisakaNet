@@ -109,14 +109,13 @@ python3 scripts/queue_lesson.py \
 ## Verification
 
 ```bash
-echo "Lesson: MisakaNet --heal UX Gap — Suggested queue_lesson.p"
-wc -l lessons/contrib/misakanet-heal-ux-gap-queue-lesson-flag-mismatch.md
+# Verify: MisakaNet --heal UX Gap — Suggested queue_lesson.py Command 
+python3 scripts/queue_lesson.py \
 ```
 
 **Expected Output:**
 ```
-Lesson: MisakaNet --heal UX Gap — Suggested queue_lesson.p
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

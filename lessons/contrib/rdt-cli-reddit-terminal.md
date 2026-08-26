@@ -76,14 +76,13 @@ rdt status --json
 ## Verification
 
 ```bash
-echo "Lesson: rdt-cli — Reddit in Your Terminal (Reverse-Enginee"
-wc -l lessons/contrib/rdt-cli-reddit-terminal.md
+# Verify: rdt-cli — Reddit in Your Terminal (Reverse-Engineered API)
+pipx install rdt-cli
 ```
 
 **Expected Output:**
 ```
-Lesson: rdt-cli — Reddit in Your Terminal (Reverse-Enginee
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

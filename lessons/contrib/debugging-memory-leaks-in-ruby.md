@@ -99,14 +99,13 @@ Monitor `GC.stat[:heap_live_slots]` to detect managed object leaks.
 ## Verification
 
 ```bash
-echo "Lesson: Debugging memory leaks in Ruby"
-wc -l lessons/contrib/debugging-memory-leaks-in-ruby.md
+# Verify: Debugging memory leaks in Ruby
+bundle exec rbtrace -p $SIDEKIQ_PID -e 'Thread.new{GC.start;require "objspace";io=File.open("/tmp/ruby-heap.dump", "w"); ObjectSpace.dump_all(output: io); io.close}'
 ```
 
 **Expected Output:**
 ```
-Lesson: Debugging memory leaks in Ruby
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

@@ -49,14 +49,13 @@ openssl s_client -connect example.com:443
 ## Verification
 
 ```bash
-echo "Lesson: Network Domain Lesson Template"
-wc -l lessons/contrib/lesson-template-network.md
+# Verify: Network Domain Lesson Template
+curl -v https://example.com
 ```
 
 **Expected Output:**
 ```
-Lesson: Network Domain Lesson Template
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Example: SSL Certificate Verification Failure Behind Corporate Proxy

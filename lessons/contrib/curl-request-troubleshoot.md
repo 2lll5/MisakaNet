@@ -55,14 +55,13 @@ curl -v --trace-ascii /dev/stderr https://example.com 2>&1 | head -30
 ## Verification
 
 ```bash
-echo "Lesson: curl / wget 请求失败通用Diagnosis"
-wc -l lessons/contrib/curl-request-troubleshoot.md
+# Verify: curl / wget 请求失败通用Diagnosis
+nslookup example.com
 ```
 
 **Expected Output:**
 ```
-Lesson: curl / wget 请求失败通用Diagnosis
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## 错误速查

@@ -100,14 +100,13 @@ taskmarket wallet balance   # должен показать Base USDC
 ## Verification
 
 ```bash
-echo "Lesson: USDC пришёл в Ethereum mainnet, а нужен Base — и 0"
-wc -l lessons/contrib/usdc-ethereum-instead-of-base-zero-eth-gas.md
+# Verify: USDC пришёл в Ethereum mainnet, а нужен Base — и 0 ETH на га
+cast balance <AGENT_ADDR> --rpc-url https://ethereum.publicnode.com
 ```
 
 **Expected Output:**
 ```
-Lesson: USDC пришёл в Ethereum mainnet, а нужен Base — и 0
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

@@ -45,15 +45,16 @@ prgenius issue-batch --repo Ikalus1988/MisakaNet --label intake --limit 20
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: PR Genius issue evaluator: batch review intake issues
+prgenius issue-batch --repo Ikalus1988/MisakaNet --label intake --limit 20
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (command should succeed without errors)
 ```
+
 ## Key Points
 
 - Automates initial triage (saves 30s/issue)

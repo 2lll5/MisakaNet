@@ -80,14 +80,13 @@ systemctl --user restart openclaw-gateway
 ## Verification
 
 ```bash
-echo "Lesson: openclaw gateway dynamic module missing"
-wc -l lessons/contrib/openclaw-gateway-dynamic-module-missing.md
+# Verify: openclaw gateway dynamic module missing
+systemctl --user restart openclaw-gateway
 ```
 
 **Expected Output:**
 ```
-Lesson: openclaw gateway dynamic module missing
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## 诊断命令

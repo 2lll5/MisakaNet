@@ -187,14 +187,13 @@ for fname in os.listdir(backup):
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC Backup Payload Extraction — .VR/.SV Binary Parsing and
+grep -i "PAYLOAD" <backup_dir>/ERRCURR.LS
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (command should succeed without errors)
 ```
 
 ## Notes

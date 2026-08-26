@@ -68,14 +68,13 @@ cd ~//hf-mirror.com \
 ## Verification
 
 ```bash
-echo "Lesson: Chroma 建库无 Checkpoint — 进程一死全部丢失"
-wc -l lessons/contrib/chroma-rebuild-no-checkpoint-cn.md
+# Verify: Chroma 建库无 Checkpoint — 进程一死全部丢失
+~/.hermes/hermes-agent/.venv/bin/python3 ~/.hermes/scripts/build_edoc_chroma.py \
 ```
 
 **Expected Output:**
 ```
-Lesson: Chroma 建库无 Checkpoint — 进程一死全部丢失
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Key Points

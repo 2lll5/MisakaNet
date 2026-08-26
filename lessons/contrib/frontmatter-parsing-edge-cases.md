@@ -17,14 +17,13 @@ verified_date: '2026-07-10'
 ## Verification
 
 ```bash
-echo "Lesson: Frontmatter Parsing Edge Cases — Silent Failures a"
-wc -l lessons/contrib/frontmatter-parsing-edge-cases.md
+# Verify: Frontmatter Parsing Edge Cases — Silent Failures and Data Lo
+python3 -m pytest tests/test_frontmatter_parsing.py -v
 ```
 
 **Expected Output:**
 ```
-Lesson: Frontmatter Parsing Edge Cases — Silent Failures a
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Frontmatter Parsing Edge Cases — Silent Failures and Data Loss

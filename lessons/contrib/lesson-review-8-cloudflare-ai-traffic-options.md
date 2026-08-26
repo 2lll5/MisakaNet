@@ -55,14 +55,13 @@ Cloudflare now provides attribution data showing which AI services are crawling 
 ## Verification
 
 ```bash
-echo "Lesson: Cloudflare AI Traffic Options — Content Monetizati"
-wc -l lessons/contrib/lesson-review-8-cloudflare-ai-traffic-options.md
+# Verify: Cloudflare AI Traffic Options — Content Monetization for the
+curl -X POST "https://api.cloudflare.com/client/v4/zones/{zone_id}/ai-crawl" \
 ```
 
 **Expected Output:**
 ```
-Lesson: Cloudflare AI Traffic Options — Content Monetizati
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

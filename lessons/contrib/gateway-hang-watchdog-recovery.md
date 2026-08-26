@@ -48,14 +48,13 @@ systemctl --user status hermes-gateway.service
 ## Verification
 
 ```bash
-echo "Lesson: Gateway 进程挂死未崩溃 — watchdog 自动Recovery"
-wc -l lessons/contrib/gateway-hang-watchdog-recovery.md
+# Verify: Gateway 进程挂死未崩溃 — watchdog 自动Recovery
+pkill -f "hermes cli" || true
 ```
 
 **Expected Output:**
 ```
-Lesson: Gateway 进程挂死未崩溃 — watchdog 自动Recovery
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Key Points

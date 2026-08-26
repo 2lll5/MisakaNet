@@ -125,14 +125,13 @@ Error handling: Retry with exponential backoff, fall back to alternative tool
 ## Verification
 
 ```bash
-echo "Lesson: Agent Web Access Toolchain — 7 Libraries for Relia"
-wc -l lessons/contrib/agent-web-access-toolchain-selection.md
+# Verify: Agent Web Access Toolchain — 7 Libraries for Reliable Forum 
+pip install curl_cffi
 ```
 
 **Expected Output:**
 ```
-Lesson: Agent Web Access Toolchain — 7 Libraries for Relia
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

@@ -133,14 +133,13 @@ agent-reach install --channels reddit --proxy http://proxy:port
 ## Verification
 
 ```bash
-echo "Lesson: GFW TLS SNI Block Pattern — Why Tool-Layer Solutio"
-wc -l lessons/contrib/gfw-tls-sni-block-pattern.md
+# Verify: GFW TLS SNI Block Pattern — Why Tool-Layer Solutions Fail
+export HTTPS_PROXY=http://proxy:port
 ```
 
 **Expected Output:**
 ```
-Lesson: GFW TLS SNI Block Pattern — Why Tool-Layer Solutio
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

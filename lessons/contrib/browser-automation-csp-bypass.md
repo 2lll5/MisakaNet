@@ -140,14 +140,13 @@ if nonce:
 ## Verification
 
 ```bash
-echo "Lesson: CSP blocks JavaScript injection in browser automat"
-wc -l lessons/contrib/browser-automation-csp-bypass.md
+# Verify: CSP blocks JavaScript injection in browser automation of aut
+chrome --disable-web-security --user-data-dir=/tmp/chrome-automation
 ```
 
 **Expected Output:**
 ```
-Lesson: CSP blocks JavaScript injection in browser automat
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

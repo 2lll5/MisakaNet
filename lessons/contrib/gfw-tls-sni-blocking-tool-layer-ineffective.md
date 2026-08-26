@@ -68,16 +68,11 @@ curl -x http://ip:port https://www.reddit.com/...
 ## Verification
 
 ```bash
-echo "Lesson: GFW TLS SNI 阻断：工具层全部无效，只有代理能解"
-wc -l lessons/contrib/gfw-tls-sni-blocking-tool-layer-ineffective.md
+# Verify: GFW TLS SNI 阻断：工具层全部无效，只有代理能解
+curl -v --max-time 5 "https://www.reddit.com/" 2>&1 | grep -E "Connected|TLS|timeout"
 ```
 
 **Expected Output:**
 ```
-Lesson: GFW TLS SNI 阻断：工具层全部无效，只有代理能解
-# (line count)
+# (command should succeed without errors)
 ```
-
----
-
-> **See also:** [gfw-tls-sni-block-pattern](gfw-tls-sni-block-pattern.md) — comprehensive version of this lesson.

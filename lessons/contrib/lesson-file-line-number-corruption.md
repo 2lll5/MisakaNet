@@ -93,14 +93,13 @@ This is the most portable version (works on BSD/macOS `sed` too).
 ## Verification
 
 ```bash
-echo "Lesson: Before — inspect raw first line"
-wc -l lessons/contrib/lesson-file-line-number-corruption.md
+# Verify: Before — inspect raw first line
+sed -i 's/^ *[0-9]*|//' corrupted-file.ext
 ```
 
 **Expected Output:**
 ```
-Lesson: Before — inspect raw first line
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

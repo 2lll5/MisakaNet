@@ -101,14 +101,13 @@ Containers may lack debugging tools (curl, lsof, vim). Try common package manage
 ## Verification
 
 ```bash
-echo "Lesson: Tips for Debugging Kubernetes CrashLoopBackOff in "
-wc -l lessons/contrib/kubernetes-crashloopbackoff-debugging.md
+# Verify: Tips for Debugging Kubernetes CrashLoopBackOff in a Containe
+docker pull docker.elastic.co/elasticsearch/elasticsearch:7.10.2
 ```
 
 **Expected Output:**
 ```
-Lesson: Tips for Debugging Kubernetes CrashLoopBackOff in 
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

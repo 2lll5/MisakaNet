@@ -85,12 +85,13 @@ git config --global --list
 ## Verification
 
 ```bash
-git log --format="%b" -1 | grep -i "Signed-off-by" || echo none
+# Verify: Error de DCO sign-off en commits de Git en Windows
+git config --list --show-origin | grep user
 ```
 
 **Expected Output:**
 ```
-Signed-off-by:
+# (command should succeed without errors)
 ```
 
 ## Notes

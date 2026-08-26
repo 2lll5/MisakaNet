@@ -80,14 +80,13 @@ Using `sudo` with npm is discouraged because it runs lifecycle scripts as root, 
 ## Verification
 
 ```bash
-echo "Lesson: npm install EACCES permission error on Linux and m"
-wc -l lessons/contrib/npm-eacces-permission-error-linux.md
+# Verify: npm install EACCES permission error on Linux and macOS
+mkdir -p ~/.npm-global
 ```
 
 **Expected Output:**
 ```
-Lesson: npm install EACCES permission error on Linux and m
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

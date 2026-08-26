@@ -13,14 +13,13 @@ verified_date: 2026-07-10
 ## Verification
 
 ```bash
-grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
-echo Search verified
+# Verify: Search Smart Fallback — Turning Zero Results into Discovery
+python3 search_knowledge.py "xylophone purple elephant dancing"
 ```
 
 **Expected Output:**
 ```
-# (refs)
-Search verified
+# (command should succeed without errors)
 ```
 
 ## Search Smart Fallback — Turning Zero Results into Discovery

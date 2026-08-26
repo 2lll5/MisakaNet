@@ -25,15 +25,16 @@ See problem description above for technical details.
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: 多模型Switch脚本模式 — 双 Agent 模型管理
+switch-agent-a list              # 可用模型
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (command should succeed without errors)
 ```
+
 ## Solution
 
 每个 Agent 各自维护一个独立的切换脚本，各管各的配置。

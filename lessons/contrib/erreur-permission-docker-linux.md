@@ -61,14 +61,13 @@ sudo systemctl restart docker
 ## Verification
 
 ```bash
-echo "Lesson: Erreur de permission Docker: permission denied sur"
-wc -l lessons/contrib/erreur-permission-docker-linux.md
+# Verify: Erreur de permission Docker: permission denied sur /var/run/
+grep docker /etc/group
 ```
 
 **Expected Output:**
 ```
-Lesson: Erreur de permission Docker: permission denied sur
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

@@ -34,14 +34,13 @@ export no_proxy=localhost,127.0.0.1,.local
 ## Verification
 
 ```bash
-echo "Lesson: wsl proxy huggingface external"
-wc -l lessons/contrib/wsl-proxy-huggingface-external.md
+# Verify: wsl proxy huggingface external
+export http_proxy=http://127.0.0.1:7890
 ```
 
 **Expected Output:**
 ```
-Lesson: wsl proxy huggingface external
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes

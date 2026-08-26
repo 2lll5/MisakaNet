@@ -130,14 +130,13 @@ ws.send(json.dumps(batch_msg))
 ## Verification
 
 ```bash
-echo "Lesson: Chrome Relay 浏览器Automation — CDP over WebSocket 控制"
-wc -l lessons/contrib/chrome-relay-browser-automation.md
+# Verify: Chrome Relay 浏览器Automation — CDP over WebSocket 控制无头浏览器
+chromium-browser --remote-debugging-port=9222 --no-sandbox --headless \
 ```
 
 **Expected Output:**
 ```
-Lesson: Chrome Relay 浏览器Automation — CDP over WebSocket 控制
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## 已知限制

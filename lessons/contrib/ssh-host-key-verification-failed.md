@@ -74,14 +74,13 @@ ssh-keygen -F hostname.example.com  # search for a specific host
 ## Verification
 
 ```bash
-echo "Lesson: SSH host key verification failed when connecting t"
-wc -l lessons/contrib/ssh-host-key-verification-failed.md
+# Verify: SSH host key verification failed when connecting to a remote
+ssh-keygen -R hostname.example.com
 ```
 
 **Expected Output:**
 ```
-Lesson: SSH host key verification failed when connecting t
-# (line count)
+# (command should succeed without errors)
 ```
 
 ## Notes
