@@ -1,17 +1,21 @@
 ---
-title: "数据库性能 — 索引与查询优化实践"
-domain: "ops"
-subdomain: "database"
-tags: ["database", "postgresql", "indexing", "performance", "query-optimization"]
-source: "practical-experience"
-status: "published"
-confidence: "0.9"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
+confidence: '0.9'
+created: '2026-07-01'
+domain: ops
+domain_expert: ''
+language: zh
+source: practical-experience
+status: published
+subdomain: database
+tags:
+- database
+- postgresql
+- indexing
+- performance
+- query-optimization
+title: 数据库性能 — 索引与查询优化实践
+verified_date: ''
 ---
-
-
 ## Problem
 
 慢查询是大多数 Web 应用的性能瓶颈。缺少索引、全表扫描、N+1 查询是最常见的原因。

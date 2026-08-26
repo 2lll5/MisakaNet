@@ -27,12 +27,11 @@ Add standard Unix CLI conventions: --help, --version, --timeout, exit codes (0/1
 ## Verification
 
 ```bash
-echo "Lesson: Fatal-guard CLI: harden entry point with --help, -"
-wc -l lessons/contrib/fatal-guard-cli-hardening.md
+# Verify: Fatal-guard CLI: harden entry point with --help, --version, 
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Lesson: Fatal-guard CLI: harden entry point with --help, -
 # (line count)
 ```

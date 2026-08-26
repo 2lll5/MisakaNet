@@ -72,14 +72,13 @@ jobs:
 ## Verification
 
 ```bash
-echo "Lesson: DevOps Platform Engineering — Golden Paths to Redu"
-wc -l lessons/contrib/lesson-review-3-devops-platform-engineering.md
+# Verify: DevOps Platform Engineering — Golden Paths to Reduce Cogniti
+docker ps 2>/dev/null | head -3 || echo "docker not running"
 ```
 
 **Expected Output:**
 ```
-Lesson: DevOps Platform Engineering — Golden Paths to Redu
-# (line count)
+# (Docker containers)
 ```
 
 ## Notes

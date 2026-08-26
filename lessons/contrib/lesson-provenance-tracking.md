@@ -28,12 +28,11 @@ Extend lesson schema with provenance fields (author, pr, source, edited_at, merg
 ## Verification
 
 ```bash
-echo "Lesson: Lesson Provenance Tracking: author, PR, source, me"
-wc -l lessons/contrib/lesson-provenance-tracking.md
+# Verify: Lesson Provenance Tracking: author, PR, source, merge histor
+wc -l lessons/contrib/*.md | tail -1
 ```
 
 **Expected Output:**
 ```
-Lesson: Lesson Provenance Tracking: author, PR, source, me
-# (line count)
+# (total lesson lines)
 ```

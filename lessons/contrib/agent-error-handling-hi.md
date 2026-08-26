@@ -75,12 +75,11 @@ async def resilient_call(func, *args, max_retries=3, fallback=None):
 ## Verification
 
 ```bash
-echo "Lesson: एजेंट त्रुटि हैंडलिंग — पुनर्प्रयास और फॉलबैक पैटर"
-wc -l lessons/contrib/agent-error-handling-hi.md
+# Verify: एजेंट त्रुटि हैंडलिंग — पुनर्प्रयास और फॉलबैक पैटर्न
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Lesson: एजेंट त्रुटि हैंडलिंग — पुनर्प्रयास और फॉलबैक पैटर
 # (line count)
 ```

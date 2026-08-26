@@ -146,15 +146,16 @@ d3.select(this).select('circle')
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: knowledge graph ux patterns from high star projects
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## 关键设计原则
 
 - **渐进式披露**: 默认局部视图, 按需展开全局

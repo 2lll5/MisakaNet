@@ -1,31 +1,27 @@
 ---
-{
-  "title": "DCO signoff 在 force push 后丢失导致 PR DCO 检查失败",
-  "domain": "devops",
-  "tags": [
-    "dco",
-    "git",
-    "force-push",
-    "signoff",
-    "ci"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-1099",
-  "created": "2026-08-18",
-  "updated": "",
-  "verified_date": "",
-  "domain_expert": "",
-  "provenance": {
-    "source": "agent-debugging",
-    "contributor": "2lll5",
-    "merged_at": "2026-07-20",
-    "original_issue": "#298",
-    "evidence": "pr-merged"
-  }
-}
+created: '2026-08-18'
+domain: devops
+domain_expert: ''
+evidence_level: E2
+language: zh
+provenance:
+  contributor: 2lll5
+  evidence: pr-merged
+  merged_at: '2026-07-20'
+  original_issue: '#298'
+  source: agent-debugging
+source: mcp-intake-1099
+status: published
+tags:
+- dco
+- git
+- force-push
+- signoff
+- ci
+title: DCO signoff 在 force push 后丢失导致 PR DCO 检查失败
+updated: ''
+verified_date: ''
 ---
-
 ## Problem
 
 DCO signoff 在 force push 后丢失，即使本地 commit 有 Signed-off-by，PR DCO 检查仍失败。

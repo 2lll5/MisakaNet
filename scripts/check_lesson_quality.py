@@ -110,9 +110,10 @@ def check_frontmatter(filepath: Path) -> list[str]:
             if field not in fm:
                 errors.append(f"FRONTMATTER_REQUIRED: Missing required field '{field}'")
 
-        # 标题无中文
+        # 标题无中文 (skip if language is set to zh/zh-cn)
         title = fm.get("title", "")
-        if CHINESE_RE.search(title):
+        lang = fm.get("language", "") or fm.get("lang", "")
+        if CHINESE_RE.search(title) and lang not in ("zh", "zh-cn", "zh-tw"):
             errors.append(f"FRONTMATTER_CN: Title contains Chinese: '{title}'")
 
     return errors

@@ -1,17 +1,21 @@
 ---
-title: "API 设计原则 — 无抽象、一致性、幂等性"
-domain: "ops"
-subdomain: "api"
-tags: ["api", "design", "principles", "rest", "consistency"]
-source: "increase.com/articles"
-status: "published"
-confidence: "0.85"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
+confidence: '0.85'
+created: '2026-07-01'
+domain: ops
+domain_expert: ''
+language: zh
+source: increase.com/articles
+status: published
+subdomain: api
+tags:
+- api
+- design
+- principles
+- rest
+- consistency
+title: API 设计原则 — 无抽象、一致性、幂等性
+verified_date: ''
 ---
-
-
 ## Problem
 
 API 设计不一致导致开发者困惑：有些端点用 POST 创建，有些用 PUT；有些返回 201，有些返回 200；有些用 camelCase，有些用 snake_case。
@@ -112,14 +116,13 @@ DELETE /api/v1/orders/1 → 无操作（不报错）
 ## Verification
 
 ```bash
-echo "Lesson: API 设计原则 — 无抽象、一致性、幂等性"
-wc -l lessons/contrib/lesson-20-api-design-principles.md
+# Verify: API 设计原则 — 无抽象、一致性、幂等性
+curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
 ```
 
 **Expected Output:**
 ```
-Lesson: API 设计原则 — 无抽象、一致性、幂等性
-# (line count)
+# (HTTP check)
 ```
 
 ## Notes

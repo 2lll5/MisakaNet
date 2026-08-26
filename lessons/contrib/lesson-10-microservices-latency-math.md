@@ -1,17 +1,21 @@
 ---
-title: "微服务延迟成本分析 — 何时不该用微服务"
-domain: "ops"
-subdomain: "architecture"
-tags: ["microservices", "architecture", "latency", "performance", "monolith"]
-source: "dev.to"
-status: "published"
-confidence: "0.9"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
+confidence: '0.9'
+created: '2026-07-01'
+domain: ops
+domain_expert: ''
+language: zh
+source: dev.to
+status: published
+subdomain: architecture
+tags:
+- microservices
+- architecture
+- latency
+- performance
+- monolith
+title: 微服务延迟成本分析 — 何时不该用微服务
+verified_date: ''
 ---
-
-
 ## Problem
 
 微服务的承诺：可扩展、可维护、快速。现实：对大多数系统，微服务只增加了延迟、复杂度和故障点。
@@ -73,15 +77,16 @@ domain_expert: ""
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: 微服务延迟成本分析 — 何时不该用微服务
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## Notes
 
 - "对大多数系统，微服务只增加了延迟、复杂度和故障点"

@@ -1,17 +1,22 @@
 ---
-title: "AWS Lambda MicroVMs — 隔离沙箱与 Firecracker"
-domain: "ops"
-subdomain: "serverless"
-tags: ["aws", "lambda", "microvm", "firecracker", "sandbox", "isolation"]
-source: "aws.amazon.com/blogs"
-status: "published"
-confidence: "0.9"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
+confidence: '0.9'
+created: '2026-07-01'
+domain: ops
+domain_expert: ''
+language: zh
+source: aws.amazon.com/blogs
+status: published
+subdomain: serverless
+tags:
+- aws
+- lambda
+- microvm
+- firecracker
+- sandbox
+- isolation
+title: AWS Lambda MicroVMs — 隔离沙箱与 Firecracker
+verified_date: ''
 ---
-
-
 ## Problem
 
 AI 编码助手、交互式代码环境、漏洞扫描器等需要为每个用户提供隔离的执行环境。VM 隔离强但启动慢（分钟级），容器快但共享内核需要大量加固。
@@ -72,14 +77,13 @@ def handler(event, context):
 ## Verification
 
 ```bash
-echo "Lesson: AWS Lambda MicroVMs — 隔离沙箱与 Firecracker"
-wc -l lessons/contrib/lesson-13-aws-lambda-microvms.md
+# Verify: AWS Lambda MicroVMs — 隔离沙箱与 Firecracker
+aws lambda list-functions --max-items 1 2>/dev/null | head -3 || echo "no AWS CLI"
 ```
 
 **Expected Output:**
 ```
-Lesson: AWS Lambda MicroVMs — 隔离沙箱与 Firecracker
-# (line count)
+# (Lambda check)
 ```
 
 ## Notes

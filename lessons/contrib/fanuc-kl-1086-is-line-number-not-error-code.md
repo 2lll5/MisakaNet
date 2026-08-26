@@ -3,6 +3,7 @@ confidence: 0.85
 created: '2026-05-03'
 domain: fanuc
 id: fanuc-kl-1086-is-line-number-not-error-code
+language: zh
 problem: 分析 FANUC 1086 报错时，误将 1086 当作某种错误码，一路追错方向。
 quality_score: 78
 root_cause: 1086 是 MM_MODULE.kl 的代码行号（line number），不是错误码。KTRANS 输出报错时同时标注行号，但之前分析路径将其误认为错误编号。
@@ -51,12 +52,11 @@ verification: 复现 IPC 超时场景，确认 1086 出现在 KTRANS 编译输�
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC KL: 1086 是代码行号而非错误码
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (FANUC lesson count)
 ```

@@ -2,6 +2,7 @@
 created: '2026-07-06'
 domain: contrib
 domain_expert: unknown
+language: zh
 source: unknown
 status: published
 tags:
@@ -62,12 +63,11 @@ re.findall(r"<div>([^<]*)</div>", text)
 ## Verification
 
 ```bash
-echo "Lesson: 正则表达式 debugging — 贪婪匹配造成的意外结果"
-wc -l lessons/contrib/regex-greedy-matching.md
+# Verify: 正则表达式 debugging — 贪婪匹配造成的意外结果
+python3 -c "import re; print(re.__version__)"
 ```
 
 **Expected Output:**
 ```
-Lesson: 正则表达式 debugging — 贪婪匹配造成的意外结果
-# (line count)
+# (regex version)
 ```

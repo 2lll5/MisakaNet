@@ -1,18 +1,22 @@
 ---
-{
-  "title": "RAG 检索六层静默退化：BM25 失败 + 截断 + 分数混合导致有效 chunk 被丢弃",
-  "domain": "rag",
-  "tags": ["rag", "retrieval", "bm25", "truncation", "chinese", "fanuc"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "closed-pr-1044",
-  "created": "2026-08-18",
-  "updated": "",
-  "verified_date": "",
-  "domain_expert": ""
-}
+created: '2026-08-18'
+domain: rag
+domain_expert: ''
+evidence_level: E2
+language: zh
+source: closed-pr-1044
+status: published
+tags:
+- rag
+- retrieval
+- bm25
+- truncation
+- chinese
+- fanuc
+title: RAG 检索六层静默退化：BM25 失败 + 截断 + 分数混合导致有效 chunk 被丢弃
+updated: ''
+verified_date: ''
 ---
-
 ## Problem
 
 RAG 知识库包含完整的 FANUC M-900iB/330L 规格表，但 agent 回答"M-900iB/330L 不存在"。六个独立层级各自丢弃了有效 chunk — 无单一修复足够。

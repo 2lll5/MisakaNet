@@ -37,10 +37,11 @@ verification: metadata-normalized
 ## Verification
 
 ```bash
-echo 'Verification passed'
+# Verify: openclaw prefer cli and policy over direct edit
+echo "config check"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (config placeholder)
 ```

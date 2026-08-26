@@ -3,6 +3,7 @@ confidence: 0.7
 created: 2026-05-03
 domain: fanuc
 domain_expert: bootstrap
+language: zh
 source: bootstrap
 status: published
 subdomain: kl-modules
@@ -33,12 +34,11 @@ KTRANS 编译整个项目无"already defined"报错。
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC KL: mm_module_h.kl 禁止 ROUTINE 声明
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (FANUC lesson count)
 ```

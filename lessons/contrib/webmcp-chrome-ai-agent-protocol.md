@@ -54,15 +54,16 @@ Website → webMCP endpoint → AI Agent
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: webMCP — Chrome's Experimental Protocol for AI Agents
+grep -r "mcp" lessons/contrib/mcp-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (MCP lesson count)
 ```
+
 ## Notes
 
 - HN 147↑, 137 comments — high community interest

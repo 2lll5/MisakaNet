@@ -1,6 +1,7 @@
 ---
 created: '2026-07-06'
 domain: feishu
+language: zh
 source: unknown
 status: published
 tags:
@@ -65,14 +66,13 @@ window.location.href = '目标URL';
 ## Verification
 
 ```bash
-grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
-echo Feishu verified
+# Verify: Feishu WikiBatch Download：文件类型Handling策略
+grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-Feishu verified
+# (Feishu lesson count)
 ```
 
 ## Redaction Notes

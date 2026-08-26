@@ -1,21 +1,21 @@
 ---
-title: "工艺卡步序提取：辅助动作不算独立步序，按工艺动作分界"
-domain: "engineering"
-subdomain: "process-analysis"
+confidence: '0.95'
+created: '2026-07-03'
+domain: engineering
+domain_expert: <user>
+language: zh
+source: <user>
+status: published
+subdomain: process-analysis
 tags:
-  - process-card
-  - time-chart
-  - sequence
-  - cycle-time
-  - robot
-source: "<user>"
-status: "published"
-confidence: "0.95"
-created: "2026-07-03"
-domain_expert: "<user>"
-verified_date: "2026-07-06"
+- process-card
+- time-chart
+- sequence
+- cycle-time
+- robot
+title: 工艺卡步序提取：辅助动作不算独立步序，按工艺动作分界
+verified_date: '2026-07-06'
 ---
-
 ## Problem
 
 从工艺卡 Time Chart 提取机器人步序时，三种常见错误：
@@ -60,12 +60,11 @@ verified_date: "2026-07-06"
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: 工艺卡步序提取：辅助动作不算独立步序，按工艺动作分界
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (line count)
 ```

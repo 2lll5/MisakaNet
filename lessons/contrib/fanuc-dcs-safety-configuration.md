@@ -100,14 +100,13 @@ Stop Distance = (Motion Speed × Scan Time) + Coast Distance at Power Cutoff
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC DCS Safety System — Configuration and Stop Modes
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (FANUC lesson count)
 ```
 
 ## Notes

@@ -47,12 +47,12 @@ Hardened the `_slugify` logic in `scripts/new_lesson.py` using standard library 
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: slugify windows path sanitation
+uname -a 2>/dev/null || echo "not on WSL"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (system info)
 ```

@@ -39,15 +39,16 @@ HuBERT SSL 特征提取失败，音频克隆效果异常。
 4. `feat = cnhubert_mod.get_content(hmodel, wav_tensor)` → 签名是 `(hmodel, wav_16k_tensor)`
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: gpt sovits hubert 16khz
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## 常见错误
 
 - `get_model()` 返回值解包为元组 → 实际是单个对象

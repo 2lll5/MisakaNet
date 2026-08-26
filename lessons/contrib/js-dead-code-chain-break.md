@@ -2,6 +2,7 @@
 created: '2026-07-06'
 domain: frontend
 domain_expert: unknown
+language: zh
 source: unknown
 status: published
 tags:
@@ -46,15 +47,16 @@ JavaScript 引擎执行到这一步抛出 TypeError，**后续所有同步代码
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: JavaScript 执行链断裂：一个未捕获 TypeError 如何让整个页面静默失效
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## 反思
 
 一个与视觉功能完全无关的遗留代码行（例如一个已被删除的语言切换按钮的 DOM 引用），可以通过 TypeError 让**整个页面所有 JS 增强功能**全部静默失效。这种 bug 的隐蔽之处在于：

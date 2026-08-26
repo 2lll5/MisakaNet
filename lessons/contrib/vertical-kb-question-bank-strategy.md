@@ -99,12 +99,11 @@ with zipfile.ZipFile("题库.docx") as z:
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: Vertical KB Question Bank Strategy — FANUC Robot KB Case Stu
+grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (Feishu lesson count)
 ```

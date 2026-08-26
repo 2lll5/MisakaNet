@@ -57,14 +57,13 @@ Key value: 65536 = 2^16, the 16-bit boundary.
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC Profinet 32-bit Real Value Transfer Without KAREL
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (FANUC lesson count)
 ```
 
 ## Notes

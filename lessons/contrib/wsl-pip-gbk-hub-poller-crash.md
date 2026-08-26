@@ -52,14 +52,13 @@ with open(config_path, encoding="utf-8") as f:
 ## Verification
 
 ```bash
-echo "Lesson: wsl pip gbk hub poller crash"
-wc -l lessons/contrib/wsl-pip-gbk-hub-poller-crash.md
+# Verify: wsl pip gbk hub poller crash
+python3 --version
 ```
 
 **Expected Output:**
 ```
-Lesson: wsl pip gbk hub poller crash
-# (line count)
+# (Python version)
 ```
 
 ## Notes

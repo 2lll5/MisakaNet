@@ -128,15 +128,16 @@ Press COORD key to cycle: JOINT → JGFRM → WORLD → TOOL → USER
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: FANUC TCP and Tool Configuration — Standards for Automotive 
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (FANUC lesson count)
 ```
+
 ## Notes
 
 - TCP direction for fixed welding guns is the SAME as handheld — this is a common mistake

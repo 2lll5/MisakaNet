@@ -3,6 +3,7 @@ confidence: '0.85'
 created: '2026-07-06'
 domain: wechat
 domain_expert: bootstrap
+language: zh
 source: bootstrap
 status: published
 subdomain: wechat

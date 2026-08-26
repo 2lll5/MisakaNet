@@ -45,14 +45,13 @@ internal-gateway.local API 端点 (`https://api.internal-gateway.local/v1`) 只�
 ## Verification
 
 ```bash
-echo "Lesson: Internal Gateway — Incompatible with Anthropic For"
-wc -l lessons/contrib/anthropic-proxy-internal-gateway.md
+# Verify: Internal Gateway — Incompatible with Anthropic Format, Requi
+node --version
 ```
 
 **Expected Output:**
 ```
-Lesson: Internal Gateway — Incompatible with Anthropic For
-# (line count)
+# (Node version)
 ```
 
 ## Related

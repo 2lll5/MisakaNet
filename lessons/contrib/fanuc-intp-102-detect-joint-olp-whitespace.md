@@ -56,14 +56,13 @@ File a bug with RoboDK (or your OLP tool) about trailing whitespace in sensor in
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC INTP-102 DETECT JOINT — OLP Whitespace Bug
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (FANUC lesson count)
 ```
 
 ## Notes

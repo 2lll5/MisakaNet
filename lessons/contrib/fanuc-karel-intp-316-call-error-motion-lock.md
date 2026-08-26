@@ -3,6 +3,7 @@ confidence: 0.7
 created: '2026-07-12'
 domain: fanuc
 id: fanuc-karel-intp-316-call-error-motion-lock
+language: zh
 problem: 从 KAREL 调用 TP 程序时触发 INTP-316（呼叫错误），同时动作锁定被激活，机器人无法运动。KAREL 程序本身可正常运行，仅调用
   TP 程序时出错。
 quality_score: 67
@@ -94,12 +95,11 @@ CALL 'TEST.TP'
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC KAREL: INTP-316 调用TP程序触发动作锁定
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (FANUC lesson count)
 ```

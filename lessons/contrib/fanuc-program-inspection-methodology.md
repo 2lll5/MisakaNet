@@ -126,15 +126,16 @@ Example: UB030R01_MS11_01_WELD_JR1
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: FANUC Robot Program Inspection Methodology — Systematic Chec
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (FANUC lesson count)
 ```
+
 ## Notes
 
 - Always check collision zone FINE points first — this is the most common safety issue

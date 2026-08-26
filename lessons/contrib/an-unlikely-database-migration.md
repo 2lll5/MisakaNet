@@ -51,14 +51,13 @@ The team also evaluated but rejected alternatives:
 ## Verification
 
 ```bash
-echo "Lesson: An Unlikely Database Migration: From JSON Files to"
-wc -l lessons/contrib/an-unlikely-database-migration.md
+# Verify: An Unlikely Database Migration: From JSON Files to etcd
+git status --short
 ```
 
 **Expected Output:**
 ```
-Lesson: An Unlikely Database Migration: From JSON Files to
-# (line count)
+# (working tree status)
 ```
 
 ## Notes

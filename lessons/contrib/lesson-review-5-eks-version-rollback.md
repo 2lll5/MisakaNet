@@ -1,17 +1,22 @@
 ---
-title: "EKS Kubernetes 版本回滚 — 安全升级集群"
-domain: "ops"
-subdomain: "kubernetes"
-tags: ["kubernetes", "eks", "aws", "upgrade", "rollback", "cluster-management"]
-source: "aws.amazon.com/blogs"
-status: "published"
-confidence: "0.9"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
+confidence: '0.9'
+created: '2026-07-01'
+domain: ops
+domain_expert: ''
+language: zh
+source: aws.amazon.com/blogs
+status: published
+subdomain: kubernetes
+tags:
+- kubernetes
+- eks
+- aws
+- upgrade
+- rollback
+- cluster-management
+title: EKS Kubernetes 版本回滚 — 安全升级集群
+verified_date: ''
 ---
-
-
 ## Problem
 
 升级 Kubernetes 控制平面是单向操作——开源 K8s 不支持控制平面回滚。团队因此延迟升级，错过安全补丁。

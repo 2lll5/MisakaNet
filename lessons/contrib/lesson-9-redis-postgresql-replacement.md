@@ -1,17 +1,22 @@
 ---
-title: "Redis → PostgreSQL 替换 — 缓存/PubSub/队列统一"
-domain: "ops"
-subdomain: "database"
-tags: ["redis", "postgresql", "caching", "pubsub", "database", "performance"]
-source: "dev.to"
-status: "published"
-confidence: "0.9"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
+confidence: '0.9'
+created: '2026-07-01'
+domain: ops
+domain_expert: ''
+language: zh
+source: dev.to
+status: published
+subdomain: database
+tags:
+- redis
+- postgresql
+- caching
+- pubsub
+- database
+- performance
+title: Redis → PostgreSQL 替换 — 缓存/PubSub/队列统一
+verified_date: ''
 ---
-
-
 ## Problem
 
 典型 Web 应用同时用 PostgreSQL（持久化）+ Redis（缓存/PubSub/队列），两个数据库 = 两个备份点、两个监控、两个故障点。Redis 用 RAM（贵），持久化复杂。
@@ -93,15 +98,16 @@ COMMIT;
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: Redis → PostgreSQL 替换 — 缓存/PubSub/队列统一
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## Notes
 
 - UNLOGGED TABLE 不写 WAL，崩溃后数据丢失（适合缓存场景）

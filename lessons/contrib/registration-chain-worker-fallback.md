@@ -2,6 +2,7 @@
 created: '2026-07-06'
 domain: feishu
 domain_expert: unknown
+language: zh
 source: unknown
 status: published
 tags:
@@ -131,14 +132,13 @@ Misaka10051 → Misaka10051（确认）
 ## Verification
 
 ```bash
-echo "Lesson: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow"
-wc -l lessons/contrib/registration-chain-worker-fallback.md
+# Verify: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow
+git status --short
 ```
 
 **Expected Output:**
 ```
-Lesson: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow
-# (line count)
+# (working tree status)
 ```
 
 ## Pitfalls

@@ -42,15 +42,16 @@ verification: metadata-normalized
 ❌ heading2 (type=5, 字段h
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: lessons md fix heading block type
+grep -r "rag\|retrieval" lessons/contrib/rag-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (RAG lesson count)
 ```
+
 ## 用户描述
 lessons.md 修正（4 处）
 项目

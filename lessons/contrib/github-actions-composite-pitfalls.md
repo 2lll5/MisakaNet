@@ -1,18 +1,20 @@
 ---
-{
-  "title": "GitHub Actions composite action 3 个常见陷阱",
-  "domain": "devops",
-  "tags": ["github-actions", "composite", "yaml", "shell-injection"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-1102",
-  "created": "2026-08-18",
-  "updated": "",
-  "verified_date": "",
-  "domain_expert": ""
-}
+created: '2026-08-18'
+domain: devops
+domain_expert: ''
+evidence_level: E2
+language: zh
+source: mcp-intake-1102
+status: published
+tags:
+- github-actions
+- composite
+- yaml
+- shell-injection
+title: GitHub Actions composite action 3 个常见陷阱
+updated: ''
+verified_date: ''
 ---
-
 ## Problem
 
 GitHub Actions composite action 有 3 个常见陷阱：重复 YAML inputs、shell 注入、diff_stat 在单 commit 时为空。

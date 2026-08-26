@@ -44,15 +44,16 @@ Optionally run the validator locally against your branch (extract it from the to
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: Schemas coupled across repos break CI until the counterpart 
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## Notes
 
 A red check is not always your fault — verify whether the failing check is schema-coupled to another repo before rewriting data. Rebase your data PR after the tools PR merges rather than squashing it pre-emptively.

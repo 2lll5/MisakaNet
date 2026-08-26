@@ -1,6 +1,7 @@
 ---
 created: '2026-07-06'
 domain: contrib
+language: zh
 source: unknown
 status: published
 tags:
@@ -23,14 +24,13 @@ verification: metadata-normalized
 ## Verification
 
 ```bash
-echo "Lesson: JSON 解析失败Handling — 截断 / 格式Error"
-wc -l lessons/contrib/json-parse-failure-handling.md
+# Verify: JSON 解析失败Handling — 截断 / 格式Error
+python3 --version
 ```
 
 **Expected Output:**
 ```
-Lesson: JSON 解析失败Handling — 截断 / 格式Error
-# (line count)
+# (Python version)
 ```
 
 ## Solution

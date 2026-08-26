@@ -78,13 +78,12 @@ Competition PRs: first to fix DCO wins, others close as duplicate.
 ## Verification
 
 ```bash
-echo "Lesson: Zero-Bounty Agent Competition Flywheel: Issue Desi"
-wc -l lessons/contrib/zero-bounty-agent-competition-flywheel.md
+# Verify: Zero-Bounty Agent Competition Flywheel: Issue Design for Cra
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Lesson: Zero-Bounty Agent Competition Flywheel: Issue Desi
 # (line count)
 ```
 

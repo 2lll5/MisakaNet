@@ -1,17 +1,22 @@
 ---
-title: "gRPC vs OpenAPI vs REST — API 协议选择指南"
-domain: "ops"
-subdomain: "api"
-tags: ["grpc", "openapi", "rest", "api", "protocol", "architecture"]
-source: "cloud.google.com/blog"
-status: "published"
-confidence: "0.9"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
+confidence: '0.9'
+created: '2026-07-01'
+domain: ops
+domain_expert: ''
+language: zh
+source: cloud.google.com/blog
+status: published
+subdomain: api
+tags:
+- grpc
+- openapi
+- rest
+- api
+- protocol
+- architecture
+title: gRPC vs OpenAPI vs REST — API 协议选择指南
+verified_date: ''
 ---
-
-
 ## Problem
 
 选择 API 协议时，REST、OpenAPI、gRPC 各有优劣，没有清晰的选择指南。
@@ -110,14 +115,13 @@ message User {
 ## Verification
 
 ```bash
-echo "Lesson: gRPC vs OpenAPI vs REST — API 协议选择指南"
-wc -l lessons/contrib/lesson-19-grpc-openapi-rest-comparison.md
+# Verify: gRPC vs OpenAPI vs REST — API 协议选择指南
+curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
 ```
 
 **Expected Output:**
 ```
-Lesson: gRPC vs OpenAPI vs REST — API 协议选择指南
-# (line count)
+# (HTTP check)
 ```
 
 ## Notes

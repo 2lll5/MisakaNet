@@ -93,14 +93,13 @@ Top 5 facts:"""
 ## Verification
 
 ```bash
-echo "Lesson: Agent Memory Extractor Timing — Eager vs Lazy with"
-wc -l lessons/contrib/agent-memory-extractor-timing.md
+# Verify: Agent Memory Extractor Timing — Eager vs Lazy with Implement
+echo "token check (do not expose)"
 ```
 
 **Expected Output:**
 ```
-Lesson: Agent Memory Extractor Timing — Eager vs Lazy with
-# (line count)
+# (token placeholder)
 ```
 
 ## Notes

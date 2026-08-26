@@ -1,17 +1,21 @@
 ---
-title: "MCP — AI Agent 工具调用标准化协议"
-domain: "mcp"
-subdomain: "standardization"
-tags: ["mcp", "agent", "tool-calling", "standardization", "protocol"]
-source: "segmentfault.com"
-status: "published"
-confidence: "0.85"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
+confidence: '0.85'
+created: '2026-07-01'
+domain: mcp
+domain_expert: ''
+language: zh
+source: segmentfault.com
+status: published
+subdomain: standardization
+tags:
+- mcp
+- agent
+- tool-calling
+- standardization
+- protocol
+title: MCP — AI Agent 工具调用标准化协议
+verified_date: ''
 ---
-
-
 ## Problem
 
 AI Agent 调用外部工具时，每个 LLM 提供商的 function calling 格式不同，每个工具需要单独适配。工具越多，维护成本越高。

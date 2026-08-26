@@ -2,6 +2,7 @@
 created: '2026-07-06'
 domain: contrib
 domain_expert: unknown
+language: zh
 source: unknown
 status: published
 tags:

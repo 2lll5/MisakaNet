@@ -57,14 +57,13 @@ async def start(self):
 ## Verification
 
 ```bash
-grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
-echo Feishu verified
+# Verify: hub feishu wsclient start never called
+grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-Feishu verified
+# (Feishu lesson count)
 ```
 
 ## Key Points

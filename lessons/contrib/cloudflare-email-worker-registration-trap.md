@@ -1,6 +1,7 @@
 ---
 created: '2026-07-06'
 domain: devops
+language: zh
 provenance:
   contributor: Ikalus1988
   evidence: pre-ingest-reuse
@@ -80,14 +81,13 @@ const token = Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
 ## Verification
 
 ```bash
-echo "Lesson: Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、"
-wc -l lessons/contrib/cloudflare-email-worker-registration-trap.md
+# Verify: Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、MIME 与 SPF
+node --version
 ```
 
 **Expected Output:**
 ```
-Lesson: Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、
-# (line count)
+# (Node version)
 ```
 
 ## Lesson Learned

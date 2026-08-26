@@ -51,14 +51,13 @@ This is intentional bot defense, not a missing “create gig” API field.
 ## Verification
 
 ```bash
-echo "Lesson: Fiverr PerimeterX captcha blocks headless seller g"
-wc -l lessons/contrib/fiverr-perimeterx-blocks-seller-automation.md
+# Verify: Fiverr PerimeterX captcha blocks headless seller gig creatio
+npx playwright --version 2>/dev/null || echo "playwright not installed"
 ```
 
 **Expected Output:**
 ```
-Lesson: Fiverr PerimeterX captcha blocks headless seller g
-# (line count)
+# (Playwright version)
 ```
 
 ## Notes

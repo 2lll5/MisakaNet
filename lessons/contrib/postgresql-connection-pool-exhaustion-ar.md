@@ -89,14 +89,13 @@ default_pool_size = 20
 ## Verification
 
 ```bash
-echo "Lesson: حل مشكلة استنفاد تجميع اتصالات قاعدة البيانات Post"
-wc -l lessons/contrib/postgresql-connection-pool-exhaustion-ar.md
+# Verify: حل مشكلة استنفاد تجميع اتصالات قاعدة البيانات PostgreSQL في 
+git status --short
 ```
 
 **Expected Output:**
 ```
-Lesson: حل مشكلة استنفاد تجميع اتصالات قاعدة البيانات Post
-# (line count)
+# (working tree status)
 ```
 
 ## Notes

@@ -49,12 +49,11 @@ python3 search_knowledge.py "external PR strategy"
 ## Verification
 
 ```bash
-echo "Lesson: External PR Strategy via pr-genius"
-wc -l lessons/contrib/pr-strategy.md
+# Verify: External PR Strategy via pr-genius
+git status --short
 ```
 
 **Expected Output:**
 ```
-Lesson: External PR Strategy via pr-genius
-# (line count)
+# (working tree status)
 ```

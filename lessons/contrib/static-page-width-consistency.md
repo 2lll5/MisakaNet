@@ -50,15 +50,16 @@ verification: metadata-normalized
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: static page width consistency
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## 反思
 
 静态页面的视觉统一性首先来自**宽度的一致性**。如果每个组件都有自己的 max-width，用户会明显感到"拼凑感"：

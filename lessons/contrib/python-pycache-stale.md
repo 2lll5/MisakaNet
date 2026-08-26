@@ -1,6 +1,7 @@
 ---
 created: '2026-07-06'
 domain: python
+language: zh
 source: unknown
 status: published
 tags:

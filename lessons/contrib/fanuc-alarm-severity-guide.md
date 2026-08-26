@@ -90,14 +90,13 @@ Stop distance = (Motion speed × Scan time) + Coast distance at power cutoff
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC Alarm Severity Levels — Handling and Color Codes
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (FANUC lesson count)
 ```
 
 ## Notes

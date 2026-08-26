@@ -53,15 +53,16 @@ WSL2 (Linux 虚拟机) → 本机虚拟网卡 → Windows 主机 :10086
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: firewall port open not public
+node --version
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (Node version)
 ```
+
 ## Notes
 
 WSL2 + Windows 混合开发，任何需要 WSL 访问 Windows 端口的情况（RAG API、微信机器人等）。

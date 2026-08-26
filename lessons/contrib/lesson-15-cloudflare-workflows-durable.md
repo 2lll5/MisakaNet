@@ -1,17 +1,21 @@
 ---
-title: "Cloudflare Workflows — 持久化多步骤执行"
-domain: "ops"
-subdomain: "workflow"
-tags: ["cloudflare", "workflows", "durable", "serverless", "state-machine"]
-source: "blog.cloudflare.com"
-status: "published"
-confidence: "0.85"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
+confidence: '0.85'
+created: '2026-07-01'
+domain: ops
+domain_expert: ''
+language: zh
+source: blog.cloudflare.com
+status: published
+subdomain: workflow
+tags:
+- cloudflare
+- workflows
+- durable
+- serverless
+- state-machine
+title: Cloudflare Workflows — 持久化多步骤执行
+verified_date: ''
 ---
-
-
 ## Problem
 
 Serverless 函数是无状态的。多步骤流程（审批、数据处理、编排）需要跨步骤持久化状态，传统方式需要外部数据库或消息队列。
@@ -72,14 +76,13 @@ export default {
 ## Verification
 
 ```bash
-echo "Lesson: Cloudflare Workflows — 持久化多步骤执行"
-wc -l lessons/contrib/lesson-15-cloudflare-workflows-durable.md
+# Verify: Cloudflare Workflows — 持久化多步骤执行
+ls wrangler.toml 2>/dev/null || echo "no wrangler config"
 ```
 
 **Expected Output:**
 ```
-Lesson: Cloudflare Workflows — 持久化多步骤执行
-# (line count)
+# (Wrangler config)
 ```
 
 ## Notes

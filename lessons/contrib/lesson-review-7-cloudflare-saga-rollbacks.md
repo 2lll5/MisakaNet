@@ -80,14 +80,13 @@ export default {
 ## Verification
 
 ```bash
-echo "Lesson: Cloudflare Workflows Saga Rollback — Durable Multi"
-wc -l lessons/contrib/lesson-review-7-cloudflare-saga-rollbacks.md
+# Verify: Cloudflare Workflows Saga Rollback — Durable Multi-Step Comp
+ls wrangler.toml 2>/dev/null || echo "no wrangler config"
 ```
 
 **Expected Output:**
 ```
-Lesson: Cloudflare Workflows Saga Rollback — Durable Multi
-# (line count)
+# (Wrangler config)
 ```
 
 ## Notes

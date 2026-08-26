@@ -138,12 +138,11 @@ async with stdio_client(params) as (read, write):
 ## Verification
 
 ```bash
-grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
-echo Feishu verified
+# Verify: DeepSeek TUI — Feishu MCP Server Setup & Permission Boundari
+grep -r "mcp" lessons/contrib/mcp-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-Feishu verified
+# (MCP lesson count)
 ```

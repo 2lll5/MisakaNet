@@ -42,15 +42,16 @@ Agent 在 context 中看到了知识但不一定会用。即使指令写了"不�
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: phase 0 output gate
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## 原理
 
 Agent 可以忽略上下文的建议，但**不能凭空编出完整的检索报告**。用户能看到输出结果——如果没读文件，摘要就是空的。

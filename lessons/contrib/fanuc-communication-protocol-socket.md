@@ -143,12 +143,11 @@ Python 客户端（fanucpy）与 MAPPDK 服务端之间的协议：
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC Robot TCP/IP Socket Communication Protocol and MAPPDK 
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (FANUC lesson count)
 ```

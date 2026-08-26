@@ -114,15 +114,16 @@ If the modal MUST stay inside the sidebar:
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: CSS z-index Not Working — Stacking Context Inversion in Moda
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## Debugging Checklist
 
 When z-index seems broken:

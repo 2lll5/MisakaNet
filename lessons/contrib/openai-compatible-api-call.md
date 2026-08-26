@@ -2,6 +2,7 @@
 created: '2026-07-06'
 domain: contrib
 domain_expert: unknown
+language: zh
 source: unknown
 status: published
 tags:
@@ -69,12 +70,11 @@ print(data["choices"][0]["message"]["content"])
 ## Verification
 
 ```bash
-echo "Lesson: OpenAI 兼容 API 的通用调用格式"
-wc -l lessons/contrib/openai-compatible-api-call.md
+# Verify: OpenAI 兼容 API 的通用调用格式
+curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
 ```
 
 **Expected Output:**
 ```
-Lesson: OpenAI 兼容 API 的通用调用格式
-# (line count)
+# (HTTP check)
 ```

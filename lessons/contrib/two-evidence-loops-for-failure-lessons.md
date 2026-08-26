@@ -85,15 +85,16 @@ Public post-publication reuse is not yet proven. Several lessons have pre-ingest
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: Two Evidence Loops for Failure Lessons
+wc -l lessons/contrib/*.md | tail -1
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (total lesson lines)
 ```
+
 ## Next Agent Prompt
 
 When reviewing a lesson repository, ask two questions separately:

@@ -107,13 +107,12 @@ This catches any edge case that slips through Layers 1 and 2.
 ## Verification
 
 ```bash
-echo "Lesson: Data Quality Fix: Always Keep Three Layers (DB + E"
-wc -l lessons/contrib/data-quality-three-layer-fix-pattern.md
+# Verify: Data Quality Fix: Always Keep Three Layers (DB + ETL + Query
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Lesson: Data Quality Fix: Always Keep Three Layers (DB + E
 # (line count)
 ```
 

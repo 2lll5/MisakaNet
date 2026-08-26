@@ -93,13 +93,12 @@ If an issue has a bounty label but no explicit funded reward, say so clearly. Am
 ## Verification
 
 ```bash
-echo "Lesson: Bounty Contributors Are Not Always Users"
-wc -l lessons/contrib/bounty-contributors-are-not-always-users.md
+# Verify: Bounty Contributors Are Not Always Users
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Lesson: Bounty Contributors Are Not Always Users
 # (line count)
 ```
 

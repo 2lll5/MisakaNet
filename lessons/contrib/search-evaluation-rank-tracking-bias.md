@@ -1,18 +1,21 @@
 ---
-{
-  "title": "搜索评估陷阱：评估函数先检查标题再检查内容导致 rank 偏差",
-  "domain": "search",
-  "tags": ["search", "evaluation", "rank", "recall", "bias"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-1113",
-  "created": "2026-08-18",
-  "updated": "",
-  "verified_date": "",
-  "domain_expert": ""
-}
+created: '2026-08-18'
+domain: search
+domain_expert: ''
+evidence_level: E2
+language: zh
+source: mcp-intake-1113
+status: published
+tags:
+- search
+- evaluation
+- rank
+- recall
+- bias
+title: 搜索评估陷阱：评估函数先检查标题再检查内容导致 rank 偏差
+updated: ''
+verified_date: ''
 ---
-
 ## Problem
 
 搜索评估函数先检查标题再检查内容，导致实际 rank1 的结果被报告为 rank7，Recall 指标虚低 7%+。

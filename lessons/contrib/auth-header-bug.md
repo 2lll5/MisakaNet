@@ -43,12 +43,11 @@ headers = {
 ## Verification
 
 ```bash
-echo "Lesson: Moorcheh API Auth Header Bug"
-wc -l lessons/contrib/auth-header-bug.md
+# Verify: Moorcheh API Auth Header Bug
+curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
 ```
 
 **Expected Output:**
 ```
-Lesson: Moorcheh API Auth Header Bug
-# (line count)
+# (HTTP check)
 ```

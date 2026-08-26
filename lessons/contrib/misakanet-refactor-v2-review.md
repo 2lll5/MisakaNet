@@ -45,14 +45,13 @@ MisakaNet 早期架构照搬了"中心协调网络"的设计——A2A 实时通�
 ## Verification
 
 ```bash
-echo "Lesson: misakanet refactor v2 review"
-wc -l lessons/contrib/misakanet-refactor-v2-review.md
+# Verify: misakanet refactor v2 review
+git status --short
 ```
 
 **Expected Output:**
 ```
-Lesson: misakanet refactor v2 review
-# (line count)
+# (working tree status)
 ```
 
 ## Completed（搜索结果质量评分）

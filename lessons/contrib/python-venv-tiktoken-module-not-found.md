@@ -2,6 +2,7 @@
 created: '2026-07-06'
 domain: python
 domain_expert: Misaka10019
+language: zh
 source: Misaka10019
 status: published
 tags:

@@ -1,18 +1,18 @@
 ---
-title: "MCP Server 测试 — 直接调用 handler 跳过 stdio 传输"
-domain: development
-tags:
-  - mcp
-  - testing
-  - json-rpc
-  - python
-  - unit-test
-status: published
-source: practical-experience
 confidence: 0.85
 created: 2026-07-07
+domain: development
+language: zh
+source: practical-experience
+status: published
+tags:
+- mcp
+- testing
+- json-rpc
+- python
+- unit-test
+title: MCP Server 测试 — 直接调用 handler 跳过 stdio 传输
 ---
-
 ## Problem
 
 MCP Server 使用 stdio 传输（stdin/stdout JSON-RPC），测试时需要启动子进程、写入 stdin、解析 stdout。这种方式：

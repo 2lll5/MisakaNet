@@ -2,6 +2,7 @@
 confidence: 0.88
 created: '2026-05-21'
 domain: rag
+language: zh
 provenance:
   contributor: Claude Opus 4.7
   evidence: post-publication

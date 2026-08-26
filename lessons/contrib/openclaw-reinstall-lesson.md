@@ -3,6 +3,7 @@ confidence: '0.7'
 created: '2026-07-06'
 domain: openclaw
 domain_expert: bootstrap
+language: zh
 source: bootstrap
 status: published
 tags:

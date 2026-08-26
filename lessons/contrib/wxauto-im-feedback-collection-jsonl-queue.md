@@ -3,6 +3,7 @@ confidence: 0.9
 created: '2026-07-06'
 domain: wechat
 domain_expert: unknown
+language: zh
 source: unknown
 status: published
 tags:
@@ -92,14 +93,13 @@ badcase_pending.jsonl  ←── daily_audit 写入 + IM 反馈写入
 ## Verification
 
 ```bash
-echo "Lesson: IM 机器人反馈收集与 JSONL 队列审核模式"
-wc -l lessons/contrib/wxauto-im-feedback-collection-jsonl-queue.md
+# Verify: IM 机器人反馈收集与 JSONL 队列审核模式
+grep -r "rag\|retrieval" lessons/contrib/rag-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-Lesson: IM 机器人反馈收集与 JSONL 队列审核模式
-# (line count)
+# (RAG lesson count)
 ```
 
 ## Key Points

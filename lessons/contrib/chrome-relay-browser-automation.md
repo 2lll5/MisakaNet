@@ -1,6 +1,7 @@
 ---
 created: '2026-07-06'
 domain: automation
+language: zh
 source: unknown
 status: published
 tags:

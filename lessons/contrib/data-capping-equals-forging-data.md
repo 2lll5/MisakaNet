@@ -1,20 +1,20 @@
 ---
-title: "数据封顶=伪造数据：超出阈值应剔除而非截断"
-domain: "data"
-subdomain: "data-quality"
+confidence: '1.0'
+created: '2026-06-25'
+domain: data
+domain_expert: <user>
+language: zh
+source: <user>
+status: published
+subdomain: data-quality
 tags:
-  - data-quality
-  - threshold
-  - capping
-  - data-integrity
-source: "<user>"
-status: "published"
-confidence: "1.0"
-created: "2026-06-25"
-domain_expert: "<user>"
-verified_date: "2026-07-06"
+- data-quality
+- threshold
+- capping
+- data-integrity
+title: 数据封顶=伪造数据：超出阈值应剔除而非截断
+verified_date: '2026-07-06'
 ---
-
 ## Problem
 
 数据分析中，当数据超出阈值（如实际节拍超过工位节拍），把超出部分"封顶"到阈值值（如写成 100%），本质上是伪造满负荷数据。后续计算基于伪造数据得出错误结论。
@@ -48,12 +48,11 @@ else:
 ## Verification
 
 ```bash
-echo "Lesson: 数据封顶=伪造数据：超出阈值应剔除而非截断"
-wc -l lessons/contrib/data-capping-equals-forging-data.md
+# Verify: 数据封顶=伪造数据：超出阈值应剔除而非截断
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Lesson: 数据封顶=伪造数据：超出阈值应剔除而非截断
 # (line count)
 ```

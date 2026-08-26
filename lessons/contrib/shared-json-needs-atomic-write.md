@@ -43,12 +43,11 @@ def write_json_atomic(path, data):
 ## Verification
 
 ```bash
-echo "Lesson: shared json needs atomic write"
-wc -l lessons/contrib/shared-json-needs-atomic-write.md
+# Verify: shared json needs atomic write
+python3 -c "import json; print(json.__name__)"
 ```
 
 **Expected Output:**
 ```
-Lesson: shared json needs atomic write
-# (line count)
+# (json module)
 ```

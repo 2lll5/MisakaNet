@@ -1,18 +1,21 @@
 ---
-{
-  "title": "同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归",
-  "domain": "search",
-  "tags": ["jieba", "synonym", "chinese", "segmentation", "regression"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-1114",
-  "created": "2026-08-18",
-  "updated": "",
-  "verified_date": "",
-  "domain_expert": ""
-}
+created: '2026-08-18'
+domain: search
+domain_expert: ''
+evidence_level: E2
+language: zh
+source: mcp-intake-1114
+status: published
+tags:
+- jieba
+- synonym
+- chinese
+- segmentation
+- regression
+title: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归
+updated: ''
+verified_date: ''
 ---
-
 ## Problem
 
 使用 jieba.add_word() 添加同义词时，会改变全局分词行为，导致其他查询回归。
@@ -57,13 +60,12 @@ def expand_query_with_synonyms(query, synonyms):
 ## Verification
 
 ```bash
-echo "Lesson: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归"
-wc -l lessons/contrib/jieba-synonym-expansion-pitfall.md
+# Verify: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Lesson: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归
 # (line count)
 ```
 

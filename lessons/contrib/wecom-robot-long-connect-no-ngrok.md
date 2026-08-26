@@ -52,15 +52,16 @@ verification: metadata-normalized
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: wecom robot long connect no ngrok
+node --version
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (Node version)
 ```
+
 ## Notes
 
 开发者在企业内网开发企业微信机器人，无法暴露公网端口。

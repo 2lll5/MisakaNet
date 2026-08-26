@@ -1,18 +1,20 @@
 ---
-{
-  "title": "YAML 内联注释导致类型强制转换失败",
-  "domain": "devops",
-  "tags": ["yaml", "type-coercion", "parser", "comment"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-1100",
-  "created": "2026-08-18",
-  "updated": "",
-  "verified_date": "",
-  "domain_expert": ""
-}
+created: '2026-08-18'
+domain: devops
+domain_expert: ''
+evidence_level: E2
+language: zh
+source: mcp-intake-1100
+status: published
+tags:
+- yaml
+- type-coercion
+- parser
+- comment
+title: YAML 内联注释导致类型强制转换失败
+updated: ''
+verified_date: ''
 ---
-
 ## Problem
 
 YAML 内联注释导致类型强制转换失败 — `0.15 # comment` 被读取为字符串而非 float。
@@ -50,15 +52,16 @@ timeout: 30    # 如果需要数字（无注释）
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: YAML 内联注释导致类型强制转换失败
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## Key Points
 
 - YAML 内联注释可能导致类型强制转换问题

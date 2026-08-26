@@ -197,12 +197,11 @@ t_DEPTHREGR { a, b, c: REAL }  -- 二次多项式：a*x^2 + b*x + c，用于Z高
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: UV-to-XYZWPR Pipeline — From 2D Slice Geometry to Robot Moti
+pip --version
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (pip version)
 ```

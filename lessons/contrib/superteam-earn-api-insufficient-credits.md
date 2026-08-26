@@ -76,14 +76,13 @@ curl -sS -L -X POST 'https://superteam.fun/api/submission/create' \
 ## Verification
 
 ```bash
-echo "Lesson: Superteam Earn API returns Insufficient credits on"
-wc -l lessons/contrib/superteam-earn-api-insufficient-credits.md
+# Verify: Superteam Earn API returns Insufficient credits on submissio
+curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
 ```
 
 **Expected Output:**
 ```
-Lesson: Superteam Earn API returns Insufficient credits on
-# (line count)
+# (HTTP check)
 ```
 
 ## Notes

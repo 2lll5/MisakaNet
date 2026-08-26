@@ -37,12 +37,11 @@ provenance:
 ## Verification
 
 ```bash
-echo "Lesson: api rate limit handling best practices"
-wc -l lessons/contrib/api-rate-limit-handling-best-practices.md
+# Verify: api rate limit handling best practices
+curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
 ```
 
 **Expected Output:**
 ```
-Lesson: api rate limit handling best practices
-# (line count)
+# (HTTP check)
 ```

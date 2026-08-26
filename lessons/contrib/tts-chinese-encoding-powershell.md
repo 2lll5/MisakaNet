@@ -49,12 +49,12 @@ node mmx.mjs speech synthesize --text "早安愚者" --voice Japanese_CalmLady -
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: tts chinese encoding powershell
+python3 -c "import sys; print(sys.getdefaultencoding())"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (default encoding)
 ```

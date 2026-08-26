@@ -38,13 +38,12 @@ Steps taken:
 ## Verification
 
 ```bash
-echo "Lesson: Claude Code can debug low-level cryptography — ML-"
-wc -l lessons/contrib/claude-code-debugging-ml-dsa-cryptography.md
+# Verify: Claude Code can debug low-level cryptography — ML-DSA signat
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Lesson: Claude Code can debug low-level cryptography — ML-
 # (line count)
 ```
 

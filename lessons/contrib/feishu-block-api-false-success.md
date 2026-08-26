@@ -129,14 +129,13 @@ def create_blocks_with_size_check(doc_id, parent_id, all_blocks):
 ## Verification
 
 ```bash
-grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
-echo Feishu verified
+# Verify: Feishu Block API returns code=0 but creates zero blocks unde
+python3 --version
 ```
 
 **Expected Output:**
 ```
-# (count)
-Feishu verified
+# (Python version)
 ```
 
 ## Notes

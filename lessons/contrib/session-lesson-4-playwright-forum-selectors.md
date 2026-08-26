@@ -118,14 +118,13 @@ await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
 ## Verification
 
 ```bash
-echo "Lesson: Playwright Forum Selectors — WoltLab/IPS/Common Pa"
-wc -l lessons/contrib/session-lesson-4-playwright-forum-selectors.md
+# Verify: Playwright Forum Selectors — WoltLab/IPS/Common Patterns
+npx playwright --version 2>/dev/null || echo "playwright not installed"
 ```
 
 **Expected Output:**
 ```
-Lesson: Playwright Forum Selectors — WoltLab/IPS/Common Pa
-# (line count)
+# (Playwright version)
 ```
 
 ## Notes

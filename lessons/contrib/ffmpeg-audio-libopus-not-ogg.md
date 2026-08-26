@@ -48,15 +48,16 @@ ffmpeg -i input.wav -ar 24000 -ac 1 -c:a libopus output.ogg
 ```
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: ffmpeg audio libopus not ogg
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## 额外注意
 
 - 交互式覆盖提示：先 `os.remove(out)` 删除旧文件再调用 FFmpeg

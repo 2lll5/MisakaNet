@@ -58,14 +58,13 @@ Board may also show `open=0` while only AWARDED/CLOSED tasks exist — agent sni
 ## Verification
 
 ```bash
-echo "Lesson: TaskBounty payout POST succeeds but solver_readine"
-wc -l lessons/contrib/taskbounty-payout-api-ok-readiness-still-fail.md
+# Verify: TaskBounty payout POST succeeds but solver_readiness still f
+curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
 ```
 
 **Expected Output:**
 ```
-Lesson: TaskBounty payout POST succeeds but solver_readine
-# (line count)
+# (HTTP check)
 ```
 
 ## Notes

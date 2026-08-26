@@ -47,15 +47,16 @@ basename	{w o2 h en3 AA ai4 ...}	{type}	{language}
 - 音频文件必须加 `.wav` 扩展名，无扩展名的 WAV ffmpeg 无法识别
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: gpt sovits name2text arpabet
+wc -l lessons/contrib/*.md | tail -1
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (total lesson lines)
 ```
+
 ## Lessons Learned
 
 音素训练数据格式必须严格按文档，词典只认音标不认文字。

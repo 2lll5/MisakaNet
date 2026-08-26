@@ -99,15 +99,16 @@ Key insight: `stopJob(job)` only needs `job.mu`, not `jobsMutex`. By restructuri
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: Go Scheduler Deadlock — Nested Lock Acquisition in gocron v1
+wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (line count)
 ```
+
 ## Key Takeaway
 
 When acquiring a `sync.Mutex` in Go, always ask: **"Can I release this lock before calling the next function?"** Holding locks across function call boundaries — especially via `defer` — is the #1 cause of deadlocks in Go concurrent code. Prefer releasing the lock as soon as the critical section is complete, even if it means converting a clean `defer` pattern to manual lock/unlock calls.

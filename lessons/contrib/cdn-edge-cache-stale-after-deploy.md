@@ -52,12 +52,11 @@ Deployment verification must bypass the cache for the exact zone you changed. Wi
 ## Verification
 
 ```bash
-echo "Lesson: CDN edge cache serves stale responses for minutes "
-wc -l lessons/contrib/cdn-edge-cache-stale-after-deploy.md
+# Verify: CDN edge cache serves stale responses for minutes after depl
+ls wrangler.toml 2>/dev/null || echo "no wrangler config"
 ```
 
 **Expected Output:**
 ```
-Lesson: CDN edge cache serves stale responses for minutes 
-# (line count)
+# (Wrangler config)
 ```

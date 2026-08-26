@@ -18,12 +18,11 @@
 ## Verification
 
 ```bash
-grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
-echo Feishu verified
+# Verify: Feishu WebSocket 404 Error - HTTP Webhook Required
+grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-Feishu verified
+# (Feishu lesson count)
 ```

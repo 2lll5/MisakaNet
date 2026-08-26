@@ -1,6 +1,7 @@
 ---
 created: '2026-07-06'
 domain: automation
+language: zh
 source: unknown
 status: published
 tags:
@@ -152,14 +153,13 @@ ws.send(json.dumps({"type": "batch", "actions": [
 ## Verification
 
 ```bash
-echo "Lesson: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation"
-wc -l lessons/contrib/browser-harness-cdp-browser-automation.md
+# Verify: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
+git status --short
 ```
 
 **Expected Output:**
 ```
-Lesson: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
-# (line count)
+# (working tree status)
 ```
 
 ## 文档

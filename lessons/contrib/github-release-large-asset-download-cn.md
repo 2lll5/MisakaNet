@@ -1,18 +1,22 @@
 ---
-{
-  "title": "GitHub Release 大文件下载在 CN 网络超时：分段并行下载方案",
-  "domain": "devops",
-  "tags": ["github", "download", "cn-network", "proxy", "large-file", "timeout"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-1069",
-  "created": "2026-08-17",
-  "updated": "",
-  "verified_date": "",
-  "domain_expert": ""
-}
+created: '2026-08-17'
+domain: devops
+domain_expert: ''
+evidence_level: E2
+language: zh
+source: mcp-intake-1069
+status: published
+tags:
+- github
+- download
+- cn-network
+- proxy
+- large-file
+- timeout
+title: GitHub Release 大文件下载在 CN 网络超时：分段并行下载方案
+updated: ''
+verified_date: ''
 ---
-
 ## Problem
 
 GitHub Release 大文件（60MB）在 CN 网络下载失败：直连 GitHub 速度极慢（~107KB/s）然后不可达；gh-proxy 镜像大多失效或 429；单连接断点续传通过代理会损坏文件（重试后文件大小缩小）。

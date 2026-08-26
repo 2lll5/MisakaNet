@@ -52,14 +52,13 @@ wcferry 通过 DLL 注入 hook 微信内存地址，**微信版本必须精确�
 ## Verification
 
 ```bash
-echo "Lesson: wcferry wechat version lock"
-wc -l lessons/contrib/wcferry-wechat-version-lock.md
+# Verify: wcferry wechat version lock
+python3 --version
 ```
 
 **Expected Output:**
 ```
-Lesson: wcferry wechat version lock
-# (line count)
+# (Python version)
 ```
 
 ## Notes

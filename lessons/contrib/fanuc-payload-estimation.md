@@ -87,15 +87,16 @@ Examples:
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: FANUC Payload Estimation — Auto and Manual Load Configuratio
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (FANUC lesson count)
 ```
+
 ## Notes
 
 - Payload estimation affects collision detection sensitivity — always re-calibrate after changes

@@ -229,14 +229,13 @@ Only escalate on verdict changes (`needs-human` → `ready`). Ignore description
 ## Verification
 
 ```bash
-echo "Lesson: Swarm PR Battle Playbook — Shipping env-var error "
-wc -l lessons/contrib/swarm-pr-battle-playbook.md
+# Verify: Swarm PR Battle Playbook — Shipping env-var error hooks thro
+git status --short
 ```
 
 **Expected Output:**
 ```
-Lesson: Swarm PR Battle Playbook — Shipping env-var error 
-# (line count)
+# (working tree status)
 ```
 
 ## Lessons Learned

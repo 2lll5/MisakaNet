@@ -1,6 +1,7 @@
 ---
 created: '2026-05-21'
 domain: devops
+language: zh
 provenance:
   contributor: Ikalus1988
   evidence: post-publication
@@ -55,12 +56,11 @@ print(f"剩余: {data['rate']['remaining']}/{data['rate']['limit']}")
 ## Verification
 
 ```bash
-echo "Lesson: API 请求限流 (Rate Limit) 处理方案"
-wc -l lessons/contrib/api-rate-limit-handling.md
+# Verify: API 请求限流 (Rate Limit) 处理方案
+curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
 ```
 
 **Expected Output:**
 ```
-Lesson: API 请求限流 (Rate Limit) 处理方案
-# (line count)
+# (HTTP check)
 ```

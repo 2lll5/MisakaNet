@@ -1,21 +1,21 @@
 ---
-title: "飞书 doc_delete_blocks_by_range 不传 end 会删到文档末尾"
-domain: "feishu"
-subdomain: "mcp-api"
+confidence: '1.0'
+created: '2026-06-25'
+domain: feishu
+domain_expert: <user>
+language: zh
+source: <user>
+status: published
+subdomain: mcp-api
 tags:
-  - feishu
-  - mcp
-  - data-loss
-  - api-pitfall
-  - docx
-source: "<user>"
-status: "published"
-confidence: "1.0"
-created: "2026-06-25"
-domain_expert: "<user>"
-verified_date: "2026-07-06"
+- feishu
+- mcp
+- data-loss
+- api-pitfall
+- docx
+title: 飞书 doc_delete_blocks_by_range 不传 end 会删到文档末尾
+verified_date: '2026-07-06'
 ---
-
 ## Problem
 
 调用飞书 `doc_delete_blocks_by_range` 时只传了 `start=0` 没传 `end`，想删5行残留旧内容，结果工具从 start 一直删到文档末尾，**删掉 172 个块，整篇文档被清空**（含标题、阶段性汇报、backup 全部内容）。用户靠飞书历史版本才恢复。
@@ -35,12 +35,11 @@ verified_date: "2026-07-06"
 ## Verification
 
 ```bash
-grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
-echo Feishu verified
+# Verify: 飞书 doc_delete_blocks_by_range 不传 end 会删到文档末尾
+grep -r "mcp" lessons/contrib/mcp-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-Feishu verified
+# (MCP lesson count)
 ```

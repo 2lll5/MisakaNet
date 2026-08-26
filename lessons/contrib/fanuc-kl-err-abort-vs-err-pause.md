@@ -3,6 +3,7 @@ confidence: '0.7'
 created: '2026-05-03'
 domain: fanuc
 domain_expert: bootstrap
+language: zh
 source: bootstrap
 status: published
 subdomain: error-handling
@@ -32,12 +33,11 @@ IPC 超时类错误应使用 ERR_PAUSE 而非 ERR_ABORT，避免级联中止。
 ## Verification
 
 ```bash
-grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
-echo FANUC verified
+# Verify: FANUC KL: ERR_ABORT vs ERR_PAUSE 行为差异
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-# (count)
-FANUC verified
+# (FANUC lesson count)
 ```

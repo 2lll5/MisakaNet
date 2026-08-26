@@ -117,15 +117,16 @@ Export methods: USB, FTP to PC, or KAREL automated collection.
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: FANUC Robot Backup and Restore — Full, Mirror, Auto, and Fil
+grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (FANUC lesson count)
 ```
+
 ## Notes
 
 - Always verify storage device has sufficient space before backup

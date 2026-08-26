@@ -93,15 +93,16 @@ If a user has no GitHub account, record it as offline usage evidence, not as pub
 
 ## Verification
 
-
 ```bash
-echo 'Verification passed'
+# Verify: When Lessons Are Too Heavy, Use Rescue Cards
+wc -l lessons/contrib/*.md | tail -1
 ```
 
 **Expected Output:**
 ```
-Verification passed
+# (total lesson lines)
 ```
+
 ## Next Agent Prompt
 
 When a user cannot contribute a lesson, do not discard the signal. Ask for a screenshot and one sentence, then convert it into a rescue card or a lesson draft.
