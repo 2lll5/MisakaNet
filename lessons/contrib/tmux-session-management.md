@@ -23,15 +23,15 @@ verification: metadata-normalized
 '{"title"': 'tmux 终端复用 — 断开不丢失会话", "domain": "development", "tags": ["tmux", "terminal",
   "session", "background"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 SSH 断开或终端关闭后，正在运行的任务（训练、迁移、部署）中断。重新连接后无法恢复。
 
-## 根因
+## Root Cause
 
 没有使用终端复用器。进程的父进程是 shell，shell 退出时子进程收到 SIGHUP 信号退出。
 
-## 修复
+## Solution
 
 ```bash
 # tmux 终端复用 — 断开不丢失会话
@@ -53,7 +53,7 @@ tmux ls
 tmux kill-session -t my-session
 ```
 
-## 常用快捷键
+## Quick Reference
 
 | 快捷键 | 操作 |
 |--------|------|

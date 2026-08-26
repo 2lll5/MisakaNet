@@ -27,11 +27,11 @@ verification: metadata-normalized
   "hanged-man", "status": "published", "created": "2026-04-18", "confidence": "0.9",
   "scope": "broad", "domain_expert": "hanged-man", "verified_date": "2026-04-18"}'
 ---
-## 问题
+## Problem
 
 中文文本通过 PowerShell 脚本内联传给 mmx CLI，TTS 返回空音频（"嗯嗯"声）。
 
-## 根因
+## Root Cause
 
 PowerShell 5.1 将 UTF-8 字节误读为 GBK/CP936，导致传给 API 的是乱码。
 
@@ -47,7 +47,7 @@ node mmx.mjs speech synthesize --text "早安愚者" --voice Japanese_CalmLady -
 2. ps1 用 `[System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)` 读取
 3. 将 UTF-8 字符串传给 mmx CLI
 
-## 验证
+## Verification
 
 
 ```bash

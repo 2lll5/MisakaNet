@@ -9,17 +9,17 @@ tags:
 title: Permission Denied / WSL NTFS 跨文件系统PermissionFix
 verification: metadata-normalized
 ---
-## 问题
+## Problem
 
 操作 ~/.hermes/ 下的文件时报 `Permission denied` 或 `EACCES`，或者 WSL 访问 /mnt/c 时报 `crossmnt` 错误。
 
-## 根因
+## Root Cause
 
 - /mnt/c（NTFS 分区）在 WSL 里默认没有执行权限
 - ~/.hermes/ 目录或文件是 root 创建的，普通用户无法写入
 - WSL 跨文件系统操作时权限校验不一致
 
-## 修复
+## Solution
 
 **WSL NTFS crossmnt 问题：**
 ```bash
@@ -52,13 +52,13 @@ ls -la ~/.hermes/
 stat ~/.hermes/some_file
 ```
 
-## 验证
+## Verification
 
 ```bash
 touch ~/.hermes/test_write_perm && rm ~/.hermes/test_write_perm && echo "写权限 OK"
 ```
 
-## 关联
+## Related
 
 - Windows Defender 实时保护也可能影响 NTFS 性能，加入排除项
 - WSL 版本 2 默认用 NTFS，版本 1 用 drvfs

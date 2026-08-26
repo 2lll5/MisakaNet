@@ -28,7 +28,7 @@ verification: metadata-normalized
   ["git", "github", "TLS", "network", "DNS", "hosts", "connectivity"], "domain_expert":
   "unknown"}'
 ---
-## 背景
+## Problem
 
 `git push` / `git fetch` 持续超时或报 TLS 握手错误：
 
@@ -39,7 +39,7 @@ fatal: unable to access 'https://github.com/...':
 
 重试无效，非瞬时问题。
 
-## 根因
+## Root Cause
 
 DNS 解析正常，但解析到的 IP 的 **443 端口被运营商/防火墙屏蔽**。ICMP ping 通但 HTTPS 握手失败。
 
@@ -52,7 +52,7 @@ DNS 解析正常，但解析到的 IP 的 **443 端口被运营商/防火墙屏�
 | `curl -I https://github.com` | ❌ 超时 |
 | `timeout 3 bash -c 'echo > /dev/tcp/<IP>/443'` | ❌ 不可达 |
 
-## 修复
+## Solution
 
 ### 1. 验证当前 DNS 解析的 IP 是否可达
 

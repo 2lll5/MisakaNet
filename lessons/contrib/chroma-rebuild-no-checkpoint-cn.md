@@ -26,11 +26,11 @@ verification: metadata-normalized
   "status": "published", "confidence": "0.7", "created": "2026-04-01", "domain_expert":
   "bootstrap", "verified_date": "2026-04-01"}'
 ---
-## 背景
+## Problem
 
 Agent 内跑 BGE-large-zh 建库（约30分钟），Gateway 重启后整个数据库为空，0条向量入库。
 
-## 根因
+## Root Cause
 
 旧脚本设计把所有 34,100 条 embedding 算完后才写 Chroma，进程一死 = 从零开始，没有 checkpoint 能力。
 
@@ -39,7 +39,7 @@ load chunks → embed ALL 34100 (内存) → write ALL to Chroma
                                     ↑ 这一步还没到就崩了
 ```
 
-## 修复
+## Solution
 
 改造 `build_edoc_chroma.py` 为小批次写入：
 
@@ -78,7 +78,7 @@ Lesson: Chroma 建库无 Checkpoint — 进程一死全部丢失
 # (line count)
 ```
 
-## 关键点
+## Key Points
 
 - 建库 ~30 分钟的任务必须在独立终端跑，绝不能在飞书 agent 子进程里跑
 - stdout 有缓冲，`tee` 才能写到文件留下完整记录

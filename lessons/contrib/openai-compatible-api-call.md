@@ -24,15 +24,15 @@ verification: metadata-normalized
 '{"title"': 'OpenAI 兼容 API 的通用调用格式", "domain": "development", "tags": ["api", "openai",
   "llm", "inference", "chat"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 部署了 LLM 服务（vLLM/Ollama/本地推理）后，不知道怎么用 API 调用。各框架接口不一。
 
-## 根因
+## Root Cause
 
 大部分 LLM 服务实现了 OpenAI 兼容的 API 格式，但端点和参数细节有差异。
 
-## 修复
+## Solution
 
 ```python
 import requests

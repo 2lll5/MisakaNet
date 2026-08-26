@@ -24,18 +24,18 @@ verification: metadata-normalized
 '{"title"': '知识图谱 UX 增强: 从高星项目提炼的 7 个交互模式", "domain": "development", "tags": ["knowledge-graph",
   "d3js", "ux", "graph-visualization", "force-directed"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 知识图谱可视化项目存在典型问题: 节点过多导致信息过载、关系缺乏上下文、无法聚焦局部视图。
 参考 GitHub 高星项目 (GraphRAG 25k⭐, Logseq 32k⭐, Cytoscape.js 10k⭐, react-force-graph 10k⭐) 的设计模式,
 提炼出 7 个可复用的交互增强方案。
 
-## 根因
+## Root Cause
 
 知识图谱可视化的核心矛盾是 **全局概览 vs 局部细节** 的平衡。
 高星项目的共同策略是 **渐进式披露 (Progressive Disclosure)**: 先展示局部, 再允许探索全局。
 
-## 修复
+## Solution
 
 ### 1. 局部图谱视图 (Logseq 模式)
 
@@ -144,7 +144,7 @@ d3.select(this).select('circle')
 
 双击任意节点进入局部图谱, 单击打开详情面板。两种交互互不干扰。
 
-## 验证
+## Verification
 
 
 ```bash

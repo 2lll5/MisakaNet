@@ -23,17 +23,17 @@ verification: metadata-normalized
 '{"title"': 'Cron 作业不执行 / 不生效排障", "domain": "devops", "tags": ["cron", "scheduler",
   "not-running", "debug"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 `crontab -e` 设置好后，作业从未执行。输出没有、日志没有、进程没有。
 
-## 根因
+## Root Cause
 
 1. Cron 的环境变量与交互式 shell 完全不同（没有 PATH、没有 HOME 等）
 2. Cron 语法错误（`* * * * *` 顺序记错）
 3. Crontab 格式末尾缺换行符
 
-## 修复
+## Solution
 
 ```bash
 # Cron 作业不执行 / 不生效排障
@@ -64,7 +64,7 @@ HOME=/home/yourname
 */5 * * * * cd /path/to/project && /usr/bin/python3 script.py >> /tmp/script.log 2>&1
 ```
 
-## 验证
+## Verification
 
 ```bash
 cat ~/cron_test.log  # 每分钟应新增一行

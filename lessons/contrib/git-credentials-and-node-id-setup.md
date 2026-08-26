@@ -13,7 +13,7 @@ verification: metadata-normalized
 ---
 ## Git Credentials 和 Node ID 配置
 
-### 问题
+### Problem
 在新环境中使用 git 操作时，如果没有正确配置凭证和节点标识，会遇到：
 
 1. `git push` 提示 401 Unauthorized 或要求用户名密码
@@ -58,7 +58,7 @@ export NODE_ID="<node-name>"
 }
 ```
 
-### 验证
+### Verification
 ```bash
 # 验证 git 配置
 git config --list | grep -E "user.(name|email)|credential"

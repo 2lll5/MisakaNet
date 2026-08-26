@@ -30,7 +30,7 @@ verification: metadata-normalized
   "question-bank", "knowledge-base", "feishu-doc", "review"], "created": "2026-05-19",
   "updated": "2026-05-19", "domain_expert": "deepseek-tui", "verified_date": "2026-05-19"}'
 ---
-## 背景
+## Problem
 
 在飞书云文档中维护一个 FANUC 机器人垂直知识库的题库，经历了从第一批到第三批的迭代，发现了一些关键管理策略。
 
@@ -94,7 +94,7 @@ with zipfile.ZipFile("题库.docx") as z:
         text = ''.join(t.text or '' for t in cmt.findall('.//w:t', ns))
 ```
 
-## 关键教训
+## Key Takeaways
 
 ## Verification
 

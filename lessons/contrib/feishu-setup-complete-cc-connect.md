@@ -191,3 +191,7 @@ cc-connect
 
 - Prefer this file over archived generic Feishu stubs.
 - Duplicate cleanup decision: issue #552 / `feishu-bot-setup-complete.md` decision lesson.
+
+---
+
+> **See also:** [feishu-display-optimization-cc-connect](feishu-display-optimization-cc-connect.md) — display optimization section.

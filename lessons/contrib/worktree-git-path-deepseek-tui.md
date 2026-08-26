@@ -34,15 +34,15 @@ verification: metadata-normalized
   "2026-05-13 01:01:46 UTC", "updated": "2026-05-13 01:01:46 UTC", "domain_expert":
   "hermes_wsl2", "verified_date": "2026-05-13"}'
 ---
-## 背景
+## Problem
 
 在 Agent-Medici 项目的 search_knowledge.py v2 升级过程中，使用 DeepSeek TUI Agent 模式进行代码修改。操作环境为 WSL (Windows Subsystem for Linux)，仓库使用 Hydra worktree 管理。
 
-## 根因
+## Root Cause
 
 两个独立问题复合并导致大量无效操作：
 
-### 问题 A: write_file 工具在 Agent 模式下写入不落地
+### Problem A: write_file 工具在 Agent 模式下写入不落地
 
 `write_file` 每次调用后显示 "Wrote X bytes" 并输出完整 diff，看上去写入成功。但文件**并未写入真实磁盘**。agent 在同一沙箱内验证时能读到写入的内容（因为验证也在沙箱中运行），但实际文件系统上文件未变。
 
@@ -50,7 +50,7 @@ verification: metadata-normalized
 
 **绕过方案**：使用 `code_execution`（Python 的 open() 直接写文件）可以真正落盘。
 
-### 问题 B: Hydra worktree 的 git 链接在 WSL/Windows 路径混用下断裂
+### Problem B: Hydra worktree 的 git 链接在 WSL/Windows 路径混用下断裂
 
 Hydra 在 Windows 上创建 worktree 时，`.git` 文件内容为 `gitdir: C:/Users/<user>/...`（Windows 路径）。从 WSL 环境下访问时，git 解析此路径失败，表现为：
 
@@ -68,7 +68,7 @@ WSL 侧的 worktree 目录只是一个"影子"（含 .git 指针），实际文�
 
 **绕过方案**：直接操作 main 分支而非 worktree。在 Hydra 工作流中，从 worktree 完成的工作需要同步到 main 再提交。
 
-## 修复
+## Solution
 
 1. 使用 `code_execution`（Python 的 open()）替代 `write_file` 做文件写入
 2. 绕过 worktree，直接对 main 分支做 git add/commit/push
@@ -87,7 +87,7 @@ git log --oneline -3
 # (recent)
 ```
 
-## 教训
+## Lessons Learned
 
 1. DeepSeek TUI Agent 模式下，**write_file 显示的 diff 和 "Wrote X bytes" 不可信**——必须用 shell 命令交叉验证文件内容
 2. **WSL + Windows 混合文件系统的 worktree 不可用**——直接在 main 分支操作

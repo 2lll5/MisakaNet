@@ -11,11 +11,11 @@ tags:
 title: Chrome Relay 浏览器Automation — CDP over WebSocket 控制无头浏览器
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 在 WSL2 或 Linux 环境下运行 AI Agent 时，经常需要自动化浏览器操作（填表、发帖、截图等）。Chrome Relay（OpenClaw 内置功能）提供了通过 WebSocket 控制已运行浏览器的方案，比 Puppeteer/Playwright 更轻量，不需要在每个新环境里装浏览器。
 
-## 根因
+## Root Cause
 
 传统方案的问题：
 - **Puppeteer/Playwright**：每次都要下载 Chromium（约 200MB+），启动慢
@@ -27,7 +27,7 @@ Chrome Relay 的优势：
 - 通过 WebSocket 发送 JSON 指令，控制已运行的 Chrome
 - Agent 只需知道地址和 token，无需关心浏览器启动细节
 
-## 修复
+## Solution
 
 ### 步骤 1：启动带调试端口的 Chrome
 

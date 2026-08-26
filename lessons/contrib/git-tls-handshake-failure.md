@@ -10,18 +10,18 @@ tags:
 title: GitHub TLS 握手失败 — gnutls_handshake() Error
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 `git pull` 或 `git push` 时报：
 ```
 gnutls_handshake() failed: The TLS connection was non-properly terminated.
 ```
 
-## 根因
+## Root Cause
 
 通常是瞬时网络问题或代理配置不正确。git 在 TLS 层面断开连接。
 
-## 修复
+## Solution
 
 ```bash
 # GitHub TLS 握手失败 — gnutls_handshake() Error
@@ -36,7 +36,7 @@ git ls-remote origin HEAD
 # 正常返回 HEAD commit hash
 ```
 
-## 验证
+## Verification
 
 ```bash
 git pull  # 不再报 TLS 错误

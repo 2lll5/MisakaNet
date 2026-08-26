@@ -56,7 +56,7 @@ git config --global user.signingkey ~/.ssh/id_ed25519.pub
 # 3. 添加到 GitHub Settings → SSH and GPG keys → Signing keys
 ```
 
-### 验证效果
+### Verification效果
 
 ```bash
 # 提交后在 GitHub 上查看

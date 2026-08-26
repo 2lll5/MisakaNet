@@ -11,15 +11,15 @@ tags:
 title: Git 合并ConflictHandling — 手动解决最佳实践
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 `git pull` 或 `git merge` 时报 `CONFLICT`，文件里出现 `<<<<<<<` 标记。不知如何选择。
 
-## 根因
+## Root Cause
 
 两个分支修改了同一文件的同一区域。Git 无法自动决定保留哪个版本。
 
-## 修复
+## Solution
 
 ```bash
 # Git 合并ConflictHandling — 手动解决最佳实践

@@ -16,13 +16,13 @@
 }
 ---
 
-## 问题
+## Problem
 
 心跳只用 `gh search prs --author` 扫描，漏掉了：
 1. 已关闭的 PR（被拒后不在 open 结果里）
 2. 只 claim 没提 PR 的 issue（issue 不在 PR 搜索结果里）
 
-## 解法
+## Solution
 
 心跳必须同时运行 3 个扫描：
 
@@ -37,7 +37,7 @@ gh search issues --involves=<user> --state=open --updated='>YYYY-MM-DD' --limit=
 gh search prs --author=<user> --state=closed --sort=updated --limit=10
 ```
 
-## 关键点
+## Key Points
 
 - `--involves` 包含评论、review、assign 等所有参与方式
 - 已关 PR 不在 open 结果里，但可能需要追认贡献墙

@@ -27,11 +27,11 @@ verification: 1. errors 模块：karelError 能输出到 TP 显示和历史记�
 ---
 ## KAREL Core Utility Modules: errors, system, Strings API Reference
 
-### 问题描述
+### Problem描述
 
 KAREL 是 FANUC 控制器上的类 Pascal 编译语言，没有标准库。开发者在每个项目中都要重复实现错误处理、字符串操作、类型转换等基础功能，导致代码冗余且质量参差不齐。
 
-### 根因分析
+### Root Cause分析
 
 KAREL 语言的核心缺陷：
 - 无错误码管理机制 → 每个项目自定义错误处理，不统一
@@ -41,7 +41,7 @@ KAREL 语言的核心缺陷：
 
 Ka-Boost Layer 1 的三个模块（errors, system, Strings）是所有上层模块的共同基础，形成 KAREL 项目的"标准库"。
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. errors 模块 — 错误处理与变量初始化
 
@@ -213,7 +213,7 @@ strisint(str) : BOOLEAN         -- 字符串是否为整数
 delim_check(delim) : BOOLEAN    -- 分隔符是否有效
 ```
 
-### 验证方式
+### Verification方式
 
 1. **errors 模块：** 调用 `karelError(0, 'test error', 2)` 后 TP 显示屏显示错误信息，TP 历史记录中有对应条目
 2. **system 模块：** `system__date()` 返回格式如 '12-JUL-2026'，`system__time()` 返回格式如 '14:30:00'

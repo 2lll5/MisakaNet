@@ -23,7 +23,7 @@ tags:
 title: IK/FK and Quaternion Math Guide for FANUC KAREL Robot Programming
 verification: KUnit测试套件覆盖IK/FK往返精度、四元数运算正确性、圆柱坐标转换精度；6种常见模式(路径规划IK、圆柱映射、表面法线对齐、切线转欧拉、选择性PR更新、4x4矩阵组合)均有完整代码示例
 ---
-### 问题描述
+### Problem描述
 
 FANUC KAREL机器人编程中，运动学和坐标变换操作容易出现以下问题：
 - IK求解在奇异点附近失败，但程序不报错
@@ -32,14 +32,14 @@ FANUC KAREL机器人编程中，运动学和坐标变换操作容易出现以下
 - PR寄存器有joint和Cartesian两种模式，读错模式会返回垃圾数据
 - `quaternion__quat_to_pose`只返回WPR，调用者期望得到完整XYZWPR
 
-### 根因分析
+### Root Cause分析
 
 1. **万向锁**：欧拉角(ZYX/RPY)在俯仰角±90°时失去一个自由度，W和R轴耦合，导致WPR值不连续
 2. **z_axis混淆**：`Z_AXES=3`表示局部坐标系的Z轴为旋转轴，`VERT_AXES=4`表示世界竖直方向为旋转轴，两者含义不同
 3. **PR模式**：FANUC PR寄存器可存储joint或Cartesian数据，用错读取函数会返回错误数据
 4. **四元数返回值**：`quat_to_pose`只填充WPR部分，xyz为0，需要手动组合
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. IK/FK求解
 
@@ -167,7 +167,7 @@ END
 | 部署前不清除`shapes.pc`/`draw.pc` | `MEMO-128 parameters are different` | 先运行`master_del.bat` |
 | 4x4矩阵欧拉约定不匹配 | 旋转看起来转置 | FANUC用ZYX/RPY：W=yaw(Z), P=pitch(Y), R=roll(X) |
 
-### 验证方式
+### Verification方式
 
 1. **IK/FK往返测试**：对同一位置做IK→FK，验证精度
 2. **四元数测试**：验证旋转组合的正确性

@@ -24,11 +24,11 @@ verification: metadata-normalized
 '{"title"': 'CodeWhale 中 git push 的正确方式 — YOLO task + gh CLI", "domain": "devops",
   "tags": ["codewhale", "git", "yolo", "push", "lesson"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 在 CodeWhale 的 Agent 模式中，`exec_shell` 工具不可用。需要执行 `git push` 时，不能直接用 shell 命令。
 
-## 根本原因
+## Root Cause
 
 CodeWhale Agent 模式的工具集不含 `exec_shell`。有两条替代路径：
 
@@ -90,7 +90,7 @@ lesson 库里也记录了两个项目的业务区别：
 - **MisakaNet**：御坂网络 — 零赏金开源竞赛 + 群体记忆
 - **Agent-Medici**：Hydra 编排工具集 — 多 agent 工作流管理
 
-## 验证
+## Verification
 
 push 后检查远程：
 
@@ -100,7 +100,7 @@ gh api repos/Ikalus1988/MisakaNet/commits/main --jq .sha
 
 确认 commit SHA 正确后再继续后续操作。
 
-## 陷阱
+## Pitfalls
 
 - `git push --force` 会覆盖远程历史 → 优先用 `--force-with-lease`
 - 裸 `git remote set-url` 注入 token 时，token 会暴露在 shell history 中

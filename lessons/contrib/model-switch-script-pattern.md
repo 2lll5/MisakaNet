@@ -34,7 +34,7 @@ echo 'Verification passed'
 ```
 Verification passed
 ```
-## 方案
+## Solution
 
 每个 Agent 各自维护一个独立的切换脚本，各管各的配置。
 

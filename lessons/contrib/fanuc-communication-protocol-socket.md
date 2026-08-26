@@ -26,11 +26,11 @@ verification: 1. 控制器 IP 可 ping 通；2. S8 服务器 Current State 为 S
 ---
 ## FANUC Robot TCP/IP Socket Communication Protocol and MAPPDK Setup
 
-### 问题描述
+### Problem描述
 
 需要从外部 PC（Python/C++/其他）通过 TCP/IP 网络与 FANUC 机器人控制器建立 socket 通信，实现远程运动控制、变量读写、程序调用等功能。FANUC 控制器的通信配置涉及多个菜单层级和系统变量，初学者容易遗漏关键步骤。
 
-### 根因分析
+### Root Cause分析
 
 FANUC 控制器的网络通信能力依赖两个关键选件：
 - **R632** — KAREL 编程语言（服务端程序运行环境）
@@ -40,7 +40,7 @@ FANUC 控制器的网络通信能力依赖两个关键选件：
 
 MAPPDK（Manufacturing Application Platform Development Kit）是 FANUC 提供的标准化 socket 服务端实现，使用 S8 服务器 tag 和 18735 端口。
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. 选件兼容性检查
 
@@ -126,7 +126,7 @@ Python 客户端（fanucpy）与 MAPPDK 服务端之间的协议：
 - KAREL 程序无法运行 → 检查 R632/R648 选件是否安装
 - 连接后无响应 → 检查 MAPPDK 主程序是否在运行
 
-### 验证方式
+### Verification方式
 
 1. 从 PC ping 控制器 IP（如 192.168.234.2）通
 2. 控制器上 S8 服务器 Current State 显示 STARTED

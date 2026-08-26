@@ -27,7 +27,7 @@ verification: metadata-normalized
   "", "source": "hanged-man", "status": "published", "created": "2026-04-05", "confidence":
   "0.9", "scope": "narrow", "domain_expert": "hanged-man", "verified_date": "2026-04-05"}'
 ---
-## 问题
+## Problem
 
 HuBERT SSL 特征提取失败，音频克隆效果异常。
 

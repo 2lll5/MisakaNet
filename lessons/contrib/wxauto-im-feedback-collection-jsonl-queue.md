@@ -30,17 +30,17 @@ verification: metadata-normalized
   "queue", "jsonl", "wechat", "wxauto", "workflow"], "confidence": 0.9, "created":
   "2026-05-21", "domain_expert": "unknown", "verified_date": "2026-05-21"}'
 ---
-## 背景
+## Problem
 
 RAG 知识库的 IM 机器人（wxauto 微信）只提供单向问答能力，用户不满意时无反馈渠道。知识库质量改进完全依赖离线人工审计，无法捕捉真实使用场景中的问题。
 
-## 根因
+## Root Cause
 
 - 微信消息以文本为主，没有原生点赞/踩按钮
 - 机器人只处理"提问-回答"逻辑，不跟踪上下文
 - 没有中间存储层来暂存用户反馈
 
-## 修复
+## Solution
 
 实现三部分：
 
@@ -102,7 +102,7 @@ Lesson: IM 机器人反馈收集与 JSONL 队列审核模式
 # (line count)
 ```
 
-## 关键点
+## Key Points
 
 1. 反馈关键词必须排除正常查询误触发（如"哪里错了"不触发 "错了"）
 2. JSONL 的 append 操作在 Windows 和 Linux 上行为一致，适合跨平台数据流转

@@ -13,13 +13,13 @@ verification: metadata-normalized
 ---
 ## 飞书 Agent 显示优化：禁用工具调用和上下文提示
 
-### 问题描述
+### Problem描述
 某些 Agent 默认会在飞书聊天中显示工具调用信息（如 "🔧 工具 #5: Bash"）和上下文占用提示（如 "[ctx: ~0%]"），影响用户体验。
 
-### 根因
+### Root Cause
 Agent 的显示设置默认启用了工具消息和上下文指示器。
 
-### 修复方法
+### Solution方法
 修改对应配置文件，添加显示设置：
 
 ```toml
@@ -33,7 +33,7 @@ show_context_indicator = false  # 不显示上下文占用提示
 reply_footer = false            # 不显示回复底部状态行
 ```
 
-### 验证方式
+### Verification方式
 1. 重启 Agent
 2. 在飞书中发送消息测试
 3. 确认不显示工具调用和上下文提示

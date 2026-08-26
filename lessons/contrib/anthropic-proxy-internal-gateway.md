@@ -23,7 +23,7 @@ provenance:
   evidence: "post-publication"
 -->
 
-## 问题
+## Problem
 
 internal-gateway.local API 端点 (`https://api.internal-gateway.local/v1`) 只接受 OpenAI 格式 (`/v1/chat/compositions`)，不支持 Anthropic 原生格式 (`/v1/messages`)。
 
@@ -32,7 +32,7 @@ internal-gateway.local API 端点 (`https://api.internal-gateway.local/v1`) 只�
 - Claude Code / cc-haha 原生 → 连不上，因为发的是 `/v1/messages` ❌
 - Hermes + cc-haha 在同一台机器时 → cc-haha 不能直接用同一个 key
 
-## 修复
+## Solution
 
 需要在本地跑一个格式转换代理：
 
@@ -55,6 +55,6 @@ Lesson: Internal Gateway — Incompatible with Anthropic For
 # (line count)
 ```
 
-## 关联
+## Related
 
 Node 2 和 3 在同一台电脑时，Node 3 (cc-haha) 需要这个代理才能共用同一家的 API。

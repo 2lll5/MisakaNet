@@ -22,11 +22,11 @@ tags:
 title: UV-to-XYZWPR Pipeline — From 2D Slice Geometry to Robot Motion
 verification: 通过实际5轴DLP打印验证管线完整性，Python工具链(DXF/SVG解析、Clipper裁剪、Matplotlib可视化)用于离线验证几何正确性
 ---
-### 问题描述
+### Problem描述
 
 5轴DLP 3D打印切片器需要将2D切片几何(从SVG/DXF文件导入)转换为机器人可执行的XYZWPR运动指令。整个流程涉及多个阶段：2D几何处理、路径规划排序、坐标系转换、运动插值、多层迭代、硬件控制。每个阶段需要不同的算法和数据结构。
 
-### 根因分析
+### Root Cause分析
 
 切片器管线跨越5个核心模块，每个模块负责不同阶段的转换：
 
@@ -44,7 +44,7 @@ verification: 通过实际5轴DLP打印验证管线完整性，Python工具链(D
     pathlayer → 逐层迭代 + 硬件控制(激光/粉末)
 ```
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. draw模块 — 2D几何处理
 
@@ -181,7 +181,7 @@ t_HOPPERS   { hopper1, hopper2: t_POWDER }
 t_DEPTHREGR { a, b, c: REAL }  -- 二次多项式：a*x^2 + b*x + c，用于Z高度补偿
 ```
 
-### 验证方式
+### Verification方式
 
 1. **几何验证**：使用Python工具链(DXF/SVG解析 + Clipper裁剪 + Matplotlib可视化)离线验证2D几何正确性
 2. **路径验证**：验证光栅填充、轮廓提取、路径排序的输出

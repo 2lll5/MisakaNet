@@ -25,7 +25,7 @@ Claude Code (cc) 和 Hermes Agent 使用不同的配置文件/代理通道，各
 
 See problem description above for technical details.
 
-## 方案
+## Solution
 
 两个独立脚本，各管各的：
 

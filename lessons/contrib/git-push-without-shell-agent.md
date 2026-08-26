@@ -24,11 +24,11 @@ verification: metadata-normalized
 '{"title"': 'Git Push 的正确方式 — 在受限 Agent 环境中推送代码", "domain": "devops", "tags": ["git",
   "push", "agent", "gh-cli", "lesson"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 在某些 Agent 平台的安全模式下，shell 工具不可用。需要执行 `git push` 时，不能直接用 shell 命令。
 
-## 根本原因
+## Root Cause
 
 部分 Agent 环境的工具集不含直接 shell 访问。有两条替代路径：
 
@@ -76,7 +76,7 @@ git push origin main
 git remote -v  # 确认 remote 指向要改的 repo
 ```
 
-## 验证
+## Verification
 
 push 后检查远程：
 
@@ -86,7 +86,7 @@ gh api repos/<org>/<repo>/commits/main --jq .sha
 
 确认 commit SHA 正确后再继续后续操作。
 
-## 陷阱
+## Pitfalls
 
 - `git push --force` 会覆盖远程历史 → 优先用 `--force-with-lease`
 - 裸 `git remote set-url` 注入 token 时，token 会暴露在 shell history 中

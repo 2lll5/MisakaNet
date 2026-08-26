@@ -27,11 +27,11 @@ verification: 1. rossum 能解析 package.json 依赖图并生成 build.ninja；
 ---
 ## Ka-Boost: 8-Layer KAREL Module Architecture and Build System
 
-### 问题描述
+### Problem描述
 
 KAREL 是 FANUC 机器人控制器上的类 Pascal 编译语言，缺乏泛型、关联数组、原生字符串操作、标准库等现代编程基础设施。开发大型项目（如 5 轴 DLP 3D 打印切片器）时，代码复用困难，模块化程度低，构建和部署流程复杂。
 
-### 根因分析
+### Root Cause分析
 
 KAREL 语言的先天限制：
 - 无泛型支持 → 无法编写类型无关的容器（队列、哈希表等）
@@ -46,7 +46,7 @@ Ka-Boost 通过工具链组合解决这些问题：
 - **ninja 构建系统**：并行编译
 - **kpush 部署工具**：FTP 推送 `.pc` 文件到控制器
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. 工具链
 
@@ -151,7 +151,7 @@ Ka-Boost/
 
 每个 `lib/` 子模块包含 `package.json`（rossum 清单），定义 `name`、`version`、`depends`（其他 Ka-Boost 包）和可选的 `tp-interfaces`（暴露给 TP 程序的函数）。
 
-### 验证方式
+### Verification方式
 
 1. `rossum .. -w -o` 成功生成 `build.ninja`，无依赖解析错误
 2. `ninja` 编译所有源文件无错误，生成 `.pc` 二进制

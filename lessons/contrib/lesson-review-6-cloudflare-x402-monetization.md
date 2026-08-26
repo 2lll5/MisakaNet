@@ -54,7 +54,7 @@ X-Payment: <signed-payment-proof>
 HTTP/1.1 200 OK
 ```
 
-### 适用场景
+### When to Use
 
 | 场景 | 示例 |
 |------|------|

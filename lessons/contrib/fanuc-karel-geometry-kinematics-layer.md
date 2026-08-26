@@ -23,7 +23,7 @@ tags:
 title: Geometry and Kinematics Layer — Shapes, Pose, Sensors for Robot Programming
 verification: shapes模块通过TP交互式示教程序验证(如shp_splitedv、incylinder)；sensors模块通过实际传感器标定和空间扫描验证
 ---
-### 问题描述
+### Problem描述
 
 FANUC KAREL标准库缺少面向机器人应用的3D几何计算能力：
 - 没有平面、线段、圆柱等几何图元的定义和操作
@@ -33,7 +33,7 @@ FANUC KAREL标准库缺少面向机器人应用的3D几何计算能力：
 
 这些能力是机器人空间感知、路径规划、工件检测的基础。
 
-### 根因分析
+### Root Cause分析
 
 KAREL作为工业机器人编程语言，设计重点在任务控制和运动指令，而非几何计算。开发者需要自行实现：
 - 3D空间中的平面方程、线段参数化
@@ -42,7 +42,7 @@ KAREL作为工业机器人编程语言，设计重点在任务控制和运动指
 - 包围盒/圆柱的碰撞检测
 - 传感器数据的校准和滤波
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. shapes模块 — 3D几何图元
 
@@ -135,7 +135,7 @@ set_orientation / set_coord_sys / set_scan_finished
 
 **标定方法：** 线性回归(斜率-截距)。信号/零点检测：虚拟(计算)或物理DI引脚。
 
-### 验证方式
+### Verification方式
 
 1. **shapes模块**：通过TP交互式示教程序验证几何操作正确性
 2. **碰撞检测**：使用已知几何形状验证box/cylinder的点碰撞检测

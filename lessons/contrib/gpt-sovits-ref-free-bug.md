@@ -26,11 +26,11 @@ verification: metadata-normalized
   "", "source": "hanged-man", "status": "published", "created": "2026-04-06", "confidence":
   "0.9", "scope": "narrow", "domain_expert": "hanged-man", "verified_date": "2026-04-06"}'
 ---
-## 问题
+## Problem
 
 提供了女声样本，生成出来却是男声或通用音色。
 
-## 根因
+## Root Cause
 
 `inference_webui.py` L779-780：
 ```python

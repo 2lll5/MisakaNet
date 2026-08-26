@@ -25,18 +25,18 @@ verification: metadata-normalized
   "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01",
   "domain_expert": "bootstrap", "verified_date": "2026-04-01"}'
 ---
-## 背景
+## Problem
 
 Hub 有两套配置体系，Gateway 和 Hub 读取不同的凭证位置，容易混淆。
 
-## 凭证读取位置
+## Credential Locations
 
 | 进程 | 配置文件 | 关键变量 |
 |------|---------|---------|
 | Gateway | `~/.hermes/.env` | `FEISHU_APP_ID`, `FEISHU_APP_SECRET` |
 | Hub | `~/.bashrc` + `~/Agent-Medici/config.yaml` | `FEISHU_APP_ID`, `FEISHU_APP_SECRET`（环境变量）；`webhook_url`, `shared_secret`（config.yaml） |
 
-## 修复
+## Solution
 
 **Gateway 凭证**（PID 1041579）：
 ```bash
@@ -70,7 +70,7 @@ Lesson: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
 # (line count)
 ```
 
-## 关键点
+## Key Points
 
 - Hub 需要 `.venv` Python（`~/.hermes/hermes-agent/.venv/bin/python3`），系统 Python 缺 `networkx`
 - Hub 启动脚本：`~/Agent-Medici/start_hub.sh`

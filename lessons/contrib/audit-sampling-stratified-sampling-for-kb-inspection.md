@@ -16,15 +16,15 @@ tags:
 - test-bank
 title: 巡检题库分层抽样策略
 ---
-## 背景
+## Problem
 
 RAG 知识库质量巡检需要每天抽取少量题目进行自动测试。如果随机抽样，容易连续抽到同一类型的问题（如连续三天都是报警代码题），漏掉其他分类的质量退化。
 
-## 根因
+## Root Cause
 
 简单随机抽样（`random.sample`）在大题库 + 小样本（200 题抽 7 题）场景下，类型覆盖不稳定。
 
-## 修复
+## Solution
 
 实现分层抽样策略：
 
@@ -73,6 +73,6 @@ echo Search verified
 Search verified
 ```
 
-## 适用场景
+## When to Use
 
 任何需要从分类题库中定期抽样的 QA 系统都适用，不限于 RAG。

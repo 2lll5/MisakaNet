@@ -11,11 +11,11 @@ tags:
 title: JSON 解析失败Handling — 截断 / 格式Error
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 从 LLM 输出或 API 返回中解析 JSON 时报 `json.decoder.JSONDecodeError`。常见于模型输出被截断、前后有多余字符。
 
-## 根因
+## Root Cause
 
 1. 模型输出在 JSON 完成前被截断（token 限制）
 2. 模型在 JSON 前后加了 markdown 代码块标记 ```json ... ```
@@ -33,7 +33,7 @@ Lesson: JSON 解析失败Handling — 截断 / 格式Error
 # (line count)
 ```
 
-## 修复
+## Solution
 
 ```python
 import json

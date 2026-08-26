@@ -13,15 +13,15 @@ tags:
 title: GitHub API 401 后本地凭证查找顺序
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 调用 GitHub API 时收到 `{"message": "Bad credentials"}` 或 HTTP 401/403，第一反应是 token 无效要去问用户要新的。但本地往往已经有可用凭证，跳过检查会让用户白跑一趟。
 
-## 根因
+## Root Cause
 
 Agent 倾向于在外部寻找新资源（问用户要 PAT），而不是先检查本地已有资产。这是"资源获取"思维 vs "资源盘点"思维的偏差。
 
-## 修复
+## Solution
 
 **强制查找顺序（GitHub API 认证失败后必查）：**
 
@@ -63,7 +63,7 @@ git log --oneline -3
 # (recent)
 ```
 
-## 关联经验
+## Related经验
 
 本教训与 `git-credentials-automation` 互补：后者解决 push/pull 时的交互式认证，本条解决 API 调用时的编程式认证。
 

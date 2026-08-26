@@ -27,11 +27,11 @@ verification: metadata-normalized
   "source": "hanged-man", "status": "published", "created": "2026-03-29", "confidence":
   "0.9", "scope": "broad", "domain_expert": "hanged-man", "verified_date": "2026-03-29"}'
 ---
-## 问题
+## Problem
 
 FFmpeg 输出 OGG 文件为 0 字节。
 
-## 根因
+## Root Cause
 
 使用了不存在的 `-format ogg` flag。
 

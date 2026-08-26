@@ -11,15 +11,15 @@ tags:
 title: curl / wget 请求失败通用Diagnosis
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 `curl https://example.com` 返回空、报错或超时。不知道是 DNS、代理、证书还是目标服务的问题。
 
-## 根因
+## Root Cause
 
 网络请求的故障链路有多层，每一层都会产生不同错误。需要逐层排查。
 
-## 修复
+## Solution
 
 ```bash
 # curl / wget 请求失败通用Diagnosis

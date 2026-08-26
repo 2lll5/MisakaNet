@@ -23,13 +23,13 @@ verification: metadata-normalized
 '{"title"': '共享JSON状态需要原子写入", "domain": "devops", "tags": ["json", "atomic", "race-condition",
   "runtime"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 多个自动化job同时写共享的运行时状态文件（如 latest.json），plain overwrite 会暴露半写状态导致并发读者解析失败。
 
-## 根因
+## Root Cause
 并发写同一文件没有同步机制；"顺序执行正常"不等于"并发安全"。
 
-## 修复
+## Solution
 写共享JSON时使用：临时文件 + 原子 rename
 ```python
 import os, json, tempfile

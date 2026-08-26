@@ -39,13 +39,13 @@ verification: '1. OMRON PLC 编程软件显示 FANUC EIP 设备在线
 ---
 ## FANUC 机器人与 OMRON PLC 的 EtherNet/IP 连接
 
-### 问题描述
+### Problem描述
 
 在工业自动化项目中，需要将 **OMRON PLC** 与 **FANUC 机器人** 建立通讯连接。常见通讯方案（PROFINET、DeviceNet）通常需要为 FANUC 机器人额外购买专用通讯硬件卡，增加了系统成本。
 
 使用 **EtherNet/IP (EIP)** 协议可以有效降低硬件成本，因为 FANUC 机器人的以太网端口为标准配置，无需额外购买硬件。
 
-### 根因分析
+### Root Cause分析
 
 | 通讯方案 | 硬件需求 | 成本 |
 |----------|----------|------|
@@ -56,7 +56,7 @@ verification: '1. OMRON PLC 编程软件显示 FANUC EIP 设备在线
 
 FANUC 机器人标准配置的以太网端口原生支持 EtherNet/IP 协议，因此使用 EIP 方案可以**有效减少硬件成本**。
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. 前置条件确认
 
@@ -89,7 +89,7 @@ AI[1-10]   ← EtherNet/IP →  Output 区域（模拟量）
 AO[1-10]   → EtherNet/IP →  Input 区域（模拟量）
 ```
 
-### 验证方式
+### Verification方式
 
 1. OMRON PLC 编程软件中确认 FANUC EIP 设备状态为**在线**
 2. PLC 写入输出信号，在 FANUC 机器人示教器上确认 DI 信号正确响应

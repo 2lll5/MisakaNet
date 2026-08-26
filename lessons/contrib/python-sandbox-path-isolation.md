@@ -24,15 +24,15 @@ verification: metadata-normalized
 '{"title"': 'Python 沙箱/受限环境 — PATH 和 sys.path 隔离", "domain": "development", "tags":
   ["python", "sandbox", "path", "import", "venv"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 在沙箱或受限环境中执行 Python 代码时，`import` 报 `ModuleNotFoundError`，或 import 的是宿主环境的包而非沙箱环境的。
 
-## 根因
+## Root Cause
 
 Python `sys.path` 继承自父进程，沙箱未正确隔离 `PYTHONPATH`、`PATH` 和 `sys.path`。
 
-## 修复
+## Solution
 
 ```python
 import sys
@@ -72,7 +72,7 @@ Python 3.
 3.
 ```
 
-## 陷阱
+## Pitfalls
 
 - `subprocess.run("python script.py", ...)` 用的不是当前 Python——`python` 可能是系统默认的
 - 总是用 `sys.executable` 来调用子进程：`subprocess.run([sys.executable, "script.py"])`

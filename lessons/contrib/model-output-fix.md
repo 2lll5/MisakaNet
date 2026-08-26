@@ -9,18 +9,18 @@ tags:
 title: 模型输出截断 / JSON 解析失败Handling
 verification: metadata-normalized
 ---
-## 问题
+## Problem
 
 模型返回的内容不完整（truncated），或者 JSON 解析失败（`json.decoder.JSONDecodeError`），导致后续处理流程中断。
 
-## 根因
+## Root Cause
 
 - 模型输出超过 max_tokens 限制，被截断
 - 模型生成内容在传输过程中被截断（网络问题或网关限制）
 - 输出格式不完整（如缺少闭合 `}` 或 `]`）
 - 内容含有特殊字符导致解析器提前终止
 
-## 修复
+## Solution
 
 **JSON 截断修复：**
 ```python
@@ -86,7 +86,7 @@ Lesson: 模型输出截断 / JSON 解析失败Handling
 # (line count)
 ```
 
-## 关联
+## Related
 
 - 与 RAG 答案质量有关：truncated 的 JSON 会导致 rag_answer 解析失败
 - 与 minimax 模型网关的 response 限制有关，mizu 通道可能有不同的截断行为

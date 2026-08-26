@@ -10,15 +10,15 @@ tags:
 title: Git 凭证Setup — Automation push 免密码
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 脚本自动执行 `git push` 时弹出用户名密码输入框，导致自动化流程卡住。
 
-## 根因
+## Root Cause
 
 Git 默认用交互式凭证管理器（`manager` 或 `askpass`），非 TTY 环境下无法输入。
 
-## 修复
+## Solution
 
 ```bash
 # Git 凭证Setup — Automation push 免密码
@@ -46,7 +46,7 @@ git log --oneline -3
 # (recent)
 ```
 
-## 陷阱
+## Pitfalls
 
 - `~/.git-credentials` 是明文——确保 `.gitignore` 忽略它或用环境变量
 - Token 需要 `repo` 和 `workflow` 权限

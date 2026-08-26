@@ -10,7 +10,7 @@ tags:
 title: Python GBK Encoding Error — Windows/WSL 跨平台
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 在 WSL 中运行 Python 脚本，读取或写入文件时报：
 ```
@@ -18,11 +18,11 @@ UnicodeDecodeError: 'gbk' codec can't decode byte ...
 ```
 或 Cron 日志中出现乱码。
 
-## 根因
+## Root Cause
 
 Windows 默认编码是 GBK，WSL 是 UTF-8。当 Python 在 WSL 中读取来自 Windows 的文件或输出日志到挂载盘时，默认编码检测失效。
 
-## 修复
+## Solution
 
 ```python
 # Python GBK Encoding Error — Windows/WSL 跨平台

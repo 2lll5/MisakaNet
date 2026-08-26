@@ -12,7 +12,7 @@ tags:
 title: gh credential helper 路径Error导致 git push 静默失败
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 执行 `git push` 时卡住或报错：
 
@@ -29,7 +29,7 @@ fatal: repository 'https://github.com/...' not found
 
 但其实仓库存在，token 也有效。
 
-## 根因
+## Root Cause
 
 `gh` 安装在 `/usr/bin/gh`，但 git 全局配置中的 credential helper 指向了一个不存在的路径：
 
@@ -42,7 +42,7 @@ credential.https://github.com.helper=!/home/hp/.local/bin/gh auth git-credential
 
 这通常是安装 `gh` 后又通过 `git config --global credential.helper` 自动配置的遗留项。当 WSL Ubuntu 通过 `apt install gh` 安装时，gh 在 `/usr/bin/gh`，但 credential helper 可能指向其他位置。
 
-## 修复
+## Solution
 
 ### 1. 查看当前 credential helper 配置
 

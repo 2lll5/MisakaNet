@@ -23,15 +23,15 @@ verification: metadata-normalized
 '{"title"': '正则表达式 debugging — 贪婪匹配造成的意外结果", "domain": "development", "tags": ["regex",
   "debug", "greedy", "pattern"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 正则匹配返回了预期之外的大量文本。`<div>.*</div>` 匹配到了文档末尾而不是最近的闭合标签。
 
-## 根因
+## Root Cause
 
 默认 `.*` 和 `.+` 是贪婪模式，匹配尽可能多的字符。
 
-## 修复
+## Solution
 
 ```python
 import re

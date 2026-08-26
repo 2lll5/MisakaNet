@@ -22,7 +22,7 @@ tags:
 title: KAREL Pose Library API Reference — IK/FK, Quaternion, Matrix Transforms
 verification: 通过KUnit测试套件验证：test_pose.kl覆盖IK/FK往返、字符串构造、mask操作、圆柱转换、外接圆心；test_matpose.kl覆盖矩阵和四元数运算
 ---
-### 问题描述
+### Problem描述
 
 FANUC KAREL标准库仅提供基础的PR读写和简单位姿操作，缺少以下关键能力：
 - 逆运动学(IK)和正运动学(FK)求解
@@ -33,7 +33,7 @@ FANUC KAREL标准库仅提供基础的PR读写和简单位姿操作，缺少以�
 
 这些能力是路径规划、5轴打印、曲面加工等高级应用的基础。
 
-### 根因分析
+### Root Cause分析
 
 KAREL作为FANUC的高级编程语言，设计目标是任务控制而非运动学计算。原生函数仅支持：
 - `SET_UFRAME`/`SET_UTOOL`设置坐标系
@@ -42,7 +42,7 @@ KAREL作为FANUC的高级编程语言，设计目标是任务控制而非运动�
 
 但不包含IK求解器(`CALC_JPOS_DATA`等底层函数未开放)、旋转表示转换、以及多坐标系变换链。
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. IK/FK求解
 
@@ -143,7 +143,7 @@ CC_POSITION = 1   -- PR类型：位置
 CC_JOINT = 9      -- PR类型：关节
 ```
 
-### 验证方式
+### Verification方式
 
 1. **单元测试**：运行`test_pose.kl`和`test_matpose.kl`(通过KUnit HTTP接口：`http://robot.ip/KAREL/kunit?filenames=test_pose`)
 2. **IK/FK往返测试**：对同一位置做IK→FK，验证精度在可接受范围内

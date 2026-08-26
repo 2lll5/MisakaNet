@@ -12,11 +12,11 @@ tags:
 title: openclaw gateway dynamic module missing
 verification: metadata-normalized
 ---
-## 问题
+## Problem
 
 飞书单聊和群聊均无回应。飞书长连接正常（WebSocket 显示 ON · OK），消息能收到，但 Bot 不回复。
 
-## 根因
+## Root Cause
 
 **单聊：** OpenClaw 动态生成的 JS 模块文件丢失，导致消息分发时 ERR_MODULE_NOT_FOUND。
 
@@ -34,7 +34,7 @@ imported from .../get-reply-462JLlw-.js
 group oc_51cd445c9162f2d622f1a984e8bc3f4f not in groupAllowFrom (groupPolicy=allowlist)
 ```
 
-## 修复
+## Solution
 
 ### 单聊：重启 Gateway
 

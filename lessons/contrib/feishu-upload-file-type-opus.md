@@ -32,11 +32,11 @@ verification: metadata-normalized
   "scope": "broad", "alternative_of": "None", "related": "", "domain_expert": "hanged-man",
   "verified_date": "2026-03-29"}'
 ---
-## 问题
+## Problem
 
 Feishu `im/v1/files` 上传接口调用失败，返回 `234001 Invalid request param`。
 
-## 根因
+## Root Cause
 
 data 字段错误地使用了 `file_length`，正确字段名是 `file_type`。
 
@@ -65,6 +65,6 @@ echo Feishu verified
 Feishu verified
 ```
 
-## 教训
+## Lessons Learned
 
 飞书 API 字段名严格按文档来，不要猜测近似名称。

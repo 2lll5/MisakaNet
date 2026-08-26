@@ -10,15 +10,15 @@ tags:
 title: Shell Debugging — set -x 与常见Pitfalls
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 Shell 脚本报错但不显示问题行，或变量展开后不是预期值。
 
-## 根因
+## Root Cause
 
 Shell 默认只输出执行结果，不输出执行过程。变量为空、特殊字符展开、IFS 分割等问题只有看到「实际执行了什么命令」才能发现。
 
-## 修复
+## Solution
 
 ```bash
 #!/usr/bin/env bash
@@ -55,7 +55,7 @@ Lesson: Shell Debugging — set -x 与常见Pitfalls
 # (line count)
 ```
 
-## 陷阱
+## Pitfalls
 
 | 场景 | 问题 | 修复 |
 |------|------|------|

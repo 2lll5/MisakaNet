@@ -77,3 +77,7 @@ wc -l lessons/contrib/gfw-tls-sni-blocking-tool-layer-ineffective.md
 Lesson: GFW TLS SNI 阻断：工具层全部无效，只有代理能解
 # (line count)
 ```
+
+---
+
+> **See also:** [gfw-tls-sni-block-pattern](gfw-tls-sni-block-pattern.md) — comprehensive version of this lesson.

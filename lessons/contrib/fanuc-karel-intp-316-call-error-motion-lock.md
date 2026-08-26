@@ -32,11 +32,11 @@ verification: 在 KAREL 中执行 CALL 'TEST.TP'，确认无 INTP-316 报错且�
 ---
 ## FANUC KAREL: INTP-316 调用TP程序触发动作锁定
 
-### 问题描述
+### Problem描述
 
 从 KAREL 调用 TP 程序时触发 **INTP-316**（呼叫错误 / Call Error），同时动作锁定被激活。KAREL 程序本身可正常运行，仅在调用 TP 程序时出错。
 
-### 根因分析
+### Root Cause分析
 
 INTP-316 是 KAREL 运行时 `CALL` 或 `RUN_TPP` 的呼叫错误。常见根因：
 
@@ -48,7 +48,7 @@ INTP-316 是 KAREL 运行时 `CALL` 或 `RUN_TPP` 的呼叫错误。常见根因
 | 运动组冲突 | 确认调用方与目标方的组配置一致 |
 | 目标 TP 含冲突运动指令 | 检查 TP 程序中的运动语句 |
 
-### 修复方法
+### Solution方法
 
 1. **验证调用语法**：
    ```karel
@@ -68,7 +68,7 @@ INTP-316 是 KAREL 运行时 `CALL` 或 `RUN_TPP` 的呼叫错误。常见根因
    - 如果调用后出现动作锁定，先 `ABORT` 所有任务
    - 检查 TP 程序是否在运动指令前有未满足的条件等待
 
-### 验证方式
+### Verification方式
 
 在 KAREL 中执行：
 ```karel

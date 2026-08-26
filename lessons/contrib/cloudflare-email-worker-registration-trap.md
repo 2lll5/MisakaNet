@@ -17,11 +17,11 @@ tags:
 - spf
 title: Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、MIME 与 SPF
 ---
-## 背景
+## Problem
 
 为 MisakaNet 添加无 GitHub 账号的注册通道，选用 Cloudflare Email Routing + Workers + KV 架构。用户发邮件到注册地址 → Worker 自动分配节点 ID → 存入 KV。
 
-## 方案
+## Solution
 
 ```
 用户发邮件 → Cloudflare Email Routing → Worker email 事件

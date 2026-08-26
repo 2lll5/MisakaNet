@@ -11,11 +11,11 @@ tags:
 title: Gateway 进程挂死未崩溃 — watchdog 自动Recovery
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 Hermes Agent 频繁崩溃，用户反映"卡死"。实际调查发现是 **WSL PTY 断连**导致 CLI 崩溃，而非 Gateway 本身问题。
 
-## 根因
+## Root Cause
 
 ```
 Windows Terminal 断连/关闭
@@ -31,7 +31,7 @@ systemd (Restart=always) 5s 后重启 gateway
 
 Gateway 本身通过 systemd 常驻，但 CLI 的 TTY 依赖导致每次 WT 断线都触发崩溃链。
 
-## 修复
+## Solution
 
 **治本方案**：杀掉 TTY 里的 Hermes CLI，让 Gateway 走 systemd 独立运行：
 
@@ -58,7 +58,7 @@ Lesson: Gateway 进程挂死未崩溃 — watchdog 自动Recovery
 # (line count)
 ```
 
-## 关键点
+## Key Points
 
 - 飞书 WebSocket 断连后消息会积压，重连时集中投递，可能触发重复处理
 - Gateway 日志路径：`~/.hermes/logs/gateway.log`（不同启动方式写不同路径）

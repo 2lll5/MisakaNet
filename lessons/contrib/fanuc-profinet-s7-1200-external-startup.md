@@ -43,11 +43,11 @@ verification: '1. 在 TIA Portal 中确认 PROFINET 网络拓扑显示 FANUC Dev
 ---
 ## FANUC PROFINET 通讯与 S7-1200 外部启动配置
 
-### 问题描述
+### Problem描述
 
 在汽车焊装产线中，需要将 FANUC 机器人与 Siemens S7-1200 PLC 通过 **PROFINET** 协议建立通讯，并配置外部启动功能，使 PLC 能够远程触发机器人程序执行。这是工业自动化中常见的集成场景：S7-1200 作为 PROFINET Controller，FANUC 机器人（配备 PROFINET 适配卡）作为 PROFINET Device。
 
-### 根因分析
+### Root Cause分析
 
 PROFINET 通讯及外部启动配置涉及以下关键环节，任一环节配置错误都会导致通讯失败或无法远程启动：
 
@@ -59,7 +59,7 @@ PROFINET 通讯及外部启动配置涉及以下关键环节，任一环节配�
 | 信号映射 | DI/DO 信号与 PLC 地址对应 | 映射表错位导致信号混乱 |
 | 启动模式 | RSR 或 PNS 模式配置 | 启动模式与信号设计不匹配 |
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. 硬件准备与网络配置
 
@@ -99,7 +99,7 @@ DO[2]     → 程序完成
 DO[3]     → 报警信号
 ```
 
-### 验证方式
+### Verification方式
 
 1. **通讯验证**：在 TIA Portal 中确认 PROFINET 网络拓扑显示 FANUC Device 为绿色在线状态
 2. **信号验证**：手动触发 DI 信号，确认 FANUC 侧对应信号响应正确

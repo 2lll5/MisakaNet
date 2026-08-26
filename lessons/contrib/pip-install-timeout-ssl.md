@@ -15,15 +15,15 @@ tags:
 title: pip install Network Timeout / SSL ErrorFix
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 `pip install` 失败，报 `timeout`、`SSL: CERTIFICATE_VERIFY_FAILED`、或 `Connection broken` 错误。
 
-## 根因
+## Root Cause
 
 PyPI 默认源在国外，网络不稳定或被墙。pip 默认超时 15 秒，大包下载不够。
 
-## 修复
+## Solution
 
 ```bash
 # pip install Network Timeout / SSL ErrorFix
@@ -39,7 +39,7 @@ pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org <包�
 pip install --no-cache-dir <包名>
 ```
 
-## 验证
+## Verification
 
 ```bash
 pip install requests -v  # 应正常完成

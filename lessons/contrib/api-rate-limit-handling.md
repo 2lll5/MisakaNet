@@ -14,15 +14,15 @@ tags:
 - '429'
 title: API 请求限流 (Rate Limit) 处理方案
 ---
-## 背景
+## Problem
 
 调用第三方 API 时返回 HTTP 429（Too Many Requests）或 403（被限流）。自动化脚本因未处理限流而中断。
 
-## 根因
+## Root Cause
 
 API 有每分钟/每小时/每天的请求配额。超过配额后被临时封禁。脚本没有指数退避（exponential backoff）逻辑。
 
-## 修复
+## Solution
 
 ```python
 import time

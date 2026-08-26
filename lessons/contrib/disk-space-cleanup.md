@@ -10,18 +10,18 @@ tags:
 title: 磁盘空间不足 / chroma_db_v4 CacheCleanup
 verification: metadata-normalized
 ---
-## 问题
+## Problem
 
 写入文件或构建向量库时报 `No space left on device` / `ENOSPC`，hermes-hub 进程崩溃。
 
-## 根因
+## Root Cause
 
 - chroma_db_v4 向量库膨胀（长期不清理）
 - 模型缓存占用 ~/.cache/huggingface/
 - 临时文件堆积 /tmp
 - 磁盘真的满了
 
-## 修复
+## Solution
 
 **快速定位谁占空间：**
 ```bash
@@ -67,6 +67,6 @@ Lesson: 磁盘空间不足 / chroma_db_v4 CacheCleanup
 # (line count)
 ```
 
-## 关联
+## Related
 
 - 设置 cron 每周清理：`0 3 * * 0 find ~/.hermes/logs/ -name "*.log" -mtime +30 -delete`

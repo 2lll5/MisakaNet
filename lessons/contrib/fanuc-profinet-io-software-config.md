@@ -25,11 +25,11 @@ verification: 1. PFN-CT 软件安装并能正常启动；2. 能加载 FANUC 机�
 ---
 ## FANUC Robot PROFINET IO Configuration with PFN-CT Software
 
-### 问题描述
+### Problem描述
 
 FANUC 工业机器人在汽车焊装等场景中需要通过 PROFINET IO 协议与 PLC（如西门子 S7-1200/1500）进行 IO 通信。配置 PROFINET IO 从站需要专用的配置软件，但该软件不是 FANUC 控制器的标准附件，需要单独获取。
 
-### 根因分析
+### Root Cause分析
 
 PROFINET IO 是工业以太网现场总线协议，FANUC 机器人作为从站设备接入 PROFINET 网络时：
 
@@ -37,7 +37,7 @@ PROFINET IO 是工业以太网现场总线协议，FANUC 机器人作为从站�
 2. **需要配置工具**：PFN-CT（PROFINET Configuration Tool）是 FANUC 提供的 PC 端配置软件
 3. **配置流程**：在 PC 上配置 IO 模块映射 → 生成配置文件 → 下载到控制器 → PLC 侧添加从站设备
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. PFN-CT 软件信息
 
@@ -84,7 +84,7 @@ FANUC 机器人支持多种现场总线协议：
 
 每种协议都有对应的配置工具和选件要求。PROFINET IO 是中国市场最常见的选择之一，特别是在使用西门子 PLC 的汽车焊装线上。
 
-### 验证方式
+### Verification方式
 
 1. PFN-CT 软件在 Windows PC 上安装并正常启动
 2. 能正确加载 FANUC 机器人 GSD 文件，显示设备信息

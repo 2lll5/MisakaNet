@@ -23,15 +23,15 @@ verification: metadata-normalized
 '{"title"': 'WSL2 内存泄漏 / 内存占用过高", "domain": "devops", "tags": ["wsl", "memory", "leak",
   "performance"], "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 WSL2 运行几天后吃掉 8GB+ 内存，Windows 变卡。`free -h` 显示已用内存极高。
 
-## 根因
+## Root Cause
 
 WSL2 使用动态内存分配，默认不自动回收。长时间运行的进程（如 Python 服务、向量数据库）申请的内存在进程退出后不会立刻归还 Windows。
 
-## 修复
+## Solution
 
 ```bash
 # WSL2 内存泄漏 / 内存占用过高
@@ -54,7 +54,7 @@ sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
 # wsl
 ```
 
-## 验证
+## Verification
 
 ```bash
 free -h  # 内存应恢复到限制值内

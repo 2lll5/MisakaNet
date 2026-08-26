@@ -27,11 +27,11 @@ verification: metadata-normalized
   "", "source": "hanged-man", "status": "published", "created": "2026-04-06", "confidence":
   "0.9", "scope": "narrow", "domain_expert": "hanged-man", "verified_date": "2026-04-06"}'
 ---
-## 问题
+## Problem
 
 训练时数据加载器逐字查 phoneme 词典，全部 KeyError。
 
-## 根因
+## Root Cause
 
 2-name2text.txt 第二列误写为中文原文，正确应为 ARPABET 音素符号（空格分隔）。
 
@@ -56,6 +56,6 @@ echo 'Verification passed'
 ```
 Verification passed
 ```
-## 教训
+## Lessons Learned
 
 音素训练数据格式必须严格按文档，词典只认音标不认文字。

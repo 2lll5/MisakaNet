@@ -24,11 +24,11 @@ verification: 1. kunit.pc 和 strings.pc 已部署到控制器；2. 测试程序
 ---
 ## Unit Testing FANUC KAREL Programs with KUnit Framework
 
-### 问题描述
+### Problem描述
 
 FANUC KAREL 程序没有原生的单元测试支持。开发者通常需要将程序部署到控制器或 ROBOGUIDE 上运行才能验证逻辑，调试效率低且风险高。需要一种在部署前就能系统性验证 KAREL 程序逻辑的方法。
 
-### 根因分析
+### Root Cause分析
 
 KAREL 是 FANUC 专有的类 Pascal 编译语言，运行环境是机器人控制器，不支持标准的软件测试工具链。KUnit 框架通过以下机制解决这个问题：
 
@@ -37,7 +37,7 @@ KAREL 是 FANUC 专有的类 Pascal 编译语言，运行环境是机器人控�
 - 测试运行器通过控制器的 HTTP 服务输出结果，可在浏览器中查看
 - 支持并行运行多个测试文件
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. 安装步骤
 
@@ -152,7 +152,7 @@ Expected "a" but got "b"
 - 部署：复制到 ROBOGUIDE 或真实机器人
 - 运行：`http://robot.ip/KAREL/test_kunit`
 
-### 验证方式
+### Verification方式
 
 1. `kunit.pc` 和 `strings.pc` 已正确部署到控制器
 2. 测试程序翻译编译无错误

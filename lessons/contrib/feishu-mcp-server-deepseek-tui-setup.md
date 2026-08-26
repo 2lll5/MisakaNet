@@ -30,7 +30,7 @@ verification: metadata-normalized
   "deepseek", "docx-api", "permissions"], "created": "2026-05-19", "updated": "2026-05-19",
   "domain_expert": "deepseek-tui", "verified_date": "2026-05-19"}'
 ---
-## 背景
+## Problem
 
 需要在 DeepSeek TUI 中在线操作飞书云文档（docx），通过 MCP 协议暴露飞书 API。
 
@@ -122,7 +122,7 @@ deepseek mcp list
 # 输出: feishu [enabled] ...
 ```
 
-## 验证方式
+## Verification方式
 
 ```python
 # 测试 MCP 工具列表

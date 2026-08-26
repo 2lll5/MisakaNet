@@ -9,11 +9,11 @@ tags:
 title: oss refactor lessons
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 一个开源的 Agent 知识共享项目，早期架构照搬了"中心协调网络"设计，堆了 A2A 实时通信、WebSocket 长连接、交互式卡片仲裁、中心化 Hub 等功能。功能多但实际体验差。
 
-## 问题
+## Problem
 
 1. **噪音 > 信号** — 实时消息 90% 是噪音，真正的冲突管理走 Issue 就够了
 2. **假设全在线** — 实时通信假设所有节点在线，但真实场景是"图书馆"（离线检索、偶尔同步）
@@ -21,7 +21,7 @@ verification: metadata-normalized
 4. **概念过载** — 10+ 概念，新用户无法理解
 5. **品牌混乱** — 广告语堆砌技术术语，没有清晰的定位
 
-## 修复方案
+## Solution方案
 
 三轮重构，每轮独立推进，不交叉施工：
 
@@ -53,7 +53,7 @@ verification: metadata-normalized
 
 ## 仓库清理与技术专注度
 
-### 问题
+### Problem
 
 个人/组织 GitHub 主页积累了 30+ 仓库，包含大量早期 fork、零贡献存档、废弃实验项目。潜在贡献者或合作方打开主页时，看到混杂的仓库列表会稀释项目的专业可信度。
 
@@ -69,7 +69,7 @@ verification: metadata-normalized
 On branch main
 OK
 ```
-## 教训
+## Lessons Learned
 
 1. **先砍后加** — 砍掉 3 个模块比增加 10 个功能更能提升完成度
 2. **概念越少越好** — 每个概念都是认知税

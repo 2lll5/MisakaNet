@@ -10,15 +10,15 @@ tags:
 title: Python 代码修改不生效 — stale .pyc Cache
 verification: metadata-normalized
 ---
-## 背景
+## Problem
 
 改了 Python 文件后运行，行为还是旧的。函数返回值、错误信息、path 等都没有改变。
 
-## 根因
+## Root Cause
 
 Python 的 `__pycache__` 目录缓存了编译后的 `.pyc` 文件。如果源文件修改时间没有正确更新（常见于 git checkout、文件复制、WSL/NTFS 文件系统），Python 会加载旧的 `.pyc`。
 
-## 修复
+## Solution
 
 ```bash
 # Python 代码修改不生效 — stale .pyc Cache

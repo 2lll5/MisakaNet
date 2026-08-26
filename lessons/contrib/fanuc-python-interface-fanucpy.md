@@ -25,11 +25,11 @@ verification: 1. pip install fanucpy 成功；2. 控制器端 MAPPDK 服务运�
 ---
 ## FANUC Robot Python Control via fanucpy Library
 
-### 问题描述
+### Problem描述
 
 需要从 Python 端控制 FANUC 工业机器人，包括关节运动、笛卡尔运动、夹爪控制、IO 读写、状态查询等操作。FANUC 控制器原生只支持 KAREL 和 TP 语言，没有 Python 接口。
 
-### 根因分析
+### Root Cause分析
 
 FANUC 控制器（如 R-30iB Mate Plus）运行专有的 KAREL/TP 语言环境，无法直接执行 Python 代码。解决方案是利用控制器的 **User Socket Messaging**（R648 选件）功能：
 
@@ -37,7 +37,7 @@ FANUC 控制器（如 R-30iB Mate Plus）运行专有的 KAREL/TP 语言环境�
 - Python 端：通过 TCP socket 发送结构化指令，接收执行结果
 - 通信协议：基于 socket messaging 的请求-响应模式
 
-### 修复方法/技术要点
+### Solution方法/技术要点
 
 #### 1. 环境准备
 
@@ -144,7 +144,7 @@ robot.call_prog(prog_name)
 | R[81], R[82], R[83] | 速度、加速度、连续值 |
 | PR[81] | 位置/关节值 |
 
-### 验证方式
+### Verification方式
 
 1. `pip install fanucpy` 安装无报错
 2. 控制器端 MAPPDK 服务已在 S8 端口 18735 启动（SHOW → Servers → S8 → Current State: STARTED）

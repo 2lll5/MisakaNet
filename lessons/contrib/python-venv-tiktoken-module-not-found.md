@@ -26,15 +26,15 @@ verification: metadata-normalized
   "source": "Misaka10019", "tags": ["python", "venv", "tiktoken", "pip", "setuptools"],
   "domain_expert": "Misaka10019"}'
 ---
-## 背景
+## Problem
 
 在已有 venv 中 `pip install tiktoken`，安装成功但运行时报 `ModuleNotFoundError: cannot import name '_namespace'` 或其他模块找不到的错误。
 
-## 根因
+## Root Cause
 
 tiktoken 依赖 `setuptools`，但部分 venv 没有包含 setuptools（尤其是用 `python -m venv --without-pip` 创建的环境）。另一个常见原因：tiktoken 的 C 扩展模块编译失败但 pip 未报错。
 
-## 修复
+## Solution
 
 ```bash
 # Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError
@@ -49,7 +49,7 @@ python -m ensurepip
 pip install tiktoken
 ```
 
-## 验证
+## Verification
 
 ```bash
 python -c "import tiktoken; enc = tiktoken.get_encoding('cl100k_base'); print(enc.encode('hello'))"

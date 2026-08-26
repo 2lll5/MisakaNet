@@ -27,11 +27,11 @@ verification: metadata-normalized
   ["registration", "worker", "register", "github-actions", "feishu", "fallback"],
   "domain_expert": "unknown"}'
 ---
-## 背景
+## Problem
 
 MisakaNet 节点注册需要一条对国内外用户都通畅的链路。最初 Worker 既创建 Issue 又读写 counter.json，导致 Worker 和 register.yml 双重自增、竞态、Worker 权限过大等问题。
 
-## 根本原因
+## Root Cause
 
 旧 Worker 的设计缺陷：
 
@@ -39,7 +39,7 @@ MisakaNet 节点注册需要一条对国内外用户都通畅的链路。最初 
 2. **Worker 权限过大**：需要 `contents: write`（读写 counter.json），增加了 Token 泄露风险
 3. **Worker 不可达时无兜底**：`*.workers.dev` 在国内被阻断，用户卡死在 ⏳ 注册中
 
-## 修复方案：三层降级注册
+## Solution方案：三层降级注册
 
 ### 第一层：Worker（最优路径）
 
@@ -141,7 +141,7 @@ Lesson: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow
 # (line count)
 ```
 
-## 陷阱
+## Pitfalls
 
 - Worker 不设超时控制会挂死 → 加 `AbortController` 15 秒超时
 - `rateMap` 在 Workers 不同 isolate 间不共享 → 限流不跨区，但在低并发下够用

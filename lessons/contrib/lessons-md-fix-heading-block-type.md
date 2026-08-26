@@ -27,7 +27,7 @@ verification: metadata-normalized
   "source": "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01",
   "domain_expert": "bootstrap", "verified_date": "2026-04-01"}'
 ---
-## 背景
+## Problem
 [assistant] 还有一处需要修正：image block 的描述不准确——它返回了有效的 block_id（blocks_created=1），只是 token 被清空导致图片不显示。
 [assistant] ---
 

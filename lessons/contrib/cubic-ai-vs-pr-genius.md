@@ -16,7 +16,7 @@
 }
 ---
 
-## 背景
+## Problem
 
 PR Genius (v1.4.1) 是 Outbound CRM（管理自己提的 PR），Cubic AI 是 Inbound review（审查别人提的 PR）。两者定位不同，但 Cubic 有 3 个值得借鉴的点。
 

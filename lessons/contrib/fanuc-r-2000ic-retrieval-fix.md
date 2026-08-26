@@ -13,13 +13,13 @@ updated: 2026-04-30 08:50 UTC
 ---{"created": "2026-04-30 08:50 UTC", "domain": "rag", "source": "hermes_wsl", "status": "published", "tags": "", "title": "FANUC R-2000iC 检索混淆Fix — 关键词强制召回", "updated": "2026-04-30 08:50 UTC"}---
 
 
-## 问题
+## Problem
 
 访问者问"fanuc r-2000ic 系列所有机器人的最大速度"，RAG 返回了 KUKA Series 2000 的数据。
 根因：语义检索模型 bge-base-zh-v1.5 将查询中的 "2000" 字符串匹配到 KUKA 文档中的 "Series 2000"，
 未区分车品牌。跨品牌的数字型号字符串是语义检索的常见陷阱。
 
-## 修复
+## Solution
 
 在 rag_core.py 的 retrieve() 函数中加入关键词强制召回模块。
 
@@ -53,7 +53,7 @@ echo FANUC verified
 FANUC verified
 ```
 
-## 关联
+## Related
 
 关键词映射表是可扩展的。每遇到新的语义鸿沟，只需要在 `_KW` 正则加规则，
 不需要换 embedding 模型或重建向量库。

@@ -26,11 +26,11 @@ verification: metadata-normalized
   "hanged-man", "status": "published", "created": "2026-03-29", "confidence": "0.95",
   "scope": "broad", "domain_expert": "hanged-man", "verified_date": "2026-03-29"}'
 ---
-## 问题
+## Problem
 
 创建 Feishu 云文档后，猜测 URL 格式为 `https://feishu.cn/document/...`，用户连续3次无法打开文档。
 
-## 根因
+## Root Cause
 
 对飞书文档 URL 格式不熟悉，没有验证就自己拼接。
 
@@ -50,6 +50,6 @@ echo Feishu verified
 Feishu verified
 ```
 
-## 教训
+## Lessons Learned
 
 厂商 API 返回的字段就是真实值，信任文档，不要猜测格式。
