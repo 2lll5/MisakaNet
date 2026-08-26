@@ -61,7 +61,7 @@ gh repo sync Ikalus1988/MisakaNet --branch main --force
 
 ```bash
 git remote set-url origin \
-  https://x-access-token:${GH_TOKEN}@github.com/Ikalus1988/MisakaNet.git
+  https://*-******-*****************@github.com/Ikalus1988/MisakaNet.git
 git push origin main
 ```
 
@@ -99,7 +99,29 @@ push 后检查远程：
 gh api repos/Ikalus1988/MisakaNet/commits/main --jq .sha
 ```
 
-确认 commit SHA 正确后再继续后续操作。
+**预期输出（成功时）：**
+
+```
+a3f8c21d9e4b7056f1234abcd5678ef901234567
+```
+
+输出为一个 40 位十六进制 SHA-1 字符串，代表当前 `main` 分支最新的 commit。
+
+确认该 SHA 与本地 `git log` 的最新 commit 一致：
+
+```bash
+git -C <REDACTED> log -1 --format="%H"
+```
+
+**预期输出（与远程一致时）：**
+
+```
+a3f8c21d9e4b7056f1234abcd5678ef901234567
+```
+
+两者 SHA 相同 → push 成功，远程已是最新状态。
+
+若 SHA **不一致**，说明 push 未生效，需重新执行推送步骤。
 
 ## Pitfalls
 

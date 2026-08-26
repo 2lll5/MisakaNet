@@ -70,3 +70,14 @@ HOME=/home/yourname
 ```bash
 cat ~/cron_test.log  # 每分钟应新增一行
 ```
+
+预期输出（每分钟追加一行，时间戳递增）：
+
+```
+CRON_ALIVE: Sun Jul  6 10:00:01 CST 2026
+CRON_ALIVE: Sun Jul  6 10:01:01 CST 2026
+CRON_ALIVE: Sun Jul  6 10:02:01 CST 2026
+CRON_ALIVE: Sun Jul  6 10:03:01 CST 2026
+```
+
+若文件持续增长，说明 cron 服务运行正常；若文件为空或不存在，请检查 cron 服务状态及 crontab 语法。

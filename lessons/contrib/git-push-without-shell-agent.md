@@ -61,7 +61,7 @@ gh repo sync <org>/<repo> --branch main --force
 
 ```bash
 git remote set-url origin \
-  https://x-access-token:${GH_TOKEN}@github.com/<org>/<repo>.git
+  https://*-******-*****************@github.com/<org>/<repo>.git
 git push origin main
 ```
 
@@ -85,7 +85,25 @@ push 后检查远程：
 gh api repos/<org>/<repo>/commits/main --jq .sha
 ```
 
-确认 commit SHA 正确后再继续后续操作。
+预期输出（成功时返回最新 commit 的 SHA，40 位十六进制字符串）：
+
+```
+a3f1c2e8b4d7091f6e5a2c3b1d4e7f8a9b0c1d2e
+```
+
+确认该 SHA 与本地 `git log` 的最新提交一致：
+
+```bash
+git log -1 --format="%H"
+```
+
+预期输出（应与上方远程 SHA 完全相同）：
+
+```
+a3f1c2e8b4d7091f6e5a2c3b1d4e7f8a9b0c1d2e
+```
+
+如果两者一致，说明 push 成功，可继续后续操作。
 
 ## Pitfalls
 
