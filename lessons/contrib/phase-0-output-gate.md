@@ -1,6 +1,21 @@
 ---
 created: '2026-07-06'
 domain: contrib
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- output-gate
+- knowledge-reuse
+- methodology
+- core
+title: phase 0 output gate
+verification: metadata-normalized
+'{"title"': 'Phase 0 Output Gate — Agent 的硬性知识检索规则", "domain": "methodology", "tags":
+  ["output-gate", "knowledge-reuse", "methodology", "core"], "domain_expert": "unknown"}'
+---
+created: '2026-07-06'
+domain: contrib
 source: unknown
 status: published
 title: phase 0 output gate

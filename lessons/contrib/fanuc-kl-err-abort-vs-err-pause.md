@@ -6,6 +6,10 @@ domain_expert: bootstrap
 source: bootstrap
 status: published
 subdomain: error-handling
+tags:
+- fanuc
+- abort
+- pause
 title: 'FANUC KL: ERR_ABORT vs ERR_PAUSE 行为差异'
 verified_date: '2026-05-03'
 ---

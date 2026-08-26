@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: devops
 source: unknown
 status: published
+tags:
+- devops
+- decouple
+- pythonpath
+- fork
 title: GitHub Actions CI for AI Agent PRs — DCO decoupling & PYTHONPATH fix
 verification: metadata-normalized
 ---

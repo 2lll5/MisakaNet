@@ -9,6 +9,9 @@ provenance:
   source: agent-memory-dump
 source: unknown
 status: published
+tags:
+- install
+- timeout
 title: pip install Network Timeout / SSL ErrorFix
 verification: metadata-normalized
 ---

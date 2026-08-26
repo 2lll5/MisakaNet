@@ -3,6 +3,12 @@ created: '2026-07-06'
 domain: devops
 source: unknown
 status: published
+tags:
+- meta
+- lesson
+- push
+- credential
+- helper
 title: 'Git Push to Fork Repo: ''Permission Denied to Other User'' — Wrong PAT Selected
   by Helper'
 verification: metadata-normalized

@@ -1,4 +1,22 @@
 ---
+confidence: '0.9'
+created: '2026-07-06'
+domain: contrib
+domain_expert: hanged-man
+scope: broad
+source: hanged-man
+status: published
+tags:
+- chinese
+- encoding
+- powershell
+title: tts chinese encoding powershell
+verification: metadata-normalized
+verified_date: '2026-04-18'
+'{"title"': 'TTS 中文编码：PowerShell 传参必须用 .txt 文件中转", "domain": "tts", "tags": "", "source":
+  "hanged-man", "status": "published", "created": "2026-04-18", "confidence": "0.9",
+  "scope": "broad", "domain_expert": "hanged-man", "verified_date": "2026-04-18"}'
+---
 created: '2026-07-06'
 domain: contrib
 source: unknown

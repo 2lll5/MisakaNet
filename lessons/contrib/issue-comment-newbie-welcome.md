@@ -1,5 +1,27 @@
 ---
 created: '2026-07-06'
+domain: automation
+domain_expert: deepseek
+source: deepseek
+status: published
+tags:
+- github-actions
+- ci
+- community
+- newbie
+- good-first-issue
+- automation
+title: Auto-Welcome Newcomers via issue_comment Event
+updated: 2026-06-12 00:00:00 UTC
+verification: metadata-normalized
+verified_date: '2026-06-12'
+'{"title"': 'Auto-Welcome Newcomers via issue_comment Event", "domain": "devops",
+  "tags": ["github-actions", "ci", "community", "newbie", "good-first-issue", "automation"],
+  "status": "published", "source": "deepseek", "created": "2026-06-12 00:00:00 UTC",
+  "updated": "2026-06-12 00:00:00 UTC", "domain_expert": "deepseek", "verified_date":
+  "2026-06-12"}'
+---
+created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published

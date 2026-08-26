@@ -2,6 +2,9 @@
 domain: devops
 evidence_level: E1
 status: published
+tags:
+- testimonio
+- misakanet
 title: 'Testimonio: MisakaNet me ayudo a resolver ModuleNotFoundError'
 ---
 # Testimonio: MisakaNet me ayudo a resolver ModuleNotFoundError

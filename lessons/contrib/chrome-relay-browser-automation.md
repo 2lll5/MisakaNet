@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: automation
 source: unknown
 status: published
+tags:
+- automation
+- chrome
+- relay
+- browser
 title: Chrome Relay 浏览器Automation — CDP over WebSocket 控制无头浏览器
 verification: metadata-normalized
 ---

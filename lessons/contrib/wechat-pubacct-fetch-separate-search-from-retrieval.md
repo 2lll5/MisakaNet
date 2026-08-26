@@ -1,8 +1,15 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: wechat
 source: unknown
 status: published
+tags:
+- wechat
+- pubacct
+- fetch
+- separate
+- search
+- retrieval
 title: wechat pubacct fetch separate search from retrieval
 verification: metadata-normalized
 ---

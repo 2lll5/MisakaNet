@@ -1,4 +1,23 @@
 ---
+confidence: '0.7'
+created: '2026-07-06'
+domain: feishu
+domain_expert: bootstrap
+source: bootstrap
+status: published
+subdomain: mcp-capability
+tags:
+- aily
+- feishu
+- pull
+- only
+title: aily feishu mcp pull only
+verification: metadata-normalized
+verified_date: '2026-05-03'
+'{"title"': 'aily 飞书 MCP 通道：只能拉取不能推送", "domain": "feishu", "subdomain": "mcp-capability",
+  "source": "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-05-03",
+  "domain_expert": "bootstrap", "verified_date": "2026-05-03"}'
+---
 created: '2026-07-06'
 domain: contrib
 source: unknown

@@ -3,6 +3,11 @@ created: '2026-07-06'
 domain: devops
 source: unknown
 status: published
+tags:
+- meta
+- lesson
+- venv
+- seed
 title: Ubuntu WSL Python venv Missing pip — uv venv --seed Fixes Without sudo
 verification: metadata-normalized
 '{"title"': 'Ubuntu WSL Python venv Missing pip — uv venv --seed Fixes Without sudo",

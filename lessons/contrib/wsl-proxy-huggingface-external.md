@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: wsl
 source: unknown
 status: published
+tags:
+- wsl
+- proxy
+- huggingface
+- external
 title: wsl proxy huggingface external
 verification: metadata-normalized
 ---

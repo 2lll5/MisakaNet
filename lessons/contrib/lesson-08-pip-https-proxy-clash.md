@@ -3,6 +3,12 @@ created: '2026-07-06'
 domain: devops
 source: unknown
 status: published
+tags:
+- meta
+- lesson
+- https
+- proxy
+- clash
 title: pip install HTTPS Timeout from WSL — Prepend HTTPS_PROXY=http://172.19.128.1:7890
 verification: metadata-normalized
 '{"title"': 'pip install HTTPS Timeout from WSL — Prepend HTTPS_PROXY=http://172.19.128.1:7890",

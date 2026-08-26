@@ -3,6 +3,9 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- permission
+- denied
 title: Permission Denied / WSL NTFS 跨文件系统PermissionFix
 verification: metadata-normalized
 ---

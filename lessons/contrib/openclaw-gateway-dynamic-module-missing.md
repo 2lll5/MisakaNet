@@ -1,8 +1,14 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: openclaw
 source: unknown
 status: published
+tags:
+- openclaw
+- gateway
+- dynamic
+- module
+- missing
 title: openclaw gateway dynamic module missing
 verification: metadata-normalized
 ---

@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: feishu
 source: unknown
 status: published
+tags:
+- feishu
+- wiki
+- batch
+- download
 title: Feishu WikiBatch Download：文件类型Handling策略
 verification: metadata-normalized
 ---

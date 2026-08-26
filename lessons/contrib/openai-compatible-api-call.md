@@ -1,6 +1,22 @@
 ---
 created: '2026-07-06'
 domain: contrib
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- api
+- openai
+- llm
+- inference
+- chat
+title: OpenAI 兼容 API 的通用调用格式
+verification: metadata-normalized
+'{"title"': 'OpenAI 兼容 API 的通用调用格式", "domain": "development", "tags": ["api", "openai",
+  "llm", "inference", "chat"], "domain_expert": "unknown"}'
+---
+created: '2026-07-06'
+domain: contrib
 source: unknown
 status: published
 title: OpenAI 兼容 API 的通用调用格式

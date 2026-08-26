@@ -1,8 +1,12 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: python
 source: unknown
 status: published
+tags:
+- python
+- pycache
+- stale
 title: Python 代码修改不生效 — stale .pyc Cache
 verification: metadata-normalized
 ---

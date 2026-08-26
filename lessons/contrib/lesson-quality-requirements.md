@@ -11,8 +11,6 @@ tags:
 - misakanet
 title: 'Lesson Quality Requirements: failure-memory protocol Format'
 ---
----
-
 ## Problem
 
 Contributed lessons lack consistent structure, making them hard to search and reuse. Low-quality lessons reduce trust in the knowledge base.

@@ -1,8 +1,15 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: openclaw
 source: unknown
 status: published
+tags:
+- openclaw
+- playwright
+- libnss3
+- libnspr4
+- snap
+- chromium
 title: Playwright Chromium launch fails on WSL2 with missing libnss3 / libnspr4
 verification: metadata-normalized
 '{"title"': 'Playwright Chromium launch fails on WSL2 with missing libnss3 / libnspr4

@@ -3,6 +3,10 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- swarm
+- battle
+- playbook
 title: Swarm PR Battle Playbook — Shipping env-var error hooks through AI-reviewed
   upstreams
 verification: metadata-normalized

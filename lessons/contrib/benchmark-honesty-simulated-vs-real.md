@@ -1,19 +1,16 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Benchmark Honesty — Distinguishing Simulated vs Real Results",
-  "tags": [
-    "benchmark",
-    "honesty",
-    "testing",
-    "contrib",
-    "agent"
-  ],
-  "status": "draft",
-  "source": "PR review feedback analysis",
-  "created": "2026-07-15",
-  "confidence": "0.95"
-}
+confidence: '0.95'
+created: '2026-07-15'
+domain: agent
+source: PR review feedback analysis
+status: draft
+tags:
+- benchmark
+- honesty
+- testing
+- contrib
+- agent
+title: Benchmark Honesty — Distinguishing Simulated vs Real Results
 ---
 <!-- provenance:
 provenance:

@@ -1,8 +1,12 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: git
 source: unknown
 status: published
+tags:
+- git
+- handshake
+- failure
 title: GitHub TLS 握手失败 — gnutls_handshake() Error
 verification: metadata-normalized
 ---

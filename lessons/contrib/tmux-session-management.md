@@ -1,6 +1,21 @@
 ---
 created: '2026-07-06'
 domain: contrib
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- tmux
+- terminal
+- session
+- background
+title: tmux 终端复用 — 断开不丢失会话
+verification: metadata-normalized
+'{"title"': 'tmux 终端复用 — 断开不丢失会话", "domain": "development", "tags": ["tmux", "terminal",
+  "session", "background"], "domain_expert": "unknown"}'
+---
+created: '2026-07-06'
+domain: contrib
 source: unknown
 status: published
 title: tmux 终端复用 — 断开不丢失会话

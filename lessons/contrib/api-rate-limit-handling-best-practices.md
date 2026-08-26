@@ -3,6 +3,12 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- rate
+- limit
+- handling
+- best
+- practices
 title: api rate limit handling best practices
 verification: metadata-normalized
 ---

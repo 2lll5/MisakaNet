@@ -1,5 +1,22 @@
 ---
 created: '2026-07-06'
+domain: wsl
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- slugify
+- windows
+- wsl
+- sanitation
+- path-errors
+title: slugify windows path sanitation
+verification: metadata-normalized
+'{"title"': 'Slugify filename sanitation crash on Windows and WSL", "domain": "scripts",
+  "tags": ["slugify", "windows", "wsl", "sanitation", "path-errors"], "domain_expert":
+  "unknown"}'
+---
+created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published

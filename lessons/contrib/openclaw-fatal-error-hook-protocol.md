@@ -1,8 +1,14 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: openclaw
 source: unknown
 status: published
+tags:
+- openclaw
+- fatal
+- error
+- hook
+- protocol
 title: OPENCLAW_ERROR_HANDLER — Standard protocol for CLI fatal error external hooks
 verification: metadata-normalized
 ---

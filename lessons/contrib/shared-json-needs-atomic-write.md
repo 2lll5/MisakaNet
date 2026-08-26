@@ -1,6 +1,21 @@
 ---
 created: '2026-07-06'
 domain: contrib
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- json
+- atomic
+- race-condition
+- runtime
+title: shared json needs atomic write
+verification: metadata-normalized
+'{"title"': '共享JSON状态需要原子写入", "domain": "devops", "tags": ["json", "atomic", "race-condition",
+  "runtime"], "domain_expert": "unknown"}'
+---
+created: '2026-07-06'
+domain: contrib
 source: unknown
 status: published
 title: shared json needs atomic write

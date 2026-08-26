@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: wsl
 source: unknown
 status: published
+tags:
+- wsl
+- terminal
+- underscore
+- corruption
 title: WSL 终端编辑Setup危险 — TTy粘贴吞下划线
 verification: metadata-normalized
 ---

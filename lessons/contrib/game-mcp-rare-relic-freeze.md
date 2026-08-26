@@ -1,5 +1,21 @@
 ---
 created: '2026-07-06'
+domain: mcp
+domain_expert: hanged-man
+source: hanged-man
+status: published
+tags:
+- mcp
+- game
+- rare
+- relic
+- freeze
+title: game mcp rare relic freeze
+verification: metadata-normalized
+'{"title"': 'Game MCP: Rare Relic Selection Freeze", "domain": "mcp", "source": "hanged-man",
+  "status": "published", "domain_expert": "hanged-man"}'
+---
+created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published

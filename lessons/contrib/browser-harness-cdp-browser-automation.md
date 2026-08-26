@@ -1,8 +1,12 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: automation
 source: unknown
 status: published
+tags:
+- automation
+- browser
+- harness
 title: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
 verification: metadata-normalized
 ---

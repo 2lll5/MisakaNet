@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: feishu
 source: unknown
 status: published
+tags:
+- feishu
+- agent
+- display
+- settings
 title: feishu agent display settings
 verification: metadata-normalized
 ---

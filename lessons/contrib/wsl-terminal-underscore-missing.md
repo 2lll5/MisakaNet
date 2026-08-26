@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: wsl
 source: unknown
 status: published
+tags:
+- wsl
+- terminal
+- underscore
+- missing
 title: WSL Windows 终端复制粘贴吞下划线Issue
 verification: metadata-normalized
 ---

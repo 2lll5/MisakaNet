@@ -1,4 +1,25 @@
 ---
+confidence: 0.9
+created: '2026-07-06'
+domain: wechat
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- rag
+- feedback
+- queue
+- jsonl
+- wechat
+- wxauto
+- workflow
+title: IM 机器人反馈收集与 JSONL 队列审核模式
+verification: metadata-normalized
+verified_date: '2026-05-21'
+'{"title"': 'IM 机器人反馈收集与 JSONL 队列审核模式", "domain": "rag", "tags": ["rag", "feedback",
+  "queue", "jsonl", "wechat", "wxauto", "workflow"], "confidence": 0.9, "created":
+  "2026-05-21", "domain_expert": "unknown", "verified_date": "2026-05-21"}'
+---
 created: '2026-07-06'
 domain: contrib
 source: unknown

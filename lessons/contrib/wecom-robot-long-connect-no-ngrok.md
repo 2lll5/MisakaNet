@@ -1,4 +1,24 @@
 ---
+confidence: '0.85'
+created: '2026-07-06'
+domain: contrib
+domain_expert: bootstrap
+source: bootstrap
+status: published
+subdomain: wecom
+tags:
+- project:rag
+- platform:windows
+- node:hermes_wsl
+- scope:narrow
+title: wecom robot long connect no ngrok
+verification: metadata-normalized
+verified_date: '2026-05-03'
+'{"title"': '企业微信机器人：长连接模式不需要 ngrok", "domain": "devops", "subdomain": "wecom", "source":
+  "bootstrap", "status": "published", "tags": ["project:rag", "platform:windows",
+  "node:hermes_wsl", "scope:narrow"], "confidence": "0.85", "created": "2026-05-03",
+  "domain_expert": "bootstrap", "verified_date": "2026-05-03"}'
+---
 created: '2026-07-06'
 domain: contrib
 source: unknown

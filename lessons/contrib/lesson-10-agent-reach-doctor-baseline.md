@@ -3,6 +3,13 @@ created: '2026-07-06'
 domain: tooling
 source: unknown
 status: published
+tags:
+- meta
+- lesson
+- agent
+- reach
+- doctor
+- baseline
 title: 'Agent-Reach v1.5.0 doctor Baseline: 4/15 Channels Available Without Login'
 verification: metadata-normalized
 '{"title"': 'Agent-Reach v1.5.0 doctor Baseline: 4/15 Channels Available Without Login",

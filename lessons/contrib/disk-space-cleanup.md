@@ -3,6 +3,10 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- disk
+- space
+- cleanup
 title: 磁盘空间不足 / chroma_db_v4 CacheCleanup
 verification: metadata-normalized
 ---

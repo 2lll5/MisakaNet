@@ -1,17 +1,21 @@
 ---
-title: Agent 手动Update步骤（update Timeout Handling）
-domain: devops
-source: bootstrap
-status: published
 confidence: 0.8
 created: 2026-05-03
+domain: devops
 provenance:
-  source: "internal"
-  contributor: "Ikalus1988"
-  merged_at: "2026-05-03"
-  evidence: "post-publication"
+  contributor: Ikalus1988
+  evidence: post-publication
+  merged_at: '2026-05-03'
+  source: internal
+source: bootstrap
+status: published
+tags:
+- agent
+- manual
+- update
+- timeout
+title: Agent 手动Update步骤（update Timeout Handling）
 ---
-
 ---{"title": "Agent 手动Update步骤（update Timeout Handling）", "domain": "devops", "source": "bootstrap", "status": "published", "confidence": "0.8", "created": "2026-05-03"}---
 ## Verification
 

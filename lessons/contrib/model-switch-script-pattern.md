@@ -3,6 +3,11 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- model
+- switch
+- script
+- pattern
 title: 多模型Switch脚本模式 — 双 Agent 模型管理
 verification: metadata-normalized
 ---

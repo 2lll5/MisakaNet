@@ -3,6 +3,11 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- anthropic
+- proxy
+- internal
+- gateway
 title: Internal Gateway — Incompatible with Anthropic Format, Requires OpenAI Proxy
 verification: metadata-normalized
 '{"created"': '2026-04-30 09:00 UTC", "domain": "devops", "machine": "hp-wsl", "source":

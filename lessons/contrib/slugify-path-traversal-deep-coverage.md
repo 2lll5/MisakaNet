@@ -1,6 +1,24 @@
 ---
 created: '2026-07-06'
 domain: contrib
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- slugify
+- path-traversal
+- windows-reserved
+- null-byte
+- test-coverage
+- hardening
+title: slugify path traversal deep coverage
+verification: metadata-normalized
+'{"title"': 'Slugify: deep coverage of path traversal, null bytes, and reserved names",
+  "domain": "scripts", "tags": ["slugify", "path-traversal", "windows-reserved", "null-byte",
+  "test-coverage", "hardening"], "domain_expert": "unknown"}'
+---
+created: '2026-07-06'
+domain: contrib
 source: unknown
 status: published
 title: slugify path traversal deep coverage

@@ -1,8 +1,14 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: git
 source: unknown
 status: published
+tags:
+- git
+- credential
+- helper
+- path
+- mismatch
 title: gh credential helper 路径Error导致 git push 静默失败
 verification: metadata-normalized
 ---

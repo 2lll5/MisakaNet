@@ -1,15 +1,17 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Cross-Repo Contribution Strategy — Finding and Contributing to New Repos",
-  "tags": ["contrib", "strategy", "github", "open-source", "agent"],
-  "status": "draft",
-  "source": "Multi-repo contribution session",
-  "created": "2026-07-15",
-  "confidence": "0.90"
-}
+confidence: '0.90'
+created: '2026-07-15'
+domain: agent
+source: Multi-repo contribution session
+status: draft
+tags:
+- contrib
+- strategy
+- github
+- open-source
+- agent
+title: Cross-Repo Contribution Strategy — Finding and Contributing to New Repos
 ---
-
 ## Problem
 
 Agents and developers often get stuck contributing to the same repos. Finding new repos to contribute to requires systematic exploration.

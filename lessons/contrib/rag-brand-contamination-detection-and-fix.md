@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: rag
 source: unknown
 status: published
+tags:
+- rag
+- brand
+- contamination
+- detection
 title: RAG 知识库品牌污染Detection与治理
 verification: metadata-normalized
 ---

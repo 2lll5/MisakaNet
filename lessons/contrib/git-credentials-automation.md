@@ -1,8 +1,12 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: git
 source: unknown
 status: published
+tags:
+- git
+- credentials
+- automation
 title: Git 凭证Setup — Automation push 免密码
 verification: metadata-normalized
 ---

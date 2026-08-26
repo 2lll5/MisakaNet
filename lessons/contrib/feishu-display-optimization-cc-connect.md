@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: feishu
 source: unknown
 status: published
+tags:
+- feishu
+- display
+- optimization
+- connect
 title: cc connect feishu display optimization
 verification: metadata-normalized
 ---

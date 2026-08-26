@@ -1,8 +1,14 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: devops
 source: unknown
 status: published
+tags:
+- devops
+- hermes
+- model
+- switch
+- ccswitch
 title: ccswitch-hermes-switch 踩坑Notes
 verification: metadata-normalized
 ---

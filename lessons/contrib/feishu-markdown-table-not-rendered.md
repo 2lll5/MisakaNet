@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: feishu
 source: unknown
 status: published
+tags:
+- feishu
+- markdown
+- table
+- rendered
 title: feishu markdown table not rendered
 verification: metadata-normalized
 ---

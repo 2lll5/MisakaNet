@@ -1,8 +1,12 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: python
 source: unknown
 status: published
+tags:
+- python
+- encoding
+- error
 title: Python GBK Encoding Error — Windows/WSL 跨平台
 verification: metadata-normalized
 ---

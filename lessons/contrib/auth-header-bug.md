@@ -7,6 +7,9 @@ provenance:
   merged_at: '2026-07-08'
   source: internal
 status: published
+tags:
+- auth
+- header
 title: Moorcheh API Auth Header Bug
 ---
 # Moorcheh API Auth Header Bug

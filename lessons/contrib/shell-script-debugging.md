@@ -3,6 +3,10 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- shell
+- script
+- debugging
 title: Shell Debugging — set -x 与常见Pitfalls
 verification: metadata-normalized
 ---

@@ -1,4 +1,23 @@
 ---
+confidence: '0.8'
+created: '2026-07-06'
+domain: contrib
+domain_expert: bootstrap
+source: bootstrap
+status: published
+subdomain: api
+tags:
+- project:rag
+- severity:medium
+- node:hermes_wsl
+title: api gateway anthropic incompatibility
+verification: metadata-normalized
+verified_date: '2026-05-03'
+'{"title"': 'InternalGateway API 网关不兼容 Anthropic 原生格式", "domain": "devops", "subdomain":
+  "api", "source": "bootstrap", "status": "published", "tags": ["project:rag", "severity:medium",
+  "node:hermes_wsl"], "confidence": "0.8", "created": "2026-05-03", "domain_expert":
+  "bootstrap", "verified_date": "2026-05-03"}'
+---
 created: '2026-07-06'
 domain: contrib
 source: unknown

@@ -1,4 +1,21 @@
 ---
+confidence: '0.9'
+created: '2026-07-06'
+domain: contrib
+domain_expert: hanged-man
+scope: narrow
+source: hanged-man
+status: published
+tags:
+- sovits
+- free
+title: gpt sovits ref free bug
+verification: metadata-normalized
+verified_date: '2026-04-06'
+'{"title"': 'GPT-SoVITS：ref_free bug——prompt_text 为空时参数被覆盖", "domain": "tts", "tags":
+  "", "source": "hanged-man", "status": "published", "created": "2026-04-06", "confidence":
+  "0.9", "scope": "narrow", "domain_expert": "hanged-man", "verified_date": "2026-04-06"}'
+---
 created: '2026-07-06'
 domain: contrib
 source: unknown

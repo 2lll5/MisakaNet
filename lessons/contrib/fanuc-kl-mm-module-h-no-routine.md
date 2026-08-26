@@ -1,16 +1,18 @@
 ---
-title: "FANUC KL: mm_module_h.kl 禁止 ROUTINE 声明"
-domain: fanuc
-subdomain: kl-modules
-source: bootstrap
-status: published
 confidence: 0.7
 created: 2026-05-03
+domain: fanuc
 domain_expert: bootstrap
+source: bootstrap
+status: published
+subdomain: kl-modules
+tags:
+- fanuc
+- module
+- routine
+title: 'FANUC KL: mm_module_h.kl 禁止 ROUTINE 声明'
 verified_date: 2026-05-03
 ---
-
-
 ## FANUC KL: mm_module_h.kl 禁止 ROUTINE 声明
 
 ### 问题描述

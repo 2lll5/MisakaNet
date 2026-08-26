@@ -1,4 +1,20 @@
 ---
+confidence: '0.7'
+created: '2026-07-06'
+domain: contrib
+domain_expert: bootstrap
+source: bootstrap
+status: published
+tags:
+- credential
+- gateway
+title: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
+verification: metadata-normalized
+verified_date: '2026-04-01'
+'{"title"': 'Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里", "domain": "devops", "source":
+  "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01",
+  "domain_expert": "bootstrap", "verified_date": "2026-04-01"}'
+---
 created: '2026-07-06'
 domain: contrib
 source: unknown
@@ -30,16 +46,16 @@ hermes config set FEISHU_APP_SECRET <new_secret>
 **Hub 凭证**：
 ```bash
 # Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
-export FEISHU_APP_ID=cli_a93f960281389bcd
-export FEISHU_APP_SECRET=[FEISHU_SECRET]
+export FEISHU_APP_ID=<your-app-id>
+export FEISHU_APP_SECRET=<REDACTED>
 
 # config.yaml 写死值
 feishu:
-  app_id: "cli_a93f960281389bcd"
-  app_secret: "[FEISHU_SECRET]"
-  webhook_url: "https://open.feishu.cn/open-apis/bot/v2/hook/b1b472df-e29c-42ab-9d7d-d7e3fea4097a"
+  app_id: "<your-app-id>"
+  app_secret: "<REDACTED>"
+  webhook_url: "<your-webhook-url>"
 master:
-  shared_secret: "looF ehT"
+  shared_secret: "<REDACTED>"
 ```
 ## Verification
 

@@ -1,4 +1,27 @@
 ---
+confidence: '0.95'
+created: '2026-07-06'
+domain: agent
+domain_expert: Misaka10004
+source: Misaka10004
+status: published
+subdomain: outreach
+tags:
+- outreach
+- github
+- awesome-list
+- pr
+- promotion
+- agent
+- marketing
+title: AI Agent Project Outreach Guide
+verification: metadata-normalized
+verified_date: '2026-05-11'
+'{"title"': 'AI Agent Project Outreach Guide", "domain": "marketing", "subdomain":
+  "outreach", "source": "Misaka10004", "tags": ["outreach", "github", "awesome-list",
+  "pr", "promotion", "agent", "marketing"], "confidence": "0.95", "created": "2026-05-11",
+  "domain_expert": "Misaka10004", "verified_date": "2026-05-11"}'
+---
 created: '2026-07-06'
 domain: contrib
 source: unknown

@@ -1,4 +1,24 @@
 ---
+confidence: '0.85'
+created: '2026-07-06'
+domain: contrib
+domain_expert: bootstrap
+source: bootstrap
+status: published
+subdomain: network
+tags:
+- project:rag
+- platform:wsl
+- node:hermes_wsl
+- scope:broad
+title: firewall port open not public
+verification: metadata-normalized
+verified_date: '2026-05-03'
+'{"title"': '防火墙端口开放不等于内网穿透", "domain": "devops", "subdomain": "network", "source":
+  "bootstrap", "status": "published", "tags": ["project:rag", "platform:wsl", "node:hermes_wsl",
+  "scope:broad"], "confidence": "0.85", "created": "2026-05-03", "domain_expert":
+  "bootstrap", "verified_date": "2026-05-03"}'
+---
 created: '2026-07-06'
 domain: contrib
 source: unknown

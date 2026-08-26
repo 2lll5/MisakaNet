@@ -3,6 +3,11 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- readme
+- seven
+- traps
+- checklist
 title: 开源项目 README Optimization — 7 个常见Pitfalls与Fix Checklist
 verification: metadata-normalized
 ---

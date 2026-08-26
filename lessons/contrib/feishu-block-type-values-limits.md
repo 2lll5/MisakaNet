@@ -1,8 +1,14 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: feishu
 source: unknown
 status: published
+tags:
+- feishu
+- block
+- type
+- values
+- limits
 title: feishu block type values limits
 verification: metadata-normalized
 ---

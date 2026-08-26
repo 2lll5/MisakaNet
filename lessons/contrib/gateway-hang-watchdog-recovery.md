@@ -3,6 +3,11 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- gateway
+- hang
+- watchdog
+- recovery
 title: Gateway 进程挂死未崩溃 — watchdog 自动Recovery
 verification: metadata-normalized
 ---

@@ -1,5 +1,21 @@
 ---
 created: '2026-07-06'
+domain: git
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- codewhale
+- git
+- yolo
+- push
+- lesson
+title: CodeWhale 中 git push 的正确方式 — YOLO task + gh CLI
+verification: metadata-normalized
+'{"title"': 'CodeWhale 中 git push 的正确方式 — YOLO task + gh CLI", "domain": "devops",
+  "tags": ["codewhale", "git", "yolo", "push", "lesson"], "domain_expert": "unknown"}'
+---
+created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published

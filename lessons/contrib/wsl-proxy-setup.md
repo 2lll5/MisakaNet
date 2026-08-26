@@ -1,8 +1,12 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: wsl
 source: unknown
 status: published
+tags:
+- wsl
+- proxy
+- setup
 title: WSL 代理Setup — 通过 Windows 梯子Access外网
 verification: metadata-normalized
 ---

@@ -3,6 +3,13 @@ created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
+tags:
+- misakanet
+- heal
+- queue
+- lesson
+- flag
+- mismatch
 title: MisakaNet --heal UX Gap — Suggested queue_lesson.py Command Uses Wrong Flag
 verification: metadata-normalized
 ---

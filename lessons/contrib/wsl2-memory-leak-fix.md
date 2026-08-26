@@ -1,5 +1,20 @@
 ---
 created: '2026-07-06'
+domain: wsl
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- wsl
+- memory
+- leak
+- performance
+title: WSL2 内存泄漏 / 内存占用过高
+verification: metadata-normalized
+'{"title"': 'WSL2 内存泄漏 / 内存占用过高", "domain": "devops", "tags": ["wsl", "memory", "leak",
+  "performance"], "domain_expert": "unknown"}'
+---
+created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published

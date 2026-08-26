@@ -1,8 +1,13 @@
 ---
 created: '2026-07-06'
-domain: contrib
+domain: network
 source: unknown
 status: published
+tags:
+- network
+- curl
+- request
+- troubleshoot
 title: curl / wget 请求失败通用Diagnosis
 verification: metadata-normalized
 ---

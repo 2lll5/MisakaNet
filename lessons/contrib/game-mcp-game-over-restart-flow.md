@@ -1,5 +1,21 @@
 ---
 created: '2026-07-06'
+domain: mcp
+domain_expert: hanged-man
+source: hanged-man
+status: published
+tags:
+- mcp
+- game
+- over
+- restart
+- flow
+title: 'Game MCP: GAME OVER Restart Flow'
+verification: metadata-normalized
+'{"title"': 'Game MCP: GAME OVER Restart Flow", "domain": "mcp", "source": "hanged-man",
+  "status": "published", "domain_expert": "hanged-man"}'
+---
+created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published

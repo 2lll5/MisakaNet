@@ -1,5 +1,20 @@
 ---
 created: '2026-07-06'
+domain: python
+domain_expert: unknown
+source: unknown
+status: published
+tags:
+- python
+- venv
+- virtualenv
+- path
+title: Python venv 激活失败或路径不匹配
+verification: metadata-normalized
+'{"title"': 'Python venv 激活失败或路径不匹配", "domain": "devops", "tags": ["python", "venv",
+  "virtualenv", "path"], "domain_expert": "unknown"}'
+---
+created: '2026-07-06'
 domain: contrib
 source: unknown
 status: published
