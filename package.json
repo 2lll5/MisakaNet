@@ -5,11 +5,16 @@
   "description": "Deployment scripts for MisakaNet Workers",
   "files": [
     "SKILL.md",
-    "cordis.patch.yml"
+    "cordis.patch.yml",
+    "index.js",
+    "index.d.ts"
   ],
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
     }
   },
   "scripts": {
@@ -25,5 +30,7 @@
   },
   "overrides": {
     "sharp": "0.35.3"
-  }
+  },
+  "main": "index.js",
+  "types": "index.d.ts"
 }
