@@ -35,10 +35,7 @@ Focus on:
 4. Scope creep (changes unrelated to PR title/description)
 5. API compatibility breaks
 
-For release PRs (chore(main): release):
-- Only review CHANGELOG.md content accuracy
-- Skip ticket compliance analysis
-- Check version number consistency
+IMPORTANT: If the PR title starts with "chore(main): release" or the PR description says "this pr was generated with release please", DO NOT perform ticket compliance analysis. Release PRs only update CHANGELOG.md and version numbers - there is no code to review against ticket acceptance criteria. Just note "Release PR - no code changes to review" and skip.
 
 For docs-only PRs:
 - Check for factual accuracy
