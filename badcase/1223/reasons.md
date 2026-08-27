@@ -1,8 +1,8 @@
 # Rejection Reasons
 
-## Issue #1223: [Intake] Windows CI: three bugs in one session. (1) splitCommand() strips backslashes fro
+## Issue #1223: test
 
-**Score:** 22.8/100
+**Score:** 23.8/100
 **Decision:** Auto-rejected
 
 ## Reasons

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-08-24T10:23:52.608901Z",
+  "last_updated": "2026-08-27T10:32:26.459668Z",
   "items": [
     {
       "issue_number": 9999,
@@ -318,14 +318,55 @@
         "\u2717 No lists",
         "\u2717 No frontmatter"
       ]
+    },
+    {
+      "issue_number": 1223,
+      "title": "test",
+      "score": 9.9375,
+      "confidence": 0.75,
+      "created_at": "2026-08-27T10:31:47.939082Z",
+      "status": "pending",
+      "feedback_count": 0,
+      "category": "vague",
+      "rejection_reasons": [
+        "\u2717 problem missing",
+        "\u2717 error missing",
+        "\u2717 fix missing",
+        "\u2717 Only 0 generic tech keywords",
+        "\u2717 No verification section",
+        "\u2717 Very short word count: 0",
+        "\u2717 No code blocks",
+        "\u2717 No error messages",
+        "\u2717 No headers",
+        "\u2717 No lists",
+        "\u2717 No frontmatter"
+      ]
+    },
+    {
+      "issue_number": 1223,
+      "title": "test",
+      "score": 23.8,
+      "confidence": 0.8,
+      "created_at": "2026-08-27T10:32:26.459668Z",
+      "status": "pending",
+      "feedback_count": 0,
+      "category": "incomplete",
+      "rejection_reasons": [
+        "\u2717 fix missing",
+        "\u2717 No verification section",
+        "\u2717 No code blocks",
+        "\u2717 No error messages",
+        "\u2717 No lists",
+        "\u2717 No frontmatter"
+      ]
     }
   ],
   "stats": {
-    "total": 16,
+    "total": 18,
     "by_category": {
-      "vague": 1,
+      "vague": 2,
       "test": 6,
-      "incomplete": 9
+      "incomplete": 10
     }
   }
 }

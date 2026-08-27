@@ -1,12 +1,12 @@
 ---
 issue_number: 1223
-title: "[Intake] Windows CI: three bugs in one session. (1) splitCommand() strips backslashes fro"
-score: 22.8
+title: "test"
+score: 23.8
 decision: reject
-created_at: "2026-08-24T07:05:28.544490Z"
+created_at: "2026-08-27T10:32:26.457668Z"
 ---
 
-# [Intake] Windows CI: three bugs in one session. (1) splitCommand() strips backslashes fro
+# test
 
 **Kind:** missing_lesson
 **Source:** claude-code
