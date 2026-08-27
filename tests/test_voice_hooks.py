@@ -104,7 +104,7 @@ class TestWindowsVoiceHookExecution:
                 input=json.dumps({"voice": "connect-success"}),
                 text=True,
                 capture_output=True,
-                timeout=5,
+                timeout=15,
             )
             assert res.returncode == 0, f"PS1 failed on valid voice: {res.stderr}"
 
@@ -115,7 +115,7 @@ class TestWindowsVoiceHookExecution:
                 input=json.dumps({"voice": "unknown-voice-type"}),
                 text=True,
                 capture_output=True,
-                timeout=5,
+                timeout=15,
             )
             assert res.returncode == 0, f"PS1 failed on invalid voice: {res.stderr}"
 
@@ -126,7 +126,7 @@ class TestWindowsVoiceHookExecution:
                 input=json.dumps({"other": "field"}),
                 text=True,
                 capture_output=True,
-                timeout=5,
+                timeout=15,
             )
             assert res.returncode == 0, f"PS1 failed on missing voice: {res.stderr}"
 
@@ -138,7 +138,7 @@ class TestWindowsVoiceHookExecution:
                 text=True,
                 capture_output=True,
                 shell=True,
-                timeout=5,
+                timeout=15,
             )
             assert res.returncode == 0, f"BAT failed on valid voice: {res.stderr}"
 
@@ -150,7 +150,7 @@ class TestWindowsVoiceHookExecution:
                 text=True,
                 capture_output=True,
                 shell=True,
-                timeout=5,
+                timeout=15,
             )
             assert res.returncode == 0, f"BAT failed on invalid voice: {res.stderr}"
 

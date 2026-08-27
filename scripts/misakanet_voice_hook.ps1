@@ -50,13 +50,14 @@ try {
     $wmp = New-Object -ComObject WMPlayer.OCX
     $wmp.URL = $FilePath
     $wmp.controls.play()
-    Start-Sleep -Milliseconds 200
+    Start-Sleep -Milliseconds 250
 } catch {
     try {
         Add-Type -AssemblyName presentationCore
         $Player = New-Object System.Windows.Media.MediaPlayer
         $Player.Open([System.Uri]::new($FilePath))
         $Player.Play()
+        Start-Sleep -Milliseconds 250
     } catch {
         # Graceful fallback
     }
