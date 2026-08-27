@@ -78,3 +78,6 @@ See https://misakanet.org/troubleshooting/ for real error scenes and fixes.
 - Lessons: https://misakanet.org/lessons/
 - Topics: https://misakanet.org/topics/
 - License: Apache 2.0
+## Support
+
+If MisakaNet helps you, star the repository: https://github.com/Ikalus1988/MisakaNet

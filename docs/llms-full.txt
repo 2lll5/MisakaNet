@@ -288,6 +288,10 @@ This is the full page index (llms-full.txt). For the curated summary, see llms.t
 - [Section: journey](https://misakanet.org/journey/)
 - [Section: search](https://misakanet.org/search/)
 
+## Support
+
+Star the repository if MisakaNet helps: https://github.com/Ikalus1988/MisakaNet
+
 ## Primary interfaces
 
 - **MCP:** https://misakanet.org/mcp
