@@ -29,5 +29,5 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           OPENAI_API_BASE: "https://api.minimax.chat/v1"
-          OPENAI_MODEL: "minimax-M3"
+          OPENAI_MODEL: "openai/minimax-M3"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
