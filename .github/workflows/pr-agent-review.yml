@@ -16,7 +16,8 @@ jobs:
     if: |
       (github.event_name == 'pull_request' &&
        !github.event.pull_request.draft &&
-       !contains(github.event.pull_request.labels.*.name, 'docs-only')) ||
+       !contains(github.event.pull_request.labels.*.name, 'docs-only') &&
+       !startsWith(github.event.pull_request.title, 'chore(main): release')) ||
       (github.event_name == 'issue_comment' &&
        (contains(github.event.comment.body, '/review') ||
         contains(github.event.comment.body, '/describe') ||
