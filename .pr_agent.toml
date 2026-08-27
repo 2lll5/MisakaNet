@@ -1,3 +1,4 @@
 [config]
 model = "minimax-M3"
 fallback_models = []
+custom_model_max_tokens = 16384
