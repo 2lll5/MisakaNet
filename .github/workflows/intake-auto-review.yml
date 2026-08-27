@@ -45,13 +45,13 @@ jobs:
           # Save body to temp file
           echo "$ISSUE_BODY" > /tmp/issue_body.txt
 
-          # Run auto-review with archiving
+          # Run auto-review with archiving (exit code 1 = reject, not an error)
           RESULT=$(python3 scripts/intake_auto_review.py \
             --issue $ISSUE_NUMBER \
             --title "$ISSUE_TITLE" \
             --file /tmp/issue_body.txt \
             --archive \
-            --json 2>&1)
+            --json 2>&1) || true
 
           # Parse result
           DECISION=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin)['decision'])")
@@ -68,11 +68,11 @@ jobs:
           echo "lesson_tags=$LESSON_TAGS" >> "$GITHUB_OUTPUT"
           echo "archive_path=$ARCHIVE_PATH" >> "$GITHUB_OUTPUT"
 
-          # Generate comment
+          # Generate comment (exit code 1 = reject, not an error)
           COMMENT=$(python3 scripts/intake_auto_review.py \
             --issue $ISSUE_NUMBER \
             --title "$ISSUE_TITLE" \
-            --file /tmp/issue_body.txt 2>&1)
+            --file /tmp/issue_body.txt 2>&1) || true
 
           # Save comment to file
           echo "$COMMENT" > /tmp/review_comment.txt
