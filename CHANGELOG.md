@@ -7,6 +7,64 @@ All notable changes to the Misaka Network project are documented here.
 
 ---
 
+## [2.22.0](https://github.com/Ikalus1988/MisakaNet/compare/v2.21.0...v2.22.0) (2026-08-27)
+
+
+### Features
+
+* add misakanet_memory_context tool ([#1165](https://github.com/Ikalus1988/MisakaNet/issues/1165)) ([6028b36](https://github.com/Ikalus1988/MisakaNet/commit/6028b36215075ba324c5f596a95166a5c7e20127))
+* **agent-readiness:** add MCP server card, A2A agent card, auth.md, API catalog ([d388fc9](https://github.com/Ikalus1988/MisakaNet/commit/d388fc9cadff99b5bef8801e5cc4c91c793f59c6))
+* **agent-readiness:** quick wins — AI crawler rules, llms-full.txt, A2A agent card, agent headers ([ffa3f32](https://github.com/Ikalus1988/MisakaNet/commit/ffa3f32998e7a7956c283787fb34d5bdd6ef2466))
+* AI Agent Friendly Configuration ([f83dcc5](https://github.com/Ikalus1988/MisakaNet/commit/f83dcc5586b998256da42fb499d664a7bab3d098))
+* auto-fix 158 lesson quality issues ([4dcffb7](https://github.com/Ikalus1988/MisakaNet/commit/4dcffb7025e38d5b6239908a506516ceed3f49a6))
+* configurable BM25/vector hybrid search weights ([#1220](https://github.com/Ikalus1988/MisakaNet/issues/1220)) ([fe3b4fb](https://github.com/Ikalus1988/MisakaNet/commit/fe3b4fb1acf23e6217b90c05e2f48d4389219348))
+* generate verification commands for 150+ lessons ([d2aac93](https://github.com/Ikalus1988/MisakaNet/commit/d2aac93ed9b4e910beeeb7172cff3f89f1d0b9c4))
+* **pr-genius:** split rules into repo-agnostic and repo-specific layers ([0e50189](https://github.com/Ikalus1988/MisakaNet/commit/0e501892d622e8f34748a4e976319039727b3e0d)), closes [#1036](https://github.com/Ikalus1988/MisakaNet/issues/1036)
+* **search:** progressive disclosure for worker search results ([bf5663c](https://github.com/Ikalus1988/MisakaNet/commit/bf5663c2c0070cfc768f7b986b4cb759f6d87101)), closes [#1167](https://github.com/Ikalus1988/MisakaNet/issues/1167)
+* update intake evaluation workflow and quality gates ([1b664e9](https://github.com/Ikalus1988/MisakaNet/commit/1b664e9a57bc1680522c818aa3736ceca67cb548))
+
+
+### Bug Fixes
+
+* **agent-readiness:** api-catalog in RFC 9264 linkset format; auth.md standard title ([8a8c940](https://github.com/Ikalus1988/MisakaNet/commit/8a8c940120769cf1045cdf5309f31bb5a53a12f1))
+* batch fix 19 frontmatter mix issues + delete 3 duplicates ([0feb6da](https://github.com/Ikalus1988/MisakaNet/commit/0feb6da985dcc37ab1592ba5018ace99f757fcd0))
+* **ci:** add custom_model_max_tokens for minimax-M3 ([2381885](https://github.com/Ikalus1988/MisakaNet/commit/23818853d139c2c200a83763341c429fc13a6a0b))
+* **ci:** add GH_TOKEN to intake auto-review workflow ([04e1d80](https://github.com/Ikalus1988/MisakaNet/commit/04e1d801fe02671a7133eba6754c82f078bea8f7))
+* **ci:** add OPENAI_API_BASE for pr-agent Mify gateway ([9547e67](https://github.com/Ikalus1988/MisakaNet/commit/9547e67e28518340fa87bb19d30ff06e9c623680))
+* **ci:** handle exit code 1 from intake auto-review script ([c47e5f7](https://github.com/Ikalus1988/MisakaNet/commit/c47e5f716e2785f45adec93caed0b0770c0080a0))
+* **ci:** pr-agent minimax M3 config ([585cbbc](https://github.com/Ikalus1988/MisakaNet/commit/585cbbc0735a0607c1886333d6595ba1b920cc27))
+* **ci:** remove broken result output from intake workflow ([a673a40](https://github.com/Ikalus1988/MisakaNet/commit/a673a40a36f64ccc55d4bb9274b30e10e14e5553))
+* **ci:** use openai/ prefix for minimax-M3 in litellm ([aad2c34](https://github.com/Ikalus1988/MisakaNet/commit/aad2c346a500830be4ebaded0aad556f8b2f0928))
+* clean empty verification templates ([5d9ed2a](https://github.com/Ikalus1988/MisakaNet/commit/5d9ed2a98043e3d302a53ac94ef6a8d948e9c343))
+* **dsh-plugin:** add package entry (index.js) so DSH plugin install succeeds ([03d3ffc](https://github.com/Ikalus1988/MisakaNet/commit/03d3ffcb07140d1bf4e5a42370ab784036c507b2))
+* **dsh-plugin:** declare type:module for ESM entry (index.js) ([5da6828](https://github.com/Ikalus1988/MisakaNet/commit/5da6828a908c9c29f6a2ecf7aa960edd317548a7))
+* import GITHUB_API, REPO, PUBLIC_DATA_BASE from handlers.js ([0e639ed](https://github.com/Ikalus1988/MisakaNet/commit/0e639ed35ef5c45066342c96d0c7cd017428f648))
+* **lessons:** aider review — expand short lessons + fix verification ([d6dc9df](https://github.com/Ikalus1988/MisakaNet/commit/d6dc9df29427cad32de71e3c5b8f1e7e1aa4c5a9))
+* **lessons:** complete P3 — verification upgrade + multilingual support ([203e79e](https://github.com/Ikalus1988/MisakaNet/commit/203e79e75e5586d74fa498a8e9925482c5df9929))
+* **lessons:** dual-axis review batch fixes ([471c41c](https://github.com/Ikalus1988/MisakaNet/commit/471c41c2338ad0f8f74e4c60d4b80a405f241f50))
+* **lessons:** P3 Chinese headings + P4 duplicate consolidation ([7842f03](https://github.com/Ikalus1988/MisakaNet/commit/7842f03c3cc0d48d40109161d6719d034a6cdca8))
+* **lessons:** upgrade 55 weak verification sections with solution-derived commands ([2ea063b](https://github.com/Ikalus1988/MisakaNet/commit/2ea063b26f73b7a9f9fc99edc185967b3bbcbbbf))
+* **mcp:** allow initialize+tools/list without auth for registry scanners ([e3796f1](https://github.com/Ikalus1988/MisakaNet/commit/e3796f13626849db370cb2810204c8fd4324845e))
+* **mcp:** allow misakanet.org origin for WebMCP bridge (same-origin browser requests were 403) ([7bef82a](https://github.com/Ikalus1988/MisakaNet/commit/7bef82a23783984d22022719cb2060600442c34b))
+* **mcp:** restore search backend compatibility ([105237d](https://github.com/Ikalus1988/MisakaNet/commit/105237d01df960a41af2740e9f9dcbb5a44405c5))
+* **mcp:** use Bearer token for write_lesson auth instead of args.token ([65936c9](https://github.com/Ikalus1988/MisakaNet/commit/65936c90ee78a56d238d392b28c2fede56130455)), closes [#1240](https://github.com/Ikalus1988/MisakaNet/issues/1240)
+* **readme:** remove duplicate register section ([3ef58dd](https://github.com/Ikalus1988/MisakaNet/commit/3ef58ddc59d332a967f32d92fc3c236da56b9757))
+* security and correctness improvements from review ([bd7f4ac](https://github.com/Ikalus1988/MisakaNet/commit/bd7f4acb9e6e296ab82e981590a2ea76941c17e3))
+* **security:** truncate snippet output to prevent secret leakage ([35d6d71](https://github.com/Ikalus1988/MisakaNet/commit/35d6d71dc6f43d2c03d6aebb4840917a9bc88452))
+* update quality gate to support YAML + clean banned content ([e2aa42d](https://github.com/Ikalus1988/MisakaNet/commit/e2aa42d942aa687f6fa52b5ce94788e890b180b7))
+
+
+### Documentation
+
+* add dual-axis lesson quality review report ([3179377](https://github.com/Ikalus1988/MisakaNet/commit/3179377b06c230609a43e629f26625a074a6d15c))
+* add lesson quality scan report ([9f1c0a8](https://github.com/Ikalus1988/MisakaNet/commit/9f1c0a8aa3f73e94ce6035fb2cad4fcdecfbd10a))
+* add optional local DCO check to CONTRIBUTING.md ([726f1db](https://github.com/Ikalus1988/MisakaNet/commit/726f1db7a5fc31902b503093dc15412ec1415b7f))
+* add optional pre-commit hook to welcome bot messages ([d21e8b1](https://github.com/Ikalus1988/MisakaNet/commit/d21e8b1a28b7e70aef3382bf575c12666dc7799b))
+* add Smithery badge to README for verification ([60099b0](https://github.com/Ikalus1988/MisakaNet/commit/60099b007a40bdd19c6622d31df3194880c8a6e8))
+* add smithery badge URL for verification detection ([2688370](https://github.com/Ikalus1988/MisakaNet/commit/26883708a2e68a96b197bf2081d379852931a04c))
+* fix smithery badge URL (use shields.io fallback) ([efe6735](https://github.com/Ikalus1988/MisakaNet/commit/efe6735697dd3f71f2e9e99d9354a040d7ad4201))
+* update lesson quality scan report ([c516471](https://github.com/Ikalus1988/MisakaNet/commit/c51647198d41801279186890f6a9ff3a560f82cf))
+
 ## [2.21.0](https://github.com/Ikalus1988/MisakaNet/compare/v2.20.1...v2.21.0) (2026-08-24)
 
 
