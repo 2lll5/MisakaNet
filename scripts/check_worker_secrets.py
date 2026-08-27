@@ -151,7 +151,9 @@ def main():
     if all_findings:
         for f in all_findings:
             print(f"  ❌ {f['file']}:{f['line']} — {f['type']}")
-            print(f"     {f['snippet']}")
+            # Truncate snippet to avoid logging sensitive values
+            snippet = f['snippet'][:20] + '...' if len(f['snippet']) > 20 else f['snippet']
+            print(f"     {snippet}")
             errors += 1
     else:
         print("  ✅ No hardcoded secrets found in worker source code")
