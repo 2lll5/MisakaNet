@@ -67,7 +67,6 @@ jobs:
           echo "lesson_domain=$LESSON_DOMAIN" >> "$GITHUB_OUTPUT"
           echo "lesson_tags=$LESSON_TAGS" >> "$GITHUB_OUTPUT"
           echo "archive_path=$ARCHIVE_PATH" >> "$GITHUB_OUTPUT"
-          echo "result=$RESULT" >> "$GITHUB_OUTPUT"
 
           # Generate comment
           COMMENT=$(python3 scripts/intake_auto_review.py \
