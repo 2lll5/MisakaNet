@@ -51,6 +51,8 @@ try {
     $wmp.URL = $FilePath
     $wmp.controls.play()
     Start-Sleep -Milliseconds 250
+    $wmp.close()
+    [System.Runtime.InteropServices.Marshal]::ReleaseComObject($wmp) | Out-Null
 } catch {
     try {
         Add-Type -AssemblyName presentationCore
@@ -58,6 +60,7 @@ try {
         $Player.Open([System.Uri]::new($FilePath))
         $Player.Play()
         Start-Sleep -Milliseconds 250
+        $Player.Close()
     } catch {
         # Graceful fallback
     }
