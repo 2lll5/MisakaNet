@@ -28,4 +28,5 @@ jobs:
         uses: Codium-ai/pr-agent@v0.43.0  # upgrade to fix AttributeError bug
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          OPENAI_API_BASE: "http://model.mify.ai.srv/openai"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
