@@ -1,0 +1,3 @@
+[config]
+model = "minimax-M3"
+fallback_models = []
