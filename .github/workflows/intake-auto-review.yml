@@ -23,6 +23,7 @@ jobs:
       pull-requests: write
     env:
       ISSUE_NUMBER: ${{ github.event.inputs.issue_number || github.event.issue.number }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v7
 
@@ -92,6 +93,8 @@ jobs:
           gh issue comment $ISSUE_NUMBER --repo ${{ github.repository }} --body "$COMMENT"
 
       - name: Apply labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           DECISION="${{ steps.review.outputs.decision }}"
 
@@ -117,6 +120,8 @@ jobs:
 
       - name: Create lesson file (auto-approve only)
         if: steps.review.outputs.decision == 'approve'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           LESSON_TITLE="${{ steps.review.outputs.lesson_title }}"
           LESSON_DOMAIN="${{ steps.review.outputs.lesson_domain }}"
