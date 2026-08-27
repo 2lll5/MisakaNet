@@ -90,36 +90,14 @@ print(utils.get_status())  # 应输出 "new_status"
 ## Verification
 
 ```bash
-# 查看 Python 版本
 python3 --version
 python3 -c 'import sys; print(sys.version)'
 ```
 
 **Expected Output:**
 ```
-Python 3.11.x (或你当前安装的版本)
-3.11.x (main, ...) [GCC ...]
-```
-
-**验证缓存已清除：**
-
-```bash
-# 清除缓存后，确认 __pycache__ 目录不存在
-find . -type d -name __pycache__
-# 预期输出：无任何内容（空）
-
-# 重新运行后，__pycache__ 会被重新生成
-python3 your_script.py
-find . -type d -name __pycache__
-# 预期输出：新生成的 __pycache__ 目录列表
-```
-
-**验证模块加载路径：**
-
-```bash
-python3 -c "import your_module; print(your_module.__file__)"
-# 正常输出（加载源码）：/path/to/your_module.py
-# 异常输出（加载缓存）：/path/to/__pycache__/your_module.cpython-311.pyc
+Python 3.
+3.
 ```
 
 ## 预防

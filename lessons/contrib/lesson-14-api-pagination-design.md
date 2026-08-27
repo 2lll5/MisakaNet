@@ -99,13 +99,14 @@ LIMIT 20;
 ## Verification
 
 ```bash
-# Verify: API 分页设计 — Cursor vs Offset vs Keyset
-git status --short
+echo "Lesson: API 分页设计 — Cursor vs Offset vs Keyset"
+wc -l lessons/contrib/lesson-14-api-pagination-design.md
 ```
 
 **Expected Output:**
 ```
-# (working tree status)
+Lesson: API 分页设计 — Cursor vs Offset vs Keyset
+# (line count)
 ```
 
 ## Notes

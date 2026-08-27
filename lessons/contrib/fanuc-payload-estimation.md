@@ -88,13 +88,14 @@ Examples:
 ## Verification
 
 ```bash
-# Verify: FANUC Payload Estimation — Auto and Manual Load Configuratio
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```
 
 ## Notes

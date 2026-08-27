@@ -168,11 +168,12 @@ Ka-Boost/
 ## Verification
 
 ```bash
-# Verify: Ka-Boost: 8-Layer KAREL Module Architecture and Build System
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```

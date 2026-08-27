@@ -47,3 +47,9 @@ git config --global https.proxy http://$(hostname).local:7890
 ```bash
 curl -I https://google.com  # 应返回 200
 ```
+
+**Expected Output:**
+```
+HTTP/2 200
+content-type: text/html; charset=UTF-8
+```

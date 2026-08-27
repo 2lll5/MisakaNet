@@ -48,12 +48,13 @@ JavaScript 引擎执行到这一步抛出 TypeError，**后续所有同步代码
 ## Verification
 
 ```bash
-# Verify: JavaScript 执行链断裂：一个未捕获 TypeError 如何让整个页面静默失效
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: JavaScript 执行链断裂：一个未捕获 TypeError 如何让整个页面静默失效"
+wc -l lessons/contrib/js-dead-code-chain-break.md
 ```
 
 **Expected Output:**
 ```
+Lesson: JavaScript 执行链断裂：一个未捕获 TypeError 如何让整个页面静默失效
 # (line count)
 ```
 

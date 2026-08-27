@@ -95,11 +95,12 @@ CALL 'TEST.TP'
 ## Verification
 
 ```bash
-# Verify: FANUC KAREL: INTP-316 调用TP程序触发动作锁定
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```

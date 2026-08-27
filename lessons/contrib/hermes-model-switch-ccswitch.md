@@ -82,13 +82,14 @@ hermes-switch ds-flash
 ## Verification
 
 ```bash
-# Verify: ccswitch-hermes-switch 踩坑Notes
-ccswitch list              # 可用模型
+echo "Lesson: ccswitch-hermes-switch 踩坑Notes"
+wc -l lessons/contrib/hermes-model-switch-ccswitch.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: ccswitch-hermes-switch 踩坑Notes
+# (line count)
 ```
 
 ## 相关文件

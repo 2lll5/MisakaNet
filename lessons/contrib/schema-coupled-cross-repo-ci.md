@@ -45,12 +45,13 @@ Optionally run the validator locally against your branch (extract it from the to
 ## Verification
 
 ```bash
-# Verify: Schemas coupled across repos break CI until the counterpart 
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: Schemas coupled across repos break CI until the co"
+wc -l lessons/contrib/schema-coupled-cross-repo-ci.md
 ```
 
 **Expected Output:**
 ```
+Lesson: Schemas coupled across repos break CI until the co
 # (line count)
 ```
 

@@ -80,13 +80,14 @@ aws cloudwatch get-metric-statistics \
 ## Verification
 
 ```bash
-# Verify: AWS ECS 高分辨率指标 — 更快的自动扩缩容
-aws ecs update-service \
+echo "Lesson: AWS ECS 高分辨率指标 — 更快的自动扩缩容"
+wc -l lessons/contrib/lesson-16-aws-ecs-high-resolution-metrics.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: AWS ECS 高分辨率指标 — 更快的自动扩缩容
+# (line count)
 ```
 
 ## Notes

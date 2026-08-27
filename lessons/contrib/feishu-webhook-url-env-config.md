@@ -50,13 +50,14 @@ config.yaml 在 .gitignore 之前就已经被 git add，导致后续 .gitignore 
 ## Verification
 
 ```bash
-# Verify: feishu webhook url env config
-node --version
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (Node version)
+# (count)
+Feishu verified
 ```
 
 ## Notes

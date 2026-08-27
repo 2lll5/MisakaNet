@@ -40,12 +40,13 @@ HuBERT SSL 特征提取失败，音频克隆效果异常。
 ## Verification
 
 ```bash
-# Verify: gpt sovits hubert 16khz
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: gpt sovits hubert 16khz"
+wc -l lessons/contrib/gpt-sovits-hubert-16khz.md
 ```
 
 **Expected Output:**
 ```
+Lesson: gpt sovits hubert 16khz
 # (line count)
 ```
 

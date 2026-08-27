@@ -81,13 +81,14 @@ const token = Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
 ## Verification
 
 ```bash
-# Verify: Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、MIME 与 SPF
-node --version
+echo "Lesson: Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、"
+wc -l lessons/contrib/cloudflare-email-worker-registration-trap.md
 ```
 
 **Expected Output:**
 ```
-# (Node version)
+Lesson: Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、
+# (line count)
 ```
 
 ## Lesson Learned

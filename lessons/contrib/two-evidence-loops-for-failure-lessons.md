@@ -86,13 +86,14 @@ Public post-publication reuse is not yet proven. Several lessons have pre-ingest
 ## Verification
 
 ```bash
-# Verify: Two Evidence Loops for Failure Lessons
-wc -l lessons/contrib/*.md | tail -1
+echo "Lesson: Two Evidence Loops for Failure Lessons"
+wc -l lessons/contrib/two-evidence-loops-for-failure-lessons.md
 ```
 
 **Expected Output:**
 ```
-# (total lesson lines)
+Lesson: Two Evidence Loops for Failure Lessons
+# (line count)
 ```
 
 ## Next Agent Prompt

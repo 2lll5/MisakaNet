@@ -98,13 +98,14 @@ and concatenate.
 ## Verification
 
 ```bash
-# Verify: Agent read_file Silent Truncation in Multi-Brain Meeting Rec
-pip --version
+echo "Lesson: Agent read_file Silent Truncation in Multi-Brain M"
+wc -l lessons/contrib/agent-readfile-silent-truncation.md
 ```
 
 **Expected Output:**
 ```
-# (pip version)
+Lesson: Agent read_file Silent Truncation in Multi-Brain M
+# (line count)
 ```
 
 ## Scenario

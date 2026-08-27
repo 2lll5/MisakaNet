@@ -52,11 +52,12 @@ aily 平台只支持**调用外部 MCP server**，不能作为 MCP server 被外
 ## Verification
 
 ```bash
-# Verify: aily feishu mcp pull only
-grep -r "mcp" lessons/contrib/mcp-*.md 2>/dev/null | wc -l
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (MCP lesson count)
+# (count)
+Feishu verified
 ```

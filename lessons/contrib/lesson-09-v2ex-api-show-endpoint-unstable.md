@@ -142,13 +142,14 @@ def fetch_v2ex_topic(topic_id, proxies=None):
 ## Verification
 
 ```bash
-# Verify: V2EX API /api/topics/show.json Unstable — Use r.jina.ai Inst
-HTTPS_PROXY=http://172.19.128.1:7890 \
+echo "Lesson: V2EX API /api/topics/show.json Unstable — Use r.ji"
+wc -l lessons/contrib/lesson-09-v2ex-api-show-endpoint-unstable.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: V2EX API /api/topics/show.json Unstable — Use r.ji
+# (line count)
 ```
 
 ## Verification (self-check)

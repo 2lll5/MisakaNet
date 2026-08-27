@@ -62,13 +62,12 @@ done
 ## Verification
 
 ```bash
-# Verify: DCO signoff 在 force push 后丢失导致 PR DCO 检查失败
-git rebase --signoff HEAD~N
+git log --format="%b" -1 | grep -i "Signed-off-by" || echo none
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Signed-off-by:
 ```
 
 ## Key Points

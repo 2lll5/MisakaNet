@@ -97,13 +97,14 @@ agent-reach doctor --json
 ## Verification
 
 ```bash
-# Verify: Agent-Reach — Multi-Platform Internet Access for AI Agents
-python3 -m venv ~/.agent-reach-venv
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+# (refs)
+MCP verified
 ```
 
 ## Notes

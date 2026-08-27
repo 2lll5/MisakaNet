@@ -45,13 +45,14 @@ Do **not** merge both bodies into a third file (issue #552).
 ## Verification
 
 ```bash
-# Verify: Near-duplicate Feishu bot lessons: keep cc-connect, archive 
-git mv lessons/contrib/weaker.md lessons/_archive/weaker.md
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+# (count)
+Feishu verified
 ```
 
 ## Notes

@@ -62,11 +62,12 @@ reply_footer = false            # 不显示回复底部状态行
 ## Verification
 
 ```bash
-# Verify: cc connect feishu display optimization
-grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (Feishu lesson count)
+# (count)
+Feishu verified
 ```

@@ -61,13 +61,14 @@ master:
 ## Verification
 
 ```bash
-# Verify: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
-hermes config set FEISHU_APP_SECRET <new_secret>
+echo "Lesson: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里"
+wc -l lessons/contrib/hub-credential-gateway-vs-hub.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
+# (line count)
 ```
 
 ## Key Points

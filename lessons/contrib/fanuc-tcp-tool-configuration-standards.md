@@ -129,13 +129,14 @@ Press COORD key to cycle: JOINT → JGFRM → WORLD → TOOL → USER
 ## Verification
 
 ```bash
-# Verify: FANUC TCP and Tool Configuration — Standards for Automotive 
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```
 
 ## Notes

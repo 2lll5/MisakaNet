@@ -71,6 +71,12 @@ HOME=/home/yourname
 cat ~/cron_test.log  # 每分钟应新增一行
 ```
 
+**Expected Output:**
+```
+CRON_ALIVE: Mon Aug 27 10:00:01 UTC 2026
+CRON_ALIVE: Mon Aug 27 10:01:01 UTC 2026
+```
+
 预期输出（每分钟追加一行，时间戳递增）：
 
 ```

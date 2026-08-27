@@ -61,13 +61,14 @@ api_base: https://api.internal-gateway.local/v1
 ## Verification
 
 ```bash
-# Verify: api gateway anthropic incompatibility
-node --version
+echo "Lesson: api gateway anthropic incompatibility"
+wc -l lessons/contrib/api-gateway-anthropic-incompatibility.md
 ```
 
 **Expected Output:**
 ```
-# (Node version)
+Lesson: api gateway anthropic incompatibility
+# (line count)
 ```
 
 ## Notes

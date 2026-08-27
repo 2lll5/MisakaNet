@@ -100,12 +100,13 @@ Key insight: `stopJob(job)` only needs `job.mu`, not `jobsMutex`. By restructuri
 ## Verification
 
 ```bash
-# Verify: Go Scheduler Deadlock — Nested Lock Acquisition in gocron v1
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: Go Scheduler Deadlock — Nested Lock Acquisition in"
+wc -l lessons/contrib/go-scheduler-deadlock-lock-order.md
 ```
 
 **Expected Output:**
 ```
+Lesson: Go Scheduler Deadlock — Nested Lock Acquisition in
 # (line count)
 ```
 

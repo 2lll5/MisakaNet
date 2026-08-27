@@ -48,11 +48,12 @@ Hardened the `_slugify` logic in `scripts/new_lesson.py` using standard library 
 ## Verification
 
 ```bash
-# Verify: slugify windows path sanitation
-uname -a 2>/dev/null || echo "not on WSL"
+echo "Lesson: slugify windows path sanitation"
+wc -l lessons/contrib/slugify-windows-path-sanitation.md
 ```
 
 **Expected Output:**
 ```
-# (system info)
+Lesson: slugify windows path sanitation
+# (line count)
 ```

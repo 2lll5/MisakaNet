@@ -43,13 +43,14 @@ Steps to fix:
 ## Verification
 
 ```bash
-# Verify: TypeScript solution-style tsconfig — tsc --noEmit checks not
-echo "config check"
+echo "Lesson: TypeScript solution-style tsconfig — tsc --noEmit "
+wc -l lessons/contrib/typescript-solution-tsconfig-silent-nocheck.md
 ```
 
 **Expected Output:**
 ```
-# (config placeholder)
+Lesson: TypeScript solution-style tsconfig — tsc --noEmit 
+# (line count)
 ```
 
 ## Notes

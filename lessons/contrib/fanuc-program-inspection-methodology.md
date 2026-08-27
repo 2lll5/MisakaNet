@@ -127,13 +127,14 @@ Example: UB030R01_MS11_01_WELD_JR1
 ## Verification
 
 ```bash
-# Verify: FANUC Robot Program Inspection Methodology — Systematic Chec
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```
 
 ## Notes

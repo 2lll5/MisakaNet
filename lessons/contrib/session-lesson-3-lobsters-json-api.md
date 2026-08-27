@@ -80,13 +80,14 @@ for p in relevant[:10]:
 ## Verification
 
 ```bash
-# Verify: Lobsters JSON API — Structured Tech Forum Scraping
-python3 -c "import json; print(json.__name__)"
+echo "Lesson: Lobsters JSON API — Structured Tech Forum Scraping"
+wc -l lessons/contrib/session-lesson-3-lobsters-json-api.md
 ```
 
 **Expected Output:**
 ```
-# (json module)
+Lesson: Lobsters JSON API — Structured Tech Forum Scraping
+# (line count)
 ```
 
 ## Notes

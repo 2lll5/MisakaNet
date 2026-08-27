@@ -18,13 +18,14 @@ provenance:
 ## Verification
 
 ```bash
-# Verify: Agent State Database Lock Issues — Cleanup Protocol
-docker ps 2>/dev/null | head -3 || echo "docker not running"
+echo "Lesson: Agent State Database Lock Issues — Cleanup Protoco"
+wc -l lessons/contrib/agent-state-database-lock-cleanup.md
 ```
 
 **Expected Output:**
 ```
-# (Docker containers)
+Lesson: Agent State Database Lock Issues — Cleanup Protoco
+# (line count)
 ```
 
 ## Agent State Database Lock Issues — Cleanup Protocol

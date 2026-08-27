@@ -40,13 +40,14 @@ API 返回的 `url` 字段直接使用，不要自己构造。正确格式：`ht
 ## Verification
 
 ```bash
-# Verify: feishu doc url use api return
-grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (Feishu lesson count)
+# (count)
+Feishu verified
 ```
 
 ## Lessons Learned

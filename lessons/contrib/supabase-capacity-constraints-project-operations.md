@@ -66,11 +66,12 @@ For an application team consuming such a platform, the safer runbook is:
 ## Verification
 
 ```bash
-# Verify: Supabase capacity constraints caused project operation failu
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: Supabase capacity constraints caused project opera"
+wc -l lessons/contrib/supabase-capacity-constraints-project-operations.md
 ```
 
 **Expected Output:**
 ```
+Lesson: Supabase capacity constraints caused project opera
 # (line count)
 ```

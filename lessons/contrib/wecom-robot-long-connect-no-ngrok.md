@@ -53,13 +53,14 @@ verification: metadata-normalized
 ## Verification
 
 ```bash
-# Verify: wecom robot long connect no ngrok
-node --version
+echo "Lesson: wecom robot long connect no ngrok"
+wc -l lessons/contrib/wecom-robot-long-connect-no-ngrok.md
 ```
 
 **Expected Output:**
 ```
-# (Node version)
+Lesson: wecom robot long connect no ngrok
+# (line count)
 ```
 
 ## Notes

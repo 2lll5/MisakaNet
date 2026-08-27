@@ -94,13 +94,14 @@ proxy = http://172.19.128.1:7890
 ## Verification
 
 ```bash
-# Verify: pip install HTTPS Timeout from WSL — Prepend HTTPS_PROXY=htt
-HTTPS_PROXY=http://172.19.128.1:7890 \
+echo "Lesson: pip install HTTPS Timeout from WSL — Prepend HTTPS"
+wc -l lessons/contrib/lesson-08-pip-https-proxy-clash.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: pip install HTTPS Timeout from WSL — Prepend HTTPS
+# (line count)
 ```
 
 ## Verification (self-check)

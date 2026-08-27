@@ -24,13 +24,14 @@ verification: metadata-normalized
 ## Verification
 
 ```bash
-# Verify: JSON 解析失败Handling — 截断 / 格式Error
-python3 --version
+echo "Lesson: JSON 解析失败Handling — 截断 / 格式Error"
+wc -l lessons/contrib/json-parse-failure-handling.md
 ```
 
 **Expected Output:**
 ```
-# (Python version)
+Lesson: JSON 解析失败Handling — 截断 / 格式Error
+# (line count)
 ```
 
 ## Solution

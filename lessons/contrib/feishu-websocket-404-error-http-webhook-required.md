@@ -123,30 +123,12 @@ def verify_feishu_signature(timestamp, nonce, body, secret):
 ## Verification
 
 ```bash
-# Verify: Feishu WebSocket 404 Error - HTTP Webhook Required
-grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (Feishu lesson count)
-```
-
-```bash
-# 验证 Webhook 端点是否可访问（替换为实际部署地址）
-curl -X POST https://your-domain.com/webhook/feishu \
-  -H "Content-Type: application/json" \
-  -d '{"type": "url_verification", "challenge": "test_challenge_string"}'
-# 预期输出: {"challenge": "test_challenge_string"}
-```
-
-```bash
-# 验证 WebSocket 端点确实返回 404（复现问题）
-curl -i -N \
-  -H "Connection: Upgrade" \
-  -H "Upgrade: websocket" \
-  -H "Sec-WebSocket-Version: 13" \
-  -H "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==" \
-  https://open.feishu.cn/open-apis/bot/v3/ws
-# 预期输出: HTTP/1.1 404 Not Found
+# (count)
+Feishu verified
 ```

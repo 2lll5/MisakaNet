@@ -45,11 +45,12 @@ result = pd.concat(all_data).groupby('robot_id').agg(...)
 ## Verification
 
 ```bash
-# Verify: 跨 Sheet 同名合并导致数据混乱：机器人唯一标识必须带前缀
-pip --version
+echo "Lesson: 跨 Sheet 同名合并导致数据混乱：机器人唯一标识必须带前缀"
+wc -l lessons/contrib/cross-sheet-name-merge-data-chaos.md
 ```
 
 **Expected Output:**
 ```
-# (pip version)
+Lesson: 跨 Sheet 同名合并导致数据混乱：机器人唯一标识必须带前缀
+# (line count)
 ```

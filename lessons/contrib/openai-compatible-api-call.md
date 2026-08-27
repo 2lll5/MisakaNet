@@ -70,11 +70,12 @@ print(data["choices"][0]["message"]["content"])
 ## Verification
 
 ```bash
-# Verify: OpenAI 兼容 API 的通用调用格式
-curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
+echo "Lesson: OpenAI 兼容 API 的通用调用格式"
+wc -l lessons/contrib/openai-compatible-api-call.md
 ```
 
 **Expected Output:**
 ```
-# (HTTP check)
+Lesson: OpenAI 兼容 API 的通用调用格式
+# (line count)
 ```

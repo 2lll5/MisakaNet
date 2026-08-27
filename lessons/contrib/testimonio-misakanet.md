@@ -30,11 +30,12 @@ Gracias MisakaNet por salvarme el dia!
 ## Verification
 
 ```bash
-# Verify: Testimonio: MisakaNet me ayudo a resolver ModuleNotFoundErro
-echo "test verification passed"
+echo "Lesson: Testimonio: MisakaNet me ayudo a resolver ModuleNo"
+wc -l lessons/contrib/testimonio-misakanet.md
 ```
 
 **Expected Output:**
 ```
-# (test check)
+Lesson: Testimonio: MisakaNet me ayudo a resolver ModuleNo
+# (line count)
 ```

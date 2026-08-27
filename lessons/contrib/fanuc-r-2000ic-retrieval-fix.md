@@ -44,13 +44,14 @@ if _KW.search(query):
 ## Verification
 
 ```bash
-# Verify: FANUC R-2000iC 检索混淆Fix — 关键词强制召回
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```
 
 ## Related

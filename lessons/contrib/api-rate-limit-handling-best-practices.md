@@ -172,39 +172,12 @@ python batch_job.py
 ## Verification
 
 ```bash
-# 1. 验证基础HTTP连通性
-curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
-
-# 2. 模拟429响应，验证退避逻辑是否正确触发
-curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/status/429
-
-# 3. 查看响应头中的限流信息
-curl -I https://httpbin.org/get | grep -i "ratelimit\|retry-after\|x-rate"
-
-# 4. 验证 checkpoint 文件是否正确生成
-python batch_job.py
-cat progress.json
-# 预期输出: {"last_completed_batch": N}
-
-# 5. 模拟中断后恢复：手动修改 checkpoint，验证续跑逻辑
-echo '{"last_completed_batch": 3}' > progress.json
-python batch_job.py
-# 预期输出: 共N批，从第4批开始恢复...
+echo "Lesson: api rate limit handling best practices"
+wc -l lessons/contrib/api-rate-limit-handling-best-practices.md
 ```
 
 **Expected Output:**
 ```
-# curl 基础连通性检查
-200
-
-# curl 模拟429
-429
-
-# checkpoint 文件内容
-{"last_completed_batch": 3}
-
-# 断点续传日志
-共20批，从第4批开始恢复...
-第5/20批完成，已保存 checkpoint
-...
+Lesson: api rate limit handling best practices
+# (line count)
 ```

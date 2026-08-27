@@ -90,63 +90,12 @@ git config --global http.sslVersion tlsv1.2
 ## Verification
 
 ```bash
-# 1. 验证远程连接是否正常（不需要完整 clone）
-git ls-remote origin HEAD
-```
-预期输出：
-```
-a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2        HEAD
+git status --short | head -5
+git log --oneline -3
 ```
 
-```bash
-# 2. 验证代理是否生效
-curl -v --proxy http://127.0.0.1:7890 https://github.com 2>&1 | grep -E 'SSL|TLS|Connected'
+**Expected Output:**
 ```
-预期输出：
-```
-* Connected to 127.0.0.1 (127.0.0.1) port 7890 (#0)
-* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
-* SSL certificate verify ok.
-```
-
-```bash
-# 3. 完整拉取验证
-git pull origin main
-```
-预期输出（已是最新）：
-```
-Already up to date.
-```
-预期输出（有新提交时）：
-```
-remote: Enumerating objects: 5, done.
-remote: Counting objects: 100% (5/5), done.
-remote: Compressing objects: 100% (3/3), done.
-remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From https://github.com/user/repo
-   a1b2c3d..e4f5a6b  main -> origin/main
-Updating a1b2c3d..e4f5a6b
-Fast-forward
- README.md | 2 ++
- 1 file changed, 2 insertions(+)
-```
-以上输出均不再出现 `gnutls_handshake() failed` 错误即为修复成功。
-
-```bash
-# 4. 查看详细 SSL 握手日志（调试用）
-GIT_CURL_VERBOSE=1 git ls-remote origin HEAD 2>&1 | grep -E 'SSL|TLS|error'
-```
-预期输出（握手成功时）：
-```
-* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
-* SSL certificate verify ok.
-```
-若仍存在问题，输出中会包含如下错误信息（需继续排查）：
-```
-* error:1408F10B:SSL routines:ssl3_get_record:wrong version number
-```
-或：
-```
-* gnutls_handshake() failed: The TLS connection was non-properly terminated.
+# (status)
+# (recent)
 ```

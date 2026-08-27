@@ -49,12 +49,13 @@ ffmpeg -i input.wav -ar 24000 -ac 1 -c:a libopus output.ogg
 ## Verification
 
 ```bash
-# Verify: ffmpeg audio libopus not ogg
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: ffmpeg audio libopus not ogg"
+wc -l lessons/contrib/ffmpeg-audio-libopus-not-ogg.md
 ```
 
 **Expected Output:**
 ```
+Lesson: ffmpeg audio libopus not ogg
 # (line count)
 ```
 

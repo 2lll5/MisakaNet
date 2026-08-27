@@ -27,13 +27,14 @@ See problem description above for technical details.
 ## Verification
 
 ```bash
-# Verify: 多模型Switch脚本模式 — 双 Agent 模型管理
-switch-agent-a list              # 可用模型
+echo "Lesson: 多模型Switch脚本模式 — 双 Agent 模型管理"
+wc -l lessons/contrib/model-switch-script-pattern.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: 多模型Switch脚本模式 — 双 Agent 模型管理
+# (line count)
 ```
 
 ## Solution

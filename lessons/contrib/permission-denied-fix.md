@@ -56,13 +56,14 @@ stat ~/.hermes/some_file
 ## Verification
 
 ```bash
-# Verify: Permission Denied / WSL NTFS 跨文件系统PermissionFix
-[automount]
+echo "Lesson: Permission Denied / WSL NTFS 跨文件系统PermissionFix"
+wc -l lessons/contrib/permission-denied-fix.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: Permission Denied / WSL NTFS 跨文件系统PermissionFix
+# (line count)
 ```
 
 ## Related

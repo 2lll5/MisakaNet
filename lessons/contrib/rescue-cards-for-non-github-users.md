@@ -94,13 +94,14 @@ If a user has no GitHub account, record it as offline usage evidence, not as pub
 ## Verification
 
 ```bash
-# Verify: When Lessons Are Too Heavy, Use Rescue Cards
-wc -l lessons/contrib/*.md | tail -1
+echo "Lesson: When Lessons Are Too Heavy, Use Rescue Cards"
+wc -l lessons/contrib/rescue-cards-for-non-github-users.md
 ```
 
 **Expected Output:**
 ```
-# (total lesson lines)
+Lesson: When Lessons Are Too Heavy, Use Rescue Cards
+# (line count)
 ```
 
 ## Next Agent Prompt

@@ -147,12 +147,13 @@ d3.select(this).select('circle')
 ## Verification
 
 ```bash
-# Verify: knowledge graph ux patterns from high star projects
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: knowledge graph ux patterns from high star project"
+wc -l lessons/contrib/knowledge-graph-ux-patterns-from-high-star-projects.md
 ```
 
 **Expected Output:**
 ```
+Lesson: knowledge graph ux patterns from high star project
 # (line count)
 ```
 

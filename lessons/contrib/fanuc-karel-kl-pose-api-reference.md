@@ -159,11 +159,12 @@ CC_JOINT = 9      -- PR类型：关节
 ## Verification
 
 ```bash
-# Verify: KAREL Pose Library API Reference — IK/FK, Quaternion, Matrix
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```

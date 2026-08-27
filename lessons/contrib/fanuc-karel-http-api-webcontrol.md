@@ -153,11 +153,12 @@ GET /KAREL/webstart?str_task=webmotion
 ## Verification
 
 ```bash
-# Verify: FANUC KAREL HTTP API — WebControl Robot Motion and Monitorin
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```

@@ -90,13 +90,14 @@ jobs:
 ## Verification
 
 ```bash
-# Verify: Auto-Welcome Newcomers via issue_comment Event
-git status --short
+echo "Lesson: Auto-Welcome Newcomers via issue_comment Event"
+wc -l lessons/contrib/issue-comment-newbie-welcome.md
 ```
 
 **Expected Output:**
 ```
-# (working tree status)
+Lesson: Auto-Welcome Newcomers via issue_comment Event
+# (line count)
 ```
 
 ## 注意事项

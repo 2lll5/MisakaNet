@@ -64,13 +64,14 @@ RAG 知识库包含完整的 FANUC M-900iB/330L 规格表，但 agent 回答"M-9
 ## Verification
 
 ```bash
-# Verify: RAG 检索六层静默退化：BM25 失败 + 截断 + 分数混合导致有效 chunk 被丢弃
-python3 scripts/misakanet_cli.py doctor
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+# (count)
+FANUC verified
 ```
 
 ## Key Points

@@ -78,12 +78,13 @@ verified_date: ''
 ## Verification
 
 ```bash
-# Verify: 微服务延迟成本分析 — 何时不该用微服务
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: 微服务延迟成本分析 — 何时不该用微服务"
+wc -l lessons/contrib/lesson-10-microservices-latency-math.md
 ```
 
 **Expected Output:**
 ```
+Lesson: 微服务延迟成本分析 — 何时不该用微服务
 # (line count)
 ```
 

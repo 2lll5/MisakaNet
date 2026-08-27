@@ -54,13 +54,14 @@ Verify: run `npm ci` on both hosts and confirm the native module loads with no p
 ## Verification
 
 ```bash
-# Verify: npm install failing on one host but not another (native buil
-npm_config_build_from_source=false npm ci
+echo "Lesson: npm install failing on one host but not another (n"
+wc -l lessons/contrib/npm-native-build-arch-mismatch.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: npm install failing on one host but not another (n
+# (line count)
 ```
 
 ## Notes

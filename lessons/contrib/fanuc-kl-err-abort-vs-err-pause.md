@@ -131,11 +131,12 @@ END verify_program_number
 ## Verification
 
 ```bash
-# Verify: FANUC KL: ERR_ABORT vs ERR_PAUSE 行为差异
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```

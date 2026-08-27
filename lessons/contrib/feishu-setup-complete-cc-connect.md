@@ -40,13 +40,14 @@ Generic bridge docs omit the real package name and concrete config paths. Operat
 ## Verification
 
 ```bash
-# Verify: cc-connect Feishu bot complete setup guide
 grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+# (count)
+Feishu verified
 ```
 
 ## cc-connect 飞书机器人完整配置指南

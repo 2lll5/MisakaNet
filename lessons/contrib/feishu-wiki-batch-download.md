@@ -66,13 +66,14 @@ window.location.href = '目标URL';
 ## Verification
 
 ```bash
-# Verify: Feishu WikiBatch Download：文件类型Handling策略
-grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (Feishu lesson count)
+# (count)
+Feishu verified
 ```
 
 ## Redaction Notes

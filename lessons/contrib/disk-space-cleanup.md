@@ -58,13 +58,14 @@ find ~/.hermes/logs/ -name "*.log" -mtime +7 -delete 2>/dev/null
 ## Verification
 
 ```bash
-# Verify: 磁盘空间不足 / chroma_db_v4 CacheCleanup
-du -sh ~/.hermes/* 2>/dev/null | sort -h
+echo "Lesson: 磁盘空间不足 / chroma_db_v4 CacheCleanup"
+wc -l lessons/contrib/disk-space-cleanup.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: 磁盘空间不足 / chroma_db_v4 CacheCleanup
+# (line count)
 ```
 
 ## Related

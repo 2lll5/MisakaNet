@@ -54,13 +54,14 @@ Provide the solution. Include code, commands, or configuration.
 ## Verification
 
 ```bash
-# Verify: Lesson Quality Requirements: failure-memory protocol Format
-grep -r "search" lessons/contrib/search-*.md 2>/dev/null | wc -l
+echo "Lesson: Lesson Quality Requirements: failure-memory protoc"
+wc -l lessons/contrib/lesson-quality-requirements.md
 ```
 
 **Expected Output:**
 ```
-# (search lesson count)
+Lesson: Lesson Quality Requirements: failure-memory protoc
+# (line count)
 ```
 
 ## Verification

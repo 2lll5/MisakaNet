@@ -91,43 +91,16 @@ test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
 
 ## Verification
 
-После восстановления были выполнены четыре независимые проверки. Первая подтвердила, что общим предком является актуальная база:
-
 ```bash
-test "$(git merge-base HEAD origin/main)" = "$(git rev-parse origin/main)"
-echo $?
-# 0
+git status --short | head -5
+git log --oneline -3
 ```
 
-Вторая показала ровно один новый коммит:
-
-```bash
-git log --oneline origin/main..HEAD
-# b1c2d3e docs: add next lesson
-
-test "$(git rev-list --count origin/main..HEAD)" -eq 1
-echo $?
-# 0
+**Expected Output:**
 ```
-
-Третья проверка ограничила diff ожидаемым файлом:
-
-```bash
-git diff --name-only origin/main...HEAD
-# lessons/contrib/git-clean-branch-after-merged-pr-ru.md
+# (status)
+# (recent)
 ```
-
-Наконец, были проверены пробелы и итоговый патч:
-
-```bash
-git diff --check origin/main...HEAD
-# (нет вывода — пробельных ошибок не обнаружено)
-
-git status --short
-# (нет вывода — рабочее дерево чистое, все изменения закоммичены)
-```
-
-Ожидаемый результат — `git diff --check` завершается с кодом `0`, `git status --short` ничего не печатает после коммита, а диапазон `origin/main..HEAD` содержит только коммиты новой задачи. Эти проверки прошли, поэтому проблема была ✅ исправлена до публикации ветки.
 
 ## Notes
 

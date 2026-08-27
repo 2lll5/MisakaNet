@@ -51,13 +51,14 @@ def _optimize_markdown_style(content: str) -> str:
 ## Verification
 
 ```bash
-# Verify: feishu markdown table not rendered
-grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (Feishu lesson count)
+# (count)
+Feishu verified
 ```
 
 ## 限制

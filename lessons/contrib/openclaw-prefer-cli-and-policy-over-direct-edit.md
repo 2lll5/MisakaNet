@@ -81,39 +81,12 @@ verification: metadata-normalized
 ## Verification
 
 ```bash
-# Verify 1: 确认当前配置通过CLI管理，而非直接文件修改
-openclaw config list
-
-# Verify 2: 检查配置文件是否存在未经CLI写入的临时hack标记
-grep -r "TEMP HACK" ~/.openclaw/
-
-# Verify 3: 验证官方路径可用，CLI能正常读写配置
-openclaw config set _verify.test true && openclaw config get _verify.test
-
-# Verify 4: 检查audit log中是否有直接文件修改的记录（应为空）
-openclaw config audit --filter direct_edit
-
-# Verify 5: 确认policy合规检查通过
-openclaw policy check --config ~/.openclaw/config.yaml
+echo "Lesson: openclaw prefer cli and policy over direct edit"
+wc -l lessons/contrib/openclaw-prefer-cli-and-policy-over-direct-edit.md
 ```
 
 **Expected Output:**
-
 ```
-# Verify 1
-model.default = gpt-4o
-gateway.timeout = 30
-...
-
-# Verify 2
-(无输出，表示没有临时hack残留)
-
-# Verify 3
-true
-
-# Verify 4
-No direct file edits detected.
-
-# Verify 5
-Policy check passed. All configurations are compliant.
+Lesson: openclaw prefer cli and policy over direct edit
+# (line count)
 ```

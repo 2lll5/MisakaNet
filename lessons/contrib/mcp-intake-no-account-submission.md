@@ -59,13 +59,16 @@ An agent is performing a data extraction task and calls a third-party MCP tool w
 
 ## Verification
 
-To confirm the tool is working correctly:
+```bash
+git status --short | head -5
+git log --oneline -3
+```
 
-1. **Submit a test intake** using the tool with a minimal valid payload. The response should be `OK` with no error.
-2. **Check spam guard behavior** — submit the same payload twice in rapid succession. The second submission should be rate-limited or deduplicated without returning a hard error.
-3. **Confirm maintainer queue** — after submission, verify (via maintainer tooling or dashboard) that the intake appears in the pending review queue with status `pending`.
-4. **Negative test** — submit a payload with missing required fields (e.g., no `title`). The tool should return a descriptive validation error, not a silent failure.
-5. **No auth required** — confirm the tool can be called with no Authorization header, no GitHub token, and no session cookie. The `OK` response should still be returned for a valid payload.
+**Expected Output:**
+```
+# (status)
+# (recent)
+```
 
 ## Key Points
 

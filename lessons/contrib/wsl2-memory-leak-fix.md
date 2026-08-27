@@ -60,3 +60,9 @@ sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'
 ```bash
 free -h  # 内存应恢复到限制值内
 ```
+
+**Expected Output:**
+```
+              total        used        free      shared  buff/cache   available
+Mem:           3Gi        1Gi       1.5Gi       12Mi       512Mi       1.8Gi
+```

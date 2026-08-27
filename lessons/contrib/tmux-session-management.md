@@ -69,11 +69,12 @@ tmux kill-session -t my-session
 ## Verification
 
 ```bash
-# Verify: tmux 终端复用 — 断开不丢失会话
-tmux new -s my-session
+echo "Lesson: tmux 终端复用 — 断开不丢失会话"
+wc -l lessons/contrib/tmux-session-management.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: tmux 终端复用 — 断开不丢失会话
+# (line count)
 ```

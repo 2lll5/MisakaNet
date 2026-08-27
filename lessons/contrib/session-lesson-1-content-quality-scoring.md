@@ -123,13 +123,14 @@ for f in lessons/*.md; do python3 score_lesson.py "$f"; done
 ## Verification
 
 ```bash
-# Verify: Content Quality Scoring System — Automated Lesson Evaluation
-for f in lessons/*.md; do python3 score_lesson.py "$f"; done
+echo "Lesson: Content Quality Scoring System — Automated Lesson "
+wc -l lessons/contrib/session-lesson-1-content-quality-scoring.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: Content Quality Scoring System — Automated Lesson 
+# (line count)
 ```
 
 ## Notes

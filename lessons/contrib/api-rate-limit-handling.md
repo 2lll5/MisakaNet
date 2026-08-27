@@ -56,11 +56,12 @@ print(f"剩余: {data['rate']['remaining']}/{data['rate']['limit']}")
 ## Verification
 
 ```bash
-# Verify: API 请求限流 (Rate Limit) 处理方案
-curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
+echo "Lesson: API 请求限流 (Rate Limit) 处理方案"
+wc -l lessons/contrib/api-rate-limit-handling.md
 ```
 
 **Expected Output:**
 ```
-# (HTTP check)
+Lesson: API 请求限流 (Rate Limit) 处理方案
+# (line count)
 ```

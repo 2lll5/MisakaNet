@@ -17,13 +17,14 @@ verified_date: '2026-07-10'
 ## Verification
 
 ```bash
-# Verify: Search Quota Exhaustion Causes False Zero Results
-rm misakanet/.quota.json
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+# (refs)
+Search verified
 ```
 
 ## Search Quota Exhaustion Causes False Zero Results

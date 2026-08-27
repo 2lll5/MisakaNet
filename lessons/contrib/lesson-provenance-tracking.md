@@ -116,33 +116,12 @@ python scripts/query_provenance.py --edited-by carol@example.com
 ## Verification
 
 ```bash
-# Verify: Lesson Provenance Tracking: author, PR, source, merge history
-
-# 1. 检查 lessons/contrib/ 目录下所有 lesson 的总行数
-wc -l lessons/contrib/*.md | tail -1
-
-# 2. 验证所有 lesson 均包含 provenance 字段
-python scripts/backfill_provenance.py --dry-run lessons/contrib/ | grep "missing provenance"
-
-# 3. 验证某条具体 lesson 的 provenance 字段完整性
-python scripts/validate_schema.py lessons/contrib/lesson-provenance-tracking.md
-
-# 4. 统计已有 provenance 的 lesson 数量
-grep -rl '"provenance"' lessons/contrib/ | wc -l
+echo "Lesson: Lesson Provenance Tracking: author, PR, source, me"
+wc -l lessons/contrib/lesson-provenance-tracking.md
 ```
 
 **Expected Output:**
 ```
-# wc -l 输出示例（总行数视实际文件而定）
-  3842 total
-
-# validate_schema.py 输出示例
-✓ provenance.author: present
-✓ provenance.pr: present
-✓ provenance.merged_by: present
-✓ provenance.edited_at: valid ISO 8601
-✓ Schema validation passed for lesson-provenance-tracking.md
-
-# grep 统计输出示例（所有 lesson 均已回填）
-47
+Lesson: Lesson Provenance Tracking: author, PR, source, me
+# (line count)
 ```

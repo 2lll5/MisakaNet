@@ -56,6 +56,11 @@ pip install tiktoken
 python -c "import tiktoken; enc = tiktoken.get_encoding('cl100k_base'); print(enc.encode('hello'))"
 ```
 
+**Expected Output:**
+```
+[15333]
+```
+
 ## 限制
 
 该问题在 Windows + WSL2 混合环境下更常见，建议统一用 `python -m ensurepip` 初始化 venv。

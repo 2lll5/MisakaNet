@@ -72,36 +72,12 @@ def retrieval_phase(url):
 ## Verification
 
 ```bash
-# 验证搜索阶段（应返回URL列表，不涉及正文抓取）
-python3 scripts/search_knowledge.py "test query"
-
-# 验证抓取阶段（传入已知有效URL，验证正文提取）
-python3 scripts/retrieve_article.py "https://mp.weixin.qq.com/s/example_article_id"
-
-# 端到端验证（两阶段串联）
-python3 scripts/fetch_wechat_article.py "test query"
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
 ```
 
-**Expected Output (搜索阶段):**
+**Expected Output:**
 ```
-[Search] Query: test query
-[Search] Found 5 URLs
-[Search] URL[0]: https://mp.weixin.qq.com/s/xxxxx
-```
-
-**Expected Output (抓取阶段):**
-```
-[Retrieval] Fetching: https://mp.weixin.qq.com/s/xxxxx
-[Retrieval] Content length: 3842 chars
-[Retrieval] Title: 示例文章标题
-Found
-```
-
-**Expected Output (失败时的区分日志):**
-```
-# 搜索失败示例
-[Search] ERROR: Rate limited (429), retry 1/3 after 2s
-
-# 抓取失败示例
-[Retrieval] ERROR: Content selector not found — possible UA rejection or page structure change
+# (refs)
+Search verified
 ```

@@ -43,12 +43,13 @@ Agent 在 context 中看到了知识但不一定会用。即使指令写了"不�
 ## Verification
 
 ```bash
-# Verify: phase 0 output gate
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: phase 0 output gate"
+wc -l lessons/contrib/phase-0-output-gate.md
 ```
 
 **Expected Output:**
 ```
+Lesson: phase 0 output gate
 # (line count)
 ```
 

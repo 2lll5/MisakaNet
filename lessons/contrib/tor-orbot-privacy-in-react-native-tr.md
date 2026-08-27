@@ -57,13 +57,14 @@ function applyTorPreference(enabled) {
 ## Verification
 
 ```bash
-# Verify: React Native uygulamasında Orbot (Tor) ile gizlilik akışı
-node --version
+echo "Lesson: React Native uygulamasında Orbot (Tor) ile gizlili"
+wc -l lessons/contrib/tor-orbot-privacy-in-react-native-tr.md
 ```
 
 **Expected Output:**
 ```
-# (Node version)
+Lesson: React Native uygulamasında Orbot (Tor) ile gizlili
+# (line count)
 ```
 
 ## Notes

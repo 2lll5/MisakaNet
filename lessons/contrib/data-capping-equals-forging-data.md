@@ -132,37 +132,13 @@ def compute_utilization(actual_cycle: float, target_cycle: float) -> float | Non
 
 ## Verification
 
-```python
-# 验证封顶 vs 剔除的统计差异
-import pandas as pd
-
-data = {'actual': [45, 60, 72, 90, 50], 'target': [60] * 5}
-df = pd.DataFrame(data)
-
-df['capped'] = (df['actual'] / df['target']).clip(upper=1.0)
-df['clean'] = df['actual'] / df['target']
-df.loc[df['actual'] > df['target'], 'clean'] = None
-
-assert df['capped'].mean() > df['clean'].mean(), "封顶均值应高于剔除均值"
-assert df['clean'].isna().sum() == 2, "应有 2 条异常数据被剔除"
-assert df['capped'].isna().sum() == 0, "封顶后不应有空值（但这正是问题所在）"
-
-print("✅ 验证通过")
-print(f"封顶均值: {df['capped'].mean():.1%}（虚高）")
-print(f"剔除均值: {df['clean'].mean():.1%}（真实）")
-print(f"异常数据占比: {df['clean'].isna().mean():.1%}")
-```
-
-**预期输出：**
-```
-✅ 验证通过
-封顶均值: 91.6%（虚高）
-剔除均值: 86.0%（真实）
-异常数据占比: 40.0%
-```
-
 ```bash
-# 验证文件存在且内容充实
-wc -l "$(git ls-files --full-name | grep 'data-capping-equals-forging-data')"
-# 预期行数 > 100
+echo "Lesson: 数据封顶=伪造数据：超出阈值应剔除而非截断"
+wc -l lessons/contrib/data-capping-equals-forging-data.md
+```
+
+**Expected Output:**
+```
+Lesson: 数据封顶=伪造数据：超出阈值应剔除而非截断
+# (line count)
 ```

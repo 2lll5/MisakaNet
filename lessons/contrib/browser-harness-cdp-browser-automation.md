@@ -153,13 +153,14 @@ ws.send(json.dumps({"type": "batch", "actions": [
 ## Verification
 
 ```bash
-# Verify: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
-git status --short
+echo "Lesson: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation"
+wc -l lessons/contrib/browser-harness-cdp-browser-automation.md
 ```
 
 **Expected Output:**
 ```
-# (working tree status)
+Lesson: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
+# (line count)
 ```
 
 ## 文档

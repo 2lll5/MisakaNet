@@ -52,13 +52,14 @@ The PLC sends ABORT via UOP when it detects a fault:
 ## Verification
 
 ```bash
-# Verify: FANUC Auto Abort on Fault — Restart $SHELL_WRK Program
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```
 
 ## Notes

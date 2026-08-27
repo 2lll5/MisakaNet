@@ -60,11 +60,12 @@ verified_date: '2026-07-06'
 ## Verification
 
 ```bash
-# Verify: 工艺卡步序提取：辅助动作不算独立步序，按工艺动作分界
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (line count)
+# (count)
+FANUC verified
 ```

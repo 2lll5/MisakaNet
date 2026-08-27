@@ -119,26 +119,12 @@ timeout = 120
 ## Verification
 
 ```bash
-# 1. 检查当前镜像源配置
-pip config list
-
-# 2. 安装一个常用包，观察下载速度和来源 URL
-pip install requests -v
-# 正常输出应包含：
-# Downloading https://pypi.tuna.tsinghua.edu.cn/packages/...
-# Successfully installed requests-x.x.x
-
-# 3. 测试 SSL 连接是否正常
-python -c "import ssl; print(ssl.OPENSSL_VERSION)"
-python -c "import urllib.request; urllib.request.urlopen('https://pypi.tuna.tsinghua.edu.cn')"
-
-# 4. 安装一个较大的包验证超时设置是否生效
-pip install numpy -v
-# 应在超时时间内完成，不出现 ReadTimeoutError
-
-# 5. 检查 pip 版本（旧版本可能有额外 SSL 问题，建议升级）
-pip --version
-pip install --upgrade pip
+echo "Lesson: pip install Network Timeout / SSL ErrorFix"
+wc -l lessons/contrib/pip-install-timeout-ssl.md
 ```
 
-如果以上方案均无效，可尝试使用 `conda` 替代 `pip`，或通过 VPN 改善网络环境后再安装。
+**Expected Output:**
+```
+Lesson: pip install Network Timeout / SSL ErrorFix
+# (line count)
+```

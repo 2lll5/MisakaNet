@@ -109,30 +109,14 @@ git config --global mergetool.vscode.cmd 'code --wait $MERGED'
 ## Verification
 
 ```bash
-# 确认工作区干净，无残留冲突文件
-git status --short | head -10
-
-# 查看最新的合并提交
-git log --oneline -5
-
-# 确认文件中没有遗漏的冲突标记（无输出即为正常）
-grep -rn "<<<<<<\|=======\|>>>>>>>" src/
+git status --short | head -5
+git log --oneline -3
 ```
 
 **Expected Output:**
-
 ```
-# git status --short 输出（合并完成后应为空或只有正常修改）
-# （无输出表示工作区干净）
-
-# git log --oneline -5 输出示例
-a3f8c21 Merge branch 'feature/switch-to-mysql' into main
-d9e1b04 feat: add staging database config
-7c2a3f1 feat: upgrade to PostgreSQL 14
-...
-
-# grep 冲突标记（无输出表示冲突已全部清除）
-# （无输出）
+# (status)
+# (recent)
 ```
 
 ## 预防

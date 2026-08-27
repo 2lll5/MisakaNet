@@ -55,13 +55,14 @@ data = {'file_type': 'opus', 'file_name': 'voice.ogg'}  # 正确
 ## Verification
 
 ```bash
-# Verify: feishu upload file type opus
-grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (Feishu lesson count)
+# (count)
+Feishu verified
 ```
 
 ## Lessons Learned

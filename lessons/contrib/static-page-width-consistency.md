@@ -51,12 +51,13 @@ verification: metadata-normalized
 ## Verification
 
 ```bash
-# Verify: static page width consistency
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: static page width consistency"
+wc -l lessons/contrib/static-page-width-consistency.md
 ```
 
 **Expected Output:**
 ```
+Lesson: static page width consistency
 # (line count)
 ```
 

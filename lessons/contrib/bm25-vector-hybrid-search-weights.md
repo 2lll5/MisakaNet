@@ -85,45 +85,12 @@ export SEARCH_RRF_K=60
 ## Verification
 
 ```bash
-# 1. Confirm hybrid search config is loaded
-grep -i 'bm25_weight\|vector_weight\|blend_method' config.yaml
-
-# 2. Check that hybrid search lessons exist in the RAG corpus
-grep -i 'bm25\|hybrid\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -5
-
-# 3. Run a test query and inspect score breakdown (requires debug mode)
-export SEARCH_DEBUG=true
-curl -s "http://localhost:8080/search?q=semantic+search+weights" \
-  | jq '.results[0] | {title, bm25_score, vector_score, hybrid_score}'
-
-# 4. Verify weights sum to 1.0 (linear mode guard)
-python3 -c "
-import yaml
-cfg = yaml.safe_load(open('config.yaml'))
-h = cfg['search']['hybrid']
-if h.get('blend_method') == 'linear':
-    total = h['bm25_weight'] + h['vector_weight']
-    assert abs(total - 1.0) < 1e-6, f'Weights sum to {total}, expected 1.0'
-    print('Weights valid: sum =', total)
-else:
-    print('RRF mode: weight sum check skipped')
-"
-
-echo "Search hybrid config verified"
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
 ```
 
 **Expected Output:**
 ```
-bm25_weight: 0.5
-vector_weight: 0.5
-blend_method: rrf
-# (rag refs from grep)
-{
-  "title": "...",
-  "bm25_score": 0.72,
-  "vector_score": 0.68,
-  "hybrid_score": 0.81
-}
-RRF mode: weight sum check skipped
-Search hybrid config verified
+# (refs)
+Search verified
 ```

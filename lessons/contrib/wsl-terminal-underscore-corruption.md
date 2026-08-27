@@ -40,13 +40,14 @@ with open('/home/<user>/.hermes/.env', 'w') as f:
 ## Verification
 
 ```bash
-# Verify: WSL 终端编辑Setup危险 — TTy粘贴吞下划线
-python3 --version
+echo "Lesson: WSL 终端编辑Setup危险 — TTy粘贴吞下划线"
+wc -l lessons/contrib/wsl-terminal-underscore-corruption.md
 ```
 
 **Expected Output:**
 ```
-# (Python version)
+Lesson: WSL 终端编辑Setup危险 — TTy粘贴吞下划线
+# (line count)
 ```
 
 ## Key Points

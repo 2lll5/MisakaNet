@@ -21,13 +21,14 @@ title: Agent 手动Update步骤（update Timeout Handling）
 ## Verification
 
 ```bash
-# Verify: Agent 手动Update步骤（update Timeout Handling）
-git status --short
+echo "Lesson: Agent 手动Update步骤（update Timeout Handling）"
+wc -l lessons/contrib/agent-manual-update-timeout.md
 ```
 
 **Expected Output:**
 ```
-# (working tree status)
+Lesson: Agent 手动Update步骤（update Timeout Handling）
+# (line count)
 ```
 
 ## Agent 手动更新步骤（update 超时处理）

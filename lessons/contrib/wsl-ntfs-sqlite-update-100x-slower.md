@@ -49,13 +49,14 @@ cp /tmp/data.db /mnt/d/project/data.db
 ## Verification
 
 ```bash
-# Verify: WSL NTFS SQLite UPDATE 100x slower than ext4
-cp /mnt/d/project/data.db /tmp/data.db
+echo "Lesson: WSL NTFS SQLite UPDATE 100x slower than ext4"
+wc -l lessons/contrib/wsl-ntfs-sqlite-update-100x-slower.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: WSL NTFS SQLite UPDATE 100x slower than ext4
+# (line count)
 ```
 
 ## Notes

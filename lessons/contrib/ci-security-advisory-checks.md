@@ -69,12 +69,13 @@ Add security advisory checks to audit workflow:
 ## Verification
 
 ```bash
-# Verify: CI security checks: action pinning, permissions, README, cod
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: CI security checks: action pinning, permissions, R"
+wc -l lessons/contrib/ci-security-advisory-checks.md
 ```
 
 **Expected Output:**
 ```
+Lesson: CI security checks: action pinning, permissions, R
 # (line count)
 ```
 

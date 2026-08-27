@@ -48,13 +48,14 @@ basename	{w o2 h en3 AA ai4 ...}	{type}	{language}
 ## Verification
 
 ```bash
-# Verify: gpt sovits name2text arpabet
-wc -l lessons/contrib/*.md | tail -1
+echo "Lesson: gpt sovits name2text arpabet"
+wc -l lessons/contrib/gpt-sovits-name2text-arpabet.md
 ```
 
 **Expected Output:**
 ```
-# (total lesson lines)
+Lesson: gpt sovits name2text arpabet
+# (line count)
 ```
 
 ## Lessons Learned

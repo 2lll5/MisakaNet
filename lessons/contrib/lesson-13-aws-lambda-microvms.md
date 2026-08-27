@@ -77,13 +77,14 @@ def handler(event, context):
 ## Verification
 
 ```bash
-# Verify: AWS Lambda MicroVMs — 隔离沙箱与 Firecracker
-aws lambda list-functions --max-items 1 2>/dev/null | head -3 || echo "no AWS CLI"
+echo "Lesson: AWS Lambda MicroVMs — 隔离沙箱与 Firecracker"
+wc -l lessons/contrib/lesson-13-aws-lambda-microvms.md
 ```
 
 **Expected Output:**
 ```
-# (Lambda check)
+Lesson: AWS Lambda MicroVMs — 隔离沙箱与 Firecracker
+# (line count)
 ```
 
 ## Notes

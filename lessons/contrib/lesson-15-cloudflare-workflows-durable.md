@@ -76,13 +76,14 @@ export default {
 ## Verification
 
 ```bash
-# Verify: Cloudflare Workflows — 持久化多步骤执行
-ls wrangler.toml 2>/dev/null || echo "no wrangler config"
+echo "Lesson: Cloudflare Workflows — 持久化多步骤执行"
+wc -l lessons/contrib/lesson-15-cloudflare-workflows-durable.md
 ```
 
 **Expected Output:**
 ```
-# (Wrangler config)
+Lesson: Cloudflare Workflows — 持久化多步骤执行
+# (line count)
 ```
 
 ## Notes

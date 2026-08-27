@@ -42,13 +42,14 @@ Reports are stored at `~/audit_reports/audit_YYYY-MM-DD.json`.
 ## Verification
 
 ```bash
-# Verify: Knowledge Base 4-Sigma Quality Audit Pipeline
-pip --version
+echo "Lesson: Knowledge Base 4-Sigma Quality Audit Pipeline"
+wc -l lessons/contrib/kb-4sigma-quality-audit-pipeline.md
 ```
 
 **Expected Output:**
 ```
-# (pip version)
+Lesson: Knowledge Base 4-Sigma Quality Audit Pipeline
+# (line count)
 ```
 
 ## Scenario

@@ -41,13 +41,14 @@ Unit-test both paths: a fresh webhook event with no marker row credits funds; re
 ## Verification
 
 ```bash
-# Verify: Webhook duplicate delivery defeated by an over-broad dedupe 
-echo "webhook endpoint check"
+echo "Lesson: Webhook duplicate delivery defeated by an over-bro"
+wc -l lessons/contrib/webhook-duplicate-delivery-dedupe-scope.md
 ```
 
 **Expected Output:**
 ```
-# (webhook placeholder)
+Lesson: Webhook duplicate delivery defeated by an over-bro
+# (line count)
 ```
 
 ## Notes

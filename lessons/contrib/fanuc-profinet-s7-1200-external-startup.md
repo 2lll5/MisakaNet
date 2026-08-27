@@ -116,11 +116,12 @@ DO[3]     → 报警信号
 ## Verification
 
 ```bash
-# Verify: FANUC PROFINET Communication with Siemens S7-1200 and Extern
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```

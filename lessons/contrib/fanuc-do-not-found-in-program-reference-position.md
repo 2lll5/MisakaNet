@@ -59,13 +59,14 @@ Space functions can activate DOs based on robot position within defined volumes.
 ## Verification
 
 ```bash
-# Verify: FANUC DO Not Found in Program — Check Reference Position
-git status --short
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (working tree status)
+# (count)
+FANUC verified
 ```
 
 ## Notes

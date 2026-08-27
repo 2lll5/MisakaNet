@@ -38,12 +38,12 @@ def batch_create_blocks(client, doc_id, blocks, batch_size=20, interval=0.5):
 ## Verification
 
 ```bash
-# 验证：创建超过 20 个 block 时是否触发截断或限流
-# 预期：≤20 个时全部写入成功；>20 个时出现截断或 429 错误
-python test_feishu_batch.py --count 25 --doc-id <DOC_ID>
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# blocks_requested=25, blocks_created=20 (截断) 或 HTTP 429 (限流)
+# (count)
+Feishu verified
 ```

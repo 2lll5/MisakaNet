@@ -80,13 +80,14 @@ Repository traffic is active, but public lesson-use evidence is still being coll
 ## Verification
 
 ```bash
-# Verify: Repository Traffic Is Not Lesson Use
-wc -l lessons/contrib/*.md | tail -1
+echo "Lesson: Repository Traffic Is Not Lesson Use"
+wc -l lessons/contrib/repository-traffic-is-not-lesson-use.md
 ```
 
 **Expected Output:**
 ```
-# (total lesson lines)
+Lesson: Repository Traffic Is Not Lesson Use
+# (line count)
 ```
 
 ## Next Agent Prompt

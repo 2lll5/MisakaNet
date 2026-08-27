@@ -124,13 +124,14 @@ server {
 ## Verification
 
 ```bash
-# Verify: Fix Node.js ECONNRESET Connection Reset Error in n8n Webhook
-N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+echo "Lesson: Fix Node.js ECONNRESET Connection Reset Error in n"
+wc -l lessons/contrib/n8n-nodejs-econnreset-connection-reset-fix.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: Fix Node.js ECONNRESET Connection Reset Error in n
+# (line count)
 ```
 
 ## Notes

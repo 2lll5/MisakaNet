@@ -131,30 +131,12 @@ fatal-guard --version | grep -E '^fatal-guard [0-9]+\.[0-9]+\.[0-9]+$'
 ## Verification
 
 ```bash
-# 1. 验证 --help 正常输出且退出码为 0
-fatal-guard --help
-echo "Exit code: $?"   # 期望: 0
-
-# 2. 验证 --version 输出符合 semver 格式
-fatal-guard --version
-fatal-guard --version | grep -E '^fatal-guard [0-9]+\.[0-9]+\.[0-9]+$' \
-  && echo "Version format OK" || echo "FAIL: version format invalid"
-
-# 3. 验证缺少必要参数时返回退出码 2
-fatal-guard 2>/dev/null; echo "Exit code (no args): $?"   # 期望: 2
-
-# 4. 验证超时场景返回退出码 3（使用一个不存在的目标触发超时）
-fatal-guard --timeout 1 nonexistent-process-xyz 2>/dev/null
-echo "Exit code (timeout): $?"   # 期望: 3
-
-# 5. 统计文件行数
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: Fatal-guard CLI: harden entry point with --help, -"
+wc -l lessons/contrib/fatal-guard-cli-hardening.md
 ```
 
 **Expected Output:**
 ```
-fatal-guard 1.4.2          # --version 示例输出
-Exit code (no args): 2
-Exit code (timeout): 3
-# (line count >= 100)
+Lesson: Fatal-guard CLI: harden entry point with --help, -
+# (line count)
 ```

@@ -77,13 +77,14 @@ def is_truncated(response_text: str) -> bool:
 ## Verification
 
 ```bash
-# Verify: 模型输出截断 / JSON 解析失败Handling
-grep -r "rag\|retrieval" lessons/contrib/rag-*.md 2>/dev/null | wc -l
+echo "Lesson: 模型输出截断 / JSON 解析失败Handling"
+wc -l lessons/contrib/model-output-fix.md
 ```
 
 **Expected Output:**
 ```
-# (RAG lesson count)
+Lesson: 模型输出截断 / JSON 解析失败Handling
+# (line count)
 ```
 
 ## Related

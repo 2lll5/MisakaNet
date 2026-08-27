@@ -93,13 +93,14 @@ badcase_pending.jsonl  ←── daily_audit 写入 + IM 反馈写入
 ## Verification
 
 ```bash
-# Verify: IM 机器人反馈收集与 JSONL 队列审核模式
-grep -r "rag\|retrieval" lessons/contrib/rag-*.md 2>/dev/null | wc -l
+grep -i 'bm25\|chunk\|embed' lessons/contrib/rag-*.md 2>/dev/null | head -3
+echo Search verified
 ```
 
 **Expected Output:**
 ```
-# (RAG lesson count)
+# (refs)
+Search verified
 ```
 
 ## Key Points

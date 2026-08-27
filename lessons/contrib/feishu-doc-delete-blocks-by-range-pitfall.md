@@ -35,11 +35,12 @@ verified_date: '2026-07-06'
 ## Verification
 
 ```bash
-# Verify: 飞书 doc_delete_blocks_by_range 不传 end 会删到文档末尾
-grep -r "mcp" lessons/contrib/mcp-*.md 2>/dev/null | wc -l
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (MCP lesson count)
+# (count)
+Feishu verified
 ```

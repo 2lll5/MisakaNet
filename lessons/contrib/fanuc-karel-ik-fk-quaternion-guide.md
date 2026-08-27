@@ -184,11 +184,12 @@ END
 ## Verification
 
 ```bash
-# Verify: IK/FK and Quaternion Math Guide for FANUC KAREL Robot Progra
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```

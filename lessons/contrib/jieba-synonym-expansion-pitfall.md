@@ -60,12 +60,13 @@ def expand_query_with_synonyms(query, synonyms):
 ## Verification
 
 ```bash
-# Verify: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归"
+wc -l lessons/contrib/jieba-synonym-expansion-pitfall.md
 ```
 
 **Expected Output:**
 ```
+Lesson: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归
 # (line count)
 ```
 

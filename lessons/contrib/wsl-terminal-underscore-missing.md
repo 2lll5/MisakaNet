@@ -39,11 +39,12 @@ cat ~/temp.txt
 ## Verification
 
 ```bash
-# Verify: WSL Windows 终端复制粘贴吞下划线Issue
-uname -a 2>/dev/null || echo "not on WSL"
+echo "Lesson: WSL Windows 终端复制粘贴吞下划线Issue"
+wc -l lessons/contrib/wsl-terminal-underscore-missing.md
 ```
 
 **Expected Output:**
 ```
-# (system info)
+Lesson: WSL Windows 终端复制粘贴吞下划线Issue
+# (line count)
 ```

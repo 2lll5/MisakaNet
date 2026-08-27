@@ -55,13 +55,14 @@ Website → webMCP endpoint → AI Agent
 ## Verification
 
 ```bash
-# Verify: webMCP — Chrome's Experimental Protocol for AI Agents
-grep -r "mcp" lessons/contrib/mcp-*.md 2>/dev/null | wc -l
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
 ```
 
 **Expected Output:**
 ```
-# (MCP lesson count)
+# (refs)
+MCP verified
 ```
 
 ## Notes

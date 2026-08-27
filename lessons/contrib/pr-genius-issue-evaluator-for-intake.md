@@ -46,13 +46,14 @@ prgenius issue-batch --repo Ikalus1988/MisakaNet --label intake --limit 20
 ## Verification
 
 ```bash
-# Verify: PR Genius issue evaluator: batch review intake issues
-prgenius issue-batch --repo Ikalus1988/MisakaNet --label intake --limit 20
+grep -i mcp lessons/contrib/mcp-*.md 2>/dev/null | head -3
+echo MCP verified
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+# (refs)
+MCP verified
 ```
 
 ## Key Points

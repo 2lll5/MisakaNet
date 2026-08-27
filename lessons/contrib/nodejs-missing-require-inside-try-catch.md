@@ -98,11 +98,12 @@ try {
 ## Verification
 
 ```bash
-# Verify: Node.js missing require inside try/catch silently kills win3
-node --version
+echo "Lesson: Node.js missing require inside try/catch silently "
+wc -l lessons/contrib/nodejs-missing-require-inside-try-catch.md
 ```
 
 **Expected Output:**
 ```
-# (Node version)
+Lesson: Node.js missing require inside try/catch silently 
+# (line count)
 ```

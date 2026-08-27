@@ -160,13 +160,14 @@ Don't enable Twitter/Reddit/etc. "just in case". Each cookie-based channel:
 ## Verification
 
 ```bash
-# Verify: Agent-Reach v1.5.0 doctor Baseline: 4/15 Channels Available 
-git status --short
+echo "Lesson: Agent-Reach v1.5.0 doctor Baseline: 4/15 Channels "
+wc -l lessons/contrib/lesson-10-agent-reach-doctor-baseline.md
 ```
 
 **Expected Output:**
 ```
-# (working tree status)
+Lesson: Agent-Reach v1.5.0 doctor Baseline: 4/15 Channels 
+# (line count)
 ```
 
 ## Verification (self-check)

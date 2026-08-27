@@ -28,12 +28,13 @@ if (first.data.memory.len > std_size) {
 ## Verification
 
 ```bash
-# Verify: Finding and fixing Ghostty's largest memory leak
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: Finding and fixing Ghostty's largest memory leak"
+wc -l lessons/contrib/finding-and-fixing-ghostty-s-largest-memory-leak.md
 ```
 
 **Expected Output:**
 ```
+Lesson: Finding and fixing Ghostty's largest memory leak
 # (line count)
 ```
 

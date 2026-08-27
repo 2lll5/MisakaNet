@@ -53,12 +53,13 @@ timeout: 30    # 如果需要数字（无注释）
 ## Verification
 
 ```bash
-# Verify: YAML 内联注释导致类型强制转换失败
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: YAML 内联注释导致类型强制转换失败"
+wc -l lessons/contrib/yaml-inline-comment-type-coercion.md
 ```
 
 **Expected Output:**
 ```
+Lesson: YAML 内联注释导致类型强制转换失败
 # (line count)
 ```
 

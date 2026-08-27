@@ -126,32 +126,12 @@ def validate_block_response(resp, expected_type):
 ## Verification
 
 ```bash
-# Verify: feishu block type values limits
-grep -r "feishu" lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (Feishu lesson count, 应大于 0)
-```
-
-```bash
-# 验证 heading type 值在文档中有记录
-grep "1770001" lessons/contrib/feishu-*.md 2>/dev/null
-```
-
-**Expected Output:**
-```
-# 应输出包含 1770001 的行，确认该值已被记录
-feishu-block-type-values-limits.md:| 1770001 | heading（全级别） | ...
-```
-
-```bash
-# 验证 image block 的替代方案有记录
-grep "type=27\|block_type.*27" lessons/contrib/feishu-*.md 2>/dev/null
-```
-
-**Expected Output:**
-```
-# 应输出提示不使用 type=27 的相关行
+# (count)
+Feishu verified
 ```

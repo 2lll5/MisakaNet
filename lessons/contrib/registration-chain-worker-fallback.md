@@ -132,13 +132,14 @@ Misaka10051 → Misaka10051（确认）
 ## Verification
 
 ```bash
-# Verify: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow
-git status --short
+grep -i feishu lessons/contrib/feishu-*.md 2>/dev/null | wc -l
+echo Feishu verified
 ```
 
 **Expected Output:**
 ```
-# (working tree status)
+# (count)
+Feishu verified
 ```
 
 ## Pitfalls

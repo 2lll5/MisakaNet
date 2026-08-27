@@ -45,12 +45,13 @@ if prompt_text is None or len(prompt_text) == 0:
 ## Verification
 
 ```bash
-# Verify: gpt sovits ref free bug
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: gpt sovits ref free bug"
+wc -l lessons/contrib/gpt-sovits-ref-free-bug.md
 ```
 
 **Expected Output:**
 ```
+Lesson: gpt sovits ref free bug
 # (line count)
 ```
 

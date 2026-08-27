@@ -63,11 +63,12 @@ re.findall(r"<div>([^<]*)</div>", text)
 ## Verification
 
 ```bash
-# Verify: 正则表达式 debugging — 贪婪匹配造成的意外结果
-python3 -c "import re; print(re.__version__)"
+echo "Lesson: 正则表达式 debugging — 贪婪匹配造成的意外结果"
+wc -l lessons/contrib/regex-greedy-matching.md
 ```
 
 **Expected Output:**
 ```
-# (regex version)
+Lesson: 正则表达式 debugging — 贪婪匹配造成的意外结果
+# (line count)
 ```

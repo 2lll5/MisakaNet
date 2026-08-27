@@ -44,13 +44,14 @@ Inspect the RAG config, ingestion log, retrieval log, and cache status to confir
 ## Verification
 
 ```bash
-# Verify: BGE Embedding Fallback Crash
-node --version
+echo "Lesson: BGE Embedding Fallback Crash"
+wc -l lessons/contrib/bge-embedding-fallback-crash.md
 ```
 
 **Expected Output:**
 ```
-# (Node version)
+Lesson: BGE Embedding Fallback Crash
+# (line count)
 ```
 
 ## Scenario

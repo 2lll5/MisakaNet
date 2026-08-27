@@ -54,13 +54,14 @@ WSL2 (Linux 虚拟机) → 本机虚拟网卡 → Windows 主机 :10086
 ## Verification
 
 ```bash
-# Verify: firewall port open not public
-node --version
+echo "Lesson: firewall port open not public"
+wc -l lessons/contrib/firewall-port-open-not-public.md
 ```
 
 **Expected Output:**
 ```
-# (Node version)
+Lesson: firewall port open not public
+# (line count)
 ```
 
 ## Notes

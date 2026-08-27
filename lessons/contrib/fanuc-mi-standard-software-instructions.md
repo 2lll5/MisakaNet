@@ -198,13 +198,14 @@ WAITING FOR: DI[89] = ON; (Zone Ready 1)
 ## Verification
 
 ```bash
-# Verify: FANUC MI Standard Software — Complete Instruction Reference 
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```
 
 ## Notes

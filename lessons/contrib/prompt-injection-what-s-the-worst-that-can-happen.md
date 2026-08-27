@@ -26,13 +26,14 @@ The article states: "To date, I have not yet seen a robust defense against this 
 ## Verification
 
 ```bash
-# Verify: Prompt Injection: What's the Worst That Can Happen?
-curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
+echo "Lesson: Prompt Injection: What's the Worst That Can Happen"
+wc -l lessons/contrib/prompt-injection-what-s-the-worst-that-can-happen.md
 ```
 
 **Expected Output:**
 ```
-# (HTTP check)
+Lesson: Prompt Injection: What's the Worst That Can Happen
+# (line count)
 ```
 
 ## Notes

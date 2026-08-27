@@ -53,12 +53,13 @@ Each agent's memory is private by default. Sharing is explicit and auditable.
 ## Verification
 
 ```bash
-# Verify: The Private Agent Memory Fallacy — Why Portable Memory Walle
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: The Private Agent Memory Fallacy — Why Portable Me"
+wc -l lessons/contrib/private-agent-memory-fallacy.md
 ```
 
 **Expected Output:**
 ```
+Lesson: The Private Agent Memory Fallacy — Why Portable Me
 # (line count)
 ```
 

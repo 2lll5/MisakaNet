@@ -136,11 +136,12 @@ grep -i "BYTES_AHEAD" MM_RCV_NTFY.kl
 ## Verification
 
 ```bash
-# Verify: FANUC KL: BYTES_AHEAD 是 Karel 内置 Procedure
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```

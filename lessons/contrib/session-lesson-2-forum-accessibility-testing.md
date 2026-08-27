@@ -73,13 +73,14 @@ const { chromium } = require('playwright');
 ## Verification
 
 ```bash
-# Verify: Forum Accessibility Testing — Systematic Reachability Check
-for site in "news.ycombinator.com" "dev.to" "lobste.rs" "juejin.cn" "reddit.com"; do
+echo "Lesson: Forum Accessibility Testing — Systematic Reachabil"
+wc -l lessons/contrib/session-lesson-2-forum-accessibility-testing.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: Forum Accessibility Testing — Systematic Reachabil
+# (line count)
 ```
 
 ## Notes

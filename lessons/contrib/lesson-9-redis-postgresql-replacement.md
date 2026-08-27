@@ -99,12 +99,13 @@ COMMIT;
 ## Verification
 
 ```bash
-# Verify: Redis → PostgreSQL 替换 — 缓存/PubSub/队列统一
-wc -l lessons/contrib/"$(basename "$(git ls-files --full-name | grep -v README | head -1)")"
+echo "Lesson: Redis → PostgreSQL 替换 — 缓存/PubSub/队列统一"
+wc -l lessons/contrib/lesson-9-redis-postgresql-replacement.md
 ```
 
 **Expected Output:**
 ```
+Lesson: Redis → PostgreSQL 替换 — 缓存/PubSub/队列统一
 # (line count)
 ```
 

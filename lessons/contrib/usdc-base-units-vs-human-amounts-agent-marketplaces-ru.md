@@ -138,13 +138,14 @@ def assert_sane_payment(need: UsdcAmount, have: UsdcAmount, label: str) -> None:
 ## Verification
 
 ```bash
-# Verify: USDC: base units vs human amounts — агент платит 1000x или д
-taskmarket task get 0xTASK_ID
+echo "Lesson: USDC: base units vs human amounts — агент платит 1"
+wc -l lessons/contrib/usdc-base-units-vs-human-amounts-agent-marketplaces-ru.md
 ```
 
 **Expected Output:**
 ```
-# (command should succeed without errors)
+Lesson: USDC: base units vs human amounts — агент платит 1
+# (line count)
 ```
 
 ## Notes

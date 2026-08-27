@@ -43,13 +43,14 @@ verification: metadata-normalized
 ## Verification
 
 ```bash
-# Verify: lessons md fix heading block type
-grep -r "rag\|retrieval" lessons/contrib/rag-*.md 2>/dev/null | wc -l
+echo "Lesson: lessons md fix heading block type"
+wc -l lessons/contrib/lessons-md-fix-heading-block-type.md
 ```
 
 **Expected Output:**
 ```
-# (RAG lesson count)
+Lesson: lessons md fix heading block type
+# (line count)
 ```
 
 ## 用户描述

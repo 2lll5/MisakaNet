@@ -115,13 +115,14 @@ message User {
 ## Verification
 
 ```bash
-# Verify: gRPC vs OpenAPI vs REST — API 协议选择指南
-curl -s -o /dev/null -w "%{http_code}" https://httpbin.org/get
+echo "Lesson: gRPC vs OpenAPI vs REST — API 协议选择指南"
+wc -l lessons/contrib/lesson-19-grpc-openapi-rest-comparison.md
 ```
 
 **Expected Output:**
 ```
-# (HTTP check)
+Lesson: gRPC vs OpenAPI vs REST — API 协议选择指南
+# (line count)
 ```
 
 ## Notes

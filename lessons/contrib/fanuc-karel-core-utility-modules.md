@@ -229,11 +229,12 @@ delim_check(delim) : BOOLEAN    -- 分隔符是否有效
 ## Verification
 
 ```bash
-# Verify: KAREL Core Utility Modules: errors, system, Strings API Refe
-grep -r "fanuc" lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+grep -i fanuc lessons/contrib/fanuc-*.md 2>/dev/null | wc -l
+echo FANUC verified
 ```
 
 **Expected Output:**
 ```
-# (FANUC lesson count)
+# (count)
+FANUC verified
 ```
