@@ -54,8 +54,8 @@ elif command -v paplay &>/dev/null; then
     paplay "$FILE" &>/dev/null &
 elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
     # Windows (Git Bash / MSYS2)
-    powershell -Command "Start-Process -FilePath '$FILE' -WindowStyle Hidden" &>/dev/null &
+    powershell -Command "\$wmp = New-Object -ComObject WMPlayer.OCX; \$wmp.URL = '$FILE'; \$wmp.controls.play(); Start-Sleep -Milliseconds 200" &>/dev/null &
 elif command -v powershell.exe &>/dev/null; then
     # Windows (WSL)
-    powershell.exe -Command "Start-Process -FilePath '$(wslpath -w "$FILE")' -WindowStyle Hidden" &>/dev/null &
+    powershell.exe -Command "\$wmp = New-Object -ComObject WMPlayer.OCX; \$wmp.URL = '$(wslpath -w "$FILE")'; \$wmp.controls.play(); Start-Sleep -Milliseconds 200" &>/dev/null &
 fi

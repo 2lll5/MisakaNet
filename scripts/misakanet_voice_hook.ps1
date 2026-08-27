@@ -15,7 +15,7 @@ $ErrorActionPreference = "SilentlyContinue"
 
 # Get script directory
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$VoiceDir = Join-Path (Split-Path -Parent $ScriptDir) "docs\voice"
+$VoiceDir = Join-Path (Split-Path -Parent $ScriptDir) "docs\assets\voice"
 
 # Read stdin (tool result JSON)
 $Input = [Console]::In.ReadToEnd()
@@ -33,8 +33,8 @@ if ([string]::IsNullOrEmpty($Voice)) { exit 0 }
 # Map voice name to file
 $FileMap = @{
     "connect-success" = "connect-success.mp3"
-    "pair-success" = "pair-success.mp3"
-    "lesson-found" = "lesson-found.mp3"
+    "pair-success"    = "pair-success.mp3"
+    "lesson-found"    = "lesson-found.mp3"
     "failure-warning" = "failure-warning.mp3"
 }
 
@@ -45,14 +45,25 @@ $FilePath = Join-Path $VoiceDir $FileName
 
 if (-not (Test-Path $FilePath)) { exit 0 }
 
-# Play audio using Windows Media Player (non-blocking)
+# Play audio using Windows Media Player COM / MediaPlayer (non-blocking)
 try {
-    $Player = New-Object System.Media.SoundPlayer
-    $Player.SoundLocation = $FilePath
-    $Player.Play()
+    $wmp = New-Object -ComObject WMPlayer.OCX
+    $wmp.URL = $FilePath
+    $wmp.controls.play()
+    Start-Sleep -Milliseconds 250
+    $wmp.close()
+    [System.Runtime.InteropServices.Marshal]::ReleaseComObject($wmp) | Out-Null
 } catch {
-    # Fallback: use Start-Process
-    Start-Process -FilePath $FilePath -WindowStyle Hidden
+    try {
+        Add-Type -AssemblyName presentationCore
+        $Player = New-Object System.Windows.Media.MediaPlayer
+        $Player.Open([System.Uri]::new($FilePath))
+        $Player.Play()
+        Start-Sleep -Milliseconds 250
+        $Player.Close()
+    } catch {
+        # Graceful fallback
+    }
 }
 
 exit 0

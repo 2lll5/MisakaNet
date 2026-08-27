@@ -14,7 +14,7 @@ setlocal enabledelayedexpansion
 
 REM Get script directory
 set "SCRIPT_DIR=%~dp0"
-set "VOICE_DIR=%SCRIPT_DIR%..\docs\voice"
+set "VOICE_DIR=%SCRIPT_DIR%..\docs\assets\voice"
 
 REM Read stdin (tool result JSON)
 set "INPUT="
@@ -33,7 +33,7 @@ if "!VOICE!"=="failure-warning" set "FILE=%VOICE_DIR%\failure-warning.mp3"
 
 if not exist "!FILE!" exit /b 0
 
-REM Play audio using PowerShell (non-blocking)
-powershell -Command "Start-Process -FilePath '!FILE!' -WindowStyle Hidden" 2>nul
+REM Play audio using Windows Media Player COM (non-blocking)
+powershell -Command "$wmp = New-Object -ComObject WMPlayer.OCX; $wmp.URL = '!FILE!'; $wmp.controls.play(); Start-Sleep -Milliseconds 200" 2>nul
 
 exit /b 0
