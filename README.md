@@ -9,6 +9,8 @@
 > **Stop debugging the same error twice.**
 >
 > MisakaNet searches 310+ failure lessons so your agent skips known bugs.
+>
+> **Agent-native interfaces** — [MCP server](https://misakanet.org/mcp) with 6 tools (`misakanet_search`, `misakanet_get_lesson`, `misakanet_submit_intake`, `misakanet_write_lesson`, `misakanet_preflight`, `misakanet_register`), **WebMCP** (browser `document.modelContext`), `llms.txt` / `llms-full.txt`, and A2A discovery via `.well-known/agent-card.json`.
 
 <p align="center">
   <img src="promotional/misaka-compare.jpg" width="720" alt="MisakaNet — Before: 30+ min manual debugging vs After: 0.02s with MCP"/>
@@ -22,6 +24,8 @@
 [![License](https://img.shields.io/github/license/Ikalus1988/MisakaNet?style=flat&color=blueviolet)](https://github.com/Ikalus1988/MisakaNet/blob/main/LICENSE)
 [![Glama score](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/badges/score.svg)](https://glama.ai/mcp/servers/Ikalus1988/MisakaNet/score)
 [![MCP Quickstart](https://img.shields.io/badge/MCP-quickstart-green)](docs/mcp-quickstart.md)
+[![dsh.so risk](https://www.dsh.so/badge/misakanet.svg)](https://www.dsh.so/artifact/misakanet/)
+[![dsh.so install](https://www.dsh.so/badge/install/misakanet.svg)](https://www.dsh.so/artifact/misakanet/)
 [![Stars](https://img.shields.io/github/stars/Ikalus1988/MisakaNet?style=social)](https://github.com/Ikalus1988/MisakaNet/stargazers)
 [![MCP Toplist](https://mcptoplist.com/badge/io.github.Ikalus1988%2Fmisakanet.svg)](https://mcptoplist.com/server/io.github.Ikalus1988%2Fmisakanet)
 [![smithery badge](https://smithery.ai/badge/misakanet/misakanet)](https://smithery.ai/servers/misakanet/misakanet)
