@@ -7,8 +7,7 @@ on:
   workflow_dispatch:          # manual trigger
     inputs:
       scenarios:
-        description: 'Number of scenarios'
-        default: '4'
+        description: 'Number of scenarios (leave empty for full scan)'
         required: false
       models:
         description: 'Comma-separated model ids (default: free llama/qwen set)'
