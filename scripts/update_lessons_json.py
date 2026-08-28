@@ -17,11 +17,13 @@ INDEXED_DIRS = ("core", "contrib")
 
 
 def parse_frontmatter(text: str) -> dict:
-    """Parse only the standard JSON frontmatter form.
+    """Parse the standard JSON frontmatter form.
 
     Historical contrib files contain YAML-ish wrappers, bare JSON metadata, and
-    inline `---{"title": ...}---` blocks. The current public index treats those
-    as legacy content instead of trusted metadata, so keep parsing strict here.
+    inline `---{"title": ...}---` blocks. Some lessons also append a YAML-ish
+    `provenance:` block after the JSON object inside the same frontmatter
+    delimiters (see 081e64d5). `raw_decode` extracts only the leading JSON
+    object and ignores trailing non-JSON content, so those files still parse.
     """
     if not text.startswith("---\n"):
         return {}
@@ -32,8 +34,8 @@ def parse_frontmatter(text: str) -> dict:
     if not raw.startswith("{"):
         return {}
     try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
+        return json.JSONDecoder().raw_decode(raw)[0]
+    except (json.JSONDecodeError, ValueError):
         return {}
 
 
