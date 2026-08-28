@@ -549,7 +549,35 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
       results = applyDetailLevel(results, detail);
     }
 
+    // PRD ①: no-match closed loop — embed intake guidance so the agent can
+    // submit the gap in the same request chain instead of dropping it.
     const aura = await getIdentityAura(env, authToken);
+    if (!results || results.length === 0) {
+      return {
+        results: [],
+        no_match: true,
+        query: args.query,
+        source,
+        detail,
+        suggestion:
+          `No MisakaNet lesson matched "${args.query}". ` +
+          `This is a knowledge gap. If this is a real failure you need documented, ` +
+          `call misakanet_submit_intake with kind="missing_lesson", ` +
+          `problem="<short description of the failure>", ` +
+          `error="<the error text>", source="<your client>". ` +
+          `No account or email required; a maintainer will review and cover it.`,
+        intake: {
+          tool: "misakanet_submit_intake",
+          args: {
+            kind: "missing_lesson",
+            problem: "<short description of the failure>",
+            error: args.query,
+            source: "mcp",
+          },
+        },
+        identity: aura,
+      };
+    }
     return { results, source, detail, query: args.query, identity: aura };
   }
 

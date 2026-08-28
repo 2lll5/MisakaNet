@@ -5,12 +5,14 @@ on:
     paths:
       - "workers/register-proxy-sw.js"
       - "workers/mcp-endpoint.stress.test.mjs"
+      - "workers/mcp-no-match.test.mjs"
       - ".github/workflows/mcp-stress.yml"
   push:
     branches: [main]
     paths:
       - "workers/register-proxy-sw.js"
       - "workers/mcp-endpoint.stress.test.mjs"
+      - "workers/mcp-no-match.test.mjs"
   workflow_dispatch:
 
 permissions:
@@ -29,6 +31,9 @@ jobs:
         run: |
           set -o pipefail
           node --expose-gc --test workers/mcp-endpoint.stress.test.mjs 2>&1 | tee mcp-stress-results.txt
+      - name: Run MCP no-match tests (PRD ① intake loop)
+        run: |
+          node --test workers/mcp-no-match.test.mjs
       - name: Publish performance metrics
         if: always()
         run: |
