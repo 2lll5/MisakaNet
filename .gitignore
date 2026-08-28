@@ -49,6 +49,21 @@ workers/wrangler.api.jsonc
 .worktrees/
 data/sag.db
 
+# Local toolchain (agent session caches, OAuth vaults — machine-specific)
+.tools/
+.tmp-cf/
+.nodes/
+.npm-cache/
+.pnpm-store/
+.agent-reach-home/
+.cursor/mcp.json
+
+# Session handoff doc (contains credential hints — keep local)
+docs/prd/HANDOFF.md
+
+# Local status snapshot (deliberately removed from repo in ed0316f9)
+STATUS.md
+
 # Crawler flywheel metrics (local tracking)
 data/crawler_flywheel.jsonl
 
