@@ -40,13 +40,21 @@ RAG 知识库质量巡检需要每天抽取少量题目进行自动测试。如�
 核心代码：
 
 ```python
+from collections import defaultdict
+
+def group_by_key(items, key):
+    out = defaultdict(list)
+    for it in items:
+        out[it.get(key)].append(it)
+    return out
+
 def sample_questions(bank, l2_count=2, l3_count=5):
     l2 = [q for q in bank if q["level"] == "L2"]
     l3 = [q for q in bank if q["level"] != "L2"]
     l3_by_tag = group_by_key(l3, "tag")
 
     selected = random.sample(l2, min(l2_count, len(l2)))
-    for tag in random.shuffle(list(l3_by_tag.keys())):
+    for tag in random.sample(list(l3_by_tag.keys()), len(l3_by_tag)):  # shuffle → sample
         if len(selected) >= l2_count + l3_count:
             break
         selected.append(random.choice(l3_by_tag[tag]))

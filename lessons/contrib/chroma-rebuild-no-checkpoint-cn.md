@@ -49,7 +49,7 @@ def embed_and_build(chunks, model, collection, batch_size=5000):
 **启动方式改为后台独立运行**（不在 agent 里跑）：
 
 ```bash
-cd ~//hf-mirror.com \
+cd ~/.hermes/scripts \
 ~/.hermes/hermes-agent/.venv/bin/python3 ~/.hermes/scripts/build_edoc_chroma.py \
 2>&1 | tee /mnt/d/Eric/知识库/chroma_db_v3/build.log &
 ```

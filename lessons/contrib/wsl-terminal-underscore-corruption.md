@@ -22,7 +22,9 @@ Windows Terminal → WSL PTY 粘贴时，下划线 `_` 被吞掉（变成空格�
 
 ## Solution
 
-**永远不要**用 heredoc 或直接粘贴修改含下划线的配置文件。正确方式：
+**方案 A（推荐）：终端设置**——Windows Terminal 中关闭「将文本格式设置为 HTML」（设置 → 交互），避免粘贴时过滤下划线。备用：右键粘贴代替 Ctrl+Shift+V，或通过文件中转（Windows 写 `\\\\wsl$\\<distro>\\home\\<user>\\temp.txt`，WSL 侧 `cat ~/temp.txt`）。
+
+**方案 B（配置编辑安全）**：永远不要用 heredoc 或直接粘贴修改含下划线的配置文件。正确方式：
 
 ```python
 # WSL 终端编辑Setup危险 — TTy粘贴吞下划线
