@@ -17,26 +17,34 @@ INDEXED_DIRS = ("core", "contrib")
 
 
 def parse_frontmatter(text: str) -> dict:
-    """Parse the standard JSON frontmatter form.
+    """Parse lesson frontmatter: JSON first, then YAML fallback.
 
-    Historical contrib files contain YAML-ish wrappers, bare JSON metadata, and
-    inline `---{"title": ...}---` blocks. Some lessons also append a YAML-ish
-    `provenance:` block after the JSON object inside the same frontmatter
-    delimiters (see 081e64d5). `raw_decode` extracts only the leading JSON
-    object and ignores trailing non-JSON content, so those files still parse.
+    Older lessons use JSON frontmatter, some with a trailing YAML-ish
+    `provenance:` block (081e64d5) — raw_decode extracts only the leading JSON
+    object. Newer lessons (2026-08+) use YAML frontmatter, which the public
+    index now trusts too (build_worker_index.py already does). Falls back to
+    {} when neither parses.
     """
-    if not text.startswith("---\n"):
+    if not text.startswith("---\n") and not text.startswith("---"):
         return {}
     end = text.find("\n---", 4)
     if end == -1:
         return {}
     raw = text[4:end].strip()
-    if not raw.startswith("{"):
-        return {}
+    if raw.startswith("{"):
+        try:
+            return json.JSONDecoder().raw_decode(raw)[0]
+        except (json.JSONDecodeError, ValueError):
+            pass
+    # YAML fallback — import lazily so the script works without pyyaml
     try:
-        return json.JSONDecoder().raw_decode(raw)[0]
-    except (json.JSONDecodeError, ValueError):
-        return {}
+        import yaml
+        fm = yaml.safe_load(raw)
+        if isinstance(fm, dict):
+            return fm
+    except Exception:
+        pass
+    return {}
 
 
 def get_preview(content: str, max_chars: int = 2400) -> str:
@@ -93,6 +101,8 @@ def main():
                 continue
             content = f.read_text(encoding="utf-8", errors="replace")
             meta = parse_frontmatter(content)
+            # YAML frontmatter may yield non-JSON types (date, etc.) — normalize
+            meta = {k: (v.isoformat() if hasattr(v, "isoformat") else v) for k, v in meta.items()}
             title = meta.get("title", f.stem)
             domain = meta.get("domain", lesson_dir)
             if isinstance(domain, list):
