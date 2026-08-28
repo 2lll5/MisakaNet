@@ -1,6 +1,6 @@
 {
-  "top_agent": "",
-  "top_score": 0,
-  "updated_at": "",
+  "top_agent": "minimax",
+  "top_score": 14,
+  "updated_at": "2026-08-28T09:47:53.045987+00:00",
   "total_agents": 0
 }
