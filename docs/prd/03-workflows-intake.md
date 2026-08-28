@@ -1,18 +1,24 @@
 # PRD ③ Cloudflare Workflows —— intake 预处理流水线
 
-- **状态**: 🚧 **实施中（pipeline 脚本 + D1 草稿表完成，待部署）** · 优先级: 🟡 中 · 工作量: 中（2-3 天）
+- **状态**: ✅ **已实施（2026-08-28，CI 驱动 pipeline 上线）** · 优先级: 🟡 中 · 工作量: 中（2-3 天）
 - **创建**: 2026-08-28 · 维护: MisakaNet
 
-> **进度（2026-08-28）**：
+> **进度（2026-08-28 完成）**：
 > - ✅ D1 `lesson_drafts` 表（schema.sql）：kind/source/source_id/status/
 >   title/domain/tags/各 section/content_md/precheck/issue 链接；
 >   `UNIQUE(source_id, kind)` 幂等
 > - ✅ `scripts/intake_pipeline.py`：parse → classify → draft → precheck →
->   persist（D1 upsert）→ notify（GitHub issue）；支持
->   CLOUDFLARE_API_TOKEN / mcporter OAuth / GH_TOKEN；`--dry-run` 本地演练
+>   persist（D1 upsert）→ notify（GitHub issue）→ issue backfill
+>   （draft 行回填 issue_number/url，status=review）
+> - ✅ CI E2E：`.github/workflows/intake-pipeline-test.yml`（workflow_dispatch，
+>   用 repo CF_API_TOKEN + GH_TOKEN，无需本地 OAuth）
 > - ✅ 测试：`tests/test_intake_pipeline.py`（12 用例）
-> - ⏳ 待办：Cloudflare Workflows 定义（`intake-pipeline`）编排各 step +
->   MCP intake 端点改为入队触发（需 OAuth 重新授权后部署）
+> - ✅ **生产验证**（2026-08-28）：E2E run success——draft persisted 到
+>   lesson_drafts、issue #1368 创建（含 Draft 骨架 + precheck 报告）、
+>   backfill 生效（issue_number 回填）
+> - **说明**：用 CI workflow 实现了 PRD ③ 的 7 步流水线（而非 Cloudflare
+>   Workflows API——CI 方案无需 Workflows 配额/付费，且复用现有 GitHub
+>   协作链）。若未来需要 Worker 内异步编排可迁移到 Workflows。
 
 ## 1. 背景与问题
 
