@@ -50,8 +50,32 @@ _CACHE_LOCK = __import__("threading").Lock()   # protects incremental JSON write
 
 
 def call_ai(model: str, prompt: str, timeout: int = 90) -> dict:
-    """Call Workers AI. Uses CLOUDFLARE_API_TOKEN directly when set (CI),
-    otherwise via mcporter execute (Cloudflare-internal path)."""
+    """Call the model. Order: AI Gateway (AI_GATEWAY_ID) -> direct Workers AI
+    (CLOUDFLARE_API_TOKEN) -> mcporter execute (local OAuth)."""
+    gid = os.environ.get("AI_GATEWAY_ID")
+    if gid:
+        gtok = os.environ.get("AI_GATEWAY_TOKEN") or ""
+        url = (f"https://gateway.ai.cloudflare.com/v1/{ACCOUNT}/{gid}"
+               f"/workers-ai/run/{model}")
+        req = urllib.request.Request(
+            url,
+            data=json.dumps({"messages": [{"role": "user", "content": prompt}]}).encode(),
+            headers={"Authorization": f"Bearer {gtok}",
+                     "Content-Type": "application/json",
+                     "User-Agent": "misakanet-benchmark"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                d = json.loads(r.read())
+            r_ = d.get("result") or d
+            c = (r_.get("choices") and r_.get("choices")[0].get("message", {}).get("content")) or r_.get("response")
+            return {"success": True, "status": r.status, "content": c, "errors": d.get("errors"), "gateway": gid}
+        except urllib.error.HTTPError as e:
+            body = e.read()[:250]
+            return {"success": False, "status": e.code, "error": str(body)}
+        except Exception as e:
+            return {"success": False, "error": str(e)[:300]}
     token = os.environ.get("CLOUDFLARE_API_TOKEN")
     if token:
         req = urllib.request.Request(

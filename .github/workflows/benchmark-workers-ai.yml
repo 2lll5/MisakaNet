@@ -29,7 +29,8 @@ jobs:
 
       - name: Run lesson benchmark (with vs without lesson context)
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          AI_GATEWAY_ID: misakanet-bench
+          AI_GATEWAY_TOKEN: ${{ secrets.AI_GATEWAY_TOKEN }}
         run: |
           SCEN="${{ github.event.inputs.scenarios || '' }}"
           ARGS="--all --compare --strong-subset 40 --concurrency 5"
