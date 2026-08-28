@@ -36,7 +36,7 @@ Agents prefer **acquiring new resources** (ask user) over **inventorying local a
 ```bash
 # 1. git-credentials store
 cat ~/.git-credentials
-# format: https://username:TOKEN@github.com
+# format: https://<username>:<token>@github.com (placeholder example, not a real credential)
 
 # 2. netrc
 cat ~/.netrc

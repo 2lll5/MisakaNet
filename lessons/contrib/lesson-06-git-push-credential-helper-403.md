@@ -54,8 +54,9 @@ Setup that triggers this:
 
 ```bash
 # ~/.git-credentials has TWO entries (any order):
-https://ikalus:ghp_DqIF...@github.com
-https://<user>:ghp_00Z1...@github.com
+# (placeholders — never paste real PATs into lessons)
+https://<account-a>:<pat>@github.com
+https://<account-b>:<pat>@github.com
 
 # You're in a <user>-owned repo
 cd /path/to/<user>-repo
@@ -127,7 +128,7 @@ def git_push_will_succeed(repo_dir, expected_owner):
 - This is a common pattern when developers maintain **multiple GitHub accounts** (work + personal, or shared + bot accounts).
 - MisakaNet MEMORY.md records this exact incident on 2026-07-02 23:36 GMT+8 as a recurring footgun.
 - Related footguns:
-  - "PAT prefix truncation trap" — when displaying PATs (e.g., `ghp_00…oHwm`), don't copy/paste the truncated version into git remote URL. Use `sed` to extract the full PAT from `~/.git-credentials`.
+  - "PAT prefix truncation trap" — when displaying PATs (e.g., `ghp_<prefix>…`), don't copy/paste the truncated version into git remote URL. Use `sed` to extract the full PAT from `~/.git-credentials`.
   - "Force-push ban on MisakaNet main repo" — never `--force` to MisakaNet, even when fixing credential issues.
 - A more robust long-term fix is to use SSH keys instead of PATs (per-account SSH key + `~/.ssh/config` Host aliases), but PATs are simpler for cron jobs.
 - The "denied to OTHER-USER" wording is your strongest signal: it tells you immediately which credential got selected.
