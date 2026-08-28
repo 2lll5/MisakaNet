@@ -32,6 +32,7 @@ Auth: CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID env (CI), or wrangler login (
 import argparse
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -41,6 +42,9 @@ REPO = Path(__file__).resolve().parent.parent
 LESSONS_DIR = REPO / "lessons"
 INDEXED_DIRS = ("core", "contrib")
 EXCLUDED = {"README.md", "index.md", "TEMPLATE.md", "CONTRIBUTING.md"}
+CF_ACCOUNT = "6b92325b505f2b76aec49e9fe4195d31"
+MC = str(REPO / ".tools" / "bin" / "mcporter")
+CFG = str(REPO / ".tools" / "mcporter.json")
 
 SECTION_ALIASES = {
     "problem": ["problem", "问题", "描述"],
@@ -190,26 +194,118 @@ def git_head() -> str:
         return "unknown"
 
 
+# D1 REST query helper: returns {id: checksum} or None on failure.
+# Uses the Cloudflare API (account token env or mcporter OAuth) so --reconcile
+# works both in CI and locally without parsing wrangler output.
+def _fetch_d1_checksums(db_name: str) -> dict | None:
+    account = os.environ.get("CLOUDFLARE_ACCOUNT_ID") or CF_ACCOUNT
+    token = os.environ.get("CLOUDFLARE_API_TOKEN") or ""
+    db_id = os.environ.get("MISAKANET_D1_ID") or ""
+    if not db_id:
+        # Resolve database_id by name via the D1 list API.
+        try:
+            if token:
+                import urllib.error as _ue
+                req = urllib.request.Request(
+                    f"https://api.cloudflare.com/client/v4/accounts/{account}/d1/database?per_page=50",
+                    headers={"Authorization": f"Bearer {token}", "User-Agent": "misakanet-sync"},
+                )
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    d = json.loads(r.read())
+            else:
+                # mcporter OAuth path
+                code = (f"async () => {{ const r = await cloudflare.request({{ method: 'GET', "
+                        f"path: '/accounts/{account}/d1/database' }}); return r.result || []; }}")
+                r = subprocess.run(
+                    [MC, "call", "cloudflare.execute", "code=" + code, "--config", CFG],
+                    capture_output=True, text=True, timeout=60,
+                )
+                d = {"result": json.loads(r.stdout.strip()) if r.stdout.strip() else []}
+            for entry in (d.get("result") or []):
+                if entry.get("name") == db_name:
+                    db_id = entry.get("uuid") or entry.get("id") or ""
+                    break
+        except Exception as e:
+            print(f"Reconcile: cannot resolve D1 '{db_name}': {e}", file=sys.stderr)
+            return None
+    if not db_id:
+        print(f"Reconcile: D1 database '{db_name}' not found", file=sys.stderr)
+        return None
+    # Query checksums.
+    sql = "SELECT id, checksum FROM lessons"
+    try:
+        if token:
+            req = urllib.request.Request(
+                f"https://api.cloudflare.com/client/v4/accounts/{account}/d1/database/{db_id}/query",
+                data=json.dumps({"sql": sql}).encode(),
+                headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json",
+                         "User-Agent": "misakanet-sync"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=60) as r:
+                d = json.loads(r.read())
+            rows = (d.get("result") or [{}])[0].get("results") or []
+        else:
+            code = (
+                "async () => { const r = await cloudflare.request({ method: 'POST', "
+                f"path: '/accounts/{account}/d1/database/{db_id}/query', "
+                f"body: {{ sql: '{sql}' }} }}); "
+                "const rows = (r.result && r.result[0] && r.result[0].results) || []; "
+                "const map = {}; for (const row of rows) map[row.id] = row.checksum; "
+                "return map; }"
+            )
+            r = subprocess.run(
+                [MC, "call", "cloudflare.execute", "code=" + code, "--config", CFG],
+                capture_output=True, text=True, timeout=90,
+            )
+            return json.loads(r.stdout.strip()) if r.stdout.strip() else {}
+        return {row["id"]: row["checksum"] for row in rows if row.get("id")}
+    except Exception as e:
+        print(f"Reconcile: D1 query failed: {e}", file=sys.stderr)
+        return None
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Sync lessons to Cloudflare D1")
     ap.add_argument("--db", default="misakanet-db", help="D1 database name")
     ap.add_argument("--sql", action="store_true", help="only emit SQL to stdout")
     ap.add_argument("--dry-run", action="store_true", help="parse + print summary, no execute")
     ap.add_argument("--execute", action="store_true", help="run wrangler d1 execute --remote")
+    ap.add_argument("--prune", action="store_true", help="delete D1 rows whose id no longer exists in the repo")
     ap.add_argument("--reconcile", action="store_true", help="compare repo checksums vs D1")
     ap.add_argument("--output", help="write SQL to this file instead of stdout")
     args = ap.parse_args()
 
     lessons = collect_lessons()
     print(f"Parsed {len(lessons)} lessons from {LESSONS_DIR}", file=sys.stderr)
+    repo_ids = {l["id"] for l in lessons}
 
     if args.reconcile:
         repo = {l["id"]: l["checksum"] for l in lessons}
-        print(f"Reconcile: {len(repo)} repo checksums (run D1 query to compare "
-              f"SELECT id, checksum FROM lessons;)", file=sys.stderr)
-        return 0
+        # Pull D1 checksums — prefer mcporter (local OAuth) REST query, else
+        # wrangler --remote. Both hit the same D1.
+        d1 = _fetch_d1_checksums(args.db)
+        if d1 is None:
+            print("Reconcile: could not fetch D1 checksums", file=sys.stderr)
+            return 2
+        repo_only = sorted(repo.keys() - d1.keys())
+        d1_only = sorted(d1.keys() - repo.keys())
+        changed = sorted(k for k in repo.keys() & d1.keys() if repo[k] != d1[k])
+        print(f"Reconcile: repo={len(repo)} D1={len(d1)}")
+        print(f"  missing in D1: {len(repo_only)} {repo_only[:5]}")
+        print(f"  extra in D1 (stale): {len(d1_only)} {d1_only[:5]}")
+        print(f"  checksum changed: {len(changed)} {changed[:5]}")
+        return 0 if not (repo_only or d1_only or changed) else 1
 
     sql = upsert_sql(lessons)
+
+    if args.prune:
+        # Emit deletes for ids present in D1 but absent from the repo, then the upserts.
+        prune_sql = ("DELETE FROM lessons WHERE id NOT IN ("
+                     + ",".join(f"'{i}'" for i in sorted(repo_ids)) + ");\n")
+        sql = prune_sql + sql
+        print(f"Prune: will delete lessons no longer in repo (keep {len(repo_ids)})",
+              file=sys.stderr)
 
     if args.sql or args.output or not (args.execute or args.dry_run):
         if args.output:
