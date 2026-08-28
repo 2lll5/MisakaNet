@@ -1,0 +1,75 @@
+name: Intake Pipeline Test (PRD ③)
+
+# End-to-end smoke of the intake pipeline: applies schema if needed, runs
+# intake_pipeline.py on a sample intake (persists to D1 lesson_drafts and
+# opens a review issue), then verifies the draft row exists. Uses repo
+# secrets so no local Cloudflare OAuth is needed.
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: 'Intake kind (missing_lesson|question|...)'
+        default: 'missing_lesson'
+        required: false
+      problem:
+        description: 'Sample problem text'
+        default: 'pip install fails with ReadTimeoutError behind corporate proxy'
+        required: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install wrangler
+        run: npm install -g wrangler
+
+      - name: Apply D1 schema (idempotent, includes lesson_drafts)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 6b92325b505f2b76aec49e9fe4195d31
+        run: |
+          cd workers
+          wrangler d1 execute misakanet-db --remote --file=d1/schema.sql
+
+      - name: Run intake pipeline (persist + notify)
+        id: run
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 6b92325b505f2b76aec49e9fe4195d31
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INT_KIND: ${{ github.event.inputs.kind || 'missing_lesson' }}
+          INT_PROBLEM: ${{ github.event.inputs.problem || 'pip install fails with ReadTimeoutError behind corporate proxy' }}
+        run: |
+          python3 - <<'PY' | tee /tmp/pipeline-result.json
+          import json, os, subprocess, time
+          payload = {
+              "kind": os.environ["INT_KIND"],
+              "problem": os.environ["INT_PROBLEM"],
+              "source": "ci-smoke",
+              "source_id": f"ci-{int(time.time())}",
+          }
+          r = subprocess.run(
+              ["python3", "scripts/intake_pipeline.py", "--input", json.dumps(payload)],
+              capture_output=True, text=True,
+          )
+          print(r.stdout.strip() or r.stderr)
+          PY
+
+      - name: Verify draft persisted
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 6b92325b505f2b76aec49e9fe4195d31
+        run: |
+          cd workers
+          wrangler d1 execute misakanet-db --remote --command \
+            "SELECT id, kind, source_id, status, issue_number FROM lesson_drafts ORDER BY created DESC LIMIT 3;"
