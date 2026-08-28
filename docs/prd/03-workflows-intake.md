@@ -1,7 +1,18 @@
 # PRD ③ Cloudflare Workflows —— intake 预处理流水线
 
-- **状态**: Draft · 优先级: 🟡 中 · 工作量: 中（2-3 天）
+- **状态**: 🚧 **实施中（pipeline 脚本 + D1 草稿表完成，待部署）** · 优先级: 🟡 中 · 工作量: 中（2-3 天）
 - **创建**: 2026-08-28 · 维护: MisakaNet
+
+> **进度（2026-08-28）**：
+> - ✅ D1 `lesson_drafts` 表（schema.sql）：kind/source/source_id/status/
+>   title/domain/tags/各 section/content_md/precheck/issue 链接；
+>   `UNIQUE(source_id, kind)` 幂等
+> - ✅ `scripts/intake_pipeline.py`：parse → classify → draft → precheck →
+>   persist（D1 upsert）→ notify（GitHub issue）；支持
+>   CLOUDFLARE_API_TOKEN / mcporter OAuth / GH_TOKEN；`--dry-run` 本地演练
+> - ✅ 测试：`tests/test_intake_pipeline.py`（12 用例）
+> - ⏳ 待办：Cloudflare Workflows 定义（`intake-pipeline`）编排各 step +
+>   MCP intake 端点改为入队触发（需 OAuth 重新授权后部署）
 
 ## 1. 背景与问题
 

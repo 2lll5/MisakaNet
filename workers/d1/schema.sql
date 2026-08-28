@@ -37,3 +37,33 @@ CREATE TABLE IF NOT EXISTS lesson_sync_log (
   deleted INTEGER NOT NULL DEFAULT 0,
   checksums TEXT               -- JSON: {id: checksum} for reconciliation
 );
+
+-- PRD ③: intake pipeline drafts. Each intake (MCP submit_intake / email /
+-- crash tombstone) gets a row here after parse→classify→draft→precheck; a
+-- maintainer reviews it (via the linked GitHub issue) and promotes it into
+-- the lessons/ table (or the repo) on approval.
+CREATE TABLE IF NOT EXISTS lesson_drafts (
+  id TEXT PRIMARY KEY,          -- draft slug
+  kind TEXT NOT NULL,           -- missing_lesson | stale_lesson | new_lesson_candidate | question
+  source TEXT,                  -- mcp | email | tombstone | api
+  source_id TEXT,               -- original intake id (dedup key), e.g. issue-1234
+  status TEXT DEFAULT 'draft',  -- draft | prechecked | review | approved | rejected | merged
+  title TEXT,
+  domain TEXT,
+  tags TEXT,                    -- JSON array
+  problem TEXT,
+  root_cause TEXT,
+  solution TEXT,
+  verification TEXT,
+  content_md TEXT,              -- generated lesson draft (frontmatter + body)
+  precheck TEXT,                -- JSON report: {score, issues[], verified}
+  issue_number INTEGER,         -- linked GitHub review issue
+  issue_url TEXT,
+  created TEXT,
+  updated TEXT,
+  UNIQUE(source_id, kind)       -- idempotency: same intake never processed twice
+);
+
+CREATE INDEX IF NOT EXISTS idx_drafts_status ON lesson_drafts(status);
+CREATE INDEX IF NOT EXISTS idx_drafts_kind ON lesson_drafts(kind);
+CREATE INDEX IF NOT EXISTS idx_drafts_source ON lesson_drafts(source_id);
