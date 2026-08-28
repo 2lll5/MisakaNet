@@ -15,7 +15,11 @@ jobs:
       - uses: googleapis/release-please-action@v5
         id: release
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN lacks permission to create GitHub Releases via
+          # release-please v5 ("Resource not accessible by integration").
+          # Use the repo PAT (same pattern as pr-checks.yml) so release
+          # creation succeeds.
+          token: ${{ secrets.SHELDON_PAT || secrets.GITHUB_TOKEN }}
 
       # Sync version to docs after release
       - name: Checkout

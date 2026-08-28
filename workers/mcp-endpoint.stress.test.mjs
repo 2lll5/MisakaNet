@@ -68,6 +68,8 @@ test('rejects oversized payloads with and without a Content-Length hint', async 
 test('returns stable errors under mixed invalid load', async () => {
   const requests = Array.from({ length: 100 }, (_, id) => {
     if (id % 2 === 0) return mcpRequest('{not-json');
+    // tools/list is a public method (registry scanners need it unauthenticated,
+    // see e3796f13), so these return 200 — not 401.
     return new Request('https://misakanet.org/mcp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -77,7 +79,8 @@ test('returns stable errors under mixed invalid load', async () => {
   const responses = await Promise.all(requests.map((request) => worker.fetch(request, env)));
 
   assert.equal(responses.filter((response) => response.status === 400).length, 50);
-  assert.equal(responses.filter((response) => response.status === 401).length, 50);
+  // tools/list without auth is allowed (public) → all 50 succeed
+  assert.equal(responses.filter((response) => response.status === 200).length, 50);
 });
 
 test('repeated concurrent batches retain no unbounded heap', { skip: !global.gc }, async () => {

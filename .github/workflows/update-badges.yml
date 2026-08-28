@@ -45,7 +45,11 @@ jobs:
       - name: Count MCP tools
         id: tools
         run: |
-          TOOL_COUNT=$(grep -c '"name": "misakanet_' scripts/mcp_server.py || echo "0")
+          # MCP tool definitions live in the worker (register-proxy-sw.js).
+          # grep -c prints "0" AND exits 1 when nothing matches, so `|| echo 0`
+          # would double-print and break $GITHUB_OUTPUT — use awk to force a
+          # single clean count instead.
+          TOOL_COUNT=$(grep -cE 'name: "misakanet_' workers/register-proxy-sw.js | awk '{print $1+0}')
           echo "tools=$TOOL_COUNT" >> "$GITHUB_OUTPUT"
 
       - name: Generate badge JSONs
