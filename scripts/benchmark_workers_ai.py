@@ -46,6 +46,7 @@ DEFAULT_FULL_MODEL = "@cf/meta/llama-3.2-3b-instruct"
 DEFAULT_STRONG_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
 RATE_PER_MIN = 250          # below Free 300/min
 CONCURRENCY = 5
+_CACHE_LOCK = __import__("threading").Lock()   # protects incremental JSON writes
 
 
 def call_ai(model: str, prompt: str, timeout: int = 90) -> dict:
@@ -186,20 +187,30 @@ def load_cache(path: Path) -> dict:
     return {"runs": []}
 
 
+_QUOTA_HIT = {"flag": False}   # set when daily neurons quota exhausted
+
+
 def run_one(args, model, scene, condition, prompt, ref_cmds, out_path):
+    if _QUOTA_HIT["flag"]:
+        return {"status": 429, "quota": True}
     resp = call_ai(model, prompt)
     content = resp.get("content") or ""
     metrics = score_response(content, ref_cmds)
     run = {"model": model, "scenario": scene, "condition": condition,
            "status": resp.get("status"), "content": content, "metrics": metrics,
            "error": resp.get("errors") or resp.get("error")}
-    data = load_cache(out_path)
-    data.setdefault("models", [])
-    data.setdefault("scenarios", [])
-    data["runs"].append(run)
-    if out_path:
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        out_path.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+    err_text = json.dumps(run.get("error") or "").lower()
+    if resp.get("status") == 429 or "daily free allocation" in err_text or "neurons" in err_text:
+        _QUOTA_HIT["flag"] = True
+        print("  ⛔ daily neurons quota exhausted — stopping further calls (resume later)", flush=True)
+    with _CACHE_LOCK:
+        data = load_cache(out_path)
+        data.setdefault("models", [])
+        data.setdefault("scenarios", [])
+        data["runs"].append(run)
+        if out_path:
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(json.dumps(data, ensure_ascii=False, indent=2))
     name = model.rsplit("/", 1)[-1]
     print(f"  ✓ {name} × {scene[:40]} [{condition}] "
           f"len={metrics['length']} hit={int(metrics['lesson_hit_rate']*100)}%", flush=True)
@@ -260,6 +271,8 @@ def main() -> int:
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.concurrency) as ex:
         futures = set()
         for task in todo:
+            if _QUOTA_HIT["flag"]:
+                break
             futures.add(ex.submit(run_one, args, *task, out_path))
             if len(futures) >= args.concurrency:
                 finished, futures = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
