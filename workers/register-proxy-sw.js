@@ -505,21 +505,26 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
   if (toolName === "misakanet_search") {
     if (!args.query) return { error: "query is required" };
 
-    // Rate limit: 5 free searches/day per IP for remote HTTP
-    // Local stdio MCP is unlimited (user has the code)
-    const ip = clientIp || "unknown";
-    const today = new Date().toISOString().slice(0, 10);
-    const rateKey = `rate:search:${ip}:${today}`;
-    if (env.MISAKANET_KV) {
-      const count = parseInt(await env.MISAKANET_KV.get(rateKey, "text") || "0");
-      if (count >= 5) {
-        return {
-          error: "Rate limit: 5 free searches per day exceeded",
-          hint: "Register to get unlimited access: misakanet_register",
-          voice: "failure-warning",
-        };
+    // Rate limit: 5 free reads/day per IP for remote HTTP (shared across
+    // search + get_lesson). Local stdio MCP is unlimited (user has the code).
+    // Authenticated callers (any valid token) are exempt — the token proves
+    // they registered, so they get the registered quota instead. Anonymous
+    // callers have an empty token here (auth failures never reach this point).
+    if (!authToken) {
+      const ip = clientIp || "unknown";
+      const today = new Date().toISOString().slice(0, 10);
+      const rateKey = `rate:read:${ip}:${today}`;
+      if (env.MISAKANET_KV) {
+        const count = parseInt(await env.MISAKANET_KV.get(rateKey, "text") || "0");
+        if (count >= 5) {
+          return {
+            error: "Rate limit: 5 free searches per day exceeded",
+            hint: "Register to get unlimited access: misakanet_register",
+            voice: "failure-warning",
+          };
+        }
+        await env.MISAKANET_KV.put(rateKey, String(count + 1), { expirationTtl: 86400 });
       }
-      await env.MISAKANET_KV.put(rateKey, String(count + 1), { expirationTtl: 86400 });
     }
 
     let lessons;
@@ -586,6 +591,22 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
   }
 
   if (toolName === "misakanet_get_lesson") {
+    // Same anonymous read quota as search (shared 5/day/IP counter).
+    if (!authToken) {
+      const ip = clientIp || "unknown";
+      const today = new Date().toISOString().slice(0, 10);
+      const rateKey = `rate:read:${ip}:${today}`;
+      if (env.MISAKANET_KV) {
+        const count = parseInt(await env.MISAKANET_KV.get(rateKey, "text") || "0");
+        if (count >= 5) {
+          return {
+            error: "Rate limit: 5 free reads per day exceeded",
+            hint: "Register to get unlimited access: misakanet_register",
+          };
+        }
+        await env.MISAKANET_KV.put(rateKey, String(count + 1), { expirationTtl: 86400 });
+      }
+    }
     try {
       const lesson = await fetchLessonContent(env, args.path, args.id);
       const aura = await getIdentityAura(env, authToken);
@@ -868,8 +889,12 @@ async function handleMcpRequest(request, env, useSse = false) {
   let isPublicMethod = false;
   try {
     const peekBody = await request.clone().json();
-    isIntakeCall = peekBody?.method === "tools/call" && (peekBody?.params?.name === "misakanet_submit_intake" || peekBody?.params?.name === "misakanet_register");
-    // allow initialize + tools/list without auth (needed for MCP registries like Smithery to scan)
+    // Open tools: intake/register (write) + search/get_lesson (read, rate-limited).
+    // Anonymous users get 5 combined reads/day per IP (PR #1121); registration
+    // lifts the limit. initialize + tools/list stay open for MCP registry scans.
+    const openTools = ["misakanet_submit_intake", "misakanet_register",
+                       "misakanet_search", "misakanet_get_lesson"];
+    isIntakeCall = peekBody?.method === "tools/call" && openTools.includes(peekBody?.params?.name);
     isPublicMethod = peekBody?.method === "initialize" || peekBody?.method === "tools/list";
   } catch (peekErr) {
     // Non-JSON body — treat as non-intake; log for diagnostics

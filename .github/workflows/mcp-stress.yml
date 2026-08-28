@@ -7,6 +7,7 @@ on:
       - "workers/mcp-endpoint.stress.test.mjs"
       - "workers/mcp-no-match.test.mjs"
       - "workers/d1-lesson-service.test.mjs"
+      - "workers/mcp-anonymous-read.test.mjs"
       - ".github/workflows/mcp-stress.yml"
   push:
     branches: [main]
@@ -15,6 +16,7 @@ on:
       - "workers/mcp-endpoint.stress.test.mjs"
       - "workers/mcp-no-match.test.mjs"
       - "workers/d1-lesson-service.test.mjs"
+      - "workers/mcp-anonymous-read.test.mjs"
   workflow_dispatch:
 
 permissions:
@@ -39,6 +41,9 @@ jobs:
       - name: Run D1 lesson service tests (PRD ④)
         run: |
           node --test workers/d1-lesson-service.test.mjs
+      - name: Run MCP anonymous-read tests (PRD ④ free quota)
+        run: |
+          node --test workers/mcp-anonymous-read.test.mjs
       - name: Publish performance metrics
         if: always()
         run: |
