@@ -1,17 +1,26 @@
 # PRD ④ D1 Lesson 服务化 —— 核心资产从仓库到服务
 
-- **状态**: 🚧 **实施中（scaffold 完成，待数据库创建）** · 优先级: 🔴 高（战略核心）· 工作量: 中（3-5 天）
+- **状态**: ✅ **已上线（2026-08-28）** · 优先级: 🔴 高（战略核心）· 工作量: 中（3-5 天）
 - **创建**: 2026-08-28 · 维护: MisakaNet
 
-> **进度（2026-08-28，commit 273d6240）**：
+> **进度（2026-08-28 完成，D1 已创建并部署）**：
 > - ✅ D1 schema：`workers/d1/schema.sql`（lessons 表 + lesson_sync_log 台账）
 > - ✅ sync 脚本：`scripts/sync_lessons_to_d1.py`（314 lessons 可解析；JSON+YAML
->   frontmatter；`--sql/--dry-run/--execute/--reconcile`；幂等 upsert）
-> - ✅ Worker 双源：`loadLessons()` 优先 D1、回退 GitHub/KV（search/preflight//api/lessons 零停机切换）
-> - ✅ CI：`.github/workflows/sync-d1.yml`（lesson 变更 / 每日 03:00 UTC）
-> - ✅ 测试：`workers/d1-lesson-service.test.mjs`（4 用例，已接入 mcp-stress CI）
-> - ⏳ 待办：`wrangler d1 create misakanet-db`（需 Cloudflare OAuth 重授权）→
->   把 database_id 填入 `workers/wrangler.toml` → 首次执行 schema + sync
+>   frontmatter；`--sql/--dry-run/--execute/--reconcile`；幂等 upsert；
+>   经 `--file` 传 SQL 规避 32KB argv 限制）
+> - ✅ Worker 双源：`loadLessons()` 优先 D1、回退 GitHub/KV（search/preflight/
+>   /api/lessons/get_lesson 零停机切换）
+> - ✅ **D1 数据库已创建**：`misakanet-db`（b9adbe87-6bbf-4d2f-ae56-41c3487b2831），
+>   database_id 已回写 `workers/wrangler.toml` 并部署
+> - ✅ CI：`.github/workflows/d1-bootstrap.yml`（幂等 bootstrap：创建→回写→
+>   schema→sync→验证→deploy）+ `.github/workflows/sync-d1.yml`（增量/每日）
+> - ✅ 测试：`workers/d1-lesson-service.test.mjs`（7 用例，已接入 mcp-stress CI）
+> - ✅ **生产验证**（2026-08-28）：
+>   - `GET /api/lessons` 免认证直查 → 314 lessons（D1 实时）
+>   - `misakanet_search` → D1 返回结果（source=worker-search）
+>   - `misakanet_get_lesson` → D1 完整 markdown
+>   - 幂等：重跑 sync 后仍 314 行、无重复
+> - ⏳ 后续：llms-full.txt / agent-card D1 数据驱动、FTS5 全文检索、统计看板
 
 ## 1. 背景与问题
 
@@ -88,11 +97,11 @@ GitHub 仓库（源/审核）→ sync workflow/action → D1（服务层）→ M
 
 ## 5. 验收标准
 
-- [ ] D1 表建好，312+ lesson 全量同步成功（可对账）
-- [ ] `misakanet_search` 查 D1 返回结果（与 GitHub 代理结果一致）
-- [ ] `/api/lessons` 从 D1 实时返回（发布新 lesson 后立即可见，无需等 data sync）
-- [ ] 免认证 HTTP 直查（curl 无 token 成功）
-- [ ] 增量同步幂等（重跑不重复）
+- [x] D1 表建好，312+ lesson 全量同步成功（可对账）—— **314 lessons 同步，可对账（checksum）**
+- [x] `misakanet_search` 查 D1 返回结果（与 GitHub 代理结果一致）—— **已验证（source=worker-search）**
+- [x] `/api/lessons` 从 D1 实时返回（发布新 lesson 后立即可见，无需等 data sync）—— **已验证（免认证直查 314 条）**
+- [x] 免认证 HTTP 直查（curl 无 token 成功）—— **已验证**
+- [x] 增量同步幂等（重跑不重复）—— **已验证（重跑后仍 314 行）**
 
 ## 6. 战略价值（为何"放 D1 而非仓库"）
 
