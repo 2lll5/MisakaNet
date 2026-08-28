@@ -13,4 +13,4 @@ id = "d5fb6b0797b84d17b0586fb982231ffe"
 [[d1_databases]]
 binding = "MISAKANET_D1"
 database_name = "misakanet-db"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "b9adbe87-6bbf-4d2f-ae56-41c3487b2831"
