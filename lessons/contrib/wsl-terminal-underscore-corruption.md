@@ -58,5 +58,5 @@ Lesson: WSL 终端编辑Setup危险 — TTy粘贴吞下划线
 ## Key Points
 
 - 涉及 WSL 路径修改一律用 Python 读写，不用 echo/cat/heredoc
-- .env 迁移+编辑正确 key：`sk-cp-6L1Zvi...` + `api.minimax.chat/v1`
+- .env 迁移+编辑正确 key：`sk-cp-<REDACTED>` + `api.minimax.chat/v1`
 - credential 文件受保护：直接改 .env 会被 BLOCKED，需先 `chmod 600` 临时解除
