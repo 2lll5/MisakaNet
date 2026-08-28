@@ -68,7 +68,6 @@ def find_hardcoded_secrets(filepath: Path) -> list[dict]:
                     "file": str(filepath.relative_to(REPO)),
                     "line": lineno,
                     "type": desc,
-                    "snippet": stripped[:120],
                 })
 
     return findings
@@ -150,10 +149,8 @@ def main():
 
     if all_findings:
         for f in all_findings:
+            # Note: snippet intentionally omitted to avoid logging sensitive values (CodeQL #57/#58)
             print(f"  ❌ {f['file']}:{f['line']} — {f['type']}")
-            # Truncate snippet to avoid logging sensitive values
-            snippet = f['snippet'][:20] + '...' if len(f['snippet']) > 20 else f['snippet']
-            print(f"     {snippet}")
             errors += 1
     else:
         print("  ✅ No hardcoded secrets found in worker source code")
