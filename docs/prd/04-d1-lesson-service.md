@@ -6,20 +6,28 @@
 > **进度（2026-08-28 完成，D1 已创建并部署）**：
 > - ✅ D1 schema：`workers/d1/schema.sql`（lessons 表 + lesson_sync_log 台账）
 > - ✅ sync 脚本：`scripts/sync_lessons_to_d1.py`（314 lessons 可解析；JSON+YAML
->   frontmatter；`--sql/--dry-run/--execute/--reconcile`；幂等 upsert；
+>   frontmatter；`--sql/--dry-run/--execute/--reconcile/--prune`；幂等 upsert；
 >   经 `--file` 传 SQL 规避 32KB argv 限制）
 > - ✅ Worker 双源：`loadLessons()` 优先 D1、回退 GitHub/KV（search/preflight/
 >   /api/lessons/get_lesson 零停机切换）
 > - ✅ **D1 数据库已创建**：`misakanet-db`（b9adbe87-6bbf-4d2f-ae56-41c3487b2831），
 >   database_id 已回写 `workers/wrangler.toml` 并部署
-> - ✅ CI：`.github/workflows/d1-bootstrap.yml`（幂等 bootstrap：创建→回写→
->   schema→sync→验证→deploy）+ `.github/workflows/sync-d1.yml`（增量/每日）
-> - ✅ 测试：`workers/d1-lesson-service.test.mjs`（7 用例，已接入 mcp-stress CI）
+> - ✅ CI：`.github/workflows/d1-bootstrap.yml`（幂等 bootstrap）+ `sync-d1.yml`
+>   （增量/每日，DB 自愈重建）
+> - ✅ 测试：`workers/d1-lesson-service.test.mjs`（12 用例）、
+>   `workers/mcp-anonymous-read.test.mjs`（4 用例）、
+>   `workers/mcp-no-match.test.mjs`（4 用例）
+> - ✅ **愿景偏差修复**（2026-08-28）：
+>   - **匿名读**：search/get_lesson 免认证（PR #1121 的 rate limit 此前从未
+>     对匿名用户生效——在 auth 之后才执行；现放行 + 共享 5 次/天/IP 配额）
+>   - **结构化查询**：`/api/lessons?domain=&status=&tag=&id=&limit=` 真 SQL 过滤
+>   - **CLI 远程化**：`search_knowledge.py --remote` 直查 D1（免 clone、
+>     免本地配额；`--local` 保持原行为）；AGENTS.md 已把 `--remote` 列为首选
 > - ✅ **生产验证**（2026-08-28）：
->   - `GET /api/lessons` 免认证直查 → 314 lessons（D1 实时）
->   - `misakanet_search` → D1 返回结果（source=worker-search）
->   - `misakanet_get_lesson` → D1 完整 markdown
->   - 幂等：重跑 sync 后仍 314 行、无重复
+>   - `GET /api/lessons` 免认证直查 → 314 lessons；`?domain=rag` → 9 行
+>   - 匿名 `misakanet_search` / `misakanet_get_lesson` → 成功；配额触发限流
+>   - `search_knowledge.py --remote` → 314 docs BM25 排名正常
+>   - 幂等：重跑 sync 后仍 314 行、无重复；reconcile 零差异
 > - ⏳ 后续：llms-full.txt / agent-card D1 数据驱动、FTS5 全文检索、统计看板
 
 ## 1. 背景与问题
