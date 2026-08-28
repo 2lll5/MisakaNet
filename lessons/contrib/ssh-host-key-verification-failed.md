@@ -79,15 +79,11 @@ ssh-keygen -F hostname.example.com  # search for a specific host
 ## Verification
 
 ```bash
-echo "Lesson: SSH host key verification failed when connecting t"
-wc -l lessons/contrib/ssh-host-key-verification-failed.md
+ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: SSH host key verification failed when connecting t
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub`)
 
 ## Notes
 

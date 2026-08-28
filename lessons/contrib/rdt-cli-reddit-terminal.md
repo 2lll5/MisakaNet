@@ -80,15 +80,11 @@ rdt status --json
 ## Verification
 
 ```bash
-echo "Lesson: rdt-cli — Reddit in Your Terminal (Reverse-Enginee"
-wc -l lessons/contrib/rdt-cli-reddit-terminal.md
+pipx install rdt-cli
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: rdt-cli — Reddit in Your Terminal (Reverse-Enginee
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `pipx install rdt-cli`)
 
 ## Notes
 

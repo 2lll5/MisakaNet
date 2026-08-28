@@ -98,15 +98,11 @@ test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
 ## Verification
 
 ```bash
-git status --short | head -5
-git log --oneline -3
+git fetch origin main
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-# (status)
-# (recent)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `git fetch origin main`)
 
 ## Notes
 

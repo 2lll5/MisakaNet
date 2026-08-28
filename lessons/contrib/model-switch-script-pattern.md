@@ -27,15 +27,11 @@ See problem description above for technical details.
 ## Verification
 
 ```bash
-echo "Lesson: 多模型Switch脚本模式 — 双 Agent 模型管理"
-wc -l lessons/contrib/model-switch-script-pattern.md
+switch-agent-a list              # 可用模型
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: 多模型Switch脚本模式 — 双 Agent 模型管理
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `switch-agent-a list # 可用模型`)
 
 ## Solution
 

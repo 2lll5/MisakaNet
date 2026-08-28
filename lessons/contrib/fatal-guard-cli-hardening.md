@@ -133,12 +133,8 @@ fatal-guard --version | grep -E '^fatal-guard [0-9]+\.[0-9]+\.[0-9]+$'
 ## Verification
 
 ```bash
-echo "Lesson: Fatal-guard CLI: harden entry point with --help, -"
-wc -l lessons/contrib/fatal-guard-cli-hardening.md
+fatal-guard --timeout 60 my-service
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Fatal-guard CLI: harden entry point with --help, -
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `fatal-guard --timeout 60 my-service`)

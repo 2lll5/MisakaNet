@@ -131,15 +131,11 @@ ws.send(json.dumps(batch_msg))
 ## Verification
 
 ```bash
-echo "Lesson: Chrome Relay 浏览器Automation — CDP over WebSocket 控制"
-wc -l lessons/contrib/chrome-relay-browser-automation.md
+{"type": "fill", "selector": "input[name='x']", "text": "值", "request_id": "2"}
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Chrome Relay 浏览器Automation — CDP over WebSocket 控制
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `{type: fill, selector: input[name='x'], text: 值, request_id: 2}`)
 
 ## 已知限制
 

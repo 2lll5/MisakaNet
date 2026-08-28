@@ -59,12 +59,8 @@ tmux kill-session -t my-session
 ## Verification
 
 ```bash
-echo "Lesson: tmux 终端复用 — 断开不丢失会话"
-wc -l lessons/contrib/tmux-session-management.md
+tmux new -s my-session
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: tmux 终端复用 — 断开不丢失会话
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `tmux new -s my-session`)

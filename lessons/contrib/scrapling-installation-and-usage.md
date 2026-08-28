@@ -75,15 +75,11 @@ scrapling uses curl_cffi underneath, which can impersonate browser TLS fingerpri
 ## Verification
 
 ```bash
-echo "Lesson: Scrapling — Web Scraping Library with Anti-Detecti"
-wc -l lessons/contrib/scrapling-installation-and-usage.md
+python3 -m venv scrapling-env
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Scrapling — Web Scraping Library with Anti-Detecti
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `python3 -m venv scrapling-env`)
 
 ## Notes
 

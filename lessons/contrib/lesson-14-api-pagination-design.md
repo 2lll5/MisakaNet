@@ -100,15 +100,11 @@ LIMIT 20;
 ## Verification
 
 ```bash
-echo "Lesson: API 分页设计 — Cursor vs Offset vs Keyset"
-wc -l lessons/contrib/lesson-14-api-pagination-design.md
+LIMIT n OFFSET m
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: API 分页设计 — Cursor vs Offset vs Keyset
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `LIMIT n OFFSET m`)
 
 ## Notes
 

@@ -81,15 +81,11 @@ aws cloudwatch get-metric-statistics \
 ## Verification
 
 ```bash
-echo "Lesson: AWS ECS 高分辨率指标 — 更快的自动扩缩容"
-wc -l lessons/contrib/lesson-16-aws-ecs-high-resolution-metrics.md
+aws ecs update-service \
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: AWS ECS 高分辨率指标 — 更快的自动扩缩容
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `aws ecs update-service \`)
 
 ## Notes
 

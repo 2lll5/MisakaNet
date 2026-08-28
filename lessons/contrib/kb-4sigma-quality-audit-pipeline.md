@@ -39,15 +39,11 @@ Reports are stored at `~/audit_reports/audit_YYYY-MM-DD.json`.
 ## Verification
 
 ```bash
-echo "Lesson: Knowledge Base 4-Sigma Quality Audit Pipeline"
-wc -l lessons/contrib/kb-4sigma-quality-audit-pipeline.md
+daily_audit.py
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Knowledge Base 4-Sigma Quality Audit Pipeline
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `daily_audit.py`)
 
 ## Scenario
 

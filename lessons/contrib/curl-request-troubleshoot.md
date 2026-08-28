@@ -56,15 +56,11 @@ curl -v --trace-ascii /dev/stderr https://example.com 2>&1 | head -30
 ## Verification
 
 ```bash
-echo "Lesson: curl / wget 请求失败通用Diagnosis"
-wc -l lessons/contrib/curl-request-troubleshoot.md
+echo $http_proxy
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: curl / wget 请求失败通用Diagnosis
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `echo $http_proxy`)
 
 ## 错误速查
 

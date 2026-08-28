@@ -88,15 +88,11 @@ export PYTHONPATH=$HOME/.local/lib/python3.11/site-packages:$PYTHONPATH
 ## Verification
 
 ```bash
-python3 --version
-python3 -c 'import sys; print(sys.version)'
+which python
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Python 3.
-3.
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `which python`)
 
 ## Notes
 

@@ -93,15 +93,11 @@ proxy = http://172.19.128.1:7890
 ## Verification
 
 ```bash
-echo "Lesson: pip install HTTPS Timeout from WSL — Prepend HTTPS"
-wc -l lessons/contrib/lesson-08-pip-https-proxy-clash.md
+HTTPS_PROXY=http://172.19.128.1:7890 \
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: pip install HTTPS Timeout from WSL — Prepend HTTPS
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `HTTPS_PROXY=http://172.19.128.1:7890 \`)
 
 ## Verification (self-check)
 

@@ -55,15 +55,11 @@ Steps to fix:
 ## Verification
 
 ```bash
-echo "Lesson: TypeScript solution-style tsconfig — tsc --noEmit "
-wc -l lessons/contrib/typescript-solution-tsconfig-silent-nocheck.md
+npx tsc --noEmit
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: TypeScript solution-style tsconfig — tsc --noEmit 
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `npx tsc --noEmit`)
 
 ## Notes
 

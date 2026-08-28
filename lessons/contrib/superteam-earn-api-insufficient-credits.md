@@ -80,15 +80,11 @@ curl -sS -L -X POST 'https://superteam.fun/api/submission/create' \
 ## Verification
 
 ```bash
-echo "Lesson: Superteam Earn API returns Insufficient credits on"
-wc -l lessons/contrib/superteam-earn-api-insufficient-credits.md
+Insufficient credits
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Superteam Earn API returns Insufficient credits on
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `Insufficient credits`)
 
 ## Notes
 

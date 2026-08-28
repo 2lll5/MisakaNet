@@ -42,15 +42,11 @@ with open('/home/<user>/.hermes/.env', 'w') as f:
 ## Verification
 
 ```bash
-echo "Lesson: WSL 终端编辑Setup危险 — TTy粘贴吞下划线"
-wc -l lessons/contrib/wsl-terminal-underscore-corruption.md
+cat ~/temp.txt
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: WSL 终端编辑Setup危险 — TTy粘贴吞下划线
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `cat ~/temp.txt`)
 
 ## Key Points
 

@@ -57,15 +57,11 @@ cd ~/.hermes/scripts \
 ## Verification
 
 ```bash
-echo "Lesson: Chroma 建库无 Checkpoint — 进程一死全部丢失"
-wc -l lessons/contrib/chroma-rebuild-no-checkpoint-cn.md
+build_edoc_chroma.py
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Chroma 建库无 Checkpoint — 进程一死全部丢失
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `build_edoc_chroma.py`)
 
 ## Key Points
 

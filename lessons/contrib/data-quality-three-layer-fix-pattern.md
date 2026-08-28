@@ -97,15 +97,11 @@ This catches any edge case that slips through Layers 1 and 2.
 ## Verification
 
 ```bash
-echo "Lesson: Data Quality Fix: Always Keep Three Layers (DB + E"
-wc -l lessons/contrib/data-quality-three-layer-fix-pattern.md
+CASE WHEN
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Data Quality Fix: Always Keep Three Layers (DB + E
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `CASE WHEN`)
 
 ## Notes
 

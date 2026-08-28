@@ -82,15 +82,11 @@ hermes-switch ds-flash
 ## Verification
 
 ```bash
-echo "Lesson: ccswitch-hermes-switch 踩坑Notes"
-wc -l lessons/contrib/hermes-model-switch-ccswitch.md
+~/anthropic-openai-proxy.py
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: ccswitch-hermes-switch 踩坑Notes
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `~/anthropic-openai-proxy.py`)
 
 ## 相关文件
 

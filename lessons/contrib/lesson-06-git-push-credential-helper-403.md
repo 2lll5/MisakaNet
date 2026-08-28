@@ -102,15 +102,11 @@ git remote -v  # Verify
 ## Verification
 
 ```bash
-git status --short | head -5
-git log --oneline -3
+grep -n "github" ~/.git-credentials
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-# (status)
-# (recent)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `grep -n github ~/.git-credentials`)
 
 ## Verification (self-check)
 

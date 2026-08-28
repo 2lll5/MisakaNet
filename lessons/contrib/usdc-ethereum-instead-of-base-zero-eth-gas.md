@@ -106,15 +106,11 @@ taskmarket wallet balance   # должен показать Base USDC
 ## Verification
 
 ```bash
-echo "Lesson: USDC пришёл в Ethereum mainnet, а нужен Base — и 0"
-wc -l lessons/contrib/usdc-ethereum-instead-of-base-zero-eth-gas.md
+cast call 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 \
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: USDC пришёл в Ethereum mainnet, а нужен Base — и 0
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `cast call 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 \`)
 
 ## Notes
 

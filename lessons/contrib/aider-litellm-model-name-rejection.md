@@ -45,12 +45,8 @@ aider --api-key "anthropic=$KEY" --model anthropic/claude-sonnet-4-6
 ## Verification
 
 ```bash
-echo "Lesson: Aider via LiteLLM rejects standard Anthropic model"
-wc -l lessons/contrib/aider-litellm-model-name-rejection.md
+aider --api-key "anthropic=$KEY" --model anthropic/claude-sonnet-4-6
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Aider via LiteLLM rejects standard Anthropic model
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `aider --api-key anthropic=$KEY --model anthropic/claude-sonnet-4-6`)

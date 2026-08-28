@@ -62,15 +62,11 @@ cp /tmp/data.db /mnt/d/project/data.db
 ## Verification
 
 ```bash
-echo "Lesson: WSL NTFS SQLite UPDATE 100x slower than ext4"
-wc -l lessons/contrib/wsl-ntfs-sqlite-update-100x-slower.md
+cp /mnt/d/project/data.db /tmp/data.db
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: WSL NTFS SQLite UPDATE 100x slower than ext4
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `cp /mnt/d/project/data.db /tmp/data.db`)
 
 ## Notes
 

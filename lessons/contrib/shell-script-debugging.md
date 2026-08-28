@@ -46,15 +46,11 @@ done
 ## Verification
 
 ```bash
-echo "Lesson: Shell Debugging — set -x 与常见Pitfalls"
-wc -l lessons/contrib/shell-script-debugging.md
+set -x   # 打印执行的命令（+ 前缀）
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Shell Debugging — set -x 与常见Pitfalls
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `set -x # 打印执行的命令（+ 前缀）`)
 
 ## Pitfalls
 

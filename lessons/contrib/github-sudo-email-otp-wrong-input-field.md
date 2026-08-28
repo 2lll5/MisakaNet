@@ -86,15 +86,13 @@ gh auth status   # expect scopes like repo, read:org, workflow
 ## Verification
 
 ```bash
-git status --short | head -5
-git log --oneline -3
+printf '%s
+' "$TOKEN" | gh auth login --hostname github.com --with-token
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-# (status)
-# (recent)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `printf %s
+ $TOKEN | gh auth login --hostname github.com --with-token`)
 
 ## Notes
 

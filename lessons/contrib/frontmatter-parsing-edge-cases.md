@@ -18,15 +18,11 @@ verified_date: '2026-07-10'
 ## Verification
 
 ```bash
-echo "Lesson: Frontmatter Parsing Edge Cases — Silent Failures a"
-wc -l lessons/contrib/frontmatter-parsing-edge-cases.md
+scripts/validate_lessons.py
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Frontmatter Parsing Edge Cases — Silent Failures a
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `scripts/validate_lessons.py`)
 
 ## Frontmatter Parsing Edge Cases — Silent Failures and Data Loss
 

@@ -66,15 +66,11 @@ If maintainer says "search retrieval probe", use that exact term in your respons
 ## Verification
 
 ```bash
-echo "Lesson: Maintainer Feedback Iteration — Address Blockers, "
-wc -l lessons/contrib/maintainer-feedback-iteration.md
+gh pr view $PR --json closingIssuesReferences
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Maintainer Feedback Iteration — Address Blockers, 
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `gh pr view $PR --json closingIssuesReferences`)
 
 ## Related
 

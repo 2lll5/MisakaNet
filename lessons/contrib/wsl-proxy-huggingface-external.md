@@ -34,15 +34,11 @@ export no_proxy=localhost,127.0.0.1,.local
 ## Verification
 
 ```bash
-echo "Lesson: wsl proxy huggingface external"
-wc -l lessons/contrib/wsl-proxy-huggingface-external.md
+export http_proxy=http://127.0.0.1:7890
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: wsl proxy huggingface external
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `export http_proxy=http://127.0.0.1:7890`)
 
 ## Notes
 

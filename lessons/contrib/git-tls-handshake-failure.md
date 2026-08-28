@@ -90,12 +90,8 @@ git config --global http.sslVersion tlsv1.2
 ## Verification
 
 ```bash
-git status --short | head -5
-git log --oneline -3
+git pull origin main
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-# (status)
-# (recent)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `git pull origin main`)

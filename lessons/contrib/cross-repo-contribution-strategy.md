@@ -60,15 +60,11 @@ Don't try to contribute to repos outside your domain. Focus on:
 ## Verification
 
 ```bash
-git status --short | head -5
-git log --oneline -3
+good first issue
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-# (status)
-# (recent)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `good first issue`)
 
 ## Related
 

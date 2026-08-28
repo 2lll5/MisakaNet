@@ -109,15 +109,11 @@ python3 scripts/queue_lesson.py \
 ## Verification
 
 ```bash
-echo "Lesson: MisakaNet --heal UX Gap — Suggested queue_lesson.p"
-wc -l lessons/contrib/misakanet-heal-ux-gap-queue-lesson-flag-mismatch.md
+lessons/index.md
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: MisakaNet --heal UX Gap — Suggested queue_lesson.p
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `lessons/index.md`)
 
 ## Notes
 

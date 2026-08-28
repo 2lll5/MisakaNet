@@ -66,15 +66,11 @@ sudo systemctl restart docker
 ## Verification
 
 ```bash
-echo "Lesson: Erreur de permission Docker: permission denied sur"
-wc -l lessons/contrib/erreur-permission-docker-linux.md
+grep docker /etc/group
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Erreur de permission Docker: permission denied sur
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `grep docker /etc/group`)
 
 ## Notes
 

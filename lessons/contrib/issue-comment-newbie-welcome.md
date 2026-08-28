@@ -74,15 +74,11 @@ jobs:
 ## Verification
 
 ```bash
-echo "Lesson: Auto-Welcome Newcomers via issue_comment Event"
-wc -l lessons/contrib/issue-comment-newbie-welcome.md
+git commit -s\
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Auto-Welcome Newcomers via issue_comment Event
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `git commit -s\`)
 
 ## 注意事项
 

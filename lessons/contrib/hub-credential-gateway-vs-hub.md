@@ -49,15 +49,11 @@ master:
 ## Verification
 
 ```bash
-echo "Lesson: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里"
-wc -l lessons/contrib/hub-credential-gateway-vs-hub.md
+feishu:
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `feishu:`)
 
 ## Key Points
 

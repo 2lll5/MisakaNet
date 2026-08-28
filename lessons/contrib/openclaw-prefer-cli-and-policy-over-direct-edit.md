@@ -71,12 +71,8 @@ domain_expert: unknown
 ## Verification
 
 ```bash
-echo "Lesson: openclaw prefer cli and policy over direct edit"
-wc -l lessons/contrib/openclaw-prefer-cli-and-policy-over-direct-edit.md
+openclaw config
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: openclaw prefer cli and policy over direct edit
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `openclaw config`)

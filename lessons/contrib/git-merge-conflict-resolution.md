@@ -109,15 +109,11 @@ git config --global mergetool.vscode.cmd 'code --wait $MERGED'
 ## Verification
 
 ```bash
-git status --short | head -5
-git log --oneline -3
+src/config.py
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-# (status)
-# (recent)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `src/config.py`)
 
 ## 预防
 

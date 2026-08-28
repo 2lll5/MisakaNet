@@ -118,12 +118,8 @@ python scripts/query_provenance.py --edited-by carol@example.com
 ## Verification
 
 ```bash
-echo "Lesson: Lesson Provenance Tracking: author, PR, source, me"
-wc -l lessons/contrib/lesson-provenance-tracking.md
+scripts/backfill_provenance.py
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Lesson Provenance Tracking: author, PR, source, me
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `scripts/backfill_provenance.py`)

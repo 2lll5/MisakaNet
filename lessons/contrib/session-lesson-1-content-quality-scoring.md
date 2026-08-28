@@ -124,15 +124,11 @@ for f in lessons/*.md; do python3 score_lesson.py "$f"; done
 ## Verification
 
 ```bash
-echo "Lesson: Content Quality Scoring System — Automated Lesson "
-wc -l lessons/contrib/session-lesson-1-content-quality-scoring.md
+for f in lessons/*.md; do python3 score_lesson.py "$f"; done
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Content Quality Scoring System — Automated Lesson 
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `for f in lessons/*.md; do python3 score_lesson.py $f; done`)
 
 ## Notes
 

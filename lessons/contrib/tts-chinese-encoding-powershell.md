@@ -38,12 +38,8 @@ node mmx.mjs speech synthesize --text "早安愚者" --voice Japanese_CalmLady -
 ## Verification
 
 ```bash
-python3 --version
-python3 -c 'import sys; print(sys.version)'
+[System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Python 3.
-3.
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `[System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)`)

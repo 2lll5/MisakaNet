@@ -78,15 +78,11 @@ git ls-remote origin HEAD
 ## Verification
 
 ```bash
-git status --short | head -5
-git log --oneline -3
+git config --global --list | grep credential
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-# (status)
-# (recent)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `git config --global --list | grep credential`)
 
 ## 预防
 

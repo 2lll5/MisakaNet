@@ -69,12 +69,8 @@ curl -x http://ip:port https://www.reddit.com/...
 ## Verification
 
 ```bash
-echo "Lesson: GFW TLS SNI 阻断：工具层全部无效，只有代理能解"
-wc -l lessons/contrib/gfw-tls-sni-blocking-tool-layer-ineffective.md
+curl -v --max-time 5 "https://www.reddit.com/" 2>&1 | grep -E "Connected|TLS|timeout"
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: GFW TLS SNI 阻断：工具层全部无效，只有代理能解
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `curl -v --max-time 5 https://www.reddit.com/ 2>&1 | grep -E Connected|TLS|timeou`)

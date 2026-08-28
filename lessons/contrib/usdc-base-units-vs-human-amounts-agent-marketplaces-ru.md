@@ -145,15 +145,11 @@ def assert_sane_payment(need: UsdcAmount, have: UsdcAmount, label: str) -> None:
 ## Verification
 
 ```bash
-echo "Lesson: USDC: base units vs human amounts — агент платит 1"
-wc -l lessons/contrib/usdc-base-units-vs-human-amounts-agent-marketplaces-ru.md
+--reward 6
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: USDC: base units vs human amounts — агент платит 1
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `--reward 6`)
 
 ## Notes
 

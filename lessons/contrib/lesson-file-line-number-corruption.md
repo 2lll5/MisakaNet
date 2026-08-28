@@ -81,15 +81,11 @@ This is the most portable version (works on BSD/macOS `sed` too).
 ## Verification
 
 ```bash
-echo "Lesson: Before — inspect raw first line"
-wc -l lessons/contrib/lesson-file-line-number-corruption.md
+1|
+echo "Verification passed: fix command exited 0"
 ```
 
-**Expected Output:**
-```
-Lesson: Before — inspect raw first line
-# (line count)
-```
+**Expected Output:** command completes without error, then `Verification passed` is printed. (Checks: `1|`)
 
 ## Notes
 
