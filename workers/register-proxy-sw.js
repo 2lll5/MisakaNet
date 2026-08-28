@@ -445,7 +445,7 @@ async function getIdentityAura(env, token) {
   return IDENTITY_AURA.basic;
 }
 
-async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
+async function handleMcpToolCall(env, toolName, args, authToken, clientIp, ctx) {
   if (toolName === "misakanet_register") {
     const agentType = args.agent_type || "unknown";
     if (!env.MISAKANET_KV) return { error: "KV not configured" };
@@ -502,6 +502,36 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
     } catch (_) {}
   }
 
+  // PRD ④ #1357: async usage analytics — write to D1 without blocking the
+  // response. IP is anonymized to the /16 prefix.
+  function anonymizeIp(ip) {
+    if (!ip || ip === "unknown") return "0.0.0.0";
+    const parts = ip.split(".");
+    if (parts.length === 4) return `${parts[0]}.${parts[1]}.0.0`;
+    const m = ip.match(/^([0-9a-f]{1,4}:[0-9a-f]{1,4})/i);
+    return m ? `${m[1]}::/32` : "0.0.0.0";
+  }
+
+  async function trackUsage(env, ctx, event, fields = {}) {
+    try {
+      const d1 = d1Binding(env);
+      if (!d1) return;
+      const ip = anonymizeIp(fields.ip || clientIp || "unknown");
+      const ua = String(fields.user_agent || "").slice(0, 80);
+      await d1.prepare(
+        `INSERT INTO lesson_usage (event, query, lesson_id, domain, ip, user_agent)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6)`
+      ).bind(
+        event,
+        String(fields.query || "").slice(0, 200),
+        String(fields.lesson_id || "").slice(0, 120),
+        String(fields.domain || "").slice(0, 50),
+        ip,
+        ua,
+      ).run();
+    } catch (_) {}
+  }
+
   if (toolName === "misakanet_search") {
     if (!args.query) return { error: "query is required" };
 
@@ -550,6 +580,10 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
     // Gap analysis: log zero-result queries (Issue #1164)
     if ((!results || results.length === 0) && args.query) {
       logSearchGap(env, args.query, source).catch(() => {});
+      // PRD ④ #1357: record knowledge-gap events for analytics.
+      if (ctx) ctx.waitUntil(trackUsage(env, ctx, "no_match", { query: args.query }));
+    } else if (results && results.length > 0) {
+      if (ctx) ctx.waitUntil(trackUsage(env, ctx, "search", { query: args.query }));
     }
 
     // Progressive disclosure: transform by detail level
@@ -609,6 +643,11 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
     }
     try {
       const lesson = await fetchLessonContent(env, args.path, args.id);
+      // PRD ④ #1357: record lesson view for analytics.
+      if (ctx) ctx.waitUntil(trackUsage(env, ctx, "get_lesson", {
+        lesson_id: lesson?.path || args.id || args.path || "",
+        domain: lesson?.domain || "",
+      }));
       const aura = await getIdentityAura(env, authToken);
       return { ...lesson, identity: aura };
     } catch (e) {
@@ -883,7 +922,7 @@ function mcpSseResponse(body, status = 200, extraHeaders = {}) {
   });
 }
 
-async function handleMcpRequest(request, env, useSse = false) {
+async function handleMcpRequest(request, env, useSse = false, ctx) {
   const respond = useSse ? mcpSseResponse : mcpJsonResponse;
   // 1. Origin validation (MCP spec: prevent DNS rebinding)
   if (!validateMcpOrigin(request)) {
@@ -1074,7 +1113,7 @@ async function handleMcpRequest(request, env, useSse = false) {
         });
       }
       const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
-      const result = await handleMcpToolCall(env, toolName, args, token, clientIp);
+      const result = await handleMcpToolCall(env, toolName, args, token, clientIp, ctx);
 
       // Log tool call result at debug level 2
       debugLog(env, 2, "MCP tool result", {
@@ -1719,7 +1758,7 @@ async function runKeepaliveSweep(cron = "manual") {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (request.method === "OPTIONS") {
@@ -1764,12 +1803,41 @@ export default {
         const qTag = url.searchParams.get("tag");
         const qId = url.searchParams.get("id");
         const qLimit = url.searchParams.get("limit");
+        const qSearch = url.searchParams.get("q");
         if (qDomain) filters.domain = qDomain.slice(0, 50);
         if (qStatus) filters.status = qStatus.slice(0, 20);
         if (qTag) filters.tag = qTag.slice(0, 50);
         if (qId) filters.id = qId.slice(0, 120);
         if (qLimit) filters.limit = qLimit;
         const hasFilters = Object.keys(filters).length > 0;
+
+        // PRD ④ #1356: FTS5 full-text search via ?q=term (ranked).
+        if (qSearch) {
+          const d1 = d1Binding(env);
+          if (!d1) return jsonResponse({ error: "Full-text search requires the D1 service", filtered: true, filters });
+          const limit = Math.min(Math.max(parseInt(qLimit, 10) || 20, 1), 50);
+          // FTS5 MATCH with sanitized query; join lessons for full metadata.
+          const safeQ = qSearch.replace(/["']/g, " ").trim().slice(0, 100);
+          let sql =
+            `SELECT l.id, l.title, l.domain, l.status, l.tags, l.path, l.summary,
+                    l.problem, l.updated, l.created, f.rank
+             FROM lessons_fts f JOIN lessons l ON l.id = f.id
+             WHERE lessons_fts MATCH ?1`;
+          const bind = [safeQ];
+          if (qDomain) { sql += " AND l.domain = ?" + (bind.length + 1); bind.push(qDomain.slice(0, 50)); }
+          if (qStatus) { sql += " AND l.status = ?" + (bind.length + 1); bind.push(qStatus.slice(0, 20)); }
+          sql += ` ORDER BY f.rank LIMIT ${limit}`;
+          let stmt = d1.prepare(sql).bind(...bind);
+          const { results } = await stmt.all();
+          const data = (results || []).map(r => ({
+            id: r.id, title: r.title, domain: r.domain, status: r.status,
+            path: r.path, tags: safeParseTags(r.tags),
+            description: (r.summary || r.problem || "").slice(0, 400),
+            updated: r.updated, created: r.created, rank: r.rank,
+          }));
+          return jsonResponse({ query: qSearch, results: data, source: "d1-fts5" });
+        }
+
         if (hasFilters && !d1Binding(env)) {
           // Filtered queries require D1 — don't silently return the full list.
           return jsonResponse({ error: "Filtered queries require the D1 service", filtered: true, filters });
@@ -1778,6 +1846,44 @@ export default {
         if (!token && !d1Binding(env)) return jsonResponse({ error: "REGISTER_TOKEN not configured" }, 500);
         const data = await loadLessons(env, hasFilters ? filters : {});
         return jsonResponse(data);
+      } catch (e) { return jsonResponse({ error: e.message }, 502); }
+    }
+
+    // GET /api/analytics — usage analytics (PRD ④ #1357)
+    // Top searches, top viewed lessons, top no-match queries (knowledge
+    // gaps), and daily request counts from the lesson_usage table.
+    if (request.method === "GET" && url.pathname === "/api/analytics") {
+      const d1 = d1Binding(env);
+      if (!d1) return jsonResponse({ error: "D1 not configured" }, 503);
+      try {
+        const [topQueries, topLessons, topGaps, daily] = await Promise.all([
+          d1.prepare(
+            `SELECT query, COUNT(*) AS n FROM lesson_usage
+             WHERE event='search' AND created_at >= datetime('now','-7 days')
+             GROUP BY query ORDER BY n DESC LIMIT 10`
+          ).all(),
+          d1.prepare(
+            `SELECT lesson_id, COUNT(*) AS n FROM lesson_usage
+             WHERE event='get_lesson' AND created_at >= datetime('now','-7 days')
+             GROUP BY lesson_id ORDER BY n DESC LIMIT 10`
+          ).all(),
+          d1.prepare(
+            `SELECT query, COUNT(*) AS n FROM lesson_usage
+             WHERE event='no_match' AND created_at >= datetime('now','-7 days')
+             GROUP BY query ORDER BY n DESC LIMIT 10`
+          ).all(),
+          d1.prepare(
+            `SELECT date(created_at) AS day, COUNT(*) AS n FROM lesson_usage
+             WHERE created_at >= datetime('now','-7 days')
+             GROUP BY day ORDER BY day`
+          ).all(),
+        ]);
+        return jsonResponse({
+          top_searches: (topQueries.results || []).map(r => ({ query: r.query, count: r.n })),
+          top_lessons: (topLessons.results || []).map(r => ({ lesson_id: r.lesson_id, count: r.n })),
+          knowledge_gaps: (topGaps.results || []).map(r => ({ query: r.query, count: r.n })),
+          daily_requests: (daily.results || []).map(r => ({ day: r.day, count: r.n })),
+        });
       } catch (e) { return jsonResponse({ error: e.message }, 502); }
     }
 
@@ -2155,7 +2261,7 @@ export default {
     if (request.method === "POST" && url.pathname === "/mcp") {
       const accept = request.headers.get("Accept") || "";
       const useSse = accept.includes("text/event-stream");
-      return handleMcpRequest(request, env, useSse);
+      return handleMcpRequest(request, env, useSse, ctx);
     }
     // OPTIONS /mcp — CORS preflight (browser clients need this)
     if (request.method === "OPTIONS" && url.pathname === "/mcp") {

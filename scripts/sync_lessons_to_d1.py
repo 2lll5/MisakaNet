@@ -182,6 +182,20 @@ def upsert_sql(lessons: list[dict]) -> str:
         )
     stmts.append(f"INSERT INTO lesson_sync_log (run_at, source_commit, total, upserted) "
                  f"VALUES ({now}, '{git_head()}', {len(lessons)}, {len(lessons)});")
+    # PRD ④ #1356: rebuild the FTS5 search index after sync (delete + reinsert).
+    stmts.append("DELETE FROM lessons_fts;")
+    for l in lessons:
+        stmts.append(
+            "INSERT INTO lessons_fts (id, title, problem, root_cause, solution, "
+            "verification, content_md) VALUES ('" + l["id"].replace("'", "''") + "', '"
+            + l["title"].replace("'", "''") + "', '"
+            + (l.get("problem") or "").replace("'", "''") + "', '"
+            + (l.get("root_cause") or "").replace("'", "''") + "', '"
+            + (l.get("solution") or "").replace("'", "''") + "', '"
+            + (l.get("verification") or "").replace("'", "''") + "', '"
+            + (l.get("content_md") or "").replace("'", "''") + "');"
+        )
+    stmts.append(f"-- FTS index rebuilt for {len(lessons)} lessons")
     return "\n".join(stmts) + "\n"
 
 

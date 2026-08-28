@@ -67,3 +67,32 @@ CREATE TABLE IF NOT EXISTS lesson_drafts (
 CREATE INDEX IF NOT EXISTS idx_drafts_status ON lesson_drafts(status);
 CREATE INDEX IF NOT EXISTS idx_drafts_kind ON lesson_drafts(kind);
 CREATE INDEX IF NOT EXISTS idx_drafts_source ON lesson_drafts(source_id);
+
+-- PRD ④ #1357: usage analytics — which lessons are searched/viewed,
+-- which queries miss (knowledge gaps), latency/error signal. Written
+-- asynchronously via ctx.waitUntil so hot paths are not blocked.
+CREATE TABLE IF NOT EXISTS lesson_usage (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  event TEXT NOT NULL,          -- 'search' | 'get_lesson' | 'no_match'
+  query TEXT,                   -- search query (if applicable)
+  lesson_id TEXT,               -- lesson accessed (if applicable)
+  domain TEXT,                  -- lesson domain
+  ip TEXT,                      -- anonymized (first 2 octets, e.g. 192.168.0.0)
+  user_agent TEXT,              -- agent name/version (truncated 80)
+  created_at TEXT DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_usage_event ON lesson_usage(event);
+CREATE INDEX IF NOT EXISTS idx_usage_created ON lesson_usage(created_at);
+
+-- PRD ④ #1356: FTS5 full-text search index. Standalone virtual table
+-- (content duplicated from lessons for simplicity — 314 rows is tiny).
+-- Rebuilt after each sync by scripts/sync_lessons_to_d1.py.
+CREATE VIRTUAL TABLE IF NOT EXISTS lessons_fts USING fts5(
+  id UNINDEXED,
+  title,
+  problem,
+  root_cause,
+  solution,
+  verification,
+  content_md
+);

@@ -8,16 +8,35 @@ import worker from './register-proxy-sw.js';
 const TOKEN = 'd1-test-token';
 
 // D1 stub: prepare(sql).bind(...).all() filters the in-memory rows for the
-// query shapes used by the worker: full scan, WHERE path=, WHERE id=, and
-// structured filters (WHERE domain = ?N [AND tags LIKE ?M ...]). Applies
+// query shapes used by the worker: full scan, WHERE path=, WHERE id=,
+// structured filters, analytics GROUP BY, and INSERT (run()). Applies
 // LIMIT n from the SQL tail.
 function createD1(rows) {
   return {
+    _usage: [],
+    _lastInsert: null,
     prepare(sql) {
       const limitMatch = sql.match(/LIMIT\s+(\d+)/i);
       const limit = limitMatch ? Number(limitMatch[1]) : Infinity;
       let matcher;
-      if (sql.includes('WHERE path = ?')) {
+      if (sql.trim().startsWith('INSERT INTO lesson_usage')) {
+        matcher = () => [];
+      } else if (sql.includes('GROUP BY')) {
+        // Analytics: aggregate the _usage rows by the grouped column.
+        const groupCol = sql.includes('GROUP BY query') ? 'query'
+          : sql.includes('GROUP BY lesson_id') ? 'lesson_id'
+          : sql.includes('GROUP BY day') ? 'day'
+          : sql.includes('GROUP BY date(created_at)') ? 'day'
+          : 'query';
+        matcher = () => {
+          const map = {};
+          for (const u of this._usage) {
+            const key = groupCol === 'day' ? (u.created_at || '').slice(0, 10) : (u[groupCol] ?? '');
+            map[key] = (map[key] || 0) + 1;
+          }
+          return Object.entries(map).map(([k, n]) => ({ [groupCol === 'day' ? 'day' : groupCol]: k, n }));
+        };
+      } else if (sql.includes('WHERE path = ?')) {
         matcher = (bound) => rows.filter((r) => r.path === bound[0]);
       } else if (sql.includes('WHERE id = ?')) {
         matcher = (bound) => rows.filter((r) => r.id === bound[0]);
@@ -48,7 +67,19 @@ function createD1(rows) {
           const out = matcher(stmt._bound || []);
           return { results: out.slice(0, limit) };
         },
+        async run() {
+          // INSERT INTO lesson_usage — record for analytics aggregation.
+          if (sql.trim().startsWith('INSERT INTO lesson_usage')) {
+            const b = stmt._bound || [];
+            this._d1 && this._d1._usage.push({
+              event: b[0], query: b[1], lesson_id: b[2], domain: b[3],
+              ip: b[4], user_agent: b[5], created_at: new Date().toISOString(),
+            });
+          }
+          return { success: true };
+        },
       };
+      stmt._d1 = this;
       return stmt;
     },
   };
@@ -267,4 +298,57 @@ test('/api/lessons?limit= caps result count', async () => {
   assert.equal(resp.status, 200);
   const data = await resp.json();
   assert.equal(data.length, 1);
+});
+
+// ── Analytics (PRD ④ #1357) ──
+
+function seedUsage(d1, entries) {
+  for (const e of entries) {
+    d1._usage.push({ ...e, created_at: e.created_at || new Date().toISOString() });
+  }
+}
+
+test('/api/analytics aggregates usage without auth', async () => {
+  const d1 = createD1([]);
+  seedUsage(d1, [
+    { event: 'search', query: 'pip timeout', lesson_id: '', domain: 'python' },
+    { event: 'search', query: 'pip timeout', lesson_id: '', domain: 'python' },
+    { event: 'search', query: 'dco signoff', lesson_id: '', domain: 'git' },
+    { event: 'no_match', query: 'zzz nonexistent', lesson_id: '', domain: '' },
+    { event: 'get_lesson', query: '', lesson_id: 'pip-install-timeout-ssl', domain: 'python' },
+  ]);
+  const env = { MISAKANET_D1: d1 };
+  const resp = await worker.fetch(new Request('https://misakanet.org/api/analytics'), env);
+  assert.equal(resp.status, 200);
+  const data = await resp.json();
+  assert.ok(Array.isArray(data.top_searches));
+  assert.equal(data.top_searches[0].query, 'pip timeout');
+  assert.equal(data.top_searches[0].count, 2);
+  assert.ok(data.knowledge_gaps.some(g => g.query === 'zzz nonexistent'));
+  assert.ok(data.top_lessons.some(l => l.lesson_id === 'pip-install-timeout-ssl'));
+});
+
+test('trackUsage anonymizes IP to /16 prefix', async () => {
+  // D1 with real rows so search returns results and records a search event.
+  const d1 = createD1(D1_ROWS);
+  const env = { MISAKANET_D1: d1, MCP_TOKEN: 'x' };
+  const ctx = { waitUntil: (p) => p };
+  const resp = await worker.fetch(new Request('https://misakanet.org/mcp', {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer x',
+      'Content-Type': 'application/json',
+      'MCP-Protocol-Version': '2025-06-18',
+      'CF-Connecting-IP': '203.0.113.42',
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0', id: 1, method: 'tools/call',
+      params: { name: 'misakanet_search', arguments: { query: 'dco', top: 1 } },
+    }),
+  }), env, ctx);
+  assert.equal(resp.status, 200);
+  // Search had results (D1_ROWS has d1-dco) → search event tracked.
+  assert.ok(d1._usage.some(u => u.event === 'search' && u.query === 'dco'));
+  // IP anonymized to first 2 octets: 203.0.113.42 → 203.0.0.0
+  assert.ok(d1._usage.some(u => u.ip === '203.0.0.0'));
 });
