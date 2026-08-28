@@ -148,9 +148,13 @@ def main():
         all_findings.extend(findings)
 
     if all_findings:
-        for f in all_findings:
-            # Note: snippet intentionally omitted to avoid logging sensitive values (CodeQL #57/#58)
-            print(f"  ❌ {f['file']}:{f['line']} — {f['type']}")
+        for finding in all_findings:
+            # Extract only non-sensitive metadata (no snippet, no matched content)
+            file_path = str(finding.get("file", ""))
+            line_no = finding.get("line", 0)
+            secret_type = str(finding.get("type", ""))
+            # CodeQL #59: intentionally log only file/line/type metadata, never the matched content
+            print(f"  ❌ {file_path}:{line_no} — {secret_type}")
             errors += 1
     else:
         print("  ✅ No hardcoded secrets found in worker source code")
