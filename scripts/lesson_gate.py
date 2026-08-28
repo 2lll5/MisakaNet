@@ -44,17 +44,29 @@ FM_RE = re.compile(r"^---\s*\n(.*?)\n---", re.DOTALL)
 
 # ── Parsing ─────────────────────────────────────────────────────────
 def parse_frontmatter(text: str) -> tuple[dict, str]:
-    """Return (frontmatter_dict, content_without_frontmatter)."""
+    """Return (frontmatter_dict, content_without_frontmatter).
+
+    Supports JSON (legacy) and YAML (2026-08+ convention) frontmatter, plus
+    the JSON+provenance legacy quirk via raw_decode.
+    """
     m = FM_RE.match(text)
     if not m:
         return {}, text
+    raw = m.group(1).strip()
     try:
-        fm = json.loads(m.group(1).strip())
+        fm = json.JSONDecoder().raw_decode(raw)[0]
+        if isinstance(fm, dict):
+            return fm, text[m.end():]
     except json.JSONDecodeError:
-        return {}, text[m.end():]
-    if not isinstance(fm, dict):
-        return {}, text[m.end():]
-    return fm, text[m.end():]
+        pass
+    try:
+        import yaml
+        fm = yaml.safe_load(raw)
+        if isinstance(fm, dict):
+            return fm, text[m.end():]
+    except Exception:
+        pass
+    return {}, text[m.end():]
 
 
 # ── Field validators ────────────────────────────────────────────────
