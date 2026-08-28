@@ -58,28 +58,28 @@ class TestConnectPage:
         assert CONNECT_HTML.is_file(), f"Missing: {CONNECT_HTML}"
 
     def test_page_has_voice_toggle(self):
-        html = CONNECT_HTML.read_text()
+        html = CONNECT_HTML.read_text(encoding="utf-8")
         assert "Enable Misaka Voice" in html, "Missing voice toggle label"
         assert "misaka-voice" in html, "Missing localStorage key for voice pref"
 
     def test_page_references_all_mp3s(self):
-        html = CONNECT_HTML.read_text()
+        html = CONNECT_HTML.read_text(encoding="utf-8")
         for name in EXPECTED_FILES:
             assert name in html, f"Missing reference to {name}"
 
     def test_page_has_audio_elements(self):
-        html = CONNECT_HTML.read_text()
+        html = CONNECT_HTML.read_text(encoding="utf-8")
         assert "<audio" in html, "No <audio> elements found"
         audio_count = html.count("<audio")
         assert audio_count >= 4, f"Expected >=4 <audio> elements, found {audio_count}"
 
     def test_page_has_toggle_logic(self):
-        html = CONNECT_HTML.read_text()
+        html = CONNECT_HTML.read_text(encoding="utf-8")
         assert "playVoice" in html or "play(" in html, "Missing play function"
         assert "toggle" in html.lower(), "Missing toggle logic"
 
     def test_page_has_pairing_flow(self):
-        html = CONNECT_HTML.read_text()
+        html = CONNECT_HTML.read_text(encoding="utf-8")
         assert "/api/connect" in html, "Missing /api/connect reference"
         assert "/api/pair" in html, "Missing /api/pair reference"
 
@@ -88,12 +88,12 @@ class TestVoiceTriggerMapping:
     """Verify event-to-file mapping matches Issue #912 spec."""
 
     def test_connect_event_maps_file(self):
-        html = CONNECT_HTML.read_text()
+        html = CONNECT_HTML.read_text(encoding="utf-8")
         # connect-success.mp3 should be played on connect/pair success
         assert "voicePair" in html or "pair-success" in html
 
     def test_failure_event_maps_file(self):
-        html = CONNECT_HTML.read_text()
+        html = CONNECT_HTML.read_text(encoding="utf-8")
         assert "voiceFailure" in html or "failure-warning" in html
 
 

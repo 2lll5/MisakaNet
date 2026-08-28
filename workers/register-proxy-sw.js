@@ -1207,11 +1207,19 @@ async function fetchLessonFromD1(env, lessonPath, lessonId) {
 // Unified lesson source: D1 first (real-time, PRD ④), GitHub via KV cache fallback.
 async function loadLessons(env, filters = {}) {
   // Filtered queries must go to D1 (GitHub proxy can't filter). Unfiltered
-  // keeps the D1-first / GitHub fallback behavior.
+  // keeps the D1-first / GitHub fallback behavior, with a KV cache over the
+  // D1 read (PRD ④ #1358) to keep the hot path cheap — D1 data changes only
+  // on sync, so a short TTL is safe.
   if (filters && Object.keys(filters).length > 0) {
     const fromD1 = await fetchLessonsFromD1(env, filters);
     if (fromD1) return fromD1;
     return [];
+  }
+  if (d1Binding(env)) {
+    const fromD1 = await getWithCache(env, "proxy:lessons:d1", () => fetchLessonsFromD1(env));
+    if (fromD1 && fromD1.length > 0) return fromD1;
+    // D1 empty/absent — fall back to the GitHub snapshot.
+    return getWithCache(env, "proxy:lessons", () => fetchFromGitHub(env.REGISTER_TOKEN, "lessons.json", "data"));
   }
   const fromD1 = await fetchLessonsFromD1(env);
   if (fromD1 && fromD1.length > 0) return fromD1;
@@ -1219,7 +1227,7 @@ async function loadLessons(env, filters = {}) {
 }
 
 // ── KV cache wrapper ──
-async function getWithCache(env, cacheKey, fetchFn) {
+async function getWithCache(env, cacheKey, fetchFn, opts = {}) {
   if (env.MISAKANET_KV) {
     try {
       const cached = await env.MISAKANET_KV.get(cacheKey, "json");
@@ -1227,8 +1235,12 @@ async function getWithCache(env, cacheKey, fetchFn) {
     } catch {}
   }
   const data = await fetchFn();
-  if (env.MISAKANET_KV) {
-    try { await env.MISAKANET_KV.put(cacheKey, JSON.stringify({ ts: Date.now(), data }), { expirationTtl: Math.ceil(PROXY_CACHE_TTL / 1000) + 30 }); } catch {}
+  // Don't cache empty/absent results unless explicitly allowed — a transient
+  // empty read must not pin a stale empty state for the TTL window.
+  if (data && (!Array.isArray(data) || data.length > 0)) {
+    if (env.MISAKANET_KV) {
+      try { await env.MISAKANET_KV.put(cacheKey, JSON.stringify({ ts: Date.now(), data }), { expirationTtl: Math.ceil(PROXY_CACHE_TTL / 1000) + 30 }); } catch {}
+    }
   }
   return data;
 }

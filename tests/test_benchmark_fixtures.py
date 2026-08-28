@@ -39,7 +39,8 @@ def test_orchestrator_lists_all_fixtures():
         check=True,
         capture_output=True,
         text=True,
-        cwd=REPO,
+        encoding="utf-8",
+cwd=REPO,
     )
     listed = {item["name"] for item in json.loads(result.stdout)}
     assert listed == EXPECTED_NAMES
@@ -51,7 +52,8 @@ def test_each_fixture_verifies():
         check=True,
         capture_output=True,
         text=True,
-        cwd=REPO,
+        encoding="utf-8",
+cwd=REPO,
     )
     reports = json.loads(result.stdout)
     assert {report["fixture"] for report in reports} == EXPECTED_NAMES
