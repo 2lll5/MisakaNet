@@ -244,6 +244,15 @@ def run(intake_raw: dict, dry_run: bool = False) -> dict:
     result["duplicate"] = not is_new
     if issue:
         result["issue"] = issue
+        # Backfill the linked issue into the draft row (PRD ③ step 7).
+        try:
+            _d1_query(
+                "UPDATE lesson_drafts SET issue_number=?1, issue_url=?2, "
+                "status='review', updated=datetime('now') WHERE source_id=?3 AND kind=?4",
+                [issue["issue_number"], issue["issue_url"], intake["source_id"], intake["kind"]],
+            )
+        except Exception as e:
+            print(f"  ⚠️ issue backfill failed: {e}", file=sys.stderr)
     return result
 
 
