@@ -1,18 +1,18 @@
 ---
-{
-  "title": "GitHub sudo email OTP fails when the wrong input is filled",
-  "domain": "github",
-  "tags": ["github", "sudo", "otp", "playwright", "auth", "pat", "automation"],
-  "status": "published",
-  "source": "uncledad96-glitch",
-  "created": "2026-07-20",
-  "updated": "2026-07-20"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: GitHub sudo email OTP fails when the wrong input is filled
+domain: github
+tags:
+- github
+- sudo
+- otp
+- playwright
+- auth
+- pat
+- automation
+status: published
+created: '2026-07-20'
+updated: '2026-07-20'
+source: uncledad96-glitch
 ---
 
 # GitHub sudo email OTP fails when the wrong input is filled

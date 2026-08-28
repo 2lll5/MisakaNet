@@ -1,10 +1,6 @@
 ---
-created: '2026-07-06'
+title: GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案
 domain: git
-domain_expert: unknown
-language: zh
-source: unknown
-status: published
 tags:
 - git
 - github
@@ -13,26 +9,13 @@ tags:
 - DNS
 - hosts
 - connectivity
-title: GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案
-verification: metadata-normalized
-'{"title"': 'GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案", "domain": "devops", "tags":
-  ["git", "github", "TLS", "network", "DNS", "hosts", "connectivity"], "domain_expert":
-  "unknown"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案
-verification: metadata-normalized
-'{"title"': 'GitHub DNS 污染/443端口不通 — hosts 备用 IP 方案", "domain": "devops", "tags":
-  ["git", "github", "TLS", "network", "DNS", "hosts", "connectivity"], "domain_expert":
-  "unknown"}'
+created: '2026-07-06'
+language: zh
+source: unknown
+domain_expert: unknown
+---
+
 ---
 ## Problem
 

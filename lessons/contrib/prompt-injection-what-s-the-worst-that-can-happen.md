@@ -1,19 +1,17 @@
 ---
-{
-  "title": "Prompt Injection: What's the Worst That Can Happen?",
-  "domain": "AI Security",
-  "tags": ["prompt injection", "LLM security", "vulnerability", "ChatGPT", "prompt leak"],
-  "language": "en",
-  "status": "published",
-  "source": "https://simonwillison.net/2023/Apr/14/worst-that-can-happen/",
-  "created": "2026-07-27",
-  "confidence": "0.85"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'Prompt Injection: What''s the Worst That Can Happen?'
+domain: AI Security
+tags:
+- prompt injection
+- LLM security
+- vulnerability
+- ChatGPT
+- prompt leak
+status: published
+created: '2026-07-27'
+language: en
+source: https://simonwillison.net/2023/Apr/14/worst-that-can-happen/
+confidence: 0.85
 ---
 
 ## Problem

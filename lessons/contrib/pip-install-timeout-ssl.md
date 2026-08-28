@@ -1,20 +1,14 @@
 ---
-created: '2026-07-06'
+title: pip install Network Timeout / SSL ErrorFix
 domain: contrib
-provenance:
-  contributor: unknown
-  evidence: common-pip-issue
-  merged_at: '2026-07-06'
-  original_issue: null
-  source: agent-memory-dump
-source: unknown
-status: published
 tags:
 - install
 - timeout
-title: pip install Network Timeout / SSL ErrorFix
-verification: metadata-normalized
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 ## Problem
 
 `pip install` 失败，常见报错信息包括：

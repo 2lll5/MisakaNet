@@ -1,28 +1,24 @@
 ---
-created: '2026-07-06'
+title: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
 domain: automation
-language: zh
-source: unknown
-status: published
 tags:
 - automation
 - browser
 - harness
-title: browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
-verification: metadata-normalized
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
+confidence: 0.6
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
 -->
 
----{"title": "browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation", "domain": "devops", "source": "skill-harvest", "status": "published", "confidence": "0.6", "created": "2026-05-20"}---
-
-# browser-harness — AI 直连 Chrome 的 CDP 浏览器Automation
-
+<!-- 
 ## Background
 
 browser-harness 是 browser-use 团队的开源项目，定位是「给 AI 用的浏览器控制层」。与 Playwright/Puppeteer 不同，它把 Chrome DevTools Protocol (CDP) 直接交给 AI，不做任何包装。

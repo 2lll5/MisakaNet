@@ -1,18 +1,18 @@
 ---
 title: Search Smart Fallback — Turning Zero Results into Discovery
 domain: devops
-source: MisakaNet search_knowledge.py enhancement
+tags:
+- search
+- fallback
+- ux
+- zero-results
+- discovery
 status: draft
-tags: ["search", "fallback", "ux", "zero-results", "discovery"]
-created: "2026-07-10 00:00:00 UTC"
-updated: "2026-07-10 00:00:00 UTC"
+created: 2026-07-10 00:00:00 UTC
+updated: 2026-07-10 00:00:00 UTC
+source: MisakaNet search_knowledge.py enhancement
 confidence: 0.95
 verified_date: 2026-07-10
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
 
 ## Verification

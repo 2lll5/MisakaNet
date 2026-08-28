@@ -1,14 +1,6 @@
 ---
-created: '2026-07-06'
+title: Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、MIME 与 SPF
 domain: devops
-language: zh
-provenance:
-  contributor: Ikalus1988
-  evidence: pre-ingest-reuse
-  merged_at: '2026-08-05'
-  source: agent-debugging
-source: unknown
-status: published
 tags:
 - cloudflare
 - email-worker
@@ -16,8 +8,12 @@ tags:
 - turnstile
 - registration
 - spf
-title: Cloudflare Email Worker 邮件注册踩坑Notes — message.raw、MIME 与 SPF
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 为 MisakaNet 添加无 GitHub 账号的注册通道，选用 Cloudflare Email Routing + Workers + KV 架构。用户发邮件到注册地址 → Worker 自动分配节点 ID → 存入 KV。

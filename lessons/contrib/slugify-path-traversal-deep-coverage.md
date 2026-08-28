@@ -1,9 +1,6 @@
 ---
-created: '2026-07-06'
+title: slugify path traversal deep coverage
 domain: contrib
-domain_expert: unknown
-source: unknown
-status: published
 tags:
 - slugify
 - path-traversal
@@ -11,26 +8,12 @@ tags:
 - null-byte
 - test-coverage
 - hardening
-title: slugify path traversal deep coverage
-verification: metadata-normalized
-'{"title"': 'Slugify: deep coverage of path traversal, null bytes, and reserved names",
-  "domain": "scripts", "tags": ["slugify", "path-traversal", "windows-reserved", "null-byte",
-  "test-coverage", "hardening"], "domain_expert": "unknown"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: slugify path traversal deep coverage
-verification: metadata-normalized
-'{"title"': 'Slugify: deep coverage of path traversal, null bytes, and reserved names",
-  "domain": "scripts", "tags": ["slugify", "path-traversal", "windows-reserved", "null-byte",
-  "test-coverage", "hardening"], "domain_expert": "unknown"}'
+created: '2026-07-06'
+source: unknown
+domain_expert: unknown
+---
+
 ---
 ## Problem
 

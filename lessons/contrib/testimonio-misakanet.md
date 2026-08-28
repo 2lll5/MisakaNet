@@ -1,17 +1,13 @@
 ---
+title: 'Testimonio: MisakaNet me ayudo a resolver ModuleNotFoundError'
 domain: devops
-evidence_level: E1
-status: published
 tags:
 - testimonio
 - misakanet
-title: 'Testimonio: MisakaNet me ayudo a resolver ModuleNotFoundError'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+evidence_level: E1
 ---
+
 # Testimonio: MisakaNet me ayudo a resolver ModuleNotFoundError
 
 ## Error real

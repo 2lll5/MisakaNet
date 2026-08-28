@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: JSON 解析失败Handling — 截断 / 格式Error
 domain: contrib
-language: zh
-source: unknown
-status: published
 tags:
 - json
 - parse
 - failure
 - handling
-title: JSON 解析失败Handling — 截断 / 格式Error
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 从 LLM 输出或 API 返回中解析 JSON 时报 `json.decoder.JSONDecodeError`。常见于模型输出被截断、前后有多余字符。

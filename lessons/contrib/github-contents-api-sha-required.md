@@ -1,24 +1,16 @@
 ---
-{
-  "title": "GitHub contents API edit fails with 422 without the file sha",
-  "domain": "development",
-  "tags": [
-    "github-api",
-    "automation",
-    "rest-api",
-    "file-edit",
-    "scripting"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "created": "2026-08-11 00:00:00 UTC",
-  "updated": "2026-08-11 00:00:00 UTC"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: GitHub contents API edit fails with 422 without the file sha
+domain: development
+tags:
+- github-api
+- automation
+- rest-api
+- file-edit
+- scripting
+status: published
+created: 2026-08-11 00:00:00 UTC
+updated: 2026-08-11 00:00:00 UTC
+evidence_level: E2
 ---
 
 # GitHub contents API edit fails 422 when the file `sha` is missing

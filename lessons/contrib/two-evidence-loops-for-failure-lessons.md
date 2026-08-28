@@ -1,18 +1,16 @@
 ---
-{
-  "domain": "growth",
-  "title": "Two Evidence Loops for Failure Lessons",
-  "tags": ["evidence", "lessons", "reuse", "growth", "feedback"],
-  "status": "published",
-  "source": "generalized maintainer retrospective",
-  "created": "2026-07-17",
-  "confidence": "0.90"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Two Evidence Loops for Failure Lessons
+domain: growth
+tags:
+- evidence
+- lessons
+- reuse
+- growth
+- feedback
+status: published
+created: '2026-07-17'
+source: generalized maintainer retrospective
+confidence: 0.9
 ---
 
 ## Problem

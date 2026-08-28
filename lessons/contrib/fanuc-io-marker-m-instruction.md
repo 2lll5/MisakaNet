@@ -1,21 +1,21 @@
 ---
 title: FANUC IO Marker M[] Instruction — Background Logic Alternative
 domain: fanuc
-subdomain: tp-programming
-tags: ["marker", "m-register", "io", "background-logic", "handling-tool", "vass"]
-source: robot-forum.com
+tags:
+- marker
+- m-register
+- io
+- background-logic
+- handling-tool
+- vass
 status: published
-confidence: 0.85
 created: 2026-07-01
-verified_date: 
+source: robot-forum.com
+confidence: 0.85
 domain_expert: cattmampbell
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+verified_date: null
+subdomain: tp-programming
 ---
-
 
 ## Problem
 

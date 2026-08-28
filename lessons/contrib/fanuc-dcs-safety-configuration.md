@@ -1,17 +1,20 @@
 ---
-title: "FANUC DCS Safety System — Configuration and Stop Modes"
-domain: "fanuc"
-subdomain: "safety"
-tags: ["dcs", "safety", "dual-check", "emergency-stop", "fence", "stop-mode", "safety-io", "iso13849"]
-status: "published"
-source: "internal-training"
-confidence: "0.95"
-created: "2026-07-14"
-provenance:
-  source: "colleague-memory"
-  contributor: "Ikalus1988"
-  merged_at: "2026-07-15"
-  evidence: "pre-ingest-reuse"
+title: FANUC DCS Safety System — Configuration and Stop Modes
+domain: fanuc
+tags:
+- dcs
+- safety
+- dual-check
+- emergency-stop
+- fence
+- stop-mode
+- safety-io
+- iso13849
+status: published
+created: '2026-07-14'
+source: internal-training
+confidence: 0.95
+subdomain: safety
 ---
 
 ## Problem

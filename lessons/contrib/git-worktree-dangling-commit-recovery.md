@@ -1,24 +1,16 @@
 ---
-{
-  "title": "git worktree commit lost after pushing from the wrong directory",
-  "domain": "development",
-  "tags": [
-    "git",
-    "worktree",
-    "reflog",
-    "recovery",
-    "branch"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "created": "2026-08-11 00:00:00 UTC",
-  "updated": "2026-08-11 00:00:00 UTC"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: git worktree commit lost after pushing from the wrong directory
+domain: development
+tags:
+- git
+- worktree
+- reflog
+- recovery
+- branch
+status: published
+created: 2026-08-11 00:00:00 UTC
+updated: 2026-08-11 00:00:00 UTC
+evidence_level: E2
 ---
 
 # git worktree commits "disappear" after pushing from the wrong directory

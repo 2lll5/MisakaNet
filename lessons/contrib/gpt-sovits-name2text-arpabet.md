@@ -1,36 +1,19 @@
 ---
-confidence: '0.9'
-created: '2026-07-06'
+title: gpt sovits name2text arpabet
 domain: contrib
-domain_expert: hanged-man
-scope: narrow
-source: hanged-man
-status: published
 tags:
 - sovits
 - name2text
 - arpabet
-title: gpt sovits name2text arpabet
-verification: metadata-normalized
-verified_date: '2026-04-06'
-'{"title"': 'GPT-SoVITS 训练：2-name2text 格式必须用 ARPABET 音素而非中文原文", "domain": "tts", "tags":
-  "", "source": "hanged-man", "status": "published", "created": "2026-04-06", "confidence":
-  "0.9", "scope": "narrow", "domain_expert": "hanged-man", "verified_date": "2026-04-06"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: gpt sovits name2text arpabet
-verification: metadata-normalized
-'{"title"': 'GPT-SoVITS 训练：2-name2text 格式必须用 ARPABET 音素而非中文原文", "domain": "tts", "tags":
-  "", "source": "hanged-man", "status": "published", "created": "2026-04-06", "confidence":
-  "0.9", "scope": "narrow", "domain_expert": "hanged-man", "verified_date": "2026-04-06"}'
+created: '2026-07-06'
+source: hanged-man
+confidence: 0.9
+domain_expert: hanged-man
+verified_date: '2026-04-06'
+scope: narrow
+---
+
 ---
 ## Problem
 

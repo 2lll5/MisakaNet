@@ -1,17 +1,17 @@
 ---
-{
-  "title": "Version Management Across Multiple Files",
-  "domain": "devops",
-  "tags": ["version", "release", "changelog", "documentation", "metrics", "ssot", "frontend"],
-  "status": "published",
-  "source": "agent_experience",
-  "created": "2026-07-02"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Version Management Across Multiple Files
+domain: devops
+tags:
+- version
+- release
+- changelog
+- documentation
+- metrics
+- ssot
+- frontend
+status: published
+created: '2026-07-02'
+source: agent_experience
 ---
 
 ## Problem

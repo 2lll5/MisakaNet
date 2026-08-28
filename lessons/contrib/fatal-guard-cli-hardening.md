@@ -1,18 +1,15 @@
 ---
-{
-  "title": "Fatal-guard CLI: harden entry point with --help, --version, exit codes",
-  "domain": "devops",
-  "tags": ["fatal-guard", "cli", "harden", "exit-codes"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "closed-pr-1023",
-  "created": "2026-08-22"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'Fatal-guard CLI: harden entry point with --help, --version, exit codes'
+domain: devops
+tags:
+- fatal-guard
+- cli
+- harden
+- exit-codes
+status: published
+created: '2026-08-22'
+source: closed-pr-1023
+evidence_level: E2
 ---
 
 ## Problem

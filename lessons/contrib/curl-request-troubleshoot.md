@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: curl / wget 请求失败通用Diagnosis
 domain: network
-language: zh
-source: unknown
-status: published
 tags:
 - network
 - curl
 - request
 - troubleshoot
-title: curl / wget 请求失败通用Diagnosis
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 `curl https://example.com` 返回空、报错或超时。不知道是 DNS、代理、证书还是目标服务的问题。

@@ -1,33 +1,18 @@
 ---
-created: '2026-07-06'
+title: Cron 作业不执行 / 不生效排障
 domain: contrib
-domain_expert: unknown
-language: zh
-source: unknown
-status: published
 tags:
 - cron
 - scheduler
 - not-running
 - debug
-title: Cron 作业不执行 / 不生效排障
-verification: metadata-normalized
-'{"title"': 'Cron 作业不执行 / 不生效排障", "domain": "devops", "tags": ["cron", "scheduler",
-  "not-running", "debug"], "domain_expert": "unknown"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: Cron 作业不执行 / 不生效排障
-verification: metadata-normalized
-'{"title"': 'Cron 作业不执行 / 不生效排障", "domain": "devops", "tags": ["cron", "scheduler",
-  "not-running", "debug"], "domain_expert": "unknown"}'
+created: '2026-07-06'
+language: zh
+source: unknown
+domain_expert: unknown
+---
+
 ---
 ## Problem
 

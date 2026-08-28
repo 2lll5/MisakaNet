@@ -1,23 +1,18 @@
 ---
-created: '2026-07-06'
+title: ccswitch-hermes-switch 踩坑Notes
 domain: devops
-language: zh
-source: unknown
-status: published
 tags:
 - devops
 - hermes
 - model
 - switch
 - ccswitch
-title: ccswitch-hermes-switch 踩坑Notes
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 # ccswitch-hermes-switch 踩坑Notes
 
 > Domain: devops | Tags: ccswitch, hermes-switch, model, switching, proxy, deepseek, InternalGateway | Source: hermes_wsl

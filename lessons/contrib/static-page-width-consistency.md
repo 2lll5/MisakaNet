@@ -1,32 +1,17 @@
 ---
-created: '2026-07-06'
+title: static page width consistency
 domain: contrib
-domain_expert: unknown
-source: unknown
-status: published
 tags:
 - css
 - layout
 - ux
 - responsive
-title: static page width consistency
-verification: metadata-normalized
-'{"title"': '静态页面多组件宽度一致性——各自定义 max-width 导致视觉割裂", "domain": "frontend", "tags": ["css",
-  "layout", "ux", "responsive"], "domain_expert": "unknown"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: static page width consistency
-verification: metadata-normalized
-'{"title"': '静态页面多组件宽度一致性——各自定义 max-width 导致视觉割裂", "domain": "frontend", "tags": ["css",
-  "layout", "ux", "responsive"], "domain_expert": "unknown"}'
+created: '2026-07-06'
+source: unknown
+domain_expert: unknown
+---
+
 ---
 ## Problem
 

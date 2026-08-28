@@ -1,19 +1,19 @@
 ---
-id: fanuc-alarm-code-reference
-title: "FANUC Robot Alarm Code Reference Table"
+title: FANUC Robot Alarm Code Reference Table
 domain: fanuc
-subdomain: alarm-troubleshooting
-source: "bbs.gongkong.com/d/202401/915680"
+tags:
+- fanuc
+- alarm
+- error-code
+- troubleshooting
+- reference
 status: draft
+created: '2026-07-12'
+source: bbs.gongkong.com/d/202401/915680
 confidence: 0.6
-created: "2026-07-12"
-tags: ["fanuc", "alarm", "error-code", "troubleshooting", "reference"]
+subdomain: alarm-troubleshooting
+id: fanuc-alarm-code-reference
 quality_score: 43
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
 
 ## Problem

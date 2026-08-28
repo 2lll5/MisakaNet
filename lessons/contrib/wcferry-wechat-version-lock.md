@@ -1,39 +1,20 @@
 ---
-confidence: '0.85'
-created: '2026-07-06'
+title: wcferry wechat version lock
 domain: wechat
-domain_expert: bootstrap
-source: bootstrap
-status: published
-subdomain: wechat
 tags:
 - project:rag
 - platform:windows
 - node:hermes_wsl
 - scope:narrow
-title: wcferry wechat version lock
-verification: metadata-normalized
-verified_date: '2026-05-03'
-'{"title"': 'wcferry 微信版本锁定 — 3.9.12.51 才能用", "domain": "devops", "subdomain": "wechat",
-  "source": "bootstrap", "status": "published", "tags": ["project:rag", "platform:windows",
-  "node:hermes_wsl", "scope:narrow"], "confidence": "0.85", "created": "2026-05-03",
-  "domain_expert": "bootstrap", "verified_date": "2026-05-03"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: wcferry wechat version lock
-verification: metadata-normalized
-'{"title"': 'wcferry 微信版本锁定 — 3.9.12.51 才能用", "domain": "devops", "subdomain": "wechat",
-  "source": "bootstrap", "status": "published", "tags": ["project:rag", "platform:windows",
-  "node:hermes_wsl", "scope:narrow"], "confidence": "0.85", "created": "2026-05-03",
-  "domain_expert": "bootstrap", "verified_date": "2026-05-03"}'
+created: '2026-07-06'
+source: bootstrap
+confidence: 0.85
+domain_expert: bootstrap
+verified_date: '2026-05-03'
+subdomain: wechat
+---
+
 ---
 ## Problem
 

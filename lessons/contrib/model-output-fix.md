@@ -1,20 +1,15 @@
 ---
-created: '2026-07-06'
+title: 模型输出截断 / JSON 解析失败Handling
 domain: contrib
-language: zh
-source: unknown
-status: published
 tags:
 - model
 - output
-title: 模型输出截断 / JSON 解析失败Handling
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 模型返回的内容不完整（truncated），或者 JSON 解析失败（`json.decoder.JSONDecodeError`），导致后续处理流程中断。

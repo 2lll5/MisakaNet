@@ -1,12 +1,6 @@
 ---
-confidence: '0.9'
-created: '2026-07-01'
+title: API 分页设计 — Cursor vs Offset vs Keyset
 domain: ops
-domain_expert: ''
-language: zh
-source: solovyov.net
-status: published
-subdomain: api
 tags:
 - api
 - pagination
@@ -14,14 +8,16 @@ tags:
 - offset
 - keyset
 - design
-title: API 分页设计 — Cursor vs Offset vs Keyset
+status: published
+created: '2026-07-01'
+language: zh
+source: solovyov.net
+confidence: 0.9
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: api
 ---
+
 ## Problem
 
 API 分页设计选择不当会导致性能问题（OFFSET 大偏移量慢）、数据重复/遗漏（并发写入时）、用户体验差。

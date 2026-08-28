@@ -1,26 +1,22 @@
 ---
-created: '2026-08-18'
+title: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归
 domain: search
-domain_expert: ''
-evidence_level: E2
-language: zh
-source: mcp-intake-1114
-status: published
 tags:
 - jieba
 - synonym
 - chinese
 - segmentation
 - regression
-title: 同义词扩展陷阱：jieba.add_word() 改变全局分词行为导致回归
+status: published
+created: '2026-08-18'
 updated: ''
+language: zh
+source: mcp-intake-1114
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+evidence_level: E2
 ---
+
 ## Problem
 
 使用 jieba.add_word() 添加同义词时，会改变全局分词行为，导致其他查询回归。

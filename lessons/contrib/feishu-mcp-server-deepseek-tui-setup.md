@@ -1,39 +1,20 @@
 ---
-created: '2026-07-06'
+title: DeepSeek TUI — Feishu MCP Server Setup & Permission Boundaries
 domain: feishu
-domain_expert: deepseek-tui
-source: deepseek-tui
-status: published
 tags:
 - feishu
 - mcp
 - deepseek
 - docx-api
 - permissions
-title: DeepSeek TUI — Feishu MCP Server Setup & Permission Boundaries
-updated: '2026-05-19'
-verification: metadata-normalized
-verified_date: '2026-05-19'
-'{"title"': 'DeepSeek TUI — Feishu MCP Server Setup & Permission Boundaries", "domain":
-  "feishu", "source": "deepseek-tui", "status": "published", "tags": ["feishu", "mcp",
-  "deepseek", "docx-api", "permissions"], "created": "2026-05-19", "updated": "2026-05-19",
-  "domain_expert": "deepseek-tui", "verified_date": "2026-05-19"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: DeepSeek TUI — Feishu MCP Server Setup & Permission Boundaries
-verification: metadata-normalized
-'{"title"': 'DeepSeek TUI — Feishu MCP Server Setup & Permission Boundaries", "domain":
-  "feishu", "source": "deepseek-tui", "status": "published", "tags": ["feishu", "mcp",
-  "deepseek", "docx-api", "permissions"], "created": "2026-05-19", "updated": "2026-05-19",
-  "domain_expert": "deepseek-tui", "verified_date": "2026-05-19"}'
+created: '2026-07-06'
+updated: '2026-05-19'
+source: deepseek-tui
+domain_expert: deepseek-tui
+verified_date: '2026-05-19'
+---
+
 ---
 ## Problem
 

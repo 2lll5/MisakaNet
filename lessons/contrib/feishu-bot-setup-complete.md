@@ -1,21 +1,20 @@
 ---
-{
-  "title": "Near-duplicate Feishu bot lessons: keep cc-connect, archive generic stub",
-  "domain": "feishu",
-  "tags": ["feishu", "cc-connect", "duplicate", "lesson-quality", "archive", "cleanup"],
-  "status": "published",
-  "source": "uncledad96-glitch",
-  "created": "2026-07-21",
-  "updated": "2026-07-21",
-  "confidence": "0.9",
-  "supersedes": "lessons/_archive/feishu-bot-setup-complete.md",
-  "see_also": "lessons/contrib/cc-connect-feishu-setup-complete.md"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'Near-duplicate Feishu bot lessons: keep cc-connect, archive generic stub'
+domain: feishu
+tags:
+- feishu
+- cc-connect
+- duplicate
+- lesson-quality
+- archive
+- cleanup
+status: published
+created: '2026-07-21'
+updated: '2026-07-21'
+source: uncledad96-glitch
+confidence: 0.9
+see_also: lessons/contrib/cc-connect-feishu-setup-complete.md
+supersedes: lessons/_archive/feishu-bot-setup-complete.md
 ---
 
 # Near-duplicate Feishu bot lessons: keep cc-connect, archive generic stub

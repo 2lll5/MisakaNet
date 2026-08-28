@@ -1,21 +1,17 @@
 ---
-created: '2026-07-02'
+title: 'Lesson Quality Requirements: failure-memory protocol Format'
 domain: devops
-source: agent_experience
-status: published
 tags:
 - lesson
 - quality
 - format
 - skp
 - misakanet
-title: 'Lesson Quality Requirements: failure-memory protocol Format'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-02'
+source: agent_experience
 ---
+
 ## Problem
 
 Contributed lessons lack consistent structure, making them hard to search and reuse. Low-quality lessons reduce trust in the knowledge base.

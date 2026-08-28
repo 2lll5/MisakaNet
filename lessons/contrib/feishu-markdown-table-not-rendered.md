@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: feishu markdown table not rendered
 domain: feishu
-source: unknown
-status: published
 tags:
 - feishu
 - markdown
 - table
 - rendered
-title: feishu markdown table not rendered
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 ## Problem
 
 在飞书 IM 消息中使用 `post` 类型的富文本消息发送 Markdown 表格，表格显示为空白或原始分隔线（`|------|`），而不是渲染后的表格。

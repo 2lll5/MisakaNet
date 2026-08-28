@@ -1,7 +1,20 @@
 ---
-confidence: 0.7
-created: '2026-07-12'
+title: FANUC RSR Program with OFFSET and SELECT Logic Sharing
 domain: fanuc
+tags:
+- fanuc
+- rsr
+- tp-programming
+- select
+- offset
+- register
+- program-logic
+- r-2000ib
+status: draft
+created: '2026-07-12'
+source: bbs.gongkong.com/d/201302/481940
+confidence: 0.7
+subdomain: tp-programming
 id: fanuc-rsr-program-select-logic
 problem: 需要编写一个 FANUC 机器人 RSR 程序，实现多位置循环搬运，并通过寄存器索引和 SELECT 分支逻辑实现位置偏移选择，同时配合 PLC
   信号实现自动化流程控制。
@@ -19,34 +32,8 @@ solution: '1. 使用 RSR 编号命名程序（如 RSR0112）
   5. 用 DO/DI 信号与 PLC 交互（如通知完成、等待许可）
 
   6. 循环逻辑：寄存器递增遍历位置，达到上限时通知 PLC'
-source: bbs.gongkong.com/d/201302/481940
-status: draft
-subdomain: tp-programming
-tags:
-- fanuc
-- rsr
-- tp-programming
-- select
-- offset
-- register
-- program-logic
-- r-2000ib
-title: FANUC RSR Program with OFFSET and SELECT Logic Sharing
-verification: '1. 程序能通过 RSR 正常启动执行
-
-  2. 运动轨迹符合预期，位置精度满足要求
-
-  3. OFFSET 偏移量正确应用，不同分支到达不同位置
-
-  4. DO/DI 信号时序与 PLC 配合正确
-
-  5. 循环逻辑完整，达到上限后正确触发 PLC 信号'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
+
 ## FANUC RSR 程序的 OFFSET 与 SELECT 逻辑
 
 ### Problem描述

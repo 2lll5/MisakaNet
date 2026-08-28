@@ -1,21 +1,21 @@
 ---
-title: "Cloudflare AI Traffic Options — Content Monetization for the Agentic Internet"
-domain: "ops"
-subdomain: "api"
-tags: ["cloudflare", "ai", "monetization", "crawling", "pay-per-crawl", "content"]
-source: "blog.cloudflare.com"
-status: "published"
-confidence: "0.85"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Cloudflare AI Traffic Options — Content Monetization for the Agentic Internet
+domain: ops
+tags:
+- cloudflare
+- ai
+- monetization
+- crawling
+- pay-per-crawl
+- content
+status: published
+created: '2026-07-01'
+source: blog.cloudflare.com
+confidence: 0.85
+domain_expert: ''
+verified_date: ''
+subdomain: api
 ---
-
 
 ## Problem
 

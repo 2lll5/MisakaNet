@@ -1,23 +1,19 @@
 ---
-confidence: 0.9
-created: 2026-07-07
+title: 正则陷阱 — 源码中转义引号导致非贪婪匹配提前终止
 domain: development
-language: zh
-source: practical-experience
-status: published
 tags:
 - regex
 - python
 - source-parsing
 - escape-sequences
 - debug
-title: 正则陷阱 — 源码中转义引号导致非贪婪匹配提前终止
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: 2026-07-07
+language: zh
+source: practical-experience
+confidence: 0.9
 ---
+
 ## Problem
 
 用正则从 Python 源码中提取 `os.environ.get("KEY", "default_value")` 的默认值时，提取结果被截断：

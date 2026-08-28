@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: 磁盘空间不足 / chroma_db_v4 CacheCleanup
 domain: contrib
-language: zh
-source: unknown
-status: published
 tags:
 - disk
 - space
 - cleanup
-title: 磁盘空间不足 / chroma_db_v4 CacheCleanup
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 写入文件或构建向量库时报 `No space left on device` / `ENOSPC`，hermes-hub 进程崩溃。

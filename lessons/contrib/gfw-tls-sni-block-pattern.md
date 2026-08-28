@@ -1,21 +1,22 @@
 ---
 title: GFW TLS SNI Block Pattern — Why Tool-Layer Solutions Fail
 domain: ops
-subdomain: network
-tags: ["gfw", "tls", "sni", "scraping", "proxy", "curl", "playwright"]
-source: practical-experience
+tags:
+- gfw
+- tls
+- sni
+- scraping
+- proxy
+- curl
+- playwright
 status: published
-confidence: 0.95
 created: 2026-07-01
-verified_date: 
-domain_expert: 
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+source: practical-experience
+confidence: 0.95
+domain_expert: null
+verified_date: null
+subdomain: network
 ---
-
 
 ## Problem
 

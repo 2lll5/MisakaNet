@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: WSL 代理Setup — 通过 Windows 梯子Access外网
 domain: wsl
-language: zh
-source: unknown
-status: published
 tags:
 - wsl
 - proxy
 - setup
-title: WSL 代理Setup — 通过 Windows 梯子Access外网
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 WSL 内 `curl google.com` 失败，但 Windows 能正常访问外网。WSL 默认不走 Windows 的代理。

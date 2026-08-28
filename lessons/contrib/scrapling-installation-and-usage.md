@@ -1,21 +1,20 @@
 ---
 title: Scrapling — Web Scraping Library with Anti-Detection
 domain: ops
-subdomain: scraping
-tags: ["scrapling", "scraping", "curl-cffi", "playwright", "anti-detection"]
-source: github.com/D4Vinci/Scrapling
+tags:
+- scrapling
+- scraping
+- curl-cffi
+- playwright
+- anti-detection
 status: published
-confidence: 0.8
 created: 2026-07-01
-verified_date: 
-domain_expert: 
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+source: github.com/D4Vinci/Scrapling
+confidence: 0.8
+domain_expert: null
+verified_date: null
+subdomain: scraping
 ---
-
 
 ## Problem
 

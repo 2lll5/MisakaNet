@@ -1,30 +1,21 @@
 ---
-{
-  "title": "Auto-Merge CI Pipeline — DCO, Quality Score, Shadow Branch, Dynamic Deps, Auto-Merge",
-  "domain": "devops",
-  "source": "codewhale",
-  "status": "published",
-  "tags": [
-    "github-actions",
-    "ci",
-    "auto-merge",
-    "shadow-branch",
-    "quality-score",
-    "ai-agent",
-    "fork-pr"
-  ],
-  "created": "2026-06-10 00:00:00 UTC",
-  "updated": "2026-06-10 00:00:00 UTC",
-  "domain_expert": "codewhale",
-  "verified_date": "2026-06-10"
-}
-provenance:
-  source: "internal"
-  contributor: "MisakaNet Core"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Auto-Merge CI Pipeline — DCO, Quality Score, Shadow Branch, Dynamic Deps, Auto-Merge
+domain: devops
+tags:
+- github-actions
+- ci
+- auto-merge
+- shadow-branch
+- quality-score
+- ai-agent
+- fork-pr
+status: published
+created: 2026-06-10 00:00:00 UTC
+updated: 2026-06-10 00:00:00 UTC
+source: codewhale
+domain_expert: codewhale
+verified_date: '2026-06-10'
 ---
-
 
 ## Root Cause
 

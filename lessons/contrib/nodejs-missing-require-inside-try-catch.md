@@ -1,17 +1,16 @@
 ---
-{
-  "title": "Node.js missing require inside try/catch silently kills win32 code path",
-  "domain": "devops",
-  "tags": ["nodejs", "require", "try-catch", "windows", "debugging", "ReferenceError"],
-  "status": "published",
-  "source": "issue-1222",
-  "created": "2026-08-23"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Node.js missing require inside try/catch silently kills win32 code path
+domain: devops
+tags:
+- nodejs
+- require
+- try-catch
+- windows
+- debugging
+- ReferenceError
+status: published
+created: '2026-08-23'
+source: issue-1222
 ---
 
 ## Problem

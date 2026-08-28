@@ -1,17 +1,20 @@
 ---
-title: "FANUC Robot Backup and Restore — Full, Mirror, Auto, and File Restore"
-domain: "fanuc"
-subdomain: "maintenance"
-tags: ["backup", "restore", "mirror", "image", "auto-backup", "file-restore", "usb", "maintenance"]
-status: "published"
-source: "internal-training"
-confidence: "0.9"
-created: "2026-07-14"
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: FANUC Robot Backup and Restore — Full, Mirror, Auto, and File Restore
+domain: fanuc
+tags:
+- backup
+- restore
+- mirror
+- image
+- auto-backup
+- file-restore
+- usb
+- maintenance
+status: published
+created: '2026-07-14'
+source: internal-training
+confidence: 0.9
+subdomain: maintenance
 ---
 
 ## Problem

@@ -1,34 +1,19 @@
 ---
-created: '2026-07-06'
+title: Python 沙箱/受限环境 — PATH 和 sys.path 隔离
 domain: python
-domain_expert: unknown
-language: zh
-source: unknown
-status: published
 tags:
 - python
 - sandbox
 - path
 - import
 - venv
-title: Python 沙箱/受限环境 — PATH 和 sys.path 隔离
-verification: metadata-normalized
-'{"title"': 'Python 沙箱/受限环境 — PATH 和 sys.path 隔离", "domain": "development", "tags":
-  ["python", "sandbox", "path", "import", "venv"], "domain_expert": "unknown"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: Python 沙箱/受限环境 — PATH 和 sys.path 隔离
-verification: metadata-normalized
-'{"title"': 'Python 沙箱/受限环境 — PATH 和 sys.path 隔离", "domain": "development", "tags":
-  ["python", "sandbox", "path", "import", "venv"], "domain_expert": "unknown"}'
+created: '2026-07-06'
+language: zh
+source: unknown
+domain_expert: unknown
+---
+
 ---
 ## Problem
 

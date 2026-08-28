@@ -1,29 +1,26 @@
 ---
-{
-  "title": "BGE Embedding Fallback Crash",
-  "domain": "rag",
-  "source": "bootstrap",
-  "status": "published",
-  "tags": [
-    "project:agent-medici",
-    "severity:high",
-    "node:hermes-wsl"
-  ],
-  "language": "en",
-  "created": "2026-05-03",
-  "domain_expert": "bootstrap",
-  "verified_date": "2026-05-03",
-  "subdomain": "embedding"
-}
+title: BGE Embedding Fallback Crash
+domain: rag
+tags:
+- project:agent-medici
+- severity:high
+- node:hermes-wsl
+status: published
+created: '2026-05-03'
+language: en
+source: bootstrap
+domain_expert: bootstrap
+verified_date: '2026-05-03'
+subdomain: embedding
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 When HermesHub starts, if the BGE-m3 model has not been downloaded to the local path, SkillIndexer crashes immediately.

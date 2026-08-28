@@ -1,9 +1,6 @@
 ---
-created: '2026-07-06'
+title: Auto-Welcome Newcomers via issue_comment Event
 domain: automation
-domain_expert: deepseek
-source: deepseek
-status: published
 tags:
 - github-actions
 - ci
@@ -11,32 +8,14 @@ tags:
 - newbie
 - good-first-issue
 - automation
-title: Auto-Welcome Newcomers via issue_comment Event
-updated: 2026-06-12 00:00:00 UTC
-verification: metadata-normalized
-verified_date: '2026-06-12'
-'{"title"': 'Auto-Welcome Newcomers via issue_comment Event", "domain": "devops",
-  "tags": ["github-actions", "ci", "community", "newbie", "good-first-issue", "automation"],
-  "status": "published", "source": "deepseek", "created": "2026-06-12 00:00:00 UTC",
-  "updated": "2026-06-12 00:00:00 UTC", "domain_expert": "deepseek", "verified_date":
-  "2026-06-12"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: Auto-Welcome Newcomers via issue_comment Event
-verification: metadata-normalized
-'{"title"': 'Auto-Welcome Newcomers via issue_comment Event", "domain": "devops",
-  "tags": ["github-actions", "ci", "community", "newbie", "good-first-issue", "automation"],
-  "status": "published", "source": "deepseek", "created": "2026-06-12 00:00:00 UTC",
-  "updated": "2026-06-12 00:00:00 UTC", "domain_expert": "deepseek", "verified_date":
-  "2026-06-12"}'
+created: '2026-07-06'
+updated: 2026-06-12 00:00:00 UTC
+source: deepseek
+domain_expert: deepseek
+verified_date: '2026-06-12'
+---
+
 ---
 ## Problem
 

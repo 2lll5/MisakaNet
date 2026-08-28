@@ -1,20 +1,15 @@
 ---
-created: '2026-07-06'
+title: Permission Denied / WSL NTFS 跨文件系统PermissionFix
 domain: contrib
-language: zh
-source: unknown
-status: published
 tags:
 - permission
 - denied
-title: Permission Denied / WSL NTFS 跨文件系统PermissionFix
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 操作 ~/.hermes/ 下的文件时报 `Permission denied` 或 `EACCES`，或者 WSL 访问 /mnt/c 时报 `crossmnt` 错误。

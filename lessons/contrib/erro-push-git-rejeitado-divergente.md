@@ -1,18 +1,18 @@
 ---
-title: "Erro de push rejeitado no Git: branches divergentes e como resolver"
-domain: "devops"
-tags: [git, push, merge, rebase, divergente]
-language: pt
+title: 'Erro de push rejeitado no Git: branches divergentes e como resolver'
+domain: devops
+tags:
+- git
+- push
+- merge
+- rebase
+- divergente
 status: published
-source: "https://docs.github.com/en/get-started/using-git/dealing-with-non-fast-forward-errors"
 created: 2026-07-29
+language: pt
+source: https://docs.github.com/en/get-started/using-git/dealing-with-non-fast-forward-errors
 confidence: 0.9
 verified_date: 2026-07-29
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
 
 ## Problem

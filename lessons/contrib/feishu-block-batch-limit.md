@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: feishu block batch limit
 domain: feishu
-source: unknown
-status: published
 tags:
 - feishu
 - block
 - batch
 - limit
-title: feishu block batch limit
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 ## 飞书 Block 批量写入上限
 
 ## Problem

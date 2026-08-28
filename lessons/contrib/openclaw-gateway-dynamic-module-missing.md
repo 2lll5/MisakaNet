@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: openclaw gateway dynamic module missing
 domain: openclaw
-source: unknown
-status: published
 tags:
 - openclaw
 - gateway
 - dynamic
 - module
 - missing
-title: openclaw gateway dynamic module missing
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 ## Problem
 
 飞书单聊和群聊均无回应。飞书长连接正常（WebSocket 显示 ON · OK），消息能收到，但 Bot 不回复。

@@ -1,25 +1,17 @@
 ---
-{
-  "title": "RAG Three-Channel LLM Disaster Recovery",
-  "domain": "rag",
-  "source": "bootstrap",
-  "status": "published",
-  "tags": [
-    "project:self-grow-wiki",
-    "node:hermes-wsl",
-    "scope:broad"
-  ],
-  "language": "en",
-  "created": "2026-05-03",
-  "domain_expert": "bootstrap",
-  "verified_date": "2026-05-03",
-  "subdomain": "llm"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: RAG Three-Channel LLM Disaster Recovery
+domain: rag
+tags:
+- project:self-grow-wiki
+- node:hermes-wsl
+- scope:broad
+status: published
+created: '2026-05-03'
+language: en
+source: bootstrap
+domain_expert: bootstrap
+verified_date: '2026-05-03'
+subdomain: llm
 ---
 
 ## Problem

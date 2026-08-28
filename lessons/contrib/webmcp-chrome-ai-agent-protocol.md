@@ -1,21 +1,21 @@
 ---
 title: webMCP — Chrome's Experimental Protocol for AI Agents
 domain: mcp
-subdomain: web
-tags: ["webmcp", "chrome", "ai-agents", "web", "protocol", "experimental"]
-source: dev.to
+tags:
+- webmcp
+- chrome
+- ai-agents
+- web
+- protocol
+- experimental
 status: published
-confidence: 0.8
 created: 2026-07-01
-verified_date: 
-domain_expert: 
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+source: dev.to
+confidence: 0.8
+domain_expert: null
+verified_date: null
+subdomain: web
 ---
-
 
 ## Problem
 

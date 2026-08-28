@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: GitHub TLS 握手失败 — gnutls_handshake() Error
 domain: git
-language: zh
-source: unknown
-status: published
 tags:
 - git
 - handshake
 - failure
-title: GitHub TLS 握手失败 — gnutls_handshake() Error
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 `git pull` 或 `git push` 时报：

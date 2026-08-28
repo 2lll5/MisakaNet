@@ -1,31 +1,38 @@
 ---
-{
-  "title": "RAG Build Strategy Batch",
-  "domain": "rag",
-  "source": "hanged-man",
-  "status": "published",
-  "tags": [
-    "project:self-grow-wiki",
-    "severity:medium",
-    "node:hermes-wsl"
-  ],
-  "language": "en",
-  "created": "2026-04-13",
-  "domain_expert": "hanged-man",
-  "verified_date": "2026-04-13",
-  "triggers": {
-    "intents": ["rag_build", "embedding", "vector_index", "batch_processing"],
-    "commands": ["build_index", "chroma", "faiss", "embedding", "build_edoc"],
-    "environments": ["wsl", "gpu", "cuda"],
-    "risks": ["memory_pressure", "no_checkpoint", "batch_overflow", "driver_crash"],
-    "severity": "critical"
-  }
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: RAG Build Strategy Batch
+domain: rag
+tags:
+- project:self-grow-wiki
+- severity:medium
+- node:hermes-wsl
+status: published
+created: '2026-04-13'
+language: en
+source: hanged-man
+domain_expert: hanged-man
+verified_date: '2026-04-13'
+triggers:
+  intents:
+  - rag_build
+  - embedding
+  - vector_index
+  - batch_processing
+  commands:
+  - build_index
+  - chroma
+  - faiss
+  - embedding
+  - build_edoc
+  environments:
+  - wsl
+  - gpu
+  - cuda
+  risks:
+  - memory_pressure
+  - no_checkpoint
+  - batch_overflow
+  - driver_crash
+  severity: critical
 ---
 
 ## Problem

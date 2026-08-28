@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: Gateway 进程挂死未崩溃 — watchdog 自动Recovery
 domain: contrib
-language: zh
-source: unknown
-status: published
 tags:
 - gateway
 - hang
 - watchdog
 - recovery
-title: Gateway 进程挂死未崩溃 — watchdog 自动Recovery
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 Hermes Agent 频繁崩溃，用户反映"卡死"。实际调查发现是 **WSL PTY 断连**导致 CLI 崩溃，而非 Gateway 本身问题。

@@ -1,24 +1,20 @@
 ---
-confidence: 0.7
-created: 2026-05-03
+title: 'FANUC KL: mm_module_h.kl 禁止 ROUTINE 声明'
 domain: fanuc
-domain_expert: bootstrap
-language: zh
-source: bootstrap
-status: published
-subdomain: kl-modules
 tags:
 - fanuc
 - module
 - routine
-title: 'FANUC KL: mm_module_h.kl 禁止 ROUTINE 声明'
+status: published
+created: 2026-05-03
+language: zh
+source: bootstrap
+confidence: 0.7
+domain_expert: bootstrap
 verified_date: 2026-05-03
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: kl-modules
 ---
+
 ## FANUC KL: mm_module_h.kl 禁止 ROUTINE 声明
 
 ### Problem描述

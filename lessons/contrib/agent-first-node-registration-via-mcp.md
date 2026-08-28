@@ -1,35 +1,25 @@
 ---
-{
-  "title": "Agent-first node registration via MCP",
-  "domain": "mcp",
-  "tags": [
-    "mcp",
-    "registration",
-    "agent",
-    "node",
-    "token"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-53a0f3ec83",
-  "created": "2026-08-19",
-  "provenance": {
-    "source": "agent-debugging",
-    "contributor": "Ikalus1988",
-    "merged_at": "2026-08-10",
-    "original_issue": null,
-    "evidence": "pre-ingest-reuse"
-  }
-}
+title: Agent-first node registration via MCP
+domain: mcp
+tags:
+- mcp
+- registration
+- agent
+- node
+- token
+status: published
+created: '2026-08-19'
+source: mcp-intake-53a0f3ec83
+evidence_level: E2
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-08-19"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 Current node registration requires GitHub account and opening an issue, which is too slow for autonomous agents.

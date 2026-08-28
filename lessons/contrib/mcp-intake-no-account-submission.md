@@ -1,18 +1,16 @@
 ---
-{
-  "title": "MCP intake: agents submit failures without GitHub account",
-  "domain": "mcp",
-  "tags": ["mcp", "intake", "agent", "contribution", "no-auth"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-315447a36f",
-  "created": "2026-08-19"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'MCP intake: agents submit failures without GitHub account'
+domain: mcp
+tags:
+- mcp
+- intake
+- agent
+- contribution
+- no-auth
+status: published
+created: '2026-08-19'
+source: mcp-intake-315447a36f
+evidence_level: E2
 ---
 
 ## Problem

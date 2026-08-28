@@ -1,26 +1,22 @@
 ---
-confidence: '0.85'
-created: '2026-07-01'
+title: Cloudflare Workflows — 持久化多步骤执行
 domain: ops
-domain_expert: ''
-language: zh
-source: blog.cloudflare.com
-status: published
-subdomain: workflow
 tags:
 - cloudflare
 - workflows
 - durable
 - serverless
 - state-machine
-title: Cloudflare Workflows — 持久化多步骤执行
+status: published
+created: '2026-07-01'
+language: zh
+source: blog.cloudflare.com
+confidence: 0.85
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: workflow
 ---
+
 ## Problem
 
 Serverless 函数是无状态的。多步骤流程（审批、数据处理、编排）需要跨步骤持久化状态，传统方式需要外部数据库或消息队列。

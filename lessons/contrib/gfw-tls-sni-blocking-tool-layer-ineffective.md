@@ -1,26 +1,22 @@
 ---
-confidence: '1.0'
-created: '2026-07-01'
+title: GFW TLS SNI 阻断：工具层全部无效，只有代理能解
 domain: devops
-domain_expert: <user>
-language: zh
-source: <user>
-status: published
-subdomain: network
 tags:
 - gfw
 - tls-sni
 - scraper
 - proxy
 - china-network
-title: GFW TLS SNI 阻断：工具层全部无效，只有代理能解
+status: published
+created: '2026-07-01'
+language: zh
+source: <user>
+confidence: 1.0
+domain_expert: <user>
 verified_date: '2026-07-06'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: network
 ---
+
 ## Problem
 
 从中国大陆抓取 Reddit/StackOverflow 等站点时，所有工具层方案（curl、Playwright、scrapling、Safari MCP、WebFetch、Agent-Reach Jina Reader）全部超时失败。Agent 误判为"工具配置问题"，反复尝试不同工具浪费大量时间。

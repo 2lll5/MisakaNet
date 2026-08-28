@@ -1,18 +1,16 @@
 ---
-{
-  "title": "Welcome bot should show MCP intake path for agents",
-  "domain": "mcp",
-  "tags": ["mcp", "welcome", "bot", "intake", "onboarding"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-d0f432e355",
-  "created": "2026-08-19"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Welcome bot should show MCP intake path for agents
+domain: mcp
+tags:
+- mcp
+- welcome
+- bot
+- intake
+- onboarding
+status: published
+created: '2026-08-19'
+source: mcp-intake-d0f432e355
+evidence_level: E2
 ---
 
 ## Problem

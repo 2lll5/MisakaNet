@@ -1,18 +1,18 @@
 ---
-{
-  "title": "Network Domain Lesson Template",
-  "domain": "network",
-  "tags": ["http", "dns", "proxy", "ssl", "websocket", "timeout", "template"],
-  "status": "published",
-  "source": "template",
-  "created": "2026-07-13",
-  "confidence": "1.0"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Network Domain Lesson Template
+domain: network
+tags:
+- http
+- dns
+- proxy
+- ssl
+- websocket
+- timeout
+- template
+status: published
+created: '2026-07-13'
+source: template
+confidence: 1.0
 ---
 
 ## Problem

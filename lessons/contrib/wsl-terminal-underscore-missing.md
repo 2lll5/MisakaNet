@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: WSL Windows 终端复制粘贴吞下划线Issue
 domain: wsl
-language: zh
-source: unknown
-status: published
 tags:
 - wsl
 - terminal
 - underscore
 - missing
-title: WSL Windows 终端复制粘贴吞下划线Issue
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 从 Windows 复制文本粘贴到 WSL 终端时，下划线 `_` 字符消失。配置文件、命令中的下划线名全部错误。

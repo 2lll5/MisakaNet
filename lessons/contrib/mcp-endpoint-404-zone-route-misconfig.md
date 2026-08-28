@@ -1,15 +1,16 @@
 ---
-title: "MCP Endpoint 404: Zone Route Points to Worker Without MCP Implementation"
-domain: "devops"
-tags: ["cloudflare", "workers", "routes", "mcp", "404", "diagnosis"]
-status: "published"
-source: "intake-issue-1307"
-created: "2026-08-27"
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'MCP Endpoint 404: Zone Route Points to Worker Without MCP Implementation'
+domain: devops
+tags:
+- cloudflare
+- workers
+- routes
+- mcp
+- '404'
+- diagnosis
+status: published
+created: '2026-08-27'
+source: intake-issue-1307
 ---
 
 # MCP Endpoint 404: Zone Route Points to Worker Without MCP Implementation
@@ -54,9 +55,9 @@ curl -s https://misakanet.org/ping
 
 **Expected Output:**
 ```json
-{"jsonrpc":"2.0","id":1,"result":{"serverInfo":{"name":"misakanet","version":"2.16.0"}}}
-{"jsonrpc":"2.0","id":2,"result":{"tools":[{"name":"misakanet_search"},...]}}
+
+
 192
-{"status":"ok"}
+
 pong
 ```

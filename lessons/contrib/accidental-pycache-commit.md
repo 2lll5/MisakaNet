@@ -1,29 +1,24 @@
 ---
-{
-  "title": "Accidental __pycache__ artifacts committed to a data repository",
-  "domain": "development",
-  "tags": [
-    "git",
-    "pycache",
-    "gitignore",
-    "cleanup"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "created": "2026-08-11 00:00:00 UTC",
-  "updated": "2026-08-11 00:00:00 UTC"
-}
+title: Accidental __pycache__ artifacts committed to a data repository
+domain: development
+tags:
+- git
+- pycache
+- gitignore
+- cleanup
+status: published
+created: 2026-08-11 00:00:00 UTC
+updated: 2026-08-11 00:00:00 UTC
+evidence_level: E2
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "ElevaSync Solutions"
   merged_at: "2026-08-11"
   evidence: "post-publication"
 -->
 
-# Accidental __pycache__ artifacts committed to a data repository
-
+<!-- 
 ## Problem
 
 A pull request intended to change CSV data rows also shipped `__pycache__/csv_to_json.cpython-314.pyc` (and similar bytecode files). The reviewer flagged it as a MEDIUM issue: repository bloat, non-deterministic artifacts, and potential noise that obscures the real diff. The branch could not merge until the artifacts were removed.

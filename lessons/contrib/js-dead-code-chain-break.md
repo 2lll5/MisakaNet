@@ -1,23 +1,19 @@
 ---
-created: '2026-07-06'
+title: JavaScript 执行链断裂：一个未捕获 TypeError 如何让整个页面静默失效
 domain: frontend
-domain_expert: unknown
-language: zh
-source: unknown
-status: published
 tags:
 - js
 - runtime
 - typeerror
 - execution-model
 - defensive
-title: JavaScript 执行链断裂：一个未捕获 TypeError 如何让整个页面静默失效
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
+domain_expert: unknown
 ---
+
 ## Problem
 
 JavaScript 是单线程事件驱动模型。同步执行线程中任何一个未捕获的异常（TypeError、ReferenceError 等）都会导致**整个执行线程中断**，该线程后续所有代码不再执行。常见场景：

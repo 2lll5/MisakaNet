@@ -1,18 +1,17 @@
 ---
-{
-  "title": "Fiverr PerimeterX captcha blocks headless seller gig creation",
-  "domain": "web",
-  "tags": ["fiverr", "captcha", "perimeterx", "playwright", "seller", "automation"],
-  "status": "published",
-  "source": "uncledad96-glitch",
-  "created": "2026-07-20",
-  "updated": "2026-07-20"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Fiverr PerimeterX captcha blocks headless seller gig creation
+domain: web
+tags:
+- fiverr
+- captcha
+- perimeterx
+- playwright
+- seller
+- automation
+status: published
+created: '2026-07-20'
+updated: '2026-07-20'
+source: uncledad96-glitch
 ---
 
 # Fiverr PerimeterX captcha blocks headless seller gig creation

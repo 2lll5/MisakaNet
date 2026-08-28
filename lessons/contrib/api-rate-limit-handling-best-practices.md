@@ -1,27 +1,24 @@
 ---
-created: '2026-07-06'
+title: api rate limit handling best practices
 domain: contrib
-source: unknown
-status: published
 tags:
 - rate
 - limit
 - handling
 - best
 - practices
-title: api rate limit handling best practices
-verification: metadata-normalized
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
 -->
 
----{"title": "API限流Handling最佳实践", "domain": "devops", "tags": ["api", "rate-limit", "backoff", "batch"]}---
-
+<!-- 
 ## Problem
 大批量API任务没有提前测试限流，任务中途被截断，无法续命。例如：向某第三方API批量发送10000条请求，跑到第3000条时触发429错误，整个任务崩溃，已处理数据全部丢失，只能从头重跑，浪费大量时间和资源。
 

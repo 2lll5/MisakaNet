@@ -1,24 +1,16 @@
 ---
-{
-  "title": "Banking-style escrow fee estimate has a per-provider rounding disparity",
-  "domain": "development",
-  "tags": [
-    "payments",
-    "calculation",
-    "rounding",
-    "precision",
-    "ledger"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "created": "2026-08-11 00:00:00 UTC",
-  "updated": "2026-08-11 00:00:00 UTC"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Banking-style escrow fee estimate has a per-provider rounding disparity
+domain: development
+tags:
+- payments
+- calculation
+- rounding
+- precision
+- ledger
+status: published
+created: 2026-08-11 00:00:00 UTC
+updated: 2026-08-11 00:00:00 UTC
+evidence_level: E2
 ---
 
 # Escrow fee estimates round differently per provider — and it silently changes totals

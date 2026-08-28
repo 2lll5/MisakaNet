@@ -1,39 +1,20 @@
 ---
-created: '2026-07-06'
+title: Vertical KB Question Bank Strategy — FANUC Robot KB Case Study
 domain: rag
-domain_expert: deepseek-tui
-source: deepseek-tui
-status: published
 tags:
 - rag
 - question-bank
 - knowledge-base
 - feishu-doc
 - review
-title: Vertical KB Question Bank Strategy — FANUC Robot KB Case Study
-updated: '2026-05-19'
-verification: metadata-normalized
-verified_date: '2026-05-19'
-'{"title"': 'Vertical KB Question Bank Strategy — FANUC Robot KB Case Study", "domain":
-  "rag-knowledge-base", "source": "deepseek-tui", "status": "published", "tags": ["rag",
-  "question-bank", "knowledge-base", "feishu-doc", "review"], "created": "2026-05-19",
-  "updated": "2026-05-19", "domain_expert": "deepseek-tui", "verified_date": "2026-05-19"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: Vertical KB Question Bank Strategy — FANUC Robot KB Case Study
-verification: metadata-normalized
-'{"title"': 'Vertical KB Question Bank Strategy — FANUC Robot KB Case Study", "domain":
-  "rag-knowledge-base", "source": "deepseek-tui", "status": "published", "tags": ["rag",
-  "question-bank", "knowledge-base", "feishu-doc", "review"], "created": "2026-05-19",
-  "updated": "2026-05-19", "domain_expert": "deepseek-tui", "verified_date": "2026-05-19"}'
+created: '2026-07-06'
+updated: '2026-05-19'
+source: deepseek-tui
+domain_expert: deepseek-tui
+verified_date: '2026-05-19'
+---
+
 ---
 ## Problem
 

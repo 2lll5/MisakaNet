@@ -1,36 +1,19 @@
 ---
-created: '2026-07-06'
+title: Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError
 domain: python
-domain_expert: Misaka10019
-language: zh
-source: Misaka10019
-status: published
 tags:
 - python
 - venv
 - tiktoken
 - pip
 - setuptools
-title: Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError
-verification: metadata-normalized
-'{"title"': 'Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError", "domain": "development",
-  "source": "Misaka10019", "tags": ["python", "venv", "tiktoken", "pip", "setuptools"],
-  "domain_expert": "Misaka10019"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError
-verification: metadata-normalized
-'{"title"': 'Python venv 中 tiktoken 安装后仍报 ModuleNotFoundError", "domain": "development",
-  "source": "Misaka10019", "tags": ["python", "venv", "tiktoken", "pip", "setuptools"],
-  "domain_expert": "Misaka10019"}'
+created: '2026-07-06'
+language: zh
+source: Misaka10019
+domain_expert: Misaka10019
+---
+
 ---
 ## Problem
 

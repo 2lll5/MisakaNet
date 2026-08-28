@@ -1,21 +1,20 @@
 ---
-title: "DevOps Platform Engineering — Golden Paths to Reduce Cognitive Load"
-domain: "ops"
-subdomain: "devops"
-tags: ["devops", "platform-engineering", "golden-paths", "cognitive-load", "idp"]
-source: "dev.to"
-status: "published"
-confidence: "0.8"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: DevOps Platform Engineering — Golden Paths to Reduce Cognitive Load
+domain: ops
+tags:
+- devops
+- platform-engineering
+- golden-paths
+- cognitive-load
+- idp
+status: published
+created: '2026-07-01'
+source: dev.to
+confidence: 0.8
+domain_expert: ''
+verified_date: ''
+subdomain: devops
 ---
-
 
 ## Problem
 

@@ -1,23 +1,15 @@
 ---
-{
-  "title": "CI key rotation silently breaking scheduled automation without a code change",
-  "domain": "devops",
-  "tags": [
-    "credentials",
-    "rotation",
-    "automation",
-    "secret"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "created": "2026-08-11 00:00:00 UTC",
-  "updated": "2026-08-11 00:00:00 UTC"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: CI key rotation silently breaking scheduled automation without a code change
+domain: devops
+tags:
+- credentials
+- rotation
+- automation
+- secret
+status: published
+created: 2026-08-11 00:00:00 UTC
+updated: 2026-08-11 00:00:00 UTC
+evidence_level: E2
 ---
 
 # CI key rotation silently breaking scheduled automation without a code change

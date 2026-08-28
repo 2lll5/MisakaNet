@@ -1,37 +1,20 @@
 ---
-confidence: '0.7'
-created: '2026-07-06'
+title: hub feishu wsclient start never called
 domain: feishu
-domain_expert: bootstrap
-source: bootstrap
-status: published
 tags:
 - feishu
 - wsclient
 - start
 - never
 - called
-title: hub feishu wsclient start never called
-verification: metadata-normalized
-verified_date: '2026-04-01'
-'{"title"': 'Hub FeishuWSClient.start() 从未调用 — WebSocket 接收死代码", "domain": "feishu",
-  "source": "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01",
-  "domain_expert": "bootstrap", "verified_date": "2026-04-01"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: hub feishu wsclient start never called
-verification: metadata-normalized
-'{"title"': 'Hub FeishuWSClient.start() 从未调用 — WebSocket 接收死代码", "domain": "feishu",
-  "source": "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01",
-  "domain_expert": "bootstrap", "verified_date": "2026-04-01"}'
+created: '2026-07-06'
+source: bootstrap
+confidence: 0.7
+domain_expert: bootstrap
+verified_date: '2026-04-01'
+---
+
 ---
 ## Problem
 

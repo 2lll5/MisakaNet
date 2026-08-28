@@ -1,17 +1,19 @@
 ---
-{
-  "title": "Windows CI: splitCommand backslash stripping, UnicodeEncodeError, and detached process failure",
-  "domain": "devops",
-  "tags": ["windows", "ci", "nodejs", "python", "subprocess", "encoding", "backslash", "detached"],
-  "status": "published",
-  "source": "issue-1223",
-  "created": "2026-08-23"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'Windows CI: splitCommand backslash stripping, UnicodeEncodeError, and detached
+  process failure'
+domain: devops
+tags:
+- windows
+- ci
+- nodejs
+- python
+- subprocess
+- encoding
+- backslash
+- detached
+status: published
+created: '2026-08-23'
+source: issue-1223
 ---
 
 ## Problem

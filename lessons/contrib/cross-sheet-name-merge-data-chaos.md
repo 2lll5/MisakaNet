@@ -1,25 +1,21 @@
 ---
-confidence: '1.0'
-created: '2026-06-25'
+title: 跨 Sheet 同名合并导致数据混乱：机器人唯一标识必须带前缀
 domain: data
-domain_expert: <user>
-language: zh
-source: <user>
-status: published
-subdomain: data-pipeline
 tags:
 - data-pipeline
 - dedup
 - unique-key
 - excel
-title: 跨 Sheet 同名合并导致数据混乱：机器人唯一标识必须带前缀
+status: published
+created: '2026-06-25'
+language: zh
+source: <user>
+confidence: 1.0
+domain_expert: <user>
 verified_date: '2026-07-06'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: data-pipeline
 ---
+
 ## Problem
 
 不同 Excel Sheet（如区域A/区域B）都有同名机器人（如 `R01`），直接按 `robotName` 字段聚合会把不同工位的机器人合并成一台，导致工序序列混乱、统计数据错误。

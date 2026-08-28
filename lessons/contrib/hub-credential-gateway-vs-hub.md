@@ -1,35 +1,18 @@
 ---
-confidence: '0.7'
-created: '2026-07-06'
+title: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
 domain: contrib
-domain_expert: bootstrap
-language: zh
-source: bootstrap
-status: published
 tags:
 - credential
 - gateway
-title: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
-verification: metadata-normalized
-verified_date: '2026-04-01'
-'{"title"': 'Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里", "domain": "devops", "source":
-  "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01",
-  "domain_expert": "bootstrap", "verified_date": "2026-04-01"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里
-verification: metadata-normalized
-'{"title"': 'Hub Hermes 凭证体系 — Gateway vs Hub 各自读哪里", "domain": "devops", "source":
-  "bootstrap", "status": "published", "confidence": "0.7", "created": "2026-04-01",
-  "domain_expert": "bootstrap", "verified_date": "2026-04-01"}'
+created: '2026-07-06'
+language: zh
+source: bootstrap
+confidence: 0.7
+domain_expert: bootstrap
+verified_date: '2026-04-01'
+---
+
 ---
 ## Problem
 

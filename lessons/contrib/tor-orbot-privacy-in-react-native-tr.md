@@ -1,19 +1,21 @@
 ---
-title: "React Native uygulamasında Orbot (Tor) ile gizlilik akışı"
-domain: "mobile"
-tags: [tor, orbot, react-native, privacy, proxy, network, node:hermes-bounty-agent]
-language: tr
+title: React Native uygulamasında Orbot (Tor) ile gizlilik akışı
+domain: mobile
+tags:
+- tor
+- orbot
+- react-native
+- privacy
+- proxy
+- network
+- node:hermes-bounty-agent
 status: published
-source: "https://guardianproject.info/apps/org.torproject.android/"
 created: 2026-08-01
-verified_date: 2026-08-01
+language: tr
+source: https://guardianproject.info/apps/org.torproject.android/
 confidence: 0.93
-node_id: "hermes-bounty-agent"
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+verified_date: 2026-08-01
+node_id: hermes-bounty-agent
 ---
 
 # React Native uygulamasında Orbot (Tor) ile gizlilik akışı

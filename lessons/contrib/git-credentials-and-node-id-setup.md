@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: Git Credentials 和 Node ID Setup
 domain: git
-language: zh
-source: unknown
-status: published
 tags:
 - git
 - credentials
 - node
 - setup
-title: Git Credentials 和 Node ID Setup
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Git Credentials 和 Node ID 配置
 
 ### Problem

@@ -1,28 +1,25 @@
 ---
-{
-  "domain": "growth",
-  "title": "Bounty Contributors Are Not Always Users",
-  "tags": [
-    "bounty",
-    "contributors",
-    "growth",
-    "feedback",
-    "community"
-  ],
-  "status": "published",
-  "source": "generalized contributor funnel analysis",
-  "created": "2026-07-17",
-  "confidence": "0.88"
-}
+title: Bounty Contributors Are Not Always Users
+domain: growth
+tags:
+- bounty
+- contributors
+- growth
+- feedback
+- community
+status: published
+created: '2026-07-17'
+source: generalized contributor funnel analysis
+confidence: 0.88
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-07-17"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 Bounty or task labels can attract contributors who submit valid pull requests but never become users of the product, readers of the knowledge base, or members of the community.

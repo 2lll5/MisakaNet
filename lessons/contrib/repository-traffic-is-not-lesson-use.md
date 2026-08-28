@@ -1,18 +1,16 @@
 ---
-{
-  "domain": "growth",
-  "title": "Repository Traffic Is Not Lesson Use",
-  "tags": ["analytics", "growth", "feedback", "lessons", "metrics"],
-  "status": "published",
-  "source": "generalized repository traffic analysis",
-  "created": "2026-07-17",
-  "confidence": "0.90"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Repository Traffic Is Not Lesson Use
+domain: growth
+tags:
+- analytics
+- growth
+- feedback
+- lessons
+- metrics
+status: published
+created: '2026-07-17'
+source: generalized repository traffic analysis
+confidence: 0.9
 ---
 
 ## Problem

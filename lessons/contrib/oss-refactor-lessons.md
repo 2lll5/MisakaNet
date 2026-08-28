@@ -1,19 +1,14 @@
 ---
-created: '2026-07-06'
+title: oss refactor lessons
 domain: contrib
-source: unknown
-status: published
 tags:
 - refactor
 - lessons
-title: oss refactor lessons
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 ## Problem
 
 一个开源的 Agent 知识共享项目，早期架构照搬了"中心协调网络"设计，堆了 A2A 实时通信、WebSocket 长连接、交互式卡片仲裁、中心化 Hub 等功能。功能多但实际体验差。

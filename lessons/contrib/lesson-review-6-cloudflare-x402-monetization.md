@@ -1,12 +1,6 @@
 ---
-confidence: '0.8'
-created: '2026-07-01'
+title: Cloudflare Monetization Gateway — x402 API 支付协议
 domain: ops
-domain_expert: ''
-language: zh
-source: blog.cloudflare.com
-status: published
-subdomain: api
 tags:
 - cloudflare
 - x402
@@ -14,14 +8,16 @@ tags:
 - monetization
 - payment
 - mcp
-title: Cloudflare Monetization Gateway — x402 API 支付协议
+status: published
+created: '2026-07-01'
+language: zh
+source: blog.cloudflare.com
+confidence: 0.8
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: api
 ---
+
 ## Problem
 
 Web 30 年来的经济模式是"内容换注意力"（广告/订阅/电商）。AI Agent 时代，Agent 不看广告、不订阅、不浏览——传统变现模式失效。

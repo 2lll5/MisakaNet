@@ -1,24 +1,20 @@
 ---
-confidence: '0.7'
-created: '2026-05-03'
+title: 'FANUC KL: ERR_ABORT vs ERR_PAUSE 行为差异'
 domain: fanuc
-domain_expert: bootstrap
-language: zh
-source: bootstrap
-status: published
-subdomain: error-handling
 tags:
 - fanuc
 - abort
 - pause
-title: 'FANUC KL: ERR_ABORT vs ERR_PAUSE 行为差异'
+status: published
+created: '2026-05-03'
+language: zh
+source: bootstrap
+confidence: 0.7
+domain_expert: bootstrap
 verified_date: '2026-05-03'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: error-handling
 ---
+
 ## FANUC KL: ERR_ABORT vs ERR_PAUSE 行为差异
 
 ### Problem描述

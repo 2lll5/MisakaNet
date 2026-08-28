@@ -1,18 +1,15 @@
 ---
-{
-  "title": "Lesson Provenance Tracking: author, PR, source, merge history",
-  "domain": "devops",
-  "tags": ["provenance", "metadata", "audit", "tracking"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "closed-pr-1031",
-  "created": "2026-08-22"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'Lesson Provenance Tracking: author, PR, source, merge history'
+domain: devops
+tags:
+- provenance
+- metadata
+- audit
+- tracking
+status: published
+created: '2026-08-22'
+source: closed-pr-1031
+evidence_level: E2
 ---
 
 ## Problem

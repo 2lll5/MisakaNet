@@ -1,10 +1,6 @@
 ---
-created: '2026-07-06'
+title: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow
 domain: feishu
-domain_expert: unknown
-language: zh
-source: unknown
-status: published
 tags:
 - registration
 - worker
@@ -12,26 +8,13 @@ tags:
 - github-actions
 - feishu
 - fallback
-title: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow
-verification: metadata-normalized
-'{"title"': '注册链路设计 — Worker 只创建 Issue，其余交给 Workflow", "domain": "devops", "tags":
-  ["registration", "worker", "register", "github-actions", "feishu", "fallback"],
-  "domain_expert": "unknown"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: 注册链路设计 — Worker 只创建 Issue，其余交给 Workflow
-verification: metadata-normalized
-'{"title"': '注册链路设计 — Worker 只创建 Issue，其余交给 Workflow", "domain": "devops", "tags":
-  ["registration", "worker", "register", "github-actions", "feishu", "fallback"],
-  "domain_expert": "unknown"}'
+created: '2026-07-06'
+language: zh
+source: unknown
+domain_expert: unknown
+---
+
 ---
 ## Problem
 

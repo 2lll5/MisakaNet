@@ -1,12 +1,6 @@
 ---
-confidence: '0.95'
-created: '2026-07-01'
+title: GitHub Commit Signing — GPG 防止提交伪造
 domain: ops
-domain_expert: ''
-language: zh
-source: dev.to
-status: published
-subdomain: security
 tags:
 - git
 - github
@@ -14,14 +8,16 @@ tags:
 - security
 - commit-signing
 - impersonation
-title: GitHub Commit Signing — GPG 防止提交伪造
+status: published
+created: '2026-07-01'
+language: zh
+source: dev.to
+confidence: 0.95
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: security
 ---
+
 ## Problem
 
 任何人都可以用你的名字和邮箱设置 git config，推送提交，在 GitHub 上显示为你的作品。唯一的区别：没有 "Verified" 徽章。

@@ -1,26 +1,22 @@
 ---
-confidence: '0.85'
-created: '2026-07-01'
+title: API 设计原则 — 无抽象、一致性、幂等性
 domain: ops
-domain_expert: ''
-language: zh
-source: increase.com/articles
-status: published
-subdomain: api
 tags:
 - api
 - design
 - principles
 - rest
 - consistency
-title: API 设计原则 — 无抽象、一致性、幂等性
+status: published
+created: '2026-07-01'
+language: zh
+source: increase.com/articles
+confidence: 0.85
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: api
 ---
+
 ## Problem
 
 API 设计不一致导致开发者困惑：有些端点用 POST 创建，有些用 PUT；有些返回 201，有些返回 200；有些用 camelCase，有些用 snake_case。

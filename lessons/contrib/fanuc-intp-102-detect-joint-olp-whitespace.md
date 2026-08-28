@@ -1,21 +1,22 @@
 ---
-title: "FANUC INTP-102 DETECT JOINT — OLP Whitespace Bug"
-domain: "fanuc"
-subdomain: "olp"
-tags: ["intp-102", "detect-joint", "olp", "robodk", "ls-format", "whitespace", "arc-sensor"]
-source: "robot-forum.com"
-status: "published"
-confidence: "0.9"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: FANUC INTP-102 DETECT JOINT — OLP Whitespace Bug
+domain: fanuc
+tags:
+- intp-102
+- detect-joint
+- olp
+- robodk
+- ls-format
+- whitespace
+- arc-sensor
+status: published
+created: '2026-07-01'
+source: robot-forum.com
+confidence: 0.9
+domain_expert: ''
+verified_date: ''
+subdomain: olp
 ---
-
 
 ## Problem
 

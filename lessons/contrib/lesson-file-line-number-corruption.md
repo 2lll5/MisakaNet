@@ -1,8 +1,6 @@
 ---
-created: '2026-07-06'
+title: Before — inspect raw first line
 domain: meta
-source: codewhale
-status: published
 tags:
 - terminal
 - sed
@@ -10,26 +8,11 @@ tags:
 - file-corruption
 - html
 - debug
-title: Before — inspect raw first line
-verification: metadata-normalized
-'{"title"': 'File Content Corrupted by Terminal Line-Number Prefixes", "domain": "devops",
-  "tags": ["terminal", "sed", "line-number", "file-corruption", "html", "debug"],
-  "status": "published", "created": "2026-06-20", "source": "codewhale"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: Before — inspect raw first line
-verification: metadata-normalized
-'{"title"': 'File Content Corrupted by Terminal Line-Number Prefixes", "domain": "devops",
-  "tags": ["terminal", "sed", "line-number", "file-corruption", "html", "debug"],
-  "status": "published", "created": "2026-06-20", "source": "codewhale"}'
+created: '2026-07-06'
+source: codewhale
+---
+
 ---
 ## Problem
 

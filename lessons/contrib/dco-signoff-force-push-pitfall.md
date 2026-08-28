@@ -1,24 +1,21 @@
 ---
-{
-  "title": "DCO Signoff Lost During Force Push",
-  "domain": "devops",
-  "tags": ["git", "dco", "signoff", "force-push", "pull-request"],
-  "status": "published",
-  "evidence_level": "E0",
-  "source": "session-feedback",
-  "created": "2026-08-04",
-  "updated": "2026-08-04",
-  "metadata": {
-    "type": "feedback",
-    "originSessionId": "c8d99950-7aef-46ad-b4ce-4d0f910c86e9",
-    "modified": "2026-08-04T10:19:47.621Z"
-  }
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: DCO Signoff Lost During Force Push
+domain: devops
+tags:
+- git
+- dco
+- signoff
+- force-push
+- pull-request
+status: published
+created: '2026-08-04'
+updated: '2026-08-04'
+source: session-feedback
+evidence_level: E0
+metadata:
+  type: feedback
+  originSessionId: c8d99950-7aef-46ad-b4ce-4d0f910c86e9
+  modified: '2026-08-04T10:19:47.621Z'
 ---
 
 ## Problem

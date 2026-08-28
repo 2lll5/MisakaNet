@@ -1,11 +1,6 @@
 ---
-confidence: '0.85'
-created: '2026-07-14'
+title: Agent Web Access Toolchain — 7 Libraries for Reliable Forum Scraping
 domain: agent
-domain_expert: ''
-source: practical-experience
-status: published
-subdomain: tooling
 tags:
 - agent-tooling
 - web-access
@@ -15,14 +10,15 @@ tags:
 - scraping
 - forum
 - tls-fingerprint
-title: Agent Web Access Toolchain — 7 Libraries for Reliable Forum Scraping
+status: published
+created: '2026-07-14'
+source: practical-experience
+confidence: 0.85
+domain_expert: ''
 verified_date: '2026-07-14'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: tooling
 ---
+
 ## Problem
 
 AI agents gathering knowledge from technical forums hit inconsistent results: some requests succeed, others return HTTP 403 or timeout. Standard Python `requests` and system `curl` have distinctive TLS fingerprints that forum software (WoltLab, Discourse, Discuz!) may flag. Agents need a reliable toolchain for web access across different forum platforms.

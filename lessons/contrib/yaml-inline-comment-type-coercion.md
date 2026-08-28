@@ -1,25 +1,21 @@
 ---
-created: '2026-08-18'
+title: YAML 内联注释导致类型强制转换失败
 domain: devops
-domain_expert: ''
-evidence_level: E2
-language: zh
-source: mcp-intake-1100
-status: published
 tags:
 - yaml
 - type-coercion
 - parser
 - comment
-title: YAML 内联注释导致类型强制转换失败
+status: published
+created: '2026-08-18'
 updated: ''
+language: zh
+source: mcp-intake-1100
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+evidence_level: E2
 ---
+
 ## Problem
 
 YAML 内联注释导致类型强制转换失败 — `0.15 # comment` 被读取为字符串而非 float。

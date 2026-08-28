@@ -1,18 +1,16 @@
 ---
-{
-  "domain": "mcp",
-  "title": "MCP Registry Readiness Requires QA Before Promotion",
-  "tags": ["mcp", "registry", "qa", "glama", "tooling"],
-  "status": "published",
-  "source": "generalized MCP listing readiness analysis",
-  "created": "2026-07-17",
-  "confidence": "0.86"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: MCP Registry Readiness Requires QA Before Promotion
+domain: mcp
+tags:
+- mcp
+- registry
+- qa
+- glama
+- tooling
+status: published
+created: '2026-07-17'
+source: generalized MCP listing readiness analysis
+confidence: 0.86
 ---
 
 ## Problem

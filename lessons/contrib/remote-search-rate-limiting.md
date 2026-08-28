@@ -1,18 +1,16 @@
 ---
-{
-  "title": "Remote search rate limiting: 5 free/day, then registration",
-  "domain": "mcp",
-  "tags": ["mcp", "rate-limit", "search", "registration", "abuse"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-fb741dcb9d",
-  "created": "2026-08-19"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'Remote search rate limiting: 5 free/day, then registration'
+domain: mcp
+tags:
+- mcp
+- rate-limit
+- search
+- registration
+- abuse
+status: published
+created: '2026-08-19'
+source: mcp-intake-fb741dcb9d
+evidence_level: E2
 ---
 
 ## Problem

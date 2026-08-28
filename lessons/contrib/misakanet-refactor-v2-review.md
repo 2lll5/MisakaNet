@@ -1,20 +1,15 @@
 ---
-created: '2026-07-06'
+title: misakanet refactor v2 review
 domain: contrib
-source: unknown
-status: published
 tags:
 - misakanet
 - refactor
 - review
-title: misakanet refactor v2 review
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 ## Root Cause
 
 MisakaNet 早期架构照搬了"中心协调网络"的设计——A2A 实时通信、飞书 WebSocket 长连接、交互式卡片仲裁、中心化 Hub。这些功能听起来高级，但实际使用中暴露了三个问题：

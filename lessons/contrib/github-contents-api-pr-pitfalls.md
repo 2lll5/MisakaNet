@@ -1,26 +1,22 @@
 ---
-created: '2026-08-18'
+title: GitHub Contents API PR 提交的 4 个陷阱
 domain: devops
-domain_expert: ''
-evidence_level: E2
-language: zh
-source: mcp-intake-1101
-status: published
 tags:
 - github
 - api
 - contents
 - pr
 - base64
-title: GitHub Contents API PR 提交的 4 个陷阱
+status: published
+created: '2026-08-18'
 updated: ''
+language: zh
+source: mcp-intake-1101
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+evidence_level: E2
 ---
+
 ## Problem
 
 GitHub Contents API PR 提交有 4 个陷阱：base64 换行、SHA 不匹配、ruff 空行、fork diff 膨胀。

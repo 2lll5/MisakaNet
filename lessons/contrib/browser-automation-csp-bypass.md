@@ -1,19 +1,22 @@
 ---
 title: CSP blocks JavaScript injection in browser automation of authenticated pages
 domain: mcp
-subdomain: browser-automation
-tags: ["browser-automation", "csp", "content-security-policy", "cdp", "puppeteer", "playwright", "eval", "injection"]
+tags:
+- browser-automation
+- csp
+- content-security-policy
+- cdp
+- puppeteer
+- playwright
+- eval
+- injection
 status: published
-confidence: 0.8
 created: 2026-07-06
 updated: 2026-07-06
 source: <user>
+confidence: 0.8
 verified_date: 2026-07-06
-provenance:
-  source: "agent-debugging"
-  contributor: "<user>"
-  merged_at: "2026-07-28"
-  evidence: "pr-merged"
+subdomain: browser-automation
 ---
 
 # CSP blocks JavaScript injection in browser automation of authenticated pages

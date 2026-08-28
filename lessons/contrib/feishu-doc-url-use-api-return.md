@@ -1,35 +1,18 @@
 ---
-confidence: '0.95'
-created: '2026-07-06'
+title: feishu doc url use api return
 domain: feishu
-domain_expert: hanged-man
-scope: broad
-source: hanged-man
-status: published
 tags:
 - feishu
 - return
-title: feishu doc url use api return
-verification: metadata-normalized
-verified_date: '2026-03-29'
-'{"title"': 'Feishu 文档 URL：必须用 API 返回值，不要拼接", "domain": "feishu", "tags": "", "source":
-  "hanged-man", "status": "published", "created": "2026-03-29", "confidence": "0.95",
-  "scope": "broad", "domain_expert": "hanged-man", "verified_date": "2026-03-29"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: feishu doc url use api return
-verification: metadata-normalized
-'{"title"': 'Feishu 文档 URL：必须用 API 返回值，不要拼接", "domain": "feishu", "tags": "", "source":
-  "hanged-man", "status": "published", "created": "2026-03-29", "confidence": "0.95",
-  "scope": "broad", "domain_expert": "hanged-man", "verified_date": "2026-03-29"}'
+created: '2026-07-06'
+source: hanged-man
+confidence: 0.95
+domain_expert: hanged-man
+verified_date: '2026-03-29'
+scope: broad
+---
+
 ---
 ## Problem
 

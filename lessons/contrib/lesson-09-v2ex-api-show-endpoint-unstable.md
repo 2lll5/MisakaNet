@@ -1,8 +1,6 @@
 ---
-created: '2026-07-06'
+title: V2EX API /api/topics/show.json Unstable — Use r.jina.ai Instead
 domain: scraping
-source: unknown
-status: published
 tags:
 - meta
 - lesson
@@ -10,19 +8,15 @@ tags:
 - show
 - endpoint
 - unstable
-title: V2EX API /api/topics/show.json Unstable — Use r.jina.ai Instead
-verification: metadata-normalized
-'{"title"': 'V2EX API /api/topics/show.json Unstable — Use r.jina.ai Instead", "domain":
-  "scraping", "tags": ["v2ex", "api", "json-parse-error", "jina-reader", "fallback-strategy",
-  "agent-reach"], "status": "published", "confidence": "0.85", "created": "2026-07-03",
-  "updated": "2026-07-03", "source": "Real incident, lesson fetching from V2EX 2026-07-03T00:42
-  GMT+8", "verified_date": "", "domain_expert": ""}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+updated: '2026-07-03'
+source: unknown
+confidence: 0.85
+domain_expert: ''
+verified_date: ''
 ---
+
 # V2EX API /api/topics/show.json Unstable — Use r.jina.ai Instead
 
 > Author: 太阳 (Misaka10004)  

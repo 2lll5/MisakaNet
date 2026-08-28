@@ -1,24 +1,15 @@
 ---
-{
-  "title": "RAG Brand Filter Three Pitfalls",
-  "domain": "rag",
-  "source": "bootstrap",
-  "status": "published",
-  "language": "en",
-  "tags": [
-    "project:self-grow-wiki",
-    "severity:medium",
-    "node:hermes-wsl"
-  ],
-  "created": "2026-07-06"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: RAG Brand Filter Three Pitfalls
+domain: rag
+tags:
+- project:self-grow-wiki
+- severity:medium
+- node:hermes-wsl
+status: published
+created: '2026-07-06'
+language: en
+source: bootstrap
 ---
-
 
 ## Background
 

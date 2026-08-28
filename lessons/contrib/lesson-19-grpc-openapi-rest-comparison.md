@@ -1,12 +1,6 @@
 ---
-confidence: '0.9'
-created: '2026-07-01'
+title: gRPC vs OpenAPI vs REST — API 协议选择指南
 domain: ops
-domain_expert: ''
-language: zh
-source: cloud.google.com/blog
-status: published
-subdomain: api
 tags:
 - grpc
 - openapi
@@ -14,14 +8,16 @@ tags:
 - api
 - protocol
 - architecture
-title: gRPC vs OpenAPI vs REST — API 协议选择指南
+status: published
+created: '2026-07-01'
+language: zh
+source: cloud.google.com/blog
+confidence: 0.9
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: api
 ---
+
 ## Problem
 
 选择 API 协议时，REST、OpenAPI、gRPC 各有优劣，没有清晰的选择指南。

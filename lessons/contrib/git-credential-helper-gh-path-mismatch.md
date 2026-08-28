@@ -1,23 +1,18 @@
 ---
-created: '2026-07-06'
+title: gh credential helper 路径Error导致 git push 静默失败
 domain: git
-language: zh
-source: unknown
-status: published
 tags:
 - git
 - credential
 - helper
 - path
 - mismatch
-title: gh credential helper 路径Error导致 git push 静默失败
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 执行 `git push` 时卡住或报错：

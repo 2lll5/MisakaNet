@@ -1,17 +1,18 @@
 ---
 title: Debugging memory leaks in Ruby
 domain: Ruby/Performance
-tags: [memory-leaks, debugging, Ruby, Rails, heap-dump, ObjectSpace]
-language: en
+tags:
+- memory-leaks
+- debugging
+- Ruby
+- Rails
+- heap-dump
+- ObjectSpace
 status: published
-source: https://samsaffron.com/archive/2015/03/31/debugging-memory-leaks-in-ruby
 created: 2026-07-28
+language: en
+source: https://samsaffron.com/archive/2015/03/31/debugging-memory-leaks-in-ruby
 confidence: 0.85
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
 
 ## Problem
@@ -82,7 +83,7 @@ bundle exec rbtrace -p 6744 -e 'GC.stat'
 The heap dump is JSON-formatted, containing per-object metadata:
 
 ```json
-{"address":"0x7ffc567fbf98", "type":"STRING", "class":"0x7ffc565c4ea0", "frozen":true, "embedded":true, "fstring":true, "bytesize":18, "value":"ensure in dispatch", "file":"/var/www/discourse/vendor/bundle/ruby/2.2.0/gems/activesupport-4.1.9/lib/active_support/dependencies.rb", "line":247, "method":"require", "generation":7, "memsize":40, "flags":{"wb_protected":true, "old":true, "long_lived":true, "marked":true}}
+
 ```
 
 Each object includes:

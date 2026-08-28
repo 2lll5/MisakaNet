@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: Python 代码修改不生效 — stale .pyc Cache
 domain: python
-language: zh
-source: unknown
-status: published
 tags:
 - python
 - pycache
 - stale
-title: Python 代码修改不生效 — stale .pyc Cache
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 改了 Python 文件后运行，行为还是旧的。函数返回值、错误信息、path 等都没有改变。常见场景包括：

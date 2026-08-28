@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: feishu agent display settings
 domain: feishu
-source: unknown
-status: published
 tags:
 - feishu
 - agent
 - display
 - settings
-title: feishu agent display settings
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 ## 飞书 Agent 显示优化：禁用工具调用和上下文提示
 
 ### Problem描述

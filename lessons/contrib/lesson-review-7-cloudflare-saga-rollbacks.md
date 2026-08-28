@@ -1,21 +1,21 @@
 ---
-title: "Cloudflare Workflows Saga Rollback — Durable Multi-Step Compensation"
-domain: "ops"
-subdomain: "workflow"
-tags: ["cloudflare", "workflows", "saga", "rollback", "durable", "compensation"]
-source: "blog.cloudflare.com"
-status: "published"
-confidence: "0.9"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: ""
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Cloudflare Workflows Saga Rollback — Durable Multi-Step Compensation
+domain: ops
+tags:
+- cloudflare
+- workflows
+- saga
+- rollback
+- durable
+- compensation
+status: published
+created: '2026-07-01'
+source: blog.cloudflare.com
+confidence: 0.9
+domain_expert: ''
+verified_date: ''
+subdomain: workflow
 ---
-
 
 ## Problem
 

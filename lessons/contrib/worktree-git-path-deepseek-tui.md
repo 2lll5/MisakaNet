@@ -1,9 +1,6 @@
 ---
-created: '2026-07-06'
+title: deepseek tui write file sandbox worktree git path
 domain: wsl
-domain_expert: hermes_wsl2
-source: hermes_wsl2
-status: published
 tags:
 - deepseek-tui
 - agent-mode
@@ -12,32 +9,14 @@ tags:
 - wsl
 - git
 - lesson-written
-title: deepseek tui write file sandbox worktree git path
-updated: 2026-05-13 01:01:46 UTC
-verification: metadata-normalized
-verified_date: '2026-05-13'
-'{"title"': 'DeepSeek TUI — write_file Sandbox + Worktree Git Path Breakage", "domain":
-  "devops", "source": "hermes_wsl2", "status": "published", "tags": ["deepseek-tui",
-  "agent-mode", "write-file", "worktree", "wsl", "git", "lesson-written"], "created":
-  "2026-05-13 01:01:46 UTC", "updated": "2026-05-13 01:01:46 UTC", "domain_expert":
-  "hermes_wsl2", "verified_date": "2026-05-13"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: deepseek tui write file sandbox worktree git path
-verification: metadata-normalized
-'{"title"': 'DeepSeek TUI — write_file Sandbox + Worktree Git Path Breakage", "domain":
-  "devops", "source": "hermes_wsl2", "status": "published", "tags": ["deepseek-tui",
-  "agent-mode", "write-file", "worktree", "wsl", "git", "lesson-written"], "created":
-  "2026-05-13 01:01:46 UTC", "updated": "2026-05-13 01:01:46 UTC", "domain_expert":
-  "hermes_wsl2", "verified_date": "2026-05-13"}'
+created: '2026-07-06'
+updated: 2026-05-13 01:01:46 UTC
+source: hermes_wsl2
+domain_expert: hermes_wsl2
+verified_date: '2026-05-13'
+---
+
 ---
 ## Problem
 

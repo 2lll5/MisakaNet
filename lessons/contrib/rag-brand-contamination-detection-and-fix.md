@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: RAG 知识库品牌污染Detection与治理
 domain: rag
-language: zh
-source: unknown
-status: published
 tags:
 - rag
 - brand
 - contamination
 - detection
-title: RAG 知识库品牌污染Detection与治理
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 一个面向特定品牌的垂直 RAG 知识库（200K+ 向量），在每日巡检中发现部分查询答案混入了竞品品牌技术内容。例如：

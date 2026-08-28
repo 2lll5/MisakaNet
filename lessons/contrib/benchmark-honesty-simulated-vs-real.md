@@ -1,25 +1,25 @@
 ---
-confidence: '0.95'
-created: '2026-07-15'
+title: Benchmark Honesty — Distinguishing Simulated vs Real Results
 domain: agent
-source: PR review feedback analysis
-status: draft
 tags:
 - benchmark
 - honesty
 - testing
 - contrib
 - agent
-title: Benchmark Honesty — Distinguishing Simulated vs Real Results
+status: draft
+created: '2026-07-15'
+source: PR review feedback analysis
+confidence: 0.95
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "<user>"
   merged_at: "2026-07-15"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 When contributing benchmark results to open-source projects, presenting simulated or partial results as real evidence leads to maintainer rejection and lost trust.

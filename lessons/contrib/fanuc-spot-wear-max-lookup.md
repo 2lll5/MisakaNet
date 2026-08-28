@@ -1,25 +1,28 @@
 ---
-title: "FANUC Spot Weld Tip Max Wear Amount — sysspot.sv Variable Lookup via kconvars"
-domain: "fanuc"
-subdomain: "spot-weld"
-tags: ["spot-weld", "electrode-wear", "sysspot", "kconvars", "spoteqsetup", "epaf-trgdst", "tip-dress"]
-source: "colleague_memory_dump"
-status: "published"
-confidence: "0.85"
-created: "2026-07-16"
-verified_date: "2026-07-16"
-domain_expert: ""
+title: FANUC Spot Weld Tip Max Wear Amount — sysspot.sv Variable Lookup via kconvars
+domain: fanuc
+tags:
+- spot-weld
+- electrode-wear
+- sysspot
+- kconvars
+- spoteqsetup
+- epaf-trgdst
+- tip-dress
+status: published
+created: '2026-07-16'
+source: colleague_memory_dump
+confidence: 0.85
+domain_expert: ''
+verified_date: '2026-07-16'
+subdomain: spot-weld
 evidence:
-  level: "pre_ingest_reused"
-  source_type: "colleague_memory_dump"
-  verified_by: "maintainer"
-  context: "Distilled from field debugging session. kconvars sysspot.sv parsing path verified as practically useful."
+  level: pre_ingest_reused
+  source_type: colleague_memory_dump
+  verified_by: maintainer
+  context: Distilled from field debugging session. kconvars sysspot.sv parsing path
+    verified as practically useful.
   public_quote_allowed: false
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
 
 ## Problem

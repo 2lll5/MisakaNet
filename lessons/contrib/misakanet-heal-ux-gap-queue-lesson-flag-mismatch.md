@@ -1,8 +1,6 @@
 ---
-created: '2026-07-06'
+title: MisakaNet --heal UX Gap — Suggested queue_lesson.py Command Uses Wrong Flag
 domain: contrib
-source: unknown
-status: published
 tags:
 - misakanet
 - heal
@@ -10,14 +8,11 @@ tags:
 - lesson
 - flag
 - mismatch
-title: MisakaNet --heal UX Gap — Suggested queue_lesson.py Command Uses Wrong Flag
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 # MisakaNet --heal UX Gap — Suggested queue_lesson.py Command Uses Wrong Flag
 
 ## Problem

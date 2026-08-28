@@ -1,29 +1,29 @@
 ---
-created: '2026-08-18'
+title: 中文 BM25 搜索：滑动窗口子串加分与唯一候选加分
 domain: search
-domain_expert: ''
-evidence_level: E2
-language: zh
-source: mcp-intake-1112
-status: published
 tags:
 - bm25
 - chinese
 - search
 - recall
 - sliding-window
-title: 中文 BM25 搜索：滑动窗口子串加分与唯一候选加分
+status: published
+created: '2026-08-18'
 updated: ''
+language: zh
+source: mcp-intake-1112
+domain_expert: ''
 verified_date: ''
+evidence_level: E2
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-08-18"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 中文 BM25 搜索长查询召回率低，标准 BM25 对中文分词后的短 token 敏感度不足。

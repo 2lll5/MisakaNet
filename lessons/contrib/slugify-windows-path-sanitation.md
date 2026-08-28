@@ -1,35 +1,18 @@
 ---
-created: '2026-07-06'
+title: slugify windows path sanitation
 domain: wsl
-domain_expert: unknown
-source: unknown
-status: published
 tags:
 - slugify
 - windows
 - wsl
 - sanitation
 - path-errors
-title: slugify windows path sanitation
-verification: metadata-normalized
-'{"title"': 'Slugify filename sanitation crash on Windows and WSL", "domain": "scripts",
-  "tags": ["slugify", "windows", "wsl", "sanitation", "path-errors"], "domain_expert":
-  "unknown"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: slugify windows path sanitation
-verification: metadata-normalized
-'{"title"': 'Slugify filename sanitation crash on Windows and WSL", "domain": "scripts",
-  "tags": ["slugify", "windows", "wsl", "sanitation", "path-errors"], "domain_expert":
-  "unknown"}'
+created: '2026-07-06'
+source: unknown
+domain_expert: unknown
+---
+
 ---
 ## Problem
 

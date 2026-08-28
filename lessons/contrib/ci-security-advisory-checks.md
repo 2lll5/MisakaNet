@@ -1,31 +1,16 @@
 ---
-{
-  "title": "CI security checks: action pinning, permissions, README, code style",
-  "domain": "devops",
-  "tags": [
-    "ci",
-    "security",
-    "audit",
-    "actions",
-    "permissions"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-64eb5d4f88",
-  "created": "2026-08-19",
-  "provenance": {
-    "source": "agent-debugging",
-    "contributor": "Ikalus1988",
-    "merged_at": "2026-08-01",
-    "original_issue": null,
-    "evidence": "pr-merged"
-  }
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'CI security checks: action pinning, permissions, README, code style'
+domain: devops
+tags:
+- ci
+- security
+- audit
+- actions
+- permissions
+status: published
+created: '2026-08-19'
+source: mcp-intake-64eb5d4f88
+evidence_level: E2
 ---
 
 ## Problem

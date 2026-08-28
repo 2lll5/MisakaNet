@@ -1,10 +1,6 @@
 ---
-confidence: 0.9
-created: 2026-07-07
+title: CI 测试陷阱 — 模块级副作用导致 import 失败
 domain: devops
-language: zh
-source: practical-experience
-status: published
 tags:
 - ci
 - python
@@ -12,13 +8,13 @@ tags:
 - boto3
 - module-import
 - side-effects
-title: CI 测试陷阱 — 模块级副作用导致 import 失败
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: 2026-07-07
+language: zh
+source: practical-experience
+confidence: 0.9
 ---
+
 ## Problem
 
 Python 测试文件尝试 `importlib.import_module()` 导入 Lambda 函数模块，CI 报错：

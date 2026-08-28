@@ -1,17 +1,19 @@
 ---
-title: "FANUC Robot Program Inspection Methodology — Systematic Check Guide"
-domain: "fanuc"
-subdomain: "quality"
-tags: ["inspection", "checklist", "program-review", "signal-check", "collision-zone", "fine-point", "quality"]
-status: "published"
-source: "internal-training"
-confidence: "0.9"
-created: "2026-07-14"
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: FANUC Robot Program Inspection Methodology — Systematic Check Guide
+domain: fanuc
+tags:
+- inspection
+- checklist
+- program-review
+- signal-check
+- collision-zone
+- fine-point
+- quality
+status: published
+created: '2026-07-14'
+source: internal-training
+confidence: 0.9
+subdomain: quality
 ---
 
 ## Problem

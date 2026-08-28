@@ -1,21 +1,21 @@
 ---
-title: "FANUC DO Not Found in Program — Check Reference Position"
-domain: "fanuc"
-subdomain: "troubleshooting"
-tags: ["do", "digital-output", "reference-position", "background-logic", "space-function", "search"]
-source: "robot-forum.com"
-status: "published"
-confidence: "0.9"
-created: "2026-07-01"
-verified_date: ""
-domain_expert: "Nation"
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: FANUC DO Not Found in Program — Check Reference Position
+domain: fanuc
+tags:
+- do
+- digital-output
+- reference-position
+- background-logic
+- space-function
+- search
+status: published
+created: '2026-07-01'
+source: robot-forum.com
+confidence: 0.9
+domain_expert: Nation
+verified_date: ''
+subdomain: troubleshooting
 ---
-
 
 ## Problem
 

@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: Feishu WikiBatch Download：文件类型Handling策略
 domain: feishu
-language: zh
-source: unknown
-status: published
 tags:
 - feishu
 - wiki
 - batch
 - download
-title: Feishu WikiBatch Download：文件类型Handling策略
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 # Feishu WikiBatch Download：文件类型Handling策略
 
 ## Problem背景

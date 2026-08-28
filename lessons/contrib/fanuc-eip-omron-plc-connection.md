@@ -1,7 +1,18 @@
 ---
-confidence: 0.6
-created: '2026-07-12'
+title: FANUC Robot EtherNet/IP Connection with OMRON PLC
 domain: fanuc
+tags:
+- fanuc
+- ethernet-ip
+- eip
+- omron
+- plc-communication
+- hardware-cost
+status: draft
+created: '2026-07-12'
+source: bbs.gongkong.com/d/202112/878050
+confidence: 0.6
+subdomain: plc-communication
 id: fanuc-eip-omron-plc-connection
 problem: 需要将 OMRON PLC 与 FANUC 机器人建立通讯连接。传统方案（如 PROFINET、DeviceNet）需要额外购买通讯硬件卡，增加了系统成本。
 quality_score: 50
@@ -18,30 +29,8 @@ solution: '1. 确认 FANUC 机器人固件版本支持 EtherNet/IP
   5. 映射 I/O 信号（DI/DO 与 PLC 地址对应）
 
   6. 测试通讯连接并验证信号收发'
-source: bbs.gongkong.com/d/202112/878050
-status: draft
-subdomain: plc-communication
-tags:
-- fanuc
-- ethernet-ip
-- eip
-- omron
-- plc-communication
-- hardware-cost
-title: FANUC Robot EtherNet/IP Connection with OMRON PLC
-verification: '1. OMRON PLC 编程软件显示 FANUC EIP 设备在线
-
-  2. PLC 写入 DO 信号，FANUC 侧 DI 信号正确响应
-
-  3. FANUC 输出 DO 信号，PLC 侧读取值正确
-
-  4. 通讯无超时或断线报警'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
+
 ## FANUC 机器人与 OMRON PLC 的 EtherNet/IP 连接
 
 ### Problem描述

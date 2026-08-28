@@ -1,25 +1,21 @@
 ---
-confidence: '0.85'
-created: '2026-07-01'
+title: Ghidra MCP Server — AI-Assisted Reverse Engineering
 domain: mcp
-domain_expert: ''
-source: github.com/LaurieWired/GhidraMCP
-status: published
-subdomain: reverse-engineering
 tags:
 - mcp
 - ghidra
 - reverse-engineering
 - binary-analysis
 - security
-title: Ghidra MCP Server — AI-Assisted Reverse Engineering
+status: published
+created: '2026-07-01'
+source: github.com/LaurieWired/GhidraMCP
+confidence: 0.85
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: reverse-engineering
 ---
+
 ## Problem
 
 Reverse engineering binaries is manual, time-consuming work. Ghidra is powerful but requires deep expertise. LLMs can reason about code but can't interact with Ghidra directly.

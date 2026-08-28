@@ -1,22 +1,24 @@
 ---
-{
-  "title": "USDC: base units vs human amounts — агент платит 1000x или думает, что 1000 USDC это $1000",
-  "domain": "crypto-ops",
-  "tags": ["usdc", "base-units", "decimals", "taskmarket", "x402", "agent", "marketplace", "eip-712"],
-  "status": "published",
-  "lang": "ru",
-  "language": "ru",
-  "source": "https://taskmarket.dev/skill.md + live Base wallet ops 2026-07-30",
-  "created": "2026-07-30",
-  "updated": "2026-07-30",
-  "verified_date": "2026-07-30",
-  "confidence": "0.93"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'USDC: base units vs human amounts — агент платит 1000x или думает, что 1000
+  USDC это $1000'
+domain: crypto-ops
+tags:
+- usdc
+- base-units
+- decimals
+- taskmarket
+- x402
+- agent
+- marketplace
+- eip-712
+status: published
+created: '2026-07-30'
+updated: '2026-07-30'
+language: ru
+source: https://taskmarket.dev/skill.md + live Base wallet ops 2026-07-30
+confidence: 0.93
+verified_date: '2026-07-30'
+lang: ru
 ---
 
 # USDC: base units vs human amounts — агент платит 1000x или думает, что 1000 USDC это $1000

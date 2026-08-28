@@ -1,25 +1,22 @@
 ---
-{
-  "title": "Agent read_file Silent Truncation in Multi-Brain Meeting Recovery",
-  "domain": "agent",
-  "tags": [
-    "project:hermes-agent-cluster",
-    "severity:high",
-    "pattern:file-handling",
-    "tool:read-file"
-  ],
-  "status": "published",
-  "source": "ninghuagui-debug"
-}
+title: Agent read_file Silent Truncation in Multi-Brain Meeting Recovery
+domain: agent
+tags:
+- project:hermes-agent-cluster
+- severity:high
+- pattern:file-handling
+- tool:read-file
+status: published
+source: ninghuagui-debug
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "ninghuagui-debug"
   merged_at: "2026-07-21"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 A three-brain AI meeting system (大乔 proposals → 小乔 review → main fusion) writes meeting

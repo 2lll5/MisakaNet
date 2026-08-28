@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: wsl proxy huggingface external
 domain: wsl
-source: unknown
-status: published
 tags:
 - wsl
 - proxy
 - huggingface
 - external
-title: wsl proxy huggingface external
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 ## Problem
 
 WSL 内 Python 脚本无法下载 HuggingFace 模型（sentence-transformers/BGE），

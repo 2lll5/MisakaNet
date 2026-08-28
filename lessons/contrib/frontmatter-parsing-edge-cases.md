@@ -1,24 +1,20 @@
 ---
-confidence: '0.95'
-created: 2026-07-10 00:00:00 UTC
+title: Frontmatter Parsing Edge Cases — Silent Failures and Data Loss
 domain: devops
-source: MisakaNet validate_lessons.py testing
-status: draft
 tags:
 - frontmatter
 - parsing
 - validation
 - edge-cases
 - data-loss
-title: Frontmatter Parsing Edge Cases — Silent Failures and Data Loss
+status: draft
+created: 2026-07-10 00:00:00 UTC
 updated: 2026-07-10 00:00:00 UTC
+source: MisakaNet validate_lessons.py testing
+confidence: 0.95
 verified_date: '2026-07-10'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
+
 ## Verification
 
 ```bash

@@ -1,21 +1,20 @@
 ---
 title: rdt-cli — Reddit in Your Terminal (Reverse-Engineered API)
 domain: ops
-subdomain: scraping
-tags: ["rdt-cli", "reddit", "scraping", "cli", "anti-detection"]
-source: github.com/public-clis/rdt-cli
+tags:
+- rdt-cli
+- reddit
+- scraping
+- cli
+- anti-detection
 status: published
-confidence: 0.85
 created: 2026-07-01
-verified_date: 
-domain_expert: 
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+source: github.com/public-clis/rdt-cli
+confidence: 0.85
+domain_expert: null
+verified_date: null
+subdomain: scraping
 ---
-
 
 ## Problem
 

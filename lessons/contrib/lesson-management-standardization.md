@@ -1,20 +1,21 @@
 ---
-title: Lesson Management Standardization — Naming, Content Sanitization, and Automated Submission Pipeline
+title: Lesson Management Standardization — Naming, Content Sanitization, and Automated
+  Submission Pipeline
 domain: devops
-tags: ["lesson", "naming-convention", "content-sanitization", "automation", "ci", "standardization"]
+tags:
+- lesson
+- naming-convention
+- content-sanitization
+- automation
+- ci
+- standardization
 status: published
-confidence: 0.95
 created: 2026-06-14
 source: codewhale
+confidence: 0.95
 domain_expert: codewhale
 verified_date: 2026-06-14
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
-
 
 # Lesson Management Standardization — Naming, Content Sanitization, and Automated Submission Pipeline
 

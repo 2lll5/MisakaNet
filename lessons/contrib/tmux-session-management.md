@@ -1,33 +1,18 @@
 ---
-created: '2026-07-06'
+title: tmux 终端复用 — 断开不丢失会话
 domain: contrib
-domain_expert: unknown
-language: zh
-source: unknown
-status: published
 tags:
 - tmux
 - terminal
 - session
 - background
-title: tmux 终端复用 — 断开不丢失会话
-verification: metadata-normalized
-'{"title"': 'tmux 终端复用 — 断开不丢失会话", "domain": "development", "tags": ["tmux", "terminal",
-  "session", "background"], "domain_expert": "unknown"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: tmux 终端复用 — 断开不丢失会话
-verification: metadata-normalized
-'{"title"': 'tmux 终端复用 — 断开不丢失会话", "domain": "development", "tags": ["tmux", "terminal",
-  "session", "background"], "domain_expert": "unknown"}'
+created: '2026-07-06'
+language: zh
+source: unknown
+domain_expert: unknown
+---
+
 ---
 ## Problem
 

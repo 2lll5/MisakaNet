@@ -1,41 +1,22 @@
 ---
-alternative_of: None
-confidence: '0.95'
-created: '2026-07-06'
+title: feishu upload file type opus
 domain: feishu
-domain_expert: hanged-man
-scope: broad
-source: hanged-man
-status: published
 tags:
 - feishu
 - upload
 - file
 - type
 - opus
-title: feishu upload file type opus
-verification: metadata-normalized
-verified_date: '2026-03-29'
-'{"title"': 'Feishu 文件上传：file_type 必须用 opus", "domain": "feishu", "tags": "", "source":
-  "hanged-man", "status": "published", "created": "2026-03-29", "confidence": "0.95",
-  "scope": "broad", "alternative_of": "None", "related": "", "domain_expert": "hanged-man",
-  "verified_date": "2026-03-29"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: feishu upload file type opus
-verification: metadata-normalized
-'{"title"': 'Feishu 文件上传：file_type 必须用 opus", "domain": "feishu", "tags": "", "source":
-  "hanged-man", "status": "published", "created": "2026-03-29", "confidence": "0.95",
-  "scope": "broad", "alternative_of": "None", "related": "", "domain_expert": "hanged-man",
-  "verified_date": "2026-03-29"}'
+created: '2026-07-06'
+source: hanged-man
+confidence: 0.95
+domain_expert: hanged-man
+verified_date: '2026-03-29'
+alternative_of: None
+scope: broad
+---
+
 ---
 ## Problem
 

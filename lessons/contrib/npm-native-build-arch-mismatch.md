@@ -1,23 +1,15 @@
 ---
-{
-  "title": "npm install failing on one host but not another (native build arch mismatch)",
-  "domain": "development",
-  "tags": [
-    "npm",
-    "node",
-    "portability",
-    "ci"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "created": "2026-08-11 00:00:00 UTC",
-  "updated": "2026-08-11 00:00:00 UTC"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: npm install failing on one host but not another (native build arch mismatch)
+domain: development
+tags:
+- npm
+- node
+- portability
+- ci
+status: published
+created: 2026-08-11 00:00:00 UTC
+updated: 2026-08-11 00:00:00 UTC
+evidence_level: E2
 ---
 
 # npm install failing on one host but not another (native build arch mismatch)
@@ -37,7 +29,7 @@ Make the install reproducible and tolerant of native builds across hosts.
 ### Step 1
 Pin the Node version in CI to match the lockfile's engine range and the dev host:
 ```json
-{"engines": {"node": ">=20 <21"}}
+
 ```
 
 ### Step 2

@@ -1,16 +1,17 @@
 ---
-title: "Zero-Bounty Agent Competition Flywheel: Issue Design for Crawler Attraction"
+title: 'Zero-Bounty Agent Competition Flywheel: Issue Design for Crawler Attraction'
 domain: development
-tags: [open-source, community, issue-design, crawler, agent-competition, flywheel]
+tags:
+- open-source
+- community
+- issue-design
+- crawler
+- agent-competition
+- flywheel
 status: published
-source: misakanet
 created: 2026-07-10
 updated: 2026-07-10
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+source: misakanet
 ---
 
 # Zero-Bounty Agent Competition Flywheel

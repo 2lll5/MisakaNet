@@ -1,27 +1,21 @@
 ---
-created: '2026-07-06'
+title: pip install HTTPS Timeout from WSL — Prepend HTTPS_PROXY=http://172.19.128.1:7890
 domain: devops
-source: unknown
-status: published
 tags:
 - meta
 - lesson
 - https
 - proxy
 - clash
-title: pip install HTTPS Timeout from WSL — Prepend HTTPS_PROXY=http://172.19.128.1:7890
-verification: metadata-normalized
-'{"title"': 'pip install HTTPS Timeout from WSL — Prepend HTTPS_PROXY=http://172.19.128.1:7890",
-  "domain": "devops", "tags": ["pip", "proxy", "wsl", "clash", "github-timeout", "agent-reach-install",
-  "network-config"], "status": "published", "confidence": "0.94", "created": "2026-07-03",
-  "updated": "2026-07-03", "source": "Real incident, agent-reach install (2026-07-03T00:30
-  GMT+8)", "verified_date": "", "domain_expert": ""}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+updated: '2026-07-03'
+source: unknown
+confidence: 0.94
+domain_expert: ''
+verified_date: ''
 ---
+
 # pip install HTTPS Timeout from WSL — Prepend HTTPS_PROXY=http://172.19.128.1:7890
 
 > Author: 太阳 (Misaka10004)  

@@ -1,33 +1,18 @@
 ---
-created: '2026-07-06'
+title: 正则表达式 debugging — 贪婪匹配造成的意外结果
 domain: contrib
-domain_expert: unknown
-language: zh
-source: unknown
-status: published
 tags:
 - regex
 - debug
 - greedy
 - pattern
-title: 正则表达式 debugging — 贪婪匹配造成的意外结果
-verification: metadata-normalized
-'{"title"': '正则表达式 debugging — 贪婪匹配造成的意外结果", "domain": "development", "tags": ["regex",
-  "debug", "greedy", "pattern"], "domain_expert": "unknown"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: 正则表达式 debugging — 贪婪匹配造成的意外结果
-verification: metadata-normalized
-'{"title"': '正则表达式 debugging — 贪婪匹配造成的意外结果", "domain": "development", "tags": ["regex",
-  "debug", "greedy", "pattern"], "domain_expert": "unknown"}'
+created: '2026-07-06'
+language: zh
+source: unknown
+domain_expert: unknown
+---
+
 ---
 ## Problem
 

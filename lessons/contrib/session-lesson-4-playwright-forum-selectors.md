@@ -1,19 +1,19 @@
 ---
 title: Playwright Forum Selectors — WoltLab/IPS/Common Patterns
 domain: ops
-subdomain: scraping
-tags: ["playwright", "scraping", "selectors", "forum", "automation"]
-source: practical-experience
+tags:
+- playwright
+- scraping
+- selectors
+- forum
+- automation
 status: published
-confidence: 0.85
 created: 2026-07-02
-verified_date: 
-domain_expert: 
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+source: practical-experience
+confidence: 0.85
+domain_expert: null
+verified_date: null
+subdomain: scraping
 ---
 
 ## Problem
@@ -55,7 +55,6 @@ const threads = await page.evaluate(() => {
     
     if (titleEl) {
       results.push({
-        title: titleEl.textContent.trim(),
         href: titleEl.href,
         replies, views, resolved,
         date: dateEl ? dateEl.getAttribute('date') : ''

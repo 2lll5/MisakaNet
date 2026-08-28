@@ -1,18 +1,16 @@
 ---
-{
-  "domain": "ux",
-  "title": "When Lessons Are Too Heavy, Use Rescue Cards",
-  "tags": ["ux", "support", "lessons", "rescue", "feedback"],
-  "status": "published",
-  "source": "generalized support-feedback analysis",
-  "created": "2026-07-17",
-  "confidence": "0.88"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: When Lessons Are Too Heavy, Use Rescue Cards
+domain: ux
+tags:
+- ux
+- support
+- lessons
+- rescue
+- feedback
+status: published
+created: '2026-07-17'
+source: generalized support-feedback analysis
+confidence: 0.88
 ---
 
 ## Problem

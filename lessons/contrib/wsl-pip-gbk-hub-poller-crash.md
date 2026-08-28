@@ -1,39 +1,20 @@
 ---
-confidence: '0.8'
-created: '2026-07-06'
+title: wsl pip gbk hub poller crash
 domain: wsl
-domain_expert: bootstrap
-source: bootstrap
-status: published
-subdomain: wsl
 tags:
 - project:agent-medici
 - severity:critical
 - platform:wsl
 - node:hermes_wsl
-title: wsl pip gbk hub poller crash
-verification: metadata-normalized
-verified_date: '2026-05-03'
-'{"title"': 'WSL pip install GBK 编码导致 hub_poller 崩溃", "domain": "devops", "subdomain":
-  "wsl", "source": "bootstrap", "status": "published", "tags": ["project:agent-medici",
-  "severity:critical", "platform:wsl", "node:hermes_wsl"], "confidence": "0.8", "created":
-  "2026-05-03", "domain_expert": "bootstrap", "verified_date": "2026-05-03"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: wsl pip gbk hub poller crash
-verification: metadata-normalized
-'{"title"': 'WSL pip install GBK 编码导致 hub_poller 崩溃", "domain": "devops", "subdomain":
-  "wsl", "source": "bootstrap", "status": "published", "tags": ["project:agent-medici",
-  "severity:critical", "platform:wsl", "node:hermes_wsl"], "confidence": "0.8", "created":
-  "2026-05-03", "domain_expert": "bootstrap", "verified_date": "2026-05-03"}'
+created: '2026-07-06'
+source: bootstrap
+confidence: 0.8
+domain_expert: bootstrap
+verified_date: '2026-05-03'
+subdomain: wsl
+---
+
 ---
 ## Problem
 

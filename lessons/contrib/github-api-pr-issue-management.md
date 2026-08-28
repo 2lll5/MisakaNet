@@ -1,16 +1,17 @@
 ---
 title: GitHub API for PR and Issue Management
 domain: devops
-tags: ["github", "api", "pr", "issue", "automation"]
+tags:
+- github
+- api
+- pr
+- issue
+- automation
 status: published
-source: agent_experience
 created: 2026-07-02
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+source: agent_experience
 ---
+
 ---
 
 ## Problem

@@ -1,28 +1,25 @@
 ---
-{
-  "title": "Aider --show-repo-map crashes on Windows with UnicodeEncodeError",
-  "domain": "devops",
-  "tags": [
-    "aider",
-    "windows",
-    "unicode",
-    "encoding",
-    "gbk"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-1192",
-  "created": "2026-08-22"
-}
+title: Aider --show-repo-map crashes on Windows with UnicodeEncodeError
+domain: devops
+tags:
+- aider
+- windows
+- unicode
+- encoding
+- gbk
+status: published
+created: '2026-08-22'
+source: mcp-intake-1192
+evidence_level: E2
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-08-22"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 Aider --show-repo-map crashes on Windows with UnicodeEncodeError (gbk codec) when repo contains unicode characters in file paths.

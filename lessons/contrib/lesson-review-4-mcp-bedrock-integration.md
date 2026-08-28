@@ -1,12 +1,6 @@
 ---
-confidence: '0.85'
-created: '2026-07-01'
+title: MCP 协议 + Bedrock 实战 — Agent 外部工具调用标准化
 domain: mcp
-domain_expert: ''
-language: zh
-source: segmentfault.com
-status: published
-subdomain: integration
 tags:
 - mcp
 - bedrock
@@ -14,14 +8,16 @@ tags:
 - agent
 - tool-calling
 - standardization
-title: MCP 协议 + Bedrock 实战 — Agent 外部工具调用标准化
+status: published
+created: '2026-07-01'
+language: zh
+source: segmentfault.com
+confidence: 0.85
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: integration
 ---
+
 ## Problem
 
 AI Agent 调用外部工具（S3、DynamoDB、内部 API）时，每个工具都要写 function calling schema 和调用逻辑。工具一多，维护成本很高，没有标准化方案。

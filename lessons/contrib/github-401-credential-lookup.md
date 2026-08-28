@@ -1,9 +1,6 @@
 ---
-created: '2026-07-06'
+title: GitHub API 401 后本地凭证查找顺序
 domain: git
-language: zh
-source: unknown
-status: published
 tags:
 - github
 - api
@@ -11,14 +8,12 @@ tags:
 - '401'
 - auth
 - pat
-title: GitHub API 401 后本地凭证查找顺序
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 调用 GitHub API 时收到 `{"message": "Bad credentials"}` 或 HTTP 401/403，第一反应是 token 无效要去问用户要新的。但本地往往已经有可用凭证，跳过检查会让用户白跑一趟。

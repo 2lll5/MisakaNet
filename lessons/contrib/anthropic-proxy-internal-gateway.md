@@ -1,28 +1,26 @@
 ---
-created: '2026-07-06'
+title: Internal Gateway — Incompatible with Anthropic Format, Requires OpenAI Proxy
 domain: contrib
-source: unknown
-status: published
 tags:
 - anthropic
 - proxy
 - internal
 - gateway
-title: Internal Gateway — Incompatible with Anthropic Format, Requires OpenAI Proxy
-verification: metadata-normalized
-'{"created"': '2026-04-30 09:00 UTC", "domain": "devops", "machine": "hp-wsl", "source":
-  "hermes_wsl", "status": "published", "tags": "", "title": "Internal Gateway — Incompatible
-  with Anthropic Format, Requires OpenAI Proxy", "updated": "2026-04-30 09:00 UTC",
-  "domain_expert": "hermes_wsl", "verified_date": "2026-04-30"}'
+status: published
+created: '2026-07-06'
+updated: 2026-04-30 09:00 UTC
+source: unknown
+domain_expert: hermes_wsl
+verified_date: '2026-04-30'
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 internal-gateway.local API 端点 (`https://api.internal-gateway.local/v1`) 只接受 OpenAI 格式 (`/v1/chat/compositions`)，不支持 Anthropic 原生格式 (`/v1/messages`)。

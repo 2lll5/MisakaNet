@@ -1,32 +1,28 @@
 ---
-{
-  "title": "cc-connect Feishu bot complete setup guide",
-  "domain": "feishu",
-  "tags": [
-    "feishu",
-    "cc-connect",
-    "bot",
-    "setup",
-    "agent",
-    "bridge",
-    "npm"
-  ],
-  "status": "published",
-  "source": "bootstrap",
-  "created": "2026-05-19",
-  "updated": "2026-07-21",
-  "confidence": "0.95",
-  "verification": "metadata-normalized"
-}
+title: cc-connect Feishu bot complete setup guide
+domain: feishu
+tags:
+- feishu
+- cc-connect
+- bot
+- setup
+- agent
+- bridge
+- npm
+status: published
+created: '2026-05-19'
+updated: '2026-07-21'
+source: bootstrap
+confidence: 0.95
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-05-20"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 Agents need a complete, copy-pasteable path to connect coding agents to Feishu (Lark) via **cc-connect**. Incomplete or placeholder (`<bridge-tool>`) docs cause failed installs and duplicate lessons.

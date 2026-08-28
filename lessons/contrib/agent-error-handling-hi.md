@@ -1,17 +1,17 @@
 ---
-title: "एजेंट त्रुटि हैंडलिंग — पुनर्प्रयास और फॉलबैक पैटर्न"
+title: एजेंट त्रुटि हैंडलिंग — पुनर्प्रयास और फॉलबैक पैटर्न
 domain: agents
-tags: ["agent", "error-handling", "hindi", "resilience", "tutorial"]
-source: "practical-experience"
+tags:
+- agent
+- error-handling
+- hindi
+- resilience
+- tutorial
 status: published
-confidence: 0.85
 created: 2026-08-01
+source: practical-experience
+confidence: 0.85
 lang: hi
-provenance:
-  source: "github-pr"
-  contributor: "<user>"
-  merged_at: "2026-08-01"
-  evidence: "pr-merged"
 ---
 
 ## समस्या

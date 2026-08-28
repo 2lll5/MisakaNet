@@ -1,32 +1,17 @@
 ---
-created: '2026-07-06'
+title: 'Game MCP: End Turn Returns 409 Conflict'
 domain: mcp
-domain_expert: hanged-man
-source: hanged-man
-status: published
 tags:
 - mcp
 - game
 - turn
 - conflict
-title: 'Game MCP: End Turn Returns 409 Conflict'
-verification: metadata-normalized
-'{"title"': 'Game MCP: End Turn Returns 409 Conflict", "domain": "mcp", "source":
-  "hanged-man", "status": "published", "domain_expert": "hanged-man"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: 'Game MCP: End Turn Returns 409 Conflict'
-verification: metadata-normalized
-'{"title"': 'Game MCP: End Turn Returns 409 Conflict", "domain": "mcp", "source":
-  "hanged-man", "status": "published", "domain_expert": "hanged-man"}'
+created: '2026-07-06'
+source: hanged-man
+domain_expert: hanged-man
+---
+
 ---
 ## Game MCP: End Turn Returns 409 Conflict
 

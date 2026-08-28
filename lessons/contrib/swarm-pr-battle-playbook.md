@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: Swarm PR Battle Playbook — Shipping env-var error hooks through AI-reviewed
+  upstreams
 domain: contrib
-source: unknown
-status: published
 tags:
 - swarm
 - battle
 - playbook
-title: Swarm PR Battle Playbook — Shipping env-var error hooks through AI-reviewed
-  upstreams
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+source: unknown
 ---
+
 # Swarm PR Battle Playbook — Shipping env-var error hooks through AI-reviewed upstreams
 
 > Cross-project SOP for shipping `_ERROR_HANDLER` env-var fatal error hooks through AI-reviewed upstreams.

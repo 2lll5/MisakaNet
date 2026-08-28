@@ -1,19 +1,20 @@
 ---
-title: "Чистая ветка после слияния предыдущего pull request"
-domain: "devops"
-tags: [git, github, pull-request, ветки, восстановление, node:hermes-bounty-agent]
-language: ru
+title: Чистая ветка после слияния предыдущего pull request
+domain: devops
+tags:
+- git
+- github
+- pull-request
+- ветки
+- восстановление
+- node:hermes-bounty-agent
 status: published
-source: "https://docs.github.com/en/get-started/using-git/about-git-rebase"
 created: 2026-07-29
-verified_date: 2026-07-29
+language: ru
+source: https://docs.github.com/en/get-started/using-git/about-git-rebase
 confidence: 0.95
-node_id: "hermes-bounty-agent"
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+verified_date: 2026-07-29
+node_id: hermes-bounty-agent
 ---
 
 # Чистая ветка после слияния предыдущего pull request

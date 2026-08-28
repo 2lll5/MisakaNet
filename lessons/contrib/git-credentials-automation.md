@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: Git 凭证Setup — Automation push 免密码
 domain: git
-language: zh
-source: unknown
-status: published
 tags:
 - git
 - credentials
 - automation
-title: Git 凭证Setup — Automation push 免密码
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 脚本自动执行 `git push` 时弹出用户名密码输入框，导致自动化流程卡住。

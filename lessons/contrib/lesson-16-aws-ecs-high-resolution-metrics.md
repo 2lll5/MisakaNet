@@ -1,26 +1,22 @@
 ---
-confidence: '0.9'
-created: '2026-07-01'
+title: AWS ECS 高分辨率指标 — 更快的自动扩缩容
 domain: ops
-domain_expert: ''
-language: zh
-source: aws.amazon.com/blogs
-status: published
-subdomain: kubernetes
 tags:
 - aws
 - ecs
 - metrics
 - auto-scaling
 - monitoring
-title: AWS ECS 高分辨率指标 — 更快的自动扩缩容
+status: published
+created: '2026-07-01'
+language: zh
+source: aws.amazon.com/blogs
+confidence: 0.9
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: kubernetes
 ---
+
 ## Problem
 
 ECS 默认 CloudWatch 指标 1 分钟粒度，自动扩缩容响应慢。流量突增时，1 分钟才能触发扩容，用户体验下降。

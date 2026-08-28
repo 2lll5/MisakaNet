@@ -1,33 +1,28 @@
 ---
-confidence: 0.9
-created: 2026-05-03
+title: 'FANUC KL: BYTES_AHEAD 是 Karel 内置 Procedure'
 domain: fanuc
-id: fanuc-kl-bytes-ahead-is-builtin-procedure
-language: zh
-problem: KL 编译报错时，误认为 BYTES_AHEAD 是禁用标识符或非法调用，将其从 MM_RCV_NTFY.kl 中删除。
-quality_score: 80
-root_cause: BYTES_AHEAD 是 Karel 语言的内置系统调用（Built-in Procedure），用法完全正确。KL 语言保留字（禁用标识符）有特定列表，BYTES_AHEAD
-  不在其中。
-solution: 恢复 MM_RCV_NTFY.kl 中所有 BYTES_AHEAD 调用，不应删除。禁用标识符列表：SECONDS、ENDDO、ELSEIF 等（详见
-  fanuc-kl-compile SKILL.md）。
-source: 实操经验
-status: published
-subdomain: kl-syntax
 tags:
 - fanuc
 - karel
 - ktrans
 - reserved-words
 - built-in
-title: 'FANUC KL: BYTES_AHEAD 是 Karel 内置 Procedure'
+status: published
+created: 2026-05-03
 updated: 2026-07-06
-verification: KTRANS 编译 MM_RCV_NTFY.kl，无 BYTES_AHEAD 相关报错。
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+language: zh
+source: 实操经验
+confidence: 0.9
+subdomain: kl-syntax
+id: fanuc-kl-bytes-ahead-is-builtin-procedure
+problem: KL 编译报错时，误认为 BYTES_AHEAD 是禁用标识符或非法调用，将其从 MM_RCV_NTFY.kl 中删除。
+quality_score: 80
+root_cause: BYTES_AHEAD 是 Karel 语言的内置系统调用（Built-in Procedure），用法完全正确。KL 语言保留字（禁用标识符）有特定列表，BYTES_AHEAD
+  不在其中。
+solution: 恢复 MM_RCV_NTFY.kl 中所有 BYTES_AHEAD 调用，不应删除。禁用标识符列表：SECONDS、ENDDO、ELSEIF 等（详见
+  fanuc-kl-compile SKILL.md）。
 ---
+
 ## FANUC KL: BYTES_AHEAD 是 Karel 内置 Procedure
 
 ### Problem描述

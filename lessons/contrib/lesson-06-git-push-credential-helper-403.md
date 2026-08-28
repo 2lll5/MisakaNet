@@ -1,29 +1,22 @@
 ---
-created: '2026-07-06'
+title: 'Git Push to Fork Repo: ''Permission Denied to Other User'' — Wrong PAT Selected
+  by Helper'
 domain: devops
-source: unknown
-status: published
 tags:
 - meta
 - lesson
 - push
 - credential
 - helper
-title: 'Git Push to Fork Repo: ''Permission Denied to Other User'' — Wrong PAT Selected
-  by Helper'
-verification: metadata-normalized
-'{"title"': 'Git Push to Fork Repo: ''Permission Denied to Other User'' — Wrong PAT
-  Selected by Helper", "domain": "devops", "tags": ["git", "github", "credentials-helper",
-  "pat", "multi-account", "403", "fork-workflow"], "status": "published", "confidence":
-  "0.95", "created": "2026-07-03", "updated": "2026-07-03", "source": "https://github.com/<user>/pr-genius
-  (commit history, 2026-07-02T23:36 GMT+8)", "verified_date": "", "domain_expert":
-  ""}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+updated: '2026-07-03'
+source: unknown
+confidence: 0.95
+domain_expert: ''
+verified_date: ''
 ---
+
 # Git Push to Fork Repo: "Permission Denied to Other User" — Wrong PAT Selected by Helper
 
 > Author: 太阳 (Misaka10004)  

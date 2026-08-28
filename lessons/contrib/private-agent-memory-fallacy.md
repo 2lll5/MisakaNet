@@ -1,25 +1,21 @@
 ---
-confidence: '0.85'
-created: '2026-07-01'
+title: The Private Agent Memory Fallacy — Why Portable Memory Wallets Fail
 domain: agent
-domain_expert: daniel-chalef
-source: blog.getzep.com
-status: published
-subdomain: memory
 tags:
 - memory-wallet
 - portable-memory
 - privacy
 - interoperability
 - zep
-title: The Private Agent Memory Fallacy — Why Portable Memory Wallets Fail
+status: published
+created: '2026-07-01'
+source: blog.getzep.com
+confidence: 0.85
+domain_expert: daniel-chalef
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: memory
 ---
+
 ## Problem
 
 The idea of a portable "memory wallet" — like Plaid for AI, where your context travels between agents — sounds compelling but faces fundamental challenges.

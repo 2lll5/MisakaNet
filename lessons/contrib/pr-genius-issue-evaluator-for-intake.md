@@ -1,18 +1,16 @@
 ---
-{
-  "title": "PR Genius issue evaluator: batch review intake issues",
-  "domain": "mcp",
-  "tags": ["mcp", "pr-genius", "intake", "evaluation", "batch"],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-93ea9844b4",
-  "created": "2026-08-19"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'PR Genius issue evaluator: batch review intake issues'
+domain: mcp
+tags:
+- mcp
+- pr-genius
+- intake
+- evaluation
+- batch
+status: published
+created: '2026-08-19'
+source: mcp-intake-93ea9844b4
+evidence_level: E2
 ---
 
 ## Problem

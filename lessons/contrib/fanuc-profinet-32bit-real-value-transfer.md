@@ -1,21 +1,21 @@
 ---
 title: FANUC Profinet 32-bit Real Value Transfer Without KAREL
 domain: fanuc
-subdomain: profinet
-tags: ["profinet", "real-value", "32-bit", "gi-go", "plc-communication", "scara"]
-source: robot-forum.com
+tags:
+- profinet
+- real-value
+- 32-bit
+- gi-go
+- plc-communication
+- scara
 status: published
-confidence: 0.85
 created: 2026-07-01
-verified_date: 
-domain_expert: 
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+source: robot-forum.com
+confidence: 0.85
+domain_expert: null
+verified_date: null
+subdomain: profinet
 ---
-
 
 ## Problem
 

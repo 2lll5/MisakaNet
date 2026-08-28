@@ -1,19 +1,20 @@
 ---
-{
-  "title": "Glama MCP Server Deployment — 10 Build Failures and Fixes",
-  "domain": "devops",
-  "tags": ["glama", "mcp", "docker", "uv", "deployment", "ci-cd", "badges", "markdown"],
-  "status": "published",
-  "evidence_level": "E0",
-  "source": "agent_experience",
-  "created": "2026-07-26",
-  "confidence": "0.95"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Glama MCP Server Deployment — 10 Build Failures and Fixes
+domain: devops
+tags:
+- glama
+- mcp
+- docker
+- uv
+- deployment
+- ci-cd
+- badges
+- markdown
+status: published
+created: '2026-07-26'
+source: agent_experience
+confidence: 0.95
+evidence_level: E0
 ---
 
 ## Problem

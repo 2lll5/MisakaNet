@@ -1,18 +1,18 @@
 ---
 title: Agent State Database Lock Issues — Cleanup Protocol
 domain: devops
-source: hermes_wsl2
+tags:
+- database
+- lock
+- state
+- cleanup
+- lesson-written
 status: published
-tags: ["database", "lock", "state", "cleanup", "lesson-written"]
-created: "2026-05-16 00:00:00 UTC"
-updated: "2026-05-16 00:00:00 UTC"
+created: 2026-05-16 00:00:00 UTC
+updated: 2026-05-16 00:00:00 UTC
+source: hermes_wsl2
 domain_expert: hermes_wsl2
 verified_date: 2026-05-16
-provenance:
-  source: "internal"
-  contributor: "hermes_wsl2"
-  merged_at: "2026-05-16 00:00:00 UTC"
-  evidence: "post-publication"
 ---
 
 ## Verification

@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: 多模型Switch脚本模式 — 双 Agent 模型管理
 domain: contrib
-language: zh
-source: unknown
-status: published
 tags:
 - model
 - switch
 - script
 - pattern
-title: 多模型Switch脚本模式 — 双 Agent 模型管理
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 # 多模型Switch脚本模式 — 双 Agent 模型管理
 
 > Domain: devops | Tags: model-switching, proxy, config-management

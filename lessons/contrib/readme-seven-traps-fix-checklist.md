@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: 开源项目 README Optimization — 7 个常见Pitfalls与Fix Checklist
 domain: contrib
-language: zh
-source: unknown
-status: published
 tags:
 - readme
 - seven
 - traps
 - checklist
-title: 开源项目 README Optimization — 7 个常见Pitfalls与Fix Checklist
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Root Cause
 
 开源项目 README 是潜在用户和贡献者的第一触点。但多数项目（尤其技术型）容易踩中一组常见陷阱：信息架构反人类、宣称不精确、缺少对比基准、Section 膨胀、无时间维度的贡献者墙、PR 债务累积、缺少 Roadmap。

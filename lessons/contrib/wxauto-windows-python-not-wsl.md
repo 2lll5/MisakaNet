@@ -1,40 +1,21 @@
 ---
-confidence: '0.85'
-created: '2026-07-06'
+title: wxauto 必须在 Windows Python 下安装，不能走 WSL pip
 domain: wechat
-domain_expert: bootstrap
-language: zh
-source: bootstrap
-status: published
-subdomain: wechat
 tags:
 - project:rag
 - platform:windows
 - node:hermes_wsl
 - scope:narrow
-title: wxauto 必须在 Windows Python 下安装，不能走 WSL pip
-verification: metadata-normalized
-verified_date: '2026-05-03'
-'{"title"': 'wxauto 必须在 Windows Python 下安装，不能走 WSL pip", "domain": "devops", "subdomain":
-  "wechat", "source": "bootstrap", "status": "published", "tags": ["project:rag",
-  "platform:windows", "node:hermes_wsl", "scope:narrow"], "confidence": "0.85", "created":
-  "2026-05-03", "domain_expert": "bootstrap", "verified_date": "2026-05-03"}'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: wxauto 必须在 Windows Python 下安装，不能走 WSL pip
-verification: metadata-normalized
-'{"title"': 'wxauto 必须在 Windows Python 下安装，不能走 WSL pip", "domain": "devops", "subdomain":
-  "wechat", "source": "bootstrap", "status": "published", "tags": ["project:rag",
-  "platform:windows", "node:hermes_wsl", "scope:narrow"], "confidence": "0.85", "created":
-  "2026-05-03", "domain_expert": "bootstrap", "verified_date": "2026-05-03"}'
+created: '2026-07-06'
+language: zh
+source: bootstrap
+confidence: 0.85
+domain_expert: bootstrap
+verified_date: '2026-05-03'
+subdomain: wechat
+---
+
 ---
 ## Problem
 

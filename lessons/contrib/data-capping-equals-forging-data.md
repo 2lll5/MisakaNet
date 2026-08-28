@@ -1,25 +1,21 @@
 ---
-confidence: '1.0'
-created: '2026-06-25'
+title: 数据封顶=伪造数据：超出阈值应剔除而非截断
 domain: data
-domain_expert: <user>
-language: zh
-source: <user>
-status: published
-subdomain: data-quality
 tags:
 - data-quality
 - threshold
 - capping
 - data-integrity
-title: 数据封顶=伪造数据：超出阈值应剔除而非截断
+status: published
+created: '2026-06-25'
+language: zh
+source: <user>
+confidence: 1.0
+domain_expert: <user>
 verified_date: '2026-07-06'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: data-quality
 ---
+
 ## Problem
 
 数据分析中，当数据超出阈值（如实际节拍超过工位节拍），把超出部分"封顶"到阈值值（如写成 100%），本质上是伪造满负荷数据。后续计算基于伪造数据得出错误结论。

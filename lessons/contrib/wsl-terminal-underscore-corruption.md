@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: WSL 终端编辑Setup危险 — TTy粘贴吞下划线
 domain: wsl
-language: zh
-source: unknown
-status: published
 tags:
 - wsl
 - terminal
 - underscore
 - corruption
-title: WSL 终端编辑Setup危险 — TTy粘贴吞下划线
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 需要修改 WSL 中的配置文件（如 `.env`、`config.yaml`），通过 Windows Terminal 粘贴时出现神秘失败。

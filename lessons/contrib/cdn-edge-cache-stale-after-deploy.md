@@ -1,24 +1,16 @@
 ---
-{
-  "title": "CDN edge cache serves stale responses for minutes after deploy",
-  "domain": "network",
-  "tags": [
-    "cdn",
-    "cache",
-    "deployment",
-    "edge",
-    "cloudflare"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "created": "2026-08-11 00:00:00 UTC",
-  "updated": "2026-08-11 00:00:00 UTC"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: CDN edge cache serves stale responses for minutes after deploy
+domain: network
+tags:
+- cdn
+- cache
+- deployment
+- edge
+- cloudflare
+status: published
+created: 2026-08-11 00:00:00 UTC
+updated: 2026-08-11 00:00:00 UTC
+evidence_level: E2
 ---
 
 # CDN edge cache serves stale responses for minutes after deploy

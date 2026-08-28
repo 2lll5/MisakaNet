@@ -1,7 +1,18 @@
 ---
-confidence: 0.7
-created: '2026-07-12'
+title: FANUC Handling Robot Unexpected Auto Mode Dropout Diagnosis
 domain: fanuc
+tags:
+- fanuc
+- auto-drop
+- handling
+- quick-change-coupler
+- signal-loss
+- troubleshooting
+status: draft
+created: '2026-07-12'
+source: bbs.gongkong.com/d/202603/974683
+confidence: 0.7
+subdomain: troubleshooting
 id: fanuc-handling-robot-auto-drop-diagnosis
 problem: FANUC 搬运机器人在运行过程中偶尔掉出自动模式（AUTO mode dropout），频率约每天一次，有时数天不出现。掉自动后需手动按下电气控制面板的复位和启动按钮才能恢复。
 quality_score: 56
@@ -16,28 +27,8 @@ solution: '1. 清洁检查快换耦合器触点，排除磨损或污染
   4. 若无法定位具体故障线，更换整条线束
 
   5. 检查信号线焊接质量，排除虚焊问题'
-source: bbs.gongkong.com/d/202603/974683
-status: draft
-subdomain: troubleshooting
-tags:
-- fanuc
-- auto-drop
-- handling
-- quick-change-coupler
-- signal-loss
-- troubleshooting
-title: FANUC Handling Robot Unexpected Auto Mode Dropout Diagnosis
-verification: '1. 清洁/更换触点后连续运行 3 天无掉自动现象
-
-  2. 监控程序记录的信号瞬断次数降为 0
-
-  3. 更换线束后问题彻底消失'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
+
 ## FANUC 搬运机器人掉自动模式诊断
 
 ### Problem描述

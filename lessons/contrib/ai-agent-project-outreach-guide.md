@@ -1,11 +1,6 @@
 ---
-confidence: '0.95'
-created: '2026-07-06'
+title: AI Agent Project Outreach Guide
 domain: agent
-domain_expert: Misaka10004
-source: Misaka10004
-status: published
-subdomain: outreach
 tags:
 - outreach
 - github
@@ -14,25 +9,15 @@ tags:
 - promotion
 - agent
 - marketing
-title: AI Agent Project Outreach Guide
-verification: metadata-normalized
-verified_date: '2026-05-11'
-'{"title"': 'AI Agent Project Outreach Guide", "domain": "marketing", "subdomain":
-  "outreach", "source": "Misaka10004", "tags": ["outreach", "github", "awesome-list",
-  "pr", "promotion", "agent", "marketing"], "confidence": "0.95", "created": "2026-05-11",
-  "domain_expert": "Misaka10004", "verified_date": "2026-05-11"}'
----
-created: '2026-07-06'
-domain: contrib
-source: unknown
 status: published
-title: AI Agent Project Outreach Guide
-verification: metadata-normalized
-'{"title"': 'AI Agent Project Outreach Guide", "domain": "marketing", "subdomain":
-  "outreach", "source": "Misaka10004", "tags": ["outreach", "github", "awesome-list",
-  "pr", "promotion", "agent", "marketing"], "confidence": "0.95", "created": "2026-05-11",
-  "domain_expert": "Misaka10004", "verified_date": "2026-05-11"}'
+created: '2026-07-06'
+source: Misaka10004
+confidence: 0.95
+domain_expert: Misaka10004
+verified_date: '2026-05-11'
+subdomain: outreach
 ---
+
 <!-- provenance:
 provenance:
   source: "internal"
@@ -41,6 +26,8 @@ provenance:
   evidence: "post-publication"
 -->
 
+---
+<!-- 
 ## Problem
 
 为 AI Agent 项目（御坂网络）做了一次系统性宣发引流，沉淀了完整的实操流程和平台调研数据。

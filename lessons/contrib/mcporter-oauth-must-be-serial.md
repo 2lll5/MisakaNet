@@ -1,15 +1,17 @@
 ---
-title: "mcporter OAuth Authorization Must Be Serial: Concurrent Auth Causes client_id/state Corruption"
-domain: "devops"
-tags: ["mcporter", "oauth", "mcp", "cloudflare", "concurrency", "vault"]
-status: "published"
-source: "intake-issue-1306"
-created: "2026-08-27"
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'mcporter OAuth Authorization Must Be Serial: Concurrent Auth Causes client_id/state
+  Corruption'
+domain: devops
+tags:
+- mcporter
+- oauth
+- mcp
+- cloudflare
+- concurrency
+- vault
+status: published
+created: '2026-08-27'
+source: intake-issue-1306
 ---
 
 # mcporter OAuth Authorization Must Be Serial

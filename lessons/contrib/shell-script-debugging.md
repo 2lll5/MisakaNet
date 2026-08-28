@@ -1,21 +1,16 @@
 ---
-created: '2026-07-06'
+title: Shell Debugging — set -x 与常见Pitfalls
 domain: contrib
-language: zh
-source: unknown
-status: published
 tags:
 - shell
 - script
 - debugging
-title: Shell Debugging — set -x 与常见Pitfalls
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 Shell 脚本报错但不显示问题行，或变量展开后不是预期值。

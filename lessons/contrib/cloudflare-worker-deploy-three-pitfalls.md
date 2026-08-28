@@ -1,15 +1,18 @@
 ---
-title: "Cloudflare Worker Programmatic Deploy: Three Pitfalls — Sandbox Egress, 32KB Limit, multipart Content-Type"
-domain: "devops"
-tags: ["cloudflare", "workers", "deploy", "mcp", "multipart", "kv", "sandbox"]
-status: "published"
-source: "intake-issue-1305"
-created: "2026-08-27"
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: 'Cloudflare Worker Programmatic Deploy: Three Pitfalls — Sandbox Egress, 32KB
+  Limit, multipart Content-Type'
+domain: devops
+tags:
+- cloudflare
+- workers
+- deploy
+- mcp
+- multipart
+- kv
+- sandbox
+status: published
+created: '2026-08-27'
+source: intake-issue-1305
 ---
 
 # Cloudflare Worker Programmatic Deploy: Three Pitfalls
@@ -55,6 +58,6 @@ curl -X POST https://misakanet.org/mcp \
 
 **Expected Output:**
 ```json
-{"result": {"id": "register-proxy-sw.js", "handlers": ["fetch", "scheduled"]}}
-{"jsonrpc":"2.0","id":1,"result":{"serverInfo":{"name":"misakanet"}}}
+
+
 ```

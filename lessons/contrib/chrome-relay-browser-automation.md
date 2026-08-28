@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: Chrome Relay 浏览器Automation — CDP over WebSocket 控制无头浏览器
 domain: automation
-language: zh
-source: unknown
-status: published
 tags:
 - automation
 - chrome
 - relay
 - browser
-title: Chrome Relay 浏览器Automation — CDP over WebSocket 控制无头浏览器
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 在 WSL2 或 Linux 环境下运行 AI Agent 时，经常需要自动化浏览器操作（填表、发帖、截图等）。Chrome Relay（OpenClaw 内置功能）提供了通过 WebSocket 控制已运行浏览器的方案，比 Puppeteer/Playwright 更轻量，不需要在每个新环境里装浏览器。
@@ -121,7 +116,7 @@ ws.send(json.dumps(batch_msg))
 
 **返回格式：**
 ```json
-{"type": "result", "action": "fill", "ok": true, "data": "Filled input[name='custname']", "request_id": "req1", "targetId": "tab-1"}
+
 ```
 
 **截图返回：** base64 编码的 PNG 图片数据（`data` 字段）

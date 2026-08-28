@@ -1,18 +1,16 @@
 ---
-{
-  "domain": "contrib",
-  "title": "Maintainer Feedback Iteration — Address Blockers, Not Just Comments",
-  "tags": ["contrib", "maintainer", "feedback", "iteration", "pr"],
-  "status": "draft",
-  "source": "Multiple PR review cycles",
-  "created": "2026-07-15",
-  "confidence": "0.95"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Maintainer Feedback Iteration — Address Blockers, Not Just Comments
+domain: contrib
+tags:
+- contrib
+- maintainer
+- feedback
+- iteration
+- pr
+status: draft
+created: '2026-07-15'
+source: Multiple PR review cycles
+confidence: 0.95
 ---
 
 ## Problem

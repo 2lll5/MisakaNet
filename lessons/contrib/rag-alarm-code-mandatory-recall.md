@@ -1,25 +1,17 @@
 ---
-{
-  "title": "RAG Alarm Code Retrieval Needs Mandatory Keyword Recall",
-  "domain": "rag",
-  "source": "bootstrap",
-  "status": "published",
-  "tags": [
-    "project:self-grow-wiki",
-    "severity:high",
-    "node:hermes-wsl"
-  ],
-  "language": "en",
-  "created": "2026-05-03",
-  "domain_expert": "bootstrap",
-  "verified_date": "2026-05-03",
-  "subdomain": "fanuc"
-}
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: RAG Alarm Code Retrieval Needs Mandatory Keyword Recall
+domain: rag
+tags:
+- project:self-grow-wiki
+- severity:high
+- node:hermes-wsl
+status: published
+created: '2026-05-03'
+language: en
+source: bootstrap
+domain_expert: bootstrap
+verified_date: '2026-05-03'
+subdomain: fanuc
 ---
 
 ## Problem

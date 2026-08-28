@@ -1,28 +1,25 @@
 ---
-{
-  "title": "Aider via LiteLLM rejects standard Anthropic model names",
-  "domain": "devops",
-  "tags": [
-    "aider",
-    "litellm",
-    "anthropic",
-    "model",
-    "configuration"
-  ],
-  "status": "published",
-  "evidence_level": "E2",
-  "source": "mcp-intake-1193",
-  "created": "2026-08-22"
-}
+title: Aider via LiteLLM rejects standard Anthropic model names
+domain: devops
+tags:
+- aider
+- litellm
+- anthropic
+- model
+- configuration
+status: published
+created: '2026-08-22'
+source: mcp-intake-1193
+evidence_level: E2
 ---
+
 <!-- provenance:
-provenance:
-  source: "internal"
   contributor: "Ikalus1988"
   merged_at: "2026-08-22"
   evidence: "post-publication"
 -->
 
+<!-- 
 ## Problem
 
 Aider via LiteLLM rejects standard Anthropic model names (claude-sonnet-4-6, claude-3-5-sonnet-20241022) when using a custom API base URL.

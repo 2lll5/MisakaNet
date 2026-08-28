@@ -1,12 +1,6 @@
 ---
-confidence: '0.9'
-created: '2026-07-01'
+title: Redis → PostgreSQL 替换 — 缓存/PubSub/队列统一
 domain: ops
-domain_expert: ''
-language: zh
-source: dev.to
-status: published
-subdomain: database
 tags:
 - redis
 - postgresql
@@ -14,14 +8,16 @@ tags:
 - pubsub
 - database
 - performance
-title: Redis → PostgreSQL 替换 — 缓存/PubSub/队列统一
+status: published
+created: '2026-07-01'
+language: zh
+source: dev.to
+confidence: 0.9
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: database
 ---
+
 ## Problem
 
 典型 Web 应用同时用 PostgreSQL（持久化）+ Redis（缓存/PubSub/队列），两个数据库 = 两个备份点、两个监控、两个故障点。Redis 用 RAM（贵），持久化复杂。

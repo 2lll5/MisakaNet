@@ -1,11 +1,6 @@
 ---
-confidence: '0.9'
-created: '2026-07-06'
+title: Feishu Block API returns code=0 but creates zero blocks under rate limiting
 domain: feishu
-domain_expert: <user>
-source: <user>
-status: published
-subdomain: block-api
 tags:
 - feishu
 - block-api
@@ -13,15 +8,16 @@ tags:
 - false-success
 - batch-write
 - retry
-title: Feishu Block API returns code=0 but creates zero blocks under rate limiting
+status: published
+created: '2026-07-06'
 updated: '2026-07-06'
+source: <user>
+confidence: 0.9
+domain_expert: <user>
 verified_date: '2026-07-06'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: block-api
 ---
+
 # Feishu Block API returns code=0 but creates zero blocks under rate limiting
 
 ## Problem

@@ -1,26 +1,22 @@
 ---
-confidence: '0.95'
-created: '2026-07-03'
+title: 工艺卡步序提取：辅助动作不算独立步序，按工艺动作分界
 domain: engineering
-domain_expert: <user>
-language: zh
-source: <user>
-status: published
-subdomain: process-analysis
 tags:
 - process-card
 - time-chart
 - sequence
 - cycle-time
 - robot
-title: 工艺卡步序提取：辅助动作不算独立步序，按工艺动作分界
+status: published
+created: '2026-07-03'
+language: zh
+source: <user>
+confidence: 0.95
+domain_expert: <user>
 verified_date: '2026-07-06'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: process-analysis
 ---
+
 ## Problem
 
 从工艺卡 Time Chart 提取机器人步序时，三种常见错误：

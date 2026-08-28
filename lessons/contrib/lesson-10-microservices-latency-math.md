@@ -1,26 +1,22 @@
 ---
-confidence: '0.9'
-created: '2026-07-01'
+title: 微服务延迟成本分析 — 何时不该用微服务
 domain: ops
-domain_expert: ''
-language: zh
-source: dev.to
-status: published
-subdomain: architecture
 tags:
 - microservices
 - architecture
 - latency
 - performance
 - monolith
-title: 微服务延迟成本分析 — 何时不该用微服务
+status: published
+created: '2026-07-01'
+language: zh
+source: dev.to
+confidence: 0.9
+domain_expert: ''
 verified_date: ''
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+subdomain: architecture
 ---
+
 ## Problem
 
 微服务的承诺：可扩展、可维护、快速。现实：对大多数系统，微服务只增加了延迟、复杂度和故障点。

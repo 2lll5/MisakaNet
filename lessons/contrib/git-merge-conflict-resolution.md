@@ -1,22 +1,17 @@
 ---
-created: '2026-07-06'
+title: Git 合并ConflictHandling — 手动解决最佳实践
 domain: git
-language: zh
-source: unknown
-status: published
 tags:
 - git
 - merge
 - conflict
 - resolution
-title: Git 合并ConflictHandling — 手动解决最佳实践
-verification: metadata-normalized
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+status: published
+created: '2026-07-06'
+language: zh
+source: unknown
 ---
+
 ## Problem
 
 `git pull` 或 `git merge` 时报 `CONFLICT`，文件里出现 `<<<<<<<` 标记，终端输出类似：

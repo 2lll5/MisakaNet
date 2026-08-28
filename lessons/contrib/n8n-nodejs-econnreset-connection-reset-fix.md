@@ -1,10 +1,6 @@
 ---
-confidence: '0.95'
-created: '2026-07-30'
+title: Fix Node.js ECONNRESET Connection Reset Error in n8n Webhook HTTP Requests
 domain: automation
-domain_expert: n8n-node
-source: https://github.com/agente-gaudi/n8n-automation-workflows
-status: published
 tags:
 - n8n
 - nodejs
@@ -12,14 +8,13 @@ tags:
 - http-request
 - webhook
 - networking
-title: Fix Node.js ECONNRESET Connection Reset Error in n8n Webhook HTTP Requests
+status: published
+created: '2026-07-30'
 updated: '2026-07-30'
+source: https://github.com/agente-gaudi/n8n-automation-workflows
+confidence: 0.95
+domain_expert: n8n-node
 verified_date: '2026-07-30'
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
 ---
 
 # Fix Node.js ECONNRESET Connection Reset Error in n8n Webhook HTTP Requests

@@ -1,15 +1,15 @@
 ---
-title: "Python asyncio CancelledError Silently Swallows Resources in Long-Running Services"
-domain: "python"
-tags: ["python", "asyncio", "cancellederror", "resource-leak", "task-cleanup"]
-status: "published"
-source: "intake-issue-1298"
-created: "2026-08-27"
-provenance:
-  source: "community"
-  contributor: "Community"
-  merged_at: "2026-08-23"
-  evidence: "post-publication"
+title: Python asyncio CancelledError Silently Swallows Resources in Long-Running Services
+domain: python
+tags:
+- python
+- asyncio
+- cancellederror
+- resource-leak
+- task-cleanup
+status: published
+created: '2026-08-27'
+source: intake-issue-1298
 ---
 
 # Python asyncio CancelledError Silently Swallows Resources
