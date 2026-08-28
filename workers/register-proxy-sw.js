@@ -122,12 +122,12 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_submit_intake",
-    description: "Submit a failure-case intake when no matching lesson exists. No Bearer auth required — open but rate-limited. Creates a GitHub issue labeled intake,mcp-intake,pending-review.",
+    description: "Submit a failure-case intake when no matching lesson exists, or ask a question about a knowledge gap. No Bearer auth required — open but rate-limited. Creates a GitHub issue labeled intake,mcp-intake,pending-review (question kind adds needs-human-review).",
     inputSchema: {
       type: "object",
       properties: {
-        kind: { type: "string", description: "missing_lesson, stale_lesson, or new_lesson_candidate." },
-        problem: { type: "string", description: "Required: short description of the failure or gap (max 2000 chars)." },
+        kind: { type: "string", description: "missing_lesson (knowledge gap), stale_lesson (outdated lesson), new_lesson_candidate (new failure mode), or question (ask for help)." },
+        problem: { type: "string", description: "Required: short description of the failure, gap, or question (max 2000 chars)." },
         error: { type: "string", description: "Optional: short error message (auto-redacted)." },
         what_tried: { type: "string", description: "Optional: what was attempted." },
         fix: { type: "string", description: "Optional: how it was resolved." },
@@ -619,6 +619,13 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
   if (toolName === "misakanet_submit_intake") {
     if (!args.problem) return { error: "problem is required" };
 
+    // Kind whitelist — question is for asking help about a knowledge gap.
+    const INTAKE_KINDS = ["missing_lesson", "stale_lesson", "new_lesson_candidate", "question"];
+    const kind = INTAKE_KINDS.includes(args.kind) ? args.kind : "missing_lesson";
+    if (args.kind && !INTAKE_KINDS.includes(args.kind)) {
+      return { error: `Invalid kind: "${args.kind}". Supported: ${INTAKE_KINDS.join(", ")}.` };
+    }
+
     const SPAM_KEYWORDS = ["buy now", "click here", "free money", "casino", "viagra", "crypto pump"];
     const textLower = ((args.problem || "") + " " + (args.error || "")).toLowerCase();
     if (SPAM_KEYWORDS.some(kw => textLower.includes(kw))) return { error: "Rejected: possible spam." };
@@ -646,7 +653,7 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
     const dedupHash = crypto.randomUUID().slice(0, 12);
 
     const bodyParts = [
-      `**Kind:** ${args.kind || "missing_lesson"}`,
+      `**Kind:** ${kind}`,
       `**Source:** ${args.source || "mcp"}`,
       `**Dedup:** \`${dedupHash}\``,
       "",
@@ -668,7 +675,9 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
       .replace(/\s+/g, " ")           // collapse whitespace
       .trim()
       .slice(0, 80);                  // cap length
-    const title = `[Intake] ${rawTitle || "failure case"}`;
+    const title = kind === "question"
+      ? `[Question] ${rawTitle || "help request"}`
+      : `[Intake] ${rawTitle || "failure case"}`;
     const body = bodyParts.join("\n").slice(0, 8000);
 
     const token = env.REGISTER_TOKEN;
@@ -677,6 +686,11 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
     try {
+      // question kind gets a needs-human-review label so maintainers can
+      // triage help requests distinctly from failure intakes.
+      const labels = kind === "question"
+        ? ["intake", "mcp-intake", "pending-review", "needs-human-review"]
+        : ["intake", "mcp-intake", "pending-review"];
       const resp = await fetch(`${GITHUB_API}/repos/${REPO}/issues`, {
         method: "POST",
         signal: controller.signal,
@@ -686,7 +700,7 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
           Accept: "application/vnd.github.v3+json",
           "User-Agent": "MisakaNet-Worker",
         },
-        body: JSON.stringify({ title, body, labels: ["intake", "mcp-intake", "pending-review"] }),
+        body: JSON.stringify({ title, body, labels }),
       });
       clearTimeout(timeoutId);
       const data = await resp.json();

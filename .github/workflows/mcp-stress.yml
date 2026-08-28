@@ -8,6 +8,7 @@ on:
       - "workers/mcp-no-match.test.mjs"
       - "workers/d1-lesson-service.test.mjs"
       - "workers/mcp-anonymous-read.test.mjs"
+      - "workers/intake-kind.test.mjs"
       - ".github/workflows/mcp-stress.yml"
   push:
     branches: [main]
@@ -17,6 +18,7 @@ on:
       - "workers/mcp-no-match.test.mjs"
       - "workers/d1-lesson-service.test.mjs"
       - "workers/mcp-anonymous-read.test.mjs"
+      - "workers/intake-kind.test.mjs"
   workflow_dispatch:
 
 permissions:
@@ -44,6 +46,9 @@ jobs:
       - name: Run MCP anonymous-read tests (PRD ④ free quota)
         run: |
           node --test workers/mcp-anonymous-read.test.mjs
+      - name: Run submit_intake kind tests (question kind)
+        run: |
+          node --test workers/intake-kind.test.mjs
       - name: Publish performance metrics
         if: always()
         run: |
