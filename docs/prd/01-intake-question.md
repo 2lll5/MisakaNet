@@ -1,7 +1,13 @@
 # PRD ① MCP Intake Question —— 查询无答案后的补传闭环
 
-- **状态**: Draft · 优先级: 🔴 高 · 工作量: 小（0.5-1 天）
+- **状态**: ✅ **已实施**（2026-08-28，commit c14e9aeb）· 优先级: 🔴 高 · 工作量: 小（0.5-1 天）
 - **创建**: 2026-08-28 · 维护: MisakaNet
+
+> **实施记录**：方案 A 已落地 —— `misakanet_search` 零结果时返回 `no_match: true` +
+> `suggestion`（引导调 `misakanet_submit_intake`，kind=missing_lesson）+ 结构化
+> `intake` 模板（tool/args，便于 tool-calling agent 直接续调）。测试：
+> `workers/mcp-no-match.test.mjs`（4 用例，已接入 mcp-stress CI）。方案 B
+> （独立 `misakanet_ask_question` 工具）暂缓 —— 现有 submit_intake 已覆盖语义。
 
 ## 1. 背景与问题
 

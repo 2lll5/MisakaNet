@@ -1,7 +1,17 @@
 # PRD ④ D1 Lesson 服务化 —— 核心资产从仓库到服务
 
-- **状态**: Draft · 优先级: 🔴 高（战略核心）· 工作量: 中（3-5 天）
+- **状态**: 🚧 **实施中（scaffold 完成，待数据库创建）** · 优先级: 🔴 高（战略核心）· 工作量: 中（3-5 天）
 - **创建**: 2026-08-28 · 维护: MisakaNet
+
+> **进度（2026-08-28，commit 273d6240）**：
+> - ✅ D1 schema：`workers/d1/schema.sql`（lessons 表 + lesson_sync_log 台账）
+> - ✅ sync 脚本：`scripts/sync_lessons_to_d1.py`（314 lessons 可解析；JSON+YAML
+>   frontmatter；`--sql/--dry-run/--execute/--reconcile`；幂等 upsert）
+> - ✅ Worker 双源：`loadLessons()` 优先 D1、回退 GitHub/KV（search/preflight//api/lessons 零停机切换）
+> - ✅ CI：`.github/workflows/sync-d1.yml`（lesson 变更 / 每日 03:00 UTC）
+> - ✅ 测试：`workers/d1-lesson-service.test.mjs`（4 用例，已接入 mcp-stress CI）
+> - ⏳ 待办：`wrangler d1 create misakanet-db`（需 Cloudflare OAuth 重授权）→
+>   把 database_id 填入 `workers/wrangler.toml` → 首次执行 schema + sync
 
 ## 1. 背景与问题
 
