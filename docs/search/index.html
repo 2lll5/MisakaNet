@@ -121,9 +121,9 @@ const I18N = {
     subtitle: 'Reviewed fixes from real agent debugging sessions. Not random chat logs.',
     placeholder: 'Search lessons... (e.g., pip timeout, database locked, profinet)',
     loading: 'Loading lessons...',
-    stats: '{count} searchable lessons · {total} total · zero-dep · GitHub-audited',
+    stats: '{count} searchable lessons · {total} total · E3+: {e3} · E4: {e4} · zero-dep · GitHub-audited',
     resultsHeader: 'Found {count} lessons for "{q}"',
-    resultsStats: '{count} searchable lessons · {total} total · static JSON · GitHub-audited',
+    resultsStats: '{count} searchable lessons · {total} total · E3+: {e3} · E4: {e4} · static JSON · GitHub-audited',
     noMatchPrefix: 'No exact match for',
     noMatchSuffix: 'Try a broader term.',
     installSkill: 'Install agent skill',
@@ -155,9 +155,9 @@ const I18N = {
     subtitle: '来自真实 AI Agent 调试会话的已审核修复，不是随机聊天记录。',
     placeholder: '搜索 DCO、GitHub token、pip timeout、database locked...',
     loading: '正在加载 lessons...',
-    stats: '{count} 条可搜索 lessons · {total} 条总计 · 零依赖 · GitHub 审核',
+    stats: '{count} 条可搜索 lessons · {total} 条总计 · E3+: {e3} · E4: {e4} · 零依赖 · GitHub 审核',
     resultsHeader: '为”{q}”找到 {count} 条 lesson',
-    resultsStats: '{count} 条可搜索 lessons · {total} 条总计 · 静态 JSON · GitHub 审核',
+    resultsStats: '{count} 条可搜索 lessons · {total} 条总计 · E3+: {e3} · E4: {e4} · 静态 JSON · GitHub 审核',
     noMatchPrefix: '没有精确匹配',
     noMatchSuffix: '可以试试更宽泛的关键词。',
     installSkill: '安装 agent skill',
@@ -199,11 +199,22 @@ function t(key, vars = {}) {
   return value;
 }
 
+// Coogen borrow (Phase 2): ?intent= is id-only instrumentation — passed to
+// the search-signal endpoint for "what users come to do" aggregation.
+// Invalid values are silently ignored.
+const URL_INTENT = new URLSearchParams(window.location.search).get('intent');
+const PAGE_INTENT = ['search', 'intake', 'eval'].includes(String(URL_INTENT || '').toLowerCase())
+  ? String(URL_INTENT).toLowerCase() : null;
+
 function updateStats() {
   if (!_lessons) return;
   const searchable = _lessons.filter(isSearchable).length;
   const total = _lessons.length;
-  document.getElementById('stats').textContent = t('stats', { count: searchable, total });
+  // Coogen borrow (Phase 2): show verified-reuse counts, not composite
+  // averages — E0 lessons never drag the headline numbers down.
+  const e3plus = _lessons.filter(l => ['E3', 'E4'].includes(String(l.evidence_level || '').toUpperCase())).length;
+  const e4 = _lessons.filter(l => String(l.evidence_level || '').toUpperCase() === 'E4').length;
+  document.getElementById('stats').textContent = t('stats', { count: searchable, total, e3: e3plus, e4 });
 }
 
 function setLang(lang) {
@@ -425,7 +436,10 @@ function reportUnsolvedSearch(q, results) {
   fetch(SEARCH_SIGNAL_API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query: q, result_count: results.length, top_score: topScore }),
+    body: JSON.stringify({
+      query: q, result_count: results.length, top_score: topScore,
+      ...(PAGE_INTENT ? { intent: PAGE_INTENT } : {}),
+    }),
   }).catch(() => {}); // silent fail — insights are best-effort
 }
 
@@ -524,10 +538,12 @@ function render(results, q) {
   const searchable = _lessons ? _lessons.filter(isSearchable).length : 0;
   const total = _lessons ? _lessons.length : 0;
 
-  // Classify and group results
+  // Classify and group results (resultType drives Top fixes / Related /
+  // Common grouping; the composite confidence value is no longer displayed —
+  // the evidence badge is the trust signal, Coogen borrow Phase 2).
   const classified = results.map((r, index) => {
-    const { confidence, resultType } = classifyResult(r, r.score || 0);
-    return { ...r, _index: index, _confidence: confidence, _resultType: resultType };
+    const { resultType } = classifyResult(r, r.score || 0);
+    return { ...r, _index: index, _resultType: resultType };
   });
   const topFixes = classified.filter(r => r._resultType === 'actionable');
   const commonRefs = classified.filter(r => r._resultType === 'common');
@@ -542,15 +558,18 @@ function render(results, q) {
     const url = getLessonUrl(r);
     const id = escapeHTML(r.id || '');
     const badge = inferBadge(r);
-    const confBadge = r._confidence === 'high' ? 'badge-high' : r._confidence === 'low' ? 'badge-low' : 'badge-medium';
+    // Coogen borrow (Phase 2): composite match-confidence badge removed —
+    // the evidence badge is the trust signal; "Why this matched" keeps the
+    // relevance explanation (matched terms / coverage / trust_score).
     const ev = evidenceInfo(r.evidence_level);
+    const evSource = r.evidence_source === 'frontmatter' ? 'frontmatter' : 'inferred';
+    const trust = Number.isFinite(Number(r.trust_score)) ? Number(r.trust_score).toFixed(3) : '—';
     const signals = explainResult(r, q);
     const showTitle = takeaway !== title;
     return '<div class="result" tabindex="0" data-index="' + r._index + '" data-id="' + id + '">' +
       '<div class="result-meta">' +
         '<span class="badge ' + badge.cls + '">' + t(badge.key) + '</span>' +
         '<span class="badge badge-domain">' + domain + '</span>' +
-        '<span class="badge ' + confBadge + '">' + r._confidence + '</span>' +
         '<span class="badge badge-evidence" title="' + escapeHTML(ev.label) + '">' + ev.level + '</span>' +
       '</div>' +
       '<div class="result-title">' + takeaway + '</div>' +
@@ -561,6 +580,7 @@ function render(results, q) {
         '<div>matched terms: <code>' + escapeHTML(signals.matched) + '</code></div>' +
         '<div>entity fields: <code>' + escapeHTML(signals.entities) + '</code></div>' +
         '<div>keyword coverage: <code>' + signals.coverage + '%</code> · score: <code>' + Number(r.score || 0).toFixed(3) + '</code></div>' +
+        '<div>trust: <code>' + trust + '</code> · evidence: <code>' + ev.level + ' (' + evSource + ')</code></div>' +
       '</details>' +
       '<div class="result-actions">' +
         '<button class="btn-primary" type="button" data-action="preview">' + t('readLesson') + '</button>' +
@@ -576,7 +596,9 @@ function render(results, q) {
   }
 
   let html = '<div class="results-header">' + t('resultsHeader', { count: results.length, q: escapeHTML(q) }) + '</div>';
-  html += '<div class="stats">' + t('resultsStats', { count: searchable, total }) + '</div>';
+  const e3plus = _lessons.filter(l => ['E3', 'E4'].includes(String(l.evidence_level || '').toUpperCase())).length;
+  const e4 = _lessons.filter(l => String(l.evidence_level || '').toUpperCase() === 'E4').length;
+  html += '<div class="stats">' + t('resultsStats', { count: searchable, total, e3: e3plus, e4 }) + '</div>';
 
   // Top fixes
   if (topFixes.length) {

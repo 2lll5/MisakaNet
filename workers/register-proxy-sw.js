@@ -86,6 +86,19 @@ function hashString(str) {
   return (h >>> 0).toString(16).padStart(8, "0");
 }
 
+// ── Coogen borrow (Phase 2): ?intent= instrumentation ──
+// id-only telemetry for "what users come to do" aggregation. It never
+// changes business logic; invalid values are silently dropped (Coogen's
+// "opt-in, never errors" discipline). Recorded as a lightweight
+// event='intent' analytics row so no schema migration is needed.
+const INTENT_WHITELIST = ["search", "intake", "eval"];
+
+function normalizeIntent(value) {
+  if (typeof value !== "string") return undefined;
+  const v = value.trim().toLowerCase();
+  return INTENT_WHITELIST.includes(v) ? v : undefined;
+}
+
 function addDebugContext(env, errorObj, context) {
   if (getDebugLevel(env) < 1) return errorObj;
   return {
@@ -621,6 +634,12 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp, ctx) 
       if (ctx) ctx.waitUntil(trackUsage(env, ctx, "search", { query: args.query }));
     }
 
+    // Coogen borrow (Phase 2): ?intent= instrumentation — id-only, opt-in,
+    // invalid values silently dropped. Recorded as its own analytics event so
+    // "what users come to do" aggregates without touching business logic.
+    const intent = normalizeIntent(args.intent);
+    if (intent && ctx) ctx.waitUntil(trackUsage(env, ctx, "intent", { query: intent }));
+
     // Progressive disclosure: transform by detail level
     const detail = args.detail || "compact";
     if (results.length > 0 && detail !== "full") {
@@ -773,6 +792,12 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp, ctx) 
 
   if (toolName === "misakanet_submit_intake") {
     if (!args.problem) return { error: "problem is required" };
+
+    // Coogen borrow (Phase 2): ?intent= instrumentation — id-only, opt-in.
+    // Recorded before dedup so even duplicate submissions count toward
+    // "what users come to do"; never affects the intake outcome.
+    const intent = normalizeIntent(args.intent);
+    if (intent && ctx) ctx.waitUntil(trackUsage(env, ctx, "intent", { query: intent }));
 
     // Kind whitelist — question is for asking help about a knowledge gap.
     const INTAKE_KINDS = ["missing_lesson", "stale_lesson", "new_lesson_candidate", "question"];
@@ -1614,7 +1639,7 @@ function pruneUnsolvedDays(days, windowDays = UNSOLVED_WINDOW_DAYS) {
 
 // Writes one aggregate signal. Callers must pass a derived family and an enum
 // reason — never raw text.
-async function recordUnsolvedSearch(env, { taskFamily, reason, day } = {}) {
+async function recordUnsolvedSearch(env, { taskFamily, reason, day, intent } = {}) {
   if (!env.MISAKANET_KV) return null;
   const family = UNSOLVED_FAMILY_WHITELIST.includes(taskFamily) ? taskFamily : UNSOLVED_FALLBACK_FAMILY;
   const normalizedReason = normalizeUnsolvedReason(reason);
@@ -1628,8 +1653,16 @@ async function recordUnsolvedSearch(env, { taskFamily, reason, day } = {}) {
   const dayBucket = record.days[bucketDay] || (record.days[bucketDay] = { reasons: {} });
   dayBucket.reasons[normalizedReason] = (dayBucket.reasons[normalizedReason] || 0) + 1;
 
+  // Coogen borrow (Phase 2): id-only intent instrumentation — aggregated at
+  // record top level (backward compatible; old records have no intents map).
+  const normalizedIntent = normalizeIntent(intent);
+  if (normalizedIntent) {
+    record.intents = record.intents || {};
+    record.intents[normalizedIntent] = (record.intents[normalizedIntent] || 0) + 1;
+  }
+
   await env.MISAKANET_KV.put(kvKey, JSON.stringify(record), { expirationTtl: (UNSOLVED_WINDOW_DAYS + 7) * 86_400 });
-  return { taskFamily: family, reason: normalizedReason, day: bucketDay };
+  return { taskFamily: family, reason: normalizedReason, day: bucketDay, intent: normalizedIntent };
 }
 
 // Tracks lessons that keep drawing not-helpful feedback. Lesson IDs are public
@@ -1833,7 +1866,7 @@ async function handleSearchSignal(request, env) {
   let body;
   try { body = await request.json(); } catch { return jsonResponse({ error: "Invalid JSON" }, 400); }
 
-  const { query, result_count: resultCount, top_score: topScore, reason, lesson_id: lessonId } = body || {};
+  const { query, result_count: resultCount, top_score: topScore, reason, lesson_id: lessonId, intent } = body || {};
   if (typeof query !== "string" || !query.trim()) return jsonResponse({ error: "Missing 'query'" }, 400);
 
   // Solved searches are not recorded at all — the map only tracks gaps.
@@ -1849,6 +1882,8 @@ async function handleSearchSignal(request, env) {
   const recorded = await recordUnsolvedSearch(env, {
     taskFamily: classifyTaskFamily(query),
     reason: derivedReason,
+    // Coogen borrow (Phase 2): id-only intent — invalid values are dropped.
+    intent,
   });
   if (derivedReason === "not_helpful" && lessonId) {
     await recordStaleLesson(env, sanitizeIdentifier(lessonId, 200));
@@ -1856,7 +1891,12 @@ async function handleSearchSignal(request, env) {
 
   // Log the derived label only — never the query itself.
   console.log(`[unsolved] ${recorded.taskFamily} ${recorded.reason}`);
-  return jsonResponse({ recorded: true, taskFamily: recorded.taskFamily, reason: recorded.reason });
+  return jsonResponse({
+    recorded: true,
+    taskFamily: recorded.taskFamily,
+    reason: recorded.reason,
+    ...(recorded.intent ? { intent: recorded.intent } : {}),
+  });
 }
 
 async function probeKeepaliveEndpoint(endpoint) {
@@ -2001,7 +2041,7 @@ export default {
       const d1 = d1Binding(env);
       if (!d1) return jsonResponse({ error: "D1 not configured" }, 503);
       try {
-        const [topQueries, topLessons, topGaps, daily] = await Promise.all([
+        const [topQueries, topLessons, topGaps, topIntents, daily] = await Promise.all([
           d1.prepare(
             `SELECT query, COUNT(*) AS n FROM lesson_usage
              WHERE event='search' AND created_at >= datetime('now','-7 days')
@@ -2017,6 +2057,13 @@ export default {
              WHERE event='no_match' AND created_at >= datetime('now','-7 days')
              GROUP BY query ORDER BY n DESC LIMIT 10`
           ).all(),
+          // Coogen borrow (Phase 2): intent instrumentation (event='intent',
+          // query=<normalized intent>) — what users come to do.
+          d1.prepare(
+            `SELECT query AS intent, COUNT(*) AS n FROM lesson_usage
+             WHERE event='intent' AND created_at >= datetime('now','-7 days')
+             GROUP BY query ORDER BY n DESC LIMIT 10`
+          ).all(),
           d1.prepare(
             `SELECT date(created_at) AS day, COUNT(*) AS n FROM lesson_usage
              WHERE created_at >= datetime('now','-7 days')
@@ -2027,6 +2074,7 @@ export default {
           top_searches: (topQueries.results || []).map(r => ({ query: r.query, count: r.n })),
           top_lessons: (topLessons.results || []).map(r => ({ lesson_id: r.lesson_id, count: r.n })),
           knowledge_gaps: (topGaps.results || []).map(r => ({ query: r.query, count: r.n })),
+          intents: (topIntents.results || []).map(r => ({ intent: r.intent, count: r.n })),
           daily_requests: (daily.results || []).map(r => ({ day: r.day, count: r.n })),
         });
       } catch (e) { return jsonResponse({ error: e.message }, 502); }
@@ -2453,16 +2501,22 @@ export default {
       });
     }
 
-    // GET /connect — pairing code landing page (human entry point)
-    if (request.method === "GET" && url.pathname === "/connect") {
+    // GET /start — single human entry door (Coogen borrow Phase 2).
+    // "你只做两件事——授权，看结果" — authorize (pairing code), see results.
+    // The code is generated on this page; the agent turns it into a token.
+    if (request.method === "GET" && url.pathname === "/start") {
+      const intent = normalizeIntent(url.searchParams.get("intent"));
+      const searchHref = intent ? `/search/?intent=${intent}` : "/search/";
       return new Response(`<!DOCTYPE html>
-<html lang="en">
-<head><meta charset="UTF-8"><title>Connect MisakaNet MCP</title>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><title>Start — MisakaNet</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Connect your AI agent to MisakaNet failure memory. You only do two things — authorize, then see results.">
 <style>
   body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0d1117; color: #e6edf3; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-  .card { max-width: 520px; text-align: center; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 40px; }
-  h1 { color: #f0c040; font-size: 24px; margin-bottom: 8px; }
+  .card { max-width: 540px; text-align: center; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 40px; }
+  h1 { color: #f0c040; font-size: 26px; margin-bottom: 6px; }
+  .tagline { color: #a371f7; font-size: 15px; font-weight: 600; margin-bottom: 10px; }
   p { color: #8b949e; font-size: 14px; line-height: 1.7; }
   .code { font-family: monospace; font-size: 32px; color: #58a6ff; background: #0d1117; padding: 16px 24px; border-radius: 8px; letter-spacing: 4px; margin: 20px 0; border: 1px solid #30363d; }
   .btn { display: inline-block; padding: 12px 24px; background: #238636; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 14px; }
@@ -2472,6 +2526,9 @@ export default {
   .steps { text-align: left; margin: 20px 0; }
   .steps li { color: #c9d1d9; margin: 8px 0; font-size: 14px; }
   .timer { color: #f85149; font-size: 12px; margin-top: 8px; }
+  .links { margin-top: 18px; font-size: 13px; }
+  .links a { color: #58a6ff; text-decoration: none; margin: 0 8px; }
+  .links a:hover { text-decoration: underline; }
   @media (max-width: 768px) {
     body { padding: 16px; }
     .card { padding: 24px; }
@@ -2491,9 +2548,10 @@ export default {
 </style></head>
 <body>
 <div class="card">
-  <h1>Connect MisakaNet MCP</h1>
-  <p>Get a one-time pairing code to connect your AI agent.</p>
-  <button class="btn" onclick="getCode()">Generate Code</button>
+  <h1>⚡ MisakaNet Start</h1>
+  <div class="tagline">你只做两件事——授权，看结果</div>
+  <p>You only do two things — authorize, then see results.</p>
+  <button class="btn" onclick="getCode()">Generate Code / 生成配对码</button>
   <div id="voice-section" style="margin-top:12px;">
     <button class="btn btn-voice" onclick="enableMisakaVoice()">Enable Misaka Voice</button>
   </div>
@@ -2501,12 +2559,16 @@ export default {
     <div class="code" id="code">------</div>
     <div class="timer" id="timer">Expires in 10:00</div>
     <div class="steps">
-      <p><strong>Next steps:</strong></p>
+      <p><strong>授权 Authorize:</strong></p>
       <ol>
         <li>Copy the code above</li>
         <li>Paste it to your AI agent</li>
-        <li>The agent will call <code>/mcp/pair</code> to get a token</li>
-        <li>Use the token to access <code>/mcp</code></li>
+        <li>The agent calls <code>/mcp/pair</code> to get a token</li>
+      </ol>
+      <p><strong>看结果 See results:</strong></p>
+      <ol start="4">
+        <li>Agent searches <code>/mcp</code> for lessons</li>
+        <li>Watch fixes land in your sessions</li>
       </ol>
     </div>
     <div style="margin-top:16px;padding:12px;background:rgba(163,113,247,0.1);border:1px solid rgba(163,113,247,0.3);border-radius:8px;font-size:13px;color:#a371f7;">
@@ -2514,6 +2576,11 @@ export default {
       Complete registration + avatar to unlock the Misaka Network identity badge.<br>
       <span style="color:#8b949e;font-size:12px;">御坂ネットワークの共有視界モードにアップグレードできます。</span>
     </div>
+  </div>
+  <div class="links">
+    <a href="${searchHref}">Search lessons</a> ·
+    <a href="/journey/">Journey</a> ·
+    <a href="https://github.com/Ikalus1988/MisakaNet">GitHub</a>
   </div>
 </div>
 <script>
@@ -2560,6 +2627,14 @@ async function getCode() {
 </html>`, {
         status: 200,
         headers: { "content-type": "text/html;charset=utf-8" },
+      });
+    }
+
+    // GET /connect — legacy alias for /start (single-door mode, Phase 2).
+    if (request.method === "GET" && url.pathname === "/connect") {
+      return new Response(null, {
+        status: 301,
+        headers: { "location": "/start", "content-type": "text/html;charset=utf-8" },
       });
     }
 

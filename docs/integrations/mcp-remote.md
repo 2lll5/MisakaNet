@@ -152,7 +152,7 @@ curl -sS https://misakanet.org/mcp \
 
 For quick 24-hour access without registration:
 
-1. Open https://misakanet.org/connect in your browser
+1. Open https://misakanet.org/start in your browser
 2. Click "Generate Code" — get a 6-character code (e.g. `A7K9Q2`)
 3. Tell your AI agent: "Connect to MisakaNet MCP using pairing code A7K9Q2"
 4. The agent calls `POST /mcp/pair` with the code and gets a 24-hour token
@@ -199,7 +199,7 @@ Authorization: Bearer mcp_xxxxxxxxxxxxxxxxxxxxxxxx
 
 ### Option 2: Pairing Code (Quick 24-Hour Access)
 
-1. Open https://misakanet.org/connect in your browser
+1. Open https://misakanet.org/start in your browser
 2. Click "Generate Code" — get a 6-character code (e.g. `A7K9Q2`)
 3. Tell your AI agent: "Connect to MisakaNet MCP using pairing code A7K9Q2"
 4. The agent calls `POST /mcp/pair` with the code and gets a 24-hour token

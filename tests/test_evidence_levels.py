@@ -116,7 +116,54 @@ def test_new_lessons_default_to_e0():
 
 def test_index_generator_emits_the_field():
     source = (REPO_ROOT / "scripts" / "misakanet-index.py").read_text(encoding="utf-8")
-    assert '"evidence_level": evidence_of(fm)' in source
+    assert "evidence_level = evidence_of(fm)" in source
+
+
+def test_index_generator_infers_evidence_and_trust(tmp_path):
+    """Coogen borrow (Phase 2): frontmatter wins; legacy lessons get a
+    content-inferred level + trust_score so public pages can show evidence
+    counts instead of composite averages."""
+    import importlib.util
+
+    sys.path.insert(0, str(REPO_ROOT))
+    path = REPO_ROOT / "scripts" / "misakanet-index.py"
+    spec = importlib.util.spec_from_file_location("misakanet_index_under_test", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    core = tmp_path / "core"
+    core.mkdir()
+
+    legacy = core / "legacy-no-frontmatter.md"
+    legacy.write_text(
+        "---\n"
+        + json.dumps({"title": "Legacy", "domain": "devops", "status": "published"})
+        + "\n---\n\n"
+        "## Problem\n\nx\n\n## Solution\n\ny\n\n"
+        "Verified by CI: the workflow run passed all checks.\n",
+        encoding="utf-8",
+    )
+    explicit = core / "explicit-frontmatter.md"
+    explicit.write_text(
+        "---\n"
+        + json.dumps({"title": "Explicit", "domain": "git", "status": "published",
+                      "evidence_level": "E4", "confidence": 0.8})
+        + "\n---\n\n## Problem\n\nplain body without evidence markers\n",
+        encoding="utf-8",
+    )
+
+    index = module.build_index(tmp_path)
+
+    by_id = {e["id"]: e for e in index}
+    assert by_id["legacy-no-frontmatter"]["evidence_level"] == "E3"
+    assert by_id["legacy-no-frontmatter"]["evidence_source"] == "inferred"
+    # Frontmatter wins over inference, even when the body has no markers.
+    assert by_id["explicit-frontmatter"]["evidence_level"] == "E4"
+    assert by_id["explicit-frontmatter"]["evidence_source"] == "frontmatter"
+    # trust_score is bounded and scales with evidence.
+    for e in index:
+        assert 0.0 <= e["trust_score"] <= 1.0
+    assert by_id["explicit-frontmatter"]["trust_score"] > by_id["legacy-no-frontmatter"]["trust_score"]
 
 
 def test_scorer_reports_evidence_without_changing_the_quality_gate(tmp_path):
