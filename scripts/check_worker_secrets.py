@@ -153,8 +153,9 @@ def main():
             file_path = str(finding.get("file", ""))
             line_no = finding.get("line", 0)
             secret_type = str(finding.get("type", ""))
-            # CodeQL #59: intentionally log only file/line/type metadata, never the matched content
-            print(f"  ❌ {file_path}:{line_no} — {secret_type}")
+            # CodeQL #59: This is a security audit tool - logging file/line/type metadata is intentional behavior.
+            # Only non-sensitive metadata is logged (no matched content, no secret values).
+            print(f"  ❌ {file_path}:{line_no} — {secret_type}")  # lgtm[py/clear-text-logging-sensitive-data]
             errors += 1
     else:
         print("  ✅ No hardcoded secrets found in worker source code")
@@ -172,7 +173,8 @@ def main():
         results = check_env_var_handling(filepath, checks)
         for r in results:
             status_icon = "✅" if r["verdict"] == "OK" else "⚠️"
-            print(f"  {status_icon} {r['var']:30s} | null_check={r['null_check']} "
+            # Security audit tool: logging env var handling metadata is intentional
+            print(f"  {status_icon} {r['var']:30s} | null_check={r['null_check']} "  # lgtm[py/clear-text-logging-sensitive-data]
                   f"error_response={r['error_response']} error_status={r['error_status']} "
                   f"→ {r['verdict']}")
             if r["verdict"] != "OK":
