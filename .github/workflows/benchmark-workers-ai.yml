@@ -31,10 +31,9 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          SCEN="${{ github.event.inputs.scenarios || '4' }}"
-          MODELS="${{ github.event.inputs.models || '' }}"
-          ARGS="--scenarios $SCEN --compare"
-          [ -n "$MODELS" ] && ARGS="$ARGS --models $MODELS"
+          SCEN="${{ github.event.inputs.scenarios || '' }}"
+          ARGS="--all --compare --strong-subset 40 --concurrency 5"
+          [ -n "$SCEN" ] && ARGS="--scenarios $SCEN --compare --strong-subset 40 --concurrency 5"
           python3 scripts/benchmark_workers_ai.py $ARGS \
             --output docs/benchmarks/latest.json
 

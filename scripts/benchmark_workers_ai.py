@@ -1,23 +1,40 @@
 #!/usr/bin/env python3
 """
-Workers AI Lesson Benchmark
-===========================
+Workers AI Lesson Benchmark (tiered / full-scan mode)
+======================================================
 Evaluate how Cloudflare Workers AI models handle real MisakaNet failure
-scenarios. For each (model x scenario), ask the model for a fix and score
-the response heuristically (commands present, actionability, length).
+scenarios, with RAG-ablation compare (with vs without lesson context).
+
+Tiered strategy (Free-plan friendly, <10k neurons/day):
+  - full model:  runs ALL lessons (light model, low neuron cost)
+  - strong model: runs a representative subset (heavy model, high quality)
+
+Features:
+  - --all: full lesson scan (default: small sample)
+  - concurrency + rate control (~250 req/min, Free limit 300/min)
+  - resume cache: skips already-evaluated (model, scenario, condition)
+  - lesson_hit_rate metric shows distinctiveness of repo lessons
 
 Usage:
-    python3 scripts/benchmark_workers_ai.py [--models m1,m2] [--scenarios 3] [--output out.json]
+    python3 scripts/benchmark_workers_ai.py --all --compare \
+        --full-model @cf/qwen/qwen2.5-coder-32b-instruct \
+        --strong-model @cf/meta/llama-3.3-70b-instruct-fp8-fast \
+        --strong-subset 40 --concurrency 5 \
+        --output docs/benchmarks/latest.json
 
-Requires a valid Cloudflare OAuth token via mcporter (re-auth with:
-    mcporter auth cloudflare --config .tools/mcporter.json --log-level info)
+Auth: CLOUDFLARE_API_TOKEN env (CI) or mcporter OAuth (local).
 """
 
 import argparse
+import concurrent.futures
 import json
+import os
 import re
 import subprocess
 import sys
+import time
+import urllib.request
+import urllib.error
 from pathlib import Path
 
 ACCOUNT = "6b92325b505f2b76aec49e9fe4195d31"
@@ -25,29 +42,18 @@ MC = str(Path(__file__).resolve().parents[1] / ".tools" / "bin" / "mcporter")
 CFG = str(Path(__file__).resolve().parents[1] / ".tools" / "mcporter.json")
 REPO = Path(__file__).resolve().parents[1]
 
-DEFAULT_MODELS = [
-    "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
-    "@cf/qwen/qwen2.5-coder-32b-instruct",
-    "@cf/meta/llama-3.2-3b-instruct",
-]
-
-# Fallback scenarios (used when lessons/ unavailable); normally read from lessons/
-FALLBACK_SCENARIOS = [
-    "DCO sign-off failed: git commit rejected with 'Missing Signed-off-by line'.",
-    "pip install timeout / SSL CERTIFICATE_VERIFY_FAILED in China network.",
-    "WSL permission denied when accessing files on the Windows drive.",
-    "Database locked: SQLite 'database is locked' error during concurrent writes.",
-]
+DEFAULT_FULL_MODEL = "@cf/meta/llama-3.2-3b-instruct"
+DEFAULT_STRONG_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+RATE_PER_MIN = 250          # below Free 300/min
+CONCURRENCY = 5
 
 
 def call_ai(model: str, prompt: str, timeout: int = 90) -> dict:
     """Call Workers AI. Uses CLOUDFLARE_API_TOKEN directly when set (CI),
     otherwise via mcporter execute (Cloudflare-internal path)."""
-    import os as _os
-    token = _os.environ.get("CLOUDFLARE_API_TOKEN")
+    token = os.environ.get("CLOUDFLARE_API_TOKEN")
     if token:
-        import urllib.request as _ur
-        req = _ur.Request(
+        req = urllib.request.Request(
             f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT}/ai/run/{model}",
             data=json.dumps({"messages": [{"role": "user", "content": prompt}]}).encode(),
             headers={"Authorization": f"Bearer {token}",
@@ -56,12 +62,15 @@ def call_ai(model: str, prompt: str, timeout: int = 90) -> dict:
             method="POST",
         )
         try:
-            with _ur.urlopen(req, timeout=timeout) as r:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
                 d = json.loads(r.read())
             r_ = d.get("result") or {}
             c = (r_.get("choices") and r_.get("choices")[0].get("message", {}).get("content")) or r_.get("response")
             return {"success": d.get("success"), "status": d.get("status") or 200,
                     "content": c, "errors": d.get("errors")}
+        except urllib.error.HTTPError as e:
+            body = e.read()[:200]
+            return {"success": False, "status": e.code, "error": str(body)}
         except Exception as e:
             return {"success": False, "error": str(e)[:300]}
     code = (
@@ -84,70 +93,7 @@ def call_ai(model: str, prompt: str, timeout: int = 90) -> dict:
         return {"success": False, "error": r.stdout[-300:]}
 
 
-def load_lesson_context(scene: str, max_chars: int = 1500) -> tuple:
-    """Load lesson content + fix commands for a scenario (matched by trailing stem).
-    Returns (context_text, fix_commands)."""
-    stem = scene.rsplit("(", 1)[-1].rstrip(")") if scene.endswith(")") else ""
-    if stem:
-        for sub in ("core", "contrib"):
-            p = REPO / "lessons" / sub / f"{stem}.md"
-            if p.exists():
-                text = p.read_text(encoding="utf-8", errors="ignore")
-                body = re.sub(r"^---\n.*?\n---", "", text, flags=re.S)
-                # fix commands = code blocks from the Fix/修复 section
-                fix_sec = re.search(r"## (?:Solution|Fix|修复|解法)\s*\n(.*?)(?:\n##|\Z)", text, re.S)
-                cmds = []
-                if fix_sec:
-                    cmds = [l.strip() for l in re.findall(r"`([^`]{6,})`", fix_sec.group(1))]
-                    cmds += [l.strip() for l in re.findall(r"```\w*\s*\n(.*?)```", fix_sec.group(1), re.S)
-                             for l in l.splitlines() if l.strip() and not l.strip().startswith("#")]
-                clean = re.sub(r"[#*`>]", "", body)
-                return clean.strip()[:max_chars], list(dict.fromkeys(cmds))[:6]
-    return "", []
-
-
-def _lesson_has_commands(md: Path) -> bool:
-    """A lesson is command-bearing if its Solution/Fix section contains inline code or a code block."""
-    text = md.read_text(encoding="utf-8", errors="ignore")
-    fix_sec = re.search(r"## (?:Solution|Fix|修复|解法)\s*\n(.*?)(?:\n##|\Z)", text, re.S)
-    if not fix_sec:
-        return False
-    return bool(re.search(r"`[^`]{6,}`|```", fix_sec.group(1)))
-
-
-def load_scenarios(limit: int) -> list[str]:
-    """Read representative failure scenarios from lessons/, preferring
-    command-bearing (concrete, fixable) lessons so the compare metric is meaningful."""
-    lessons_dir = REPO / "lessons"
-    with_cmds, without_cmds = [], []
-    for sub in ("core", "contrib"):
-        d = lessons_dir / sub
-        if not d.is_dir():
-            continue
-        for md in sorted(d.glob("*.md")):
-            if md.name in ("README.md", "index.md", "TEMPLATE.md"):
-                continue
-            text = md.read_text(encoding="utf-8", errors="ignore")
-            title = ""
-            fm = re.search(r"^---\n(.*?)\n---", text, re.S)
-            if fm:
-                t = re.search(r"title:\s*(.+)", fm.group(1))
-                if t:
-                    title = t.group(1).strip().strip("'\"")
-            problem_match = re.search(r"## (?:Problem|问题)\s*\n(.*?)(?:\n##|\Z)", text, re.S)
-            problem = problem_match.group(1).strip() if problem_match else ""
-            scene = (title or problem)
-            if scene and len(scene) > 20:
-                entry = f"{scene} ({md.stem})"
-                (with_cmds if _lesson_has_commands(md) else without_cmds).append(entry)
-    chosen = (with_cmds + without_cmds)[:limit]
-    return chosen
-
-
 def score_response(content: str, reference_commands: list | None = None) -> dict:
-    """Heuristic quality scoring of a model response.
-    reference_commands: lesson fix commands — hit-rate shows whether the model
-    adopted lesson-specific knowledge (distinctiveness of this repo's lessons)."""
     if not content:
         return {"length": 0, "commands": 0, "has_command_block": False,
                 "actionable": False, "has_code_inline": False, "lesson_hits": 0, "lesson_hit_rate": 0.0}
@@ -177,81 +123,160 @@ def score_response(content: str, reference_commands: list | None = None) -> dict
     }
 
 
+def _lesson_has_commands(md: Path) -> bool:
+    text = md.read_text(encoding="utf-8", errors="ignore")
+    fix_sec = re.search(r"## (?:Solution|Fix|修复|解法)\s*\n(.*?)(?:\n##|\Z)", text, re.S)
+    if not fix_sec:
+        return False
+    return bool(re.search(r"`[^`]{6,}`|```", fix_sec.group(1)))
+
+
+def load_all_scenarios() -> list[str]:
+    """Load ALL lessons as scenarios; command-bearing first, then the rest."""
+    lessons_dir = REPO / "lessons"
+    with_cmds, without_cmds = [], []
+    for sub in ("core", "contrib"):
+        d = lessons_dir / sub
+        if not d.is_dir():
+            continue
+        for md in sorted(d.glob("*.md")):
+            if md.name in ("README.md", "index.md", "TEMPLATE.md"):
+                continue
+            text = md.read_text(encoding="utf-8", errors="ignore")
+            title = ""
+            fm = re.search(r"^---\n(.*?)\n---", text, re.S)
+            if fm:
+                t = re.search(r"title:\s*(.+)", fm.group(1))
+                if t:
+                    title = t.group(1).strip().strip("'\"")
+            problem_match = re.search(r"## (?:Problem|问题)\s*\n(.*?)(?:\n##|\Z)", text, re.S)
+            problem = problem_match.group(1).strip() if problem_match else ""
+            scene = (title or problem)
+            if scene and len(scene) > 20:
+                entry = f"{scene} ({md.stem})"
+                (with_cmds if _lesson_has_commands(md) else without_cmds).append(entry)
+    return with_cmds + without_cmds
+
+
+def load_lesson_context(scene: str, max_chars: int = 1500) -> tuple:
+    stem = scene.rsplit("(", 1)[-1].rstrip(")") if scene.endswith(")") else ""
+    if stem:
+        for sub in ("core", "contrib"):
+            p = REPO / "lessons" / sub / f"{stem}.md"
+            if p.exists():
+                text = p.read_text(encoding="utf-8", errors="ignore")
+                body = re.sub(r"^---\n.*?\n---", "", text, flags=re.S)
+                fix_sec = re.search(r"## (?:Solution|Fix|修复|解法)\s*\n(.*?)(?:\n##|\Z)", text, re.S)
+                cmds = []
+                if fix_sec:
+                    cmds = [l.strip() for l in re.findall(r"`([^`]{6,})`", fix_sec.group(1))]
+                    cmds += [l.strip() for l in re.findall(r"```\w*\s*\n(.*?)```", fix_sec.group(1), re.S)
+                             for l in l.splitlines() if l.strip() and not l.strip().startswith("#")]
+                clean = re.sub(r"[#*`>]", "", body)
+                return clean.strip()[:max_chars], list(dict.fromkeys(cmds))[:6]
+    return "", []
+
+
+def load_cache(path: Path) -> dict:
+    if path and path.exists():
+        try:
+            return json.loads(path.read_text())
+        except Exception:
+            pass
+    return {"runs": []}
+
+
+def run_one(args, model, scene, condition, prompt, ref_cmds, out_path):
+    resp = call_ai(model, prompt)
+    content = resp.get("content") or ""
+    metrics = score_response(content, ref_cmds)
+    run = {"model": model, "scenario": scene, "condition": condition,
+           "status": resp.get("status"), "content": content, "metrics": metrics,
+           "error": resp.get("errors") or resp.get("error")}
+    data = load_cache(out_path)
+    data.setdefault("models", [])
+    data.setdefault("scenarios", [])
+    data["runs"].append(run)
+    if out_path:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+    name = model.rsplit("/", 1)[-1]
+    print(f"  ✓ {name} × {scene[:40]} [{condition}] "
+          f"len={metrics['length']} hit={int(metrics['lesson_hit_rate']*100)}%", flush=True)
+    return run
+
+
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Workers AI lesson benchmark")
-    ap.add_argument("--models", help="comma-separated model ids")
-    ap.add_argument("--scenarios", type=int, default=4, help="number of scenarios (from lessons/)")
-    ap.add_argument("--output", help="JSON output path")
-    ap.add_argument("--compare", action="store_true",
-                    help="compare: same scenario with vs without lesson context (RAG ablation)")
+    ap = argparse.ArgumentParser(description="Workers AI tiered lesson benchmark")
+    ap.add_argument("--all", action="store_true", help="full lesson scan (default: sample)")
+    ap.add_argument("--scenarios", type=int, default=4, help="sample size when not --all")
+    ap.add_argument("--compare", action="store_true", help="with vs without lesson context")
+    ap.add_argument("--full-model", default=DEFAULT_FULL_MODEL, help="light model, runs all")
+    ap.add_argument("--strong-model", default=DEFAULT_STRONG_MODEL, help="heavy model, runs subset")
+    ap.add_argument("--strong-subset", type=int, default=40, help="lessons for strong model")
+    ap.add_argument("--concurrency", type=int, default=CONCURRENCY)
+    ap.add_argument("--output", default="docs/benchmarks/latest.json")
     args = ap.parse_args()
 
-    models = args.models.split(",") if args.models else DEFAULT_MODELS
-    compare = args.compare
-    scenarios = load_scenarios(args.scenarios) or FALLBACK_SCENARIOS
-    if len(scenarios) < args.scenarios:
-        scenarios += FALLBACK_SCENARIOS[: args.scenarios - len(scenarios)]
+    scenarios = load_all_scenarios() if args.all else (load_all_scenarios()[:args.scenarios])
+    print(f"Scenarios: {len(scenarios)} total ({'FULL' if args.all else 'sample'})")
+    print(f"full model: {args.full_model} (all {len(scenarios)})")
+    strong_n = min(args.strong_subset, len(scenarios))
+    print(f"strong model: {args.strong_model} (top {strong_n})")
 
-    print(f"Models ({len(models)}): {models}")
-    print(f"Scenarios ({len(scenarios)}):")
-    for i, s in enumerate(scenarios):
-        print(f"  [{i}] {s[:70]}")
+    out_path = Path(args.output)
+    data = load_cache(out_path)
+    cache_keys = {(r["model"], r["scenario"][:80], r.get("condition", "-"))
+                  for r in data.get("runs", [])}
+    print(f"cache: {len(cache_keys)} runs already done, resuming")
 
-    results = {"models": models, "scenarios": scenarios, "compare": compare, "runs": []}
-    for model in models:
-        for i, scene in enumerate(scenarios):
-            short_name = model.rsplit("/", 1)[-1]
-            base_prompt = f"I hit this error and need a fix:\n{scene}\n\nGive a concrete, actionable fix with exact commands."
-            print(f"\n▶ {short_name} × scenario[{i}] ...", flush=True)
-            if compare:
-                ctx, ref_cmds = load_lesson_context(scene)
-                ctx_prompt = (f"I hit this error and need a fix:\n{scene}\n\n"
+    tasks = []
+    for i, scene in enumerate(scenarios):
+        ctx, ref_cmds = load_lesson_context(scene)
+        models = [(args.full_model, False)]
+        if i < strong_n:
+            models.append((args.strong_model, True))
+        for model, _ in models:
+            if args.compare:
+                tasks.append((model, scene, "with_lesson",
+                              f"I hit this error and need a fix:\n{scene}\n\n"
                               f"Here is a verified lesson about this failure:\n{ctx}\n\n"
-                              f"Give a concrete, actionable fix with exact commands.")
-                resp = call_ai(model, ctx_prompt)
-                resp_plain = call_ai(model, base_prompt)
-                for cond, r_ in (("with_lesson", resp), ("plain", resp_plain)):
-                    content = r_.get("content") or ""
-                    metrics = score_response(content, ref_cmds)
-                    print(f"  [{cond}] status={r_.get('status')} len={metrics['length']} "
-                          f"cmds={metrics['commands']} actionable={metrics['actionable']}")
-                    results["runs"].append({
-                        "model": model, "scenario": scene, "condition": cond,
-                        "status": r_.get("status"), "content": content,
-                        "metrics": metrics,
-                        "error": r_.get("errors") or r_.get("error"),
-                    })
+                              f"Give a concrete, actionable fix with exact commands.",
+                              ref_cmds))
+                tasks.append((model, scene, "plain",
+                              f"I hit this error and need a fix:\n{scene}\n\n"
+                              f"Give a concrete, actionable fix with exact commands.",
+                              ref_cmds))
             else:
-                resp = call_ai(model, base_prompt)
-                content = resp.get("content") or ""
-                metrics = score_response(content)
-                print(f"  status={resp.get('status')} len={metrics['length']} "
-                      f"cmds={metrics['commands']} actionable={metrics['actionable']}")
-                results["runs"].append({
-                    "model": model, "scenario": scene,
-                    "status": resp.get("status"), "content": content,
-                    "metrics": metrics,
-                    "error": resp.get("errors") or resp.get("error"),
-                })
+                tasks.append((model, scene, "plain",
+                              f"I hit this error and need a fix:\n{scene}\n\n"
+                              f"Give a concrete, actionable fix with exact commands.",
+                              ref_cmds))
 
-    # summary table
-    print("\n" + "=" * 72)
-    print(f"{'MODEL':<38} {'SCEN':<5} {'COND':<11} {'LEN':<6} {'CMDS':<5} {'HIT%':<6} STATUS")
-    print("-" * 78)
-    for run in results["runs"]:
-        m = run["metrics"]
-        name = run["model"].rsplit("/", 1)[-1]
-        cond = run.get("condition", "-")
-        hit = f"{int(m.get('lesson_hit_rate', 0) * 100)}%"
-        print(f"{name:<38} {run['scenario'][:4]:<5} {cond:<11} {m['length']:<6} "
-              f"{m['commands']:<5} {hit:<6} {run.get('status')}")
-    print("=" * 78)
+    todo = [t for t in tasks if (t[0], t[1][:80], t[2]) not in cache_keys]
+    print(f"Total tasks: {len(tasks)} | to run: {len(todo)} (skipping {len(tasks)-len(todo)} cached)")
+    start = time.time()
+    done = 0
+    with concurrent.futures.ThreadPoolExecutor(max_workers=args.concurrency) as ex:
+        futures = set()
+        for task in todo:
+            futures.add(ex.submit(run_one, args, *task, out_path))
+            if len(futures) >= args.concurrency:
+                finished, futures = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
+                for f in finished:
+                    try:
+                        f.result()
+                    except Exception as e:
+                        print("task err:", e)
+                    done += 1
+        for f in concurrent.futures.as_completed(futures):
+            try:
+                f.result()
+            except Exception as e:
+                print("task err:", e)
+            done += 1
 
-    if args.output:
-        out = Path(args.output)
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(results, ensure_ascii=False, indent=2))
-        print(f"Saved: {args.output}")
+    print(f"\nDone {done} runs in {time.time()-start:.0f}s. Report: {out_path}")
     return 0
 
 
