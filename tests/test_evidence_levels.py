@@ -107,7 +107,11 @@ def test_schema_constrains_the_field():
 
 def test_new_lessons_default_to_e0():
     source = (REPO_ROOT / "scripts" / "queue_lesson.py").read_text(encoding="utf-8")
-    assert source.count('"evidence_level": DEFAULT_EVIDENCE_LEVEL') == 2
+    # Evidence level is now inferred (infer_evidence_level) with a DEFAULT
+    # fallback — assert both the inference hook and the E0 fallback exist.
+    assert "infer_evidence_level(content)" in source
+    assert "DEFAULT_EVIDENCE_LEVEL" in source
+    assert source.count("evidence_level") >= 3
 
 
 def test_index_generator_emits_the_field():

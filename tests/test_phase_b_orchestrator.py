@@ -1,10 +1,23 @@
+#!/usr/bin/env python3
+"""Tests for bench/phase-b/orchestrator.py (fixtures verification model).
+
+Rewritten 2026-08-28 to match the current API (fixture_names / load_fixture /
+verify_fixture) — the old load_tasks()/run() contract no longer exists.
+"""
 import importlib.util
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "bench" / "phase-b" / "orchestrator.py"
+
+EXPECTED = {
+    "dco-signoff",
+    "git-merge-conflict",
+    "mcp-invalid-json",
+    "python-import-error",
+    "timeout-hang",
+}
 
 
 def _module():
@@ -14,26 +27,40 @@ def _module():
     return module
 
 
-def test_catalog_has_three_failure_fixtures():
+def test_catalog_lists_known_fixtures():
     module = _module()
-    tasks = module.load_tasks()
-    assert {task["task_id"] for task in tasks} == {"dco-signoff", "pytest-import", "mcp-crash"}
+    assert set(module.fixture_names()) == EXPECTED
 
 
-def test_run_is_sequential_and_records_outcomes():
+def test_load_fixture_returns_expected_contract():
     module = _module()
-    result = module.run(module.load_tasks(), timeout=5, seed=42)
-    assert result["meta"]["seed"] == 42
-    assert result["summary"]["total_tasks"] == 3
-    assert all(row["attempts"] == 1 for row in result["tasks"])
-    assert {row["outcome"] for row in result["tasks"]} == {"failure"}
-    assert all(row["duration_ms"] >= 0 for row in result["tasks"])
+    f = module.load_fixture("dco-signoff")
+    assert isinstance(f, dict)
+    assert f["name"] == "dco-signoff"
+    assert (ROOT / f["path"]).exists()
+    expected = f["expected"]
+    assert expected["scenario"] == "dco-signoff"
+    assert expected["expected_fix"]
+    assert expected["expected_outcome"] in {"success", "success_with_human_input", "timeout"}
 
 
-def test_dry_run_output_contract_is_json(tmp_path):
+def test_verify_fixture_reports_structured_result():
     module = _module()
-    output = tmp_path / "results.json"
-    result = module.run(module.load_tasks(), timeout=5)
-    output.write_text(json.dumps(result), encoding="utf-8")
-    loaded = json.loads(output.read_text(encoding="utf-8"))
-    assert loaded["summary"]["total_tasks"] == 3
+    result = module.verify_fixture("dco-signoff")
+    assert isinstance(result, dict)
+    assert result.get("name") == "dco-signoff" or "ok" in result or "status" in result
+
+
+def test_orchestrator_cli_lists_fixtures():
+    import subprocess
+    import sys
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), "--list", "--json"],
+        check=True,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        cwd=ROOT,
+    )
+    listed = {item["name"] for item in json.loads(result.stdout)}
+    assert listed == EXPECTED

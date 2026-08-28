@@ -407,7 +407,7 @@ def main():
     tags = [t.strip() for t in args.tags.split(",") if t.strip()]
 
     if args.dry_run:
-        slug, filename, body = _render_lesson(args.title, args.domain, tags, content, source=NODE_ID, status=args.status)
+        slug, filename, body, _inferred_level, _reasoning = _render_lesson(args.title, args.domain, tags, content, source=NODE_ID, status=args.status)
         print(body)
         if args.suggest_git:
             _print_suggested_git(filename, args.title)
