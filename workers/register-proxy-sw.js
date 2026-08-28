@@ -192,6 +192,17 @@ const MCP_TOOLS = [
       required: ["intent"],
     },
   },
+  {
+    name: "misakanet_me_events",
+    description: "Return evidence of a lesson being reused (E4 signals): helpful votes, regression-benchmark citations, and cross-node confirmation. Use to check whether a lesson is proven by real usage, not just self-reported. No auth required (read-only, rate-limited).",
+    inputSchema: {
+      type: "object",
+      properties: {
+        lesson_id: { type: "string", description: "Lesson ID (filename stem), e.g. dco-auto-fix-workflow." },
+        lesson_path: { type: "string", description: "Optional full path, e.g. lessons/core/dco-auto-fix-workflow.md." },
+      },
+    },
+  },
 ];
 
 const MCP_PROTOCOL_VERSION = "2025-06-18";
@@ -679,6 +690,87 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp, ctx) 
     }
   }
 
+  // PRD ③ Coogen 借鉴 (Phase 1): E4 reuse evidence — aggregate real usage
+  // signals for a lesson: helpful votes, regression-benchmark citations,
+  // cross-node confirmation. Turns "self-reported E4" into queryable facts.
+  if (toolName === "misakanet_me_events") {
+    // Same anonymous read quota as search/get_lesson (shared 5/day/IP counter).
+    if (!authToken) {
+      const ip = clientIp || "unknown";
+      const today = new Date().toISOString().slice(0, 10);
+      const rateKey = `rate:read:${ip}:${today}`;
+      if (env.MISAKANET_KV) {
+        const count = parseInt(await env.MISAKANET_KV.get(rateKey, "text") || "0");
+        if (count >= 5) {
+          return {
+            error: "Rate limit: 5 free reads per day exceeded",
+            hint: "Register to get unlimited access: misakanet_register",
+          };
+        }
+        await env.MISAKANET_KV.put(rateKey, String(count + 1), { expirationTtl: 86400 });
+      }
+    }
+    const lessonId = args.lesson_id || (args.lesson_path || "").split("/").pop().replace(/\.md$/, "");
+    if (!lessonId) return { error: "lesson_id or lesson_path is required" };
+
+    const events = [];
+    // 1. Helpful votes (real usage signal).
+    if (env.MISAKANET_KV) {
+      try {
+        const helpful = parseInt(await env.MISAKANET_KV.get(`helpful:${lessonId}`, "text") || "0", 10) || 0;
+        if (helpful > 0) {
+          events.push({ type: "lesson_found_helpful", count: helpful, evidence_level: helpful >= 2 ? "E4" : "E3" });
+        }
+      } catch (_) {}
+    }
+    // 2. Regression-benchmark citations (lesson referenced by a curated query
+    //    in data/regression_queries.json — consumed via public data).
+    try {
+      const resp = await fetch(`${PUBLIC_DATA_BASE}/regression_queries.json`, {
+        headers: { "User-Agent": "MisakaNet-Events/1.0" },
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        const queries = data?.queries || [];
+        const cited = queries.filter(q =>
+          (q.expected_lessons || []).some(p => p.includes(lessonId)) ||
+          (q.expected_lesson_ids || []).includes(lessonId)
+        );
+        if (cited.length > 0) {
+          events.push({
+            type: "lesson_cited_in_regression",
+            count: cited.length,
+            queries: cited.slice(0, 5).map(q => q.id || q.query || ""),
+            evidence_level: "E3", // CI benchmark references are sandbox-level evidence
+          });
+        }
+      }
+    } catch (_) {}
+    // 3. Cross-node confirmation: lessons whose provenance shows multiple
+    //    contributors (parsed from frontmatter "verified_by"/provenance).
+    try {
+      const lesson = await fetchLessonContent(env, args.lesson_path, lessonId);
+      if (lesson?.content) {
+        const verifiedBy = lesson.content.match(/verified\s+by\s*[:\s]+([^\n]+)/i);
+        const contributors = lesson.content.match(/contributors?\s*[:\s]+([^\n]+)/i);
+        const names = [verifiedBy?.[1], contributors?.[1]].filter(Boolean).map(s => s.trim().slice(0, 60));
+        if (names.length > 0) {
+          events.push({ type: "lesson_confirmed_by", sources: names, evidence_level: "E4" });
+        }
+      }
+    } catch (_) {}
+
+    // E4 promotion: ≥2 independent reuse signals → E4.
+    const e4Ready = events.filter(e => e.evidence_level === "E4").length >= 1
+      && events.filter(e => e.type !== "lesson_confirmed_by").length >= 2;
+    return {
+      lesson_id: lessonId,
+      events,
+      evidence: events.length > 0 ? (e4Ready ? "E4" : events[0]?.evidence_level || "E0") : "E0",
+      note: "E4 = reused by another contributor/agent. Helpful votes, regression citations, and cross-node confirmations are real usage evidence.",
+    };
+  }
+
   if (toolName === "misakanet_submit_intake") {
     if (!args.problem) return { error: "problem is required" };
 
@@ -992,11 +1084,14 @@ async function handleMcpRequest(request, env, useSse = false, ctx) {
   let isPublicMethod = false;
   try {
     const peekBody = await request.clone().json();
-    // Open tools: intake/register (write) + search/get_lesson (read, rate-limited).
-    // Anonymous users get 5 combined reads/day per IP (PR #1121); registration
-    // lifts the limit. initialize + tools/list stay open for MCP registry scans.
+    // Open tools: intake/register (write) + search/get_lesson/me_events (read,
+    // rate-limited). Anonymous users get 5 combined reads/day per IP (PR #1121);
+    // registration lifts the limit. initialize + tools/list stay open for MCP
+    // registry scans. me_events is open because trust evidence should be freely
+    // checkable by any agent before reusing a lesson (E4 reuse receipts).
     const openTools = ["misakanet_submit_intake", "misakanet_register",
-                       "misakanet_search", "misakanet_get_lesson"];
+                       "misakanet_search", "misakanet_get_lesson",
+                       "misakanet_me_events"];
     isIntakeCall = peekBody?.method === "tools/call" && openTools.includes(peekBody?.params?.name);
     isPublicMethod = peekBody?.method === "initialize" || peekBody?.method === "tools/list";
   } catch (peekErr) {
