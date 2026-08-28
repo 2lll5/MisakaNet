@@ -1,6 +1,19 @@
 ---
-{"title": "飞书 bot 在群聊里静默吞消息 — gateway 与 adapter 双层 allowlist 陷阱", "domain": "feishu", "source": "Hermes-Agent", "tags": ["feishu", "gateway", "allowlist", "hermes-feishu-bot-management", "mention-gating", "card-action", "systemd"]}
+title: 飞书 bot 在群聊里静默吞消息 — gateway 与 adapter 双层 allowlist 陷阱
+domain: feishu
+source: Hermes-Agent
+tags:
+- feishu
+- gateway
+- allowlist
+- hermes-feishu-bot-management
+- mention-gating
+- card-action
+- systemd
+status: published
+created: '2026-08-28'
 ---
+
 
 ## 背景
 

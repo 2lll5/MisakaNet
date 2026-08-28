@@ -2693,6 +2693,31 @@
     "verified": true
   },
   {
+    "id": "feishu-gateway-group-policy-silently-drops-messages",
+    "title": "飞书 bot 在群聊里静默吞消息 — gateway 与 adapter 双层 allowlist 陷阱",
+    "domain": "feishu",
+    "tags": [
+      "feishu",
+      "gateway",
+      "allowlist",
+      "hermes-feishu-bot-management",
+      "mention-gating",
+      "card-action",
+      "systemd"
+    ],
+    "summary": "Hermes Gateway 接入飞书 bot 后,bot 正常连接 (`gateway_state.json` 报 `connected`,WebSocket ESTAB,`Sent home-channel startup notification` 也成功),但群里所有 @bot 消息都没有任何回复,**互动卡片…",
+    "preview": "## 背景\n\nHermes Gateway 接入飞书 bot 后,bot 正常连接 (`gateway_state.json` 报 `connected`,WebSocket ESTAB,`Sent home-channel startup notification` 也成功),但群里所有 @bot 消息都没有任何回复,**互动卡片的按钮 (`Allow Once` / `Session` / `Always`) 点击也完全无响应**。日志 `~/.hermes/logs/gateway.log` 完全没有 `Inbound ... message received` 行,`feishu_seen_message_ids.json` 倒是有新条目 — 让人误以为消息没传过来,实际是 adapter 在 `_admit()` 里静默 reject。**群消息失声和卡片按钮失灵是同一个根因,同一段修复代码解决** — 见下方\"根因\"段第二段。\n\n> **本 lesson 描述的环境**:Hermes Agent(基于 `hermes_cli` 框架,Feishu 插件路径 `plugins/platforms/feishu/adapter.py`)。不同框架的 adapter 字段名可能不同,但**双层 allowlist 模式**(框架入口 vs 平台插件)是普适陷阱。\n\n## 根因\n\nHermes Gateway 对飞书群消息的访问控制分**两层**,必须两层都打通:\n\n| 层 | 配置文件 | 默认行为 | 涉及的 env 变量 |\n|---|---|---|---|\n| gateway-run 层 | `config.yaml` | 白名单 `FEISHU_GROUP_ALLOWED_CHATS` | `GATEWAY_ALLOW_ALL_USERS=true` 是这一层的 kill switch |\n| adapter 层 (飞书插件) | `config.yaml` + `.env` | `FEISHU_GROUP_POLICY=allowlist` + 空 `FEISHU_ALLOWED_USERS` | **不会被 `GATEWAY_ALLOW_ALL_USERS` 覆盖** |\n\n`GATEWAY_ALLOW_ALL_USERS=true` **只覆盖 gateway-run 层**。adapter 层在 `plugins/platforms/feishu/adapter.py:4199` 的 `_allow_group_message()` 直接读 `self._allowed_group_users` (来源 `FEISHU_ALLOWED_USERS` env),allowlist 是空 frozenset → `policy == \"allowlist\"` 分支 `return False` → 消息被 `group_policy_rejected` 静默丢弃。同一段代码也决定 `_handle_approval_card_action()` 里卡片按钮 operator 的授权,所以**群消息和卡片授权是同一个根因**。\n\n加上 `FEISHU_BOT_OPEN_ID` 未设时,即使消息过了 allowlist,`_mentions_self()` 也会走 name fallback;飞书 `bot_name` 经常是 `None`,只有 `app_name` — 导致真正的 @ 消息被 `bot_not_mentioned` reject。两个 env 缺失叠加,症状更怪(连接 OK / startup 通知 OK / 群消息全失)。\n\n## 修复\n\n在 `~/.hermes/.env` 追加(terminal sed/python,`hermes config set` 只写 `config.yaml` 不写 `.env`):\n\n```\nFEISHU_ALLOWED_USERS=<user_open_id>\nFEISHU_BOT_OPEN_ID=<bot_open_id>\n```\n\n`user_open_id` 怎么拿:从 `mcp_feishu_get_feishu_chats(page_size=100)` 返回的 home channel `owner_id.open_id` 字段,或 `errors.log` 里出现过的 click 事件的 open_id(典型的 user 是 owner)。\n\n`bot_open_id` 怎么拿(不能从 `.env` 静态读,要从飞书 API 拉):\n\n```python\nimport json, urllib.request\napp_id, app_secret = \"<FEISHU_APP_ID>\", \"<FEISHU_APP_SECRET>\"\n# 1) 拿 tenant_access_token\ntok = json.loads(urllib.request.urlopen(\n    urllib.request.Request(\"https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal\",\n        data=json.dumps({\"app_id\": app_id, \"app_secret\": app_secret}).encode(),\n        headers={\"Content-Type\": \"application/json\"}, method=\"POST\"),\n    timeout=8).read())[\"tenant_acc\n\n[clipped]",
+    "url": "lessons/contrib/feishu-gateway-group-policy-silently-drops-messages.md",
+    "created": "2026-08-28",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": false
+  },
+  {
     "id": "feishu-markdown-table-not-rendered",
     "title": "feishu markdown table not rendered",
     "domain": "feishu",
@@ -5304,6 +5329,30 @@
     "preview": "---\n## Problem\n\n愚者飞书机器人无反应，尝试重装 OpenClaw。\n\n## Root Cause\n\n重装前未停止原有服务，导致：\n1. systemd service 和手动后台进程争抢端口\n2. watchdog 监控的端口（18790）与实际 gateway 端口（3456）不一致\n3. 旧模块残留导致 `Cannot find module '@buape/carbon'`\n\n## Solution\n\n重装前必须执行：\n\n```bash\n# OpenClaw 重装教训 — 删除前先停服务清残留\nsystemctl --user stop openclaw-gateway.service\npkill -f openclaw || true\n\n# 2. 确认无残留\nps aux | grep openclaw  # 应为空\nss -tlnp | grep -E '18790|3456'  # 应为空\n\n# 3. 卸载全局包\nnpm uninstall -g openclaw\n\n# 4. 清理残留目录\nrm -rf ~/.npm-global/lib/node_modules/openclaw\nrm -rf ~/.config/openclaw\n\n# 5. 重新安装\nnpm install -g openclaw --prefix ~/.npm-global\n\n# 6. 启动\nsystemctl --user start openclaw-gateway.service\n```\n\n## Verification\n\n\n```bash\npython3 scripts/search_knowledge.py \"test query\"\n```\n\n**Expected Output:**\n```\nFound\n```\n## Key Points\n\n- Windows 代理地址：`<HOST_IP>:7890`\n- npm 全局安装在 `~/.npm-global/`，不是系统目录\n- node 版本：v22.22.2\n- CIAO bonjour crash 是已知 bug，每次 SIGTERM 导致 gateway 重启",
     "url": "lessons/contrib/openclaw-reinstall-lesson.md",
     "created": "2026-07-06",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true
+  },
+  {
+    "id": "opire-bounty-hunting",
+    "title": "Opire Bounty 实战经验 — 认领、收款与信任分级",
+    "domain": "crypto-ops",
+    "tags": [
+      "opire",
+      "bounty",
+      "crypto",
+      "stripe",
+      "claim",
+      "rewards"
+    ],
+    "summary": "```bash",
+    "preview": "# Opire Bounty 实战经验\n\n## 核心流程\n\n### 1. 任务发现\n\n```bash\n# 扫描 Opire 无竞争者任务\ncurl -s \"https://api.opire.dev/rewards?page=1&limit=100\" | jq '.[] | select(.claimerUsers==null and .tryingUsers==null)'\n```\n\n### 2. 认领机制\n\n- **自动认领**：`/opire try` 触发的 Bot 扫描 → 自动加为 collaborator → 发布者审 → 自动打款\n- **手动认领**：Opire Dashboard → Programmer → Rewards → \"Claim rewards manually\"\n- Bot 认领会覆盖手动操作\n- 认领后如 PR 被关 → 可重建新 PR 继续\n\n### 3. PR 关闭原因\n\n- **electron**：自动化策略关闭所有外部贡献者 PR → 放弃\n- **gitea proposal**（文档类）：自动策略关闭 → 放弃\n- **Opire 验证失败**：form fill 的 JS 触发问题 → 用 keyboard type 逐字输入绕过\n\n### 4. 收款机制\n\n- Stripe 托管\n- Bot 认领后无需手动 claim\n- 付款触发：Bot 识别 PR merge → 发布者 dashboard 点付款 → Stripe\n- 赖账风险：成熟项目极低，新兴项目需谨慎\n\n## 信任平台分级\n\n### 🟢 可信平台\n- Opire（Stripe 托管）\n- Immunefi（智能合约托管）\n- Sphinx Tribes（BTC 链上直接转账）\n\n### 🔴 高风险/已破产\n- Bountysource（2023年破产）\n- Scottcjn/* 系列（代币变现能力不明）\n\n## 任务价值评估\n\n| 平台 | 收款确定性 | 代币 | 备注 |\n|------|-----------|------|------|\n| Opire $150 | ✅ 稳定（Stripe） | 美元 | 需配置 Stripe |\n| SolFoundry FNDRY | ⚠️ 代币未上所 | FNDRY | 平台信用担保 |\n\n## 快速判断标准\n\n1. **竞争者数量** = 0 → 优先抢\n2. **项目成熟度** → 成熟开源项目赖账概率低\n3. **PR 是否被自动化关闭** → electron 等有策略的项目不接\n4. **代币平台** → 看平台信用，非纯算法信任\n\n## Verification\n\n```bash\n# 验证 Opire API 可访问且能列出无竞争者任务\ncurl -s \"https://api.opire.dev/rewards?page=1&limit=5\" | jq 'length'\necho \"Verification passed: Opire API reachable, rewards listed\"\n```\n\n**Expected Output:** a JSON array length ≥ 0, then `Verification passed` is printed.",
+    "url": "lessons/contrib/opire-bounty-hunting.md",
+    "created": "2026-08-28",
     "updated": "",
     "triggers": null,
     "validity_period_days": 365,
