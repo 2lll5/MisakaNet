@@ -180,6 +180,9 @@ def upsert_sql(lessons: list[dict]) -> str:
             + ", ".join(f"{c}=excluded.{c}" for c in cols if c != "id")
             + ";"
         )
+    # Rebuild the external-content FTS index after every sync. REBUILD reads
+    # the current lessons table, so it also removes rows deleted with --prune.
+    stmts.append("INSERT INTO lessons_fts(lessons_fts) VALUES('rebuild');")
     stmts.append(f"INSERT INTO lesson_sync_log (run_at, source_commit, total, upserted) "
                  f"VALUES ({now}, '{git_head()}', {len(lessons)}, {len(lessons)});")
     return "\n".join(stmts) + "\n"

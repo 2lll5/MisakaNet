@@ -268,3 +268,13 @@ test('/api/lessons?limit= caps result count', async () => {
   const data = await resp.json();
   assert.equal(data.length, 1);
 });
+
+test('/api/lessons?q= uses FTS ranking and composes with domain filter', async () => {
+  const env = { MISAKANET_D1: createD1(D1_ROWS) };
+  const resp = await apiLessons('?q=pip+timeout&domain=python&limit=5', env);
+  assert.equal(resp.status, 200);
+  const data = await resp.json();
+  assert.equal(data.length, 1);
+  assert.equal(data[0].id, 'd1-pip-mirror');
+  assert.ok(Object.hasOwn(data[0], 'rank'));
+});

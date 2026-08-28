@@ -1155,12 +1155,21 @@ async function fetchLessonsFromD1(env, filters = {}) {
     where.push("id = ?" + (bind.length + 1));
     bind.push(filters.id);
   }
+  if (filters.q) {
+    where.push("lessons_fts MATCH ?" + (bind.length + 1));
+    bind.push(filters.q);
+  }
   const limit = Math.min(Math.max(parseInt(filters.limit, 10) || 100, 1), 5000);
+  const search = filters.q
+    ? " FROM lessons JOIN lessons_fts ON lessons_fts.rowid = lessons.rowid"
+    : " FROM lessons";
+  const select = filters.q
+    ? "SELECT lessons.id, lessons.title, lessons.domain, lessons.status, lessons.tags, lessons.path, lessons.summary, lessons.problem, lessons.updated, lessons.created, bm25(lessons_fts) AS rank"
+    : "SELECT id, title, domain, status, tags, path, summary, problem, updated, created";
   const sql =
-    `SELECT id, title, domain, status, tags, path, summary, problem, updated, created
-     FROM lessons` +
+    select + search +
     (where.length ? " WHERE " + where.join(" AND ") : "") +
-    ` ORDER BY updated DESC LIMIT ${limit}`;
+    (filters.q ? " ORDER BY rank ASC" : " ORDER BY updated DESC") + ` LIMIT ${limit}`;
   let stmt = d1.prepare(sql);
   if (bind.length) stmt = stmt.bind(...bind);
   const { results } = await stmt.all();
@@ -1175,6 +1184,7 @@ async function fetchLessonsFromD1(env, filters = {}) {
     description: (r.summary || r.problem || "").slice(0, 400),
     updated: r.updated,
     created: r.created,
+    ...(filters.q ? { rank: Number(r.rank) } : {}),
   }));
 }
 
@@ -1752,11 +1762,13 @@ export default {
         const qTag = url.searchParams.get("tag");
         const qId = url.searchParams.get("id");
         const qLimit = url.searchParams.get("limit");
+        const q = url.searchParams.get("q");
         if (qDomain) filters.domain = qDomain.slice(0, 50);
         if (qStatus) filters.status = qStatus.slice(0, 20);
         if (qTag) filters.tag = qTag.slice(0, 50);
         if (qId) filters.id = qId.slice(0, 120);
         if (qLimit) filters.limit = qLimit;
+        if (q) filters.q = q.slice(0, 200);
         const hasFilters = Object.keys(filters).length > 0;
         if (hasFilters && !d1Binding(env)) {
           // Filtered queries require D1 — don't silently return the full list.

@@ -27,6 +27,14 @@ CREATE INDEX IF NOT EXISTS idx_lessons_status ON lessons(status);
 CREATE INDEX IF NOT EXISTS idx_lessons_updated ON lessons(updated);
 CREATE INDEX IF NOT EXISTS idx_lessons_created ON lessons(created);
 
+-- FTS5 search index for ranked lesson discovery. The sync job rebuilds this
+-- external-content index after upserting lessons.
+CREATE VIRTUAL TABLE IF NOT EXISTS lessons_fts USING fts5(
+  id, title, problem, root_cause, solution, content_md,
+  content='lessons',
+  content_rowid='rowid'
+);
+
 -- Sync ledger: one row per successful sync run (audit + reconciliation)
 CREATE TABLE IF NOT EXISTS lesson_sync_log (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
