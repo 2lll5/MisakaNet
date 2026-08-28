@@ -62,6 +62,30 @@ function maskToken(token) {
   return token.slice(0, 6) + "..." + token.slice(-4);
 }
 
+// Sanitize free-text into a safe KV key (no special chars, bounded length)
+// so user-supplied strings can't collide with internal keys or trip
+// __proto__-style pollution.
+function sanitizeReasonKey(text, maxLen = 64) {
+  let s = String(text)
+    .replace(/[^a-zA-Z0-9_\-\u4e00-\u9fff ]/g, "_")
+    .replace(/\s+/g, " ")
+    .trim();
+  // __proto__ / constructor-style keys are prototype-pollution hazards.
+  if (/^_+|^constructor$/i.test(s)) s = "k" + s;
+  return s.slice(0, maxLen) || "unknown";
+}
+
+// Deterministic hex hash for dedup keys (FNV-1a; sync, no crypto.subtle
+// round-trip needed for KV keys).
+function hashString(str) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return (h >>> 0).toString(16).padStart(8, "0");
+}
+
 function addDebugContext(env, errorObj, context) {
   if (getDebugLevel(env) < 1) return errorObj;
   return {
@@ -689,7 +713,25 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp, ctx) 
     const safeProblem = redactIntake(args.problem);
     const safeError = redactIntake(args.error);
     const safeFix = redactIntake(args.fix);
+    // Content-based dedup hash (not random) — same problem text submitted
+    // twice maps to the same hash, so repeat submissions are caught (aider
+    // review P1-4). The short random tag is kept for issue-body traceability.
+    const dedupSource = `${kind}:${safeProblem}:${safeError}`.trim();
     const dedupHash = crypto.randomUUID().slice(0, 12);
+    const dedupKey = `intake_dedup:${hashString(dedupSource)}`;
+
+    // Reject duplicate submissions (same kind + problem within 7 days).
+    if (env.MISAKANET_KV) {
+      const existingDedup = await env.MISAKANET_KV.get(dedupKey, "text");
+      if (existingDedup) {
+        return {
+          submitted: false,
+          duplicate: true,
+          previous_issue: existingDedup,
+          error: "Duplicate intake — this problem was already submitted. See the linked issue.",
+        };
+      }
+    }
 
     const bodyParts = [
       `**Kind:** ${kind}`,
@@ -744,6 +786,12 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp, ctx) 
       clearTimeout(timeoutId);
       const data = await resp.json();
       if (!resp.ok) return { error: `GitHub issue creation failed: ${data.message}` };
+      // Remember this dedup hash → future identical submissions are rejected.
+      if (env.MISAKANET_KV) {
+        try {
+          await env.MISAKANET_KV.put(dedupKey, data.html_url, { expirationTtl: 86400 * 7 });
+        } catch (_) {}
+      }
       return {
         submitted: true,
         intake_id: `issue-${data.number}`,
@@ -769,15 +817,17 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp, ctx) 
     if (!agentToken || !agentToken.startsWith("mcp_")) {
       return { submitted: false, error: "Registered agent token required (Bearer header). Use misakanet_register first." };
     }
-    // Look up node_id from KV for provenance tracking
-    let nodeId = null;
-    if (env.MISAKANET_KV) {
-      const tokenData = await env.MISAKANET_KV.get(`mcp_token:${agentToken}`, "json");
-      if (!tokenData || new Date(tokenData.expires) < new Date()) {
-        return { submitted: false, error: "Invalid or expired token. Use misakanet_register to get a new one." };
-      }
-      nodeId = tokenData.node_id;
+    // Look up node_id from KV for provenance tracking. KV is required here —
+    // without it we cannot validate the registered-agent token, so refuse
+    // rather than proceeding unauthenticated (aider review P0-2).
+    if (!env.MISAKANET_KV) {
+      return { submitted: false, error: "KV not configured — cannot verify agent token" };
     }
+    const tokenData = await env.MISAKANET_KV.get(`mcp_token:${agentToken}`, "json");
+    if (!tokenData || new Date(tokenData.expires) < new Date()) {
+      return { submitted: false, error: "Invalid or expired token. Use misakanet_register to get a new one." };
+    }
+    const nodeId = tokenData.node_id;
     // Quality check: basic length requirements
     const qualityScore = Math.min(100,
       (problem.length >= 20 ? 25 : problem.length) +
@@ -2093,7 +2143,7 @@ export default {
       const day = new Date().toISOString().slice(0, 10);
       demand.days[day] = demand.days[day] || { reasons: {}, count: 0 };
       demand.days[day].count++;
-      const reasonKey = String(message).slice(0, 64);
+      const reasonKey = sanitizeReasonKey(message);
       demand.days[day].reasons[reasonKey] = (demand.days[day].reasons[reasonKey] || 0) + 1;
       await env.MISAKANET_KV.put(demandKey, JSON.stringify(demand), { expirationTtl: 2592000 });
 
@@ -2594,4 +2644,6 @@ export {
   handlePrGeniusStats,
   recordStaleLesson,
   recordUnsolvedSearch,
+  sanitizeReasonKey,
+  hashString,
 };

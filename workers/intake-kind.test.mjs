@@ -124,3 +124,44 @@ test('submit_intake default kind is missing_lesson when omitted', async () => {
     restore();
   }
 });
+
+// ── Aider review follow-ups: content-based dedup + KV key sanitize ──
+
+test('submit_intake rejects duplicate submissions by content hash', async () => {
+  const env = createEnv();
+  let captured = null;
+  const restore = captureGitHubFetch(env, (p) => { captured = p; });
+  try {
+    // First submission creates the issue.
+    const first = await submitIntake({ kind: 'missing_lesson', problem: 'duplicate test problem' }, env);
+    const firstResult = JSON.parse((await first.json()).result.content[0].text);
+    assert.equal(firstResult.submitted, true);
+
+    // Identical problem → dedup hit, no second issue.
+    const dup = await submitIntake({ kind: 'missing_lesson', problem: 'duplicate test problem' }, env);
+    const dupBody = await dup.json();
+    const dupResult = JSON.parse(dupBody.result.content[0].text);
+    assert.equal(dupResult.submitted, false);
+    assert.equal(dupResult.duplicate, true);
+    assert.match(dupResult.error, /Duplicate intake/);
+  } finally {
+    restore();
+  }
+});
+
+test('sanitizeReasonKey strips unsafe chars for KV keys', async () => {
+  const { sanitizeReasonKey, hashString } = await import('./register-proxy-sw.js');
+  // __proto__-style pollution attempt must not become a bare __-prefixed key.
+  const safe = sanitizeReasonKey('__proto__::evil key!');
+  assert.ok(!safe.startsWith('__'), `should not start with __: ${safe}`);
+  assert.ok(!safe.includes('::'));
+  assert.ok(!safe.includes('!'));
+  assert.ok(safe.length <= 64);
+  assert.ok(safe.length > 0);
+  // Plain text passes through mostly intact.
+  assert.ok(sanitizeReasonKey('pip timeout ssl').includes('pip timeout'));
+  // hashString is deterministic and hex.
+  assert.match(hashString('pip timeout'), /^[0-9a-f]{8}$/);
+  assert.equal(hashString('pip timeout'), hashString('pip timeout'));
+  assert.notEqual(hashString('pip timeout'), hashString('pip timeout x'));
+});
