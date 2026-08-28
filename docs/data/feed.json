@@ -1,9 +1,37 @@
 {
-  "generated_at": "2026-08-28T00:27:06.886523+00:00",
+  "generated_at": "2026-08-28T07:45:02.198021+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
-  "item_count": 10,
+  "item_count": 12,
   "items": [
+    {
+      "type": "merged_pr",
+      "title": "feat(provenance): add provenance tracking to 280 lessons (Batch 1)",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1340",
+      "timestamp": "2026-08-28T02:18:55Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(search): log zero-result queries for demand board gap analysis",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1341",
+      "timestamp": "2026-08-28T02:15:38Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "chore(main): release 2.23.0",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1344",
+      "timestamp": "2026-08-28T02:14:23Z",
+      "source": "github"
+    },
+    {
+      "type": "merged_pr",
+      "title": "feat(search): add configurable hybrid weights to MCP tool",
+      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1339",
+      "timestamp": "2026-08-28T01:35:13Z",
+      "source": "github"
+    },
     {
       "type": "merged_pr",
       "title": "chore(main): release 2.22.0",
@@ -12,18 +40,36 @@
       "source": "github"
     },
     {
-      "type": "merged_pr",
-      "title": "fix(voice): fix Windows audio playback, asset paths, and hook test suite",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1336",
-      "timestamp": "2026-08-27T15:00:24Z",
-      "source": "github"
+      "type": "lesson",
+      "title": "Python asyncio CancelledError Silently Swallows Resources in Long-Running Services",
+      "url": "lessons/contrib/asyncio-cancellederror-swallows-resources.md",
+      "timestamp": "2026-08-27",
+      "domain": "python",
+      "source": "lessons"
     },
     {
-      "type": "merged_pr",
-      "title": "fix(mcp): restore search backend compatibility",
-      "url": "https://github.com/Ikalus1988/MisakaNet/pull/1294",
-      "timestamp": "2026-08-26T05:50:46Z",
-      "source": "github"
+      "type": "lesson",
+      "title": "Cloudflare Worker Programmatic Deploy: Three Pitfalls — Sandbox Egress, 32KB Limit, multipart Content-Type",
+      "url": "lessons/contrib/cloudflare-worker-deploy-three-pitfalls.md",
+      "timestamp": "2026-08-27",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "MCP Endpoint 404: Zone Route Points to Worker Without MCP Implementation",
+      "url": "lessons/contrib/mcp-endpoint-404-zone-route-misconfig.md",
+      "timestamp": "2026-08-27",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "mcporter OAuth Authorization Must Be Serial: Concurrent Auth Causes client_id/state Corruption",
+      "url": "lessons/contrib/mcporter-oauth-must-be-serial.md",
+      "timestamp": "2026-08-27",
+      "domain": "devops",
+      "source": "lessons"
     },
     {
       "type": "challenge",
@@ -48,38 +94,6 @@
       "title": "Node.js missing require inside try/catch silently kills win32 code path",
       "url": "lessons/contrib/nodejs-missing-require-inside-try-catch.md",
       "timestamp": "2026-08-23",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Windows CI: splitCommand backslash stripping, UnicodeEncodeError, and detached process failure",
-      "url": "lessons/contrib/windows-ci-splitcommand-backslash-unicode-detached.md",
-      "timestamp": "2026-08-23",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Aider CLI --api-key parameter leaks API key to history files",
-      "url": "lessons/contrib/aider-api-key-leak.md",
-      "timestamp": "2026-08-22",
-      "domain": "security",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Aider via LiteLLM rejects standard Anthropic model names",
-      "url": "lessons/contrib/aider-litellm-model-name-rejection.md",
-      "timestamp": "2026-08-22",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Aider --show-repo-map crashes on Windows with UnicodeEncodeError",
-      "url": "lessons/contrib/aider-windows-unicode-error.md",
-      "timestamp": "2026-08-22",
       "domain": "devops",
       "source": "lessons"
     },
