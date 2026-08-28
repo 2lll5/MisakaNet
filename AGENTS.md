@@ -21,8 +21,14 @@ fatal-guard -- node app.js 2>&1 | python3 scripts/tombstone_to_draft.py --stdin
 
 ### 遇到问题时的检索顺序
 
+> **新用户无需 clone**：加 `--remote` 直接查 D1 服务（PRD ④），
+> 免注册、每天 5 次免费（按 IP）。
+
 ```bash
-# 1. 快速搜所有
+# 0. 远程直查（推荐，无需 clone）
+python3 search_knowledge.py "你的关键词" --remote
+
+# 1. 快速搜所有（本地 clone 后）
 python3 search_knowledge.py "你的关键词"
 
 # 2. 只看 lessons（踩坑记录）
