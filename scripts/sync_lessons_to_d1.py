@@ -225,12 +225,21 @@ def main() -> int:
         return 0
 
     if args.execute:
-        cmd = ["wrangler", "d1", "execute", args.db, "--remote", "--command", sql]
-        print(f"Executing: {' '.join(cmd[:4])} ...", file=sys.stderr)
-        r = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=600)
-        sys.stdout.write(r.stdout)
-        sys.stderr.write(r.stderr)
-        return r.returncode
+        # 32KB argv limit (execve MAX_ARG_STRLEN) — pass SQL via a temp file
+        # instead of --command so large syncs (314 lessons) work in CI.
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".sql", delete=False) as f:
+            f.write(sql)
+            tmp_path = f.name
+        try:
+            cmd = ["wrangler", "d1", "execute", args.db, "--remote", "--file", tmp_path]
+            print(f"Executing: {' '.join(cmd[:4])} --file=<tmp> ...", file=sys.stderr)
+            r = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO, timeout=600)
+            sys.stdout.write(r.stdout)
+            sys.stderr.write(r.stderr)
+            return r.returncode
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
 
     return 0
 
