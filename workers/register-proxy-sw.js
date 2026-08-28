@@ -1114,16 +1114,42 @@ function d1Binding(env) {
   return env?.MISAKANET_D1 || null;
 }
 
-// Fetch all lesson rows from D1 as the same array shape used by the GitHub
+// Fetch lesson rows from D1 as the same array shape used by the GitHub
 // proxy (id/title/domain/tags/description/path/status/...), so callers
-// (search, /api/lessons) behave identically either way.
-async function fetchLessonsFromD1(env) {
+// (search, /api/lessons) behave identically either way. Supports optional
+// SQL filters for structured queries (PRD ④ §3.3): domain/tag/status/limit.
+async function fetchLessonsFromD1(env, filters = {}) {
   const d1 = d1Binding(env);
   if (!d1) return null;
-  const { results } = await d1.prepare(
+  const where = [];
+  const bind = [];
+  if (filters.domain) {
+    where.push("domain = ?" + (bind.length + 1));
+    bind.push(filters.domain);
+  }
+  if (filters.status) {
+    where.push("status = ?" + (bind.length + 1));
+    bind.push(filters.status);
+  }
+  if (filters.tag) {
+    // tags stored as JSON array text; a LIKE on the serialized form is a
+    // cheap, index-friendly proxy for "has this tag".
+    where.push("tags LIKE ?" + (bind.length + 1));
+    bind.push(`%"${filters.tag}"%`);
+  }
+  if (filters.id) {
+    where.push("id = ?" + (bind.length + 1));
+    bind.push(filters.id);
+  }
+  const limit = Math.min(Math.max(parseInt(filters.limit, 10) || 100, 1), 5000);
+  const sql =
     `SELECT id, title, domain, status, tags, path, summary, problem, updated, created
-     FROM lessons ORDER BY updated DESC LIMIT 5000`
-  ).all();
+     FROM lessons` +
+    (where.length ? " WHERE " + where.join(" AND ") : "") +
+    ` ORDER BY updated DESC LIMIT ${limit}`;
+  let stmt = d1.prepare(sql);
+  if (bind.length) stmt = stmt.bind(...bind);
+  const { results } = await stmt.all();
   if (!results) return null;
   return results.map((r) => ({
     id: r.id,
@@ -1165,7 +1191,14 @@ async function fetchLessonFromD1(env, lessonPath, lessonId) {
 }
 
 // Unified lesson source: D1 first (real-time, PRD ④), GitHub via KV cache fallback.
-async function loadLessons(env) {
+async function loadLessons(env, filters = {}) {
+  // Filtered queries must go to D1 (GitHub proxy can't filter). Unfiltered
+  // keeps the D1-first / GitHub fallback behavior.
+  if (filters && Object.keys(filters).length > 0) {
+    const fromD1 = await fetchLessonsFromD1(env, filters);
+    if (fromD1) return fromD1;
+    return [];
+  }
   const fromD1 = await fetchLessonsFromD1(env);
   if (fromD1 && fromD1.length > 0) return fromD1;
   return getWithCache(env, "proxy:lessons", () => fetchFromGitHub(env.REGISTER_TOKEN, "lessons.json", "data"));
@@ -1696,11 +1729,28 @@ export default {
     }
 
     // GET /api/lessons — lessons index (D1 first when bound, else GitHub w/ KV cache)
+    // Structured filters (PRD ④ §3.3): ?domain=&status=&tag=&id=&limit=
     if (request.method === "GET" && (url.pathname === "/api/lessons" || url.pathname === "/api/lessons.json")) {
-      const token = env.REGISTER_TOKEN;
-      if (!token && !d1Binding(env)) return jsonResponse({ error: "REGISTER_TOKEN not configured" }, 500);
       try {
-        const data = await loadLessons(env);
+        const filters = {};
+        const qDomain = url.searchParams.get("domain");
+        const qStatus = url.searchParams.get("status");
+        const qTag = url.searchParams.get("tag");
+        const qId = url.searchParams.get("id");
+        const qLimit = url.searchParams.get("limit");
+        if (qDomain) filters.domain = qDomain.slice(0, 50);
+        if (qStatus) filters.status = qStatus.slice(0, 20);
+        if (qTag) filters.tag = qTag.slice(0, 50);
+        if (qId) filters.id = qId.slice(0, 120);
+        if (qLimit) filters.limit = qLimit;
+        const hasFilters = Object.keys(filters).length > 0;
+        if (hasFilters && !d1Binding(env)) {
+          // Filtered queries require D1 — don't silently return the full list.
+          return jsonResponse({ error: "Filtered queries require the D1 service", filtered: true, filters });
+        }
+        const token = env.REGISTER_TOKEN;
+        if (!token && !d1Binding(env)) return jsonResponse({ error: "REGISTER_TOKEN not configured" }, 500);
+        const data = await loadLessons(env, hasFilters ? filters : {});
         return jsonResponse(data);
       } catch (e) { return jsonResponse({ error: e.message }, 502); }
     }

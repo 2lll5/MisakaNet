@@ -8,22 +8,45 @@ import worker from './register-proxy-sw.js';
 const TOKEN = 'd1-test-token';
 
 // D1 stub: prepare(sql).bind(...).all() filters the in-memory rows for the
-// two query shapes used by the worker (full scan / WHERE path= / WHERE id=).
+// query shapes used by the worker: full scan, WHERE path=, WHERE id=, and
+// structured filters (WHERE domain = ?N [AND tags LIKE ?M ...]). Applies
+// LIMIT n from the SQL tail.
 function createD1(rows) {
   return {
     prepare(sql) {
-      const matcher = sql.includes('WHERE path = ?1')
-        ? (bound) => rows.filter((r) => r.path === bound[0])
-        : sql.includes('WHERE id = ?1')
-          ? (bound) => rows.filter((r) => r.id === bound[0])
-          : () => rows;
+      const limitMatch = sql.match(/LIMIT\s+(\d+)/i);
+      const limit = limitMatch ? Number(limitMatch[1]) : Infinity;
+      let matcher;
+      if (sql.includes('WHERE path = ?')) {
+        matcher = (bound) => rows.filter((r) => r.path === bound[0]);
+      } else if (sql.includes('WHERE id = ?')) {
+        matcher = (bound) => rows.filter((r) => r.id === bound[0]);
+      } else if (sql.includes('WHERE')) {
+        // Generic: parse "col = ?N" / "col LIKE ?N" pairs from the WHERE clause.
+        const conds = [];
+        const re = /(\w+)\s*(=|LIKE)\s*\?(\d+)/g;
+        let m;
+        while ((m = re.exec(sql)) !== null) conds.push(m.slice(1));
+        matcher = (bound) => rows.filter((r) => conds.every(([col, op, idx]) => {
+          const val = bound[Number(idx) - 1];
+          if (op === '=') return r[col] === val;
+          if (op === 'LIKE') {
+            const pat = val.replace(/^%|%$/g, '').replace(/^"|"$/g, '');
+            return (r[col] || '').includes(pat);
+          }
+          return false;
+        }));
+      } else {
+        matcher = () => rows;
+      }
       const stmt = {
         bind(...args) {
           stmt._bound = args;
           return stmt;
         },
         async all() {
-          return { results: matcher(stmt._bound || []) };
+          const out = matcher(stmt._bound || []);
+          return { results: out.slice(0, limit) };
         },
       };
       return stmt;
@@ -196,4 +219,52 @@ test('misakanet_get_lesson falls back to GitHub when D1 has no row', async () =>
   const body = await resp.json();
   const text = body.result.content[0].text;
   assert.match(text, /not found|REGISTER_TOKEN|GitHub API 401/);
+});
+
+// ── Structured /api/lessons filters (PRD ④ §3.3) ──
+
+function apiLessons(query, env) {
+  return worker.fetch(new Request(`https://misakanet.org/api/lessons${query || ''}`), env);
+}
+
+test('/api/lessons?domain= filters rows via D1 SQL', async () => {
+  const env = { MISAKANET_D1: createD1(D1_ROWS) };
+  const resp = await apiLessons('?domain=python', env);
+  assert.equal(resp.status, 200);
+  const data = await resp.json();
+  assert.ok(Array.isArray(data));
+  assert.equal(data.length, 1);
+  assert.equal(data[0].id, 'd1-pip-mirror');
+});
+
+test('/api/lessons?tag= filters by JSON tag containment', async () => {
+  const env = { MISAKANET_D1: createD1(D1_ROWS) };
+  const resp = await apiLessons('?tag=dco', env);
+  assert.equal(resp.status, 200);
+  const data = await resp.json();
+  assert.equal(data.length, 1);
+  assert.equal(data[0].id, 'd1-dco');
+});
+
+test('/api/lessons?status= with no matches returns empty array', async () => {
+  const env = { MISAKANET_D1: createD1(D1_ROWS) };
+  const resp = await apiLessons('?status=draft', env);
+  assert.equal(resp.status, 200);
+  const data = await resp.json();
+  assert.deepEqual(data, []);
+});
+
+test('/api/lessons?domain= without D1 binding returns a filter hint, not the full list', async () => {
+  const env = { MISAKANET_KV: createKV() }; // no D1, no REGISTER_TOKEN
+  const resp = await apiLessons('?domain=python', env);
+  const body = await resp.json();
+  assert.match(JSON.stringify(body), /require the D1 service/);
+});
+
+test('/api/lessons?limit= caps result count', async () => {
+  const env = { MISAKANET_D1: createD1(D1_ROWS) };
+  const resp = await apiLessons('?limit=1', env);
+  assert.equal(resp.status, 200);
+  const data = await resp.json();
+  assert.equal(data.length, 1);
 });
