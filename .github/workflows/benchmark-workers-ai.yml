@@ -1,0 +1,50 @@
+name: Workers AI Lesson Benchmark (weekly)
+
+on:
+  schedule:
+    # Weekly: Monday 02:00 UTC (Sun night US / Mon morning Asia — high-traffic window)
+    - cron: '0 2 * * 1'
+  workflow_dispatch:          # manual trigger
+    inputs:
+      scenarios:
+        description: 'Number of scenarios'
+        default: '4'
+        required: false
+      models:
+        description: 'Comma-separated model ids (default: free llama/qwen set)'
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run lesson benchmark (with vs without lesson context)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          SCEN="${{ github.event.inputs.scenarios || '4' }}"
+          MODELS="${{ github.event.inputs.models || '' }}"
+          ARGS="--scenarios $SCEN --compare"
+          [ -n "$MODELS" ] && ARGS="$ARGS --models $MODELS"
+          python3 scripts/benchmark_workers_ai.py $ARGS \
+            --output docs/benchmarks/latest.json
+
+      - name: Commit benchmark report
+        run: |
+          mkdir -p docs/benchmarks
+          TS=$(date -u +%Y-%m-%d)
+          cp docs/benchmarks/latest.json "docs/benchmarks/benchmark-$TS.json" 2>/dev/null || true
+          git config user.name "misakanet-bot"
+          git config user.email "bot@misakanet.org"
+          git add docs/benchmarks/ || true
+          git diff --cached --quiet || git commit -m "chore(benchmark): weekly Workers AI lesson benchmark report [$TS] [skip ci]"
+          git push || echo "push skipped (no changes or no token)"
