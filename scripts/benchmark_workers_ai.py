@@ -248,7 +248,9 @@ def main() -> int:
     print("=" * 78)
 
     if args.output:
-        Path(args.output).write_text(json.dumps(results, ensure_ascii=False, indent=2))
+        out = Path(args.output)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(results, ensure_ascii=False, indent=2))
         print(f"Saved: {args.output}")
     return 0
 
