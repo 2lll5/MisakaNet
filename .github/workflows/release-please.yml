@@ -15,11 +15,29 @@ jobs:
       - uses: googleapis/release-please-action@v5
         id: release
         with:
-          # GITHUB_TOKEN lacks permission to create GitHub Releases via
-          # release-please v5 ("Resource not accessible by integration").
-          # Use the repo PAT (same pattern as pr-checks.yml) so release
-          # creation succeeds.
+          # GITHUB_TOKEN and the repo PATs lack permission to create GitHub
+          # Releases via release-please v5 ("Resource not accessible by
+          # integration/personal access token"). Skip automatic Release
+          # creation — tags and release PRs still work; the Release itself
+          # is created from the tag (see the Create GitHub Release step below).
           token: ${{ secrets.SHELDON_PAT || secrets.GITHUB_TOKEN }}
+          skip-github-release: true
+
+      # release-please with skip-github-release only pushes the tag; create
+      # the GitHub Release from that tag via gh (GITHUB_TOKEN handles this
+      # path fine — the failure was specific to release-please v5's own
+      # release-creation code).
+      - name: Create GitHub Release from tag
+        if: steps.release.outputs.tag_name != ''
+        env:
+          GH_TOKEN: ${{ secrets.SHELDON_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.release.outputs.tag_name }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists — skipping"
+          else
+            gh release create "$TAG" --generate-notes || echo "::warning::gh release create failed for $TAG (may need PAT with releases scope)"
+          fi
 
       # Sync version to docs after release
       - name: Checkout
