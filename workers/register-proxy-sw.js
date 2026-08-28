@@ -373,6 +373,10 @@ async function loadBM25Index(env) {
 
 // Fetch a single lesson markdown from GitHub
 async function fetchLessonContent(env, lessonPath, lessonId) {
+  // PRD ④: prefer D1 (real-time serving layer) when bound
+  const fromD1 = await fetchLessonFromD1(env, lessonPath, lessonId);
+  if (fromD1) return fromD1;
+
   const token = env.REGISTER_TOKEN;
   if (!token) throw new Error("REGISTER_TOKEN not configured");
   let filePath = lessonPath;
@@ -1112,6 +1116,27 @@ async function fetchLessonsFromD1(env) {
 function safeParseTags(raw) {
   if (!raw) return [];
   try { const v = JSON.parse(raw); return Array.isArray(v) ? v : []; } catch { return []; }
+}
+
+// Fetch a single full lesson from D1 by path or id (PRD ④).
+// Returns {path, content} matching the GitHub fallback shape, or null.
+async function fetchLessonFromD1(env, lessonPath, lessonId) {
+  const d1 = d1Binding(env);
+  if (!d1) return null;
+  let row = null;
+  if (lessonPath) {
+    const { results } = await d1.prepare(
+      "SELECT path, content_md FROM lessons WHERE path = ?1 LIMIT 1"
+    ).bind(lessonPath).all();
+    row = results?.[0] || null;
+  } else if (lessonId) {
+    const { results } = await d1.prepare(
+      "SELECT path, content_md FROM lessons WHERE id = ?1 LIMIT 1"
+    ).bind(lessonId).all();
+    row = results?.[0] || null;
+  }
+  if (!row || !row.content_md) return null;
+  return { path: row.path || lessonPath || `${lessonId}.md`, content: String(row.content_md).slice(0, 5000) };
 }
 
 // Unified lesson source: D1 first (real-time, PRD ④), GitHub via KV cache fallback.

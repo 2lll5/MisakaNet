@@ -1,5 +1,5 @@
 // PRD ④ tests: D1 lesson service — worker prefers D1 when bound, falls back
-// to GitHub (KV cache) when not. Verifies both search and /api/lessons.
+// to GitHub (KV cache) when not. Verifies search, /api/lessons, get_lesson.
 // Run: node --test workers/d1-lesson-service.test.mjs
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -7,11 +7,26 @@ import worker from './register-proxy-sw.js';
 
 const TOKEN = 'd1-test-token';
 
-// Minimal D1 stub: prepare().all() returns rows from an in-memory array.
+// D1 stub: prepare(sql).bind(...).all() filters the in-memory rows for the
+// two query shapes used by the worker (full scan / WHERE path= / WHERE id=).
 function createD1(rows) {
   return {
-    prepare() {
-      return { all: async () => ({ results: rows }) };
+    prepare(sql) {
+      const matcher = sql.includes('WHERE path = ?1')
+        ? (bound) => rows.filter((r) => r.path === bound[0])
+        : sql.includes('WHERE id = ?1')
+          ? (bound) => rows.filter((r) => r.id === bound[0])
+          : () => rows;
+      const stmt = {
+        bind(...args) {
+          stmt._bound = args;
+          return stmt;
+        },
+        async all() {
+          return { results: matcher(stmt._bound || []) };
+        },
+      };
+      return stmt;
     },
   };
 }
@@ -134,4 +149,51 @@ test('falls back to GitHub when D1 is bound but empty', async () => {
   const resp = await mcpSearch('fallback lesson', env);
   const result = await resultText(resp);
   assert.equal(result.results[0].id, 'gh-fallback');
+});
+
+// ── get_lesson via D1 (PRD ④ §3.3) ──
+
+const D1_FULL = D1_ROWS.map((r) => ({ ...r, content_md: `# ${r.title}\n\nFull body for ${r.id}.` }));
+
+function mcpGetLesson(args, env) {
+  return worker.fetch(new Request('https://misakanet.org/mcp', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      'Content-Type': 'application/json',
+      'MCP-Protocol-Version': '2025-06-18',
+      'CF-Connecting-IP': '203.0.113.8',
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0', id: 1, method: 'tools/call',
+      params: { name: 'misakanet_get_lesson', arguments: args },
+    }),
+  }), env);
+}
+
+test('misakanet_get_lesson returns full content from D1 by path', async () => {
+  const env = { MCP_TOKEN: TOKEN, MISAKANET_D1: createD1(D1_FULL), MISAKANET_KV: createKV() };
+  const resp = await mcpGetLesson({ path: 'lessons/core/d1-pip-mirror.md' }, env);
+  assert.equal(resp.status, 200);
+  const result = await resultText(resp);
+  assert.equal(result.path, 'lessons/core/d1-pip-mirror.md');
+  assert.match(result.content, /Full body for d1-pip-mirror/);
+});
+
+test('misakanet_get_lesson returns full content from D1 by id', async () => {
+  const env = { MCP_TOKEN: TOKEN, MISAKANET_D1: createD1(D1_FULL), MISAKANET_KV: createKV() };
+  const resp = await mcpGetLesson({ id: 'd1-dco' }, env);
+  assert.equal(resp.status, 200);
+  const result = await resultText(resp);
+  assert.match(result.content, /Full body for d1-dco/);
+});
+
+test('misakanet_get_lesson falls back to GitHub when D1 has no row', async () => {
+  // D1 bound but no matching row → fetchLessonFromD1 returns null → GitHub path.
+  // GitHub will 401 without REGISTER_TOKEN, proving we attempted the fallback.
+  const env = { MCP_TOKEN: TOKEN, MISAKANET_D1: createD1([]), MISAKANET_KV: createKV() };
+  const resp = await mcpGetLesson({ id: 'no-such-lesson' }, env);
+  const body = await resp.json();
+  const text = body.result.content[0].text;
+  assert.match(text, /not found|REGISTER_TOKEN|GitHub API 401/);
 });
