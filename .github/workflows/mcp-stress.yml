@@ -6,6 +6,7 @@ on:
       - "workers/register-proxy-sw.js"
       - "workers/mcp-endpoint.stress.test.mjs"
       - "workers/mcp-no-match.test.mjs"
+      - "workers/d1-lesson-service.test.mjs"
       - ".github/workflows/mcp-stress.yml"
   push:
     branches: [main]
@@ -13,6 +14,7 @@ on:
       - "workers/register-proxy-sw.js"
       - "workers/mcp-endpoint.stress.test.mjs"
       - "workers/mcp-no-match.test.mjs"
+      - "workers/d1-lesson-service.test.mjs"
   workflow_dispatch:
 
 permissions:
@@ -34,6 +36,9 @@ jobs:
       - name: Run MCP no-match tests (PRD ① intake loop)
         run: |
           node --test workers/mcp-no-match.test.mjs
+      - name: Run D1 lesson service tests (PRD ④)
+        run: |
+          node --test workers/d1-lesson-service.test.mjs
       - name: Publish performance metrics
         if: always()
         run: |

@@ -520,7 +520,7 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
 
     let lessons;
     try {
-      lessons = await getWithCache(env, "proxy:lessons", () => fetchFromGitHub(env.REGISTER_TOKEN, "lessons.json", "data"));
+      lessons = await loadLessons(env);
     } catch (e) {
       return { error: `Failed to load lessons: ${e.message}` };
     }
@@ -771,7 +771,7 @@ async function handleMcpToolCall(env, toolName, args, authToken, clientIp) {
     // Load lessons and check for matching triggers
     let lessons;
     try {
-      lessons = await getWithCache(env, "proxy:lessons", () => fetchFromGitHub(env.REGISTER_TOKEN, "lessons.json", "data"));
+      lessons = await loadLessons(env);
     } catch (e) {
       return { error: `Failed to load lessons: ${e.message}` };
     }
@@ -1073,6 +1073,52 @@ async function fetchFromGitHub(token, path, ref = "data") {
   const data = await resp.json();
   if (!data.content || data.encoding !== "base64") throw new Error("Unexpected GitHub response");
   return JSON.parse(atob(data.content));
+}
+
+// ── D1 lesson service (PRD ④) ──
+// D1 is the serving layer: HTTP/MCP direct query, no clone required. The Git
+// repo remains the source of truth; scripts/sync_lessons_to_d1.py upserts it.
+// These helpers prefer D1 when bound and fall back to GitHub (zero-downtime).
+
+// SELECT binding from env; wrangler injects D1 as env.MISAKANET_D1.
+function d1Binding(env) {
+  return env?.MISAKANET_D1 || null;
+}
+
+// Fetch all lesson rows from D1 as the same array shape used by the GitHub
+// proxy (id/title/domain/tags/description/path/status/...), so callers
+// (search, /api/lessons) behave identically either way.
+async function fetchLessonsFromD1(env) {
+  const d1 = d1Binding(env);
+  if (!d1) return null;
+  const { results } = await d1.prepare(
+    `SELECT id, title, domain, status, tags, path, summary, problem, updated, created
+     FROM lessons ORDER BY updated DESC LIMIT 5000`
+  ).all();
+  if (!results) return null;
+  return results.map((r) => ({
+    id: r.id,
+    title: r.title,
+    domain: r.domain,
+    status: r.status,
+    path: r.path,
+    tags: safeParseTags(r.tags),
+    description: (r.summary || r.problem || "").slice(0, 400),
+    updated: r.updated,
+    created: r.created,
+  }));
+}
+
+function safeParseTags(raw) {
+  if (!raw) return [];
+  try { const v = JSON.parse(raw); return Array.isArray(v) ? v : []; } catch { return []; }
+}
+
+// Unified lesson source: D1 first (real-time, PRD ④), GitHub via KV cache fallback.
+async function loadLessons(env) {
+  const fromD1 = await fetchLessonsFromD1(env);
+  if (fromD1 && fromD1.length > 0) return fromD1;
+  return getWithCache(env, "proxy:lessons", () => fetchFromGitHub(env.REGISTER_TOKEN, "lessons.json", "data"));
 }
 
 // ── KV cache wrapper ──
@@ -1599,12 +1645,12 @@ export default {
       } catch (e) { return jsonResponse({ error: e.message }, 502); }
     }
 
-    // GET /api/lessons — lessons index (GitHub with KV cache)
+    // GET /api/lessons — lessons index (D1 first when bound, else GitHub w/ KV cache)
     if (request.method === "GET" && (url.pathname === "/api/lessons" || url.pathname === "/api/lessons.json")) {
       const token = env.REGISTER_TOKEN;
-      if (!token) return jsonResponse({ error: "REGISTER_TOKEN not configured" }, 500);
+      if (!token && !d1Binding(env)) return jsonResponse({ error: "REGISTER_TOKEN not configured" }, 500);
       try {
-        const data = await getWithCache(env, "proxy:lessons", () => fetchFromGitHub(token, "lessons.json", "data"));
+        const data = await loadLessons(env);
         return jsonResponse(data);
       } catch (e) { return jsonResponse({ error: e.message }, 502); }
     }

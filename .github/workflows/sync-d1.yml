@@ -1,0 +1,42 @@
+name: Sync Lessons to D1 (PRD ④)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "lessons/**"
+  schedule:
+    # Daily sync keeps D1 current even without lesson changes
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install wrangler
+        run: npm install -g wrangler
+
+      - name: Apply D1 schema (idempotent)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 6b92325b505f2b76aec49e9fe4195d31
+        run: |
+          cd workers
+          wrangler d1 execute misakanet-db --remote --file=d1/schema.sql
+
+      - name: Sync lessons to D1
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 6b92325b505f2b76aec49e9fe4195d31
+        run: |
+          python3 scripts/sync_lessons_to_d1.py --db misakanet-db --execute
