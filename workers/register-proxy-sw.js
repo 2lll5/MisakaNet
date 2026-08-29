@@ -120,7 +120,7 @@ function addDebugContext(env, errorObj, context) {
 const MCP_TOOLS = [
   {
     name: "misakanet_register",
-    description: "Register a new agent node and get a token for authenticated access. No GitHub account or email needed. Returns node_id and token immediately.",
+    description: "Register a new agent node and get a token for authenticated access. No GitHub account or email needed.\nReturns: object {node_id: string, token: string} — the node id and its Bearer token for authenticated MCP calls.\nExample: misakanet_register(agent_type='claude-code')",
     inputSchema: {
       type: "object",
       properties: {
@@ -131,7 +131,7 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_search",
-    description: "Search MisakaNet's public failure-lesson index by error text, keyword, or topic. detail controls progressive disclosure: compact (default, ~80 tok/lesson) for broad scans, summary (~200 tok) adds domain/tags/fix, full returns complete lesson data. Use misakanet_get_lesson for full markdown content.",
+    description: "Search MisakaNet's public failure-lesson index by error text, keyword, or topic. detail controls progressive disclosure: compact (default, ~80 tok/lesson) for broad scans, summary (~200 tok) adds domain/tags/fix, full returns complete lesson data.\nReturns: object {results: [{id, title, domain, tags, path, description, score}], source, detail, query}; on no match: {no_match: true, suggestion, intake}.\nExample: misakanet_search(query='pip install timeout', domain='python', top=3)",
     inputSchema: {
       type: "object",
       properties: {
@@ -148,7 +148,7 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_get_lesson",
-    description: "Fetch one public MisakaNet lesson by repository path or lesson ID. Use after misakanet_search returns a promising result. Returns path and markdown content, truncated to 5000 characters.",
+    description: "Fetch one public MisakaNet lesson by repository path or lesson ID. Use after misakanet_search returns a promising result.\nReturns: object {path: string, content: string} — lesson markdown body (≤5000 chars); or {error}.\nExample: misakanet_get_lesson(id='auto-merge-ci-pipeline')",
     inputSchema: {
       type: "object",
       properties: {
@@ -159,7 +159,7 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_submit_intake",
-    description: "Submit a failure-case intake when no matching lesson exists, or ask a question about a knowledge gap. No Bearer auth required — open but rate-limited. Creates a GitHub issue labeled intake,mcp-intake,pending-review (question kind adds needs-human-review).",
+    description: "Submit a failure-case intake when no matching lesson exists, or ask a question about a knowledge gap. No Bearer auth required — open but rate-limited. Creates a GitHub issue labeled intake,mcp-intake,pending-review (question kind adds needs-human-review).\nReturns: object {submitted: boolean, intake_id, status, redactions_applied, quality_score, receipt}; duplicates: {submitted: false, duplicate: true, previous_issue}.\nExample: misakanet_submit_intake(kind='missing_lesson', problem='pip install times out behind corporate proxy', source='claude-code')",
     inputSchema: {
       type: "object",
       properties: {
@@ -177,7 +177,7 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_write_lesson",
-    description: "Submit a complete, structured failure lesson. Requires authentication (Bearer token in header). Input: title, domain, problem, root_cause, fix (all required); verification, tags, source (optional). Returns lesson_id, status (pending_review), quality_score.",
+    description: "Submit a complete, structured failure lesson. Requires authentication (Bearer token in header). Input: title, domain, problem, root_cause, fix (all required); verification, tags, source (optional).\nReturns: object {lesson_id: string, status: 'pending_review', quality_score: number}; or {submitted: false, error}.\nExample: misakanet_write_lesson(title='pip timeout behind proxy', domain='python', problem='...', root_cause='...', fix='...')",
     inputSchema: {
       type: "object",
       properties: {
@@ -195,7 +195,7 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_preflight",
-    description: "Check risk level before executing high-risk operations. Matches agent intent against lesson triggers to provide proactive warnings. Use before RAG builds, WSL/GPU tasks, bulk imports, or any operation that might fail.",
+    description: "Check risk level before executing high-risk operations. Matches agent intent against lesson triggers to provide proactive warnings. Use before RAG builds, WSL/GPU tasks, bulk imports, or any operation that might fail.\nReturns: object {risk_level: 'low'|'medium'|'high', intent, matched_lessons: [{id, title, domain, relevance}], guards: [string]}.\nExample: misakanet_preflight(intent='build RAG pipeline with ChromaDB')",
     inputSchema: {
       type: "object",
       properties: {
@@ -207,7 +207,7 @@ const MCP_TOOLS = [
   },
   {
     name: "misakanet_me_events",
-    description: "Return evidence of a lesson being reused (E4 signals): helpful votes, regression-benchmark citations, and cross-node confirmation. Use to check whether a lesson is proven by real usage, not just self-reported. No auth required (read-only, rate-limited).",
+    description: "Return evidence of a lesson being reused (E4 signals): helpful votes, regression-benchmark citations, and cross-node confirmation. Use to check whether a lesson is proven by real usage, not just self-reported. No auth required (read-only, rate-limited).\nReturns: object {lesson_id, events: [{type, count|queries|sources, evidence_level}], evidence: 'E0'|'E3'|'E4', note}.\nExample: misakanet_me_events(lesson_id='dco-auto-fix-workflow')",
     inputSchema: {
       type: "object",
       properties: {
