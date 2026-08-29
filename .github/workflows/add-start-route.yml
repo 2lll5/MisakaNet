@@ -1,0 +1,67 @@
+# One-shot ops workflow: add the /start worker route (single-door page).
+# Uses the CF_API_TOKEN secret (never leaves Actions). Remove after use.
+name: Ops-Add-Start-Route
+
+on:
+  workflow_dispatch:
+    inputs:
+      pattern:
+        description: "Route pattern to add"
+        required: false
+        default: "misakanet.org/start*"
+      script:
+        description: "Worker script name"
+        required: false
+        default: "misakanet-register-proxy"
+
+permissions:
+  contents: read
+
+jobs:
+  add-route:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add /start worker route via Cloudflare API
+        env:
+          CF_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          PATTERN: ${{ github.event.inputs.pattern }}
+          SCRIPT: ${{ github.event.inputs.script }}
+        run: |
+          set -euo pipefail
+          # 1. Find the zone id for misakanet.org
+          zone_id=$(curl -fsS \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            "https://api.cloudflare.com/client/v4/zones?name=misakanet.org" \
+            | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["success"], d; print(d["result"][0]["id"])')
+          echo "zone_id=${zone_id}"
+
+          # 2. Show existing worker routes (before)
+          echo "--- existing routes ---"
+          curl -fsS \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            "https://api.cloudflare.com/client/v4/zones/${zone_id}/workers/routes" \
+            | python3 -c 'import json,sys; d=json.load(sys.stdin); [print(r["pattern"], "->", r.get("script","(none)")) for r in d["result"]]'
+
+          # 3. Add the route (idempotent: skip if pattern already bound)
+          exists=$(curl -fsS \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            "https://api.cloudflare.com/client/v4/zones/${zone_id}/workers/routes" \
+            | python3 -c "import json,sys; d=json.load(sys.stdin); print(any(r['pattern']=='$PATTERN' for r in d['result']))")
+          if [ "$exists" = "True" ]; then
+            echo "Route $PATTERN already exists — nothing to do."
+          else
+            echo "--- adding route $PATTERN -> $SCRIPT ---"
+            curl -fsS -X POST \
+              -H "Authorization: Bearer $CF_TOKEN" \
+              -H "Content-Type: application/json" \
+              --data "{\"pattern\":\"$PATTERN\",\"script\":\"$SCRIPT\"}" \
+              "https://api.cloudflare.com/client/v4/zones/${zone_id}/workers/routes" \
+              | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["success"], d; print("created route id:", d["result"]["id"])'
+          fi
+
+          # 4. Confirm final state
+          echo "--- routes after ---"
+          curl -fsS \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            "https://api.cloudflare.com/client/v4/zones/${zone_id}/workers/routes" \
+            | python3 -c 'import json,sys; d=json.load(sys.stdin); [print(r["pattern"], "->", r.get("script","(none)")) for r in d["result"]]'
