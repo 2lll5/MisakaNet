@@ -7,6 +7,7 @@ Usage:
     python3 tests/test_mcp_server.py
 """
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -142,10 +143,16 @@ def test_get_lesson():
 
 def test_submit_usage():
     print("\n-- tools/call: misakanet_submit_usage --")
-    resp = rpc("tools/call", {
-        "name": "misakanet_submit_usage",
-        "arguments": {"lesson_id": "test-lesson", "tool": "smoke-test", "outcome": "solved"},
-    })
+    # Deterministic: force the offline fallback (the worker POST routing is
+    # covered by tests/test_submit_usage.py with a mocked transport).
+    os.environ["MISAKANET_USAGE_DISABLE_REMOTE"] = "1"
+    try:
+        resp = rpc("tools/call", {
+            "name": "misakanet_submit_usage",
+            "arguments": {"lesson_id": "test-lesson", "tool": "smoke-test", "outcome": "solved"},
+        })
+    finally:
+        del os.environ["MISAKANET_USAGE_DISABLE_REMOTE"]
     result_text = resp.get("result", {}).get("content", [{}])[0].get("text", "{}")
     result = json.loads(result_text)
     check("returns status", "status" in result)

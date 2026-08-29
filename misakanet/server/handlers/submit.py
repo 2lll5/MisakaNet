@@ -1,12 +1,47 @@
 """Submit usage and intake handlers for MisakaNet MCP server."""
 from __future__ import annotations
 
+import json as _json
+import os as _os
+import urllib.error as _url_error
+import urllib.request as _url_request
+
+
+def _post_json(base: str, path: str, payload: dict) -> tuple[int, dict]:
+    """POST JSON to the worker API; returns (status, parsed body)."""
+    data = _json.dumps(payload).encode("utf-8")
+    req = _url_request.Request(
+        base + path,
+        data=data,
+        method="POST",
+        headers={"Content-Type": "application/json", "User-Agent": "MisakaNet-MCP"},
+    )
+    with _url_request.urlopen(req, timeout=10) as resp:
+        body = resp.read() or b"{}"
+        return resp.status, _json.loads(body.decode("utf-8", errors="replace"))
+
 
 def handle_submit_usage(args: dict) -> dict:
-    """Submit a usage report (placeholder — creates GitHub Issue via API)."""
+    """Submit a usage report — feeds the live reuse signals (replaces the
+    old "log locally" placeholder; the worker endpoints are public and
+    rate-limited).
+
+    Outcome routing:
+      solved      -> POST /api/helpful        (increments helpful:<lesson_id>
+                    KV — this is what misakanet_me_events reads for E4
+                    reuse evidence)
+      partial     -> POST /api/feedback {feedback: "too_basic"}  (unsolved map)
+      not-helpful -> POST /api/feedback {feedback: "irrelevant"} (unsolved map
+                    + stale-lesson tracking)
+
+    Offline-safe: if the worker is unreachable (or
+    MISAKANET_USAGE_DISABLE_REMOTE=1) it records locally with status
+    "logged" — a local MCP must never break because the network is down.
+    """
     lesson_id = args.get("lesson_id", "")
     tool = args.get("tool", "unknown")
     outcome = args.get("outcome", "unknown")
+    query = args.get("query", "") or lesson_id
 
     if not lesson_id:
         return {
@@ -19,16 +54,49 @@ def handle_submit_usage(args: dict) -> dict:
             "voice": "failure-warning",
         }
 
-    # For now, just log locally
+    base = _os.environ.get("MISAKANET_API_BASE", "https://misakanet.org").rstrip("/")
     report = {
         "lesson_id": lesson_id,
         "tool": tool,
         "outcome": outcome,
-        "status": "logged",
         "voice": "pair-success",
     }
 
-    # TODO: POST to /api/usage or create GitHub Issue
+    if outcome not in ("solved", "partial", "not-helpful"):
+        report.update(status="error", error=f"Unknown outcome: {outcome!r}")
+        return report
+
+    try:
+        if _os.environ.get("MISAKANET_USAGE_DISABLE_REMOTE") == "1":
+            raise OSError("remote usage disabled by env")
+
+        if outcome == "solved":
+            status, body = _post_json(base, "/api/helpful", {"lesson_id": lesson_id})
+            report.update(
+                status="submitted",
+                remote="helpful",
+                helpful_count=body.get("count", 0),
+            )
+        else:
+            feedback = "too_basic" if outcome == "partial" else "irrelevant"
+            status, body = _post_json(base, "/api/feedback", {
+                "query": str(query)[:200],
+                "lesson_id": str(lesson_id)[:200],
+                "feedback": feedback,
+                "ts": None,
+            })
+            report.update(
+                status="submitted",
+                remote="feedback",
+                feedback=feedback,
+                accepted=body.get("accepted", 0),
+            )
+    except (OSError, _url_error.URLError, _url_error.HTTPError, ValueError) as exc:
+        # Offline or non-2xx — record locally so the tool still answers.
+        report.update(
+            status="logged",
+            note=f"Worker unreachable — recorded locally ({exc})",
+        )
     return report
 
 
