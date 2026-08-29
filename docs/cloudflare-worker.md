@@ -201,3 +201,35 @@ Monitor in:
 - Workers & Pages > Analytics
 - Workers & Pages > Logs
 - Security > Bots > Analytics
+
+## WebMCP Configuration
+
+[WebMCP](https://blog.cloudflare.com/webmcp/) (Web Model Context Protocol) exposes site tools to browser-based AI agents. MisakaNet's MCP server is already enabled for WebMCP — this section documents how it is configured and how to verify it (linked from README).
+
+### How it works
+
+- Cloudflare's **Site MCP Server** toolset bridges the page to an MCP endpoint (default: same-origin `/mcp`).
+- For MisakaNet the endpoint is `https://misakanet.org/mcp` (Streamable HTTP, `MCP-Protocol-Version: 2025-06-18`).
+- The bridge runs on the visitor's page and calls the endpoint on the visitor's origin, so requests arrive with `Origin: https://misakanet.org` — inside the worker's origin whitelist.
+
+### Dashboard config (maintainer, already applied)
+
+1. Cloudflare dashboard → **Security > Bots > WebMCP**
+2. Select the **Site MCP Server** toolset
+3. Set the endpoint to `https://misakanet.org/mcp`
+
+### Prerequisites & limits (read before promising WebMCP to users)
+
+- **Developer Preview** — WebMCP currently requires a WebMCP-capable browser agent (Chrome beta; Cloudflare Browser Run lab sessions). Stable-Chrome support is not yet guaranteed.
+- **Anonymous quota** — browser agents call `/mcp` without a token, so they share the 5 free reads/day/IP quota (`misakanet_search` / `misakanet_get_lesson` / `misakanet_me_events`). Users who need more should register (`misakanet_register`) or use a token-authenticated client.
+- **Origin validation** — the worker rejects non-whitelisted `Origin` headers (DNS-rebinding protection). Same-origin page calls are fine; a cross-origin WebMCP setup would require `MCP_ALLOWED_ORIGINS` updates in `workers/register-proxy-sw.js`.
+
+### Verify
+
+```bash
+# tools/list over the endpoint — same shape WebMCP's bridge uses
+curl -sS https://misakanet.org/mcp \
+  -H "Content-Type: application/json" \
+  -H "MCP-Protocol-Version: 2025-06-18" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
