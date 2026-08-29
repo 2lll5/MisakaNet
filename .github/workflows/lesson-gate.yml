@@ -41,8 +41,11 @@ jobs:
         run: |
           FILES="${{ steps.changed.outputs.all_changed_files }}"
           # Convert space-separated list to args (paths have no spaces in this repo)
+          # bash -e would abort before the report and exit code are captured.
+          set +e
           python3 scripts/lesson_gate.py $FILES > gate_report.txt 2>&1
           GATE_EXIT=$?
+          set -e
           cat gate_report.txt
           echo "gate_exit=$GATE_EXIT" >> "$GITHUB_OUTPUT"
           if [ "$GATE_EXIT" -ne 0 ]; then
