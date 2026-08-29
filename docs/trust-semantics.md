@@ -94,6 +94,14 @@ Claiming "verified" when lessons are only "indexed" erodes trust when a lesson t
 
 To promote a lesson, edit `evidence_level` in its frontmatter in the same PR that carries the evidence (review comment, reproduction log, CI run link, or the usage report).
 
+### me_events: live reuse signals (tool-level semantics)
+
+`misakanet_me_events` aggregates a lesson's **live reuse evidence** — helpful votes (KV), regression-benchmark citations, and cross-node confirmations. It uses the E-level vocabulary as *signal strength*, not as the frontmatter promotion chain:
+
+- **Single helpful vote** is labeled `E3` — it is a reuse signal, **not** CI verification; it does not claim the lesson passed a sandbox run.
+- **E4 in the tool** means ≥2 independent reuse signals, or the strongest single signal reaching E4 level (e.g. 2+ helpful votes from different users).
+- This is a query over live signals. The authoritative `evidence_level` for a lesson lives in its frontmatter and follows the one-step-at-a-time promotion rules above; me_events does not edit it.
+
 ### How evidence affects scoring
 
 `scripts/score_lessons.py` keeps the existing quality `score` unchanged — the CI gate (`--threshold`) still measures writing quality — and adds a **trust score** on top:
