@@ -8,9 +8,13 @@ top-level lessons/index.md.
 """
 import json
 import re
+import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO))
+from misakanet.evidence import evidence_of, trust_score  # noqa: E402
+
 LESSONS_DIR = REPO / "lessons"
 OUTPUT = REPO / "data" / "lessons.json"
 INDEXED_DIRS = ("core", "contrib")
@@ -116,6 +120,22 @@ def main():
             rel_path = f.relative_to(LESSONS_DIR).as_posix()
             # Check for Verification section (badge-only verified semantics)
             verified = bool(re.search(r"##\s*(Verify|Verification)", content, re.IGNORECASE))
+            # Evidence level (#786): frontmatter wins when present; legacy
+            # lessons that predate the field get a content-inferred level
+            # (same inference the intake pipeline uses — queue_lesson.py).
+            # The public index carries it so search pages can show E3+/E4
+            # counts instead of composite averages.
+            raw_level = meta.get("evidence_level")
+            if raw_level is not None:
+                evidence_level = evidence_of(meta)
+                evidence_source = "frontmatter"
+            else:
+                from scripts.infer_evidence_level import infer_evidence_level
+                evidence_level, _ = infer_evidence_level(content)
+                evidence_source = "inferred"
+            confidence = meta.get("confidence", 0.5)
+            if not isinstance(confidence, (int, float)):
+                confidence = 0.5
             entries.append({
                 "id": f.stem,
                 "title": title,
@@ -129,9 +149,14 @@ def main():
                 "triggers": meta.get("triggers", None),
                 "validity_period_days": 365,
                 "environment_version": "",
-                "confidence": 0.5,
+                "confidence": confidence,
                 "status": status,
                 "verified": verified,
+                "evidence_level": evidence_level,
+                "evidence_source": evidence_source,
+                # trust = quality(confidence) scaled by evidence (E0 keeps 70%,
+                # E4 keeps 100%) — shown on search pages instead of a composite.
+                "trust_score": trust_score(confidence, evidence_level),
             })
 
     OUTPUT.write_text(json.dumps(entries, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
