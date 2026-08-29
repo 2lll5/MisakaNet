@@ -28,6 +28,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install lesson gate dependencies
+        run: python3 -m pip install -q pyyaml
+
       - name: Get changed lesson files
         id: changed
         uses: tj-actions/changed-files@v47.0.6
