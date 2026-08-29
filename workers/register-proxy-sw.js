@@ -225,7 +225,8 @@ const MAX_MCP_REQUEST_BYTES = 64 * 1024;
 function getMcpServerInfo(env) {
   return {
     name: "misakanet",
-    version: env.MCP_VERSION || "2.16.0",
+    // Keep in sync with pyproject.toml (single source of truth for version).
+    version: env.MCP_VERSION || "2.23.0",
   };
 }
 
