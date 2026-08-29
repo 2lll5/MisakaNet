@@ -25,6 +25,28 @@ def _log_search_gap(query: str, source: str) -> None:
     except Exception:
         pass  # Non-critical, don't break search
 
+
+def _no_match_feedback(query: str) -> dict:
+    """Return an actionable continuation for a query with no lesson match."""
+    return {
+        "no_match": True,
+        "query": query,
+        "suggestion": (
+            "No MisakaNet lesson matched this query. Call "
+            "misakanet_submit_intake with kind=\"missing_lesson\" to report "
+            "the knowledge gap."
+        ),
+        "intake": {
+            "tool": "misakanet_submit_intake",
+            "args": {
+                "kind": "missing_lesson",
+                "problem": "<short description of the failure>",
+                "error": query,
+                "source": "mcp",
+            },
+        },
+    }
+
 # Lazy init on first call
 _SEARCH_STATE = None
 
@@ -306,9 +328,12 @@ def handle_search(args: dict, search_state=None) -> dict:
         _log_search_gap(query, source)
 
     voice = "lesson-found" if results else "failure-warning"
-    return {
+    response = {
         "results": results,
         "source": source,
         "detail": detail,
         "voice": voice,
     }
+    if not results:
+        response.update(_no_match_feedback(query))
+    return response

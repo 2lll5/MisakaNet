@@ -59,6 +59,28 @@ INTAKE_IP_WINDOW: dict[str, list[float]] = {}
 INTAKE_IP_LIMIT = 3          # per IP per hour
 
 
+def _no_match_feedback(query: str) -> dict:
+    """Return an actionable continuation for a query with no lesson match."""
+    return {
+        "no_match": True,
+        "query": query,
+        "suggestion": (
+            "No MisakaNet lesson matched this query. Call "
+            "misakanet_submit_intake with kind=\"missing_lesson\" to report "
+            "the knowledge gap."
+        ),
+        "intake": {
+            "tool": "misakanet_submit_intake",
+            "args": {
+                "kind": "missing_lesson",
+                "problem": "<short description of the failure>",
+                "error": query,
+                "source": "mcp",
+            },
+        },
+    }
+
+
 @mcp.tool()
 def misakanet_search(query: str, domain: str = "", top: int = 5) -> dict:
     """Search MisakaNet's public failure-lesson index by error text, keyword, or topic."""
@@ -70,12 +92,18 @@ def misakanet_search(query: str, domain: str = "", top: int = 5) -> dict:
     if HAS_SAG:
         results = sag_search(SAG_DB, query, domain=domain_val, top=top)
         voice = "lesson-found" if results else "failure-warning"
-        return {"results": results, "source": "sag-lite", "voice": voice}
+        response = {"results": results, "source": "sag-lite", "voice": voice}
+        if not results:
+            response.update(_no_match_feedback(query))
+        return response
     elif HAS_BM25:
         engine = MisakaNetSearchEngine()
         results = engine.search(query, top=top)
         voice = "lesson-found" if results else "failure-warning"
-        return {"results": results, "source": "bm25", "voice": voice}
+        response = {"results": results, "source": "bm25", "voice": voice}
+        if not results:
+            response.update(_no_match_feedback(query))
+        return response
     else:
         return {"error": "No search engine available. Run: python3 scripts/build_sag_index.py", "voice": "failure-warning"}
 
