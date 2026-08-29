@@ -2,7 +2,11 @@ name: Intake Auto Review
 
 on:
   issues:
-    types: [opened, edited, labeled, reopened]
+    # Review once per intake. 'labeled' is deliberately excluded: this
+    # workflow itself applies labels, so listening to it re-triggered the
+    # review (and posted duplicate comments) on every label change. Manual
+    # re-review stays available via workflow_dispatch.
+    types: [opened, reopened]
   workflow_dispatch:
     inputs:
       issue_number:
@@ -81,6 +85,14 @@ jobs:
         run: |
           COMMENT=$(cat /tmp/review_comment.txt)
           ARCHIVE_PATH="${{ steps.review.outputs.archive_path }}"
+
+          # Idempotency guard: if a review comment already exists on this
+          # issue, skip posting (prevents duplicates on re-runs).
+          if gh issue view $ISSUE_NUMBER --repo ${{ github.repository }} --json comments --jq '.comments[].body' \
+            | grep -q "## \[REVIEW\]"; then
+            echo "Review comment already exists — skipping."
+            exit 0
+          fi
 
           # Add archive info to comment if applicable
           if [ -n "$ARCHIVE_PATH" ]; then
