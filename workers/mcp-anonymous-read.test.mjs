@@ -108,3 +108,34 @@ test('authenticated callers are exempt from the anonymous quota', async () => {
   assert.equal(result.error, undefined);
   assert.ok(Array.isArray(result.results));
 });
+
+// Glama connector health fix: anonymous streamable-http sessions must pass the
+// spec-mandated notifications/initialized (fire-and-forget, no response) —
+// previously the auth gate 401'd it, so gateway health checks showed Unhealthy.
+test('anonymous session accepts notifications/initialized (202, not 401)', async () => {
+  const env = createEnv();
+  const post = (body) => worker.fetch(new Request('https://misakanet.org/mcp', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'MCP-Protocol-Version': '2025-06-18',
+      'CF-Connecting-IP': '203.0.113.77',
+    },
+    body: JSON.stringify(body),
+  }), env);
+
+  // initialize works anonymously (already the case).
+  const init = await post({
+    jsonrpc: '2.0', id: 1, method: 'initialize',
+    params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'health', version: '1' } },
+  });
+  assert.equal(init.status, 200);
+
+  // The mandatory post-initialize notification must be accepted anonymously.
+  const notif = await post({ jsonrpc: '2.0', method: 'notifications/initialized' });
+  assert.equal(notif.status, 202);
+
+  // Other notification namespaces stay open too.
+  const other = await post({ jsonrpc: '2.0', method: 'notifications/cancelled', params: {} });
+  assert.equal(other.status, 202);
+});

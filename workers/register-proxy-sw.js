@@ -1118,7 +1118,13 @@ async function handleMcpRequest(request, env, useSse = false, ctx) {
                        "misakanet_search", "misakanet_get_lesson",
                        "misakanet_me_events"];
     isIntakeCall = peekBody?.method === "tools/call" && openTools.includes(peekBody?.params?.name);
-    isPublicMethod = peekBody?.method === "initialize" || peekBody?.method === "tools/list";
+    // Notifications (notifications/initialized etc.) are lifecycle fire-and-forget
+    // with no response and no business data — the MCP spec requires clients to
+    // send notifications/initialized after initialize, so anonymous sessions must
+    // be able to. Without this, streamable-http health checks (e.g. Glama's
+    // gateway) fail with 401 on the mandatory initialized notification.
+    isPublicMethod = peekBody?.method === "initialize" || peekBody?.method === "tools/list"
+      || (typeof peekBody?.method === "string" && peekBody.method.startsWith("notifications/"));
   } catch (peekErr) {
     // Non-JSON body — treat as non-intake; log for diagnostics
     console.warn("isIntakeCall parse failed:", peekErr?.message || peekErr);
