@@ -8,15 +8,20 @@ const TOKEN = 'me-events-token';
 
 // Global fetch mock: regression_queries.json returns configurable data;
 // lesson-content fetches return 404 (no cross-node confirmation in tests).
+// URLs are matched on parsed hostname/pathname — never on substrings
+// (CodeQL #62: incomplete URL substring sanitization).
 const regressionQueries = { queries: [] };
 const origFetch = globalThis.fetch;
 globalThis.fetch = async (url) => {
-  if (typeof url === 'string' && url.includes('regression_queries.json')) {
+  if (typeof url !== 'string') return origFetch(url);
+  let parsed;
+  try { parsed = new URL(url); } catch { return origFetch(url); }
+  if (parsed.pathname.endsWith('/regression_queries.json')) {
     return new Response(JSON.stringify(regressionQueries), {
       status: 200, headers: { 'Content-Type': 'application/json' },
     });
   }
-  if (typeof url === 'string' && url.includes('api.github.com')) {
+  if (parsed.hostname === 'api.github.com') {
     return new Response('{"message":"Not Found"}', { status: 404, headers: { 'Content-Type': 'application/json' } });
   }
   return origFetch(url);
