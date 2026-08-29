@@ -1,16 +1,14 @@
 ---
-{
-  "title": "Git credentials automation — non-interactive push for agents",
-  "domain": "git",
-  "tags": ["git", "credentials", "token", "automation", "cron", "github"],
-  "status": "published",
-  "lang": "en",
-  "source": "uncledad96-glitch",
-  "translated_from": "lessons/contrib/git-credentials-automation.md",
-  "created": "2026-07-22",
-  "updated": "2026-07-22",
-  "confidence": "0.9"
-}
+title: "Git credentials automation — non-interactive push for agents"
+domain: "git"
+tags: ["git", "credentials", "token", "automation", "cron", "github"]
+status: "published"
+lang: "en"
+source: "uncledad96-glitch"
+translated_from: "lessons/contrib/git-credentials-automation.md"
+created: "2026-07-22"
+updated: "2026-07-22"
+confidence: "0.9"
 provenance:
   source: "external"
   contributor: "Unknown"
