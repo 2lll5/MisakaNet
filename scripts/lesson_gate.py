@@ -192,8 +192,10 @@ FAKE_VERIFICATION_RE = re.compile(
 )
 # A Verification section that only runs shell-fragment grep/echo/counts and
 # never references the fix itself is a placeholder (review finding P1/2026-08-28).
-FAKE_VERIFICATION_HINTS = ("echo Lesson", "wc -l", "grep -i", "echo Feishu",
-                           "echo Verified", "grep -c", "git status --short")
+# NOTE: bare `grep -i "Signed-off-by"` IS a legitimate check — only grep piped
+# to wc/count or echo-verified stubs are placeholders.
+FAKE_VERIFICATION_HINTS = ("echo Lesson", "echo Feishu", "echo Verified",
+                           "wc -l", "grep -c", "git status --short")
 
 
 def _content_words(text: str) -> set[str]:
