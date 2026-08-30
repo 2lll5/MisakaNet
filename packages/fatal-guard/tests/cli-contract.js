@@ -67,7 +67,10 @@ check('missing executable returns actionable error and exit 1', () => {
   const result = run(['--', 'definitely-not-a-command']);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /could not start command/);
-  assert.match(result.stderr, /ENOENT/);
+  // errno differs by environment: ENOENT (missing binary) vs EACCES
+  // (sandboxed containers that deny the spawn lookup) — both are
+  // "cannot start" failures surfaced as actionable errors.
+  assert.match(result.stderr, /(ENOENT|EACCES)/);
 });
 
 check('timeout returns exit code 3 and names the command', () => {
