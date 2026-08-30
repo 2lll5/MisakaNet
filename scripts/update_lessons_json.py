@@ -18,6 +18,8 @@ from misakanet.evidence import evidence_of, trust_score  # noqa: E402
 LESSONS_DIR = REPO / "lessons"
 OUTPUT = REPO / "data" / "lessons.json"
 INDEXED_DIRS = ("core", "contrib")
+# Non-lesson markdown that must never be indexed (mirrors sync_lessons_to_d1.py).
+EXCLUDED = {"README.md", "index.md", "TEMPLATE.md", "CONTRIBUTING.md"}
 
 
 def parse_frontmatter(text: str) -> dict:
@@ -101,7 +103,7 @@ def main():
     for lesson_dir in INDEXED_DIRS:
         files = sorted((LESSONS_DIR / lesson_dir).glob("*.md"))
         for f in files:
-            if f.name.startswith("."):
+            if f.name.startswith(".") or f.name in EXCLUDED:
                 continue
             content = f.read_text(encoding="utf-8", errors="replace")
             meta = parse_frontmatter(content)

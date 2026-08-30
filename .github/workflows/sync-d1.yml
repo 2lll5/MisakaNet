@@ -67,7 +67,9 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 6b92325b505f2b76aec49e9fe4195d31
         run: |
-          python3 scripts/sync_lessons_to_d1.py --db misakanet-db --execute
+          # --prune deletes D1 rows whose lesson no longer exists in the repo
+          # (upsert-only sync left stale rows like the merged WSL lesson).
+          python3 scripts/sync_lessons_to_d1.py --db misakanet-db --execute --prune
 
       - name: Verify D1 row count
         env:
