@@ -196,6 +196,7 @@ Agent hits an error → search lessons → get a fix path. No prompt leaking, no
 | SKILL.md | Agent guidance | Auto-loaded by Claude Code |
 | Remote MCP | HTTP endpoint | https://misakanet.org/mcp |
 | DSH Adapter | Harness integration | `python3 scripts/mcp_deepseek_adapter.py` |
+| Glama Connector | One-click MCP install via Glama | https://glama.ai/mcp/connectors/org.misakanet/misaka-net |
 
 ### Agent compatibility
 

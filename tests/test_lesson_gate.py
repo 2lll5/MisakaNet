@@ -218,3 +218,96 @@ class TestCli:
             capture_output=True, text=True,
         )
         assert r.returncode == 1
+
+
+# ── Near-duplicate & fake-verification detection (2026-08-30) ───────
+def make_lesson_tree(tmp_path: Path, files: dict[str, tuple[dict, str]]) -> Path:
+    """Create tmp_path/lessons/<sub>/<name>.md for each entry and return
+    the tmp_path root so tests can pass `dirs=('contrib',)`."""
+    root = tmp_path / "lessons"
+    for name, (fm, content) in files.items():
+        d = root / "contrib"
+        d.mkdir(parents=True, exist_ok=True)
+        (d / name).write_text(
+            f"---\n{json.dumps(fm, ensure_ascii=False, indent=2)}\n---\n\n{content}",
+            encoding="utf-8",
+        )
+    return tmp_path
+
+
+class TestNearDuplicateDetection:
+    def test_identical_body_reported(self, tmp_path):
+        """Copy-pasted lesson body (same language) is flagged."""
+        content = (
+            "## Problem\n\npip install fails behind corporate proxy with "
+            "ReadTimeoutError when the index is unreachable.\n\n"
+            "## Solution\n\nUse a proxy-aware index and retry with backoff.\n\n"
+            "## Verification\n\npip install succeeds on a clean venv.\n"
+        )
+        fm_b = valid_fm(); fm_b["title"] = "Different Title Same Body"
+        root = make_lesson_tree(tmp_path, {
+            "a.md": (valid_fm(), content),
+            "b.md": (fm_b, content),
+        })
+        p = root / "lessons" / "contrib" / "a.md"
+        errors = validate_file(p, root, dirs=("contrib",))
+        assert any("near-duplicate" in e for e in errors)
+
+    def test_translation_pair_not_reported(self, tmp_path):
+        """Two files that explicitly declare different languages are skipped."""
+        content = (
+            "## Problem\n\npip install fails behind corporate proxy with "
+            "ReadTimeoutError when the index is unreachable.\n\n"
+            "## Solution\n\nUse a proxy-aware index and retry with backoff.\n\n"
+            "## Verification\n\npip install succeeds on a clean venv.\n"
+        )
+        fm_en = valid_fm(); fm_en["language"] = "en"
+        fm_zh = valid_fm(); fm_zh["language"] = "zh"; fm_zh["title"] = "中文标题"
+        root = make_lesson_tree(tmp_path, {
+            "a.md": (fm_en, content),
+            "b.md": (fm_zh, content),
+        })
+        p = root / "lessons" / "contrib" / "a.md"
+        errors = validate_file(p, root, dirs=("contrib",))
+        assert not any("near-duplicate" in e for e in errors)
+
+    def test_different_topics_not_reported(self, tmp_path):
+        """Unrelated lessons must not be flagged."""
+        fm_b = valid_fm(); fm_b["title"] = "Unrelated Feishu Topic"
+        root = make_lesson_tree(tmp_path, {
+            "a.md": (valid_fm(),
+                     "## Problem\n\ndocker container crashes on startup\n\n"
+                     "## Solution\n\ncheck logs\n"),
+            "b.md": (fm_b,
+                     "## Problem\n\nfeishu webhook not delivering\n\n"
+                     "## Solution\n\nreconfigure\n"),
+        })
+        p = root / "lessons" / "contrib" / "a.md"
+        errors = validate_file(p, root, dirs=("contrib",))
+        assert not any("near-duplicate" in e for e in errors)
+
+
+class TestFakeVerification:
+    def test_placeholder_verification_flagged(self, tmp_path):
+        """grep | wc -l placeholder is detected as a warning."""
+        content = (
+            "## Problem\n\nsomething breaks\n\n"
+            "## Solution\n\nfix it\n\n"
+            "## Verification\n\n```bash\ngrep -i feishu lessons/*.md | wc -l\n"
+            "echo Feishu verified\n```\n"
+        )
+        p = make_lesson(tmp_path, valid_fm(), content)
+        errors = validate_file(p, REPO)
+        assert any("[warn]" in e and "placeholder" in e.lower() for e in errors)
+
+    def test_real_verification_not_flagged(self, tmp_path):
+        """A verification that actually tests the fix passes clean."""
+        content = (
+            "## Problem\n\nsomething breaks\n\n"
+            "## Solution\n\nfix it\n\n"
+            "## Verification\n\n```bash\npytest tests/test_fix.py -q && "
+            "python -c 'import fix; assert fix.works()'\n```\n"
+        )
+        p = make_lesson(tmp_path, valid_fm(), content)
+        errors = validate_file(p, REPO)
+        assert not any("placeholder" in e.lower() for e in errors)
