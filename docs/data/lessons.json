@@ -7878,6 +7878,33 @@
     "trust_score": 0.35
   },
   {
+    "id": "vitest-v8-ast-coverage-threshold-shift",
+    "title": "Vitest 4 V8 AST Coverage Remapping Shifts Branch Coverage Below Threshold",
+    "domain": "testing",
+    "tags": [
+      "vitest",
+      "coverage",
+      "v8",
+      "ast",
+      "branch-coverage",
+      "testing"
+    ],
+    "summary": "Upgrading `vitest` and `@vitest/coverage-v8` from 3.x to 4.x dropped branch coverage from 81.30% to 74.96%, causing the `npm run test:coverage` gate to fail at …",
+    "preview": "## Problem\n\nUpgrading `vitest` and `@vitest/coverage-v8` from 3.x to 4.x dropped branch coverage from 81.30% to 74.96%, causing the `npm run test:coverage` gate to fail at the 75% threshold — even though no test code changed.\n\n## Root Cause\n\nVitest 4's V8 provider uses an updated AST-based coverage remapping that counts *implicit* AST branch fallbacks:\n\n- optional chaining (`?.`) branches\n- nullish coalescing (`??`) branches\n- unexecuted `else` branches\n\nThese implicit branches did not count against coverage in Vitest 3.x, so the same test suite now reports lower branch coverage purely from the provider's stricter instrumentation — a measurement change, not a regression in test quality.\n\n## Solution\n\nRe-baseline the coverage thresholds in `vitest.config.ts` immediately below the Vitest 4 measurements, then update `CONTRIBUTING.md` so the documented expectations match.\n\n### Step 1 — Measure under Vitest 4\n\n```bash\nnpm run test:coverage\n```\n\nRecord the actual Vitest 4 percentages (example: 89% lines, 90% functions, 74% branches, 84% statements).\n\n### Step 2 — Re-baseline thresholds\n\n```ts\n// vitest.config.ts — set thresholds just below measured Vitest 4 values\ncoverage: {\n  thresholds: {\n    lines: 88,\n    functions: 89,\n    branches: 73,\n    statements: 83,\n  },\n}\n```\n\nChoose values *below* the measured numbers so the gate passes with a small safety margin, not above them.\n\n### Step 3 — Update CONTRIBUTING.md\n\nReplace any \"coverage must be ≥ 75% branches\" style guidance with the new thresholds, and note that Vitest 4 counts implicit AST branches (the numbers are not directly comparable to Vitest 3.x).\n\n## Verification\n\n```bash\nnpm run test:coverage\n# Coverage gate passes (no threshold violation)\ngit diff vitest.config.ts  # shows the re-baselined thresholds only\n```\n\n## Notes\n\n- The drop is a provider measurement change, not lost test quality — do not add tests just to chase the old number.\n- When upgrading Vitest again, expect another threshold shift; re-measure before re-baselining.\n- Related: any coverage gate tied to a single composite threshold is fragile — prefer per-metric thresholds (`lines` / `functions` / `branches` / `statements`).",
+    "url": "lessons/contrib/vitest-v8-ast-coverage-threshold-shift.md",
+    "created": "2026-08-29",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "published",
+    "verified": true,
+    "evidence_level": "E0",
+    "evidence_source": "frontmatter",
+    "trust_score": 0.35
+  },
+  {
     "id": "wcferry-wechat-version-lock",
     "title": "wcferry wechat version lock",
     "domain": "wechat",
