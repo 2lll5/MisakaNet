@@ -3563,7 +3563,7 @@ async function registerNode() {
         <div style="text-align:center;">
           <div style="font-size:24px;margin-bottom:8px;">🌐</div>
           <div style="font-weight:600;margin-bottom:6px;">${t("regWorkerOffline") || "注册节点暂时不可达"}</div>
-          <div style="font-size:12px;color:#8b949e;margin-bottom:12px;">${t("regWorkerOfflineHint") || "你有两个选择"}</div>
+          <div style="font-size:12px;color:#8b949e;margin-bottom:12px;">${t("regWorkerOfflineHint") || "注册请使用下方入口"}</div>
         </div>
 
         <div style="margin-bottom:14px;padding:12px;background:#0d1117;border-radius:8px;border:1px solid #30363d;">
@@ -3577,26 +3577,7 @@ async function registerNode() {
 
         <div style="padding:12px;background:#0d1117;border-radius:8px;border:1px solid #30363d;">
           <div style="font-weight:600;margin-bottom:6px;color:#f0c040;">📧 ${t("regOptionNoGithub") || "选项二：无 GitHub 账号"}</div>
-          <div style="font-size:12px;color:#8b949e;margin-bottom:8px;">${t("regOptionNoGithubHint") || "填写下方信息，管理员手动注册后通知你"}</div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <select id="fallback-agent" style="background:#161b22;color:#e6edf3;border:1px solid #30363d;border-radius:4px;padding:6px 10px;font-size:13px;">
-              <option value="CODEX">Codex CLI</option>
-              <option value="CLAUDE">Claude Code</option>
-              <option value="HERMES">Hermes</option>
-              <option value="CLINE">Cline</option>
-              <option value="OPENCLAW">OpenClaw</option>
-              <option value="OTHER">${t("other") || "其他"}</option>
-            </select>
-            <input id="fallback-name" placeholder="${t("regNamePlaceholder") || "节点名称（可选）"}"
-                   style="background:#161b22;color:#e6edf3;border:1px solid #30363d;border-radius:4px;padding:6px 10px;font-size:13px;">
-            <input id="fallback-contact" placeholder="${t("regContactPlaceholder") || "联系方式（邮箱/微信，用于接收节点号）"}"
-                   style="background:#161b22;color:#e6edf3;border:1px solid #30363d;border-radius:4px;padding:6px 10px;font-size:13px;">
-            <button onclick="submitFallbackRegistration()"
-                    style="background:#f0c040;color:#0d1117;border:none;border-radius:4px;padding:7px;font-weight:600;font-size:13px;cursor:pointer;">
-              📨 ${t("regSubmitRequest") || "提交注册申请"}
-            </button>
-            <div id="fallback-result" style="font-size:12px;color:#8b949e;margin-top:4px;"></div>
-          </div>
+          <div style="font-size:12px;color:#8b949e;">${t("regOptionNoGithubHint") || "暂不支持无 GitHub 账号注册，请先创建 GitHub 账号后使用选项一"}</div>
         </div>`;
     } else {
       result.className = "register-result error";
@@ -3606,48 +3587,6 @@ async function registerNode() {
     btn.disabled = false;
     btn.textContent = t('registerBtn');
   }
-}
-
-// ── Fallback: submit registration via server-side Worker proxy ──
-// The Feishu webhook URL lives in the Worker's FEISHU_WEBHOOK env secret,
-// never in client JS (P1-1 fix 2026-08-30: hardcoded webhook removed).
-
-async function submitFallbackRegistration() {
-  const btn = document.querySelector('#fallback-result').previousElementSibling;
-  const result = document.getElementById('fallback-result');
-  const agent = document.getElementById('fallback-agent').value;
-  const name = document.getElementById('fallback-name').value.trim();
-  const contact = document.getElementById('fallback-contact').value.trim();
-
-  if (!contact) {
-    result.textContent = '请填写联系方式，方便接收节点号';
-    result.style.color = '#ef4444';
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = '⏳ 提交中...';
-  result.textContent = '';
-
-  try {
-    const r = await fetch(window.location.origin + '/api/fallback-register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ agent, name, contact }),
-    });
-    const data = await r.json().catch(() => ({}));
-    if (!r.ok) {
-      throw new Error(data.error || 'HTTP ' + r.status);
-    }
-    if (!data.success) throw new Error('Registration failed');
-    result.style.color = '#22c55e';
-    result.textContent = '✅ 申请已提交，管理员处理后会通过你留的联系方式通知你';
-  } catch (e) {
-    result.style.color = '#ef4444';
-    result.textContent = '提交失败，请直接联系管理员: your-email@example.com';
-  }
-  btn.disabled = false;
-  btn.textContent = '📨 提交注册申请';
 }
 
 // Init
