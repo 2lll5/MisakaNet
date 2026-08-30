@@ -28,6 +28,7 @@ from hub.sync.sync_scheduler import SyncScheduler
 
 # Notifiers
 from hub.sync.notifier import DiscordNotifier, SlackNotifier, EmailNotifier
+from hub.sync.feishu_notifier import FeishuNotifier
 
 # Master
 from hub.master.token_manager import TokenManager, AuditLogger
@@ -71,6 +72,20 @@ class MisakaHub:
             url = notifier_config.get(channel, {}).get("webhook_url", "")
             if url:
                 self.notifiers.append(cls(url))
+
+        # Feishu — reuse Hermes Agent's bot credentials if present.
+        # Hermes reads FEISHU_APP_ID/SECRET/HOME_CHANNEL from ~/.hermes/.env
+        # (see ~/.hermes/hermes-agent/gateway/run.py). When operators
+        # `source` that env before launching the hub, we get the same bot
+        # pushing into the same chat the operator already uses.
+        feishu_config = notifier_config.get("feishu", {})
+        feishu_enabled = (
+            feishu_config.get("enabled", False)
+            or bool(os.environ.get("FEISHU_APP_ID"))
+        )
+        if feishu_enabled:
+            self.notifiers.append(FeishuNotifier(config=feishu_config))
+
         if os.environ.get("EMAIL_SMTP_HOST"):
             self.notifiers.append(EmailNotifier())
 

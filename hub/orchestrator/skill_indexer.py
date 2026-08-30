@@ -80,7 +80,10 @@ class SkillIndexer:
             self._graph = cache['graph']
             return
             
-        from storage.knowledge_graph import KnowledgeGraph
+        try:
+            from hub.storage.knowledge_graph import KnowledgeGraph
+        except ImportError:  # pragma: no cover — historical "storage" alias
+            from storage.knowledge_graph import KnowledgeGraph  # type: ignore
         graph = KnowledgeGraph(persist_path=self.graph_path)
         cache['graph'] = graph
         self._graph = graph
