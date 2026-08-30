@@ -17,9 +17,14 @@
  *   process.on('uncaughtException', (err) => runHandler('uncaught_exception'));
  */
 
-const { spawn } = require('node:child_process');
+const { spawn, spawnSync } = require('node:child_process');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
 const { redact } = require('./src/lib/redact');
 const { buildSpawnSpec } = require('./src/lib/spawn-command');
+
+const HANDLER_TIMEOUT_MS = 5000;
 
 /**
  * @typedef {Object} FatalPayload
@@ -90,14 +95,43 @@ function runHandler(reason, error, customPayload) {
       } catch (_) {}
     }
     const invocation = buildSpawnSpec(handler, [...handlerArgs, payload]);
-    const child = spawn(invocation.command, invocation.args, {
-      stdio: 'ignore',
-      detached: true,
-      shell: false,
-      ...invocation.options,
-    });
-    child.on('error', () => {});
-    child.unref();
+    // Default to non-blocking detached/unref on POSIX so handlers can finish
+    // after process.exit(). On Windows the parent kills the job object on
+    // exit, so we must block until the handler finishes via spawnSync (matches
+    // bin/fatal-guard.js). Without this, the handler dies with `process.exit()`
+    // and never writes the tombstone (#1373 problem 4).
+    if (process.platform === 'win32') {
+      const payloadTmp = path.join(os.tmpdir(), `fatal-guard-${process.pid}.json`);
+      try { fs.writeFileSync(payloadTmp, payload); } catch (_) {}
+      spawnSync(invocation.command, invocation.args, {
+        timeout: HANDLER_TIMEOUT_MS,
+        stdio: 'ignore',
+        env: {
+          ...process.env,
+          // Avoid UnicodeEncodeError on Windows cp1252 when the handler is a
+          // Python script that prints the tombstone. PYTHONIOENCODING=utf-8
+          // forces UTF-8 stdio regardless of the active code page (#1373
+          // problem 3).
+          PYTHONIOENCODING: 'utf-8',
+          FATAL_PAYLOAD_FILE: payloadTmp,
+          FATAL_PAYLOAD: payload,
+        },
+        ...invocation.options,
+      });
+    } else {
+      const child = spawn(invocation.command, invocation.args, {
+        stdio: 'ignore',
+        detached: true,
+        shell: false,
+        env: {
+          ...process.env,
+          PYTHONIOENCODING: 'utf-8',
+        },
+        ...invocation.options,
+      });
+      child.on('error', () => {});
+      child.unref();
+    }
   } catch (_) {}
 }
 
