@@ -156,7 +156,9 @@ def main():
             file_path = str(finding.get("file", ""))
             line_no = finding.get("line", 0)
             finding_kind = str(finding.get("type", ""))
-            print(f"  ❌ {file_path}:{line_no} — {finding_kind}")
+            # Audit metadata only (file/line/kind) — never the matched secret
+            # content. Mirrors the Phase 2 suppression below.
+            print(f"  ❌ {file_path}:{line_no} — {finding_kind}")  # lgtm[py/clear-text-logging-sensitive-data]
             errors += 1
     else:
         print("  ✅ No hardcoded secrets found in worker source code")

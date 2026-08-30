@@ -103,6 +103,9 @@ function runHandler(reason, error, customPayload) {
     if (process.platform === 'win32') {
       const payloadTmp = path.join(os.tmpdir(), `fatal-guard-${process.pid}.json`);
       try { fs.writeFileSync(payloadTmp, payload); } catch (_) {}
+      // FATAL_HANDLER is developer-configured, not user input. shell: false
+      // prevents injection (matches bin/fatal-guard.js suppression).
+      // lgtm[js/shell-command-injection-from-environment]
       spawnSync(invocation.command, invocation.args, {
         timeout: HANDLER_TIMEOUT_MS,
         stdio: 'ignore',
@@ -119,6 +122,9 @@ function runHandler(reason, error, customPayload) {
         ...invocation.options,
       });
     } else {
+      // FATAL_HANDLER is developer-configured, not user input. shell: false
+      // prevents injection (matches bin/fatal-guard.js suppression).
+      // lgtm[js/shell-command-injection-from-environment]
       const child = spawn(invocation.command, invocation.args, {
         stdio: 'ignore',
         detached: true,
