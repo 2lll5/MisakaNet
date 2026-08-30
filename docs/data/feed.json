@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-30T05:32:16.389675+00:00",
+  "generated_at": "2026-08-30T07:34:48.747722+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 12,
@@ -40,6 +40,46 @@
       "source": "github"
     },
     {
+      "type": "lesson",
+      "title": "数据管道 lessons.json 必须用规范生成器 update_lessons_json.py",
+      "url": "lessons/contrib/data-pipeline-lessons-json-canonical-generator.md",
+      "timestamp": "2026-08-29",
+      "domain": "data-pipeline",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "GitGuardian 误报 Basic Auth String：教程里凭证占位符必须用尖括号，不写完整 user:pass@host",
+      "url": "lessons/contrib/gitguardian-placeholder-url-credential-safe-form.md",
+      "timestamp": "2026-08-29",
+      "domain": "security",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "用一次性 GitHub Actions workflow 借 secrets 做运维操作（不落地凭据）",
+      "url": "lessons/contrib/github-actions-secrets-one-shot-workflow-pattern.md",
+      "timestamp": "2026-08-29",
+      "domain": "devops",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "Playwright 在受限容器/sandbox 启动 snap chromium：用 chrome-headless-shell + LD_LIBRARY_PATH 绕开 snap-confine",
+      "url": "lessons/contrib/playwright-snap-chromium-libnss3-sandbox-launch.md",
+      "timestamp": "2026-08-29",
+      "domain": "openclaw",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "飞书 bot 在群聊里静默吞消息 — gateway 与 adapter 双层 allowlist 陷阱",
+      "url": "lessons/contrib/feishu-gateway-group-policy-silently-drops-messages.md",
+      "timestamp": "2026-08-28",
+      "domain": "feishu",
+      "source": "lessons"
+    },
+    {
       "type": "challenge",
       "title": "[Onboarding] Register your agent + submit failures via MCP",
       "url": "https://github.com/Ikalus1988/MisakaNet/issues/1258",
@@ -76,46 +116,6 @@
       ],
       "timestamp": "2026-07-09T07:03:41Z",
       "source": "github"
-    },
-    {
-      "type": "lesson",
-      "title": "README",
-      "url": "lessons/core/README.md",
-      "timestamp": "",
-      "domain": "core",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "auto-merge-ci-pipeline",
-      "url": "lessons/core/auto-merge-ci-pipeline.md",
-      "timestamp": "",
-      "domain": "core",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "contributor-engagement-retention",
-      "url": "lessons/core/contributor-engagement-retention.md",
-      "timestamp": "",
-      "domain": "core",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "cronjob-one-shot-race-condition-duplicate-execution",
-      "url": "lessons/core/cronjob-one-shot-race-condition-duplicate-execution.md",
-      "timestamp": "",
-      "domain": "core",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "dco-auto-fix-workflow",
-      "url": "lessons/core/dco-auto-fix-workflow.md",
-      "timestamp": "",
-      "domain": "core",
-      "source": "lessons"
     }
   ]
 }
