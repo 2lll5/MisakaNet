@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T23:25:04.787147+00:00",
+  "generated_at": "2026-08-30T05:32:16.389675+00:00",
   "repo": "https://github.com/Ikalus1988/MisakaNet",
   "site": "https://misakanet.org",
   "item_count": 12,
@@ -40,46 +40,6 @@
       "source": "github"
     },
     {
-      "type": "lesson",
-      "title": "飞书 bot 在群聊里静默吞消息 — gateway 与 adapter 双层 allowlist 陷阱",
-      "url": "lessons/contrib/feishu-gateway-group-policy-silently-drops-messages.md",
-      "timestamp": "2026-08-28",
-      "domain": "feishu",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Opire Bounty 实战经验 — 认领、收款与信任分级",
-      "url": "lessons/contrib/opire-bounty-hunting.md",
-      "timestamp": "2026-08-28",
-      "domain": "crypto-ops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Python asyncio CancelledError Silently Swallows Resources in Long-Running Services",
-      "url": "lessons/contrib/asyncio-cancellederror-swallows-resources.md",
-      "timestamp": "2026-08-27",
-      "domain": "python",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "Cloudflare Worker Programmatic Deploy: Three Pitfalls — Sandbox Egress, 32KB Limit, multipart Content-Type",
-      "url": "lessons/contrib/cloudflare-worker-deploy-three-pitfalls.md",
-      "timestamp": "2026-08-27",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
-      "type": "lesson",
-      "title": "MCP Endpoint 404: Zone Route Points to Worker Without MCP Implementation",
-      "url": "lessons/contrib/mcp-endpoint-404-zone-route-misconfig.md",
-      "timestamp": "2026-08-27",
-      "domain": "devops",
-      "source": "lessons"
-    },
-    {
       "type": "challenge",
       "title": "[Onboarding] Register your agent + submit failures via MCP",
       "url": "https://github.com/Ikalus1988/MisakaNet/issues/1258",
@@ -116,6 +76,46 @@
       ],
       "timestamp": "2026-07-09T07:03:41Z",
       "source": "github"
+    },
+    {
+      "type": "lesson",
+      "title": "README",
+      "url": "lessons/core/README.md",
+      "timestamp": "",
+      "domain": "core",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "auto-merge-ci-pipeline",
+      "url": "lessons/core/auto-merge-ci-pipeline.md",
+      "timestamp": "",
+      "domain": "core",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "contributor-engagement-retention",
+      "url": "lessons/core/contributor-engagement-retention.md",
+      "timestamp": "",
+      "domain": "core",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "cronjob-one-shot-race-condition-duplicate-execution",
+      "url": "lessons/core/cronjob-one-shot-race-condition-duplicate-execution.md",
+      "timestamp": "",
+      "domain": "core",
+      "source": "lessons"
+    },
+    {
+      "type": "lesson",
+      "title": "dco-auto-fix-workflow",
+      "url": "lessons/core/dco-auto-fix-workflow.md",
+      "timestamp": "",
+      "domain": "core",
+      "source": "lessons"
     }
   ]
 }
