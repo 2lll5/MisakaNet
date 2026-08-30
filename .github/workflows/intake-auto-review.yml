@@ -116,10 +116,16 @@ jobs:
             --remove-label "needs-human-review" \
             --remove-label "pending-review" 2>/dev/null || true
 
-          # Apply new label based on decision
+          # Apply new label based on decision.
+          # NOTE: auto-review NEVER auto-creates a lesson PR anymore (removed
+          # 2026-08-30). Approve only signals a machine recommendation; a
+          # maintainer must still review the issue body and merge any lesson
+          # PR manually. This closes the anonymous issue → published-lesson
+          # poisoning chain (issue body is attacker-controlled).
           if [ "$DECISION" = "approve" ]; then
             gh issue edit $ISSUE_NUMBER --repo ${{ github.repository }} \
-              --add-label "auto-approved"
+              --add-label "auto-approved" \
+              --add-label "needs-human-review"
           elif [ "$DECISION" = "reject" ]; then
             gh issue edit $ISSUE_NUMBER --repo ${{ github.repository }} \
               --add-label "auto-rejected" \
@@ -128,78 +134,3 @@ jobs:
             gh issue edit $ISSUE_NUMBER --repo ${{ github.repository }} \
               --add-label "needs-human-review"
           fi
-
-      - name: Create lesson file (auto-approve only)
-        if: steps.review.outputs.decision == 'approve'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          LESSON_TITLE="${{ steps.review.outputs.lesson_title }}"
-          LESSON_DOMAIN="${{ steps.review.outputs.lesson_domain }}"
-          LESSON_TAGS="${{ steps.review.outputs.lesson_tags }}"
-          ISSUE_BODY=$(cat /tmp/issue_body.txt)
-
-          # Create lesson directory if needed
-          mkdir -p lessons/contrib
-
-          # Generate lesson filename
-          FILENAME=$(echo "$LESSON_TITLE" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-')
-          FILEPATH="lessons/contrib/${FILENAME}.md"
-
-          # Create lesson content
-          cat > "$FILEPATH" << LESSON_EOF
-          ---
-          title: "$LESSON_TITLE"
-          domain: "$LESSON_DOMAIN"
-          tags: [$(echo "$LESSON_TAGS" | sed 's/,/, /g')]
-          status: published
-          evidence_level: E0
-          source: "intake-issue-${ISSUE_NUMBER}"
-          created: "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          ---
-
-          # $LESSON_TITLE
-
-          ## Problem
-
-          $(echo "$ISSUE_BODY" | sed -n '/^## Problem/,/^##/p' | head -n -1)
-
-          ## Solution
-
-          $(echo "$ISSUE_BODY" | sed -n '/^## Fix/,/^##/p' | head -n -1)
-
-          ## Verification
-
-          $(echo "$ISSUE_BODY" | sed -n '/^## Verification/,/^---/p' | head -n -1)
-
-          ## Notes
-
-          Auto-generated from intake issue #$ISSUE_NUMBER.
-          LESSON_EOF
-
-          # Create PR
-          BRANCH="auto-lesson-$ISSUE_NUMBER"
-          git checkout -b "$BRANCH"
-          git add "$FILEPATH"
-          git commit -s -m "feat(lessons): add lesson from intake issue #$ISSUE_NUMBER
-
-          Auto-generated from intake issue #${ISSUE_NUMBER}.
-          Quality score: ${{ steps.review.outputs.final_score }}/100"
-          git push origin "$BRANCH"
-
-          # Create PR
-          PR_URL=$(gh pr create \
-            --repo ${{ github.repository }} \
-            --title "feat(lessons): add lesson from intake issue #$ISSUE_NUMBER" \
-            --body "Auto-generated from intake issue #${ISSUE_NUMBER}.
-
-          Quality score: ${{ steps.review.outputs.final_score }}/100
-          Domain: ${{ steps.review.outputs.lesson_domain }}
-
-          Closes #$ISSUE_NUMBER" \
-            --head "$BRANCH" \
-            --base "main" 2>&1 | grep -o 'https://.*')
-
-          # Comment on issue with PR link
-          gh issue comment $ISSUE_NUMBER --repo ${{ github.repository }} \
-            --body "🎉 Lesson created! PR: $PR_URL"

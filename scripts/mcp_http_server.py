@@ -188,14 +188,22 @@ def misakanet_submit_intake(
         return {"error": "problem is required", "voice": "failure-warning"}
 
     # ── Token check (if configured) ──
+    # P1-5 fix (2026-08-30): when the shared token is used as `source`, it must
+    # never be written verbatim into the public GitHub issue body. We keep the
+    # raw value only for the in-memory per-source rate-limit key below, and
+    # derive a display label for the issue body.
+    auth_via_token = False
     if INTAKE_TOKEN:
         if source == INTAKE_TOKEN:
-            pass  # authenticated via shared token
+            auth_via_token = True  # authenticated via shared token
         else:
             return {
                 "error": "Unauthorized: set source to the intake token, or set MISAKANET_INTAKE_TOKEN env.",
                 "voice": "failure-warning",
             }
+    # Display label: never the raw token. All other sources are short
+    # client-chosen labels (mcp/curl/agent) that are safe to show.
+    source_label = "intake-token" if auth_via_token else (source or "anon")
 
     # ── Spam keyword guard ──
     SPAM_KEYWORDS = ["buy now", "click here", "free money", "casino", "viagra", "crypto pump"]
@@ -245,7 +253,7 @@ def misakanet_submit_intake(
         # Build issue body
         body_parts = [
             f"**Kind:** {kind}",
-            f"**Source:** {source}",
+            f"**Source:** {source_label}",
             f"**Dedup:** `{dedup_hash}`",
             "",
             "## Problem",
@@ -265,7 +273,7 @@ def misakanet_submit_intake(
         body_parts.extend([
             "",
             "---",
-            f"_Submitted via remote MCP ({source}). No account required._",
+            f"_Submitted via remote MCP ({source_label}). No account required._",
             f"_Dedup hash: {dedup_hash}_",
         ])
 

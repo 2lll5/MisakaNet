@@ -627,6 +627,15 @@ jobs:
           echo "Mergeable: $MERGEABLE"
           [ "$MERGEABLE" != "MERGEABLE" ] && { echo "Not mergeable. Skipping."; exit 0; }
 
+          # Security gate (2026-08-30): lessons/ changes must never auto-merge.
+          # Lesson content is executed by agents; auto-merging attacker-authored
+          # lesson files (e.g. from auto-generated intake PRs) is a poisoning
+          # vector. Any PR touching lessons/ requires human merge.
+          CHANGED_LESSONS=$(gh pr diff "$PR_NUM" --repo Ikalus1988/MisakaNet --name-only 2>/dev/null \
+            | grep -c "^lessons/" || true)
+          echo "Changed lesson files: $CHANGED_LESSONS"
+          [ "$CHANGED_LESSONS" -gt 0 ] && { echo "PR touches lessons/ — human merge required. Skipping auto-merge."; exit 0; }
+
           BODY=$(gh api repos/Ikalus1988/MisakaNet/pulls/$PR_NUM --jq '.body')
           UNCHECKED=$(echo "$BODY" | grep -c "\[ \]" || true)
           echo "Unchecked AC items: $UNCHECKED"

@@ -3608,8 +3608,9 @@ async function registerNode() {
   }
 }
 
-// ── Fallback: submit registration via Feishu webhook ──
-const FEISHU_WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/cceb879d-a597-4a12-b0b5-5561a54c9949";
+// ── Fallback: submit registration via server-side Worker proxy ──
+// The Feishu webhook URL lives in the Worker's FEISHU_WEBHOOK env secret,
+// never in client JS (P1-1 fix 2026-08-30: hardcoded webhook removed).
 
 async function submitFallbackRegistration() {
   const btn = document.querySelector('#fallback-result').previousElementSibling;
@@ -3628,19 +3629,17 @@ async function submitFallbackRegistration() {
   btn.textContent = '⏳ 提交中...';
   result.textContent = '';
 
-  const nameLine = name ? `\n注册名称: **${name}**` : '';
-  const text = `📋 新节点注册申请\n━━━━━━━━━━━━━━\nAgent 类型: **${agent}**${nameLine}\n联系方式: ${contact}\n时间: ${new Date().toLocaleString('zh-CN')}\n━━━━━━━━━━━━━━\n请手动创建 Issue 并回复节点号。`;
-
   try {
-    const r = await fetch(FEISHU_WEBHOOK, {
+    const r = await fetch(window.location.origin + '/api/fallback-register', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        msg_type: 'text',
-        content: { text }
-      }),
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ agent, name, contact }),
     });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      throw new Error(data.error || 'HTTP ' + r.status);
+    }
+    if (!data.success) throw new Error('Registration failed');
     result.style.color = '#22c55e';
     result.textContent = '✅ 申请已提交，管理员处理后会通过你留的联系方式通知你';
   } catch (e) {

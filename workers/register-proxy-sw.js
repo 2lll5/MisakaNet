@@ -2301,6 +2301,48 @@ export default {
       return jsonResponse({ accepted: true, intake_id: intakeId, consent: record.consent });
     }
 
+    // POST /api/fallback-register — server-side proxy for the Feishu webhook
+    // fallback registration channel (P1-1 fix 2026-08-30). The webhook URL
+    // lives ONLY in the FEISHU_WEBHOOK env secret — never in client JS.
+    // Previously docs/index.html hardcoded the webhook, leaking it to any
+    // visitor and letting anyone spam the channel / exfiltrate PII.
+    if (request.method === "POST" && url.pathname === "/api/fallback-register") {
+      const webhook = (env && env.FEISHU_WEBHOOK) || "";
+      if (!webhook) return jsonResponse({ error: "Fallback registration not configured" }, 503);
+
+      // IP rate limit: 5 per hour (mirrors /api/intake pattern)
+      const fbIp = request.headers.get("CF-Connecting-IP") || "unknown";
+      const fbRateKey = `rate:fallback-register:${fbIp}`;
+      const fbRateRaw = await env.MISAKANET_KV.get(fbRateKey, "text");
+      const fbRateCount = fbRateRaw ? parseInt(fbRateRaw, 10) || 0 : 0;
+      if (fbRateCount >= 5) return jsonResponse({ error: "Rate limited (5/hour). Try again later." }, 429);
+      await env.MISAKANET_KV.put(fbRateKey, String(fbRateCount + 1), { expirationTtl: 3600 });
+
+      const contentLength = parseInt(request.headers.get("content-length") || "0");
+      if (contentLength > 4096) return jsonResponse({ error: "Request too large (max 4KB)" }, 413);
+
+      let fbBody;
+      try { fbBody = await request.json(); } catch { return jsonResponse({ error: "Invalid JSON" }, 400); }
+
+      const agent = String(fbBody.agent || "").slice(0, 50);
+      const name = String(fbBody.name || "").trim().slice(0, 50);
+      const contact = String(fbBody.contact || "").trim().slice(0, 200);
+      if (!contact) return jsonResponse({ error: "Missing 'contact'" }, 400);
+
+      const nameLine = name ? `\n注册名称: **${name}**` : "";
+      const text = `📋 新节点注册申请\n━━━━━━━━━━━━━━\nAgent 类型: **${agent}**${nameLine}\n联系方式: ${contact}\n时间: ${new Date().toLocaleString("zh-CN")}\n━━━━━━━━━━━━━━\n请手动创建 Issue 并回复节点号。`;
+
+      const feishuResp = await fetch(webhook, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ msg_type: "text", content: { text } }),
+      });
+      if (!feishuResp.ok) {
+        return jsonResponse({ error: "Notification backend error" }, 502);
+      }
+      return jsonResponse({ success: true });
+    }
+
     // GET /api/insights/unsolved-map — public aggregate failure map (#788)
     if (request.method === "GET" && url.pathname === "/api/insights/unsolved-map") {
       return handleUnsolvedMap(env);

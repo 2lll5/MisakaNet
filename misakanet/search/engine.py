@@ -388,7 +388,13 @@ def _normalize(values: list[float]) -> list[float]:
     if not values:
         return values
     mn, mx = min(values), max(values)
+    # All-zero (no-match) vectors must stay zero so the caller's threshold
+    # can detect "no results". Only a non-zero flat vector (mx > 0 but no
+    # spread) gets the neutral 0.5 treatment (fixes P0: garbage queries
+    # previously scored 0.325 > threshold and returned the whole corpus).
     if mx - mn < 1e-10:
+        if mx <= 0:
+            return [0.0] * len(values)
         return [0.5] * len(values)
     return [(v - mn) / (mx - mn) for v in values]
 
