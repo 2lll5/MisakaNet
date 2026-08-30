@@ -43,7 +43,11 @@ CFG = str(Path(__file__).resolve().parents[1] / ".tools" / "mcporter.json")
 REPO = Path(__file__).resolve().parents[1]
 
 DEFAULT_FULL_MODEL = "@cf/meta/llama-3.2-3b-instruct"
-DEFAULT_STRONG_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+# Strong model must stay within the Workers Free daily neuron allocation
+# (10,000 neurons/day, $0.011/1000 over). 70B costs ~205k neurons per M
+# output tokens — 86 runs blew the free pool and billed $0.11 on 2026-08-30.
+# llama-3.1-8b-fp8-fast (~30k neurons/M output) keeps benchmarks free.
+DEFAULT_STRONG_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8-fast"
 RATE_PER_MIN = 250          # below Free 300/min
 CONCURRENCY = 5
 _CACHE_LOCK = __import__("threading").Lock()   # protects incremental JSON writes
@@ -213,12 +217,38 @@ def load_cache(path: Path) -> dict:
 
 _QUOTA_HIT = {"flag": False}   # set when daily neurons quota exhausted
 
+# Neuron consumption per model (per M input/output tokens), from
+# developers.cloudflare.com/workers-ai/platform/pricing. Used to enforce a
+# free-tier budget so benchmarks never bill (2026-08-30: 70B runs billed
+# $0.11 past the 10k/day free allocation).
+MODEL_NEURONS_PER_MTOK = {
+    "@cf/meta/llama-3.3-70b-instruct-fp8-fast": (26668, 204805),
+    "@cf/meta/llama-3.1-8b-instruct-fp8-fast": (4625, 30475),
+    "@cf/meta/llama-3.2-3b-instruct": (2457, 18252),
+    "@cf/qwen/qwen2.5-coder-32b-instruct": (60000, 90909),
+    "@cf/qwen/qwen3-30b-a3b-fp8": (60000, 90909),
+}
+_BUDGET = {"remaining": 10000.0}   # free-tier neurons left this run
+
+
+def estimate_neurons(model: str, prompt: str, content: str) -> float:
+    """Rough neuron cost of one call (input tokens ~ len/4, output ~ len/4)."""
+    inp, out = MODEL_NEURONS_PER_MTOK.get(model, (2457, 18252))
+    return (len(prompt) / 4 / 1e6 * inp) + (len(content) / 4 / 1e6 * out)
+
 
 def run_one(args, model, scene, condition, prompt, ref_cmds, out_path):
     if _QUOTA_HIT["flag"]:
         return {"status": 429, "quota": True}
+    est = estimate_neurons(model, prompt, "")
+    if est > _BUDGET["remaining"]:
+        _QUOTA_HIT["flag"] = True
+        print(f"  ⛔ neuron budget exhausted (remaining {_BUDGET['remaining']:.0f} < "
+              f"est {est:.0f} for {model}) — stopping to stay free-tier", flush=True)
+        return {"status": 429, "quota": True}
     resp = call_ai(model, prompt)
     content = resp.get("content") or ""
+    _BUDGET["remaining"] -= estimate_neurons(model, prompt, content)
     metrics = score_response(content, ref_cmds)
     run = {"model": model, "scenario": scene, "condition": condition,
            "status": resp.get("status"), "content": content, "metrics": metrics,
@@ -251,7 +281,10 @@ def main() -> int:
     ap.add_argument("--strong-subset", type=int, default=40, help="lessons for strong model")
     ap.add_argument("--concurrency", type=int, default=CONCURRENCY)
     ap.add_argument("--output", default="docs/benchmarks/latest.json")
+    ap.add_argument("--neuron-budget", type=float, default=10000.0,
+                    help="free-tier neuron budget; stop before billing (default 10000)")
     args = ap.parse_args()
+    _BUDGET["remaining"] = args.neuron_budget
 
     scenarios = load_all_scenarios() if args.all else (load_all_scenarios()[:args.scenarios])
     print(f"Scenarios: {len(scenarios)} total ({'FULL' if args.all else 'sample'})")
