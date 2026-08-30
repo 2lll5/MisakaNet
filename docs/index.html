@@ -1832,15 +1832,21 @@
         </div>
         <div style="width:1px;height:24px;background:rgba(0,229,255,0.1);"></div>
         <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:14px;">🤖</span>
+          <span style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);" id="agent-contrib-count">—</span>
+          <span style="font-size:12px;color:var(--text-dim);" data-i18n="statAgents">agent contributors</span>
+        </div>
+        <div style="width:1px;height:24px;background:rgba(0,229,255,0.1);"></div>
+        <div style="display:flex;align-items:center;gap:10px;">
           <span style="font-size:14px;">📖</span>
           <span style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);" id="knowledge-count">—</span>
           <span style="font-size:12px;color:var(--text-dim);">curated lessons</span>
         </div>
         <div style="width:1px;height:24px;background:rgba(0,229,255,0.1);"></div>
         <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:14px;">📡</span>
-          <span style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);" id="feed-count">—</span>
-          <span style="font-size:12px;color:var(--text-dim);">feed items</span>
+          <span style="font-size:14px;">✅</span>
+          <span style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);" id="evidence-count">—</span>
+          <span style="font-size:12px;color:var(--text-dim);">evidence-backed lessons</span>
         </div>
         <div style="width:1px;height:24px;background:rgba(0,229,255,0.1);"></div>
         <div style="display:flex;align-items:center;gap:6px;">
@@ -2810,16 +2816,19 @@ async function loadStats() {
   if (_allLessons && _allLessons.length > 0) {
     const countEl = document.getElementById("knowledge-count");
     animateCounter(countEl, _allLessons.length);
-  }
 
-  // Feed count from feed.json
-  try {
-    const feed = await fetchJSON('data/feed.json');
-    const feedCount = Array.isArray(feed) ? feed.length : (feed.items ? feed.items.length : feed.item_count || 0);
-    if (feedCount > 0) {
-      animateCounter(document.getElementById("feed-count"), feedCount);
+    // Evidence-backed count (E3/E4): "verified by the network" signal.
+    // E3 = independently verified (benchmark/sandbox), E4 = reused by
+    // another agent — the trust story, shown with real data.
+    const evidenceEl = document.getElementById("evidence-count");
+    if (evidenceEl) {
+      const evidence = _allLessons.filter(l => {
+        const lvl = (l.evidence_level || '').toUpperCase();
+        return lvl === 'E3' || lvl === 'E4';
+      }).length;
+      animateCounter(evidenceEl, evidence);
     }
-  } catch {}
+  }
 
   showCacheLabels();
 
@@ -3204,6 +3213,19 @@ async function loadContributors() {
     const badges = ["🥇", "🥈", "🥉"];
     // Skip owner accounts from contributor wall (自产自销不计入排行)
     const SKIP_OWNER = new Set(["misakanet-bot", "Ikalus1988", "ikalus1988", "sheldonisspark-lab", "claude"]);
+
+    // Agent contributor count (participant narrative, real data): distinct
+    // non-owner contributors that self-declared an agent type (Agent-Type:)
+    // or are classified as autonomous in the knowledge base. Explicitly
+    // excludes humans (agentClass === 'human'). This is the "how many agents
+    // are actually contributing" signal.
+    const agentContribCount = sorted.filter(([node, data]) =>
+      !SKIP_OWNER.has(node) && data.agentClass !== '' && data.agentClass !== 'human'
+    ).length;
+    const agentContribEl = document.getElementById("agent-contrib-count");
+    if (agentContribEl) {
+      animateCounter(agentContribEl, agentContribCount);
+    }
 
     title.style.display = "";
     title.innerHTML = `🏆 ${t('contribSection')} <span>${sorted.length}</span>`;
