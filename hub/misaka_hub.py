@@ -19,9 +19,6 @@ from hub.storage.knowledge_graph import KnowledgeGraph
 
 # Orchestrator
 from hub.orchestrator.skill_indexer import SkillIndexer
-from hub.orchestrator.arbitration_queue import ArbitrationQueue
-from hub.orchestrator.confidence import ConfidenceModel
-from hub.orchestrator.subscription import SubscriptionManager
 
 # Sync
 from hub.sync.sync_scheduler import SyncScheduler
@@ -32,7 +29,6 @@ from hub.sync.feishu_notifier import FeishuNotifier
 
 # Master
 from hub.master.token_manager import TokenManager, AuditLogger
-from hub.master.master_api import MasterAPI
 
 
 class MisakaHub:
@@ -53,11 +49,6 @@ class MisakaHub:
 
         # 技能索引
         self.skill_indexer = SkillIndexer(graph_path=kg_path)
-
-        # 仲裁队列
-        self.arbitration_queue = ArbitrationQueue()
-        self.confidence_model = ConfidenceModel()
-        self.subscription_manager = SubscriptionManager()
 
         # 同步调度器（核心功能）
         sync_config = self.config.get("sync", {})
@@ -92,23 +83,6 @@ class MisakaHub:
         channel_names = [c.__class__.__name__ for c in self.notifiers]
         print(f"  🔔 通知通道: {' + '.join(channel_names) if channel_names else '未配置'}")
 
-        # Master 模式（可选）
-        master_config = self.config.get("master", {})
-        self.master_api = None
-        if master_config.get("keyring_service"):
-            self.token_manager = TokenManager(
-                keyring_service=master_config["keyring_service"],
-                ttl_hours=master_config.get("token_ttl_hours", 24)
-            )
-            self.audit_logger = AuditLogger(
-                retention_days=master_config.get("audit_log_days", 90)
-            )
-            self.master_api = MasterAPI(
-                token_manager=self.token_manager,
-                audit_logger=self.audit_logger,
-                hub_controller=self
-            )
-
         self.sync_scheduler.add_callback(self._on_sync_cycle)
 
     def _load_config(self, config_path: str) -> dict:
@@ -140,68 +114,6 @@ class MisakaHub:
             except Exception as e:
                 print(f"  ⚠️ 通知失败 ({n.__class__.__name__}): {e}")
 
-    # ── 冲突 → GitHub Issue ──
-
-    def _create_conflict_issue(self, case_id: str, skill_name: str, versions: list) -> str | None:
-        body_lines = [
-            f"## ⚖️ 知识冲突: {skill_name}",
-            "",
-            f"**案例 ID**: `{case_id}`",
-            f"**冲突版本数**: {len(versions)}",
-            "",
-            "### 各版本对比",
-            "",
-        ]
-        for i, v in enumerate(versions):
-            desc = v.get("description", "(无描述)")[:300]
-            src = v.get("source", "unknown")
-            body_lines.append(f"#### v{i+1} — 来源: {src}")
-            body_lines.append("")
-            body_lines.append(desc)
-            body_lines.append("")
-
-        body_lines.extend([
-            "### 仲裁操作",
-            "",
-            "请评审各版本后，在 Issue 评论中说明选择哪个版本：",
-            "- `@ 选择 v1` — 确认版本 1",
-            "- `@ 选择 v2` — 确认版本 2",
-            "- `@ 合并` — 两个版本整合",
-            "",
-            "---",
-            "*由 MisakaNet Hub 自动创建*",
-        ])
-
-        token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
-        if not token:
-            print(f"  ⚠️ GITHUB_TOKEN 未设置，无法创建 Issue")
-            return None
-
-        import urllib.request
-        url = "https://api.github.com/repos/Ikalus1988/MisakaNet/issues"
-        headers = {
-            "Authorization": f"token {token}",
-            "Accept": "application/vnd.github.v3+json",
-        }
-        data = json.dumps({
-            "title": f"[冲突] {skill_name} — {len(versions)} 个版本",
-            "body": "\n".join(body_lines),
-            "labels": ["conflict", "arbitration"],
-        }).encode()
-        try:
-            req = urllib.request.Request(url, data=data, headers=headers)
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                issue = json.loads(resp.read().decode())
-                print(f"  ✅ 冲突 Issue 已创建: {issue['html_url']}")
-                return issue["html_url"]
-        except Exception as e:
-            print(f"  ❌ 创建 Issue 失败: {e}")
-            return None
-
-    def resolve_arbitration(self, case_id: str, winner_id: str, note: str = ""):
-        self.arbitration_queue.resolve_case(case_id, winner_id)
-        print(f"[Hub] 仲裁已解决: {case_id} → winner: {winner_id}")
-
     # ── 生命周期 ──
 
     async def start(self):
@@ -218,12 +130,10 @@ class MisakaHub:
 
     def status(self) -> dict:
         skill_count = len(self.knowledge_graph.get_all_skills())
-        pending = len(self.arbitration_queue.get_pending_cases())
         return {
             "hub_name": self.config.get("hub", {}).get("name", "misaka-hub"),
             "version": self.config.get("hub", {}).get("protocol_version", "1.0"),
             "skills": skill_count,
-            "pending_conflicts": pending,
             "notifiers": [n.__class__.__name__ for n in self.notifiers],
         }
 

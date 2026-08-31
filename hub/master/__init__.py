@@ -1,5 +1,3 @@
-# Master package
+# Master package — token management only (master_cli/command_handler/master_api
+# removed 2026-08-31: dead code, no callers per vulture+dead audit)
 from .token_manager import TokenManager, AuditLogger
-from .master_api import MasterAPI
-from .master_cli import MasterCLI
-from .command_handler import MasterCommandHandler
