@@ -4,9 +4,11 @@ import path from 'node:path';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
+const python = process.env.PYTHON || (process.platform === 'win32' ? 'python' : 'python3');
+
 export function request(method, params = {}, id = 1) {
   return new Promise((resolve, reject) => {
-    const child = spawn(process.env.PYTHON || 'python3', ['scripts/mcp_server.py'], {cwd: root});
+    const child = spawn(python, ['scripts/mcp_server.py'], {cwd: root});
     let output = '';
     const timer = setTimeout(() => { child.kill(); reject(new Error(`timeout waiting for ${method}`)); }, 15000);
     child.stdout.on('data', chunk => { output += chunk; });
