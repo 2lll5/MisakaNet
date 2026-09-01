@@ -91,8 +91,11 @@ for r in results:
 
 **Option 5 — DeepSeek Harness (DSH plugin):**
 ```bash
-# Install as DSH plugin (bundle — activates the misakanet layer)
-dsh plugin add git+https://github.com/Ikalus1988/MisakaNet.git
+# Install from npm (recommended — published as misakanet@2.23.0)
+dsh plugin add misakanet
+
+# Or install directly from git (same bundle)
+# dsh plugin add git+https://github.com/Ikalus1988/MisakaNet.git
 
 # Make the failure-memory SKILL discoverable by agents
 # (DSH scans ~/.dsh/skills and project .dsh/skills)
