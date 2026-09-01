@@ -91,8 +91,13 @@ for r in results:
 
 **Option 5 — DeepSeek Harness (DSH plugin):**
 ```bash
-# Install as DSH plugin
+# Install as DSH plugin (bundle — activates the misakanet layer)
 dsh plugin add git+https://github.com/Ikalus1988/MisakaNet.git
+
+# Make the failure-memory SKILL discoverable by agents
+# (DSH scans ~/.dsh/skills and project .dsh/skills)
+mkdir -p ~/.dsh/skills
+cp -r skills/misakanet ~/.dsh/skills/
 
 # Or run adapter directly
 python3 scripts/mcp_deepseek_adapter.py

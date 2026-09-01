@@ -1,10 +1,11 @@
 {
   "name": "misakanet",
-  "private": true,
+  "version": "2.23.0",
   "license": "Apache-2.0",
-  "description": "Deployment scripts for MisakaNet Workers",
+  "description": "MisakaNet DSH plugin + deployment scripts — shared failure-memory skill and Workers deployment",
   "files": [
     "SKILL.md",
+    "skills/",
     "cordis.patch.yml",
     "index.js",
     "index.d.ts"
