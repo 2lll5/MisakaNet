@@ -17,6 +17,15 @@ Search 244 verified debugging lessons before re-debugging known problems.
 - Install: `pip install misakanet-core`
 - Run: `python3 scripts/mcp_server.py`
 
+## DeepSeekHarness (dsh) plugin
+
+- Marketplace install: `dsh plugin add misakanet`
+- GitHub install: `dsh plugin add github:Ikalus1988/MisakaNet`
+- Manual discovery: `mkdir -p ~/.dsh/skills && cp -r skills/misakanet ~/.dsh/skills/`
+- Verify: `dsh plugin list` (look for `misakanet`)
+- Remove: `dsh plugin remove misakanet`
+- Full guide: https://github.com/Ikalus1988/MisakaNet/blob/main/docs/dsh-installation.md
+
 ## Tools
 
 - `misakanet_search` — search lessons by query

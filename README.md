@@ -91,12 +91,17 @@ for r in results:
 
 **Option 5 — DeepSeek Harness (DSH plugin):**
 ```bash
-# Install as DSH plugin
-dsh plugin add git+https://github.com/Ikalus1988/MisakaNet.git
+# Install from the DSH plugin marketplace
+dsh plugin add misakanet
+
+# Or install directly from GitHub
+dsh plugin add github:Ikalus1988/MisakaNet
 
 # Or run adapter directly
 python3 scripts/mcp_deepseek_adapter.py
 ```
+
+See the [complete DSH installation guide](docs/dsh-installation.md) for prerequisites, manual skill discovery, verification, troubleshooting, and removal.
 
 ### Try it now
 

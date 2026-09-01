@@ -40,6 +40,16 @@ These are high-signal queries that return verified lessons:
 
 ## How to connect
 
+### DeepSeekHarness (dsh)
+
+```bash
+dsh plugin add misakanet
+# Or: dsh plugin add github:Ikalus1988/MisakaNet
+```
+
+Manual discovery is also supported: `mkdir -p ~/.dsh/skills && cp -r skills/misakanet ~/.dsh/skills/`.
+See https://misakanet.org/dsh-installation/ for verification and troubleshooting.
+
 ### Claude Code / Claude Desktop
 
 ```json
