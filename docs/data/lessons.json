@@ -5980,6 +5980,26 @@
     "trust_score": 0.35
   },
   {
+    "id": "webcrypto-fallback-consistency-node-worker",
+    "title": "webcrypto-fallback-consistency-node-worker",
+    "domain": "contrib",
+    "tags": [],
+    "summary": "In mixed Node.js and Cloudflare Worker execution environments, fallback chains falling back to full `node:crypto` rather than `(await import(\"node:crypto\")).web…",
+    "preview": "## Problem\n\nIn mixed Node.js and Cloudflare Worker execution environments, fallback chains falling back to full `node:crypto` rather than `(await import(\"node:crypto\")).webcrypto` cause runtime exceptions (e.g. `crypto.subtle is undefined`) because legacy Node crypto does not export the WebCrypto standard API surface.\n\n## Root Cause\n\nNode.js `node:crypto` default export provides the OpenSSL-style legacy API (`randomBytes`, `createHash`) whereas Cloudflare Workers and standard browsers implement the W3C WebCrypto API on `globalThis.crypto` (`crypto.subtle`, `crypto.getRandomValues`). A naive `import crypto from \"node:crypto\"` fallback therefore surfaces an API-inconsistent object: it works for hashing but throws when the caller expects the standard WebCrypto surface.\n\n## Fix\n\nConsistently resolve WebCrypto across environments:\n\n```js\nconst crypto = globalThis.crypto || (await import(\"node:crypto\")).webcrypto;\n```\n\nThis ensures `crypto.subtle` and `crypto.getRandomValues` are always available regardless of whether the code runs in a browser, a Cloudflare Worker, or Node.js — and that both legs of the fallback expose the same API surface.\n\n## Verification\n\nRan `node --test workers/*.test.mjs` ensuring all `crypto.subtle` digests and `getRandomValues` operations pass in the Node test runner. The dual-runtime tests (`workers/register-proxy-sw.js` + `workers/register-proxy.js`) exercise both branches of the fallback chain.",
+    "url": "lessons/contrib/webcrypto-fallback-consistency-node-worker.md",
+    "created": "",
+    "updated": "",
+    "triggers": null,
+    "validity_period_days": 365,
+    "environment_version": "",
+    "confidence": 0.5,
+    "status": "active",
+    "verified": true,
+    "evidence_level": "E0",
+    "evidence_source": "inferred",
+    "trust_score": 0.35
+  },
+  {
     "id": "webhook-duplicate-delivery-dedupe-scope",
     "title": "webhook-duplicate-delivery-dedupe-scope",
     "domain": "contrib",
