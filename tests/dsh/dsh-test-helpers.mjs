@@ -28,9 +28,6 @@ function scheduleStop() {
 function startServer() {
   if (child) return;
   child = spawn(python, ['-u', 'scripts/mcp_server.py'], {cwd: root});
-  child.unref();
-  child.stdin.unref();
-  child.stdout.unref();
   child.stdout.setEncoding('utf8');
   child.stdout.on('data', chunk => {
     buffered += chunk;
