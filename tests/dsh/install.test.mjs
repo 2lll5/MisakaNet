@@ -13,5 +13,8 @@ test('npm package declares a valid dsh bundle', async () => {
 
 test('all supported installation entry points are documented', async () => {
   const readme = await readFile(`${root}/README.md`, 'utf8');
-  for (const command of ['dsh plugin add misakanet', 'git+https://github.com/Ikalus1988/MisakaNet.git']) assert.match(readme, new RegExp(command.replace(/[.+]/g, '\\$&')));
+  for (const command of ['dsh plugin add misakanet', 'git+https://github.com/Ikalus1988/MisakaNet.git']) {
+    const escaped = command.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+    assert.match(readme, new RegExp(escaped));
+  }
 });
